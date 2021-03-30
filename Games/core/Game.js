@@ -277,7 +277,7 @@ module.exports = class Game {
 				return;
 			}
 
-			const canSpectateAny = await routeUtils.verifyPermission(user.id, "canSpectateAny", 0);
+			const canSpectateAny = await routeUtils.verifyPermission(user.id, "canSpectateAny");
 
 			// Check if spectating is allowed
 			if (!this.spectating && !canSpectateAny) {

@@ -30,7 +30,7 @@ router.get("/", async function (req, res) {
 			reversed = true;
 		}
 
-		if (!(await routeUtils.verifyPermission(userId, "viewDeleted", 0)))
+		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
 			commentFilter.deleted = false;
 
 		var comments = await models.Comment.find(commentFilter)
@@ -75,7 +75,7 @@ router.post("/", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 
-		if (!(await routeUtils.verifyPermission(res, userId, "postReply", 0)))
+		if (!(await routeUtils.verifyPermission(res, userId, "postReply")))
 			return;
 
 		if (!(await routeUtils.rateLimit(userId, "postComment", res)))
@@ -125,8 +125,8 @@ router.post("/delete", async function (req, res) {
 			return;
 		}
 
-		if (comment.author.id != userId || !(await routeUtils.verifyPermission(null, userId, perm1, 0)))
-			if (!(await routeUtils.verifyPermission(res, userId, perm2, 0)))
+		if (comment.author.id != userId || !(await routeUtils.verifyPermission(userId, perm1)))
+			if (!(await routeUtils.verifyPermission(res, userId, perm2)))
 				return;
 
 		await models.Comment.updateOne(
@@ -158,7 +158,7 @@ router.post("/restore", async function (req, res) {
 			return;
 		}
 
-		if (!(await routeUtils.verifyPermission(res, userId, perm, 0)))
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
 		await models.Comment.updateOne(

@@ -555,6 +555,7 @@ async function deleteGame(gameId, game) {
 	await client.delAsync(`game:${gameId}:type`);
 	await client.delAsync(`game:${gameId}:port`);
 	await client.delAsync(`game:${gameId}:status`);
+	await client.delAsync(`game:${gameId}:hostId`);
 	await client.delAsync(`game:${gameId}:players`);
 	await client.delAsync(`game:${gameId}:settings`);
 	await client.delAsync(`game:${gameId}:createTime`);

@@ -457,7 +457,7 @@ router.post("/thread/delete", async function (req, res) {
 			return;
 		}
 
-		if (thread.author.id != userId || !(await routeUtils.verifyPermission(res, userId, perm1, thread.board.rank)))
+		if (thread.author.id != userId || !(await routeUtils.verifyPermission(userId, perm1, thread.board.rank)))
 			if (!(await routeUtils.verifyPermission(res, userId, perm2, thread.board.rank)))
 				return;
 
@@ -822,7 +822,7 @@ router.post("/reply/delete", async function (req, res) {
 			return;
 		}
 
-		if (reply.author.id != userId || !(await routeUtils.verifyPermission(null, userId, perm1, reply.thread.board.rank)))
+		if (reply.author.id != userId || !(await routeUtils.verifyPermission(userId, perm1, reply.thread.board.rank)))
 			if (!(await routeUtils.verifyPermission(res, userId, perm2, reply.thread.board.rank)))
 				return;
 
