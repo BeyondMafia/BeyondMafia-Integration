@@ -30,7 +30,7 @@ router.get("/", async function (req, res) {
 			reversed = true;
 		}
 
-		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
+		if (!(await routeUtils.verifyPermission(userId, "viewDeleted", 0)))
 			commentFilter.deleted = false;
 
 		var comments = await models.Comment.find(commentFilter)

@@ -766,7 +766,7 @@ async function rateLimit(userId, type) {
 
 	if (!exists) {
 		await client.setAsync(key, 1);
-		await client.pexpireAsync(key, constants.rateLimits[type]);
+		await client.pexpireAsync(key, constants.rateLimits[type] || 0);
 	}
 
 	return !exists;
