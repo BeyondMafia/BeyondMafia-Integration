@@ -1,0 +1,22 @@
+.landing-page {
+	display: flex;
+	flex-flow: column;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.landing-page .role-banner {
+	align-self: center;
+
+	width: 425px;
+	height: 161px;
+	margin: 10px 0px;
+
+	background-image: url("/images/role_banner.png");
+}
+
+.landing-page a.btn {
+	display: inline-block;
+
+	color: white;
+}

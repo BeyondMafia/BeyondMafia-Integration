@@ -1,0 +1,45 @@
+.bots {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-bot {
+	margin-top: 10px;
+	padding: 7px;
+	border-radius: 4px;
+
+	background-color: #7289da;
+	text-decoration: none;
+	
+	font-size: 50px;
+    font-weight: 300;
+}
+
+.bot-info {
+    font-size: 20px;
+    margin: 10px 0px 20px 0px;
+}
+
+table {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	border-collapse: collapse;
+}
+
+table thead th {
+	padding: 12px;
+	border-top: 1px solid #dee2e6;
+	border-bottom: 2px solid #dee2e6;
+}
+
+table td {
+    max-width: 500px;
+}
+
+tbody th, tbody td {
+	border-top: 1px solid #dee2e6;
+	padding: 5px;
+}

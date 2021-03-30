@@ -1,0 +1,76 @@
+.action-panel {
+	margin-bottom: 10px;
+}
+
+.mod-commands {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.mod-commands .inputs {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.mod-commands .command {
+	width: 200px;
+
+}
+
+.mod-commands .command div {
+	background-color: #262626;
+}
+
+.mod-commands input {
+	padding: 5px;
+}
+
+.mod-commands .arg {
+	border: none;
+	margin: 0px 10px 10px 0px;
+
+	box-shadow: 0px 0px 1px black;
+	background-color: #373737;
+	color: white;
+}
+
+.group-panel {
+	margin-bottom: 10px;
+}
+
+.group-panel:last-child {
+	margin-bottom: 0px;
+}
+
+.group-panel .title {
+	margin-bottom: 5px !important;
+}
+
+.group-panel .members {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.group-panel .members .member {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin: 10px 10px 0px 0px;
+	padding: 10px;
+
+	box-shadow: 0px 0px 1px black;
+	background-color: #2e2e2e;
+	border-radius: 3px;
+}
+
+.group-panel .members .member .status-icon {
+	margin-left: 5px;
+}

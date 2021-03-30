@@ -1,0 +1,45 @@
+.search-wrapper {
+	flex-grow: 1;
+
+	display: flex;
+	justify-content: right;
+}
+
+.setup-row {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	
+    margin-top: 10px;
+}
+
+.setup-row i:hover {
+	opacity: 0.8;
+}
+
+.select-setup {
+	margin-right: 10px;
+
+	font-size: 20px;
+	color: #b73737;
+	cursor: pointer;
+}
+
+.setup-btn {
+	margin-left: 10px;
+
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.fav-setup {
+	color: #fff59d;
+}
+
+.edit-setup {
+	color: #81d4fa;
+}
+
+.del-setup {
+	color: #ef9a9a;
+}

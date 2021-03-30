@@ -1,0 +1,11 @@
+.comments-wrapper {
+	margin-top: 10px;
+}
+
+.comments-wrapper .comments-input-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+

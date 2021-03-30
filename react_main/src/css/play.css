@@ -1,0 +1,70 @@
+.game-row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    
+    margin-top: 10px;
+}
+
+.game-row .btn {
+    margin-right: 10px;
+}
+
+.game-row .btn-rehost {
+    margin-right: 10px;
+}
+
+.game-row .player-count {
+    align-self: center;
+    margin-left: 10px;
+}
+
+.game-row .fa-car-crash {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-right: 10px;
+
+    font-size: 30px;
+}
+
+.game-row .game-info, .game-row .ranked, .game-row .voice-chat {
+    align-self: center;
+    
+    margin-left: 10px;
+}
+
+.game-row .voice-chat {
+    color: #e23b3b;
+}
+
+.game-row .game-info {
+    cursor: pointer;
+}
+
+.refresh-games {
+    margin-left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.refresh-games:hover {
+    color: #d9d9d9;
+}
+
+.refresh-games:active {
+    color: #a09e9e;
+}
+
+.page-nav {
+    margin-top: 10px;
+}
+
+.btn-group-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}

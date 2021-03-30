@@ -1,0 +1,18 @@
+export default [
+	"chink",
+	"faggot",
+	"fag",
+	"honky",
+	"honkey",
+	"injun",
+	"kike",
+	"nazi",
+	"nigga",
+	"nigger",
+	"packie",
+	"packy",
+	"pule",
+	"retard",
+	"spic",
+	"wetback",
+]

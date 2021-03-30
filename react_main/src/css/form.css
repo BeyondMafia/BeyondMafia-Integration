@@ -1,0 +1,280 @@
+.form {
+	align-self: flex-start;
+
+	display: flex;
+	flex-flow: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	flex-shrink: 0;
+}
+
+.field-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+
+	position: relative;
+
+	margin-bottom: 10px;
+	border-radius: 3px;
+
+	box-shadow: 0px 0px 1px black;
+}
+
+.form .label {
+	flex-grow: 1;
+
+	box-sizing: border-box;
+	padding: 5px 8px;
+	border-right: 1px solid #262626;
+	border-radius: 3px 0px 0px 3px;
+
+	background-color: #2e2e2e;
+}
+
+.form input[type="text"], .form input[type="number"], .form select, .form .switch-wrapper {
+	box-sizing: border-box;
+
+	padding: 5px 8px;
+	border: none;
+	border-radius: 0px 3px 3px 0px;
+
+	background-color: #373737;
+	color: white;
+	font-size: 17px;
+}
+
+.form .range-wrapper {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+
+	box-sizing: border-box;
+
+	padding: 0px 8px;
+	border: none;
+	border-radius: 0px 3px 3px 0px;
+
+	background-color: #373737;
+	color: white;
+	font-size: 17px;
+}
+
+.form input:disabled {
+	background-color: #373737;
+}
+
+.form input[type="text"] {
+	width: 200px;
+	font-size: 15px;
+}
+
+.form input[type="number"], .form select {
+	width: 100px;
+}
+
+.form .btn {
+	align-self: flex-start;
+}
+
+.field-wrapper .btn {
+	line-height: 0px;
+}
+
+.hidden-upload {
+	display: none;
+}
+
+.switch {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+
+	position: relative;
+
+	cursor: pointer;
+}
+
+.form .switch-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.switch .track {
+	width: 30px;
+	height: 12px;
+
+	border-radius: 10px;
+
+	background-color: #888888;
+	opacity: 0.6;
+}
+
+.switch .thumb {
+	position: absolute;
+	z-index: 1;
+
+	width: 18px;
+	height: 18px;
+	border-radius: 50px;
+
+	background-color: #888888;
+}
+
+.switch.on .track {
+	background-color: #af9cca;
+}
+
+.switch.on .thumb {
+	right: 0px;
+
+	background-color: #af9cca;
+}
+
+.form .color-picker {
+	width: 50px;
+
+	border-radius: 0px 3px 3px 0px;
+
+	cursor: pointer;
+}
+
+.form input:disabled, .form select:disabled, .form .color-picker.disabled {
+	cursor: not-allowed;
+}
+
+.form .chrome-picker > div:last-child {
+	background-color: #373737;
+}
+
+.form .chrome-picker > div:last-child .flexbox-fix:last-child {
+	display: none !important;
+}
+
+.form .chrome-picker {
+	position: absolute;
+	right: -225px;
+	z-index: 8;
+
+	cursor: pointer;
+}
+
+.form .extra {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+
+	position: absolute;
+	right: 0px;
+  	transform: translateX( 100% ) translateX( 5px );
+
+	height: 30px;
+
+	padding: 0px 8px;
+}
+
+.form input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+
+	height: 12px;
+	border-radius: 10px;
+
+	background-color: #7f748f;
+	outline: none;
+}
+
+.form input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+	
+	width: 18px;
+	height: 18px;
+	border-radius: 50px;
+
+	background-color: #af9cca;
+	cursor: pointer;
+}
+
+.form input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+	
+	width: 18px;
+	height: 18px;
+	border-radius: 50px;
+
+	background-color: #af9cca;
+	cursor: pointer;
+}
+
+.search-select {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+
+	background-color: #2e2e2e;
+
+	cursor: pointer;
+}
+
+.search-select input {
+	border: none;
+
+	background-color: #373737;
+	color: white;
+}
+
+.search-select .icon-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+
+	margin: 5px;
+}
+
+.search-select .option-list {
+	position: absolute;
+	top: 0px;
+
+	max-height: 300px;
+	z-index: 10;
+
+	overflow-y: auto;
+	background-color: #373737;
+	visibility: hidden;
+}
+
+.search-select .option-row {
+	padding: 5px;
+
+	cursor: pointer;
+}
+
+ .search-select .no-options {
+	padding: 5px;
+
+	cursor: default;
+ }
+
+.search-select .option-row:hover {
+	background-color: #3f3f3f;
+
+}
+
+.search-select input::placeholder {
+	color: white;
+}
+
+[type="datetime-local"] {
+	box-sizing: border-box;
+	height: 100%;
+	
+	border: none;
+	padding-left: 5px;
+
+	background-color: #373737;
+	color: white;
+}

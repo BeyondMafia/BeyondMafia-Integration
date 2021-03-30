@@ -1,0 +1,35 @@
+.user-search {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.user-search input {
+	border-radius: 0px !important;
+}
+
+.user-search .users {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.user-search .user-cell {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin: 10px 10px 0px 0px;
+	padding: 10px;
+
+	box-shadow: 0px 0px 1px black;
+	background-color: #2e2e2e;
+	border-radius: 3px;
+}
+
+.user-search .user-cell .status-icon {
+	margin-left: 5px;
+}

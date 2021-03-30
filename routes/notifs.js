@@ -1,0 +1,60 @@
+const express = require("express");
+const constants = require("../constants");
+const logger = require("../logging")(".");
+const routeUtils = require("./utils");
+const { models } = require("mongoose");
+const router = express.Router();
+
+router.get("/", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		const userId = await routeUtils.verifyLoggedIn(req, true);
+
+		if (!userId) {
+			res.send([]);
+			return;
+		}
+
+		var globalNotifs = await models.User.findOne({ id: userId })
+			.select("globalNotifs")
+			.populate("globalNotifs", "-_id -_v");
+		globalNotifs = globalNotifs.globalNotifs;
+
+		var userNotifs = await models.Notification.find({ user: userId, isChat: false })
+			.select("-_id -_v");
+
+		var notifs = globalNotifs.concat(userNotifs).sort((a, b) => b.date - a.date);
+		res.send(notifs);
+	}
+	catch (e) {
+		logger.error(e);
+		res.send([]);
+	}
+});
+
+router.post("/viewed", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		const userId = await routeUtils.verifyLoggedIn(req, true);
+
+		if (!userId) {
+			res.sendStatus(200);
+			return;
+		}
+
+		await models.User.updateOne(
+			{ id: userId },
+			{ $set: { globalNotifs: [] } }
+		).exec();
+
+		await models.Notification.deleteMany({ user: userId, isChat: false }).exec();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.send([]);
+	}
+});
+
+module.exports = router;

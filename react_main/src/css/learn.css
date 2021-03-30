@@ -1,0 +1,55 @@
+.learn {
+	display: flex;
+	flex-flow: column;
+}
+
+.learn .heading {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	top: 0px;
+	left: 0px;
+	margin: 15px 0px 5px 0px;
+}
+
+.learn .heading:first-child {
+	margin-top: 0px;
+}
+
+.learn .panel-list {
+	align-items: flex-start;
+}
+
+.learn .panel {
+	margin-right: 10px;
+
+	background-color: #373737;
+}
+
+.learn .panel .heading {
+	font-weight: 400;
+}
+
+.learn .panel .content {
+	max-width: 200px;
+
+	opacity: 0.7;
+}
+
+.paragraph a {
+	color: #dd8181;
+}
+
+.paragraph a:hover {
+	opacity: 0.8;
+}
+
+.learn .icon {
+	position: relative !important;
+}
+
+.learn .heading .icon {
+	margin-right: 5px;
+}

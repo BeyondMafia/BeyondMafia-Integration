@@ -1,0 +1,511 @@
+.roles-loading {
+    height: 200px !important;
+}
+
+.role-list-container {
+    display: flex;
+    flex-flow: column;
+}
+
+.role-list {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+}
+
+.role-cell {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+
+	margin: 10px 10px 0px 0px;
+	padding: 5px;
+	border-radius: 3px;
+
+    background-color: #373737;
+    box-shadow: 0px 0px 1px black;
+}
+
+.role-list .role-count-wrap {
+    margin-right: 3px;
+}
+
+.role-cell-content {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    
+    cursor: pointer;
+}
+
+.modifier {
+    width: 16px;
+    height: 16px;
+
+    background-image: url("/images/modifiers.png");
+}
+
+.role .modifier {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+.role {
+    position: relative;
+
+    width: 30px;
+    height: 40px;
+    border-radius: 3px;
+    background-image: url("/images/roles.png");
+
+    -webkit-filter: drop-shadow(0px 0px 0.35px gray)
+                    drop-shadow(0px 0px 0.35px gray)
+                    drop-shadow(0px 0px 0.35px gray)
+                    drop-shadow(0px 0px 0.35px gray);
+
+    filter: drop-shadow(0px 0px 0.35px gray)
+                drop-shadow(0px 0px 0.35px gray)
+                drop-shadow(0px 0px 0.35px gray)
+                drop-shadow(0px 0px 0.35px gray);
+}
+
+.role.bg {
+    background-color: #484848;
+}
+
+.role.small {
+    width: 30px;
+    height: 30px;
+    background-image: url("/images/roles.png");
+}
+
+.role-null {
+    background-position: 0 -40px;
+
+    -webkit-filter: none;
+    filter: none;
+}
+
+/* 
+* Roles w/o icons 
+*/
+
+.role-Silhouette {
+    background-position: 0 0;
+}
+
+/***********
+*
+* Mafia
+*
+***********/
+
+/* 
+* Village 
+*/
+
+.role-Mafia-Villager {
+    background-position: -30px 0;
+}
+
+.role-Mafia-Doctor {
+    background-position: -60px 0;
+}
+
+.role-Mafia-Cop {
+    background-position: -90px 0;
+}
+
+.role-Mafia-Arms-Dealer {
+    background-position: -120px 0;
+}
+
+.role-Mafia-Oracle {
+    background-position: -150px 0;
+}
+
+.role-Mafia-Bomb {
+    background-position: -180px 0;
+}
+
+.role-Mafia-Sheriff {
+    background-position: -210px 0;
+}
+
+.role-Mafia-Deputy {
+    background-position: -240px 0;
+}
+
+.role-Mafia-Vigilante {
+    background-position: -270px 0;
+}
+
+.role-Mafia-Archer {
+    background-position: -300px 0;
+}
+
+.role-Mafia-Agent {
+    background-position: -30px -40px;
+}
+
+.role-Mafia-Suspect {
+    background-position: -120px -40px;
+}
+
+.role-Mafia-Tracker {
+    background-position: -150px -40px;
+}
+
+.role-Mafia-Watcher {
+    background-position: -180px -40px;
+}
+
+.role-Mafia-Seer {
+    background-position: -210px -40px;
+}
+
+.role-Mafia-Babushka {
+    background-position: -240px -40px;
+}
+
+.role-Mafia-Illuminato {
+    background-position: -270px -40px;
+}
+
+.role-Mafia-Blacksmith {
+    background-position: -300px -40px;
+}
+
+.role-Mafia-Monkey {
+    background-position: -30px -80px;
+}
+
+.role-Mafia-Village-Idiot {
+    background-position: -60px -80px;
+}
+
+.role-Mafia-Escort {
+    background-position: -90px -80px;
+}
+
+.role-Mafia-Warden {
+    background-position: -120px -80px;
+}
+
+.role-Mafia-Trapper {
+    background-position: -150px -80px;
+}
+
+.role-Mafia-Governor {
+    background-position: -180px -80px;
+}
+
+.role-Mafia-Priest {
+    background-position: -210px -80px;
+}
+
+.role-Mafia-Charon {
+    background-position: -240px -80px;
+}
+
+.role-Mafia-Knight {
+    background-position: -270px -80px;
+}
+
+.role-Mafia-Medic {
+    background-position: -300px -80px;
+}
+
+/* 
+* Mafia 
+*/
+
+.role-Mafia-Mafioso {
+    background-position: -330px 0;
+}
+
+.role-Mafia-Hooker {
+    background-position: -360px 0;
+}
+
+.role-Mafia-Spy {
+    background-position: -390px 0;
+}
+
+.role-Mafia-Godfather {
+    background-position: -420px 0;
+}
+
+.role-Mafia-Telepath {
+    background-position: -450px 0;
+}
+
+.role-Mafia-Chemist {
+    background-position: -480px 0;
+}
+
+.role-Mafia-Deafener {
+    background-position: -510px 0;
+}
+
+.role-Mafia-Blackmailer {
+    background-position: -540px 0;
+}
+
+.role-Mafia-Stalker {
+    background-position: -570px 0;
+}
+
+.role-Mafia-Janitor {
+    background-position: -600px 0;
+}
+
+.role-Mafia-Driver {
+    background-position: -330px -40px;
+}
+
+.role-Mafia-Lawyer {
+    background-position: -360px -40px;
+}
+
+/*
+.role-Mafia-Saboteur {
+    background-position: -390px -40px;
+}
+*/
+
+.role-Mafia-Disguiser {
+    background-position: -420px -40px;
+}
+
+/*
+.role-Mafia-Ventriloquist {
+    background-position: -450px -40px;
+}
+*/
+
+/* 
+* Independent 
+*/
+
+.role-Mafia-Jester {
+    background-position: -630px 0;
+}
+
+.role-Mafia-Serial-Killer {
+    background-position: -660px 0;
+}
+
+.role-Mafia-Lover {
+    background-position: -690px 0;
+}
+
+.role-Mafia-Amnesiac {
+    background-position: -720px 0;
+}
+
+/*
+.role-Mafia-Survivor {
+    background-position: -750px 0;
+}
+
+.role-Mafia-Cultist {
+    background-position: -780px -40px;
+}
+*/
+
+/* 
+* Monsters 
+*/
+
+.role-Mafia-Lycan {
+    background-position: -780px 0;
+}
+
+.role-Mafia-Witch {
+    background-position: -810px 0;
+}
+
+.role-Mafia-Cthulhu {
+    background-position: -840px 0;
+}
+
+/* 
+* Modifiers
+*/
+
+.modifier-Mafia-Armored {
+    background-position: 0 0;
+}
+
+.modifier-Mafia-Explosive {
+    background-position: -16px 0;
+}
+
+.modifier-Mafia-Armed {
+    background-position: -32px 0;
+}
+
+.modifier-Mafia-Exposed {
+    background-position: -48px 0;
+}
+
+.modifier-Mafia-Lizard {
+    background-position: -64px 0;
+}
+
+.modifier-Mafia-Humble {
+    background-position: -80px 0;
+}
+
+.modifier-Mafia-Lone {
+    background-position: -96px 0;
+}
+
+.modifier-Mafia-Delayed {
+    background-position: -112px 0;
+}
+
+.modifier-Mafia-Even {
+    background-position: -128px 0;
+}
+
+.modifier-Mafia-Odd {
+    background-position: -144px 0;
+}
+
+.modifier-Mafia-One-Shot {
+    background-position: 0 -16px;
+}
+
+
+/***********
+*
+* Split Decision
+*
+***********/
+
+/*
+* Blue
+*/
+
+.role-Split-Decision-Blue-Member {
+    background-position: 0 -160px;
+}
+
+.role-Split-Decision-President {
+    background-position: -30px -160px;
+}
+
+/*
+* Red
+*/
+
+.role-Split-Decision-Red-Member {
+    background-position: -330px -160px;
+}
+
+.role-Split-Decision-Bomber {
+    background-position: -360px -160px;
+}
+
+/*
+* Independent
+*/
+
+.role-Split-Decision-Gambler {
+    background-position: -630px -160px;
+}
+
+
+
+/***********
+*
+* Resistance
+*
+***********/
+
+/*
+* Resistance
+*/
+
+.role-Resistance-Rebel {
+    background-position: 0 -240px;
+}
+
+/*
+* Spies
+*/
+
+.role-Resistance-Spy {
+    background-position: -330px -240px;
+}
+
+
+
+/***********
+*
+* One Night
+*
+***********/
+
+/*
+* Village
+*/
+
+.role-One-Night-Villager {
+    background-position: 0 -320px;
+}
+
+.role-One-Night-Hunter {
+    background-position: -30px -320px;
+}
+
+.role-One-Night-Mason {
+    background-position: -60px -320px;
+}
+
+.role-One-Night-Seer {
+    background-position: -90px -320px;
+}
+
+.role-One-Night-Robber {
+    background-position: -120px -320px;
+}
+
+.role-One-Night-Troublemaker {
+    background-position: -150px -320px;
+}
+
+.role-One-Night-Insomniac {
+    background-position: -180px -320px;
+}
+
+/*
+* Werewolves
+*/
+
+.role-One-Night-Werewolf {
+    background-position: -330px -320px;
+}
+
+.role-One-Night-Minion {
+    background-position: -360px -320px;
+}
+
+/*
+* Independent
+*/
+
+.role-One-Night-Tanner {
+    background-position: -630px -320px;
+}
+
+.role-One-Night-Drunk {
+    background-position: -660px -320px;
+}
+
+.role-One-Night-Doppelganger {
+    background-position: -690px -320px;
+}

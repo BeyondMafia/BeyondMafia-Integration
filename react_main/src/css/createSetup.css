@@ -1,0 +1,73 @@
+.add-role {
+	margin-right: 3px;
+}
+
+.add-role, .add-roleset {
+	color: #b73737;
+	cursor: pointer;
+}
+
+.add-role:hover, .add-roleset:hover, .del-roleset:hover {
+	opacity: 0.8;
+}
+
+.del-roleset {
+	position: absolute;
+	right: 10px;
+
+	color: #ef9a9a;
+	cursor: pointer;
+}
+
+.creation-options {
+	display: flex;
+	flex-flow: row nowrap;
+
+	margin-top: 20px;
+}
+
+.rolesets-wrapper {
+	flex-grow: 1;
+
+	display: flex;
+	flex-flow: column;
+
+	margin-left: 10px;
+}
+
+.rolesets {
+	flex-grow: 1;
+
+	display: flex;
+	flex-flow: column;
+}
+
+.roleset {
+	flex-basis: 60px;
+
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+
+	position: relative;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 3px;
+
+	background-color: #2e2e2e;
+	box-shadow: 0px 0px 1px black;
+}
+
+.roleset.sel {
+	background-color: #373737;
+}
+
+.roleset .role {
+	cursor: pointer;
+}
+
+.rolesets-wrapper .fa-plus-circle {
+	align-self: center;
+}

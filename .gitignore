@@ -1,0 +1,17 @@
+.env
+
+node_modules/
+logs/
+testing/
+tmp/
+build/
+build_public/
+uploads/
+
+cmds.txt
+package-lock.json
+update.sh
+
+*.ai
+*.aseprite
+*.svg

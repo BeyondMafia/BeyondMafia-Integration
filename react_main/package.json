@@ -1,0 +1,48 @@
+{
+  "name": "react_main",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "agora-rtc-sdk-ng": "^4.1.1",
+    "axios": "^0.19.2",
+    "braintree-web": "^3.68.0",
+    "braintree-web-drop-in": "^1.25.0",
+    "color": "^3.1.2",
+    "immutability-helper": "^3.0.2",
+    "react": "^16.13.1",
+    "react-color": "^2.18.0",
+    "react-dom": "^16.13.1",
+    "react-dropdown": "^1.7.0",
+    "react-loading": "^2.0.3",
+    "react-markdown": "^4.3.1",
+    "react-mde": "^10.1.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.4",
+    "react-sound": "^1.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^2.5.1"
+  },
+  "proxy": "http://localhost:3000"
+}

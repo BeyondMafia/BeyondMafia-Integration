@@ -1,0 +1,14 @@
+
+.emote {
+	display: inline-block;
+
+    width: 28px;
+	height: 28px;
+	margin-right: 5px;
+	
+	background-size: cover;
+}
+
+.emote:last-child {
+	margin-right: 0px;
+}

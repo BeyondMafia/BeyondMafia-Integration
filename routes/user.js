@@ -1,0 +1,888 @@
+const express = require("express");
+const bluebird = require("bluebird");
+const fs = require("fs");
+const formidable = bluebird.promisifyAll(require("formidable"), { multiArgs: true });
+const sharp = require("sharp");
+const color = require("color");
+const global = require("../constants");
+const models = require("../db/models");
+const routeUtils = require("./utils");
+const redis = require("../redis");
+const constants = require("../constants");
+const logger = require("../logging")(".");
+const router = express.Router();
+
+router.get("/info", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+
+        if (!userId) {
+            res.send({});
+            return;
+        }
+
+        var user = await redis.getUserInfo(userId);
+
+        if (!user) {
+            res.send({});
+            return;
+        }
+
+        user.inGame = await redis.inGame(user.id);
+        user.perms = await redis.getUserPermissions(userId) || {};
+        user.rank = String(user.perms.rank || 0);
+        user.perms = user.perms.perms || {};
+        delete user.status;
+
+        res.send(user);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error loading user info");
+    }
+});
+
+router.get("/searchName", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var query = String(req.query.query);
+        var users = await models.User.find({ name: new RegExp(query, "i"), deleted: false })
+            .select("id name avatar -_id")
+            .limit(constants.mainUserSearchAmt)
+            .sort("name");
+        users = users.map(user => user.toJSON());
+
+        for (let user of users)
+            user.status = await redis.getUserStatus(user.id);
+
+        res.send(users);
+    }
+    catch (e) {
+        logger.error(e);
+        res.send([]);
+    }
+});
+
+router.get("/online", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var users = await redis.getOnlineUsersInfo(100);
+        res.send(users);
+    }
+    catch (e) {
+        logger.error(e);
+        res.send([]);
+    }
+});
+
+router.post("/online", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+
+        if (userId)
+            redis.updateUserOnline(userId);
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.sendStatus(200);
+    }
+});
+
+router.get("/:id/profile", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var reqUserId = await routeUtils.verifyLoggedIn(req, true);
+        var userId = String(req.params.id);
+        var isSelf = reqUserId == userId;
+        var user = await models.User.findOne({ id: userId, deleted: false })
+            .select("id name avatar settings accounts wins losses bio banner setups games numFriends stats -_id")
+            .populate({
+                path: "setups",
+                select: "id gameType name closed count roles total -_id",
+                options: {
+                    limit: 5
+                }
+            })
+            .populate({
+                path: "games",
+                select: "id setup endTime -_id",
+                populate: {
+                    path: "setup",
+                    select: "id gameType name closed count roles total -_id"
+                },
+                options: {
+                    sort: "-endTime",
+                    limit: 5
+                }
+            });
+
+        if (!user) {
+            res.status(500);
+            res.send("Unable to load profile info.");
+            return;
+        }
+
+        user = user.toJSON();
+        user.maxFriendsPage = Math.ceil(user.numFriends / constants.friendsPerPage) || 1;
+
+        if (isSelf) {
+            var friendRequests = await models.FriendRequest.find({ target: userId })
+                .select("userId user")
+                .populate("user", "id name avatar");
+            user.friendRequests = friendRequests.map(req => req.user);
+        }
+        else
+            user.friendRequests = [];
+
+        var inGame = await redis.inGame(userId);
+        var game;
+
+        if (inGame)
+            game = await redis.getGameInfo(inGame);
+
+        if (game && !game.settings.private) {
+            game.settings.setup = await models.Setup.findOne({ id: game.settings.setup })
+                .select("id gameType name roles closed count total -_id");
+            game.settings.setup = game.settings.setup.toJSON();
+
+            game = {
+                id: game.id,
+                setup: {
+                    id: game.settings.setup.id,
+                    gameType: game.settings.setup.gameType,
+                    name: game.settings.setup.name,
+                    closed: game.settings.setup.closed,
+                    count: game.settings.setup.count,
+                    roles: game.settings.setup.roles,
+                    total: game.settings.setup.total
+                },
+                players: game.players.length,
+                status: game.status
+            };
+
+            user.games.unshift(game);
+        }
+
+        if (!user.settings)
+            user.settings = {};
+
+        if (userId) {
+            user.isFriend = (await models.FriendRequest.findOne({ userId: reqUserId, targetId: userId })) != null;
+
+            if (!user.isFriend)
+                user.isFriend = (await models.Friend.findOne({ userId: reqUserId, friendId: userId })) != null;
+        }
+        else
+            user.isFriend = false;
+
+        res.send(user);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Unable to load profile info.");
+    }
+});
+
+router.get("/:id/friends", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = String(req.params.id);
+        var last = Number(req.body.lastId);
+        var first = Number(req.body.firstId);
+        var friendFilter, sortType, reversed;
+
+        if (isNaN(last) && isNaN(first))
+            last = Infinity;
+
+        if (!isNaN(last)) {
+            friendFilter = { userId, lastActive: { $lt: last } };
+            sortType = "-lastActive";
+            reversed = false;
+        }
+        else {
+            friendFilter = { userId, lastActive: { $gte: first } };
+            sortType = "lastActive";
+            reversed = true;
+        }
+
+        var friends = await models.Friend.find(friendFilter)
+            .select("friendId friend lastActive -_id")
+            .populate("friend", "id name avatar")
+            .sort(sortType)
+            .limit(constants.friendsPerPage);
+        friends = friends.map(friend => {
+            friend = friend.toJSON();
+
+            return {
+                ...friend.friend,
+                lastActive: friend.lastActive
+            }
+        });
+
+        if (reversed)
+            friends = friends.reverse();
+
+        res.send(friends);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Unable to load friends.");
+    }
+});
+
+router.get("/:id/info", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var user = await models.User.findOne({ id: req.params.id, deleted: false })
+            .select("name tag wins losses rankPoints -_id");
+
+        if (!user) {
+            res.status(500);
+            res.send("Unable to find user.");
+            return;
+        }
+
+        user = user.toJSON();
+
+        if (global.players[req.params.id])
+            user.inGame = global.players[req.params.id].id;
+        else
+            user.inGame = "No";
+
+        res.send(user);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Unable to find user");
+    }
+});
+
+router.get("/settings/data", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+        var user = userId && await models.User.findOne({ id: userId, deleted: false })
+            .select("name settings -_id");
+
+        if (user) {
+            user = user.toJSON();
+
+            if (!user.settings)
+                user.settings = {};
+
+            user.settings.username = user.name;
+            res.send(user.settings);
+        }
+        else
+            res.send({});
+    }
+    catch (e) {
+        logger.error(e);
+        res.send("Unable to load settings")
+    }
+});
+
+router.get("/accounts", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+        var user = userId && await models.User.findOne({ id: userId, deleted: false })
+            .select("accounts -_id");
+
+        if (user)
+            res.send(user.accounts);
+        else
+            res.send({});
+    }
+    catch (e) {
+        logger.error(e);
+        res.send("Unable to load settings")
+    }
+});
+
+router.post("/settings/update", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var prop = String(req.body.prop);
+        var value = String(req.body.value);
+
+        if (!routeUtils.validProp(prop)) {
+            logger.warn(`Invalid settings prop by ${userId}: ${prop}`);
+            res.status(500);
+            res.send("Error updating settings.")
+        }
+
+        var itemsOwned = await redis.getUserItemsOwned(userId);
+
+        if ((prop == "backgroundColor" || prop == "bannerFormat") && !itemsOwned.customProfile) {
+            res.status(500);
+            res.send("You must purcahse profile customization with coins from the Shop.");
+            return;
+        }
+
+        if ((prop == "textColor" || prop == "nameColor") && !itemsOwned.textColors) {
+            res.status(500);
+            res.send("You must purcahse text colors with coins from the Shop.");
+            return;
+        }
+
+        if (prop == "backgroundColor" || prop == "textColor" || prop == "nameColor") {
+            var c = new color(value);
+
+            if (prop == "backgroundColor" && c.isLight()) {
+                res.status(500);
+                res.send("Background color is too light.");
+                return;
+            }
+            else if ((prop == "textColor" || prop == "nameColor") && c.isDark()) {
+                res.status(500);
+                res.send("Color is too dark.");
+                return;
+            }
+        }
+
+        await models.User.updateOne({ id: userId }, { $set: { [`settings.${prop}`]: value } });
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating settings.")
+    }
+});
+
+router.post("/bio", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var bio = String(req.body.bio);
+
+        if (bio.length < 1000) {
+            await models.User.updateOne({ id: userId }, { $set: { bio: bio } });
+            res.sendStatus(200);
+        }
+        else if (bio.length >= 1000) {
+            res.status(500);
+            res.send("Bio must be less than 1000 characters");
+        }
+        else {
+            res.status(500);
+            res.send("Error editing bio");
+        }
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error editing bio");
+    }
+});
+
+router.post("/banner", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var itemsOwned = await redis.getUserItemsOwned(userId);
+
+        if (!itemsOwned.customProfile) {
+            res.status(500);
+            res.send("You must purcahse profile customization with coins from the Shop.");
+            return;
+        }
+
+        var form = new formidable();
+        form.maxFileSize = 2 * 1024 * 1024;
+        form.maxFields = 1;
+
+        var [fields, files] = await form.parseAsync(req);
+
+        if (!fs.existsSync(`${process.env.UPLOAD_PATH}`))
+            fs.mkdirSync(`${process.env.UPLOAD_PATH}`);
+
+        await sharp(files.image.path)
+            .resize({
+                width: 980,
+                height: 200,
+                withoutEnlargement: true
+            })
+            .toFile(`${process.env.UPLOAD_PATH}/${userId}_banner.jpg`);
+        await models.User.updateOne({ id: userId }, { $set: { banner: true } });
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        res.status(500);
+
+        if (e.message.indexOf("maxFileSize exceeded") == 0)
+            res.send("Image is too large, banner must be less than 2 MB");
+        else {
+            logger.error(e);
+            res.send("Error uploading avatar image");
+        }
+    }
+});
+
+router.post("/avatar", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var form = new formidable();
+        form.maxFileSize = 1024 * 1024;
+        form.maxFields = 1;
+
+        var [fields, files] = await form.parseAsync(req);
+
+        if (!fs.existsSync(`${process.env.UPLOAD_PATH}`))
+            fs.mkdirSync(`${process.env.UPLOAD_PATH}`);
+
+        await sharp(files.image.path)
+            .resize(100, 100)
+            .toFile(`${process.env.UPLOAD_PATH}/${userId}_avatar.jpg`);
+        await models.User.updateOne({ id: userId }, { $set: { avatar: true } });
+        await redis.cacheUserInfo(userId, true);
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        res.status(500);
+
+        if (e.message.indexOf("maxFileSize exceeded") == 0)
+            res.send("Image is too large, avatar must be less than 1 MB.");
+        else {
+            logger.error(e);
+            res.send("Error uploading avatar image.");
+        }
+    }
+});
+
+router.post("/name", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var itemsOwned = await redis.getUserItemsOwned(userId);
+        var name = String(req.body.name);
+        var code = String(req.body.code);
+        var regex = /^(?!.*[-_]{2})[\w-]*$/;
+
+        // if (name.length == 3 && !itemsOwned.threeCharName) {
+        //     res.status(500);
+        //     res.send("You must purchase 3 character usernames with coins from the Shop.");
+        //     return;
+        // }
+
+        // if (name.length == 2 && !itemsOwned.twoCharName) {
+        //     res.status(500);
+        //     res.send("You must purchase 2 character usernames with coins from the Shop.");
+        //     return;
+        // }
+
+        // if (name.length == 1 && !itemsOwned.oneCharName) {
+        //     res.status(500);
+        //     res.send("You must purchase 1 character usernames with coins from the Shop.");
+        //     return;
+        // }
+
+        // if (name.length < 1 || name.length > 20) {
+        if (name.length < 4 || name.length > 20) {
+            res.status(500);
+            res.send("Names must be between 4 and 20 characters.");
+            return;
+        }
+
+        if (!name.match(regex)) {
+            res.status(500);
+            res.send("Names can only contain letters, numbers, and nonconsecutive undescores/hyphens.");
+            return;
+        }
+
+        var ownedItems = await redis.getUserItemsOwned(userId);
+
+        if (ownedItems.nameChange < 1) {
+            res.status(500);
+            res.send("You must purchase additional name changes with coins from the Shop.");
+            return;
+        }
+
+        var existingUser = await models.User.findOne({ name: new RegExp(`^${name}$`, "i") })
+            .select("_id");
+
+        if (existingUser) {
+            res.status(500);
+            res.send("There is already a user with this name.");
+            return;
+        }
+
+        var reservationCode = reservedNames[name.toLowerCase()];
+
+        if (reservationCode) {
+            if (code != reservationCode) {
+                res.status(500);
+                res.send("Invalid reservation code.");
+                return;
+            }
+        }
+
+        await models.User.updateOne(
+            { id: userId },
+            {
+                $set: { name: name, nameChanged: true },
+                $inc: { "itemsOwned.nameChange": -1 }
+            }
+        ).exec();
+        await redis.cacheUserInfo(userId, true);
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error changing username");
+    }
+});
+
+router.post("/block", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToBlock = String(req.body.user);
+
+        if (userId == userIdToBlock) {
+            res.status(500);
+            res.send("You cannot block yourself.");
+            return;
+        }
+
+        var userToBlock = await models.User.findOne({ id: userIdToBlock })
+            .select("_id");
+
+        if (!userToBlock) {
+            res.status(500);
+            res.send("User not found.");
+            return;
+        }
+
+        var user = await models.User.findOne({ id: userId })
+            .select("blockedUsers");
+
+        if (user.blockedUsers.indexOf(userIdToBlock) == -1) {
+            await models.User.updateOne(
+                { id: userId },
+                { $push: { blockedUsers: userIdToBlock } }
+            ).exec();
+        }
+        else {
+            await models.User.updateOne(
+                { id: userId },
+                { $pull: { blockedUsers: userIdToBlock } }
+            ).exec();
+        }
+
+        await redis.cacheUserInfo(userId, true);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error blocking user.");
+    }
+});
+
+router.post("/friend", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userName = await redis.getUserName(userId);
+        var userIdToFriend = String(req.body.user);
+
+        if (userId == userIdToFriend) {
+            res.status(500);
+            res.send("You cannot be friends with yourself.");
+            return;
+        }
+
+        var existingRequest = await models.FriendRequest.findOne({ userId, targetId: userIdToFriend })
+            .select("_id");
+
+        // Cancel existing request
+        if (existingRequest) {
+            await models.FriendRequest.deleteOne({ userId, targetId: userIdToFriend }).exec();
+            res.send("Friend request cancelled.")
+            return;
+        }
+
+        var existingFriend = await models.Friend.findOne({ userId, friendId: userIdToFriend })
+            .select("_id");
+
+        // Unfriend
+        if (existingFriend) {
+            await models.Friend.deleteOne({ userId, friendId: userIdToFriend }).exec();
+            await models.Friend.deleteOne({ userId: userIdToFriend, friendId: userId }).exec();
+
+            await models.User.updateMany(
+                { id: { $in: [userId, userIdToFriend] } },
+                { $inc: { numFriends: -1 } }
+            ).exec();
+
+            res.send("Unfriended this user.");
+            return;
+        }
+
+        existingRequest = await models.FriendRequest.findOne({ userId: userIdToFriend, targetId: userId })
+            .select("_id");
+
+        // Accept existing request
+        if (existingRequest) {
+            var userToFriend = await models.User.findOne({ id: userIdToFriend })
+                .select("lastActive");
+
+            var friend = new models.Friend({
+                userId: userId,
+                friendId: userIdToFriend,
+                lastActive: Date.now()
+            });
+            await friend.save();
+
+            friend = new models.Friend({
+                userId: userIdToFriend,
+                friendId: userId,
+                lastActive: userToFriend.lastActive || Date.now()
+            });
+            await friend.save();
+
+            await models.FriendRequest.deleteOne({ userId: userIdToFriend, targetId: userId }).exec();
+
+            await models.User.updateMany(
+                { id: { $in: [userId, userIdToFriend] } },
+                { $inc: { numFriends: 1 } }
+            ).exec();
+
+            await routeUtils.createNotification({
+                content: `${userName} accepted your friend request.`,
+                icon: "fas fa-users",
+                link: `/user/${userId}`
+            }, [userIdToFriend]);
+
+            res.send("Friend request accepted.");
+            return;
+        }
+
+        // Create new request
+        var request = new models.FriendRequest({
+            userId: userId,
+            targetId: userIdToFriend
+        });
+        await request.save();
+
+        await routeUtils.createNotification({
+            content: `${userName} sent a friend request.`,
+            icon: "fas fa-users",
+            link: `/user/${userId}`
+        }, [userIdToFriend]);
+
+        res.send("Friend request sent.");
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error sending friend request.");
+    }
+});
+
+router.post("/friend/reject", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var requestFrom = String(req.body.user);
+
+        await models.FriendRequest.deleteOne({ userId: requestFrom, targetId: userId }).exec();
+
+        res.send("Friend request rejected.");
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error rejecting friend request.");
+    }
+});
+
+router.post("/referred", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var referrer = String(req.body.referrer);
+        var user = await models.User.findOne({ id: userId })
+            .select("referrer ip");
+
+        if (user.referrer) {
+            res.sendStatus(200);
+            return;
+        }
+
+        var referrerUser = await models.User.findOne({ id: referrer })
+            .select("ip");
+
+        for (let ip of user.ip) {
+            if (referrerUser.ip.indexOf(ip) != -1) {
+                res.sendStatus(200);
+                return;
+            }
+        }
+
+        await models.User.updateOne({ id: userId }, { $set: { referrer } }).exec();
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.sendStatus(200);
+    }
+});
+
+router.post("/unlink", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var user = await models.User.findOne({ id: userId, deleted: false })
+            .select("accounts");
+        var account = String(req.body.account);
+        var accountCount = 0;
+
+        if (user) {
+            user = user.toJSON();
+
+            for (let accountName in user.accounts)
+                if (user.accounts[accountName] && user.accounts[accountName].id)
+                    accountCount++
+
+            if (accountCount > 1) {
+                delete user.accounts[account];
+                models.User.updateOne({ id: userId }, { $unset: { [`accounts.${account}`]: "" } }).exec();
+                res.send(user.accounts);
+            }
+            else {
+                res.status(500);
+                res.send("You must have at least one linked account.");
+            }
+        }
+        else {
+            res.status(500);
+            res.send("Error unlinking account.");
+        }
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error unlinking account.");
+    }
+});
+
+router.post("/signout", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        await models.Session.deleteMany({ "session.passport.user.id": userId }).exec();
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error signing out.");
+    }
+});
+
+router.post("/delete", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var ip = routeUtils.getIP(req);
+
+        if (!(await routeUtils.rateLimit(ip, "deleteAccount", res)))
+            return;
+
+        await models.Session.deleteMany({ "session.passport.user.id": userId }).exec();
+        await models.ChannelOpen.deleteMany({ user: userId }).exec();
+        await models.Notification.deleteMany({ user: userId }).exec();
+        await models.Friend.deleteMany({ userId }).exec();
+        await models.FriendRequest.deleteMany({ $or: [{ userId: userId }, { friendId: userId }] }).exec();
+        await models.InGroup.deleteMany({ user: req.user._id }).exec();
+        await models.User.updateOne(
+            { id: userId },
+            {
+                $set: {
+                    name: "[deleted]",
+                    lastActive: 0,
+                    deleted: true
+                },
+                $unset: {
+                    avatar: "",
+                    banner: "",
+                    bio: "",
+                    settings: "",
+                    accounts: "",
+                    numFriends: "",
+                    dev: "",
+                    rank: "",
+                    permissions: "",
+                    setups: "",
+                    favSetups: "",
+                    games: "",
+                    globalNotifs: "",
+                    blockedUsers: "",
+                    coins: "",
+                    itemsOwned: "",
+                    stats: ""
+                }
+            }
+        ).exec();
+        await redis.deleteUserInfo(userId);
+
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error deleting account.");
+    }
+});
+
+const reservedNames = {
+    "emma": "0878eb805fa271",
+    "filko": "052f92cd70b9",
+    "samp4palmer": "056619f062cc2f",
+    "moldyches": "09110492b11f14",
+    "koba": "0555b492455f92",
+    "steve": "0a6a740c5d845f",
+    "white": "010e7cbc63777e",
+    "hibiki": "06b0ef9ba9c533",
+    "staypositivefriend": "04259e67361d3c",
+    "sonrio": "094882b7bbe401",
+    "elliot": "012453b89293b9",
+    "khakakhan": "0015c6d0f227d3",
+    "joqiza": "0b12cb3446bd89",
+    "chaosam": "02b28d536b0a6d",
+    "arcbell": "0a747107a8676",
+    "crypto": "052baddbdaabdd",
+    "super": "0e431c22398ea1",
+    "disoriented": "046d0afe0b7d6",
+    "luciole": "04b355fd3a8c6e",
+    "margaridafae86": "0c5ad219091ae8",
+    "rigby": "0d86b26ade63f2",
+    "suspiciouslyspirited": "0e6111ff7ae2c3",
+    "goker": "0f3b79b9b9b7b8",
+    "haha": "0736f36cd93709",
+    "samantha": "06e5d87dd0ad5f",
+    "grace": "0b93ab948100db",
+    "nakhhash": "0c8b02c3faef26",
+    "travis": "09c1c77db2db4b",
+    "jacobkrin": "0e20e396d4491f",
+    "lechuck": "080eac5fdf168f",
+    "gemrush": "0c0179945e6a9",
+    "alyssa": "004e892882bdcf",
+    "xxbronygamer69xx": "021696dcb2c08f",
+    "dyke": "04afbc8def44aa",
+    "gaby": "0d2283b7375577",
+    "emily": "0b9118a43846b6",
+    "leepich": "0c7dc0b59cb1fb",
+    "jyshuhui": "0757ed61766d0b",
+    "xagut": "0445d79edfffbd",
+};
+
+module.exports = router;
