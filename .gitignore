@@ -1,4 +1,5 @@
 .env
+.env_old
 
 node_modules/
 logs/
@@ -15,3 +16,5 @@ update.sh
 *.ai
 *.aseprite
 *.svg
+
+update*.sh
