@@ -45,13 +45,17 @@ export const RequiredTotalForStats = 1;
 
 export const MaxGameMessageLength = 240;
 export const MaxWillLength = 100;
+
 export const MaxGroupNameLength = 20;
 export const MaxCategoryNameLength = 20;
 export const MaxBoardNameLength = 20;
 export const MaxBoardDescLength = 60;
 export const MaxThreadTitleLength = 50;
-export const MaxThreadContentLength = 3000;
+export const MaxThreadContentLength = 5000;
 export const MaxReplyLength = 1000;
+
+export const MaxChatMessageLength = 240;
+
 export const AlertFadeTimeout = 3000;
 export const AlertFadeDuration = 500;
-export const MaxChatMessageLength = 240;
+
