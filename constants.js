@@ -110,7 +110,7 @@ module.exports = {
 	maxBoardNameLength: 20,
 	maxBoardDescLength: 60,
 	maxThreadTitleLength: 50,
-	maxThreadContentLength: 3000,
+	maxThreadContentLength: 5000,
 	maxReplyLength: 1000,
 	threadsPerPage: 10,
 	repliesPerPage: 20,
