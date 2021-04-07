@@ -71,17 +71,8 @@ export default function CreateOneNightSetup() {
 			showIf: "closed"
 		},
 		{
-			label: "Mafia Count",
-			ref: "count-Mafia",
-			type: "number",
-			value: "3",
-			min: "0",
-			max: "50",
-			showIf: "closed"
-		},
-		{
-			label: "Monsters Count",
-			ref: "count-Monsters",
+			label: "Werewolves Count",
+			ref: "count-Werewolves",
 			type: "number",
 			value: "0",
 			min: "0",
