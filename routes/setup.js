@@ -486,9 +486,12 @@ function verifyRolesAndCount(setup) {
 			if (isNaN(newCount[alignment]))
 				return ["Invalid role data"];
 
-			for (let role in roles[0])
-				if (roleData[gameType][role.split(":")[0]].alignment == alignment)
-					rolesByAlignment[alignment].push(role);
+			for (let role in roles[0]) {
+				let roleName = role.split(":")[0];
+
+				if (roleData[gameType][roleName].alignment == alignment)
+					rolesByAlignment[alignment].push(roleName);
+			}
 		}
 
 		count = newCount;
@@ -615,6 +618,17 @@ function sortRoles(gameType) {
 	};
 }
 
+function hasOpenRole(roles, roleName) {
+	roles = Object.keys(roles);
+	var regex = new RegExp(`${roleName}:`);
+
+	for (let role of roles)
+		if (role.match(regex))
+			return true;
+
+	return false;
+}
+
 const countChecks = {
 	"Mafia": (roles, count, total, closed, unique) => {
 		if (total < 3 || total > constants.maxPlayers)
@@ -653,15 +667,16 @@ const countChecks = {
 		return true;
 	},
 	"Split Decision": (roles, count, total, closed, unique) => {
+
 		if (total < 4)
 			return "Must have between 4 and 50 players.";
 
 		// If modifiers are added to Split Decision then this needs to be changed
 		if (!closed) {
-			if (!roles["President"])
+			if (!hasOpenRole(roles, "President"))
 				return "Must have a President";
 
-			if (!roles["Bomber"])
+			if (!hasOpenRole(roles, "Bomber"))
 				return "Must have a Bomber";
 		}
 		else {

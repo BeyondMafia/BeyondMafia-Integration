@@ -56,20 +56,24 @@
     background: black;
 }
 
-.i-Village {
+.i-Village, .i-Blue, .i-Resistance {
     color: #66adff;
 }
 
-.i-Mafia {
+.i-Mafia, .i-Spies {
     color: #505d66;
 }
 
-.i-Monsters {
+.i-Monsters, .i-Werewolves {
     color: #b161d3;
 }
 
 .i-Independent {
     color: #c7ce48;
+}
+
+.i-Red {
+    color: #ce4848;
 }
 
 .small-role-list {
