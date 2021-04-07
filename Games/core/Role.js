@@ -222,7 +222,12 @@ module.exports = class Role {
 	}
 
 	revealToAll(noAlert, revealType) {
-		var appearance = this.player.getAppearance(revealType || "reveal");
+		revealType = revealType || "reveal";
+
+		if (!this.appearance[revealType] && !this.player.tempAppearance[revealType])
+			return;
+
+		var appearance = this.player.getAppearance(revealType);
 		var roleName = appearance.split(":")[0];
 		var modifier = appearance.split(":")[1];
 
@@ -233,6 +238,9 @@ module.exports = class Role {
 	}
 
 	revealToSelf(noAlert) {
+		if (!this.appearance.self && !this.player.tempAppearance.self)
+			return;
+			
 		var appearance = this.player.getAppearance("self");
 		var roleName = appearance.split(":")[0];
 		var modifier = appearance.split(":")[1];
@@ -245,7 +253,12 @@ module.exports = class Role {
 	}
 
 	revealToPlayer(player, noAlert, revealType) {
-		var appearance = this.player.getAppearance(revealType || "reveal") || this.name;
+		revealType = revealType || "reveal";
+
+		if (!this.appearance[revealType] && !this.player.tempAppearance[revealType])
+			return;
+
+		var appearance = this.player.getAppearance(revealType) || this.name;
 		var roleName = appearance.split(":")[0];
 		var modifier = appearance.split(":")[1];
 

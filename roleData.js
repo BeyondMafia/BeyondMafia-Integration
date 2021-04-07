@@ -57,7 +57,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Hands out armor to one player each night.",
-                "Armor can block a single bullet."
+                "Armor can block a single attack."
             ],
         },
         "Archer": {
@@ -228,6 +228,13 @@ const roleData = {
                 "Starts with a gun.",
                 "Gun does not reveal the sniper when shot.",
                 "Does not attend Mafia meetings.",
+            ],
+        },
+        "Janitor": {
+            alignment: "Mafia",
+            description: [
+                "Can choose a person to clean each night.",
+                "If that person dies their role will not be revealed.",
             ],
         },
 
