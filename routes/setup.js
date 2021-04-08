@@ -264,6 +264,23 @@ router.get("/:id", async function (req, res) {
 	}
 });
 
+router.post("/feature", async function (req, res) {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		
+		if (!(await routeUtils.verifyPermission(res, userId, "featureSetup")))
+			return;
+
+		
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error featuring setup");
+	}
+});
+
 router.post("/favorite", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);

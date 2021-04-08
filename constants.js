@@ -205,6 +205,10 @@ module.exports = {
 		"canSpectateAny": true,
 		"breakGame": true,
 		"clearAllIPs": true,
+		"featureSetup": true,
+		"wipeAllUserContent": true,
+		"giveCoins": true,
+		"changeName": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -253,6 +257,8 @@ module.exports = {
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",
+				"featureSetup",
+				"wipeAllUserContent",
 			]
 		},
 		"Mod": {
@@ -285,6 +291,7 @@ module.exports = {
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",
+				"featureSetup",
 			]
 		}
 	},
