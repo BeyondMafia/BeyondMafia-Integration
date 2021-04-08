@@ -843,46 +843,6 @@ router.post("/delete", async function (req, res) {
     }
 });
 
-const reservedNames = {
-    "emma": "0878eb805fa271",
-    "filko": "052f92cd70b9",
-    "samp4palmer": "056619f062cc2f",
-    "moldyches": "09110492b11f14",
-    "koba": "0555b492455f92",
-    "steve": "0a6a740c5d845f",
-    "white": "010e7cbc63777e",
-    "hibiki": "06b0ef9ba9c533",
-    "staypositivefriend": "04259e67361d3c",
-    "sonrio": "094882b7bbe401",
-    "elliot": "012453b89293b9",
-    "khakakhan": "0015c6d0f227d3",
-    "joqiza": "0b12cb3446bd89",
-    "chaosam": "02b28d536b0a6d",
-    "arcbell": "0a747107a8676",
-    "crypto": "052baddbdaabdd",
-    "super": "0e431c22398ea1",
-    "disoriented": "046d0afe0b7d6",
-    "luciole": "04b355fd3a8c6e",
-    "margaridafae86": "0c5ad219091ae8",
-    "rigby": "0d86b26ade63f2",
-    "suspiciouslyspirited": "0e6111ff7ae2c3",
-    "goker": "0f3b79b9b9b7b8",
-    "haha": "0736f36cd93709",
-    "samantha": "06e5d87dd0ad5f",
-    "grace": "0b93ab948100db",
-    "nakhhash": "0c8b02c3faef26",
-    "travis": "09c1c77db2db4b",
-    "jacobkrin": "0e20e396d4491f",
-    "lechuck": "080eac5fdf168f",
-    "gemrush": "0c0179945e6a9",
-    "alyssa": "004e892882bdcf",
-    "xxbronygamer69xx": "021696dcb2c08f",
-    "dyke": "04afbc8def44aa",
-    "gaby": "0d2283b7375577",
-    "emily": "0b9118a43846b6",
-    "leepich": "0c7dc0b59cb1fb",
-    "jyshuhui": "0757ed61766d0b",
-    "xagut": "0445d79edfffbd",
-};
+const reservedNames = JSON.parse(process.env.RESERVED_NAMES);
 
 module.exports = router;
