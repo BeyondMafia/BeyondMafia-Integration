@@ -25,7 +25,13 @@ bot.registry
 
         bot.on("ready", async () => {
             try {
-                bot.user.setPresence({ activity: { name: "Use \"arc.mafia\" to play" } });
+                await bot.user.setPresence({ 
+                    status: "online",
+                    activity: { 
+                        name: "Use \"arc.mafia\" to play",
+                        type: "PLAYING"
+                    } 
+                });
 
                 //Get references to guild, roles, and channels
                 global.homeGuild = await bot.guilds.fetch("458148658987401229");
@@ -34,7 +40,6 @@ bot.registry
                 global.roles.serverMod = global.homeGuild.roles.cache.find(role => role.name == "Server Moderator");
                 global.roles.admin = global.homeGuild.roles.cache.find(role => role.name == "Admin");
                 global.channels.modCommands = global.homeGuild.channels.cache.find(channel => channel.name == "mod-commands");
-                global.channels.botCommands = global.homeGuild.channels.cache.find(channel => channel.name == "bot-commands");
 
                 //Set up listeners and chron jobs
                 listeners();
