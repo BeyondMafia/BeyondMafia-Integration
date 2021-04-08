@@ -6,7 +6,7 @@ const constants = require("../constants");
 const names = require("../json/names");
 
 function getIP(req) {
-	return req.headers["X-Forwarded-For"] || req.headers["CF-Connecting-IP"] || req.connection.remoteAddress;
+	return req.headers["x-forwarded-for"] || req.headers["cf-connecting-ip"] || req.connection.remoteAddress;
 }
 
 async function verifyLoggedIn(req, ignoreError) {
