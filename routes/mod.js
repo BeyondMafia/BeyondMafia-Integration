@@ -877,6 +877,29 @@ router.post("/clearBio", async (req, res) => {
 		res.send("Error clearing bio.");
 	}
 });
+router.post("/clearAvi", async (req, res) => {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToClear = String(req.body.userId);
+		var perm = "clearAvi";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		await models.User.updateOne(
+			{ id: userIdToClear },
+			{ $set: { avatar: false } }
+		).exec();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing avatar.");
+	}
+});
 
 router.post("/clearAccountDisplay", async (req, res) => {
 	res.setHeader("Content-Type", "application/json");
@@ -892,10 +915,10 @@ router.post("/clearAccountDisplay", async (req, res) => {
 			{ id: userIdToClear },
 			{
 				$set: {
-					showDiscord: false,
-					showTwitch: false,
-					showGoogle: false,
-					showSteam: false
+					"settings.showDiscord": false,
+					"settings.showTwitch": false,
+					"settings.showGoogle": false,
+					"settings.showSteam": false,
 				}
 			}
 		).exec();
@@ -932,6 +955,70 @@ router.post("/clearName", async (req, res) => {
 	}
 });
 
+router.post("/clearAllContent", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToClear = String(req.body.userId);
+		var perm = "clearAllUserContent";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		var user = await models.User.findOne({ id: userIdToClear })
+			.select("_id");
+
+		if (!user) {
+			res.status(500);
+			res.send("User not found.");
+			return;
+		}
+
+		await models.User.updateOne(
+			{ id: userIdToClear },
+			{
+				$set: {
+					name: routeUtils.nameGen().slice(0, constants.maxUserNameLength),
+					avatar: false,
+					bio: "",
+					"settings.showDiscord": false,
+					"settings.showTwitch": false,
+					"settings.showGoogle": false,
+					"settings.showSteam": false,
+				}
+			}
+		).exec();
+
+		await models.Setup.updateMany(
+			{ creator: user._id },
+			{ $set: { name: "Unnamed setup" } }
+		).exec();
+
+		await models.ForumThread.updateMany(
+			{ author: user._id },
+			{ $set: { deleted: true } }
+		).exec();
+
+		await models.ForumReply.updateMany(
+			{ author: user._id },
+			{ $set: { deleted: true } }
+		).exec();
+
+		await models.Comment.updateMany(
+			{ author: user._id },
+			{ $set: { deleted: true } }
+		).exec();
+
+		await models.ChatMessage.deleteMany({ senderId: userIdToClear }).exec();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing user's content.");
+	}
+});
+
 router.post("/breakGame", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
@@ -960,6 +1047,57 @@ router.post("/clearAllIPs", async (req, res) => {
 			return;
 
 		await models.User.updateMany({}, { $unset: { ip: "" } }).exec();
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing IPs.");
+	}
+});
+
+router.post("/giveCoins", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToGiveTo = String(req.body.userId);
+		var amount = Number(req.body.amount);
+		var perm = "giveCoins";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		await models.User.udpateOne(
+			{ id: userIdToGiveTo },
+			{ $inc: { coins: amount } }
+		).exec();
+
+
+		await redis.cacheUserInfo(userIdToGiveTo, true);
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing IPs.");
+	}
+});
+
+router.post("/changeName", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToChange = String(req.body.userId);
+		var name = Number(req.body.name);
+		var perm = "changeName";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		await models.User.udpateOne(
+			{ id: userIdToChange },
+			{ $set: { name: name } }
+		).exec();
+
+		await redis.cacheUserInfo(userIdToChange, true);
 		res.sendStatus(200);
 	}
 	catch (e) {

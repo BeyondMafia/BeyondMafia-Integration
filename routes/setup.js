@@ -33,23 +33,6 @@ function markFavSetups(userId, setups) {
 	});
 }
 
-router.get("/id", async function (req, res) {
-	res.setHeader("Content-Type", "application/json");
-	try {
-		var userId = await routeUtils.verifyLoggedIn(req, true);
-		var setup = await models.Setup.findOne({ id: String(req.query.query) })
-			.select("id gameType name roles closed count -_id");
-		var setups = setup ? [setup] : [];
-
-		await markFavSetups(userId, setups);
-		res.send({ setups: setups, pages: 0 });
-	}
-	catch (e) {
-		logger.error(e);
-		res.send({ setups: [], pages: 0 });
-	}
-});
-
 router.get("/featured", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
@@ -69,7 +52,7 @@ router.get("/featured", async function (req, res) {
 			var setups = await models.Setup.find({ featured: true, gameType })
 				.skip(start)
 				.limit(pageSize)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = await models.Setup.countDocuments({ featured: true, gameType });
 
 			await markFavSetups(userId, setups);
@@ -104,7 +87,7 @@ router.get("/popular", async function (req, res) {
 				.sort("played")
 				.skip(start)
 				.limit(pageSize)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = await models.Setup.countDocuments({ gameType });
 
 			await markFavSetups(userId, setups);
@@ -139,7 +122,7 @@ router.get("/favorites", async function (req, res) {
 				.select("favSetups")
 				.populate({
 					path: "favSetups",
-					select: "id gameType name roles closed count -_id",
+					select: "id gameType name roles closed count featured -_id",
 					options: { limit: setupLimit }
 				});
 
@@ -183,7 +166,7 @@ router.get("/yours", async function (req, res) {
 				.select("setups")
 				.populate({
 					path: "setups",
-					select: "id gameType name roles closed count -_id",
+					select: "id gameType name roles closed count featured -_id",
 					options: { limit: setupLimit }
 				});
 
@@ -226,7 +209,7 @@ router.get("/search", async function (req, res) {
 			var setups = await models.Setup.find({ name: { $regex: String(req.query.query), $options: "i" }, gameType })
 				.sort("played")
 				.limit(setupLimit)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = setups.length;
 			setups = setups.slice(start, start + pageSize);
 
@@ -267,11 +250,19 @@ router.get("/:id", async function (req, res) {
 router.post("/feature", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		
+		var setupId = String(req.body.id);
+
 		if (!(await routeUtils.verifyPermission(res, userId, "featureSetup")))
 			return;
 
-		
+		var setup = await models.Setup.findOne({ id: setupId });
+
+		if (!setup) {
+			res.sendStatus(200);
+			return;
+		}
+
+		await models.Setup.updateOne({ id: setupId }, { featured: !setup.featured }).exec();
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -284,7 +275,8 @@ router.post("/feature", async function (req, res) {
 router.post("/favorite", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		var result = await redis.updateFavSetup(userId, String(req.body.id));
+		var setupId = String(req.body.id);
+		var result = await redis.updateFavSetup(userId, setupId);
 
 		if (result != "-2")
 			res.send(result);
