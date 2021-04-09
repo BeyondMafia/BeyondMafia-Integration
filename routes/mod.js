@@ -1066,7 +1066,7 @@ router.post("/giveCoins", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		await models.User.udpateOne(
+		await models.User.updateOne(
 			{ id: userIdToGiveTo },
 			{ $inc: { coins: amount } }
 		).exec();
@@ -1078,7 +1078,7 @@ router.post("/giveCoins", async (req, res) => {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error clearing IPs.");
+		res.send("Error giving coins.");
 	}
 });
 
@@ -1092,7 +1092,7 @@ router.post("/changeName", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		await models.User.udpateOne(
+		await models.User.updateOne(
 			{ id: userIdToChange },
 			{ $set: { name: name } }
 		).exec();
@@ -1103,7 +1103,7 @@ router.post("/changeName", async (req, res) => {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error clearing IPs.");
+		res.send("Error changing name.");
 	}
 });
 
