@@ -34,6 +34,12 @@ export default function Settings(props) {
 			label: "DMs from Friends Only",
 			ref: "onlyFriendDMs",
 			type: "boolean",
+		},
+		{
+			label: "Hide Deleted Posts",
+			ref: "hideDeleted",
+			type: "boolean",
+			showIf: (deps) => deps.user.perms.viewDeleted
 		}
 	]);
 

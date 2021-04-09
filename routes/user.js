@@ -325,13 +325,13 @@ router.post("/settings/update", async function (req, res) {
 
         if ((prop == "backgroundColor" || prop == "bannerFormat") && !itemsOwned.customProfile) {
             res.status(500);
-            res.send("You must purcahse profile customization with coins from the Shop.");
+            res.send("You must purchase profile customization with coins from the Shop.");
             return;
         }
 
         if ((prop == "textColor" || prop == "nameColor") && !itemsOwned.textColors) {
             res.status(500);
-            res.send("You must purcahse text colors with coins from the Shop.");
+            res.send("You must purchase text colors with coins from the Shop.");
             return;
         }
 
@@ -351,6 +351,8 @@ router.post("/settings/update", async function (req, res) {
         }
 
         await models.User.updateOne({ id: userId }, { $set: { [`settings.${prop}`]: value } });
+        await redis.cacheUserInfo(userId, true);
+        
         res.sendStatus(200);
     }
     catch (e) {
@@ -469,26 +471,25 @@ router.post("/name", async function (req, res) {
         var code = String(req.body.code);
         var regex = /^(?!.*[-_]{2})[\w-]*$/;
 
-        // if (name.length == 3 && !itemsOwned.threeCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 3 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (name.length == 3 && !itemsOwned.threeCharName) {
+            res.status(500);
+            res.send("You must purchase 3 character usernames with coins from the Shop.");
+            return;
+        }
 
-        // if (name.length == 2 && !itemsOwned.twoCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 2 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (name.length == 2 && !itemsOwned.twoCharName) {
+            res.status(500);
+            res.send("You must purchase 2 character usernames with coins from the Shop.");
+            return;
+        }
 
-        // if (name.length == 1 && !itemsOwned.oneCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 1 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (name.length == 1 && !itemsOwned.oneCharName) {
+            res.status(500);
+            res.send("You must purchase 1 character usernames with coins from the Shop.");
+            return;
+        }
 
-        // if (name.length < 1 || name.length > 20) {
-        if (name.length < 4 || name.length > 20) {
+        if (name.length < 1 || name.length > 20) {
             res.status(500);
             res.send("Names must be between 4 and 20 characters.");
             return;

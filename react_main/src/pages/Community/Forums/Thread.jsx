@@ -337,6 +337,9 @@ function Post(props) {
 			.catch(errorAlert);
 	}
 
+	if (postInfo.deleted && user.settings.hideDeleted)
+		return <></>;
+
 	return (
 		<div className={`post span-panel ${postInfo.deleted ? "deleted" : ""} ${props.className}`} id={id}>
 			<div className="vote-wrapper">

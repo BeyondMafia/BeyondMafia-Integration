@@ -18,6 +18,7 @@ var schemas = {
             textColor: String,
             nameColor: String,
             onlyFriendDMs: { type: Boolean, default: false },
+            hideDeleted: Boolean,
         },
         accounts: {
             discord: {
