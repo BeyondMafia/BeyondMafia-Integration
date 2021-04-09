@@ -812,6 +812,70 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Clear All User Content": {
+			perm: "clearAllUserContent",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/clearAllContent", argValues)
+					.then(() => {
+						siteInfo.showAlert("User content cleared.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Change Name": {
+			perm: "changeName",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+				{
+					label: "Name",
+					name: "name",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/changeName", argValues)
+					.then(() => {
+						siteInfo.showAlert("Name changed.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Give Coins": {
+			perm: "giveCoins",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+				{
+					label: "Amount",
+					name: "amount",
+					type: "number",
+				},
+			],
+			run: function () {
+				axios.post("/mod/giveCoins", argValues)
+					.then(() => {
+						siteInfo.showAlert("Coins given.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Break Game": {
 			perm: "breakGame",
 			args: [
@@ -825,6 +889,24 @@ function useModCommands(argValues, commandRan) {
 				axios.post("/mod/breakGame", argValues)
 					.then(() => {
 						siteInfo.showAlert("Game broken.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Toggle Featured Setup": {
+			perm: "featureSetup",
+			args: [
+				{
+					label: "Setup Id",
+					name: "setupId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/setup/feature", argValues)
+					.then(() => {
+						siteInfo.showAlert("Setup feature toggled.", "success");
 						commandRan();
 					})
 					.catch(errorAlert);

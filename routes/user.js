@@ -317,7 +317,8 @@ router.post("/settings/update", async function (req, res) {
         if (!routeUtils.validProp(prop)) {
             logger.warn(`Invalid settings prop by ${userId}: ${prop}`);
             res.status(500);
-            res.send("Error updating settings.")
+            res.send("Error updating settings.");
+            return;
         }
 
         var itemsOwned = await redis.getUserItemsOwned(userId);

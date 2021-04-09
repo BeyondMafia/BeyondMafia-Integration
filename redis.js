@@ -757,7 +757,7 @@ async function clearPermissionCache() {
 	var keys = await client.keysAsync("*");
 
 	for (let key of keys)
-		if (key.match(/user:\w+:(perms|rank)/))
+		if (key.match(/user:[\w-_]+:(perms|rank)/))
 			await client.delAsync(key);
 }
 
