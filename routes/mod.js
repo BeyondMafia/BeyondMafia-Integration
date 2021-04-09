@@ -1086,7 +1086,7 @@ router.post("/changeName", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToChange = String(req.body.userId);
-		var name = Number(req.body.name);
+		var name = String(req.body.name);
 		var perm = "changeName";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
