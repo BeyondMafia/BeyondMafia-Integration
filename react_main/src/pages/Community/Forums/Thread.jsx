@@ -337,8 +337,10 @@ function Post(props) {
 			.catch(errorAlert);
 	}
 
+	var content = comment.content;
+
 	if (postInfo.deleted && user.settings.hideDeleted)
-		return <></>;
+		content = "*deleted*";
 
 	return (
 		<div className={`post span-panel ${postInfo.deleted ? "deleted" : ""} ${props.className}`} id={id}>
@@ -428,7 +430,7 @@ function Post(props) {
 				</div>
 				{!editing &&
 					<div className="md-content">
-						<ReactMarkdown source={postInfo.content} />
+						<ReactMarkdown source={content} />
 					</div>
 				}
 				{editing &&
