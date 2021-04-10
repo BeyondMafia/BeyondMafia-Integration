@@ -337,7 +337,7 @@ function Post(props) {
 			.catch(errorAlert);
 	}
 
-	var content = comment.content;
+	var content = postInfo.content;
 
 	if (postInfo.deleted && user.settings.hideDeleted)
 		content = "*deleted*";
