@@ -156,6 +156,9 @@ function Comment(props) {
 			.catch(errorAlert);
 	}
 
+	if (comment.deleted && user.settings.hideDeleted)
+		return <></>;
+
 	return (
 		<div className={`post span-panel ${comment.deleted ? "deleted" : ""} ${props.className}`}>
 			<div className="vote-wrapper">
