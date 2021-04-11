@@ -281,7 +281,7 @@ async function getModIds() {
 		.select("user");
 	var users = inGroups.map(inGroup => inGroup.user);
 
-	var mods = await models.User.find({ _id: { $in: { users } } })
+	var mods = await models.User.find({ _id: { $in: users } })
 		.select("id");
 	var modIds = mods.map(mod => mod.id);
 

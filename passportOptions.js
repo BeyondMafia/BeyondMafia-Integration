@@ -76,13 +76,7 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                     .select("_id");
                 var suspicious = bannedSameIP.length > 0;
 
-                console.log("---");
-                console.log(ip);
-                console.log(bannedSameIP);
-                console.log(bannedSameIP.length);
-                console.log(suspicious);
-
-                if (!suspicious) {
+                if (!suspicious && process.env.IP_API_IGNORE != "true") {
                     var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
                     suspicious = res.data.fraud_score >= 65;
                 }
