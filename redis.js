@@ -644,6 +644,10 @@ async function updateUserOnline(userId) {
 	client.expire(`user:${userId}:info:status`, constants.userOnlineTTL / 1000);
 }
 
+async function setUserOffline(userId) {
+	await client.zremAsync("onlineUsers", userId);
+}
+
 async function removeStaleUsers() {
 	await client.zremrangebyscoreAsync("onlineUsers", 0, Date.now() - constants.userOnlineTTL);
 }
@@ -754,11 +758,10 @@ async function hasPermission(userId, perm, rank) {
 }
 
 async function clearPermissionCache() {
-	var keys = await client.keysAsync("*");
+	var keys = await client.keysAsync("user:*:perms");
 
 	for (let key of keys)
-		if (key.match(/user:[\w-_]+:(perms|rank)/))
-			await client.delAsync(key);
+		await client.delAsync(key);
 }
 
 async function rateLimit(userId, type) {
@@ -825,6 +828,7 @@ module.exports = {
 	getOnlineUsers,
 	getOnlineUsersInfo,
 	updateUserOnline,
+	setUserOffline,
 	removeStaleUsers,
 	getAllLastActive,
 	cacheUserPermissions,

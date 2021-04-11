@@ -38,11 +38,15 @@ module.exports = function () {
                 try {
                     var now = Date.now();
                     var bans = await models.Ban.find({ expires: { $lt: now }, auto: false })
-                        .select("userId auto");
+                        .select("userId auto type");
                     var unbanUserIds = bans.map(b => b.userId);
 
                     if (unbanUserIds.length == 0)
                         return;
+
+                    for (let ban of bans)
+                        if (ban.type == "site")
+                            await models.User.updateOne({ id: ban.userId }, { banned: false }).exec();
 
                     await models.Ban.deleteMany({ expires: { $lt: now }, auto: false }).exec();
                     await routeUtils.createNotification({ 

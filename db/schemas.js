@@ -84,7 +84,8 @@ var schemas = {
         playedGame: false,
         referrer: String,
         transactions: [Number],
-        deleted: { type: Boolean, default: false }
+        deleted: { type: Boolean, default: false },
+        banned: { type: Boolean, default: false },
     }),
     "Session": new mongoose.Schema({
         expires: Date,

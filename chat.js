@@ -135,8 +135,25 @@ const channelMembers = {};
 							return;
 						}
 						else if (!channel.public && (channel.memberIds.indexOf(user.id) == -1 || !permInfo.perms.privateChat)) {
-							socket.send("error", "You are unable to use private chat.")
-							return;
+							var allowed = !(channel.memberIds.indexOf(user.id) == -1);
+
+							if (allowed) {
+								var modIds = await utils.getModIds();
+
+								for (let memberId of channel.memberIds) {
+									if (memberId == user.id)
+										continue;
+									else if (modIds.indexOf(memberId) == -1) {
+										allowed = false;
+										break;
+									}
+								}
+							}
+
+							if (!allowed) {
+								socket.send("error", "You are unable to use private chat.")
+								return;
+							}
 						}
 						else if (!(await utils.rateLimit(user.id, "sendChatMessage"))) {
 							socket.send("error", "You are chatting too quickly.");

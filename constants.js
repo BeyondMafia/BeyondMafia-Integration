@@ -147,12 +147,17 @@ module.exports = {
 		"editPost",
 		"publicChat",
 		"privateChat",
+		"editBio",
+		"changeName",
 	],
 	protectedPerms: [
 		"createGroup",
 		"giveGroup",
 		"updateGroupPerms",
 		"givePermToAll",
+		"clearAllIPs",
+		"giveCoins",
+		"changeName",
 	],
 	allPerms: {
 		"signIn": true,
@@ -164,6 +169,8 @@ module.exports = {
 		"editPost": true,
 		"publicChat": true,
 		"privateChat": true,
+		"editBio": true,
+		"changeName": true,
 
 		"createCategory": true,
 		"deleteAnyPost": true,
