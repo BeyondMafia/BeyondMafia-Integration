@@ -173,6 +173,9 @@ function parseTime(time) {
 	if (abbrev[unit])
 		unit = abbrev[unit];
 
+	if (unit[unit.length - 1] == "s")
+		unit = unit.slice(0, unit.length - 1);
+
 	if (!units[unit])
 		return;
 

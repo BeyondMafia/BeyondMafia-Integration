@@ -72,7 +72,7 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                 if (req.session.ref)
                     await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
 
-                var bannedSameIP = await models.User.find({ ip: { $elemMatch: ip }, banned: true })
+                var bannedSameIP = await models.User.find({ ip: ip, banned: true })
                     .select("_id");
                 var suspicious = bannedSameIP.length > 0;
 
