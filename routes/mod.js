@@ -584,13 +584,7 @@ router.post("/siteBan", async (req, res) => {
 		var userIdToBan = String(req.body.userId);
 		var length = String(req.body.length);
 		var perm = "siteBan";
-		var banRank = await redis.getUserRank(userIdToBan);
-
-		if (banRank == null) {
-			res.status(500);
-			res.send("User does not exist.");
-			return;
-		}
+		var banRank = (await redis.getUserRank(userIdToBan)) || 0;
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
