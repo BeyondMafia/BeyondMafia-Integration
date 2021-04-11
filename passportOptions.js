@@ -34,21 +34,37 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
 
             identity = getIdentity(identity);
 
+            /* *** Scenarios ***
+                - Signed in
+                    - Linking new account (1)
+                    - Signing in to account (2)
+                    - Signing in to banned account (3)
+                    - Linking deleted banned account (4)
+                - Not signed in
+                    - Making new account
+                        - IP not suspicious (5)
+                        - IP suspicous (6)
+                    - Signing in to account (7)
+                    - Signing in to banned account (8)
+                    - Signing in to deleted banned account (9)
+            */
+
             var user;
             var id = req.user && req.user.id;
             var ip = routeUtils.getIP(req);
             var authId = getId(identity);
             var authName = getName(identity);
-            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId }).select("id deleted banned");
+            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId, deleted: false }).select("id");
+            var bannedUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId, banned: true }).select("id");
             var giveColors = authType == "discord" && oldReferers[authId];
 
-            if (id && (!oauthUser || (oauthUser.deleted && !oauthUser.banned)))
+            if (id && !oauthUser)
                 user = await models.User.findOne({ id: id, deleted: false })
-                    .select("id itemsOwned");
+                    .select("id itemsOwned banned");
             else
                 user = oauthUser;
 
-            if (!user || (user.deleted && !user.banned)) { //Create new account
+            if (!user && !bannedUser) { //Create new account (5) (6)
                 id = shortid.generate();
 
                 user = new models.User({
@@ -81,7 +97,7 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                     suspicious = res.data.fraud_score >= 65;
                 }
 
-                if (suspicious) {
+                if (suspicious) { //(6)
                     await routeUtils.banUser(
                         id,
                         0,
@@ -96,10 +112,28 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                     }, [id]);
                 }
             }
-            else { //Link or refresh account
+            else if (!id && bannedUser) { //(8) (9)
+                done(null, {});
+                return;
+            }
+            else if (id && bannedUser) { //(3) (4)
+                await routeUtils.banUser(
+                    id,
+                    0,
+                    ["signIn"],
+                    "bannedUser"
+                );
+
+                await models.User.updateOne({ id: id }, { $set: { banned: true } }).exec();
+                await models.Session.deleteMany({ "session.passport.user.id": id }).exec();
+
+                done(null, {});
+                return;
+            }
+            else { //Link or refresh account (1) (2) (7)
                 id = user.id;
 
-                if (!(await routeUtils.verifyPermission(id, "signIn")) || user.banned) {
+                if (!(await routeUtils.verifyPermission(id, "signIn"))) {
                     done(null, {});
                     return;
                 }
