@@ -39,16 +39,16 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
             var ip = routeUtils.getIP(req);
             var authId = getId(identity);
             var authName = getName(identity);
-            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId }).select("id");
+            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId }).select("id deleted banned");
             var giveColors = authType == "discord" && oldReferers[authId];
 
-            if (id && !oauthUser)
+            if (id && (!oauthUser || (oauthUser.deleted && !oauthUser.banned)))
                 user = await models.User.findOne({ id: id, deleted: false })
                     .select("id itemsOwned");
             else
                 user = oauthUser;
 
-            if (!user) { //Create new account
+            if (!user || (user.deleted && !user.banned)) { //Create new account
                 id = shortid.generate();
 
                 user = new models.User({
@@ -71,11 +71,35 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
 
                 if (req.session.ref)
                     await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
+
+                var bannedSameIP = await models.User.find({ ip: { $elemMatch: ip }, banned: true })
+                    .select("_id");
+                var suspicious = bannedSameIP.length > 0;
+
+                if (!suspicious) {
+                    var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
+                    suspicious = res.data.fraud_score >= 65;
+                }
+
+                if (suspicious) {
+                    await routeUtils.banUser(
+                        id,
+                        0,
+                        ["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
+                        "ipFlag"
+                    );
+
+                    await routeUtils.createNotification({
+                        content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
+                        icon: "flag",
+                        link: "/community/moderation"
+                    }, [id]);
+                }
             }
             else { //Link or refresh account
                 id = user.id;
 
-                if (!(await routeUtils.verifyPermission(id, "signIn"))) {
+                if (!(await routeUtils.verifyPermission(id, "signIn")) || user.banned) {
                     done(null, {});
                     return;
                 }

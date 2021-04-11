@@ -617,6 +617,7 @@ router.post("/siteBan", async (req, res) => {
 			userId
 		);
 
+		await models.User.updateOne({ id: userIdToBan }, { $set: { banned: true } }).exec();
 		await models.Session.deleteMany({ "session.passport.user.id": userIdToBan }).exec();
 
 		res.sendStatus(200);

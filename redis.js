@@ -754,11 +754,10 @@ async function hasPermission(userId, perm, rank) {
 }
 
 async function clearPermissionCache() {
-	var keys = await client.keysAsync("*");
+	var keys = await client.keysAsync("user:*:perms");
 
 	for (let key of keys)
-		if (key.match(/user:[\w-_]+:(perms|rank)/))
-			await client.delAsync(key);
+		await client.delAsync(key);
 }
 
 async function rateLimit(userId, type) {

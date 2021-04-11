@@ -352,7 +352,7 @@ router.post("/settings/update", async function (req, res) {
 
         await models.User.updateOne({ id: userId }, { $set: { [`settings.${prop}`]: value } });
         await redis.cacheUserInfo(userId, true);
-        
+
         res.sendStatus(200);
     }
     catch (e) {
@@ -367,6 +367,10 @@ router.post("/bio", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
         var bio = String(req.body.bio);
+        var perm = "editBio";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
 
         if (bio.length < 1000) {
             await models.User.updateOne({ id: userId }, { $set: { bio: bio } });
@@ -470,6 +474,10 @@ router.post("/name", async function (req, res) {
         var name = String(req.body.name);
         var code = String(req.body.code);
         var regex = /^(?!.*[-_]{2})[\w-]*$/;
+        var perm = "changeName";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
 
         if (name.length == 3 && !itemsOwned.threeCharName) {
             res.status(500);
@@ -818,7 +826,6 @@ router.post("/delete", async function (req, res) {
                     banner: "",
                     bio: "",
                     settings: "",
-                    accounts: "",
                     numFriends: "",
                     dev: "",
                     rank: "",

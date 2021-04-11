@@ -269,6 +269,22 @@ async function rateLimit(userId, type, res) {
 	return allowed;
 }
 
+async function getModIds() {
+	var groups = await models.Group.find({ $or: [{ name: "Admin" }, { name: "Mod" }] })
+		.select("_id");
+	groups = groups.map(group => group._id);
+
+	var inGroups = await models.InGroup.find({ group: { $in: groups } })
+		.select("user");
+	var users = inGroups.map(inGroup => inGroup.user);
+
+	var mods = await models.User.find({ _id: { $in: { users } } })
+		.select("id");
+	var modIds = mods.map(mod => mod.id);
+
+	return modIds;
+}
+
 module.exports = {
 	getIP,
 	verifyLoggedIn,
@@ -284,5 +300,6 @@ module.exports = {
 	createNotification,
 	banUser,
 	nameGen,
-	rateLimit
+	rateLimit,
+	getModIds,
 };
