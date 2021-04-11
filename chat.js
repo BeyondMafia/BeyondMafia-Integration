@@ -145,7 +145,7 @@ const channelMembers = {};
 										continue;
 									else if (modIds.indexOf(memberId) == -1) {
 										allowed = false;
-										return;
+										break;
 									}
 								}
 							}
