@@ -841,6 +841,8 @@ router.post("/delete", async function (req, res) {
                 }
             }
         ).exec();
+
+        await redis.setUserOffline(userId);
         await redis.deleteUserInfo(userId);
 
         res.sendStatus(200);

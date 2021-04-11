@@ -644,6 +644,10 @@ async function updateUserOnline(userId) {
 	client.expire(`user:${userId}:info:status`, constants.userOnlineTTL / 1000);
 }
 
+async function setUserOffline(userId) {
+	await client.zremAsync("onlineUsers", userId);
+}
+
 async function removeStaleUsers() {
 	await client.zremrangebyscoreAsync("onlineUsers", 0, Date.now() - constants.userOnlineTTL);
 }
@@ -824,6 +828,7 @@ module.exports = {
 	getOnlineUsers,
 	getOnlineUsersInfo,
 	updateUserOnline,
+	setUserOffline,
 	removeStaleUsers,
 	getAllLastActive,
 	cacheUserPermissions,
