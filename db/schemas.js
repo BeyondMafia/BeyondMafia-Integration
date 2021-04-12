@@ -86,6 +86,7 @@ var schemas = {
         transactions: [Number],
         deleted: { type: Boolean, default: false },
         banned: { type: Boolean, default: false },
+        flagged: { type: Boolean, default: false },
     }),
     "Session": new mongoose.Schema({
         expires: Date,
