@@ -88,9 +88,15 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                 if (req.session.ref)
                     await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
 
-                var bannedSameIP = await models.User.find({ ip: ip, banned: true })
+                var bannedSameIP = await models.User.find({ ip: ip, $or: [{ banned: true }, { flagged: true }] })
                     .select("_id");
                 var suspicious = bannedSameIP.length > 0;
+
+                if (!suspicious) {
+                    var flaggedSameAccount = await models.User.find({ [`accounts.${authType}.id`]: authId, flagged: true })
+                        .select("_id");
+                    suspicious = flaggedSameAccount.length > 0;
+                }
 
                 if (!suspicious && process.env.IP_API_IGNORE != "true") {
                     var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
@@ -98,6 +104,8 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
                 }
 
                 if (suspicious) { //(6)
+                    await models.User.updateOne({ id }, { $set: { flagged: true } }).exec();
+
                     await routeUtils.banUser(
                         id,
                         0,
