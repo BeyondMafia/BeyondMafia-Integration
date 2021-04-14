@@ -157,7 +157,7 @@ module.exports = {
 		"givePermToAll",
 		"clearAllIPs",
 		"giveCoins",
-		"changeName",
+		"changeUsersName",
 	],
 	allPerms: {
 		"signIn": true,
@@ -216,7 +216,8 @@ module.exports = {
 		"featureSetup": true,
 		"clearAllUserContent": true,
 		"giveCoins": true,
-		"changeName": true,
+		"changeUsersName": true,
+		"whitelist": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -268,6 +269,7 @@ module.exports = {
 				"breakGame",
 				"featureSetup",
 				"clearAllUserContent",
+				"whitelist",
 			]
 		},
 		"Mod": {
@@ -302,6 +304,7 @@ module.exports = {
 				"canSpectateAny",
 				"breakGame",
 				"featureSetup",
+				"whitelist",
 			]
 		}
 	},

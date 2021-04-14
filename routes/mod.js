@@ -761,6 +761,28 @@ router.post("/siteUnban", async (req, res) => {
 	}
 });
 
+router.post("/whitelist", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToActOn = String(req.body.userId);
+		var perm = "whitelist";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		await models.Ban.deleteMany({ userId: userIdToActOn, type: "ipFlag" }).exec();
+		await models.User.updateOne({ id: userIdToActOn }, { $set: { flagged: false } });
+		await redis.cacheUserPermissions(userIdToActOn);
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error whitelisting user.");
+	}
+});
+
 router.get("/alts", async (req, res) => {
 	res.setHeader("Content-Type", "application/json");
 	try {
@@ -1082,7 +1104,7 @@ router.post("/changeName", async (req, res) => {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToChange = String(req.body.userId);
 		var name = String(req.body.name);
-		var perm = "changeName";
+		var perm = "changeUsersName";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
