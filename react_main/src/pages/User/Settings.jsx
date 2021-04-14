@@ -285,6 +285,7 @@ export default function Settings(props) {
 }
 
 const reservedNames = [
+	"admin",
 	"emma",
 	"filko",
 	"samp4palmer",

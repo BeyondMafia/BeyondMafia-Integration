@@ -148,7 +148,7 @@ export function linkify(text) {
 	if (!Array.isArray(text))
 		text = [text];
 
-	const linkRegex = /http(s{0,1}):\/\/([\w.]+)\.(\w+)(\/{0,1})/g;
+	const linkRegex = /http(s{0,1}):\/\/([\w.]+)\.(\w+)(.*)/g;
 
 	for (let i in text) {
 		let _segment = text[i];

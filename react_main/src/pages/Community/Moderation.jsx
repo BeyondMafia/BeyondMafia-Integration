@@ -924,5 +924,23 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Whitelist User": {
+			perm: "whitelist",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/whitelist", argValues)
+					.then(() => {
+						siteInfo.showAlert("User whitelisted.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 	};
 }
