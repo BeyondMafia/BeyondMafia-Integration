@@ -368,6 +368,21 @@ module.exports = class Game {
 				return;
 			}
 		}
+		else if (this.players[player.id]) {
+			var remainingPlayer = false;
+
+			for (let player of this.players) {
+				if (!player.left) {
+					remainingPlayer = true;
+					break;
+				}
+			}
+
+			if (!remainingPlayer) {
+				await this.cancel();
+				return;
+			}
+		}
 
 		await redis.leaveGame(player.user.id);
 	}
