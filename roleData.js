@@ -157,7 +157,7 @@ const roleData = {
         "Mayor": {
             alignment: "Village",
             description: [
-                "Is publicly revealed to all players at the beginning of the game.",
+                "Is publicly revealed to all players.",
             ],
         },
 

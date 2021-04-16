@@ -7,9 +7,9 @@ module.exports = class PublicReveal extends Card {
 
 		this.listeners = {
 			"state": function (stateInfo) {
-				if (stateInfo.id == 0 && !this.data.revealed) {
-					this.revealToAll();
+				if (!this.data.revealed) {
 					this.data.revealed = true;
+					this.revealToAll();
 				}
 			}
 		};
