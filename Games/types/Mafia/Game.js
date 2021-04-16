@@ -164,8 +164,10 @@ module.exports = class MafiaGame extends Game {
 		}
 
 		for (let winCheck of winQueue) {
-			let stop = winCheck.check(counts, winners, aliveCount);
-			if (stop) break;
+			if (!winCheck.finishedOnly) {
+				let stop = winCheck.check(counts, winners, aliveCount);
+				if (stop) break;
+			}
 		}
 
 		if (winners.groupAmt() > 0)
@@ -174,6 +176,11 @@ module.exports = class MafiaGame extends Game {
 			winners.addGroup("no one");
 			finished = true;
 		}
+
+		if (finished)
+			for (let winCheck of winQueue)
+				if (winCheck.finishedOnly)
+					winCheck.check(counts, winners, aliveCount);
 
 		winners.determinePlayers();
 		return [finished, winners];
