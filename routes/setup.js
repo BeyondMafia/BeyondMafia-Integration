@@ -33,6 +33,23 @@ function markFavSetups(userId, setups) {
 	});
 }
 
+router.get("/id", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req, true);
+		var setup = await models.Setup.findOne({ id: String(req.query.query) })
+			.select("id gameType name roles closed count -_id");
+		var setups = setup ? [setup] : [];
+
+		await markFavSetups(userId, setups);
+		res.send({ setups: setups, pages: 0 });
+	}
+	catch (e) {
+		logger.error(e);
+		res.send({ setups: [], pages: 0 });
+	}
+});
+
 router.get("/featured", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
@@ -231,6 +248,7 @@ router.get("/:id", async function (req, res) {
 		var setup = await models.Setup.findOne({ id: req.params.id })
 			.select("-_id -__v -hash")
 			.populate("creator", "id name avatar tag -_id");
+
 		if (setup) {
 			setup = setup.toJSON();
 			res.send(setup);

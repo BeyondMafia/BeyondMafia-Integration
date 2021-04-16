@@ -233,7 +233,8 @@ describe("Redis", function () {
 				status: "Open",
 				setup: "testSetup",
 				private: false,
-				spectating: true
+				spectating: true,
+				settings: {}
 			});
 
 			await redis.joinGame(userId, gameId);
