@@ -387,7 +387,7 @@ const roleData = {
         "Insomniac": {
             alignment: "Village",
             description: [
-                "Learns if her role has changed at the end of the night.",
+                "Learns what her role is after the night is over.",
             ]
         },
         //Werewolves
