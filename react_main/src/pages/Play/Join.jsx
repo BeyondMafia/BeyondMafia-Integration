@@ -213,10 +213,10 @@ export function GameRow(props) {
                 </div>
             }
             {props.game.broken &&
-                <i className="fas fa-car-crash" />
+                <i className="fas fa-car-crash review-icon" />
             }
             {props.game.private &&
-                <i className="fas fa-lock" />
+                <i className="fas fa-lock review-icon" />
             }
             {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
                 <div

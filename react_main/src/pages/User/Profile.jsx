@@ -266,7 +266,7 @@ export default function Profile() {
 	const recentGamesRows = recentGames.map(game => (
 		<GameRow
 			game={game}
-			type={game.status ? game.status : "Finished"}
+			type={game.status || "Finished"}
 			key={game.id}
 			smallSetup />
 	));

@@ -20,7 +20,7 @@
     margin-left: 10px;
 }
 
-.game-row .fa-car-crash {
+.game-row .review-icon {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;

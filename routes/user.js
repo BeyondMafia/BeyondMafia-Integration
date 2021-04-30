@@ -109,7 +109,7 @@ router.get("/:id/profile", async function (req, res) {
             })
             .populate({
                 path: "games",
-                select: "id setup endTime -_id",
+                select: "id setup endTime private broken -_id",
                 populate: {
                     path: "setup",
                     select: "id gameType name closed count roles total -_id"
@@ -161,7 +161,8 @@ router.get("/:id/profile", async function (req, res) {
                     total: game.settings.setup.total
                 },
                 players: game.players.length,
-                status: game.status
+                status: game.status,
+                scheduled: game.settings.scheduled
             };
 
             user.games.unshift(game);
