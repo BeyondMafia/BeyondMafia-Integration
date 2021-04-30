@@ -479,8 +479,10 @@ module.exports = class Game {
 
 	checkGameStart() {
 		if (this.players.length == this.setup.total) {
-			if (!this.isTest)
-				this.startReadyCheck();
+			if (!this.isTest) {
+				//this.startReadyCheck();
+				this.startPregameCountdown();
+			}
 			else
 				this.start();
 		}
