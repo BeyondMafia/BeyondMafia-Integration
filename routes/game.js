@@ -81,7 +81,7 @@ router.get("/list", async function (req, res) {
         }
         else if (start < gameLimit) {
             const games = await models.Game.find()
-                .select("id type setup ranked spectating voiceChat stateLengths gameTypeOptions broken -_id")
+                .select("id type setup ranked private spectating voiceChat stateLengths gameTypeOptions broken -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
                 .sort("-endTime")
                 .skip(start)
@@ -148,7 +148,7 @@ router.get("/:id/review/data", async function (req, res) {
             .populate("setup", "-_id")
             .populate("users", "id avatar tag settings emojis -_id");
 
-        if (game) {
+        if (game && !game.private) {
             game = game.toJSON();
             game.users = game.users.map(user => ({
                 ...user,

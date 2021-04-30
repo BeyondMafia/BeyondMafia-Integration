@@ -183,7 +183,7 @@ export function GameRow(props) {
 
     return (
         <div className="game-row">
-            {(user.loggedIn || props.type == "Finished") && !props.game.broken && buttonText &&
+            {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
                 <Link
                     to={linkPath}
                     className={buttonClass}
@@ -214,6 +214,9 @@ export function GameRow(props) {
             }
             {props.game.broken &&
                 <i className="fas fa-car-crash" />
+            }
+            {props.game.private &&
+                <i className="fas fa-lock" />
             }
             {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
                 <div
