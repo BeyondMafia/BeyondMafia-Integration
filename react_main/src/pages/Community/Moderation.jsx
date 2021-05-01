@@ -812,6 +812,24 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Clear Avatar": {
+			perm: "clearAvatar",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/clearAvi", argValues)
+					.then(() => {
+						siteInfo.showAlert("Avatar cleared.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Clear All User Content": {
 			perm: "clearAllUserContent",
 			args: [
