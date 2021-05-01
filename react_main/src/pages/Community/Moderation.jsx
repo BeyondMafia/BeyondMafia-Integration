@@ -813,7 +813,7 @@ function useModCommands(argValues, commandRan) {
 			}
 		},
 		"Clear Avatar": {
-			perm: "clearAvatar",
+			perm: "clearAvi",
 			args: [
 				{
 					label: "User Id",
