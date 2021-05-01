@@ -886,6 +886,7 @@ router.post("/clearBio", async (req, res) => {
 			{ $set: { bio: "" } }
 		).exec();
 
+		await redis.cacheUserInfo(userIdToClear, true);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -909,6 +910,7 @@ router.post("/clearAvi", async (req, res) => {
 			{ $set: { avatar: false } }
 		).exec();
 
+		await redis.cacheUserInfo(userIdToClear, true);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -940,6 +942,7 @@ router.post("/clearAccountDisplay", async (req, res) => {
 			}
 		).exec();
 
+		await redis.cacheUserInfo(userIdToClear, true);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -963,6 +966,7 @@ router.post("/clearName", async (req, res) => {
 			{ $set: { name: routeUtils.nameGen().slice(0, constants.maxUserNameLength) } }
 		).exec();
 
+		await redis.cacheUserInfo(userIdToClear, true);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -1026,6 +1030,7 @@ router.post("/clearAllContent", async (req, res) => {
 		).exec();
 
 		await models.ChatMessage.deleteMany({ senderId: userIdToClear }).exec();
+		await redis.cacheUserInfo(userIdToClear, true);
 
 		res.sendStatus(200);
 	}
