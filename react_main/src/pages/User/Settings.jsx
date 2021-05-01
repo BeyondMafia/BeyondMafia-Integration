@@ -65,12 +65,12 @@ export default function Settings(props) {
 			type: "boolean",
 			showIf: (deps) => deps.accounts.twitch && deps.accounts.twitch.id
 		},
-		{
-			label: "Show Google",
-			ref: "showGoogle",
-			type: "boolean",
-			showIf: (deps) => deps.accounts.google && deps.accounts.google.id
-		},
+		// {
+		// 	label: "Show Google",
+		// 	ref: "showGoogle",
+		// 	type: "boolean",
+		// 	showIf: (deps) => deps.accounts.google && deps.accounts.google.id
+		// },
 		{
 			label: "Show Steam",
 			ref: "showSteam",

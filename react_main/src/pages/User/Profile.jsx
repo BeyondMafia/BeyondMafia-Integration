@@ -381,7 +381,7 @@ export default function Profile() {
 									</div>
 								</div>
 							}
-							{accounts.google && settings.showGoogle &&
+							{/* {accounts.google && settings.showGoogle &&
 								<div className="account-badge">
 									<div className="icon google-icon" />
 									<div className="username-wrapper">
@@ -390,7 +390,7 @@ export default function Profile() {
 										</div>
 									</div>
 								</div>
-							}
+							} */}
 							{accounts.steam && settings.showSteam &&
 								<div className="account-badge">
 									<div className="icon steam-icon" />
