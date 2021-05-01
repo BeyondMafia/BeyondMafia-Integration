@@ -137,6 +137,7 @@ var schemas = {
         startTime: Number,
         endTime: Number,
         ranked: Boolean,
+        private: Boolean,
         spectating: Boolean,
         voiceChat: Boolean,
         stateLengths: { type: Map, of: Number },

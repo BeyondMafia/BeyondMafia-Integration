@@ -266,7 +266,7 @@ export default function Profile() {
 	const recentGamesRows = recentGames.map(game => (
 		<GameRow
 			game={game}
-			type={game.status ? game.status : "Finished"}
+			type={game.status || "Finished"}
 			key={game.id}
 			smallSetup />
 	));
@@ -381,7 +381,7 @@ export default function Profile() {
 									</div>
 								</div>
 							}
-							{accounts.google && settings.showGoogle &&
+							{/* {accounts.google && settings.showGoogle &&
 								<div className="account-badge">
 									<div className="icon google-icon" />
 									<div className="username-wrapper">
@@ -390,7 +390,7 @@ export default function Profile() {
 										</div>
 									</div>
 								</div>
-							}
+							} */}
 							{accounts.steam && settings.showSteam &&
 								<div className="account-badge">
 									<div className="icon steam-icon" />

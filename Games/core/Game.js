@@ -1089,7 +1089,7 @@ module.exports = class Game {
 			this.broadcast("finished");
 			await redis.deleteGame(this.id);
 
-			if (this.private || this.isTest)
+			if (this.isTest)
 				return;
 
 			var setup = await models.Setup.findOne({ id: this.setup.id })
@@ -1120,10 +1120,11 @@ module.exports = class Game {
 				left: playersGone.map(p => p.id),
 				names: this.players.map(p => p.name),
 				winners: this.winners.players.map(p => p.id),
-				history: JSON.stringify(history),
+				history: !this.private && JSON.stringify(history),
 				startTime: this.startTime,
 				endTime: Date.now(),
 				ranked: this.ranked,
+				private: this.private,
 				spectating: this.spectating,
 				voiceChat: this.voiceChat,
 				stateLengths: this.stateLengths,

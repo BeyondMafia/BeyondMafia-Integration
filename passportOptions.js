@@ -213,7 +213,8 @@ passport.use("google", new GoogleStrategy({
     process.env.GOOGLE_CLIENT_ID,
     identity => identity,
     identity => identity.id,
-    identity => identity.displayName
+    // identity => identity.displayName
+    () => ""
 )));
 
 passport.use("steam", new SteamStrategy({
