@@ -318,6 +318,7 @@ async function getGameInfo(gameId, idsOnly) {
 	info.settings = JSON.parse(await client.getAsync(`game:${gameId}:settings`) || "{}");
 	info.createTime = Number(await client.getAsync(`game:${gameId}:createTime`));
 	info.startTime = Number(await client.getAsync(`game:${gameId}:startTime`));
+	info.webhookPublished = await client.existsAsync(`game:${gameId}:webhookPublished`);
 	info.setup = info.settings.setup;
 
 	if (!idsOnly) {
@@ -560,6 +561,7 @@ async function deleteGame(gameId, game) {
 	await client.delAsync(`game:${gameId}:settings`);
 	await client.delAsync(`game:${gameId}:createTime`);
 	await client.delAsync(`game:${gameId}:startTime`);
+	await client.delAsync(`game:${gameId}:webhookPublished`);
 }
 
 async function breakGame(gameId) {
@@ -599,6 +601,10 @@ async function breakGame(gameId) {
 		broken: true
 	});
 	await game.save();
+}
+
+async function gameWebhookPublished(gameId) {
+	await client.setAsync(`game:${gameId}:webhookPublished`, "1");
 }
 
 async function registerGameServer(port) {
@@ -821,6 +827,7 @@ module.exports = {
 	unreserveGame,
 	deleteGame,
 	breakGame,
+	gameWebhookPublished,
 	registerGameServer,
 	removeGameServer,
 	getNextGameServerPort,
@@ -837,5 +844,5 @@ module.exports = {
 	hasPermissions,
 	hasPermission,
 	clearPermissionCache,
-	rateLimit
+	rateLimit,
 };
