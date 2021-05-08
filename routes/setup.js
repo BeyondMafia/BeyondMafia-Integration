@@ -255,20 +255,20 @@ router.get("/:id", async function (req, res) {
 		}
 		else {
 			res.status(500);
-			res.send("Unable to find setup");
+			res.send("Unable to find setup.");
 		}
 	}
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Unable to find setup");
+		res.send("Unable to find setup.");
 	}
 });
 
 router.post("/feature", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		var setupId = String(req.body.id);
+		var setupId = String(req.body.setupId);
 
 		if (!(await routeUtils.verifyPermission(res, userId, "featureSetup")))
 			return;
@@ -276,7 +276,8 @@ router.post("/feature", async function (req, res) {
 		var setup = await models.Setup.findOne({ id: setupId });
 
 		if (!setup) {
-			res.sendStatus(200);
+			res.status(500);
+			res.send("Setup not found.");
 			return;
 		}
 
@@ -286,7 +287,7 @@ router.post("/feature", async function (req, res) {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error featuring setup");
+		res.send("Error featuring setup.");
 	}
 });
 
@@ -306,7 +307,7 @@ router.post("/favorite", async function (req, res) {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error favoriting setup");
+		res.send("Error favoriting setup.");
 	}
 });
 
@@ -325,7 +326,7 @@ router.post("/delete", async function (req, res) {
 		}
 		else {
 			res.status(500);
-			res.send("You are not the owner of this setup");
+			res.send("You are not the owner of this setup.");
 		}
 	}
 	catch (e) {
@@ -375,13 +376,13 @@ router.post("/create", async function (req, res) {
 
 		if (!routeUtils.validProp(setup.gameType) || constants.gameTypes.indexOf(setup.gameType) == -1) {
 			res.status(500);
-			res.send("Invalid game type");
+			res.send("Invalid game type.");
 			return;
 		}
 
 		if (!setup.name || !setup.name.length) {
 			res.status(500);
-			res.send("You must give your setup a name");
+			res.send("You must give your setup a name.");
 			return;
 		}
 
@@ -417,7 +418,7 @@ router.post("/create", async function (req, res) {
 		if (setup.whispers) {
 			if (setup.leakPercentage < 0 || setup.leakPercentage > 100) {
 				res.status(500);
-				res.send("Leak percentage must be between 0% and 100%");
+				res.send("Leak percentage must be between 0% and 100%.");
 				return;
 			}
 		}
@@ -425,7 +426,7 @@ router.post("/create", async function (req, res) {
 		//Check starting state
 		if (constants.startStates[setup.gameType].indexOf(setup.startState) == -1) {
 			res.status(500);
-			res.send("Invalid starting state");
+			res.send("Invalid starting state.");
 			return;
 		}
 
@@ -441,7 +442,7 @@ router.post("/create", async function (req, res) {
 
 		if (existingSetup && (!req.body.editing || existingSetup.id != req.body.id)) {
 			res.status(500);
-			res.send(`Setup already exists: "${existingSetup.name}"`);
+			res.send(`Setup already exists: "${existingSetup.name}".`);
 			return;
 		}
 
@@ -471,7 +472,7 @@ router.post("/create", async function (req, res) {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Unable to make setup");
+		res.send("Unable to make setup.");
 	}
 });
 
