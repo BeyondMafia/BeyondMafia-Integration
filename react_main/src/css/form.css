@@ -122,13 +122,13 @@
 }
 
 .switch.on .track {
-	background-color: #af9cca;
+	background-color: #8e3939;
 }
 
 .switch.on .thumb {
 	right: 0px;
 
-	background-color: #af9cca;
+	background-color: #8e3939;
 }
 
 .form .color-picker {
