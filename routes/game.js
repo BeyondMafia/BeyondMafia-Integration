@@ -182,6 +182,12 @@ router.get("/:id/info", async function (req, res) {
                 .select("type users players left stateLengths ranked spectating voiceChat startTime endTime gameTypeOptions -_id")
                 .populate("users", "id name avatar -_id");
 
+            if (!game) {
+                res.status(500);
+                res.send("Game not found");
+                return;
+            }
+
             game = game.toJSON();
             game.players = game.users.slice(0, game.players.length - game.left.length);
             game.settings = {
@@ -210,6 +216,7 @@ router.get("/:id/info", async function (req, res) {
         else {
             res.status(500);
             res.send("Game not found");
+            return;
         }
     }
     catch (e) {
