@@ -12,6 +12,8 @@ export default function Settings(props) {
 	const [searchVal, setSearchVal] = useState("");
 
 	useEffect(() => {
+		document.title = "Users | EpicMafia";
+
 		axios.get("/user/online")
 			.then(res => {
 				setUserList(res.data);

@@ -19,6 +19,8 @@ export default function Moderation() {
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
+		document.title = "Moderation | EpicMafia";
+
 		axios.get("/mod/groups")
 			.then((res) => {
 				setGroups(res.data.sort((a, b) => b.rank - a.rank));
