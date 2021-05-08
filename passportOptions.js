@@ -100,7 +100,7 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
 
                 if (!suspicious && process.env.IP_API_IGNORE != "true") {
                     var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
-                    suspicious = res.data.fraud_score >= 65;
+                    suspicious = res.data.fraud_score >= 85;
                 }
 
                 if (suspicious) { //(6)
