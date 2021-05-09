@@ -48,6 +48,7 @@
 
 .md-content blockquote {
 	margin: 0px;
+	margin-bottom: 5px;
 	padding-left: 5px;
 	border-left: 3px solid white;
 

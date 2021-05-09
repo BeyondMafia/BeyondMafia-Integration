@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
 			<p>We want to inform you that whenever you visit our Service, we collect information that your browser sends to us that is called Log Data. This Log Data may include information such as your computer’s Internet Protocol ("IP") address, browser version, pages of our Service that you visit, the time and date of your visit, the time spent on those pages, and other statistics.</p>
 			<h2>Cookies</h2>
 			<p>Cookies are files with small amount of data that is commonly used an anonymous unique identifier. These are sent to your browser from the website that you visit and are stored on your computer’s hard drive.</p>
-			<p>Our website uses these "cookies" to collection information and to improve our Service. You have the option to either accept or refuse these cookies by either signing in or choosing not to sign in. If you choose to refuse our cookies, you may not be able to use some portions of our Service, which includes any features that required a user to be signed in.</p>
+			<p>Our website uses these "cookies" to collection information and to improve our Service. You have the option to either accept or refuse these cookies by either signing in or choosing not to sign in. If you choose to refuse our cookies, you may not be able to use some portions of our Service, which includes any features that require a user to be signed in.</p>
 			<h2>Service Providers</h2>
 			<p>We may employ third-party companies and individuals due to the following reasons:</p>
 			<ul>
