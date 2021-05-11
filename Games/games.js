@@ -87,6 +87,7 @@ var games = {};
 	
 						if (isBot) {
 							user.id = shortid.generate();
+							user.name = null;
 							user.avatar = false;
 						}
 					
