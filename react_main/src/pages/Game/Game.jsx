@@ -83,7 +83,7 @@ function GameWrapper(props) {
 	const audioVolumes = [1, 1, 1];
 
 	useEffect(() => {
-		if (!token)
+		if (token == null)
 			return;
 
 		var socketURL;
@@ -470,7 +470,7 @@ function GameWrapper(props) {
 			.then(res => {
 				setGameType(res.data.type);
 				setPort(res.data.port);
-				setToken(res.data.token);
+				setToken(res.data.token || false);
 			})
 			.catch(e => {
 				setLeave(true);
