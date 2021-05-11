@@ -12,6 +12,7 @@ export default function HostSplitDecision() {
     const gameType = "Split Decision";
     const [selSetup, setSelSetup] = useState({});
     const [redirect, setRedirect] = useState(false);
+    const siteInfo = useContext(SiteInfoContext);
     const errorAlert = useErrorAlert();
     const [formFields, updateFormFields] = useForm([
         {

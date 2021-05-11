@@ -12,6 +12,7 @@ export default function HostMafia() {
     const gameType = "One Night";
     const [selSetup, setSelSetup] = useState({});
     const [redirect, setRedirect] = useState(false);
+    const siteInfo = useContext(SiteInfoContext);
     const errorAlert = useErrorAlert();
     const [formFields, updateFormFields] = useForm([
         {
