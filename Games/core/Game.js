@@ -1127,6 +1127,7 @@ module.exports = class Game {
 				endTime: Date.now(),
 				ranked: this.ranked,
 				private: this.private,
+				guests: this.guests,
 				spectating: this.spectating,
 				voiceChat: this.voiceChat,
 				stateLengths: this.stateLengths,

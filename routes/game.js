@@ -115,7 +115,7 @@ router.get("/:id/connect", async function (req, res) {
             return;
         }
 
-        if (!(await routeUtils.verifyPermission(userId, "playGame"))) {
+        if (userId && !(await routeUtils.verifyPermission(userId, "playGame"))) {
             res.status(500);
             res.send("You are unable to play games.");
             return;
@@ -193,6 +193,7 @@ router.get("/:id/info", async function (req, res) {
             game.settings = {
                 ranked: game.ranked,
                 spectating: game.spectating,
+                guests: game.guests,
                 voiceChat: game.voiceChat,
                 stateLengths: game.stateLengths,
                 gameTypeOptions: JSON.parse(game.gameTypeOptions)

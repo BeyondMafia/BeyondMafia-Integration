@@ -342,6 +342,9 @@ export function parseGamePopover(game) {
 	//Spectating
 	result.push(<InfoRow title="Spectating" content={game.settings.spectating ? "Yes" : "No"} key={3} />);
 
+	//Guests
+	result.push(<InfoRow title="Guests Allowed" content={game.settings.guests ? "Yes" : "No"} key={4} />);
+
 	switch (game.type) { }
 
 	//Created at
