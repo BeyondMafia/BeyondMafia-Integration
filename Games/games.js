@@ -72,11 +72,18 @@ var games = {};
 	
 				socket.on("join", async (info) => {
 					try {
-						if (!user) return;
-	
-						const isBot = user.dev && info.isBot;
 						const gameId = String(info.gameId);
 						const game = games[gameId];
+						var isBot = false;
+
+						if (!user && !game.guests)
+							return;
+						else if (!user) {
+							user = new User({ socket });
+							isBot = true;
+						}
+	
+						isBot = isBot || (user.dev && info.isBot);
 	
 						if (isBot) {
 							user.id = shortid.generate();

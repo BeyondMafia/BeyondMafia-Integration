@@ -42,6 +42,7 @@ module.exports = class Game {
 		this.stateEventMessages = {};
 		this.setup = options.settings.setup;
 		this.private = options.settings.private;
+		this.guests = options.settings.guests;
 		this.ranked = options.settings.ranked;
 		this.spectating = options.settings.spectating;
 		this.voiceChat = options.settings.voiceChat;
@@ -98,6 +99,7 @@ module.exports = class Game {
 					setup: this.setup.id,
 					total: this.setup.total,
 					private: this.private,
+					guests: this.guests,
 					ranked: this.ranked,
 					rehostId: this.rehostId,
 					scheduled: this.scheduled,

@@ -245,7 +245,10 @@ function GameWrapper(props) {
 			return;
 		}
 
-		socket.send("auth", token);
+		if (token)
+			socket.send("auth", token);
+		else
+			socket.send("join", { gameId });
 
 		socket.on("authSuccess", () => {
 			socket.send("join", {

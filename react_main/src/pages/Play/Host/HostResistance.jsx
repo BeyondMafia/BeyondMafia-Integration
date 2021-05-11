@@ -26,6 +26,11 @@ export default function HostResistance() {
             type: "boolean"
         },
         {
+            label: "Allow Guests",
+            ref: "guests",
+            type: "boolean"
+        },
+        {
             label: "Spectating",
             ref: "spectating",
             type: "boolean"
@@ -77,28 +82,38 @@ export default function HostResistance() {
         },
     ]);
 
-	useEffect(() => {
-		document.title = "Host Resistance | EpicMafia";
+    useEffect(() => {
+        document.title = "Host Resistance | EpicMafia";
     }, []);
 
     function onHostGame() {
+        var scheduled = formFields[5].value;
+
         if (selSetup.id)
             axios.post("/game/host", {
-                    gameType: gameType,
-                    setup: selSetup.id,
-                    private: formFields[1].value,
-                    spectating: formFields[2].value,
-                    voiceChat: formFields[3].value,
-                    scheduled: formFields[4].value && (new Date(formFields[5].value)).getTime(),
-                    stateLengths: {
-                        "Team Selection": formFields[6].value,
-                        "Team Approval": formFields[7].value,
-                        "Mission": formFields[8].value,
+                gameType: gameType,
+                setup: selSetup.id,
+                private: formFields[1].value,
+                guests: formFields[2].value,
+                spectating: formFields[3].value,
+                voiceChat: formFields[4].value,
+                scheduled: scheduled && (new Date(formFields[6].value)).getTime(),
+                stateLengths: {
+                    "Team Selection": formFields[7].value,
+                    "Team Approval": formFields[8].value,
+                    "Mission": formFields[9].value,
+                }
+            })
+                .then(res => {
+                    if (scheduled) {
+                        siteInfo.showAlert(`Game scheduled.`, "success");
+                        setRedirect("/");
                     }
+                    else
+                        setRedirect(`/game/${res.data}`)
                 })
-                .then(res => setRedirect(`/game/${res.data}`))
                 .catch(errorAlert);
-        else 
+        else
             errorAlert("You must choose a setup");
     }
 

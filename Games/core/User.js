@@ -12,7 +12,7 @@ module.exports = class User {
 		this.stats = props.stats;
 		this.playedGame = props.playedGame;
 		this.referrer = props.referrer;
-		this.isBot = props.isBot;
+		this.isTest = props.isTest;
 	}
 
 	send(eventName, data) {

@@ -14,7 +14,7 @@ function makeUser() {
         socket: new Socket(),
         name: shortid.generate(),
         settings: {},
-        isBot: true
+        isTest: true
     });
 }
 
