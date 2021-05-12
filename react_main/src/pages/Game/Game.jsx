@@ -83,7 +83,7 @@ function GameWrapper(props) {
 	const audioVolumes = [1, 1, 1];
 
 	useEffect(() => {
-		if (!token)
+		if (token == null)
 			return;
 
 		var socketURL;
@@ -245,7 +245,10 @@ function GameWrapper(props) {
 			return;
 		}
 
-		socket.send("auth", token);
+		if (token)
+			socket.send("auth", token);
+		else
+			socket.send("join", { gameId });
 
 		socket.on("authSuccess", () => {
 			socket.send("join", {
@@ -370,7 +373,7 @@ function GameWrapper(props) {
 			const pings = message.content.match(/@[\w-]*/gm) || [];
 
 			if (
-				selfRef.current &&
+				selfRef.current && playersRef.current[selfRef.current] &&
 				(
 					pings.indexOf("@" + playersRef.current[selfRef.current].name) != -1 ||
 					pings.indexOf("@everyone") != -1
@@ -467,7 +470,7 @@ function GameWrapper(props) {
 			.then(res => {
 				setGameType(res.data.type);
 				setPort(res.data.port);
-				setToken(res.data.token);
+				setToken(res.data.token || false);
 			})
 			.catch(e => {
 				setLeave(true);

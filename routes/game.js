@@ -101,32 +101,32 @@ router.get("/:id/connect", async function (req, res) {
     try {
         const gameId = String(req.params.id);
         const userId = await routeUtils.verifyLoggedIn(req, true);
-        const gameExists = await redis.gameExists(gameId);
+        const game = await redis.getGameInfo(gameId, true);
 
-        if (!gameExists) {
+        if (!game) {
             res.status(500);
             res.send("Game not found.");
             return;
         }
 
-        if (!userId) {
+        if (!userId && !game.settings.guests) {
             res.status(500);
             res.send("You must be logged in to join or spectate games.");
             return;
         }
 
-        if (!(await routeUtils.verifyPermission(userId, "playGame"))) {
+        if (userId && !(await routeUtils.verifyPermission(userId, "playGame"))) {
             res.status(500);
             res.send("You are unable to play games.");
             return;
         }
 
-        const type = await redis.getGameType(gameId);
-        const port = await redis.getGamePort(gameId);
-        const token = await redis.createAuthToken(userId);
+        const type = game.type;
+        const port = game.port;
+        const token = userId && await redis.createAuthToken(userId);
 
         if (type && !isNaN(port))
-            res.send({ port, type, token })
+            res.send({ port, type, token });
         else {
             res.status(500);
             res.send("Error loading game.");
@@ -189,10 +189,12 @@ router.get("/:id/info", async function (req, res) {
             }
 
             game = game.toJSON();
+            game.totalPlayers = game.players.length;
             game.players = game.users.slice(0, game.players.length - game.left.length);
             game.settings = {
                 ranked: game.ranked,
                 spectating: game.spectating,
+                guests: game.guests,
                 voiceChat: game.voiceChat,
                 stateLengths: game.stateLengths,
                 gameTypeOptions: JSON.parse(game.gameTypeOptions)
@@ -209,15 +211,7 @@ router.get("/:id/info", async function (req, res) {
             delete game.status;
         }
 
-        if (game) {
-            res.send(game);
-            return;
-        }
-        else {
-            res.status(500);
-            res.send("Game not found");
-            return;
-        }
+        res.send(game);
     }
     catch (e) {
         logger.error(e);
@@ -305,7 +299,31 @@ router.post("/host", async function (req, res) {
 
         if (req.body.ranked && req.body.private) {
             res.status(500);
-            res.send("Private games cannot be ranked.");
+            res.send("Ranked games cannot be private.");
+            return;
+        }
+
+        if (req.body.ranked && req.body.guests) {
+            res.status(500);
+            res.send("Ranked games cannot contain guests.");
+            return;
+        }
+
+        if (req.body.ranked && req.body.spectating) {
+            res.status(500);
+            res.send("Ranked games cannot be spectated.");
+            return;
+        }
+
+        if (req.body.ranked && req.body.voiceChat) {
+            res.status(500);
+            res.send("Ranked games cannot use voice chat.");
+            return;
+        }
+
+        if (req.body.voiceChat && req.body.spectating) {
+            res.status(500);
+            res.send("Voice chat games cannot be spectated.");
             return;
         }
 
@@ -370,6 +388,7 @@ router.post("/host", async function (req, res) {
             const gameId = await gameLoadBalancer.createGame(userId, gameType, {
                 setup: setup,
                 private: Boolean(req.body.private),
+                guests: Boolean(req.body.guests),
                 ranked: Boolean(req.body.ranked),
                 spectating: Boolean(req.body.spectating),
                 voiceChat: Boolean(req.body.voiceChat),

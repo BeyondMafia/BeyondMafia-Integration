@@ -331,7 +331,7 @@ async function getGameInfo(gameId, idsOnly) {
 				newPlayers.push(userInfo);
 			else {
 				newPlayers.push({
-					name: "[Bot]",
+					name: "[Guest]",
 					id: "",
 					avatar: false
 				});

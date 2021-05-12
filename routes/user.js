@@ -162,7 +162,10 @@ router.get("/:id/profile", async function (req, res) {
                 },
                 players: game.players.length,
                 status: game.status,
-                scheduled: game.settings.scheduled
+                scheduled: game.settings.scheduled,
+                spectating: game.settings.spectating,
+                ranked: game.settings.ranked,
+                voiceChat: game.settings.voiceChat,
             };
 
             user.games.unshift(game);

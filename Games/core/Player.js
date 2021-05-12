@@ -15,7 +15,7 @@ module.exports = class Player {
 		this.user = user;
 		this.user.player = this;
 		this.socket = user.socket;
-		this.name = !isBot ? user.name : nameGen();
+		this.name = user.name || nameGen();
 		this.game = game;
 		this.isBot = isBot;
 		this.events = game.events;
@@ -151,7 +151,7 @@ module.exports = class Player {
 				if (!Utils.validProp(vote.meetingId))
 					return;
 
-				if (!this.user.isBot && Spam.rateLimit(votePast, constants.voteSpamSumLimit, constants.voteSpamRateLimit)) {
+				if (!this.user.isTest && Spam.rateLimit(votePast, constants.voteSpamSumLimit, constants.voteSpamRateLimit)) {
 					this.sendAlert("You are voting too quickly!");
 					return;
 				}
