@@ -189,6 +189,7 @@ router.get("/:id/info", async function (req, res) {
             }
 
             game = game.toJSON();
+            game.totalPlayers = game.players.length;
             game.players = game.users.slice(0, game.players.length - game.left.length);
             game.settings = {
                 ranked: game.ranked,
@@ -210,15 +211,7 @@ router.get("/:id/info", async function (req, res) {
             delete game.status;
         }
 
-        if (game) {
-            res.send(game);
-            return;
-        }
-        else {
-            res.status(500);
-            res.send("Game not found");
-            return;
-        }
+        res.send(game);
     }
     catch (e) {
         logger.error(e);
@@ -306,13 +299,31 @@ router.post("/host", async function (req, res) {
 
         if (req.body.ranked && req.body.private) {
             res.status(500);
-            res.send("Private games cannot be ranked.");
+            res.send("Ranked games cannot be private.");
             return;
         }
 
         if (req.body.ranked && req.body.guests) {
             res.status(500);
             res.send("Ranked games cannot contain guests.");
+            return;
+        }
+
+        if (req.body.ranked && req.body.spectating) {
+            res.status(500);
+            res.send("Ranked games cannot be spectated.");
+            return;
+        }
+
+        if (req.body.ranked && req.body.voiceChat) {
+            res.status(500);
+            res.send("Ranked games cannot use voice chat.");
+            return;
+        }
+
+        if (req.body.voiceChat && req.body.spectating) {
+            res.status(500);
+            res.send("Voice chat games cannot be spectated.");
             return;
         }
 

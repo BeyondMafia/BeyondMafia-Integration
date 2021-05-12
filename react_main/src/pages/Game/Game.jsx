@@ -373,7 +373,7 @@ function GameWrapper(props) {
 			const pings = message.content.match(/@[\w-]*/gm) || [];
 
 			if (
-				selfRef.current &&
+				selfRef.current && playersRef.current[selfRef.current] &&
 				(
 					pings.indexOf("@" + playersRef.current[selfRef.current].name) != -1 ||
 					pings.indexOf("@everyone") != -1
