@@ -24,6 +24,11 @@ export default function CreateMafiaSetup() {
 			type: "boolean"
 		},
 		{
+			label: "Dawn",
+			ref: "dawn",
+			type: "boolean"
+		},
+		{
 			label: "Whispers",
 			ref: "whispers",
 			type: "boolean"
@@ -125,18 +130,19 @@ export default function CreateMafiaSetup() {
 			closed: roleData.closed,
 			name: formFields[0].value,
 			startState: formFields[1].value ? "Day" : "Night",
-			whispers: formFields[2].value,
-			leakPercentage: Number(formFields[3].value),
-			lastWill: formFields[4].value,
-			mustAct: formFields[5].value,
-			noReveal: formFields[6].value,
-			votesInvisible: formFields[7].value,
-			unique: formFields[9].value,
+			dawn: formFields[2].value,
+			whispers: formFields[3].value,
+			leakPercentage: Number(formFields[4].value),
+			lastWill: formFields[5].value,
+			mustAct: formFields[6].value,
+			noReveal: formFields[7].value,
+			votesInvisible: formFields[8].value,
+			unique: formFields[10].value,
 			count: {
-				"Village": Number(formFields[10].value),
-				"Mafia": Number(formFields[11].value),
-				"Monsters": Number(formFields[12].value),
-				"Independent": Number(formFields[13].value)
+				"Village": Number(formFields[11].value),
+				"Mafia": Number(formFields[12].value),
+				"Monsters": Number(formFields[13].value),
+				"Independent": Number(formFields[14].value)
 			},
 			editing: editing,
 			id: params.get("edit")
@@ -154,7 +160,7 @@ export default function CreateMafiaSetup() {
 			formFields={formFields}
 			updateFormFields={updateFormFields}
 			resetFormFields={resetFormFields}
-			closedField={formFields[8]}
+			closedField={formFields[9]}
 			formFieldValueMods={formFieldValueMods}
 			onCreateSetup={onCreateSetup} />
 	);

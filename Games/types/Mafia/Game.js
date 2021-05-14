@@ -144,6 +144,12 @@ module.exports = class MafiaGame extends Game {
 		super.gotoNextState();
 	}
 
+	isNoAct() {
+		return this.setup.dawn &&
+			this.getStateName() == "Night" &&
+			(this.dayCount == 0 || (this.dayCount == 1 && this.setup.startState == "Day"));
+	}
+
 	checkWinConditions() {
 		var finished = false;
 		var counts = {};
