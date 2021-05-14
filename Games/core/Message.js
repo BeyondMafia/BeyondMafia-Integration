@@ -68,7 +68,8 @@ module.exports = class Message {
 		}
 		else if (this.versions["*"].parseForReview)
 			version = this.versions["*"].parseForReview(this);
-		else 
+
+		if (!version)
 			version = this;
 
 		if (version.isServer)
