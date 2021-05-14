@@ -1100,8 +1100,9 @@ module.exports = class Game {
 			var history = this.history.getHistoryInfo(null, true);
 			var users = [];
 			var playersGone = Object.values(this.playersGone);
+			var players = this.players.concat(playersGone);
 
-			for (let player of this.players.concat(playersGone)) {
+			for (let player of players) {
 				let userId = player.userId || player.user.id;
 				let user = await models.User.findOne({ id: userId })
 					.select("_id");
@@ -1110,8 +1111,8 @@ module.exports = class Game {
 					users.push(user._id);
 			}
 
-			var players = this.players.map(p => p.id);
-			players = players.concat(playersGone.map(p => p.id));
+			var playerNames = players.map(p => p.name);
+			players = players.map(p => p.id);
 
 			var game = new models.Game({
 				id: this.id,
@@ -1120,7 +1121,7 @@ module.exports = class Game {
 				users: users,
 				players: players,
 				left: playersGone.map(p => p.id),
-				names: this.players.map(p => p.name),
+				names: playerNames,
 				winners: this.winners.players.map(p => p.id),
 				history: !this.private && JSON.stringify(history),
 				startTime: this.startTime,
