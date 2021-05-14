@@ -298,9 +298,9 @@
 	margin-right: 5px;
 }
 
-.game .message .content a:last-child {
+/* .game .message .content a:last-child {
 	margin-right: 0px;
-}
+} */
 
 .game .message .quote-info {
 	flex-shrink: 0;

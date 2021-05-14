@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const Action = require("../../Action");
 
 module.exports = class KillVoteOnLynch extends Card {
 
