@@ -28,6 +28,11 @@ export default function HostMafia() {
             type: "boolean"
         },
         {
+            label: "Allow Guests",
+            ref: "guests",
+            type: "boolean"
+        },
+        {
             label: "Ranked",
             ref: "ranked",
             type: "boolean"
@@ -79,20 +84,21 @@ export default function HostMafia() {
     }, []);
     
     function onHostGame() {
-        var scheduled = formFields[5].value;
+        var scheduled = formFields[6].value;
 
         if (selSetup.id)
             axios.post("/game/host", {
                     gameType: gameType,
                     setup: selSetup.id,
                     private: formFields[1].value,
-                    ranked: formFields[2].value,
-                    spectating: formFields[3].value,
-                    voiceChat: formFields[4].value,
-                    scheduled: scheduled && (new Date(formFields[6].value)).getTime(),
+                    guests: formFields[2].value,
+                    ranked: formFields[3].value,
+                    spectating: formFields[4].value,
+                    voiceChat: formFields[5].value,
+                    scheduled: scheduled && (new Date(formFields[7].value)).getTime(),
                     stateLengths: {
-                        "Day": formFields[7].value,
-                        "Night": formFields[8].value
+                        "Day": formFields[8].value,
+                        "Night": formFields[9].value
                     }
                 })
                 .then(res => {

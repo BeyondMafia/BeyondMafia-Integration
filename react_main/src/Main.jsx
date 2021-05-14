@@ -151,6 +151,7 @@ function Header(props) {
                 <Nav>
                     <NavLink to="/play">Play</NavLink>
                     <NavLink to="/community">Community</NavLink>
+                    <a href="https://wiki.epicmafia.org">Wiki</a>
                     {/* <a href="https://discord.gg/6MeWWHx">Community</a> */}
                     {/* <NavLink to="/bots">Bots</NavLink> */}
                     {!user.loggedIn &&

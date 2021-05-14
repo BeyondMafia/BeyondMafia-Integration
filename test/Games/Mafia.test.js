@@ -14,7 +14,7 @@ function makeUser() {
         socket: new Socket(),
         name: shortid.generate(),
         settings: {},
-        isBot: true
+        isTest: true
     });
 }
 
@@ -844,6 +844,87 @@ describe("Games/Mafia", function () {
             should.exist(game.winners.groups["Village"]);
             should.not.exist(game.winners.groups["Mafia"]);
             game.winners.groups["Village"].should.have.lengthOf(2);
+        });
+    });
+
+    describe("Survivor", function () {
+        it("should win when alive among winning team", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Survivor": 1, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Mafia")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Villager"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Village"]);
+            should.exist(game.winners.groups["Mafia"]);
+            should.exist(game.winners.groups["Survivor"]);
+            game.winners.groups["Survivor"].should.have.lengthOf(1);
+        });
+
+        it("should win when last alive", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Serial Killer": 1, "Survivor": 1, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Serial Killer"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Solo Kill") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Serial Killer"]);
+            should.not.exist(game.winners.groups["Mafia"]);
+            should.exist(game.winners.groups["Survivor"]);
+            game.winners.groups["Survivor"].should.have.lengthOf(1);
+        });
+
+        it("should not win when dead", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Survivor": 1, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Mafia")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Survivor"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Village"]);
+            should.not.exist(game.winners.groups["Survivor"]);
+            should.exist(game.winners.groups["Mafia"]);
         });
     });
 

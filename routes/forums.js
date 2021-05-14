@@ -80,6 +80,12 @@ router.get("/board/:id", async function (req, res) {
 			.select("id name icon category")
 			.populate("category", "id name -_id");
 
+		if (!board) {
+			res.status(500);
+			res.end("Board not found");
+			return;
+		}
+
 		if (!isNaN(last)) {
 			threadFilter = { board: board._id, [sortType]: { $lt: last }, pinned: false };
 			sortType = `-${sortType}`;

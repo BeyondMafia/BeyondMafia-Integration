@@ -156,6 +156,11 @@ function Comment(props) {
 			.catch(errorAlert);
 	}
 
+	var content = comment.content;
+
+	if (comment.deleted && user.settings.hideDeleted)
+		content = "*deleted*";
+
 	return (
 		<div className={`post span-panel ${comment.deleted ? "deleted" : ""} ${props.className}`}>
 			<div className="vote-wrapper">
@@ -195,7 +200,7 @@ function Comment(props) {
 					</div>
 				</div>
 				<div className="md-content">
-					<ReactMarkdown source={comment.content} />
+					<ReactMarkdown source={content} />
 				</div>
 			</div>
 		</div>

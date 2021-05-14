@@ -34,21 +34,37 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
 
             identity = getIdentity(identity);
 
+            /* *** Scenarios ***
+                - Signed in
+                    - Linking new account (1)
+                    - Signing in to account (2)
+                    - Signing in to banned account (3)
+                    - Linking deleted banned account (4)
+                - Not signed in
+                    - Making new account
+                        - IP not suspicious (5)
+                        - IP suspicous (6)
+                    - Signing in to account (7)
+                    - Signing in to banned account (8)
+                    - Signing in to deleted banned account (9)
+            */
+
             var user;
             var id = req.user && req.user.id;
             var ip = routeUtils.getIP(req);
             var authId = getId(identity);
             var authName = getName(identity);
-            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId }).select("id");
+            var oauthUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId, deleted: false }).select("id");
+            var bannedUser = await models.User.findOne({ [`accounts.${authType}.id`]: authId, banned: true }).select("id");
             var giveColors = authType == "discord" && oldReferers[authId];
 
             if (id && !oauthUser)
                 user = await models.User.findOne({ id: id, deleted: false })
-                    .select("id itemsOwned");
+                    .select("id itemsOwned banned");
             else
                 user = oauthUser;
 
-            if (!user) { //Create new account
+            if (!user && !bannedUser) { //Create new account (5) (6)
                 id = shortid.generate();
 
                 user = new models.User({
@@ -71,8 +87,58 @@ function oauthSuccess(authType, uri, clientID, getIdentity, getId, getName, noRe
 
                 if (req.session.ref)
                     await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
+
+                var bannedSameIP = await models.User.find({ ip: ip, $or: [{ banned: true }, { flagged: true }] })
+                    .select("_id");
+                var suspicious = bannedSameIP.length > 0;
+
+                if (!suspicious) {
+                    var flaggedSameAccount = await models.User.find({ [`accounts.${authType}.id`]: authId, flagged: true })
+                        .select("_id");
+                    suspicious = flaggedSameAccount.length > 0;
+                }
+
+                if (!suspicious && process.env.IP_API_IGNORE != "true") {
+                    var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
+                    suspicious = res.data.fraud_score >= 85;
+                }
+
+                if (suspicious) { //(6)
+                    await models.User.updateOne({ id }, { $set: { flagged: true } }).exec();
+
+                    await routeUtils.banUser(
+                        id,
+                        0,
+                        ["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
+                        "ipFlag"
+                    );
+
+                    await routeUtils.createNotification({
+                        content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
+                        icon: "flag",
+                        link: "/community/moderation"
+                    }, [id]);
+                }
             }
-            else { //Link or refresh account
+            else if (!id && bannedUser) { //(8) (9)
+                done(null, {});
+                return;
+            }
+            else if (id && bannedUser) { //(3) (4)
+                await routeUtils.banUser(
+                    id,
+                    0,
+                    ["signIn"],
+                    "bannedUser"
+                );
+
+                await models.User.updateOne({ id: id }, { $set: { banned: true } }).exec();
+                await models.Session.deleteMany({ "session.passport.user.id": id }).exec();
+
+                done(null, {});
+                return;
+            }
+            else { //Link or refresh account (1) (2) (7)
                 id = user.id;
 
                 if (!(await routeUtils.verifyPermission(id, "signIn"))) {
@@ -147,7 +213,8 @@ passport.use("google", new GoogleStrategy({
     process.env.GOOGLE_CLIENT_ID,
     identity => identity,
     identity => identity.id,
-    identity => identity.displayName
+    // identity => identity.displayName
+    () => ""
 )));
 
 passport.use("steam", new SteamStrategy({

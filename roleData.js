@@ -157,7 +157,7 @@ const roleData = {
         "Mayor": {
             alignment: "Village",
             description: [
-                "Is publicly revealed to all players at the beginning of the game.",
+                "Is publicly revealed to all players.",
             ],
         },
 
@@ -387,7 +387,7 @@ const roleData = {
         "Insomniac": {
             alignment: "Village",
             description: [
-                "Learns if her role has changed at the end of the night.",
+                "Learns what her role is after the night is over.",
             ]
         },
         //Werewolves

@@ -5,10 +5,12 @@ module.exports = class WinIfAlive extends Card {
 	constructor(role) {
 		super(role);
 
+		this.winCount = "Village";
 		this.winCheck = {
 			priority: -5,
-			check: function(counts, winners, aliveCount) {
-				if (this.player.alive)
+			againOnFinished: true,
+			check: function(counts, winners, aliveCount, confirmedFinished) {
+				if (this.player.alive && ((!confirmedFinished && counts["Village"] == aliveCount) || (confirmedFinished && !winners.groups[this.name])))
 					winners.addPlayer(this.player, this.name);
 			}
 		};

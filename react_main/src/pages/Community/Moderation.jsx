@@ -19,6 +19,8 @@ export default function Moderation() {
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
+		document.title = "Moderation | EpicMafia";
+
 		axios.get("/mod/groups")
 			.then((res) => {
 				setGroups(res.data.sort((a, b) => b.rank - a.rank));
@@ -812,6 +814,88 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Clear Avatar": {
+			perm: "clearAvi",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/clearAvi", argValues)
+					.then(() => {
+						siteInfo.showAlert("Avatar cleared.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Clear All User Content": {
+			perm: "clearAllUserContent",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/clearAllContent", argValues)
+					.then(() => {
+						siteInfo.showAlert("User content cleared.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Change Name": {
+			perm: "changeName",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+				{
+					label: "Name",
+					name: "name",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/changeName", argValues)
+					.then(() => {
+						siteInfo.showAlert("Name changed.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Give Coins": {
+			perm: "giveCoins",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+				{
+					label: "Amount",
+					name: "amount",
+					type: "number",
+				},
+			],
+			run: function () {
+				axios.post("/mod/giveCoins", argValues)
+					.then(() => {
+						siteInfo.showAlert("Coins given.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Break Game": {
 			perm: "breakGame",
 			args: [
@@ -830,6 +914,24 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Toggle Featured Setup": {
+			perm: "featureSetup",
+			args: [
+				{
+					label: "Setup Id",
+					name: "setupId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/setup/feature", argValues)
+					.then(() => {
+						siteInfo.showAlert("Setup feature toggled.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Clear All IPs": {
 			perm: "clearAllIPs",
 			args: [],
@@ -837,6 +939,24 @@ function useModCommands(argValues, commandRan) {
 				axios.post("/mod/clearAllIPs", argValues)
 					.then(() => {
 						siteInfo.showAlert("IPs cleared.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Whitelist User": {
+			perm: "whitelist",
+			args: [
+				{
+					label: "User Id",
+					name: "userId",
+					type: "text",
+				},
+			],
+			run: function () {
+				axios.post("/mod/whitelist", argValues)
+					.then(() => {
+						siteInfo.showAlert("User whitelisted.", "success");
 						commandRan();
 					})
 					.catch(errorAlert);

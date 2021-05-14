@@ -69,7 +69,7 @@ router.get("/featured", async function (req, res) {
 			var setups = await models.Setup.find({ featured: true, gameType })
 				.skip(start)
 				.limit(pageSize)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = await models.Setup.countDocuments({ featured: true, gameType });
 
 			await markFavSetups(userId, setups);
@@ -104,7 +104,7 @@ router.get("/popular", async function (req, res) {
 				.sort("played")
 				.skip(start)
 				.limit(pageSize)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = await models.Setup.countDocuments({ gameType });
 
 			await markFavSetups(userId, setups);
@@ -139,7 +139,7 @@ router.get("/favorites", async function (req, res) {
 				.select("favSetups")
 				.populate({
 					path: "favSetups",
-					select: "id gameType name roles closed count -_id",
+					select: "id gameType name roles closed count featured -_id",
 					options: { limit: setupLimit }
 				});
 
@@ -183,7 +183,7 @@ router.get("/yours", async function (req, res) {
 				.select("setups")
 				.populate({
 					path: "setups",
-					select: "id gameType name roles closed count -_id",
+					select: "id gameType name roles closed count featured -_id",
 					options: { limit: setupLimit }
 				});
 
@@ -226,7 +226,7 @@ router.get("/search", async function (req, res) {
 			var setups = await models.Setup.find({ name: { $regex: String(req.query.query), $options: "i" }, gameType })
 				.sort("played")
 				.limit(setupLimit)
-				.select("id gameType name roles closed count -_id");
+				.select("id gameType name roles closed count featured -_id");
 			var count = setups.length;
 			setups = setups.slice(start, start + pageSize);
 
@@ -248,26 +248,54 @@ router.get("/:id", async function (req, res) {
 		var setup = await models.Setup.findOne({ id: req.params.id })
 			.select("-_id -__v -hash")
 			.populate("creator", "id name avatar tag -_id");
+
 		if (setup) {
 			setup = setup.toJSON();
 			res.send(setup);
 		}
 		else {
 			res.status(500);
-			res.send("Unable to find setup");
+			res.send("Unable to find setup.");
 		}
 	}
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Unable to find setup");
+		res.send("Unable to find setup.");
+	}
+});
+
+router.post("/feature", async function (req, res) {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var setupId = String(req.body.setupId);
+
+		if (!(await routeUtils.verifyPermission(res, userId, "featureSetup")))
+			return;
+
+		var setup = await models.Setup.findOne({ id: setupId });
+
+		if (!setup) {
+			res.status(500);
+			res.send("Setup not found.");
+			return;
+		}
+
+		await models.Setup.updateOne({ id: setupId }, { featured: !setup.featured }).exec();
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error featuring setup.");
 	}
 });
 
 router.post("/favorite", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		var result = await redis.updateFavSetup(userId, String(req.body.id));
+		var setupId = String(req.body.id);
+		var result = await redis.updateFavSetup(userId, setupId);
 
 		if (result != "-2")
 			res.send(result);
@@ -279,7 +307,7 @@ router.post("/favorite", async function (req, res) {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error favoriting setup");
+		res.send("Error favoriting setup.");
 	}
 });
 
@@ -298,7 +326,7 @@ router.post("/delete", async function (req, res) {
 		}
 		else {
 			res.status(500);
-			res.send("You are not the owner of this setup");
+			res.send("You are not the owner of this setup.");
 		}
 	}
 	catch (e) {
@@ -348,13 +376,13 @@ router.post("/create", async function (req, res) {
 
 		if (!routeUtils.validProp(setup.gameType) || constants.gameTypes.indexOf(setup.gameType) == -1) {
 			res.status(500);
-			res.send("Invalid game type");
+			res.send("Invalid game type.");
 			return;
 		}
 
 		if (!setup.name || !setup.name.length) {
 			res.status(500);
-			res.send("You must give your setup a name");
+			res.send("You must give your setup a name.");
 			return;
 		}
 
@@ -390,7 +418,7 @@ router.post("/create", async function (req, res) {
 		if (setup.whispers) {
 			if (setup.leakPercentage < 0 || setup.leakPercentage > 100) {
 				res.status(500);
-				res.send("Leak percentage must be between 0% and 100%");
+				res.send("Leak percentage must be between 0% and 100%.");
 				return;
 			}
 		}
@@ -398,7 +426,7 @@ router.post("/create", async function (req, res) {
 		//Check starting state
 		if (constants.startStates[setup.gameType].indexOf(setup.startState) == -1) {
 			res.status(500);
-			res.send("Invalid starting state");
+			res.send("Invalid starting state.");
 			return;
 		}
 
@@ -414,7 +442,7 @@ router.post("/create", async function (req, res) {
 
 		if (existingSetup && (!req.body.editing || existingSetup.id != req.body.id)) {
 			res.status(500);
-			res.send(`Setup already exists: "${existingSetup.name}"`);
+			res.send(`Setup already exists: "${existingSetup.name}".`);
 			return;
 		}
 
@@ -444,7 +472,7 @@ router.post("/create", async function (req, res) {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Unable to make setup");
+		res.send("Unable to make setup.");
 	}
 });
 
@@ -486,9 +514,12 @@ function verifyRolesAndCount(setup) {
 			if (isNaN(newCount[alignment]))
 				return ["Invalid role data"];
 
-			for (let role in roles[0])
-				if (roleData[gameType][role.split(":")[0]].alignment == alignment)
-					rolesByAlignment[alignment].push(role);
+			for (let role in roles[0]) {
+				let roleName = role.split(":")[0];
+
+				if (roleData[gameType][roleName].alignment == alignment)
+					rolesByAlignment[alignment].push(roleName);
+			}
 		}
 
 		count = newCount;
@@ -615,6 +646,17 @@ function sortRoles(gameType) {
 	};
 }
 
+function hasOpenRole(roles, roleName) {
+	roles = Object.keys(roles);
+	var regex = new RegExp(`${roleName}:`);
+
+	for (let role of roles)
+		if (role.match(regex))
+			return true;
+
+	return false;
+}
+
 const countChecks = {
 	"Mafia": (roles, count, total, closed, unique) => {
 		if (total < 3 || total > constants.maxPlayers)
@@ -653,15 +695,16 @@ const countChecks = {
 		return true;
 	},
 	"Split Decision": (roles, count, total, closed, unique) => {
+
 		if (total < 4)
 			return "Must have between 4 and 50 players.";
 
 		// If modifiers are added to Split Decision then this needs to be changed
 		if (!closed) {
-			if (!roles["President"])
+			if (!hasOpenRole(roles, "President"))
 				return "Must have a President";
 
-			if (!roles["Bomber"])
+			if (!hasOpenRole(roles, "Bomber"))
 				return "Must have a Bomber";
 		}
 		else {

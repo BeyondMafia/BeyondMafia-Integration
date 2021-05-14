@@ -6,13 +6,13 @@ module.exports = class User {
 		this.name = props.name;
 		this.avatar = props.avatar;
 		this.dev = props.dev;
-		this.textColor = props.settings.textColor;
-		this.nameColor = props.settings.nameColor;
+		this.textColor = props.settings && props.settings.textColor;
+		this.nameColor = props.settings && props.settings.nameColor;
 		this.rankedCount = props.rankedCount;
 		this.stats = props.stats;
 		this.playedGame = props.playedGame;
 		this.referrer = props.referrer;
-		this.isBot = props.isBot;
+		this.isTest = props.isTest;
 	}
 
 	send(eventName, data) {

@@ -20,3 +20,9 @@
 
 	color: white;
 }
+
+@media (max-width: 500px) {
+    .landing-page .role-banner {
+		width: 300px;
+    }
+}

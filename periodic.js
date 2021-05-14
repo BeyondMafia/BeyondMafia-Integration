@@ -38,11 +38,15 @@ module.exports = function () {
                 try {
                     var now = Date.now();
                     var bans = await models.Ban.find({ expires: { $lt: now }, auto: false })
-                        .select("userId auto");
+                        .select("userId auto type");
                     var unbanUserIds = bans.map(b => b.userId);
 
                     if (unbanUserIds.length == 0)
                         return;
+
+                    for (let ban of bans)
+                        if (ban.type == "site")
+                            await models.User.updateOne({ id: ban.userId }, { banned: false }).exec();
 
                     await models.Ban.deleteMany({ expires: { $lt: now }, auto: false }).exec();
                     await routeUtils.createNotification({ 
@@ -101,6 +105,27 @@ module.exports = function () {
             },
             interval: 1000 * 60
         },
+        gamesWebhook: {
+            run: async function () {
+                try {
+                    var games = await redis.getOpenPublicGames();
+
+                    for (let game of games) {
+                        if (!game.webhookPublished) {
+                            await redis.gameWebhookPublished(game.id);
+                            await axios.post("https://discord.com/api/webhooks/840041267399229480/qHJ93xbByPbi3YTrhUo60qhSHH5AVZoQleHFOikU9rHcf2CkUrt1LcGUpyGwdvn5OazQ", {
+                                username: "EpicMafia",
+                                content: `New ${game.type} game created: https://epicmafia.org/game/${game.id}`
+                            });
+                        }
+                    }
+                }
+                catch (e) { 
+                    logger.error(e);
+                }
+            },
+            interval: 1000 * 10
+        }
     };
 
     for (let jobName in jobs) {

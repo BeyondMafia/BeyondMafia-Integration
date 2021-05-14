@@ -34,6 +34,12 @@ export default function Settings(props) {
 			label: "DMs from Friends Only",
 			ref: "onlyFriendDMs",
 			type: "boolean",
+		},
+		{
+			label: "Hide Deleted Posts",
+			ref: "hideDeleted",
+			type: "boolean",
+			showIf: (deps) => deps.user.perms.viewDeleted
 		}
 	]);
 
@@ -59,12 +65,12 @@ export default function Settings(props) {
 			type: "boolean",
 			showIf: (deps) => deps.accounts.twitch && deps.accounts.twitch.id
 		},
-		{
-			label: "Show Google",
-			ref: "showGoogle",
-			type: "boolean",
-			showIf: (deps) => deps.accounts.google && deps.accounts.google.id
-		},
+		// {
+		// 	label: "Show Google",
+		// 	ref: "showGoogle",
+		// 	type: "boolean",
+		// 	showIf: (deps) => deps.accounts.google && deps.accounts.google.id
+		// },
 		{
 			label: "Show Steam",
 			ref: "showSteam",
@@ -279,6 +285,7 @@ export default function Settings(props) {
 }
 
 const reservedNames = [
+	"admin",
 	"emma",
 	"filko",
 	"samp4palmer",

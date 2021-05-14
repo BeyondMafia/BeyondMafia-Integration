@@ -109,7 +109,7 @@ router.get("/:id/profile", async function (req, res) {
             })
             .populate({
                 path: "games",
-                select: "id setup endTime -_id",
+                select: "id setup endTime private broken -_id",
                 populate: {
                     path: "setup",
                     select: "id gameType name closed count roles total -_id"
@@ -161,7 +161,11 @@ router.get("/:id/profile", async function (req, res) {
                     total: game.settings.setup.total
                 },
                 players: game.players.length,
-                status: game.status
+                status: game.status,
+                scheduled: game.settings.scheduled,
+                spectating: game.settings.spectating,
+                ranked: game.settings.ranked,
+                voiceChat: game.settings.voiceChat,
             };
 
             user.games.unshift(game);
@@ -317,20 +321,21 @@ router.post("/settings/update", async function (req, res) {
         if (!routeUtils.validProp(prop)) {
             logger.warn(`Invalid settings prop by ${userId}: ${prop}`);
             res.status(500);
-            res.send("Error updating settings.")
+            res.send("Error updating settings.");
+            return;
         }
 
         var itemsOwned = await redis.getUserItemsOwned(userId);
 
         if ((prop == "backgroundColor" || prop == "bannerFormat") && !itemsOwned.customProfile) {
             res.status(500);
-            res.send("You must purcahse profile customization with coins from the Shop.");
+            res.send("You must purchase profile customization with coins from the Shop.");
             return;
         }
 
         if ((prop == "textColor" || prop == "nameColor") && !itemsOwned.textColors) {
             res.status(500);
-            res.send("You must purcahse text colors with coins from the Shop.");
+            res.send("You must purchase text colors with coins from the Shop.");
             return;
         }
 
@@ -350,6 +355,8 @@ router.post("/settings/update", async function (req, res) {
         }
 
         await models.User.updateOne({ id: userId }, { $set: { [`settings.${prop}`]: value } });
+        await redis.cacheUserInfo(userId, true);
+
         res.sendStatus(200);
     }
     catch (e) {
@@ -364,6 +371,10 @@ router.post("/bio", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
         var bio = String(req.body.bio);
+        var perm = "editBio";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
 
         if (bio.length < 1000) {
             await models.User.updateOne({ id: userId }, { $set: { bio: bio } });
@@ -467,27 +478,30 @@ router.post("/name", async function (req, res) {
         var name = String(req.body.name);
         var code = String(req.body.code);
         var regex = /^(?!.*[-_]{2})[\w-]*$/;
+        var perm = "changeName";
 
-        // if (name.length == 3 && !itemsOwned.threeCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 3 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
 
-        // if (name.length == 2 && !itemsOwned.twoCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 2 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (name.length == 3 && !itemsOwned.threeCharName) {
+            res.status(500);
+            res.send("You must purchase 3 character usernames with coins from the Shop.");
+            return;
+        }
 
-        // if (name.length == 1 && !itemsOwned.oneCharName) {
-        //     res.status(500);
-        //     res.send("You must purchase 1 character usernames with coins from the Shop.");
-        //     return;
-        // }
+        if (name.length == 2 && !itemsOwned.twoCharName) {
+            res.status(500);
+            res.send("You must purchase 2 character usernames with coins from the Shop.");
+            return;
+        }
 
-        // if (name.length < 1 || name.length > 20) {
-        if (name.length < 4 || name.length > 20) {
+        if (name.length == 1 && !itemsOwned.oneCharName) {
+            res.status(500);
+            res.send("You must purchase 1 character usernames with coins from the Shop.");
+            return;
+        }
+
+        if (name.length < 1 || name.length > 20) {
             res.status(500);
             res.send("Names must be between 4 and 20 characters.");
             return;
@@ -816,7 +830,6 @@ router.post("/delete", async function (req, res) {
                     banner: "",
                     bio: "",
                     settings: "",
-                    accounts: "",
                     numFriends: "",
                     dev: "",
                     rank: "",
@@ -832,6 +845,8 @@ router.post("/delete", async function (req, res) {
                 }
             }
         ).exec();
+
+        await redis.setUserOffline(userId);
         await redis.deleteUserInfo(userId);
 
         res.sendStatus(200);
@@ -843,46 +858,6 @@ router.post("/delete", async function (req, res) {
     }
 });
 
-const reservedNames = {
-    "emma": "0878eb805fa271",
-    "filko": "052f92cd70b9",
-    "samp4palmer": "056619f062cc2f",
-    "moldyches": "09110492b11f14",
-    "koba": "0555b492455f92",
-    "steve": "0a6a740c5d845f",
-    "white": "010e7cbc63777e",
-    "hibiki": "06b0ef9ba9c533",
-    "staypositivefriend": "04259e67361d3c",
-    "sonrio": "094882b7bbe401",
-    "elliot": "012453b89293b9",
-    "khakakhan": "0015c6d0f227d3",
-    "joqiza": "0b12cb3446bd89",
-    "chaosam": "02b28d536b0a6d",
-    "arcbell": "0a747107a8676",
-    "crypto": "052baddbdaabdd",
-    "super": "0e431c22398ea1",
-    "disoriented": "046d0afe0b7d6",
-    "luciole": "04b355fd3a8c6e",
-    "margaridafae86": "0c5ad219091ae8",
-    "rigby": "0d86b26ade63f2",
-    "suspiciouslyspirited": "0e6111ff7ae2c3",
-    "goker": "0f3b79b9b9b7b8",
-    "haha": "0736f36cd93709",
-    "samantha": "06e5d87dd0ad5f",
-    "grace": "0b93ab948100db",
-    "nakhhash": "0c8b02c3faef26",
-    "travis": "09c1c77db2db4b",
-    "jacobkrin": "0e20e396d4491f",
-    "lechuck": "080eac5fdf168f",
-    "gemrush": "0c0179945e6a9",
-    "alyssa": "004e892882bdcf",
-    "xxbronygamer69xx": "021696dcb2c08f",
-    "dyke": "04afbc8def44aa",
-    "gaby": "0d2283b7375577",
-    "emily": "0b9118a43846b6",
-    "leepich": "0c7dc0b59cb1fb",
-    "jyshuhui": "0757ed61766d0b",
-    "xagut": "0445d79edfffbd",
-};
+const reservedNames = JSON.parse(process.env.RESERVED_NAMES);
 
 module.exports = router;

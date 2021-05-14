@@ -318,6 +318,7 @@ async function getGameInfo(gameId, idsOnly) {
 	info.settings = JSON.parse(await client.getAsync(`game:${gameId}:settings`) || "{}");
 	info.createTime = Number(await client.getAsync(`game:${gameId}:createTime`));
 	info.startTime = Number(await client.getAsync(`game:${gameId}:startTime`));
+	info.webhookPublished = await client.existsAsync(`game:${gameId}:webhookPublished`);
 	info.setup = info.settings.setup;
 
 	if (!idsOnly) {
@@ -330,7 +331,7 @@ async function getGameInfo(gameId, idsOnly) {
 				newPlayers.push(userInfo);
 			else {
 				newPlayers.push({
-					name: "[Bot]",
+					name: "[Guest]",
 					id: "",
 					avatar: false
 				});
@@ -489,17 +490,17 @@ async function joinGame(userId, gameId) {
 	await client.saddAsync(`game:${gameId}:players`, userId);
 	await client.setAsync(`user:${userId}:game`, gameId);
 
-	var ban = new models.Ban({
-		id: shortid.generate(),
-		userId,
-		modId: null,
-		expires: 0,
-		permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
-		type: "gameAuto",
-		auto: true
-	});
-	await ban.save();
-	await cacheUserPermissions(userId);
+	// var ban = new models.Ban({
+	// 	id: shortid.generate(),
+	// 	userId,
+	// 	modId: null,
+	// 	expires: 0,
+	// 	permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
+	// 	type: "gameAuto",
+	// 	auto: true
+	// });
+	// await ban.save();
+	// await cacheUserPermissions(userId);
 }
 
 async function leaveGame(userId) {
@@ -560,6 +561,7 @@ async function deleteGame(gameId, game) {
 	await client.delAsync(`game:${gameId}:settings`);
 	await client.delAsync(`game:${gameId}:createTime`);
 	await client.delAsync(`game:${gameId}:startTime`);
+	await client.delAsync(`game:${gameId}:webhookPublished`);
 }
 
 async function breakGame(gameId) {
@@ -599,6 +601,10 @@ async function breakGame(gameId) {
 		broken: true
 	});
 	await game.save();
+}
+
+async function gameWebhookPublished(gameId) {
+	await client.setAsync(`game:${gameId}:webhookPublished`, "1");
 }
 
 async function registerGameServer(port) {
@@ -642,6 +648,10 @@ async function updateUserOnline(userId) {
 	await client.zaddAsync("onlineUsers", Date.now(), userId);
 	await client.setAsync(`user:${userId}:info:status`, "online");
 	client.expire(`user:${userId}:info:status`, constants.userOnlineTTL / 1000);
+}
+
+async function setUserOffline(userId) {
+	await client.zremAsync("onlineUsers", userId);
 }
 
 async function removeStaleUsers() {
@@ -754,11 +764,10 @@ async function hasPermission(userId, perm, rank) {
 }
 
 async function clearPermissionCache() {
-	var keys = await client.keysAsync("*");
+	var keys = await client.keysAsync("user:*:perms");
 
 	for (let key of keys)
-		if (key.match(/user:\w+:(perms|rank)/))
-			await client.delAsync(key);
+		await client.delAsync(key);
 }
 
 async function rateLimit(userId, type) {
@@ -818,6 +827,7 @@ module.exports = {
 	unreserveGame,
 	deleteGame,
 	breakGame,
+	gameWebhookPublished,
 	registerGameServer,
 	removeGameServer,
 	getNextGameServerPort,
@@ -825,6 +835,7 @@ module.exports = {
 	getOnlineUsers,
 	getOnlineUsersInfo,
 	updateUserOnline,
+	setUserOffline,
 	removeStaleUsers,
 	getAllLastActive,
 	cacheUserPermissions,
@@ -833,5 +844,5 @@ module.exports = {
 	hasPermissions,
 	hasPermission,
 	clearPermissionCache,
-	rateLimit
+	rateLimit,
 };

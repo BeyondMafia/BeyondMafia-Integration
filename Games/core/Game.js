@@ -42,6 +42,7 @@ module.exports = class Game {
 		this.stateEventMessages = {};
 		this.setup = options.settings.setup;
 		this.private = options.settings.private;
+		this.guests = options.settings.guests;
 		this.ranked = options.settings.ranked;
 		this.spectating = options.settings.spectating;
 		this.voiceChat = options.settings.voiceChat;
@@ -98,6 +99,7 @@ module.exports = class Game {
 					setup: this.setup.id,
 					total: this.setup.total,
 					private: this.private,
+					guests: this.guests,
 					ranked: this.ranked,
 					rehostId: this.rehostId,
 					scheduled: this.scheduled,
@@ -348,7 +350,9 @@ module.exports = class Game {
 		}
 
 		this.playerLeave(player);
-		this.sendAlert(`${player.name} left the game.`);
+
+		if (player.alive)
+			this.sendAlert(`${player.name} left the game.`);
 	}
 
 	async playerLeave(player) {
@@ -364,6 +368,21 @@ module.exports = class Game {
 			this.playersGone[player.user.id] = this.createPlayerGoneObj(player);
 
 			if (this.players.length == 0) {
+				await this.cancel();
+				return;
+			}
+		}
+		else if (this.players[player.id]) {
+			var remainingPlayer = false;
+
+			for (let player of this.players) {
+				if (!player.left) {
+					remainingPlayer = true;
+					break;
+				}
+			}
+
+			if (!remainingPlayer) {
 				await this.cancel();
 				return;
 			}
@@ -464,8 +483,10 @@ module.exports = class Game {
 
 	checkGameStart() {
 		if (this.players.length == this.setup.total) {
-			if (!this.isTest)
-				this.startReadyCheck();
+			if (!this.isTest) {
+				//this.startReadyCheck();
+				this.startPregameCountdown();
+			}
 			else
 				this.start();
 		}
@@ -1072,7 +1093,7 @@ module.exports = class Game {
 			this.broadcast("finished");
 			await redis.deleteGame(this.id);
 
-			if (this.private || this.isTest)
+			if (this.isTest)
 				return;
 
 			var setup = await models.Setup.findOne({ id: this.setup.id })
@@ -1081,8 +1102,9 @@ module.exports = class Game {
 			var history = this.history.getHistoryInfo(null, true);
 			var users = [];
 			var playersGone = Object.values(this.playersGone);
+			var players = this.players.concat(playersGone);
 
-			for (let player of this.players.concat(playersGone)) {
+			for (let player of players) {
 				let userId = player.userId || player.user.id;
 				let user = await models.User.findOne({ id: userId })
 					.select("_id");
@@ -1091,8 +1113,8 @@ module.exports = class Game {
 					users.push(user._id);
 			}
 
-			var players = this.players.map(p => p.id);
-			players = players.concat(playersGone.map(p => p.id));
+			var playerNames = players.map(p => p.name);
+			players = players.map(p => p.id);
 
 			var game = new models.Game({
 				id: this.id,
@@ -1101,12 +1123,14 @@ module.exports = class Game {
 				users: users,
 				players: players,
 				left: playersGone.map(p => p.id),
-				names: this.players.map(p => p.name),
+				names: playerNames,
 				winners: this.winners.players.map(p => p.id),
-				history: JSON.stringify(history),
+				history: !this.private && JSON.stringify(history),
 				startTime: this.startTime,
 				endTime: Date.now(),
 				ranked: this.ranked,
+				private: this.private,
+				guests: this.guests,
 				spectating: this.spectating,
 				voiceChat: this.voiceChat,
 				stateLengths: this.stateLengths,

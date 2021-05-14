@@ -18,6 +18,7 @@ var schemas = {
             textColor: String,
             nameColor: String,
             onlyFriendDMs: { type: Boolean, default: false },
+            hideDeleted: Boolean,
         },
         accounts: {
             discord: {
@@ -83,7 +84,9 @@ var schemas = {
         playedGame: false,
         referrer: String,
         transactions: [Number],
-        deleted: { type: Boolean, default: false }
+        deleted: { type: Boolean, default: false },
+        banned: { type: Boolean, default: false },
+        flagged: { type: Boolean, default: false },
     }),
     "Session": new mongoose.Schema({
         expires: Date,
@@ -134,6 +137,8 @@ var schemas = {
         startTime: Number,
         endTime: Number,
         ranked: Boolean,
+        private: Boolean,
+        guests: Boolean,
         spectating: Boolean,
         voiceChat: Boolean,
         stateLengths: { type: Map, of: Number },

@@ -315,7 +315,7 @@ export function parseGamePopover(game) {
 	//Players
 	const playerList = [];
 
-	for (let i = 0; i < game.players.length; i++)
+	for (let i = 0; i < game.players.length; i++) {
 		playerList.push(
 			<NameWithAvatar
 				small
@@ -324,6 +324,16 @@ export function parseGamePopover(game) {
 				avatar={game.players[i].avatar}
 				key={game.players[i].id} />
 		);
+	}
+
+	while (playerList.length < game.totalPlayers) {
+		playerList.push(
+			<NameWithAvatar
+				small
+				name="[Guest]"
+				key={playerList.length} />
+		);
+	}
 
 	result.push(<InfoRow title="Players" content={playerList} key={0} />);
 
@@ -341,6 +351,9 @@ export function parseGamePopover(game) {
 
 	//Spectating
 	result.push(<InfoRow title="Spectating" content={game.settings.spectating ? "Yes" : "No"} key={3} />);
+
+	//Guests
+	result.push(<InfoRow title="Guests Allowed" content={game.settings.guests ? "Yes" : "No"} key={4} />);
 
 	switch (game.type) { }
 

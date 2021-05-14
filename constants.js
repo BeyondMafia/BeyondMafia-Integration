@@ -147,12 +147,17 @@ module.exports = {
 		"editPost",
 		"publicChat",
 		"privateChat",
+		"editBio",
+		"changeName",
 	],
 	protectedPerms: [
 		"createGroup",
 		"giveGroup",
 		"updateGroupPerms",
 		"givePermToAll",
+		"clearAllIPs",
+		"giveCoins",
+		"changeUsersName",
 	],
 	allPerms: {
 		"signIn": true,
@@ -164,6 +169,8 @@ module.exports = {
 		"editPost": true,
 		"publicChat": true,
 		"privateChat": true,
+		"editBio": true,
+		"changeName": true,
 
 		"createCategory": true,
 		"deleteAnyPost": true,
@@ -198,6 +205,7 @@ module.exports = {
 		"viewAlts": true,
 		"clearSetupName": true,
 		"clearBio": true,
+		"clearAvi": true,
 		"clearAccountDisplay": true,
 		"clearName": true,
 		"viewBans": true,
@@ -205,6 +213,11 @@ module.exports = {
 		"canSpectateAny": true,
 		"breakGame": true,
 		"clearAllIPs": true,
+		"featureSetup": true,
+		"clearAllUserContent": true,
+		"giveCoins": true,
+		"changeUsersName": true,
+		"whitelist": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -248,11 +261,15 @@ module.exports = {
 				"viewAlts", 
 				"clearSetupName", 
 				"clearBio", 
+				"clearAvi", 
 				"clearAccountDisplay", 
 				"clearName",
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",
+				"featureSetup",
+				"clearAllUserContent",
+				"whitelist",
 			]
 		},
 		"Mod": {
@@ -281,10 +298,13 @@ module.exports = {
 				"forceSignOut", 
 				"clearSetupName", 
 				"clearBio", 
+				"clearAvi", 
 				"clearAccountDisplay",
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",
+				"featureSetup",
+				"whitelist",
 			]
 		}
 	},
