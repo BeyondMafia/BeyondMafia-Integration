@@ -735,12 +735,12 @@ export function TopBar(props) {
 								{Object.values(props.players).filter(p => !p.left).length} / {props.setup.total}
 							</div>
 						}
-						{!props.options.spectating &&
+						{!props.options.spectating && !props.review &&
 							<div className="no-spectator">
 								<i className="fas fa-eye-slash" />
 							</div>
 						}
-						{props.options.spectating &&
+						{props.options.spectating && !props.review &&
 							<div className="spectator-count">
 								<i className="fas fa-eye" />
 								{props.spectatorCount}

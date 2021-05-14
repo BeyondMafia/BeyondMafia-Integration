@@ -189,7 +189,7 @@ router.get("/:id/info", async function (req, res) {
             }
 
             game = game.toJSON();
-            game.totalPlayers = game.players.length;
+            game.totalPlayers = game.players.length - game.left.length;
             game.players = game.users.slice(0, game.players.length - game.left.length);
             game.settings = {
                 ranked: game.ranked,
