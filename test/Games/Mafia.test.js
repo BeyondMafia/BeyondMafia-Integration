@@ -756,7 +756,7 @@ describe("Games/Mafia", function () {
     });
 
     describe("Babushka", function () {
-        it("should kill the Mafioso", async function () {
+        it("should kill the Mafioso upon visit", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
@@ -928,4 +928,28 @@ describe("Games/Mafia", function () {
         });
     });
 
+    describe("Priest", function () {
+        it("should kill the Lycan upon visiting the Priest", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Priest": 1, "Lycan": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Wolf Bite")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Priest"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Monsters"]);
+            should.exist(game.winners.groups["Village"]);
+        });
+    });
 });

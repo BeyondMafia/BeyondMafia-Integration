@@ -46,6 +46,10 @@ export default function LearnMafia(props) {
 			text: "Roles for each alignment are randomly chosen from the pool of roles in the setup."
 		},
 		{
+			name: "Dawn",
+			text: "No actions can be taken the first night."
+		},
+		{
 			name: "Full Moon",
 			text: "When a Lycan or Werewolf is present in the game, full moons will occur on odd nights."
 		},

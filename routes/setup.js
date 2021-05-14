@@ -372,6 +372,7 @@ router.post("/create", async function (req, res) {
 		setup.startState = String(setup.startState || constants.startStates[setup.gameType][0]);
 		setup.whispers = Boolean(setup.whispers);
 		setup.leakPercentage = Number(setup.leakPercentage);
+		setup.dawn = Boolean(setup.dawn);
 		setup.mustAct = Boolean(setup.mustAct);
 
 		if (!routeUtils.validProp(setup.gameType) || constants.gameTypes.indexOf(setup.gameType) == -1) {

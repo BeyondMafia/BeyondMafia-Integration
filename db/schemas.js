@@ -107,6 +107,7 @@ var schemas = {
         startState: { type: String, default: "Night" },
         whispers: Boolean,
         leakPercentage: Number,
+        dawn: Boolean,
         lastWill: Boolean,
         mustAct: Boolean,
         noReveal: Boolean,

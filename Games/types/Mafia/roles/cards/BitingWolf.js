@@ -11,7 +11,7 @@ module.exports = class BitingWolf extends Card {
 				flags: ["voting"],
 				targets: { include: ["alive"], exclude: ["Monsters"] },
 				action: {
-					labels: ["bite"],
+					labels: ["wolfBite"],
 					priority: -50,
 					run: function () {
 						if (this.dominates()) {
