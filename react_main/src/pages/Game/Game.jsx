@@ -249,7 +249,7 @@ function GameWrapper(props) {
 		if (token)
 			socket.send("auth", token);
 		else
-			socket.send("join", { gameId });
+			socket.send("join", { gameId, guestId: window.localStorage.getItem("cacheVal") });
 
 		socket.on("authSuccess", () => {
 			socket.send("join", {

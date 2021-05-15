@@ -244,6 +244,14 @@ module.exports = class Game {
 					}
 				}
 			}
+			else {
+				for (let p of this.players) {
+					if (user.guestId && p.user.guestId && p.user.guestId == user.guestId) {
+						player = p;
+						break;
+					}
+				}
+			}
 
 			// Reconnect to game if user is already in it
 			if (player && !player.left) {

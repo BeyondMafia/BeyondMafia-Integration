@@ -15,6 +15,8 @@ import Comments from "../Community/Comments";
 import "../../css/play.css";
 
 export default function Join(props) {
+    const lobby = props.lobby;
+
     const [listType, setListType] = useState("Open");
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
@@ -75,7 +77,7 @@ export default function Join(props) {
                     maxPage={pageCount}
                     onNav={(page) => getGameList(listType, page)} />
             </div>
-            <Comments location="lobby" />
+            <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
         </>
     );
 }
