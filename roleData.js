@@ -160,6 +160,13 @@ const roleData = {
                 "Is publicly revealed to all players.",
             ],
         },
+        "Priest": {
+            alignment: "Village",
+            description: [
+                "Kills the Lycan when visited by him.",
+                "Cleanses werewolves when visited by them.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -242,7 +249,7 @@ const roleData = {
         "Lycan": {
             alignment: "Monsters",
             description: [
-                "Invincible during full moons.",
+                "Invincible during full moons, except for visiting the Priest.",
                 "Each night, bites a non-monster player and turns them into a werewolf.",
                 "Werewolves retain their original roles, but they unknowingly kill a random non-monster player on full moons."
             ],

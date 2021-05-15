@@ -435,6 +435,7 @@ span.theme {
     padding: 10px;
     border-radius: 3px;
 
+    z-index: 10;
     background-color: #1d1d1d;
     box-shadow: 0px 0px 5px black;
     overflow: auto;

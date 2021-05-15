@@ -47,7 +47,7 @@ module.exports = class Effect {
 		this.game.events.removeListener("state", this.ageListener);
 
 		for (let eventName in this.listeners)
-			this.holder.events.removeListener(eventName, this.listeners[eventName]);
+			this.player.events.removeListener(eventName, this.listeners[eventName]);
 	}
 
 	disableMeetings(meetings) {

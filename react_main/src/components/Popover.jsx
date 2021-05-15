@@ -212,6 +212,9 @@ export function parseSetupPopover(setup, roleData) {
 			//Starting state
 			result.push(<InfoRow title="Starting State" content={<GameStateIcon state={setup.startState} />} key={3} />);
 
+			//Dawn
+			result.push(<InfoRow title="Dawn" content={setup.dawn ? "Yes" : "No"} key={"dawn"} />);
+
 			//Last will
 			result.push(<InfoRow title="Last Will" content={setup.lastWill ? "Yes" : "No"} key={4} />);
 

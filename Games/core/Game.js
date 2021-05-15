@@ -1044,6 +1044,10 @@ module.exports = class Game {
 		return this.mustAct || this.setup.mustAct;
 	}
 
+	isNoAct() {
+		return false;
+	}
+
 	checkGameEnd() {
 		var [finished, winners] = this.checkWinConditions();
 

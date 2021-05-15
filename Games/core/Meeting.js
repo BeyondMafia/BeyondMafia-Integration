@@ -29,6 +29,7 @@ module.exports = class Meeting {
 		this.liveJoin = false;
 		this.votesInvisible = game.setup.votesInvisible;
 		this.mustAct = game.isMustAct();
+		this.noAct = game.isNoAct();
 		/***/
 
 		this.inputType = "player";
@@ -243,7 +244,9 @@ module.exports = class Meeting {
 	}
 
 	generateTargets() {
-		if (this.inputType == "player" || this.inputType == "role") {
+		if (this.noAct)
+			this.targets = ["*"];
+		else if (this.inputType == "player" || this.inputType == "role") {
 			if (!this.targetsDescription)
 				this.targetsDescription = this.targets;
 

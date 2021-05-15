@@ -32,8 +32,10 @@ module.exports = class KillVisitors extends Card {
 					if (this.game.getStateName() != "Night")
 						return;
 
-					if (this.actor.role.data.visitors) {
-						for (let visitor of this.actor.role.data.visitors)
+					var visitors = this.actor.role.data.visitors;
+
+					if (visitors) {
+						for (let visitor of visitors)
 							if (this.dominates(visitor))
 								visitor.kill("basic", this.actor);
 
