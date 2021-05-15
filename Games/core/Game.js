@@ -452,6 +452,7 @@ module.exports = class Game {
 		player.sendSelf();
 		player.send("players", this.getAllPlayerInfo(player));
 		player.send("options", {
+			lobby: this.lobby,
 			private: this.private,
 			ranked: this.ranked,
 			spectating: this.spectating,

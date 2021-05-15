@@ -68,6 +68,7 @@ export default function Join(props) {
                     map={game => (
                         <GameRow
                             game={game}
+                            lobby={lobby}
                             type={listType}
                             refresh={() => getGameList(listType, page)}
                             key={game.id} />
@@ -142,6 +143,7 @@ export function GameRow(props) {
         axios.post("/game/host", {
             gameType: props.game.type,
             setup: props.game.setup.id,
+            lobby: props.lobby,
             private: false,
             ranked: props.game.ranked,
             spectating: props.game.spectating,

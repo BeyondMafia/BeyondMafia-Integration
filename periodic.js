@@ -85,11 +85,11 @@ module.exports = function () {
         findNextRestart: {
             run: async function () {
                 try {
-                    let count = await models.Restart.count({ time: { $lt: Date.now() } })
+                    var count = await models.Restart.count({ time: { $lt: Date.now() } })
                     await models.Restart.deleteMany({ time: { $lt: Date.now() } }).exec();
 
                     if (count == 0) {
-                        let restart = await models.Restart.find().sort("time");
+                        var restart = await models.Restart.find().sort("time");
 
                         if (restart[0])
                             constants.restart = Math.round((restart[0].time - Date.now()) / (1000 * 60));
