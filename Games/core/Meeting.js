@@ -327,7 +327,11 @@ module.exports = class Meeting {
 								includePlayer[player.id] = include;
 							break;
 						default:
-							if (constants.alignments[this.game.type].indexOf(tag) != -1) {
+							if (player.id == tag)
+								includePlayer[player.id] = include;
+							else if (player.role && player.role.name == tag)
+								includePlayer[player.id] = include;
+							else if (constants.alignments[this.game.type].indexOf(tag) != -1) {
 								if (player.role.alignment == tag)
 									includePlayer[player.id] = include;
 							}
@@ -351,8 +355,6 @@ module.exports = class Meeting {
 								if (player.hasEffectProp(parts[1], parts[2], parts[3]))
 									includePlayer[player.id] = include;
 							}
-							else if (player.id == tag)
-								includePlayer[player.id] = include;
 					}
 				}
 			}

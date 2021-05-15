@@ -952,4 +952,105 @@ describe("Games/Mafia", function () {
             should.exist(game.winners.groups["Village"]);
         });
     });
+
+    describe("Mason", function () {
+        it("should win upon converting the Serial Killer", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Mason": 2, "Serial Killer": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Masons")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Serial Killer"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Serial Killer"]);
+            should.exist(game.winners.groups["Village"]);
+        });
+
+        it("should lose upon trying to convert the Mafioso", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Mason": 2, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Masons")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Mafioso"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Village"]);
+            should.exist(game.winners.groups["Mafia"]);
+        });
+    });
+
+    describe("Cultist", function () {
+        it("should win if every player is a Cultist", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Cultist": 2 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name != "Cultists")
+                    return;
+
+                this.sendToServer("vote", {
+                    selection: roles["Villager"].id,
+                    meetingId: meeting.id
+                });
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Village"]);
+            should.exist(game.winners.groups["Cultist"]);
+        });
+
+        it("should kill all Cultists if the leader dies", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 2, "Cultist": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name == "Cultists") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"][0].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Village") {
+                    this.sendToServer("vote", {
+                        selection: roles["Cultist"].id,
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.not.exist(game.winners.groups["Cultist"]);
+            should.exist(game.winners.groups["Village"]);
+        });
+    });
 });
