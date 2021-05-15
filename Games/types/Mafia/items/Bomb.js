@@ -8,7 +8,7 @@ module.exports = class Bomb extends Item {
 
 		this.listeners = {
 			"death": function (player, killer, deathType, instant) {
-				if (player == this.holder && deathType != "lynch") {
+				if (player == this.holder && killer && deathType != "lynch") {
 					var action = new Action({
 						actor: this.holder,
 						target: killer,

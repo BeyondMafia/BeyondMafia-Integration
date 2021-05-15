@@ -6,6 +6,7 @@ module.exports = class Amnesiac extends Role {
 		super("Amnesiac", player, data);
 
 		this.alignment = "Independent";
+		this.winCount = "Village";
 		this.cards = ["VillageCore", "BecomeDeadRole"];
 	}
 
