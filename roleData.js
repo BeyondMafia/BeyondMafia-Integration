@@ -167,6 +167,14 @@ const roleData = {
                 "Cleanses werewolves when visited by them.",
             ],
         },
+        "Mason": {
+            alignment: "Village",
+            description: [
+                "Meets with other Masons during the night.",
+                "The group converts one player into a Mason each night.",
+                "All Masons die if they attempt to convert a member of the Mafia.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -297,6 +305,14 @@ const roleData = {
             alignment: "Independent",
             description: [
                 "Wins if survives until the end of the game."
+            ],
+        },
+        "Cultist": {
+            alignment: "Independent",
+            description: [
+                "Meets with other Cultists during the night.",
+                "The group converts one player into a Cultist each night.",
+                "All Cultists die if a leader (original Cultist) dies.",
             ],
         },
     },
