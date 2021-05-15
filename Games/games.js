@@ -79,7 +79,8 @@ var games = {};
 						if (!user && !game.guests)
 							return;
 						else if (!user) {
-							user = new User({ socket });
+							var guestId = String(info.guestId).slice(0, 20);
+							user = new User({ socket, guestId });
 							isBot = true;
 						}
 	

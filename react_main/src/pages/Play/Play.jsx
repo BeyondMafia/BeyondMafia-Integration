@@ -25,8 +25,11 @@ import { UserContext } from "../../Contexts";
 
 export default function Play(props) {
     const defaultGameType = "Mafia";
+    const defaultLobby = "Main";
+    const lobbies = ["Main", "Sandbox"];
     const user = useContext(UserContext);
     const [gameType, setGameType] = useState(localStorage.getItem("gameType") || defaultGameType);
+    const [lobby, setLobby] = useState(localStorage.getItem("lobby") || defaultLobby);
     const links = [
         {
             text: "Play",
@@ -54,18 +57,28 @@ export default function Play(props) {
         localStorage.setItem("gameType", gameType);
     }
 
+    function onFilterLobby(lobby) {
+        setLobby(lobby);
+        localStorage.setItem("lobby", lobby);
+    }
+
+    var inLobby = window.location.pathname == "/play";
+
+    if (lobbies.indexOf(lobby) == -1)
+        onFilterLobby(defaultLobby);
+
     return (
         <>
             <SubNav
                 links={links}
-                showFilter={window.location.pathname != "/play"}
-                filterSel={gameType}
-                filterOptions={GameTypes}
-                onFilter={onFilterGameType}
-                filterIcon={<i className="fas fa-gamepad" />} />
+                showFilter={!inLobby}
+                filterSel={inLobby ? lobby : gameType}
+                filterOptions={inLobby ? lobbies : GameTypes}
+                onFilter={inLobby ? onFilterLobby : onFilterGameType}
+                filterIcon={inLobby ? <i className="fas fa-house-user" /> : <i className="fas fa-gamepad" />} />
             <div className="inner-content">
                 <Switch>
-                    <Route exact path="/play" render={() => <Join />} />
+                    <Route exact path="/play" render={() => <Join lobby={lobby} />} />
 
                     <Route
                         exact

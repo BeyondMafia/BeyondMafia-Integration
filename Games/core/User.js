@@ -12,6 +12,7 @@ module.exports = class User {
 		this.stats = props.stats;
 		this.playedGame = props.playedGame;
 		this.referrer = props.referrer;
+		this.guestId = props.guestId;
 		this.isTest = props.isTest;
 	}
 
