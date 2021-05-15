@@ -245,7 +245,7 @@ router.post("/host", async function (req, res) {
         }
 
         const gameType = String(req.body.gameType);
-        const lobby = String(req.body.gameType);
+        const lobby = String(req.body.lobby);
         const rehostId = req.body.rehost && String(req.body.rehost);
         const scheduled = Number(req.body.scheduled);
 
