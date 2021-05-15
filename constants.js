@@ -1,6 +1,7 @@
 module.exports = {
 	restart: null,
 	gameTypes: ["Mafia", "Split Decision", "Resistance", "One Night"],
+	lobbies: ["Main", "Sandbox"],
 	alignments: {
 		"Mafia": ["Village", "Mafia", "Monsters", "Independent"],
 		"Split Decision": ["Blue", "Red", "Independent"],

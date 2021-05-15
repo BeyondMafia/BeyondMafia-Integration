@@ -34,18 +34,28 @@ export default function Form(props) {
 	const formFields = props.fields.map((field, i) => {
 		const disabled = typeof field.disabled == "function" ? field.disabled(props.deps) : field.disabled;
 		const fieldWrapperClass = `field-wrapper ${disabled ? "disabled" : ""}`;
+		var showIf;
 
-		if (typeof field.showIf == "string") {
-			for (let f of props.fields) {
-				if (f.ref == field.showIf && f.type == "boolean") {
-					if (!f.value)
-						return;
-					break;
+		if (typeof field.showIf == "string")
+			showIf = [field.showIf];
+		else
+			showIf = field.showIf;
+
+		if (Array.isArray(showIf)) {
+			for (let ref of showIf) {
+				let inverted = ref[0] == "!";
+	
+				for (let field of props.fields) {
+					if (field.ref == ref && field.type == "boolean") {
+						if ((field.value ^ inverted) == 0)
+							return;
+						break;
+					}
 				}
 			}
 		}
-		else if (typeof field.showIf == "function")
-			if (!field.showIf(props.deps))
+		else if (typeof showIf == "function")
+			if (!showIf(props.deps))
 				return;
 
 		const value = typeof field.value == "function" ? field.value(props.deps) : field.value;

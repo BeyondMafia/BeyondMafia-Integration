@@ -70,9 +70,9 @@ export default function Board(props) {
 
 		if (page == 1)
 			filterArg = "last=Infinity";
-		else if (page < boardPage)
+		else if (page < boardPage && boardInfo.threads.length)
 			filterArg = `first=${boardInfo.threads[0][sortType]}`;
-		else if (page > boardPage)
+		else if (page > boardPage && boardInfo.threads.length)
 			filterArg = `last=${boardInfo.threads[boardInfo.threads.length - 1][sortType]}`;
 		else
 			return;
@@ -83,13 +83,6 @@ export default function Board(props) {
 				if (res.data.threads.length > 0) {
 					setBoardInfo(res.data);
 					setBoardPage(page);
-				}
-				else {
-					setBoardInfo(update(boardInfo, {
-						isLastPage: {
-							$set: true
-						}
-					}));
 				}
 			})
 			.catch(errorAlert);

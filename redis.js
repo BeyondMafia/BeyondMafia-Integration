@@ -314,6 +314,7 @@ async function getGameInfo(gameId, idsOnly) {
 	info.port = await client.getAsync(`game:${gameId}:port`);
 	info.status = await client.getAsync(`game:${gameId}:status`);
 	info.hostId = await client.getAsync(`game:${gameId}:hostId`);
+	info.lobby = await client.getAsync(`game:${gameId}:lobby`);
 	info.players = (await client.smembersAsync(`game:${gameId}:players`)) || [];
 	info.settings = JSON.parse(await client.getAsync(`game:${gameId}:settings`) || "{}");
 	info.createTime = Number(await client.getAsync(`game:${gameId}:createTime`));
@@ -557,6 +558,7 @@ async function deleteGame(gameId, game) {
 	await client.delAsync(`game:${gameId}:port`);
 	await client.delAsync(`game:${gameId}:status`);
 	await client.delAsync(`game:${gameId}:hostId`);
+	await client.delAsync(`game:${gameId}:lobby`);
 	await client.delAsync(`game:${gameId}:players`);
 	await client.delAsync(`game:${gameId}:settings`);
 	await client.delAsync(`game:${gameId}:createTime`);

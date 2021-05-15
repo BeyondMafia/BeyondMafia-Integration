@@ -34,9 +34,16 @@ router.get("/list", async function (req, res) {
         const pageLimit = 20;
         const start = ((Number(req.query.page) || 1) - 1) * pageSize;
         const gameLimit = pageSize * pageLimit;
+        const listName = String(req.query.list);
+        const lobby = String(req.query.lobby || "Main");
 
-        if (req.query.list != "finished") {
-            const listName = String(req.query.list);
+        if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
+            logger.error("Invalid lobby.");
+            res.send({ games: [], pages: 1 });
+            return;
+        }
+
+        if (listName != "finished") {
             const end = start + pageSize;
             var games = [];
 
@@ -51,7 +58,7 @@ router.get("/list", async function (req, res) {
                 games.sort((a, b) => b.startTime - a.startTime);
             }
 
-            games = games.slice(start, end);
+            games = games.filter(game => game.lobby == lobby).slice(start, end);
             var newGames = [];
 
             for (let game of games) {
@@ -80,15 +87,17 @@ router.get("/list", async function (req, res) {
             res.send({ games: newGames, pages: Math.ceil(newGames.length / pageSize) || 1 })
         }
         else if (start < gameLimit) {
-            const games = await models.Game.find()
+            const games = await models.Game.find({ lobby })
                 .select("id type setup ranked private spectating voiceChat stateLengths gameTypeOptions broken -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
                 .sort("-endTime")
                 .skip(start)
                 .limit(pageSize);
             const count = await models.Game.estimatedDocumentCount();
-            res.send({ games: games, pages: Math.min(Math.ceil(count / pageSize), gameLimit) || 1 });
+            res.send({ games: games, pages: Math.min(Math.ceil(count / pageSize), pageLimit) || 1 });
         }
+        else
+            res.send({ games: [], pages: pageLimit });
     }
     catch (e) {
         logger.error(e);
@@ -236,12 +245,19 @@ router.post("/host", async function (req, res) {
         }
 
         const gameType = String(req.body.gameType);
+        const lobby = String(req.body.gameType);
         const rehostId = req.body.rehost && String(req.body.rehost);
         const scheduled = Number(req.body.scheduled);
 
         if (!routeUtils.validProp(gameType) || constants.gameTypes.indexOf(gameType) == -1) {
             res.status(500);
-            res.send("Invalid game type");
+            res.send("Invalid game type.");
+            return;
+        }
+
+        if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
+            res.status(500);
+            res.send("Invalid lobby.");
             return;
         }
 
@@ -387,6 +403,7 @@ router.post("/host", async function (req, res) {
         try {
             const gameId = await gameLoadBalancer.createGame(userId, gameType, {
                 setup: setup,
+                lobby: lobby,
                 private: Boolean(req.body.private),
                 guests: Boolean(req.body.guests),
                 ranked: Boolean(req.body.ranked),
@@ -448,7 +465,7 @@ router.post("/reserve", async function (req, res) {
 
         if (reserved)
             res.send("Spot reserved!");
-        else 
+        else
             res.send("Reservations are full. You have been added to the backup queue.");
     }
     catch (e) {

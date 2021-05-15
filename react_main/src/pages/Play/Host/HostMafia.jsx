@@ -6,6 +6,7 @@ import Host from "./Host";
 import { useForm } from "../../../components/Form";
 import { useErrorAlert } from "../../../components/Alerts";
 import { SiteInfoContext } from "../../../Contexts";
+import { Lobbies } from "../../../Constants";
 
 import "../../../css/host.css"
 
@@ -23,29 +24,41 @@ export default function HostMafia() {
             disabled: true,
         },
         {
+            label: "Lobby",
+            ref: "lobby",
+			type: "select",
+            value: localStorage.getItem("lobby") || "Main",
+			options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
+        },
+        {
             label: "Private",
             ref: "private",
-            type: "boolean"
+            type: "boolean",
+            showIf: "!ranked"
         },
         {
             label: "Allow Guests",
             ref: "guests",
-            type: "boolean"
+            type: "boolean",
+            showIf: "!ranked"
         },
         {
             label: "Ranked",
             ref: "ranked",
-            type: "boolean"
+            type: "boolean",
+            showIf: ["!private", "!spectating", "!voiceChat", "!guests"]
         },
         {
             label: "Spectating",
             ref: "spectating",
-            type: "boolean"
+            type: "boolean",
+            showIf: "!ranked"
         },
         {
             label: "Voice Chat",
             ref: "voiceChat",
-            type: "boolean"
+            type: "boolean",
+            showIf: "!ranked"
         },
         {
             label: "Scheduled",
@@ -84,21 +97,22 @@ export default function HostMafia() {
     }, []);
     
     function onHostGame() {
-        var scheduled = formFields[6].value;
+        var scheduled = formFields[7].value;
 
         if (selSetup.id)
             axios.post("/game/host", {
                     gameType: gameType,
                     setup: selSetup.id,
-                    private: formFields[1].value,
-                    guests: formFields[2].value,
-                    ranked: formFields[3].value,
-                    spectating: formFields[4].value,
-                    voiceChat: formFields[5].value,
-                    scheduled: scheduled && (new Date(formFields[7].value)).getTime(),
+                    lobby: formFields[1].value,
+                    private: formFields[2].value,
+                    guests: formFields[3].value,
+                    ranked: formFields[4].value,
+                    spectating: formFields[5].value,
+                    voiceChat: formFields[6].value,
+                    scheduled: scheduled && (new Date(formFields[8].value)).getTime(),
                     stateLengths: {
-                        "Day": formFields[8].value,
-                        "Night": formFields[9].value
+                        "Day": formFields[9].value,
+                        "Night": formFields[10].value
                     }
                 })
                 .then(res => {

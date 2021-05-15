@@ -26,12 +26,13 @@ export default function Join(props) {
     const errorAlert = useErrorAlert();
 
     useEffect(() => {
-        document.title = "Play | EpicMafia";
-        getGameList(listType, page);
-    }, []);
+        document.title = `Play (${lobby}) | EpicMafia`;
+        getGameList(listType, 1);
+        setPage(1);
+    }, [lobby]);
 
     function getGameList(listType, page) {
-        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}`)
+        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}&lobby=${lobby}`)
             .then(res => {
                 setListType(listType);
                 setPage(page);
