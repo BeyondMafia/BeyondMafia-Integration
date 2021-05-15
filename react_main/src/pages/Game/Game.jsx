@@ -117,6 +117,7 @@ function GameWrapper(props) {
 		if (!props.review) {
 			document.title = `Game ${gameId} | EpicMafia`;
 			loadAudioFiles(audioFileNames, audioLoops, audioOverrides, audioVolumes);
+			requestNotificationAccess();
 
 			var timerInterval = setInterval(() => {
 				updateTimers({
@@ -417,6 +418,15 @@ function GameWrapper(props) {
 				type: "create",
 				timer: info
 			});
+
+			if (
+				info.name == "pregameCountdown" &&
+				Notification &&
+				Notification.permission == "granted" &&
+				!document.hasFocus()
+			) {
+				new Notification("Your game is starting!");
+			}
 		});
 
 		socket.on("clearTimer", name => {
@@ -2604,4 +2614,11 @@ export function useAudio(settings) {
 	}
 
 	return [playAudio, loadAudioFiles, stopAudio, stopAudios, setVolume];
+}
+
+async function requestNotificationAccess() {
+	if (!Notification)
+		return;
+
+	await Notification.requestPermission();
 }
