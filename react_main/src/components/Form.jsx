@@ -44,11 +44,17 @@ export default function Form(props) {
 		if (Array.isArray(showIf)) {
 			for (let ref of showIf) {
 				let inverted = ref[0] == "!";
+
+				if (inverted)
+					ref = ref.slice(1);
 	
 				for (let field of props.fields) {
 					if (field.ref == ref && field.type == "boolean") {
-						if ((field.value ^ inverted) == 0)
+						let value = field.value == true;
+
+						if ((value ^ inverted) == 0)
 							return;
+
 						break;
 					}
 				}
