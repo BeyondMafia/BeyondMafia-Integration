@@ -91,9 +91,8 @@ module.exports = function () {
                     var count = await models.Restart.count({ when: { $lt: Date.now() } })
                     await models.Restart.deleteMany({ when: { $lt: Date.now() } }).exec();
 
-                    if (count > 0) {
-                        child_process.execFile(path.join(__dirname, "update.sh"));
-                    }
+                    if (count > 0)
+                        child_process.spawn(path.join(__dirname, "update.sh"));
                     else {
                         var restart = await models.Restart.find().sort("when");
 
