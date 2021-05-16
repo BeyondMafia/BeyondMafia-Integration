@@ -293,8 +293,7 @@ var schemas = {
         creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     }),
     "Restart": new mongoose.Schema({
-        created: Number,
-        delay: Number
+        when: Number
     })
 };
 

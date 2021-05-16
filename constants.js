@@ -159,6 +159,7 @@ module.exports = {
 		"clearAllIPs",
 		"giveCoins",
 		"changeUsersName",
+		"scheduleRestart",
 	],
 	allPerms: {
 		"signIn": true,
@@ -219,6 +220,7 @@ module.exports = {
 		"giveCoins": true,
 		"changeUsersName": true,
 		"whitelist": true,
+		"scheduleRestart": true,
 	},
 	defaultGroups: {
 		"Owner": {

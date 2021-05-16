@@ -1,5 +1,8 @@
 const axios = require("axios");
 const fs = require("fs");
+const path = require("path");
+const child_process = require("child_process");
+
 const constants = require("./constants");
 const models = require("./db/models");
 const redis = require("./redis");
@@ -85,19 +88,20 @@ module.exports = function () {
         findNextRestart: {
             run: async function () {
                 try {
-                    var count = await models.Restart.count({ time: { $lt: Date.now() } })
-                    await models.Restart.deleteMany({ time: { $lt: Date.now() } }).exec();
+                    var count = await models.Restart.count({ when: { $lt: Date.now() } })
+                    await models.Restart.deleteMany({ when: { $lt: Date.now() } }).exec();
 
-                    if (count == 0) {
-                        var restart = await models.Restart.find().sort("time");
+                    if (count > 0) {
+                        child_process.execFile(path.join(__dirname, "update.sh"));
+                    }
+                    else {
+                        var restart = await models.Restart.find().sort("when");
 
                         if (restart[0])
-                            constants.restart = Math.round((restart[0].time - Date.now()) / (1000 * 60));
+                            constants.restart = restart[0].when;
                         else
                             constants.restart = null;
                     }
-                    else
-                        process.exit();
                 }
                 catch (e) {
                     logger.error(e);

@@ -178,6 +178,8 @@ function Header(props) {
 function SiteNotifs() {
     const [showNotifList, setShowNotifList] = useState(false);
     const [notifInfo, updateNotifInfo] = useNotifInfoReducer();
+    const [nextRestart, setNextRestart] = useState();
+    const siteInfo = useContext(SiteInfoContext);
     const history = useHistory();
 
     const bellRef = useRef();
@@ -196,6 +198,13 @@ function SiteNotifs() {
             viewedNotifs();
     }, [notifInfo.notifs]);
 
+    useEffect(() => {
+        if (nextRestart && nextRestart > Date.now()) {
+            var restartMinutes = Math.round((nextRestart - Date.now()) / 1000 / 60);
+            siteInfo.showAlert(`The server will be restarting in ${restartMinutes} minutes.`, "basic", true);
+        }
+    }, [nextRestart]);
+
     useLayoutEffect(() => {
         if (!showNotifList)
             return;
@@ -212,9 +221,14 @@ function SiteNotifs() {
     function getNotifs() {
         axios.get("/notifs")
             .then(res => {
+                var nextRestart = res.data[0];
+                var notifs = res.data.slice(1);
+
+                setNextRestart(nextRestart);
+
                 updateNotifInfo({
                     type: "add",
-                    notifs: res.data
+                    notifs: notifs
                 });
             })
             .catch(() => { });
