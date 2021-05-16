@@ -34,7 +34,8 @@ const channelMembers = {};
 
 				socket.on("auth", async token => {
 					try {
-						if (user) return;
+						if (user)
+							return;
 
 						var userId = await redis.authenticateToken(String(token));
 						if (!userId) return;
@@ -54,6 +55,9 @@ const channelMembers = {};
 
 				socket.on("getChannel", async channelId => {
 					try {
+						if (!user)
+							return;
+
 						channelId = String(channelId);
 
 						var permInfo = await redis.getUserPermissions(user.id);
@@ -96,7 +100,7 @@ const channelMembers = {};
 					try {
 						lastDate = Number(lastDate);
 
-						if (!lastDate)
+						if (!user || !lastDate)
 							return;
 
 						var permInfo = await redis.getUserPermissions(user.id);
@@ -121,6 +125,9 @@ const channelMembers = {};
 
 				socket.on("sendMessage", async content => {
 					try {
+						if (!user)
+							return;
+
 						content = String(content).slice(0, constants.maxChatMessageLength);
 
 						var permInfo = await redis.getUserPermissions(user.id);
@@ -267,6 +274,9 @@ const channelMembers = {};
 
 				socket.on("getUsers", async query => {
 					try {
+						if (!user)
+							return;
+
 						if (query == null || query.length == 0) {
 							socket.send("users", await redis.getOnlineUsersInfo(constants.chatUserOnlineAmt));
 							return;
@@ -290,7 +300,7 @@ const channelMembers = {};
 
 				socket.on("newDMChannel", async users => {
 					try {
-						if (!Array.isArray(users))
+						if (!user || !Array.isArray(users))
 							return;
 
 						var userHash = {};
@@ -363,8 +373,10 @@ const channelMembers = {};
 
 				socket.on("closeDM", async channelId => {
 					try {
-						channelId = String(channelId);
+						if (!user)
+							return;
 
+						channelId = String(channelId);
 						await models.ChannelOpen.deleteOne({ user: user.id, channelId }).exec();
 					}
 					catch (e) {
@@ -373,12 +385,23 @@ const channelMembers = {};
 				});
 
 				socket.on("getNotifs", async () => {
-					var notifs = await models.Notifications.find({ user: user.id });
-					socket.send("notifs", notifs);
+					try {
+						if (!user)
+							return;
+
+						var notifs = await models.Notifications.find({ user: user.id });
+						socket.send("notifs", notifs);
+					}
+					catch (e) {
+						logger.error(e);
+					}
 				});
 
 				socket.on("readNotifsInChannel", async channelId => {
 					try {
+						if (!user)
+							return;
+
 						await models.Notification.deleteMany({ user: user.id, channelId }).exec();
 					}
 					catch (e) {
@@ -391,7 +414,7 @@ const channelMembers = {};
 						var message = await models.ChatMessage.findOne({ id: messageId })
 							.select("senderId channel");
 
-						if (!message)
+						if (!user || !message)
 							return;
 
 						if (message.senderId != user.id && !(await utils.verifyPermission(user.id, "deleteChatMessage"))) {
@@ -408,8 +431,16 @@ const channelMembers = {};
 				});
 
 				socket.on("closedChat", () => {
-					if (currentChannel)
-						delete channelMembers[currentChannel][user.id];
+					try {
+						if (!user)
+							return;
+
+						if (currentChannel)
+							delete channelMembers[currentChannel][user.id];
+					}
+					catch (e) {
+						logger.error(e);
+					}
 				});
 
 				socket.on("disconnected", () => {
