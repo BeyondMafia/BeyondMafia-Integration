@@ -15,6 +15,8 @@ import Comments from "../Community/Comments";
 import "../../css/play.css";
 
 export default function Join(props) {
+    const lobby = props.lobby;
+
     const [listType, setListType] = useState("Open");
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
@@ -24,12 +26,13 @@ export default function Join(props) {
     const errorAlert = useErrorAlert();
 
     useEffect(() => {
-        document.title = "Play | EpicMafia";
-        getGameList(listType, page);
-    }, []);
+        document.title = `Play (${lobby}) | EpicMafia`;
+        getGameList(listType, 1);
+        setPage(1);
+    }, [lobby]);
 
     function getGameList(listType, page) {
-        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}`)
+        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}&lobby=${lobby}`)
             .then(res => {
                 setListType(listType);
                 setPage(page);
@@ -65,6 +68,7 @@ export default function Join(props) {
                     map={game => (
                         <GameRow
                             game={game}
+                            lobby={lobby}
                             type={listType}
                             refresh={() => getGameList(listType, page)}
                             key={game.id} />
@@ -75,7 +79,7 @@ export default function Join(props) {
                     maxPage={pageCount}
                     onNav={(page) => getGameList(listType, page)} />
             </div>
-            <Comments location="lobby" />
+            <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
         </>
     );
 }
@@ -139,6 +143,7 @@ export function GameRow(props) {
         axios.post("/game/host", {
             gameType: props.game.type,
             setup: props.game.setup.id,
+            lobby: props.lobby,
             private: false,
             ranked: props.game.ranked,
             spectating: props.game.spectating,

@@ -157,6 +157,10 @@ a {
     background-color: #2e2e2e;
 }
 
+.loading-page.under {
+    margin-top: 10px;
+}
+
 .span-panel .top-bar {
     display: flex;
     flex-flow: row wrap;

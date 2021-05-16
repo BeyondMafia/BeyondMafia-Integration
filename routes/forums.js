@@ -154,7 +154,6 @@ router.get("/board/:id", async function (req, res) {
 		board = board.toJSON();
 		board.threads = threads;
 		board.pinnedThreads = pinnedThreads;
-		board.isLastPage = threads.length < constants.threadsPerPage;
 		delete board._id;
 
 		res.send(board);

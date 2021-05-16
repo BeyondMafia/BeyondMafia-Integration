@@ -16,7 +16,7 @@ const server = new sockets.SocketServer(port);
 
 var games = {};
 
-(async function() {
+(async function () {
 	try {
 		await redis.registerGameServer(port);
 		await db.promise;
@@ -34,42 +34,42 @@ var games = {};
 		server.on("connection", socket => {
 			try {
 				var user;
-	
+
 				socket.send("connected");
-	
+
 				socket.on("auth", async token => {
 					try {
 						if (user) return;
-	
+
 						const userId = await redis.authenticateToken(String(token));
 						if (!userId) return;
-	
+
 						user = await models.User.findOne({ id: userId, deleted: false })
 							.select("id name avatar settings dev itemsOwned rankedCount stats playedGame referrer");
-							
+
 						if (!user) {
 							user = null;
 							return;
 						}
-	
+
 						if (!(await routeUtils.verifyPermission(userId, "playGame"))) {
 							socket.send("banned");
 							socket.terminate();
 							return;
 						}
-	
+
 						user = user.toObject();
 						user.socket = socket;
 						user.settings = user.settings || {};
 						user = new User(user);
-	
+
 						socket.send("authSuccess");
 					}
 					catch (e) {
 						logger.error(e);
 					}
 				});
-	
+
 				socket.on("join", async (info) => {
 					try {
 						const gameId = String(info.gameId);
@@ -79,18 +79,19 @@ var games = {};
 						if (!user && !game.guests)
 							return;
 						else if (!user) {
-							user = new User({ socket });
+							var guestId = String(info.guestId).slice(0, 20);
+							user = new User({ socket, guestId });
 							isBot = true;
 						}
-	
+
 						isBot = isBot || (user.dev && info.isBot);
-	
+
 						if (isBot) {
 							user.id = shortid.generate();
 							user.name = null;
 							user.avatar = false;
 						}
-					
+
 						if (!game || !await redis.gameExists(gameId)) {
 							socket.send("error", "Unable to join game.");
 							return;
@@ -119,7 +120,7 @@ var games = {};
 						logger.error(e);
 					}
 				});
-	
+
 				// The main server authenticating as a server
 				socket.on("authAsServer", async token => {
 					try {
@@ -130,15 +131,15 @@ var games = {};
 						logger.error(e);
 					}
 				});
-	
+
 				// The main server attempting to create a game
 				socket.on("createGame", async data => {
 					try {
 						if (!socket.isServer)
 							throw new Error("Not authenticated as server");
-	
+
 						const Game = require(`./types/${data.gameType}/Game`);
-	
+
 						games[data.gameId] = new Game({
 							id: data.gameId,
 							hostId: data.hostId,
@@ -146,7 +147,7 @@ var games = {};
 							settings: data.settings
 						});
 						await games[data.gameId].init();
-	
+
 						socket.send("gameCreated", data.gameId);
 					}
 					catch (e) {
@@ -154,43 +155,43 @@ var games = {};
 						socket.send("gameCreateError", { gameId: data.gameId, error: e.message });
 					}
 				});
-	
+
 				// The main server making a player leave a game
 				socket.on("leaveGame", async data => {
 					try {
 						if (!socket.isServer)
 							throw new Error("Not authenticated as server.");
-	
+
 						const gameId = await redis.inGame(data.userId);
 						const game = games[gameId];
-						
+
 						if (!game)
 							throw new Error(`User ${data.userId} unable to leave game ${gameId}.`);
-	
+
 						game.userLeave(data.userId);
 						socket.send("gameLeft", data.userId);
 					}
-					catch(e) {
+					catch (e) {
 						logger.error(e);
 						socket.send("gameLeaveError", { userId: data.userId, error: e.message });
 					}
 				});
-	
+
 				// The main cancelling a game
 				socket.on("cancelGame", async data => {
 					try {
 						if (!socket.isServer)
 							throw new Error("Not authenticated as server.");
-	
+
 						const game = games[data.gameId];
-						
+
 						if (!game)
 							throw new Error(`Unable to cancel game ${gameId}.`);
-	
+
 						game.cancel();
 						socket.send("gameLeft", data.userId);
 					}
-					catch(e) {
+					catch (e) {
 						logger.error(e);
 						socket.send("gameLeaveError", { userId: data.userId, error: e.message });
 					}
@@ -201,7 +202,7 @@ var games = {};
 			}
 		});
 	}
-	catch(e) {
+	catch (e) {
 		logger.error(e);
 	}
 })();
@@ -213,7 +214,7 @@ async function onClose() {
 		await redis.client.quitAsync();
 		process.exit();
 	}
-	catch(e) {
+	catch (e) {
 		logger.error(e);
 	}
 }
@@ -224,6 +225,7 @@ async function clearBrokenGames() {
 
 		for (let game of existingGames) {
 			if (game.port != port) continue;
+			if (game.settings.scheduled > Date.now()) continue;
 
 			if (game.status == "Open")
 				await redis.deleteGame(game.id);
@@ -231,7 +233,7 @@ async function clearBrokenGames() {
 				await redis.breakGame(game.id);
 		}
 	}
-	catch(e) {
+	catch (e) {
 		logger.error(e);
 	}
 }

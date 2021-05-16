@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Route, Switch, Redirect, useLocation, useHistory } from "react-router-dom";
 
 import Join from "./Join";
 
@@ -20,13 +20,22 @@ import CreateOneNightSetup from "./CreateSetup/CreateOneNightSetup";
 import LearnOneNight from "./Learn/LearnOneNight";
 
 import { SubNav } from "../../components/Nav";
-import { GameTypes } from "../../Constants";
+import { GameTypes, Lobbies } from "../../Constants";
 import { UserContext } from "../../Contexts";
 
 export default function Play(props) {
     const defaultGameType = "Mafia";
+    const defaultLobby = "Main";
+
     const user = useContext(UserContext);
-    const [gameType, setGameType] = useState(localStorage.getItem("gameType") || defaultGameType);
+    const location = useLocation();
+    const history = useHistory();
+    const params = new URLSearchParams(location.search);
+    const inLobby = location.pathname == "/play";
+
+    const [gameType, setGameType] = useState(params.get("game") || localStorage.getItem("gameType") || defaultGameType);
+    const [lobby, setLobby] = useState(params.get("lobby") || localStorage.getItem("lobby") || defaultLobby);
+    
     const links = [
         {
             text: "Play",
@@ -49,23 +58,43 @@ export default function Play(props) {
         }
     ];
 
+    useEffect(() => {
+        localStorage.setItem("gameType", gameType);
+
+        if (!inLobby && params.get("game") != gameType)
+            history.push(location.pathname + `?game=${gameType}`);
+    }, [location.pathname, gameType]);
+
+    useEffect(() => {
+        localStorage.setItem("lobby", lobby);
+
+        if (inLobby && params.get("lobby") != lobby)
+            history.push(location.pathname + `?lobby=${lobby}`);
+    }, [location.pathname, lobby]);
+
     function onFilterGameType(gameType) {
         setGameType(gameType);
-        localStorage.setItem("gameType", gameType);
     }
+
+    function onFilterLobby(lobby) {
+        setLobby(lobby);
+    }
+
+    if (Lobbies.indexOf(lobby) == -1)
+        onFilterLobby(defaultLobby);
 
     return (
         <>
             <SubNav
                 links={links}
-                showFilter={window.location.pathname != "/play"}
-                filterSel={gameType}
-                filterOptions={GameTypes}
-                onFilter={onFilterGameType}
-                filterIcon={<i className="fas fa-gamepad" />} />
+                showFilter={true}
+                filterSel={inLobby ? lobby : gameType}
+                filterOptions={inLobby ? Lobbies : GameTypes}
+                onFilter={inLobby ? onFilterLobby : onFilterGameType}
+                filterIcon={inLobby ? <i className="fas fa-house-user" /> : <i className="fas fa-gamepad" />} />
             <div className="inner-content">
                 <Switch>
-                    <Route exact path="/play" render={() => <Join />} />
+                    <Route exact path="/play" render={() => <Join lobby={lobby} />} />
 
                     <Route
                         exact
@@ -82,7 +111,7 @@ export default function Play(props) {
                                     case "One Night":
                                         return <HostOneNight />;
                                     default:
-                                        onFilterGameType(defaultGameType);
+                                        setGameType(defaultGameType);
                                         return <></>;
                                 }
                             }
@@ -103,7 +132,7 @@ export default function Play(props) {
                                     case "One Night":
                                         return <CreateOneNightSetup />;
                                     default:
-                                        onFilterGameType(defaultGameType);
+                                        setGameType(defaultGameType);
                                         return <></>;
                                 }
                             }
@@ -124,7 +153,7 @@ export default function Play(props) {
                                     case "One Night":
                                         return <LearnOneNight />;
                                     default:
-                                        onFilterGameType(defaultGameType);
+                                        setGameType(defaultGameType);
                                         return <></>;
                                 }
                             }

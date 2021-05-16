@@ -1,6 +1,7 @@
 module.exports = {
 	restart: null,
 	gameTypes: ["Mafia", "Split Decision", "Resistance", "One Night"],
+	lobbies: ["Main", "Sandbox"],
 	alignments: {
 		"Mafia": ["Village", "Mafia", "Monsters", "Independent"],
 		"Split Decision": ["Blue", "Red", "Independent"],
@@ -158,6 +159,7 @@ module.exports = {
 		"clearAllIPs",
 		"giveCoins",
 		"changeUsersName",
+		"scheduleRestart",
 	],
 	allPerms: {
 		"signIn": true,
@@ -218,6 +220,7 @@ module.exports = {
 		"giveCoins": true,
 		"changeUsersName": true,
 		"whitelist": true,
+		"scheduleRestart": true,
 	},
 	defaultGroups: {
 		"Owner": {

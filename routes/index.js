@@ -16,8 +16,4 @@ router.get("/nextRestart", function (req, res) {
     }
 });
 
-router.get("/braintree", function (req, res) {
-    res.send("Hi Braintree, this is Elliot Nester.");
-});
-
 module.exports = router;

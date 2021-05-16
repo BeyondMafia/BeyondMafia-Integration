@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import update from "immutability-helper";
 
 import { useErrorAlert } from "../../components/Alerts";
 import { VoteWidget } from "./Forums/Forums";
@@ -10,6 +9,7 @@ import { Time, filterProfanity } from "../../components/Basic";
 import { PageNav } from "../../components/Nav";
 import { TextEditor } from "../../components/Form";
 import { UserContext } from "../../Contexts";
+import LoadingPage from "../Loading";
 
 import "../../css/forums.css";
 import "../../css/comments.css";
@@ -21,38 +21,36 @@ export default function Comments(props) {
 	const [comments, setComments] = useState([]);
 	const [showInput, setShowInput] = useState(false);
 	const [postContent, setPostContent] = useState("");
+	const [loaded, setLoaded] = useState(false);
 
 	const user = useContext(UserContext);
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
+		setComments([]);
+		setLoaded(false);
 		onCommentsPageNav(1);
-	}, []);
+	}, [location]);
 
 	function onCommentsPageNav(_page) {
 		var filterArg;
 
 		if (_page == 1)
 			filterArg = "last=Infinity";
-		else if (_page < page)
+		else if (_page < page && comments.length)
 			filterArg = `first=${comments[0].date}`;
-		else if (_page > page)
+		else if (_page > page && comments.length)
 			filterArg = `last=${comments[comments.length - 1].date}`;
 		else
 			return;
 
 		axios.get(`/comment?location=${location}&${filterArg}`)
 			.then(res => {
+				setLoaded(true);
+
 				if (res.data.length > 0) {
 					setComments(res.data);
 					setPage(_page);
-				}
-				else {
-					setComments(update(comments, {
-						isLastPage: {
-							$set: true
-						}
-					}));
 				}
 			})
 			.catch(errorAlert);
@@ -81,6 +79,9 @@ export default function Comments(props) {
 			onRestore={() => onCommentsPageNav(page)}
 			key={comment.id} />
 	));
+
+	if (!loaded)
+		return <LoadingPage className="under" />;
 
 	return (
 		<div className="comments-wrapper thread-wrapper">
