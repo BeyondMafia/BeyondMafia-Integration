@@ -106,7 +106,7 @@ module.exports = function () {
                     logger.error(e);
                 }
             },
-            interval: 1000 * 60
+            interval: 1000 * 10
         },
         gamesWebhook: {
             run: async function () {
