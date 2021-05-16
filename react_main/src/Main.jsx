@@ -200,7 +200,7 @@ function SiteNotifs() {
 
     useEffect(() => {
         if (nextRestart && nextRestart > Date.now()) {
-            var restartMinutes = Math.round((nextRestart - Date.now()) / 1000 / 60);
+            var restartMinutes = Math.ceil((nextRestart - Date.now()) / 1000 / 60);
             siteInfo.showAlert(`The server will be restarting in ${restartMinutes} minutes.`, "basic", true);
         }
     }, [nextRestart]);
