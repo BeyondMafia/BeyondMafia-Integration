@@ -1152,7 +1152,7 @@ router.post("/scheduleRestart", async (req, res) => {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error changing name.");
+		res.send("Error scheduling restart.");
 	}
 });
 
