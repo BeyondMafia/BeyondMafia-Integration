@@ -24,6 +24,7 @@ router.get("/", async function (req, res) {
 			.select("-_id -_v");
 
 		var notifs = globalNotifs.concat(userNotifs).sort((a, b) => b.date - a.date);
+		notifs.push(constants.restart);
 		res.send(notifs);
 	}
 	catch (e) {

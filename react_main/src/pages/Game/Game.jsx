@@ -691,6 +691,7 @@ export function TopBar(props) {
 			rehost: gameId,
 			gameType: props.gameType,
 			setup: props.setup.id,
+			lobby: props.options.lobby,
 			private: props.options.private,
 			spectating: props.options.spectating,
 			ranked: props.options.ranked,

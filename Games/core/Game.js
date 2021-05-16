@@ -41,6 +41,7 @@ module.exports = class Game {
 		this.stateEvents = {};
 		this.stateEventMessages = {};
 		this.setup = options.settings.setup;
+		this.lobby = options.settings.lobby;
 		this.private = options.settings.private;
 		this.guests = options.settings.guests;
 		this.ranked = options.settings.ranked;
@@ -95,6 +96,7 @@ module.exports = class Game {
 				port: this.port,
 				status: "Open",
 				hostId: this.hostId,
+				lobby: this.lobby,
 				settings: {
 					setup: this.setup.id,
 					total: this.setup.total,
@@ -450,6 +452,7 @@ module.exports = class Game {
 		player.sendSelf();
 		player.send("players", this.getAllPlayerInfo(player));
 		player.send("options", {
+			lobby: this.lobby,
 			private: this.private,
 			ranked: this.ranked,
 			spectating: this.spectating,
@@ -1131,6 +1134,7 @@ module.exports = class Game {
 			var game = new models.Game({
 				id: this.id,
 				type: this.type,
+				lobby: this.lobby,
 				setup: setup._id,
 				users: users,
 				players: players,

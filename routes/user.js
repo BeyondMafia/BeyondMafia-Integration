@@ -4,7 +4,6 @@ const fs = require("fs");
 const formidable = bluebird.promisifyAll(require("formidable"), { multiArgs: true });
 const sharp = require("sharp");
 const color = require("color");
-const global = require("../constants");
 const models = require("../db/models");
 const routeUtils = require("./utils");
 const redis = require("../redis");

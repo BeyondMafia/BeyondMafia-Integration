@@ -26,12 +26,13 @@ export default function Join(props) {
     const errorAlert = useErrorAlert();
 
     useEffect(() => {
-        document.title = "Play | EpicMafia";
-        getGameList(listType, page);
-    }, []);
+        document.title = `Play (${lobby}) | EpicMafia`;
+        getGameList(listType, 1);
+        setPage(1);
+    }, [lobby]);
 
     function getGameList(listType, page) {
-        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}`)
+        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}&lobby=${lobby}`)
             .then(res => {
                 setListType(listType);
                 setPage(page);
@@ -67,6 +68,7 @@ export default function Join(props) {
                     map={game => (
                         <GameRow
                             game={game}
+                            lobby={lobby}
                             type={listType}
                             refresh={() => getGameList(listType, page)}
                             key={game.id} />
@@ -141,6 +143,7 @@ export function GameRow(props) {
         axios.post("/game/host", {
             gameType: props.game.type,
             setup: props.game.setup.id,
+            lobby: props.lobby,
             private: false,
             ranked: props.game.ranked,
             spectating: props.game.spectating,

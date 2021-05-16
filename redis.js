@@ -314,12 +314,17 @@ async function getGameInfo(gameId, idsOnly) {
 	info.port = await client.getAsync(`game:${gameId}:port`);
 	info.status = await client.getAsync(`game:${gameId}:status`);
 	info.hostId = await client.getAsync(`game:${gameId}:hostId`);
-	info.players = (await client.smembersAsync(`game:${gameId}:players`)) || [];
+	info.lobby = await client.getAsync(`game:${gameId}:lobby`);
 	info.settings = JSON.parse(await client.getAsync(`game:${gameId}:settings`) || "{}");
 	info.createTime = Number(await client.getAsync(`game:${gameId}:createTime`));
 	info.startTime = Number(await client.getAsync(`game:${gameId}:startTime`));
 	info.webhookPublished = await client.existsAsync(`game:${gameId}:webhookPublished`);
 	info.setup = info.settings.setup;
+
+	if (!info.settings.scheduled || info.settings.scheduled < Date.now())
+		info.players = (await client.smembersAsync(`game:${gameId}:players`)) || [];
+	else 
+		info.players = await getGameReservations(gameId);
 
 	if (!idsOnly) {
 		var newPlayers = [];
@@ -557,6 +562,7 @@ async function deleteGame(gameId, game) {
 	await client.delAsync(`game:${gameId}:port`);
 	await client.delAsync(`game:${gameId}:status`);
 	await client.delAsync(`game:${gameId}:hostId`);
+	await client.delAsync(`game:${gameId}:lobby`);
 	await client.delAsync(`game:${gameId}:players`);
 	await client.delAsync(`game:${gameId}:settings`);
 	await client.delAsync(`game:${gameId}:createTime`);

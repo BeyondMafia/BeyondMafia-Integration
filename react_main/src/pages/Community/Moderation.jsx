@@ -962,5 +962,23 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Schedule Restart": {
+			perm: "scheduleRestart",
+			args: [
+				{
+					label: "When",
+					name: "when",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/scheduleRestart", argValues)
+					.then(() => {
+						siteInfo.showAlert("Restart scheduled.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 	};
 }

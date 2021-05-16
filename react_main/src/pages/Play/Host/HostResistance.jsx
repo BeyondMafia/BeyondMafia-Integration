@@ -6,6 +6,7 @@ import Host from "./Host";
 import { useForm } from "../../../components/Form";
 import { useErrorAlert } from "../../../components/Alerts";
 import { SiteInfoContext } from "../../../Contexts";
+import { Lobbies } from "../../../Constants";
 
 import "../../../css/host.css"
 
@@ -21,6 +22,13 @@ export default function HostResistance() {
             ref: "setup",
             type: "text",
             disabled: true,
+        },
+        {
+            label: "Lobby",
+            ref: "lobby",
+			type: "select",
+            value: localStorage.getItem("lobby") || "Main",
+			options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
         },
         {
             label: "Private",
@@ -89,21 +97,22 @@ export default function HostResistance() {
     }, []);
 
     function onHostGame() {
-        var scheduled = formFields[5].value;
+        var scheduled = formFields[6].value;
 
         if (selSetup.id)
             axios.post("/game/host", {
                 gameType: gameType,
                 setup: selSetup.id,
-                private: formFields[1].value,
-                guests: formFields[2].value,
-                spectating: formFields[3].value,
-                voiceChat: formFields[4].value,
-                scheduled: scheduled && (new Date(formFields[6].value)).getTime(),
+                lobby: formFields[1].value,
+                private: formFields[2].value,
+                guests: formFields[3].value,
+                spectating: formFields[4].value,
+                voiceChat: formFields[5].value,
+                scheduled: scheduled && (new Date(formFields[7].value)).getTime(),
                 stateLengths: {
-                    "Team Selection": formFields[7].value,
-                    "Team Approval": formFields[8].value,
-                    "Mission": formFields[9].value,
+                    "Team Selection": formFields[8].value,
+                    "Team Approval": formFields[9].value,
+                    "Mission": formFields[10].value,
                 }
             })
                 .then(res => {
