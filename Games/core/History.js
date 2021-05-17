@@ -110,8 +110,10 @@ module.exports = class History {
 				res[state].meetings[meetingId] = meeting.getMeetingInfo(this.player);
 			}
 
-			for (let alert of info.alerts)
-				res[state].alerts.push(alert.getMessageInfo(this.player));
+			for (let alert of info.alerts) {
+				alert = alert.getMessageInfo(this.player);
+				if (alert) res[state].alerts.push(alert);
+			}
 
 			if (targetState)
 				break;

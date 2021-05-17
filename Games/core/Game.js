@@ -456,6 +456,7 @@ module.exports = class Game {
 			private: this.private,
 			ranked: this.ranked,
 			spectating: this.spectating,
+			guests: this.guests,
 			voiceChat: this.voiceChat,
 			stateLengths: this.stateLengths,
 			gameTypeOptions: this.getGameTypeOptions()

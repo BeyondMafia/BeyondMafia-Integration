@@ -213,7 +213,11 @@ module.exports = class Meeting {
 			inputType: this.inputType,
 			votes: votes,
 			voteRecord: voteRecord,
-			messages: this.messages.map(m => m.getMessageInfo(member.player)),
+			messages: this.messages.reduce((msgs, m) => {
+				m = m.getMessageInfo(member.player);
+				if (m) msgs.push(m);
+				return msgs;
+			}, []),
 			canVote: member.canVote,
 			canUnvote: member.canUnvote,
 			canTalk: member.canTalk,
@@ -656,7 +660,8 @@ module.exports = class Meeting {
 		if (!message.recipients)
 			message.recipients = this.getPlayers();
 
-		if (message.recipients.length == 0) return;
+		if (message.recipients.length == 0)
+			return;
 
 		message = new Message({
 			sender: message.sender,

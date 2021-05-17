@@ -14,6 +14,7 @@ module.exports = class GunGiver extends Card {
 					priority: -50,
 					run: function () {
 						this.target.holdItem("Gun");
+						this.target.queueAlert("You have received a gun!");
 					}
 				}
 			}

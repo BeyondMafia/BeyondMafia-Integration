@@ -144,6 +144,7 @@ export function GameRow(props) {
             gameType: props.game.type,
             setup: props.game.setup.id,
             lobby: props.lobby,
+            guests: props.game.guests,
             private: false,
             ranked: props.game.ranked,
             spectating: props.game.spectating,
