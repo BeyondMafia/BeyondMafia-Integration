@@ -52,7 +52,7 @@ module.exports = class Quote {
 		}
 		else if (player) {
 			playerId = player.id;
-			version = this.versions[playerId] || this.versions["*"];
+			version = this.versions[playerId];
 		}
 		else if (this.versions["*"].parseForReview)
 			version = this.versions["*"].parseForReview(this);

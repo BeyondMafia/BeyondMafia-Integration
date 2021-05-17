@@ -88,7 +88,7 @@ router.get("/list", async function (req, res) {
         }
         else if (start < gameLimit) {
             const games = await models.Game.find({ lobby })
-                .select("id type setup ranked private spectating voiceChat stateLengths gameTypeOptions broken -_id")
+                .select("id type setup ranked private spectating guests voiceChat stateLengths gameTypeOptions broken -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
                 .sort("-endTime")
                 .skip(start)
@@ -188,7 +188,7 @@ router.get("/:id/info", async function (req, res) {
 
         if (!game) {
             game = await models.Game.findOne({ id: gameId })
-                .select("type users players left stateLengths ranked spectating voiceChat startTime endTime gameTypeOptions -_id")
+                .select("type users players left stateLengths ranked spectating guests voiceChat startTime endTime gameTypeOptions -_id")
                 .populate("users", "id name avatar -_id");
 
             if (!game) {

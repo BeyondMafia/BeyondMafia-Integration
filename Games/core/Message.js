@@ -43,7 +43,7 @@ module.exports = class Message {
 
 		if (this.meeting)
 			this.meeting.messages.push(this);
-		else if (this.globalAlert)
+		else
 			this.game.history.addAlert(this);
 
 		for (let player of this.recipients)
@@ -61,10 +61,16 @@ module.exports = class Message {
 		if (player == "spectator") {
 			playerId = "spectator";
 			version = this.versions["*"];
+
+			if (!version.meeting && version.recipients)
+				return;
 		}
 		else if (player) {
 			playerId = player.id;
-			version = this.versions[playerId] || this.versions["*"];
+			version = this.versions[playerId];
+
+			if (!version)
+				return;
 		}
 		else if (this.versions["*"].parseForReview)
 			version = this.versions["*"].parseForReview(this);
