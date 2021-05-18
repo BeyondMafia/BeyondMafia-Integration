@@ -2104,6 +2104,8 @@ function useHistoryReducer() {
 						}
 					});
 				}
+				else
+					newHistory = history;
 				break;
 			case "removeMeeting":
 				newHistory = update(history, {
@@ -2306,7 +2308,7 @@ function useHistoryReducer() {
 				break;
 		}
 
-		return newHistory;
+		return newHistory || history;
 	}, { states: {} });
 }
 

@@ -4,17 +4,6 @@ module.exports = class ContactByRole extends Card {
 
 	constructor(role) {
 		super(role);
-
-		this.meetingMods = {
-			"Village": {
-				speechAbilities: [{
-					name: "Contact",
-					targetsDescription: { include: ["all"], exclude: ["self"] },
-					targetType: "role",
-					verb: ""
-				}]
-			}
-		};
 	}
 
 	speak(message) {
