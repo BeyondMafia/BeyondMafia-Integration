@@ -224,7 +224,9 @@ module.exports = class Player {
 		socket.on("leave", () => {
 			try {
 				this.game.playerLeave(this);
-				this.game.sendAlert(`${this.name} left the game.`);
+
+				if (this.alive)
+					this.game.sendAlert(`${this.name} left the game.`);
 			}
 			catch (e) {
 				logger.error(e);
