@@ -7,16 +7,6 @@ module.exports = class Telepath extends Role {
 
 		this.alignment = "Mafia";
 		this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "ContactByRole"];
-		this.meetingMods = {
-			"Village": {
-				speechAbilities: [{
-					name: "Contact",
-					targetsDescription: { include: ["all"], exclude: ["Mafia"] },
-					targetType: "role",
-					verb: ""
-				}]
-			}
-		};
 	}
 
 }
