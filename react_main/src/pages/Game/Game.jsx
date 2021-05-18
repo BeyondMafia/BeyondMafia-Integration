@@ -866,7 +866,7 @@ export function TextMeetingLayout(props) {
 	}
 
 	function onMessageQuote(message) {
-		if (!props.review && message.senderId != "server" && !message.isQuote) {
+		if (!props.review && message.senderId != "server" && !message.isQuote && message.quotable) {
 			props.socket.send("quote", {
 				messageId: message.id,
 				toMeetingId: history.states[history.currentState].selTab,
@@ -2086,19 +2086,24 @@ function useHistoryReducer() {
 				});
 				break;
 			case "meetingMembers":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.meetingId]: {
-									members: {
-										$set: action.members
+				if (
+					history.states[history.currentState] &&
+					history.states[history.currentState].meetings[action.meetingId]
+				) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								meetings: {
+									[action.meetingId]: {
+										members: {
+											$set: action.members
+										}
 									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 				break;
 			case "removeMeeting":
 				newHistory = update(history, {

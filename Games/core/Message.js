@@ -17,6 +17,7 @@ module.exports = class Message {
 		this.anonymous = info.anonymous;
 		this.versions = {};
 		this.timeSent = info.timeSent;
+		this.quotable = info.quotable || true;
 		this.modified = false;
 	}
 
@@ -52,7 +53,7 @@ module.exports = class Message {
 		else
 			this.game.history.addAlert(this);
 
-		for (let player of this.recipients)
+		for (let player of this.versions["*"].recipients)
 			player.hear(this.versions["*"], this);
 
 		if (this.globalAlert || (this.meeting && this.game.isSpectatorMeeting(this.meeting)))
@@ -97,7 +98,8 @@ module.exports = class Message {
 			content: version.content,
 			meetingId: version.meeting && version.meeting.id,
 			prefix: version.prefix,
-			time: version.timeSent
+			time: version.timeSent, 
+			quotable: version.quotable
 		};
 	}
 

@@ -183,6 +183,12 @@ const roleData = {
                 "Decides whether prisoner should be executed or not.",
             ],
         },
+        "Psychic": {
+            alignment: "Village",
+            description: [
+                "Can anonymously contact any non-Village role.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -258,6 +264,12 @@ const roleData = {
             description: [
                 "Can choose a person to clean each night.",
                 "If that person dies their role will not be revealed.",
+            ],
+        },
+        "Telepath": {
+            alignment: "Mafia",
+            description: [
+                "Can anonymously contact any non-Mafia role.",
             ],
         },
 

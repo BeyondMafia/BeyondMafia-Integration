@@ -9,6 +9,7 @@ module.exports = class Quote extends Message {
 		this.messageId = info.messageId;
 		this.fromMeetingId = info.fromMeetingId;
 		this.fromState = info.fromState;
+		this.quotable = false;
 		this.cancel = false;
 	}
 
