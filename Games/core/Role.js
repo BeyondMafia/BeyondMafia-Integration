@@ -300,7 +300,8 @@ module.exports = class Role {
 			}
 		}
 
-		if (!options) return;
+		if (!options || !options.action)
+			return;
 
 		options = options.action;
 		options.actor = this.player;
