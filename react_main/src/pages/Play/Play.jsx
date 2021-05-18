@@ -61,7 +61,7 @@ export default function Play(props) {
     useEffect(() => {
         localStorage.setItem("gameType", gameType);
 
-        if (!inLobby && params.get("game") != gameType)
+        if (!inLobby && !params.get("edit") && params.get("game") != gameType)
             history.push(location.pathname + `?game=${gameType}`);
     }, [location.pathname, gameType]);
 

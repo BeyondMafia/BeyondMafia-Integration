@@ -13,8 +13,8 @@
             ],
             "enableContentValidation": false,
             // "program": "${workspaceFolder}/debug.js"
-            // "program": "${workspaceFolder}/Games/games.js"
-            "program": "${workspaceFolder}/bin/www"
+            "program": "${workspaceFolder}/Games/games.js"
+            // "program": "${workspaceFolder}/bin/www"
             // "program": "${workspaceFolder}/chat.js"
             // "program": "${workspaceFolder}/MafiaBot/mafiaBot.js"
         }

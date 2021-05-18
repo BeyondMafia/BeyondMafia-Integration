@@ -12,7 +12,7 @@ module.exports = class Insanity extends Effect {
 		var originalLength = message.content.length;
 
 		message.content = "";
-		message.parseForReview = this.parseSpeechForReview;
+		message.parseForReview = this.parseForReview;
 		message.modified = true;
 
 		for (let i = 0; i < originalLength; i++) {
@@ -25,7 +25,7 @@ module.exports = class Insanity extends Effect {
 		}
 	}
 
-	parseSpeechForReview(message) {
+	parseForReview(message) {
 		message.content = message.versions["*"].content;
 		return message;
 	}

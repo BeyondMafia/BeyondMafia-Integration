@@ -19,11 +19,6 @@ module.exports = class Effect {
 		this.player = player;
 		this.player.effects.push(this);
 
-		this.disableMeetings(player.role.meetings);
-
-		for (let item of player.items)
-			this.disableMeetings(item.meetings);
-
 		this.ageListener = this.age.bind(this);
 		this.game.events.on("state", this.ageListener);
 
@@ -48,17 +43,6 @@ module.exports = class Effect {
 
 		for (let eventName in this.listeners)
 			this.player.events.removeListener(eventName, this.listeners[eventName]);
-	}
-
-	disableMeetings(meetings) {
-		for (let meetingName in meetings) {
-			let meeting = meetings[meetingName];
-
-			if (this.shouldDisableMeeting(meeting)) {
-				meeting.disabled = true;
-				this.disabledMeetings.push(meeting);
-			}
-		}
 	}
 
 	shouldDisableMeeting(meeting) { return false }
