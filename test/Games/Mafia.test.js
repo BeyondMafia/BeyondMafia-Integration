@@ -1053,4 +1053,40 @@ describe("Games/Mafia", function () {
             should.exist(game.winners.groups["Village"]);
         });
     });
+
+    describe("Jailer", function () {
+        it("should jail and kill the Mafia", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Jailer": 1, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name == "Village") {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Jail Target") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Jail") {
+                    this.sendToServer("vote", {
+                        selection: "Yes",
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Village"]);
+            should.not.exist(game.winners.groups["Mafia"]);
+        });
+    });
 });

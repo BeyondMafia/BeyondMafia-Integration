@@ -866,7 +866,7 @@ export function TextMeetingLayout(props) {
 	}
 
 	function onMessageQuote(message) {
-		if (!props.review && message.senderId != "server" && !message.isQuote) {
+		if (!props.review && message.senderId != "server" && !message.isQuote && message.quotable) {
 			props.socket.send("quote", {
 				messageId: message.id,
 				toMeetingId: history.states[history.currentState].selTab,
@@ -1005,7 +1005,8 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
 
 	for (let vote of voteRecord) {
 		let isUnvote = vote.type == "unvote";
-		let voterName = players[vote.voterId].name;
+		let voter = players[vote.voterId];
+		let voterName = voter ? voter.name : "Anonymous";
 		let target = vote.target;
 
 		if (!isUnvote) {
@@ -1541,17 +1542,17 @@ function ActionSelect(props) {
 		);
 	});
 
-	const votes = Object.values(meeting.members).map(member => {
+	const votes = Object.values(meeting.members).filter(member => member.canVote).map(member => {
+		var selection = meeting.votes[member.id];
 		var player = props.players[member.id];
-		var selection = meeting.votes[player.id];
 		selection = getTargetDisplay(selection, meeting, props.players);
 
 		return (
 			<div
 				className={`vote ${meeting.multi ? "multi" : ""}`}
-				key={player.id}>
+				key={member.id}>
 				<div className="voter">
-					{player.name}
+					{(player && player.name) || "Anonymous"}
 				</div>
 				{
 					selection.length > 0 &&
@@ -2085,19 +2086,24 @@ function useHistoryReducer() {
 				});
 				break;
 			case "meetingMembers":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.meetingId]: {
-									members: {
-										$set: action.members
+				if (
+					history.states[history.currentState] &&
+					history.states[history.currentState].meetings[action.meetingId]
+				) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								meetings: {
+									[action.meetingId]: {
+										members: {
+											$set: action.members
+										}
 									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 				break;
 			case "removeMeeting":
 				newHistory = update(history, {

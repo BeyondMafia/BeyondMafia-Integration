@@ -1142,7 +1142,7 @@ module.exports = class Game {
 				left: playersGone.map(p => p.id),
 				names: playerNames,
 				winners: this.winners.players.map(p => p.id),
-				history: !this.private && JSON.stringify(history),
+				history: JSON.stringify(history),
 				startTime: this.startTime,
 				endTime: Date.now(),
 				ranked: this.ranked,

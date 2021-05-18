@@ -175,6 +175,20 @@ const roleData = {
                 "All Masons die if they attempt to convert a member of the Mafia.",
             ],
         },
+        "Jailer": {
+            alignment: "Village",
+            description: [
+                "Chooses someone to jail each day.",
+                "Meets with the prisoner at night and the prisoner cannot attend other meetings or perform actions.",
+                "Decides whether prisoner should be executed or not.",
+            ],
+        },
+        "Psychic": {
+            alignment: "Village",
+            description: [
+                "Can anonymously contact any non-Village role.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -250,6 +264,12 @@ const roleData = {
             description: [
                 "Can choose a person to clean each night.",
                 "If that person dies their role will not be revealed.",
+            ],
+        },
+        "Telepath": {
+            alignment: "Mafia",
+            description: [
+                "Can anonymously contact any non-Mafia role.",
             ],
         },
 

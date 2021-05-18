@@ -147,6 +147,10 @@ module.exports = class Meeting {
 	}
 
 	init() {
+		if (this.anonymous)
+			for (let member of this.members)
+				member.anonId = shortid.generate();
+
 		this.generateTargets();
 		this.events.emit("meeting", this);
 	}
@@ -163,11 +167,14 @@ module.exports = class Meeting {
 		for (let member of this.members) {
 			if (member.visible) {
 				members.push({
-					id: this.anonymous ? i++ : member.id,
+					id: member.anonId || member.id,
 					canVote: member.canVote
 				});
 			}
 		}
+
+		if (this.anonymous)
+			members = Random.randomizeArray(members);
 
 		return members;
 	}
@@ -194,6 +201,22 @@ module.exports = class Meeting {
 			else {
 				votes = this.votes;
 				voteRecord = this.voteRecord;
+			}
+
+			if (this.anonymous) {
+				votes = { ...votes };
+				voteRecord = [...voteRecord];
+
+				for (let voterId in votes) {
+					votes[this.members[voterId].anonId] = votes[voterId];
+					delete votes[voterId];
+				}
+
+				for (let i in voteRecord) {
+					let vote = { ...voteRecord[i] };
+					vote.voterId = this.members[vote.voterId].anonId;
+					voteRecord[i] = vote;
+				}
 			}
 		}
 
@@ -463,19 +486,14 @@ module.exports = class Meeting {
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeVote(vote);
 
-		var everyoneVoted = true;
-
 		if (!this.multi)
-			everyoneVoted = Object.keys(this.votes).length == this.totalVoters;
+			this.ready = Object.keys(this.votes).length == this.totalVoters;
 		else
-			everyoneVoted = this.votes[voter.id].length >= this.multiMin;
-
-		if (everyoneVoted)
-			this.ready = true;
+			this.ready = this.votes[voter.id].length >= this.multiMin;
 
 		if (!this.instant && !this.repeatable)
 			this.game.checkAllMeetingsReady();
-		else if (everyoneVoted)
+		else if (this.ready)
 			this.finish(true);
 
 		return true;
@@ -530,6 +548,11 @@ module.exports = class Meeting {
 
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeUnvote(info);
+
+		if (!this.multi)
+			this.ready = Object.keys(this.votes).length == this.totalVoters;
+		else
+			this.ready = this.votes[voter.id].length >= this.multiMin;
 
 		return true;
 	}
@@ -647,7 +670,12 @@ module.exports = class Meeting {
 			return;
 		}
 
-		if (message.abilityName == "Whisper" && this.game.setup.whispers && this.name != "Pregame") {
+		if (
+			message.abilityName == "Whisper" &&
+			this.game.setup.whispers &&
+			this.name != "Pregame" &&
+			!this.anonymous
+		) {
 			var recipientMember = this.members[message.abilityTarget];
 
 			if (!recipientMember)
@@ -672,6 +700,7 @@ module.exports = class Meeting {
 			prefix: message.prefix,
 			abilityName: message.abilityName,
 			abilityTarget: message.abilityTarget,
+			anonymous: this.anonymous
 		});
 
 		message.send();
@@ -698,7 +727,8 @@ module.exports = class Meeting {
 			messageId: quote.messageId,
 			meeting: this,
 			fromMeetingId: quote.fromMeetingId,
-			fromState: quote.fromState
+			fromState: quote.fromState,
+			anonymous: this.anonymous
 		});
 
 		quote.send();

@@ -42,6 +42,8 @@ module.exports = class Item {
 		this.removeEffects();
 	}
 
+	shouldDisableMeeting(name, options) { return false }
+
 	applyEffects() {
 		if (typeof this.effects[0] != "string")
 			return;

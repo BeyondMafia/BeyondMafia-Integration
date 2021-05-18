@@ -440,8 +440,13 @@ module.exports = class Player {
 		if (!vote.modified)
 			vote = originalVote;
 
+		var voterId = vote.voter.id;
+
+		if (vote.meeting.anonymous)
+			voterId = vote.meeting.members[voterId].anonId;
+
 		this.send("vote", {
-			voterId: vote.voter.id,
+			voterId: voterId,
 			target: vote.target,
 			meetingId: vote.meeting.id,
 			noLog
@@ -466,6 +471,11 @@ module.exports = class Player {
 
 		if (!info.modified)
 			info = originalInfo;
+
+		var voterId = info.voter.id;
+
+		if (info.meeting.anonymous)
+			voterId = info.meeting.members[voterId].anonId;
 
 		this.send("unvote", {
 			voterId: info.voter.id,
@@ -497,11 +507,19 @@ module.exports = class Player {
 
 		for (let meetingName in meetings) {
 			let options = meetings[meetingName];
+			let disabled = false;
+
+			for (let item of this.items)
+				disabled = disabled || item.shouldDisableMeeting(meetingName, options);
+
+			for (let effect of this.effects)
+				disabled = disabled || effect.shouldDisableMeeting(meetingName, options);
 
 			if (
+				disabled ||
 				(options.states.indexOf(currentStateName) == -1 && options.states.indexOf("*") == -1) ||
 				options.disabled ||
-				(options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName)) ||
+				(options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName, options)) ||
 				(this.alive && options.whileAlive == false) ||
 				(!this.alive && !options.whileDead) ||
 				(options.unique && options.whileDead && options.whileAlive)

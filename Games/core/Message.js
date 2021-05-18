@@ -14,8 +14,10 @@ module.exports = class Message {
 		this.prefix = info.prefix;
 		this.abilityName = info.abilityName;
 		this.abilityTarget = info.abilityTarget;
+		this.anonymous = info.anonymous;
 		this.versions = {};
 		this.timeSent = info.timeSent;
+		this.quotable = info.quotable || true;
 		this.modified = false;
 	}
 
@@ -27,8 +29,15 @@ module.exports = class Message {
 			this.recipients = this.game.players.array();
 		}
 
+		if (this.anonymous) {
+			this.versions["*"] = new Message(this);
+			this.anonymous = false;
+		}
+		else
+			this.versions["*"] = this;
+
 		if (this.sender) {
-			var newVersion = this.sender.speak(this);
+			var newVersion = this.sender.speak(this.versions["*"]);
 
 			if (!newVersion)
 				return;
@@ -38,15 +47,13 @@ module.exports = class Message {
 
 			this.versions["*"] = newVersion;
 		}
-		else 
-			this.versions["*"] = this;
 
 		if (this.meeting)
 			this.meeting.messages.push(this);
 		else
 			this.game.history.addAlert(this);
 
-		for (let player of this.recipients)
+		for (let player of this.versions["*"].recipients)
 			player.hear(this.versions["*"], this);
 
 		if (this.globalAlert || (this.meeting && this.game.isSpectatorMeeting(this.meeting)))
@@ -91,7 +98,8 @@ module.exports = class Message {
 			content: version.content,
 			meetingId: version.meeting && version.meeting.id,
 			prefix: version.prefix,
-			time: version.timeSent
+			time: version.timeSent, 
+			quotable: version.quotable
 		};
 	}
 
