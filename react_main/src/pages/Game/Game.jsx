@@ -2073,17 +2073,33 @@ function useHistoryReducer() {
 					newHistory = history;
 				break;
 			case "addMeeting":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.meeting.id]: {
-									$set: action.meeting
+				var state = history.states[history.currentState];
+
+				if (state) {
+					if (!state.meetings) {
+						newHistory = update(history, {
+							states: {
+								[history.currentState]: {
+									meetings: {
+										$set: {}
+									}
+								}
+							}
+						});
+					}
+
+					newHistory = update(newHistory || history, {
+						states: {
+							[history.currentState]: {
+								meetings: {
+									[action.meeting.id]: {
+										$set: action.meeting
+									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 				break;
 			case "meetingMembers":
 				if (
@@ -2104,107 +2120,152 @@ function useHistoryReducer() {
 						}
 					});
 				}
-				else
-					newHistory = history;
 				break;
 			case "removeMeeting":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								$unset: [action.meetingId]
-							}
-						}
-					}
-				});
-
-				if (newHistory.states[history.currentState].selTab == action.meetingId) {
-					newHistory = update(newHistory, {
-						states: {
-							[history.currentState]: {
-								$unset: ["selTab"]
-							}
-						}
-					});
-				}
-				break;
-			case "addMessage":
-				if (action.message.meetingId) {
+				if (history.states[history.currentState]) {
 					newHistory = update(history, {
 						states: {
 							[history.currentState]: {
 								meetings: {
-									[action.message.meetingId]: {
-										messages: {
-											$push: [action.message]
+									$unset: [action.meetingId]
+								}
+							}
+						}
+					});
+
+					if (newHistory.states[history.currentState].selTab == action.meetingId) {
+						newHistory = update(newHistory, {
+							states: {
+								[history.currentState]: {
+									$unset: ["selTab"]
+								}
+							}
+						});
+					}
+				}
+				break;
+			case "addMessage":
+				if (history.states[history.currentState]) {
+					if (action.message.meetingId) {
+						if (history.states[history.currentState].meetings[action.message.meetingId]) {
+							newHistory = update(history, {
+								states: {
+									[history.currentState]: {
+										meetings: {
+											[action.message.meetingId]: {
+												messages: {
+													$push: [action.message]
+												}
+											}
 										}
 									}
 								}
-							}
+							});
 						}
-					});
-				}
-				else {
-					newHistory = update(history, {
-						states: {
-							[history.currentState]: {
-								alerts: {
-									$push: [action.message]
+					}
+					else {
+						newHistory = update(history, {
+							states: {
+								[history.currentState]: {
+									alerts: {
+										$push: [action.message]
+									}
 								}
 							}
-						}
-					});
+						});
+					}
 				}
 				break;
 			case "addQuote":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.quote.toMeetingId]: {
-									messages: {
-										$push: [action.quote]
-									}
-								}
-							}
-						}
-					}
-				});
-				break;
-			case "vote":
-				var target = action.vote.target;
-				var meeting = history.states[history.currentState].meetings[action.vote.meetingId];
-
-				if (meeting.multi)
-					target = [...(meeting.votes[action.vote.voterId] || []), target];
-
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.vote.meetingId]: {
-									votes: {
-										[action.vote.voterId]: {
-											$set: target
+				if (
+					history.states[history.currentState] &&
+					history.states[history.currentState].meetings[action.quote.toMeetingId]
+				) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								meetings: {
+									[action.quote.toMeetingId]: {
+										messages: {
+											$push: [action.quote]
 										}
 									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
+				break;
+			case "vote":
+				var target = action.vote.target;
+				var state = history.states[history.currentState];
+				var meeting = state && state.meetings[action.vote.meetingId];
 
-				if (!action.vote.noLog) {
-					newHistory = update(newHistory, {
+				if (meeting) {
+					if (meeting.multi)
+						target = [...(meeting.votes[action.vote.voterId] || []), target];
+
+					newHistory = update(history, {
 						states: {
 							[history.currentState]: {
 								meetings: {
 									[action.vote.meetingId]: {
+										votes: {
+											[action.vote.voterId]: {
+												$set: target
+											}
+										}
+									}
+								}
+							}
+						}
+					});
+
+					if (!action.vote.noLog) {
+						newHistory = update(newHistory, {
+							states: {
+								[history.currentState]: {
+									meetings: {
+										[action.vote.meetingId]: {
+											voteRecord: {
+												$push: [{
+													type: "vote",
+													voterId: action.vote.voterId,
+													target: action.vote.target,
+													time: Date.now()
+												}]
+											}
+										}
+									}
+								}
+							}
+						});
+					}
+				}
+				break;
+			case "unvote":
+				var target = undefined;
+				var state = history.states[history.currentState];
+				var meeting = state && state.meetings[action.info.meetingId];
+
+				if (meeting) {
+					if (meeting.multi)
+						target = (meeting.votes[action.info.voterId] || []).filter(t => t != action.info.target);
+
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								meetings: {
+									[action.info.meetingId]: {
+										votes: {
+											[action.info.voterId]: {
+												$set: target
+											}
+										},
 										voteRecord: {
 											$push: [{
-												type: "vote",
-												voterId: action.vote.voterId,
-												target: action.vote.target,
+												type: "unvote",
+												voterId: action.info.voterId,
 												time: Date.now()
 											}]
 										}
@@ -2215,96 +2276,76 @@ function useHistoryReducer() {
 					});
 				}
 				break;
-			case "unvote":
-				var target = undefined;
-				var meeting = history.states[history.currentState].meetings[action.info.meetingId];
-
-				if (meeting.multi)
-					target = (meeting.votes[action.info.voterId] || []).filter(t => t != action.info.target);
-
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							meetings: {
-								[action.info.meetingId]: {
-									votes: {
-										[action.info.voterId]: {
-											$set: target
-										}
-									},
-									voteRecord: {
-										$push: [{
-											type: "unvote",
-											voterId: action.info.voterId,
-											time: Date.now()
-										}]
+			case "stateEvents":
+				if (history.states[history.currentState]) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								stateEvents: {
+									$set: action.stateEvents
+								}
+							}
+						}
+					});
+				}
+				break;
+			case "selTab":
+				if (history.states[action.state]) {
+					newHistory = update(history, {
+						states: {
+							[action.state]: {
+								selTab: {
+									$set: action.meetingId
+								}
+							}
+						}
+					});
+				}
+				break;
+			case "reveal":
+				if (history.states[history.currentState]) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								roles: {
+									[action.playerId]: {
+										$set: action.role
 									}
 								}
 							}
 						}
-					}
-				});
-				break;
-			case "stateEvents":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							stateEvents: {
-								$set: action.stateEvents
-							}
-						}
-					}
-				});
-				break;
-			case "selTab":
-				newHistory = update(history, {
-					states: {
-						[action.state]: {
-							selTab: {
-								$set: action.meetingId
-							}
-						}
-					}
-				});
-				break;
-			case "reveal":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							roles: {
-								[action.playerId]: {
-									$set: action.role
-								}
-							}
-						}
-					}
-				});
+					});
+				}
 				break;
 			case "death":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							dead: {
-								[action.playerId]: {
-									$set: true
+				if (history.states[history.currentState]) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								dead: {
+									[action.playerId]: {
+										$set: true
+									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 				break;
 			case "revival":
-				newHistory = update(history, {
-					states: {
-						[history.currentState]: {
-							dead: {
-								[action.playerId]: {
-									$set: false
+				if (history.states[history.currentState]) {
+					newHistory = update(history, {
+						states: {
+							[history.currentState]: {
+								dead: {
+									[action.playerId]: {
+										$set: false
+									}
 								}
 							}
 						}
-					}
-				});
+					});
+				}
 				break;
 		}
 
