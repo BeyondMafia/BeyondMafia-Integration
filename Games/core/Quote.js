@@ -1,25 +1,30 @@
-module.exports = class Quote {
+const Message = require("./Message");
+
+module.exports = class Quote extends Message {
 
 	constructor(info) {
+		super(info);
+
 		this.isQuote = true;
-		this.game = info.game;
-		this.sender = info.sender;
 		this.messageId = info.messageId;
-		this.meeting = info.meeting;
 		this.fromMeetingId = info.fromMeetingId;
 		this.fromState = info.fromState;
-		this.versions = {};
-		this.modified = false;
 		this.cancel = false;
-		this.timeSent = info.timeSent;
 	}
 
 	send() {
 		this.timeSent = Date.now();
 		this.recipients = this.meeting.getPlayers();
 
+		if (this.anonymous) {
+			this.versions["*"] = new Quote(this);
+			this.anonymous = false;
+		}
+		else
+			this.versions["*"] = this;
+
 		if (this.sender) {
-			var newVersion = this.sender.speakQuote(this);
+			var newVersion = this.sender.speakQuote(this.versions["*"]);
 
 			if (!newVersion)
 				return;
@@ -29,8 +34,6 @@ module.exports = class Quote {
 
 			this.versions["*"] = newVersion;
 		}
-		else
-			this.versions["*"] = this;
 
 		this.meeting.messages.push(this);
 
@@ -73,8 +76,7 @@ module.exports = class Quote {
 			toMeetingId: version.meeting && version.meeting.id,
 			fromMeetingId: version.fromMeetingId,
 			fromState: version.fromState,
-			time: version.timeSent,
-			cancel: version.cancel
+			time: version.timeSent
 		};
 	}
 

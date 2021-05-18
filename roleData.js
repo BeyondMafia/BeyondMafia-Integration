@@ -175,6 +175,14 @@ const roleData = {
                 "All Masons die if they attempt to convert a member of the Mafia.",
             ],
         },
+        "Jailer": {
+            alignment: "Village",
+            description: [
+                "Chooses someone to jail each day.",
+                "Meets with the prisoner at night and the prisoner cannot attend other meetings or perform actions.",
+                "Decides whether prisoner should be executed or not.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {

@@ -14,6 +14,7 @@ module.exports = class Message {
 		this.prefix = info.prefix;
 		this.abilityName = info.abilityName;
 		this.abilityTarget = info.abilityTarget;
+		this.anonymous = info.anonymous;
 		this.versions = {};
 		this.timeSent = info.timeSent;
 		this.modified = false;
@@ -27,8 +28,15 @@ module.exports = class Message {
 			this.recipients = this.game.players.array();
 		}
 
+		if (this.anonymous) {
+			this.versions["*"] = new Message(this);
+			this.anonymous = false;
+		}
+		else
+			this.versions["*"] = this;
+
 		if (this.sender) {
-			var newVersion = this.sender.speak(this);
+			var newVersion = this.sender.speak(this.versions["*"]);
 
 			if (!newVersion)
 				return;
@@ -38,8 +46,6 @@ module.exports = class Message {
 
 			this.versions["*"] = newVersion;
 		}
-		else 
-			this.versions["*"] = this;
 
 		if (this.meeting)
 			this.meeting.messages.push(this);
