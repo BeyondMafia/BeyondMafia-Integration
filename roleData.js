@@ -269,7 +269,7 @@ const roleData = {
         "Telepath": {
             alignment: "Mafia",
             description: [
-                "Can anonymously contact any non-Mafia role.",
+                "Can anonymously contact any role.",
             ],
         },
 
