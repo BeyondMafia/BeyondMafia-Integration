@@ -197,6 +197,12 @@
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: flex-start;
+
+	margin-top: 10px;
+}
+
+.profile .friend-request:first-child {
+	margin-top: 0px;
 }
 
 .profile .friend-request i {
