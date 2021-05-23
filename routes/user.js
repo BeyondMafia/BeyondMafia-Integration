@@ -129,7 +129,7 @@ router.get("/:id/profile", async function (req, res) {
         user.maxFriendsPage = Math.ceil(user.numFriends / constants.friendsPerPage) || 1;
 
         if (isSelf) {
-            var friendRequests = await models.FriendRequest.find({ target: userId })
+            var friendRequests = await models.FriendRequest.find({ targetId: userId })
                 .select("userId user")
                 .populate("user", "id name avatar");
             user.friendRequests = friendRequests.map(req => req.user);
