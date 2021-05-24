@@ -56,11 +56,11 @@ module.exports = class Spectator extends Player {
 	}
 
 	hear(message) {
-		this.send("message", message.getMessageInfo());
+		this.send("message", message.getMessageInfo("spectator"));
 	}
 
 	hearQuote(quote) {
-		this.send("quote", quote.getMessageInfo());
+		this.send("quote", quote.getMessageInfo("spectator"));
 	}
 
 	seeVote(vote) {
