@@ -66,8 +66,8 @@ module.exports = class Quote extends Message {
 		else
 			version = this;
 
-			if (!version)
-				version = this;
+		if (!version)
+			version = this;
 
 		if (version.isServer)
 			senderId = "server";
