@@ -57,11 +57,17 @@ module.exports = class Quote extends Message {
 		else if (player) {
 			playerId = player.id;
 			version = this.versions[playerId];
+
+			if (!version)
+				return;
 		}
 		else if (this.versions["*"].parseForReview)
 			version = this.versions["*"].parseForReview(this);
 		else
 			version = this;
+
+			if (!version)
+				version = this;
 
 		if (version.isServer)
 			senderId = "server";
