@@ -138,6 +138,10 @@ export const Emotes = {
 		name: "Sadge",
 		type: "png"
 	},
+	"pepepls": {
+		name: "PepePls",
+		type: "gif"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
