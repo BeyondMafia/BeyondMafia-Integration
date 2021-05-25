@@ -30,7 +30,8 @@ module.exports = class MafiaGame extends Game {
 		];
 		this.dayCount = 0;
 		this.spectatorMeetFilter = {
-			"Village": true
+			"Village": true,
+			"Pregame": true
 		};
 		this.stateEventMessages = stateEventMessages;
 		this.noDeathLimit = 6;
