@@ -6,7 +6,9 @@
 	height: 28px;
 	margin-right: 5px;
 	
-	background-size: cover;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .emote:last-child {

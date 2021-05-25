@@ -47,35 +47,7 @@ module.exports = class Quote extends Message {
 		this.game.events.emit("message", this);
 	}
 
-	getMessageInfo(player) {
-		var playerId, version, senderId;
-
-		if (player == "spectator") {
-			playerId = "spectator";
-			version = this.versions["*"];
-		}
-		else if (player) {
-			playerId = player.id;
-			version = this.versions[playerId];
-
-			if (!version)
-				return;
-		}
-		else if (this.versions["*"].parseForReview)
-			version = this.versions["*"].parseForReview(this);
-		else
-			version = this;
-
-		if (!version)
-			version = this;
-
-		if (version.isServer)
-			senderId = "server";
-		else if (version.anonymous)
-			senderId = "anonymous";
-		else
-			senderId = version.sender.id;
-
+	parseMessageInfoObj(version, senderId) {
 		return {
 			isQuote: true,
 			senderId: senderId,

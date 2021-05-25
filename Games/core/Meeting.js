@@ -266,8 +266,7 @@ module.exports = class Meeting {
 	}
 
 	randomMember() {
-		var member = Random.randArrayVal(this.members.array());
-		return member;
+		return Random.randArrayVal(this.members.array());
 	}
 
 	generateTargets() {
@@ -650,9 +649,12 @@ module.exports = class Meeting {
 		if (!actor && voterIds.length > 0)
 			// First player to vote is the actor
 			actor = this.game.getPlayer(voterIds[0], true);
-		else if (!actor)
+		else if (!actor && this.members.length > 0)
 			// Must act and no votes, a random player acts
 			actor = this.randomMember().player;
+
+		if (!actor)
+			return;
 
 		this.finalTarget = finalTarget;
 		actor.act(finalTarget, this);

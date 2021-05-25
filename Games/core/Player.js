@@ -401,7 +401,10 @@ module.exports = class Player {
 			this.history.addAlert(message);
 
 		master.versions[this.id] = message;
-		this.send("message", master.getMessageInfo(this));
+		message = master.getMessageInfo(this);
+
+		if (message)
+			this.send("message", message);
 	}
 
 	hearQuote(quote, master) {
@@ -422,7 +425,10 @@ module.exports = class Player {
 			quote = originalQuote;
 
 		master.versions[this.id] = quote;
-		this.send("quote", master.getMessageInfo(this));
+		quote = master.getMessageInfo(this);
+
+		if (quote)
+			this.send("quote", quote);
 	}
 
 	seeVote(vote, noLog) {

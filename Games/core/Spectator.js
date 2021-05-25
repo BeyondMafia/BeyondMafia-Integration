@@ -30,10 +30,10 @@ module.exports = class Spectator extends Player {
 		socket.on("disconnected", () => {
 			try {
 				var index = this.game.spectators.indexOf(this);
-	
+
 				if (index == -1)
 					return;
-	
+
 				this.game.spectators.splice(index, 1);
 				this.game.broadcast("spectatorCount", this.game.spectators.length);
 			}
@@ -56,11 +56,17 @@ module.exports = class Spectator extends Player {
 	}
 
 	hear(message) {
-		this.send("message", message.getMessageInfo());
+		message = message.getMessageInfo("spectator");
+
+		if (message)
+			this.send("message", message);
 	}
 
 	hearQuote(quote) {
-		this.send("quote", quote.getMessageInfo());
+		quote = quote.getMessageInfo("spectator");
+
+		if (quote)
+			this.send("quote", quote);
 	}
 
 	seeVote(vote) {

@@ -41,7 +41,7 @@ module.exports = class Message {
 
 			if (!newVersion)
 				return;
-				
+
 			if (newVersion.modified)
 				newVersion.modified = false;
 
@@ -69,7 +69,7 @@ module.exports = class Message {
 			playerId = "spectator";
 			version = this.versions["*"];
 
-			if (!version.meeting && version.recipients)
+			if (!version.meeting && version.recipients && !version.globalAlert)
 				return;
 		}
 		else if (player) {
@@ -89,16 +89,20 @@ module.exports = class Message {
 			senderId = "server";
 		else if (version.anonymous)
 			senderId = "anonymous";
-		else 
+		else
 			senderId = version.sender.id;
 
+		return this.parseMessageInfoObj(version, senderId);
+	}
+
+	parseMessageInfoObj(version, senderId) {
 		return {
 			id: version.id,
 			senderId: senderId,
 			content: version.content,
 			meetingId: version.meeting && version.meeting.id,
 			prefix: version.prefix,
-			time: version.timeSent, 
+			time: version.timeSent,
 			quotable: version.quotable
 		};
 	}
