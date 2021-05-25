@@ -69,7 +69,7 @@ module.exports = class Message {
 			playerId = "spectator";
 			version = this.versions["*"];
 
-			if (!version.meeting && version.recipients)
+			if (!version.meeting && version.recipients && !version.globalAlert)
 				return;
 		}
 		else if (player) {
