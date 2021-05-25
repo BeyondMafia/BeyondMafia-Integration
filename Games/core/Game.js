@@ -55,7 +55,7 @@ module.exports = class Game {
 		this.spectatorLimit = constants.maxSpectators;
 		this.history = new History(this);
 		this.spectatorHistory = new History(this, "spectator");
-		this.spectatorMeetFilter = {};
+		this.spectatorMeetFilter = { "*": true };
 		this.timers = {};
 		this.actions = [
 			new Queue()
