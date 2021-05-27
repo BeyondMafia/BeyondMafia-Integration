@@ -54,6 +54,8 @@ module.exports = class MafiaGame extends Game {
 					this.target.kill("leave", this.actor);
 				}
 			}));
+			
+			player.recordStat("survival", false);
 		}
 	}
 
@@ -100,13 +102,6 @@ module.exports = class MafiaGame extends Game {
 			this.statesSinceLastDeath = 0;
 			this.resetLastDeath = false;
 		}
-	}
-
-	async playerLeave(player) {
-		await super.playerLeave(player);
-
-		if (this.started)
-			player.recordStat("survival", false);
 	}
 
 	gotoNextState() {

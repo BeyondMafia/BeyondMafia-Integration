@@ -76,7 +76,6 @@ class Socket {
 	
 	setSocket(socket) {
 		this.socket = socket;
-
 		this.configureListeners();
 
 		this.socket.on("open", () => {
