@@ -8,7 +8,7 @@ module.exports = class CardName extends Card {
 		this.meetingMods = {
 			"*": {
 				shouldMeet: function (meetingName) {
-					if (meetingName == "Village" || meetingName == "Mafia" || meetingName == "Monsters" || meetingName == "Graveyard")
+					if (meetingName == "Village" || meetingName == "Graveyard")
 						return true;
 
 					return (this.data[`meets:${meetingName}`] || 0) < 1;
