@@ -49,7 +49,7 @@ export function RoleCount(props) {
 					onClick={onRoleClick}
 					ref={roleRef}>
 					{modifier &&
-						<div className={`modifier modifier-${props.gameType}-${modifier}`} />
+						<div className={`modifier modifier-${props.gameType}-${hyphenDelimit(modifier)}`} />
 					}
 				</div>
 				{props.count > 0 &&
