@@ -213,6 +213,18 @@
     background-position: -300px -80px;
 }
 
+.role-Mafia-Mayor {
+    background-position: -60px -40px;
+}
+
+.role-Mafia-Mason {
+    background-position: -90px -40px;
+}
+
+.role-Mafia-Psychic {
+    background-position: -120px -80px;
+}
+
 /* 
 * Mafia 
 */
@@ -257,6 +269,18 @@
     background-position: -360px -40px;
 }
 
+.role-Mafia-Telepath {
+    background-position: -450px -0px;
+}
+
+.role-Mafia-Sniper {
+    background-position: -390px -40px;
+}
+
+.role-Mafia-Janitor {
+    background-position: -450px -40px;
+}
+
 /*
 .role-Mafia-Saboteur {
     background-position: -390px -40px;
@@ -285,23 +309,13 @@
     background-position: -660px 0;
 }
 
-.role-Mafia-Lover {
-    background-position: -690px 0;
-}
-
 .role-Mafia-Amnesiac {
     background-position: -720px 0;
 }
 
-/*
-.role-Mafia-Survivor {
-    background-position: -750px 0;
-}
-
 .role-Mafia-Cultist {
-    background-position: -780px -40px;
+    background-position: -690px 0;
 }
-*/
 
 /* 
 * Monsters 
