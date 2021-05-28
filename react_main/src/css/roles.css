@@ -309,27 +309,13 @@
     background-position: -660px 0;
 }
 
-.role-Mafia-Lover {
-    background-position: -690px 0;
-}
-
 .role-Mafia-Amnesiac {
     background-position: -720px 0;
 }
 
 .role-Mafia-Cultist {
-    background-position: -720px 0;
+    background-position: -690px 0;
 }
-
-/*
-.role-Mafia-Survivor {
-    background-position: -750px 0;
-}
-
-.role-Mafia-Cultist {
-    background-position: -780px -40px;
-}
-*/
 
 /* 
 * Monsters 
