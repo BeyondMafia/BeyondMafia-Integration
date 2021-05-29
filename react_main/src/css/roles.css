@@ -225,6 +225,14 @@
     background-position: -120px -80px;
 }
 
+.role-Mafia-Jailer {
+    background-position: 0px -80px;
+}
+
+.role-Mafia-Priest {
+    background-position: -150px -80px;
+}
+
 /* 
 * Mafia 
 */
@@ -281,21 +289,9 @@
     background-position: -450px -40px;
 }
 
-/*
-.role-Mafia-Saboteur {
-    background-position: -390px -40px;
-}
-*/
-
 .role-Mafia-Disguiser {
     background-position: -420px -40px;
 }
-
-/*
-.role-Mafia-Ventriloquist {
-    background-position: -450px -40px;
-}
-*/
 
 /* 
 * Independent 
@@ -315,6 +311,10 @@
 
 .role-Mafia-Cultist {
     background-position: -690px 0;
+}
+
+.role-Mafia-Survivor {
+    background-position: -750px 0;
 }
 
 /* 
