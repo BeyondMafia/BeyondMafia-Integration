@@ -7,7 +7,7 @@ import { useErrorAlert } from "../../components/Alerts";
 import { NameWithAvatar, StatusIcon } from "../User/User";
 import { UserContext } from "../../Contexts";
 import { MaxChatMessageLength } from "../../Constants";
-import { linkify, UserText } from "../../components/Basic";
+import { Time, UserText } from "../../components/Basic";
 import { NotificationHolder, filterProfanity, useOnOutsideClick } from "../../components/Basic";
 
 import "../../css/chat.css";
@@ -438,6 +438,7 @@ function Message(props) {
 	const contextMenuRef = useRef();
 	const user = useContext(UserContext);
 	const isSelf = message.sender.id == user.id;
+	const age = Date.now() - message.date;
 
 	useOnOutsideClick(messageRef, () => setShowContextMenu(false));
 
@@ -471,14 +472,23 @@ function Message(props) {
 
 	return (
 		<div className={`message ${isSelf ? "self" : ""}`}>
-			{!isSelf &&
-				<NameWithAvatar
-					small
-					id={message.sender.id}
-					name={message.sender.name}
-					avatar={message.sender.avatar}
-					color={message.sender.settings && message.sender.settings.nameColor} />
-			}
+			<div className="info">
+				{!isSelf &&
+					<NameWithAvatar
+						small
+						id={message.sender.id}
+						name={message.sender.name}
+						avatar={message.sender.avatar}
+						color={message.sender.settings && message.sender.settings.nameColor} />
+				}
+				{age > 1000 * 60 &&
+					<div className="timestamp">
+						<Time
+							millisec={age}
+							suffix=" ago" />
+					</div>
+				}
+			</div>
 			<div
 				className="content"
 				style={message.sender.settings && message.sender.settings.textColor ? { color: message.sender.settings.textColor } : {}}
