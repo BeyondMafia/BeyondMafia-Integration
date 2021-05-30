@@ -249,6 +249,21 @@
 	padding-bottom: 30px;
 }
 
+.chat-wrapper .message .info {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+	
+}
+
+.chat-wrapper .message .info .timestamp {
+	margin-left: 10px;
+
+	opacity: 0.3;
+	font-size: 13px;
+}
+
 .chat-wrapper .message .content {
 	display: flex;
 	flex-flow: row nowrap;

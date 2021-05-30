@@ -45,7 +45,7 @@ export function PanelGrid(props) {
 export function Time(props) {
 	var unit = "millisecond";
 	var value = props.millisec;
-	var suffix = props.suffix;
+	var suffix = props.suffix || "";
 	var minSec = props.minSec;
 
 	const units = [
@@ -83,14 +83,14 @@ export function Time(props) {
 	}
 
 	if (minSec && unit == "millisecond")
-		return "Less than a second";
+		return `Less than a second${suffix}`;
 
 	value = Math.floor(value);
 
 	if (value > 1)
 		unit += "s";
 
-	return `${value} ${unit}${suffix || ""}`;
+	return `${value} ${unit}${suffix}`;
 }
 
 export function NotificationHolder(props) {
