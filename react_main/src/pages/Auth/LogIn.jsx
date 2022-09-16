@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 
 import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
 
-export default function SignUp() {
+export default function LogIn() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [passwordConf, setPasswordConf] = useState("");
 	const [submitDisabled, setSubmitDisabled] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
-		document.title = "Sign Up | BeyondMafia";
+		document.title = "Log In | BeyondMafia";
 	}, []);
 
 	useEffect(() => {
-		setSubmitDisabled(email.length == 0 || password.length == 0 || password != passwordConf);
-	}, [email, password, passwordConf]);
+		setSubmitDisabled(email.length == 0 || password.length == 0);
+	}, [email, password]);
 
 	async function onSubmit(e) {
 		try {
@@ -32,7 +31,7 @@ export default function SignUp() {
 			setLoading(true);
 
 			const auth = getAuth();
-			const userCred = await createUserWithEmailAndPassword(auth, email, password);
+			const userCred = await signInWithEmailAndPassword(auth, email, password);
 			const idToken = await userCred.user.getIdToken(true);
 			axios.post("/auth", { idToken })
 				.then(() => {
@@ -59,14 +58,10 @@ export default function SignUp() {
 					<label>Password</label>
 					<input type="password" value={password} onChange={e => setPassword(e.target.value)} />
 				</div>
-				<div className="input-wrapper">
-					<label>Confirm Password</label>
-					<input type="password" value={passwordConf} onChange={e => setPasswordConf(e.target.value)} />
-				</div>
-				<input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Sign Up" />
+				<input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Log In" />
 			</form>
 			<div className="legal">
-				By signing up you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
+				By logging in you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
 				and accept our <Link to="/legal/privacy">Privacy Policy</Link>.
 			</div>
 		</div>

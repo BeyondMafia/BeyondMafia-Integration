@@ -9,7 +9,6 @@ import Form, { useForm } from "../../components/Form";
 import { useErrorAlert } from "../../components/Alerts";
 
 import "../../css/settings.css";
-import "../../css/signin.css";
 
 export default function Settings(props) {
 	const [settingsLoaded, setSettingsLoaded] = useState(false);
@@ -25,7 +24,7 @@ export default function Settings(props) {
 			label: "Referral URL",
 			ref: "referralURL",
 			type: "text",
-			value: (deps) => `${process.env.REACT_APP_URL}/signin?ref=${deps.user.id}`,
+			value: (deps) => `${process.env.REACT_APP_URL}/auth/login?ref=${deps.user.id}`,
 			fixed: true,
 			highlight: true
 		},
@@ -204,8 +203,8 @@ export default function Settings(props) {
 			.catch(deps.errorAlert);
 	}
 
-	function onSignoutClick() {
-		axios.post("/user/signout")
+	function onLogoutClick() {
+		axios.post("/user/logout")
 			.then(res => {
 				user.clear();
 				history.push("/");
@@ -262,8 +261,8 @@ export default function Settings(props) {
 			<div className="accounts-row">
 				<div className="accounts-column">
 					<div
-						className="btn btn-theme signout"
-						onClick={onSignoutClick}>
+						className="btn btn-theme logout"
+						onClick={onLogoutClick}>
 						Sign Out
 					</div>
 					<div
@@ -279,43 +278,12 @@ export default function Settings(props) {
 
 const reservedNames = [
 	"admin",
-	"emma",
-	"filko",
-	"samp4palmer",
-	"moldyches",
-	"koba",
-	"steve",
-	"white",
-	"hibiki",
-	"staypositivefriend",
-	"sonrio",
-	"elliot",
-	"khakakhan",
-	"joqiza",
-	"chaosam",
+	"administrator",
+	"mod",
+	"moderator",
+	"dev",
+	"developer",
+	"giga",
+	"rend",
 	"arcbell",
-	"crypto",
-	"super",
-	"disoriented",
-	"luciole",
-	"margaridafae86",
-	"rigby",
-	"suspiciouslyspirited",
-	"goker",
-	"haha",
-	"samantha",
-	"grace",
-	"nakhhash",
-	"travis",
-	"jacobkrin",
-	"lechuck",
-	"gemrush",
-	"alyssa",
-	"xxbronygamer69xx",
-	"dyke",
-	"gaby",
-	"emily",
-	"leepich",
-	"jyshuhui",
-	"xagut"
 ];

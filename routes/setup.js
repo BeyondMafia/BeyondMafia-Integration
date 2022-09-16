@@ -462,7 +462,7 @@ router.post("/create", async function (req, res) {
 		}
 		else {
 			obj.id = shortid.generate();
-			obj.creator = req.user._id;
+			obj.creator = req.session.user._id;
 
 			setup = new models.Setup(obj);
 			await setup.save()

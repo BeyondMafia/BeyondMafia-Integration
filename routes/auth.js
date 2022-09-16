@@ -1,7 +1,9 @@
 const express = require("express");
 const fbAdmin = require("firebase-admin");
+const shortid = require("shortid");
 const constants = require("../data/constants");
 const routeUtils = require("../routes/utils");
+const models = require("../db/models");
 const fbServiceAccount = require("../arcmafia-firebase-adminsdk-3rit5-12eaea47a7.json");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
@@ -14,7 +16,7 @@ router.post("/", async function (req, res) {
 	try {
 		var idToken = String(req.body.idToken);
 		var userData = await fbAdmin.auth().verifyIdToken(idToken);
-		await authSuccess(userData.uid, userData.email);
+		await authSuccess(req, userData.uid, userData.email);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -24,7 +26,7 @@ router.post("/", async function (req, res) {
 	}
 });
 
-async function authSuccess(uid, email) {
+async function authSuccess(req, uid, email) {
 	try {
 		/* *** Scenarios ***
 			- Signed in
@@ -40,7 +42,7 @@ async function authSuccess(uid, email) {
 				- Signing in to deleted banned account (9)
 		*/
 
-		var id = req.user && req.user.id;
+		var id = routeUtils.getUserId(req);
 		var ip = routeUtils.getIP(req);
 		var user = await models.User.findOne({ email, deleted: false }).select("id");
 		var bannedUser = await models.User.findOne({ email, banned: true }).select("id");
@@ -50,7 +52,7 @@ async function authSuccess(uid, email) {
 
 			user = new models.User({
 				id: id,
-				name: nameGen().slice(0, constants.maxUserNameLength),
+				name: routeUtils.nameGen().slice(0, constants.maxUserNameLength),
 				email: email,
 				fbUid: uid,
 				joined: Date.now(),
@@ -97,7 +99,6 @@ async function authSuccess(uid, email) {
 				$addToSet: { ip: ip },
 			});
 
-			done(null, {});
 			return;
 		}
 		else if (id && bannedUser) { //(3)
@@ -109,28 +110,29 @@ async function authSuccess(uid, email) {
 			);
 
 			await models.User.updateOne({ id: id }, { $set: { banned: true } }).exec();
-			await models.Session.deleteMany({ "session.passport.user.id": id }).exec();
+			await models.Session.deleteMany({ "session.user.id": id }).exec();
 
-			done(null, {});
 			return;
 		}
 		else { //Link or refresh account (1) (2) (7)
 			id = user.id;
 
 			if (!(await routeUtils.verifyPermission(id, "signIn"))) {
-				done(null, {});
 				return;
 			}
 
 			await models.User.updateOne({ id: id }, { $addToSet: { ip: ip }, });
 		}
 
-		done(null, { _id: user._id, id: id, fbUid: uid });
+		req.session.user = {
+			id,
+			fbUid: uid,
+			_id: user._id
+		};
 		return id;
 	}
 	catch (e) {
 		logger.error(e);
-		done(null, {});
 	}
 }
 

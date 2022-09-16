@@ -9,8 +9,8 @@
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
-	
-    margin-top: 10px;
+
+	margin-top: 10px;
 }
 
 .setup-row i:hover {
@@ -21,7 +21,7 @@
 	margin-right: 10px;
 
 	font-size: 20px;
-	color: #b73737;
+	color: #62a0db;
 	cursor: pointer;
 }
 

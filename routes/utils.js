@@ -9,9 +9,13 @@ function getIP(req) {
 	return req.headers["x-forwarded-for"] || req.headers["cf-connecting-ip"] || req.connection.remoteAddress;
 }
 
+function getUserId(req) {
+	return req.session.user && req.session.user.id;
+}
+
 async function verifyLoggedIn(req, ignoreError) {
-	if (req.user && req.user.id)
-		return req.user.id;
+	if (req.session.user && req.session.user.id)
+		return req.session.user.id;
 	else if (!ignoreError)
 		throw new Error("Not logged in");
 }
@@ -290,6 +294,7 @@ async function getModIds() {
 
 module.exports = {
 	getIP,
+	getUserId,
 	verifyLoggedIn,
 	verifyPermissions,
 	verifyPermission,

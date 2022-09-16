@@ -26,15 +26,15 @@ module.exports = function (directory) {
 		logger = winston.createLogger({
 			transports: [
 				new winston.transports.File({
-					filename: path.join(__dirname, "logs", directory, "error.log"),
+					filename: path.join(__dirname, "../logs", directory, "error.log"),
 					level: "error"
 				}),
 				new winston.transports.File({
-					filename: path.join(__dirname, "logs", directory, "warn.log"),
+					filename: path.join(__dirname, "../logs", directory, "warn.log"),
 					level: "warn"
 				}),
 				new winston.transports.File({
-					filename: path.join(__dirname, "logs", directory, "http.log"),
+					filename: path.join(__dirname, "../logs", directory, "http.log"),
 					level: "http"
 				})
 			],

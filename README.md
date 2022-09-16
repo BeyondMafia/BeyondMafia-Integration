@@ -1,11 +1,11 @@
-# EpicMafia.org
-This is the source code powering [EpicMafia.org](https://epicmafia.org), a non-profit website dedicated to filling the shoes of EpicMafia.com. Contributions are welcome from anyone.
+# BeyondMafia 
+This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a website built to fill the shoes of EpicMafia.com. Contributions are welcome from anyone.
 
 ## Contributing
 1. Fork the repository
 2. Make your changes to your forked repository
 3. Open a pull request on the dev branch of this repository
-4. If approved and merged, test your changes on https://test.epicmafia.org
+4. If approved and merged, test your changes on https://test.beyondmafia.com
 5. Dev will be merged into master after changes are tested
 6. Perform a final test on the main site after merge into master
 
@@ -18,11 +18,11 @@ npm i -g pm2
 ```
 4. Clone the repository
 ```bash
-git clone https://github.com/epicmafia-community-org/EpicMafia.git
+git clone https://github.com/Giga1396/BeyondMafia-Integration.gitt
 ```
 5. Install the node modules
 ```bash
-cd EpicMafia
+cd BeyondMafia-Integration 
 npm install
 cd react_main
 npm install
@@ -97,7 +97,7 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=x
 ```
 7. Start the server processes and the React dev server
 ```
-cd EpicMafia
+cd BeyondMafia-Integration 
 npm start
 cd react_main
 npm start

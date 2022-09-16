@@ -612,7 +612,7 @@ router.post("/siteBan", async (req, res) => {
 		);
 
 		await models.User.updateOne({ id: userIdToBan }, { $set: { banned: true } }).exec();
-		await models.Session.deleteMany({ "session.passport.user.id": userIdToBan }).exec();
+		await models.Session.deleteMany({ "session.user.id": userIdToBan }).exec();
 
 		res.sendStatus(200);
 	}
@@ -623,7 +623,7 @@ router.post("/siteBan", async (req, res) => {
 	}
 });
 
-router.post("/signOut", async (req, res) => {
+router.post("/logout", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToActOn = String(req.body.userId);
@@ -639,7 +639,7 @@ router.post("/signOut", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm, rank + 1)))
 			return;
 
-		await models.Session.deleteMany({ "session.passport.user.id": userIdToActOn }).exec();
+		await models.Session.deleteMany({ "session.user.id": userIdToActOn }).exec();
 		res.sendStatus(200);
 	}
 	catch (e) {

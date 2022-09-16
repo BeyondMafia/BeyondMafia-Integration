@@ -92,7 +92,7 @@ router.post("/", async function (req, res) {
 
 		var comment = new models.Comment({
 			id: shortid.generate(),
-			author: req.user._id,
+			author: req.session.user._id,
 			date: Date.now(),
 			location,
 			content

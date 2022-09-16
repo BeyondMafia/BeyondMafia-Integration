@@ -414,7 +414,7 @@ router.post("/thread", async function (req, res) {
 		var thread = new models.ForumThread({
 			id: shortid.generate(),
 			board: board._id,
-			author: req.user._id,
+			author: req.session.user._id,
 			title: title,
 			content: content,
 			postDate: Date.now(),
@@ -628,7 +628,7 @@ router.post("/thread/notify", async function (req, res) {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var threadId = String(req.body.thread);
 
-		var thread = await models.ForumThread.findOne({ id: threadId, author: req.user._id, deleted: false })
+		var thread = await models.ForumThread.findOne({ id: threadId, author: req.session.user._id, deleted: false })
 			.select("replyNotify");
 
 		if (!thread) {
@@ -734,7 +734,7 @@ router.post("/reply", async function (req, res) {
 
 		var reply = new models.ForumReply({
 			id: shortid.generate(),
-			author: req.user._id,
+			author: req.session.user._id,
 			thread: thread._id,
 			postDate: Date.now(),
 			page,

@@ -23,17 +23,18 @@
 	margin-right: 10px;
 }
 
-.settings .signout, .settings .delete-account {
+.settings .logout,
+.settings .delete-account {
 	margin-bottom: 10px;
 }
 
 .settings .delete-account {
 	color: black;
-    background-color: #cf6679;
+	background-color: #cf6679;
 }
 
 .settings .delete-account:hover {
-    background-color: #c56173;
+	background-color: #c56173;
 }
 
 .settings .field-wrapper.disabled {

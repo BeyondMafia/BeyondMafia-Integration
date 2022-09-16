@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const logger = require("./modules/logging")(".");
-const passport = require("passport");
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
@@ -32,8 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session);
 app.use("/uploads", express.static(path.join(__dirname, process.env.UPLOAD_PATH), { maxAge: 3600 }));
 app.use(express.static(path.join(__dirname, "react_main/build_public"), { maxAge: 3600 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);

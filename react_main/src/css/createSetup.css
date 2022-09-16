@@ -2,12 +2,15 @@
 	margin-right: 3px;
 }
 
-.add-role, .add-roleset {
-	color: #b73737;
+.add-role,
+.add-roleset {
+	color: #62a0db;
 	cursor: pointer;
 }
 
-.add-role:hover, .add-roleset:hover, .del-roleset:hover {
+.add-role:hover,
+.add-roleset:hover,
+.del-roleset:hover {
 	opacity: 0.8;
 }
 

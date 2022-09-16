@@ -65,7 +65,7 @@ export default function Profile() {
 					setBio(filterProfanity(res.data.bio, "\\*") || "");
 					setIsFriend(res.data.isFriend);
 					setSettings(res.data.settings);
-					setAccounts(res.data.accounts);
+					setAccounts(res.data.accounts || {});
 					setRecentGames(res.data.games);
 					setCreatedSetups(res.data.setups);
 					setMaxFriendsPage(res.data.maxFriendsPage);
@@ -366,7 +366,7 @@ export default function Profile() {
 									<div className="icon discord-icon" />
 									<div className="username-wrapper">
 										<div className="username">
-											{accounts.discord.name}
+											{accounts.discord}
 										</div>
 									</div>
 								</div>
@@ -376,27 +376,17 @@ export default function Profile() {
 									<div className="icon twitch-icon" />
 									<div className="username-wrapper">
 										<div className="username">
-											{accounts.twitch.name}
+											{accounts.twitch}
 										</div>
 									</div>
 								</div>
 							}
-							{/* {accounts.google && settings.showGoogle &&
-								<div className="account-badge">
-									<div className="icon google-icon" />
-									<div className="username-wrapper">
-										<div className="username">
-											{accounts.google.name}
-										</div>
-									</div>
-								</div>
-							} */}
 							{accounts.steam && settings.showSteam &&
 								<div className="account-badge">
 									<div className="icon steam-icon" />
 									<div className="username-wrapper">
 										<div className="username">
-											{accounts.steam.name}
+											{accounts.steam}
 										</div>
 									</div>
 								</div>

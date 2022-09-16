@@ -13,7 +13,6 @@ var schemas = {
         settings: {
             showDiscord: { type: Boolean, default: false },
             showTwitch: { type: Boolean, default: false },
-            showGoogle: { type: Boolean, default: false },
             showSteam: { type: Boolean, default: false },
             backgroundColor: String,
             bannerFormat: String,
@@ -21,6 +20,11 @@ var schemas = {
             nameColor: String,
             onlyFriendDMs: { type: Boolean, default: false },
             hideDeleted: Boolean,
+        },
+        accounts: {
+            discord: String,
+            twitch: String,
+            steam: String,
         },
         joined: Number,
         lastActive: Number,

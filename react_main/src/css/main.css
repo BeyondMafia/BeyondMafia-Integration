@@ -82,7 +82,7 @@ a {
 }
 
 .logo-text span {
-    color: #922222;
+    color: #62a0db;
 }
 
 .nav-wrapper {
@@ -174,7 +174,7 @@ div.center {
 .paragraph {
     margin-bottom: 7px;
     padding: 3px 5px;
-    border-left: 2px solid #922222;
+    border-left: 2px solid #62a0db;
 
     background-color: #2e2e2e;
     box-shadow: 0px 0px 1px black;
@@ -273,7 +273,7 @@ input:focus {
 }
 
 span.theme {
-    color: #dd8181;
+    color: #97bde1;
 }
 
 .btn:focus {
@@ -309,11 +309,11 @@ span.theme {
 }
 
 .btn-theme {
-    background-color: #922222;
+    background-color: #62a0db;
 }
 
 .btn-theme-sec {
-    background-color: #b73737;
+    background-color: #72b4f1;
     color: #262626;
 }
 

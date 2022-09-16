@@ -25,7 +25,7 @@
 	border-radius: 3px 3px 0px 0px;
 
 	border-bottom: 1px solid #181818;
-	background-color: #922222;
+	background-color: #62a0db;
 	cursor: pointer;
 }
 
@@ -48,7 +48,7 @@
 	flex-flow: column;
 	align-items: stretch;
 	justify-content: flex-start;
-	
+
 	width: 200px;
 	border-right: 1px solid #181818;
 	background-color: #1d1d1d;
@@ -119,13 +119,13 @@
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: space-between;
-	
+
 	margin-bottom: 5px;
 	padding: 5px 8px;
 	border: 1px solid #181818;
 	border-radius: 20px;
 	line-height: 18px;
-	
+
 	cursor: pointer;
 }
 
@@ -163,7 +163,7 @@
 	flex-flow: column;
 	align-items: stretch;
 	justify-content: flex-start;
-	
+
 	width: 0px;
 
 	background-color: #262626;
@@ -174,7 +174,7 @@
 	flex-flow: row nowrap;
 	align-items: stretch;
 	justify-content: flex-start;
-	
+
 	box-sizing: border-box;
 	border-bottom: 1px solid #1f1f1f;
 }
@@ -254,7 +254,7 @@
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: flex-start;
-	
+
 }
 
 .chat-wrapper .message .info .timestamp {
@@ -282,7 +282,7 @@
 }
 
 .chat-wrapper .message.self .content {
-	background-color: #922222;
+	background-color: #62a0db;
 }
 
 .chat-wrapper .message .content a {
@@ -339,7 +339,7 @@
 }
 
 .chat-wrapper ::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 	z-index: -1;
 }
 
@@ -364,7 +364,7 @@
 		right: 0px;
 	}
 
-    .chat-wrapper .top-bar {
+	.chat-wrapper .top-bar {
 		min-width: 0px;
 		padding: 10px 15px;
 	}
@@ -401,7 +401,7 @@
 
 		box-sizing: border-box;
 		width: 95vw;
-		
+
 		scroll-snap-align: end;
 		scroll-snap-stop: always;
 	}

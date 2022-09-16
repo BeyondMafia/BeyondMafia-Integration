@@ -10,7 +10,6 @@ import { Nav } from "./components/Nav";
 import Game from "./pages/Game/Game";
 import Play from "./pages/Play/Play";
 import Community from "./pages/Community/Community";
-import Bots from "./pages/Bots/Bots";
 import Auth from "./pages/Auth/Auth";
 import User, { Avatar, useUser } from "./pages/User/User";
 import Legal from "./pages/Legal/Legal";
@@ -118,7 +117,6 @@ function Main() {
                                         <Switch>
                                             <Route path="/play" render={() => <Play />} />
                                             <Route path="/community" render={() => <Community />} />
-                                            <Route path="/bots" render={() => <Bots />} />
                                             <Route path="/auth" render={() => <Auth />} />
                                             <Route path="/user" render={() => <User />} />
                                             <Route path="/legal" render={() => <Legal />} />
@@ -153,7 +151,7 @@ function Header(props) {
                     <NavLink to="/community">Community</NavLink>
                     <a href="https://wiki.beyondmafia.com">Wiki</a>
                     {!user.loggedIn &&
-                        <NavLink to="/auth" className="nav-link">Sign In</NavLink>
+                        <NavLink to="/auth" className="nav-link">Log In</NavLink>
                     }
                     {user.loggedIn &&
                         <>

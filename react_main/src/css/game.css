@@ -2,12 +2,12 @@
 	display: flex;
 	flex-flow: column;
 
-    height: 100%;
-    width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 .game .loading-page {
-    height: 100%;
+	height: 100%;
 }
 
 .game .top {
@@ -15,7 +15,8 @@
 	flex-flow: row;
 }
 
-.game .game-name-wrapper, .game .misc-wrapper {
+.game .game-name-wrapper,
+.game .misc-wrapper {
 	flex-grow: 1;
 }
 
@@ -30,7 +31,7 @@
 }
 
 .game .game-name span {
-	color: #922222;
+	color: #62a0db;
 }
 
 .game .state-wrapper {
@@ -56,7 +57,7 @@
 }
 
 .game .state-nav .hist-arrow.invisible {
-	visibility: hidden;	
+	visibility: hidden;
 }
 
 
@@ -86,7 +87,8 @@
 	align-items: flex-end;
 }
 
-.game .misc-buttons, .game .options {
+.game .misc-buttons,
+.game .options {
 	margin-right: 10px;
 }
 
@@ -99,7 +101,7 @@
 	flex-flow: row nowrap;
 	align-items: center;
 
-	color: #b73737;
+	color: #62a0db;
 	font-size: 13px;
 }
 
@@ -125,14 +127,15 @@
 
 .game .misc-wrapper .misc-icon.fa-microphone {
 	cursor: default;
-    color: #e23b3b;
+	color: #e23b3b;
 }
 
 .game .misc-wrapper .misc-icon.fa-microphone:hover {
 	opacity: 1.0;
 }
 
-.leave-game, .rehost-game {
+.leave-game,
+.rehost-game {
 	margin-left: 10px;
 }
 
@@ -140,13 +143,14 @@
 	margin: 0px 15px;
 }
 
-.game .options .player-count i, .game .options .spectator-count i {
+.game .options .player-count i,
+.game .options .spectator-count i {
 	margin-right: 5px;
 }
 
 .game .main {
 	flex-grow: 1;
-	
+
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: stretch;
@@ -168,7 +172,8 @@
 	box-shadow: 0px 0px 5px black;
 }
 
-.game .left-panel, .game .right-panel {
+.game .left-panel,
+.game .right-panel {
 	width: 250px;
 }
 
@@ -193,7 +198,7 @@
 .game .tab {
 	padding: 10px;
 	border-radius: 3px 3px 0px 0px;
-	
+
 	z-index: 0;
 	background-color: #1a1a1a;
 	box-shadow: inset 0px 0px 2px black;
@@ -262,7 +267,7 @@
 }
 
 .game .message .content a {
-	color: #dd8181;
+	color: #97bde1;
 }
 
 .game .message .content a:hover {
@@ -333,7 +338,7 @@
 	flex-basis: 0px;
 
 	background-color: #262626;
-	box-shadow: 
+	box-shadow:
 		inset 0px 10px 5px -10px black,
 		inset 0px -10px 3px -10px black;
 
@@ -477,7 +482,7 @@
 	box-shadow: 0px 0px 4px black;
 }
 
-.game .side-menu:first-child .side-menu-title  {
+.game .side-menu:first-child .side-menu-title {
 	padding: 10px;
 
 	background-color: #1d1d1d;
@@ -494,7 +499,7 @@
 
 .game .player-list {
 	flex-grow: 1;
-	
+
 	padding: 7px 7px;
 }
 
@@ -523,7 +528,7 @@
 }
 
 .game .player-list .player.speaking .avatar {
-	box-shadow: 0px 0px 1px 3px #922222;
+	box-shadow: 0px 0px 1px 3px #62a0db;
 }
 
 .game .player-list .player .typing-icon {
@@ -591,7 +596,8 @@
 	flex-flow: row wrap;
 }
 
-.game .action .vote .voter, .game .action .vote .selection {
+.game .action .vote .voter,
+.game .action .vote .selection {
 	flex-grow: 0;
 	flex-shrink: 1;
 
@@ -613,7 +619,8 @@
 	color: white;
 }
 
-.game .last-will-wrapper, .game .notes-wrapper {
+.game .last-will-wrapper,
+.game .notes-wrapper {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
@@ -622,7 +629,8 @@
 	padding: 10px;
 }
 
-.game .last-will-entry, .game .notes-entry {
+.game .last-will-entry,
+.game .notes-entry {
 	flex-grow: 1;
 
 	height: 60px;
@@ -708,7 +716,7 @@
 }
 
 .game ::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 	z-index: -1;
 }
 
@@ -726,11 +734,11 @@
  * Media Queries
  */
 
- @media (max-width: 900px) {
+@media (max-width: 900px) {
 	.game .main {
-		 overflow-x: scroll;
-		 scrollbar-width: none;
-		 scroll-snap-type: x mandatory;
+		overflow-x: scroll;
+		scrollbar-width: none;
+		scroll-snap-type: x mandatory;
 	}
 
 	.game .main::-webkit-scrollbar {
@@ -752,7 +760,7 @@
 		scroll-snap-stop: always;
 	}
 
-	.game .center-panel { 
+	.game .center-panel {
 		flex-basis: initial !important;
 		flex-grow: 0 !important;
 
@@ -765,17 +773,17 @@
 	.game .right-panel {
 		width: 90vw !important;
 
-		scroll-snap-align: end;	
+		scroll-snap-align: end;
 		scroll-snap-stop: always;
 	}
 
 	.game .top {
-		 flex-flow: column !important;
+		flex-flow: column !important;
 	}
 
 	.game .state-wrapper {
-		 order: 3;
-		 margin-top: 15px
+		order: 3;
+		margin-top: 15px
 	}
 
 	.game .message .sender {
@@ -787,14 +795,16 @@
 	.game .message .time {
 		display: none;
 	}
- }
+}
 
- @media (max-width: 600px) {
-	.game .modal.settings, .game .modal.first-game {
+@media (max-width: 600px) {
+
+	.game .modal.settings,
+	.game .modal.first-game {
 		width: 300px;
 	}
 
 	.game .rehost-game {
 		display: none;
 	}
- }
+}

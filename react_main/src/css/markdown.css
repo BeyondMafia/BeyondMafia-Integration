@@ -56,7 +56,7 @@
 }
 
 .md-content a {
-	color: #dd8181;
+	color: #97bde1;
 }
 
 .md-content a:hover {
@@ -76,11 +76,17 @@
 	max-height: 400px;
 }
 
-.md-content ul, ol {
+.md-content ul,
+ol {
 	margin: 0px;
 	padding-left: 20px;
 }
 
-.md-content h1, .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
 	margin: 0px 0px 15px 0px;
 }

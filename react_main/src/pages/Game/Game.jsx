@@ -1882,7 +1882,7 @@ function FirstGameModal(props) {
 	const showModal = props.showModal;
 	const setShowModal = props.setShowModal;
 
-	const modalHeader = "Welcome to EpicMafia";
+	const modalHeader = "Welcome to BeyondMafia";
 
 	const modalContent = (
 		<>

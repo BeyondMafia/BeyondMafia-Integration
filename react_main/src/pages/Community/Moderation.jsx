@@ -626,9 +626,9 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 			run: function () {
-				axios.post("/mod/signOut", argValues)
+				axios.post("/mod/logout", argValues)
 					.then(() => {
-						siteInfo.showAlert("User signed out.", "success");
+						siteInfo.showAlert("User logged out.", "success");
 						commandRan();
 					})
 					.catch(errorAlert);

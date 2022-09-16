@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "../css/landing.css"
 
@@ -16,7 +17,7 @@ export default function LandingPage(props) {
 				The site features 50+ roles, 4 social deception games, integrated voice chat, forums, profiles, and more.
 			</div>
 			<div className="paragraph">
-				To play, <a href="/signin" className="btn btn-theme">click here</a> to create an account.
+				To play, <Link to="/auth/signup" className="btn btn-theme">click here</Link> to create an account.
 			</div>
 		</div>
 	);

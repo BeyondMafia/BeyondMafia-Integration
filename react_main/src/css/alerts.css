@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column-reverse;
-    
+
     position: fixed;
     top: 10px;
     left: 0px;
@@ -54,13 +54,14 @@
     color: #121212;
 }
 
-.alert-error .hide-alert:hover, .alert-success .hide-alert:hover {
+.alert-error .hide-alert:hover,
+.alert-success .hide-alert:hover {
     color: #262626;
 }
 
 .alert a {
     text-decoration: none;
-    color: #dd8181;
+    color: #97bde1;
     cursor: pointer;
 }
 
