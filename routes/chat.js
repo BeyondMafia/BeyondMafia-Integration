@@ -1,10 +1,10 @@
 const express = require("express");
 const routeUtils = require("./utils");
-const redis = require("../redis");
-const constants = require("../constants");
+const redis = require("../modules/redis");
+const constants = require("../data/constants");
 const models = require("../db/models");
 const shortid = require("shortid");
-const logger = require("../logging")(".");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
 
 router.get("/connect", async function (req, res) {

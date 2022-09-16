@@ -1,12 +1,12 @@
 const commando = require("discord.js-commando");
 const global = require("../../components/global");
 const utils = require("../../components/utils");
-const logger = require("../../../logging")("bot");
+const logger = require("../../../modules/logging")("bot");
 const bot = global.bot;
 
 module.exports = class BotSpeak extends commando.Command {
 
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "say",
             group: "mod",
@@ -24,7 +24,7 @@ module.exports = class BotSpeak extends commando.Command {
         });
     }
 
-    hasPermission (message) {
+    hasPermission(message) {
         let perm =
             (
                 utils.hasRole(message.member, global.roles.headMod) ||
@@ -34,7 +34,7 @@ module.exports = class BotSpeak extends commando.Command {
         return perm;
     }
 
-    async run (message, args) {
+    async run(message, args) {
         try {
             await message.delete();
             message.channel.send(args.message);

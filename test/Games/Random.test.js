@@ -1,7 +1,7 @@
 const chai = require("chai"),
 	assert = chai.assert,
 	should = chai.should();
-const Random = require("../../Random");
+const Random = require("../../lib/Random");
 
 describe("Games/Random", function () {
 	describe("Random float", function () {
@@ -70,14 +70,14 @@ describe("Games/Random", function () {
 	});
 
 	describe("Randomize array", function () {
-		it("should give each element an equal chance of being placed at any index", function() {
+		it("should give each element an equal chance of being placed at any index", function () {
 			var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 			var sum = 0;
 			var count = 0;
 
 			for (let i = 0; i < 10000; i++) {
 				let tempArr = Random.randomizeArray(arr);
-				
+
 				if (tempArr[0] == 5)
 					sum++;
 

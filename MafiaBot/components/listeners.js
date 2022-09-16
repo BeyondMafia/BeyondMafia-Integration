@@ -1,6 +1,6 @@
 const global = require("./global");
 const models = require("../../db/models");
-const logger = require("../../logging")("bot");
+const logger = require("../../modules/logging")("bot");
 const bot = global.bot;
 
 module.exports = function () {

@@ -1,6 +1,6 @@
 const Utils = require("./Utils");
 const Action = require("./Action");
-const constants = require("../../constants");
+const constants = require("../../data/constants");
 
 module.exports = class Role {
 
@@ -93,7 +93,7 @@ module.exports = class Role {
 					else {
 						let existingShouldMeet = meeting.shouldMeet.bind(this);
 						let cardShouldMeet = this.meetingMods[meetingName].shouldMeet.bind(this);
-						
+
 						meeting.shouldMeet = function () {
 							return existingShouldMeet(meetingNames[i]) && cardShouldMeet(meetingNames[i]);
 						}
@@ -240,7 +240,7 @@ module.exports = class Role {
 	revealToSelf(noAlert) {
 		if (!this.appearance.self && !this.player.tempAppearance.self)
 			return;
-			
+
 		var appearance = this.player.getAppearance("self");
 		var roleName = appearance.split(":")[0];
 		var modifier = appearance.split(":")[1];

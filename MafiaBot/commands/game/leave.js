@@ -3,7 +3,7 @@ const axios = require("axios");
 const global = require("../../components/global");
 const utils = require("../../components/utils");
 const models = require("../../../db/models");
-const logger = require("../../../logging")("bot");
+const logger = require("../../../modules/logging")("bot");
 const bot = global.bot;
 
 module.exports = class Leave extends commando.Command {

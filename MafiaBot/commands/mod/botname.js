@@ -1,12 +1,12 @@
 const commando = require("discord.js-commando");
 const global = require("../../components/global");
 const utils = require("../../components/utils");
-const logger = require("../../../logging")("bot");
+const logger = require("../../../modules/logging")("bot");
 const bot = global.bot;
 
 module.exports = class BotName extends commando.Command {
 
-    constructor (client) {
+    constructor(client) {
         super(client, {
             name: "botname",
             group: "mod",
@@ -24,14 +24,14 @@ module.exports = class BotName extends commando.Command {
         });
     }
 
-    hasPermission (message) {
+    hasPermission(message) {
         let perm =
             utils.hasRole(message.member, global.roles.admin) &&
             utils.fromChannel(message, global.channels.modCommands);
         return perm;
     }
 
-    async run (message, args) {
+    async run(message, args) {
         try {
             await bot.user.setUsername(args.name);
             message.channel.send(`Set username of bot to ${args.name}`);

@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const Random = require("../../../../../Random");
+const Random = require("../../../../../lib/Random");
 
 module.exports = class SeeRandomSpeakers extends Card {
 

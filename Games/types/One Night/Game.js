@@ -2,7 +2,7 @@ const Game = require("../../core/Game");
 const Player = require("./Player");
 const Queue = require("../../core/Queue");
 const Winners = require("../../core/Winners");
-const Random = require("../../../Random");
+const Random = require("../../../lib/Random");
 
 module.exports = class OneNightGame extends Game {
 

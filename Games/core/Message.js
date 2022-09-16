@@ -1,5 +1,5 @@
 const shortid = require("shortid");
-const constants = require("../../constants");
+const constants = require("../../data/constants");
 
 module.exports = class Message {
 

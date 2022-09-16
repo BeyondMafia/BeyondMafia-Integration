@@ -1,6 +1,6 @@
 const express = require("express");
-const constants = require("../constants");
-const logger = require("../logging")(".");
+const constants = require("../data/constants");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
 
 router.get("/nextRestart", function (req, res) {

@@ -1,7 +1,7 @@
 const express = require("express");
-const constants = require("../constants");
-const roleData = require("../roleData");
-const logger = require("../logging")(".");
+const constants = require("../data/constants");
+const roleData = require("..//data/roles");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
 
 var condensedRoleData = { "Modifiers": {} };

@@ -2,8 +2,8 @@ const Game = require("../../core/Game");
 const Player = require("./Player");
 const Queue = require("../../core/Queue");
 const Winners = require("../../core/Winners");
-const Random = require("../../../Random");
-const roleData = require("../../../roleData");
+const Random = require("../../../lib/Random");
+const roleData = require("../../..//data/roles");
 
 module.exports = class SplitDecisionGame extends Game {
 
@@ -81,13 +81,13 @@ module.exports = class SplitDecisionGame extends Game {
 		for (let alignment in rolesByAlignment) {
 			for (let i = (alignment == "Blue" || alignment == "Red" ? 1 : 0); i < this.setup.count[alignment]; i++) {
 				let role = Random.randArrayVal(rolesByAlignment[alignment]);
-	
+
 				if (this.setup.unique)
 					rolesByAlignment[alignment] = rolesByAlignment[alignment].filter(_role => _role != role);
-	
+
 				if (roleset[role] == null)
 					roleset[role] = 0;
-					
+
 				roleset[role]++;
 			}
 		}
@@ -121,7 +121,7 @@ module.exports = class SplitDecisionGame extends Game {
 
 		if (stateInfo.name.match(/Round/))
 			length = this.roundLengths[this.round - 1];
-		else 
+		else
 			length = stateInfo.length;
 
 		this.createTimer("main", length, () => this.gotoNextState());

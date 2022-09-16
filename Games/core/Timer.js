@@ -1,4 +1,4 @@
-const logger = require("../../logging")("games");
+const logger = require("../../modules/logging")("games");
 
 module.exports = class Timer {
 
@@ -20,11 +20,11 @@ module.exports = class Timer {
 			try {
 				this.end();
 			}
-			catch(e) {
+			catch (e) {
 				logger.error(e);
 			}
 		}, this.delay);
-		
+
 		this.syncInterval = setInterval(() => {
 			try {
 				this.sync();
@@ -109,8 +109,8 @@ module.exports = class Timer {
 	get clients() {
 		if (this.originalClients)
 			return this.originalClients;
-		
-		else 
+
+		else
 			return this.game.players.array().concat(this.game.spectators);
 	}
 

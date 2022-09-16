@@ -6,16 +6,16 @@ const Queue = require("./Queue");
 const PregameMeeting = require("./PregameMeeting");
 const PregameReadyMeeting = require("./PregameReadyMeeting");
 const Timer = require("./Timer");
-const Random = require("../../Random");
+const Random = require("../../lib/Random");
 const Utils = require("./Utils");
 const ArrayHash = require("./ArrayHash");
 const games = require("../games");
 const events = require("events");
 const models = require("../../db/models");
-const redis = require("../../redis");
-const roleData = require("../../roleData");
-const logger = require("../../logging")("games");
-const constants = require("../../constants");
+const redis = require("../../modules/redis");
+const roleData = require("../..//data/roles");
+const logger = require("../../modules/logging")("games");
+const constants = require("../../data/constants");
 const routeUtils = require("../../routes/utils");
 
 module.exports = class Game {
@@ -1161,7 +1161,7 @@ module.exports = class Game {
 					{
 						$push: { games: game._id },
 						$set: { stats: player.user.stats, playedGame: true },
-						$inc: { 
+						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
 							coins: this.ranked ? 1 : 0
 						}

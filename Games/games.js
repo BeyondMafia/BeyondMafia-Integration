@@ -1,12 +1,12 @@
 const dotenv = require("dotenv").config();
 const shortid = require("shortid");
 const models = require("../db/models");
-const sockets = require("../sockets");
+const sockets = require("../lib/sockets");
 const db = require("../db/db");
-const redis = require("../redis");
+const redis = require("../modules/redis");
 const routeUtils = require("../routes/utils");
-const constants = require("../constants");
-const logger = require("../logging")("games");
+const constants = require("../data/constants");
+const logger = require("../modules/logging")("games");
 const User = require("./core/User");
 
 const serverId = Number(process.env.pm_id) || 0;

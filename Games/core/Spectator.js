@@ -1,5 +1,5 @@
 const Player = require("./Player");
-const logger = require("../../logging")("games");
+const logger = require("../../modules/logging")("games");
 
 module.exports = class Spectator extends Player {
 

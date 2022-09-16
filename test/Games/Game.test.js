@@ -2,11 +2,11 @@ const dotenv = require("dotenv").config();
 const chai = require("chai"),
 	should = chai.should();
 const db = require("../../db/db");
-const redis = require("../../redis");
+const redis = require("../../modules/redis");
 const Game = require("../../Games/core/Game");
 const User = require("../../Games/core/User");
 const Socket = require("../../sockets").TestSocket;
-const constants = require("../../constants");
+const constants = require("../../data/constants");
 
 describe("Games/Game", function () {
 	describe("Game creation", function () {

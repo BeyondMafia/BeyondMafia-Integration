@@ -4,7 +4,7 @@ const global = require("./components/global");
 const db = require("../db/db");
 const listeners = require("./components/listeners");
 const periodic = require("./components/periodic");
-const logger = require("../logging")("bot");
+const logger = require("../modules/logging")("bot");
 const bot = global.bot;
 
 bot.registry
@@ -25,12 +25,12 @@ bot.registry
 
         bot.on("ready", async () => {
             try {
-                await bot.user.setPresence({ 
+                await bot.user.setPresence({
                     status: "online",
-                    activity: { 
+                    activity: {
                         name: "Use \"arc.mafia\" to play",
                         type: "PLAYING"
-                    } 
+                    }
                 });
 
                 //Get references to guild, roles, and channels

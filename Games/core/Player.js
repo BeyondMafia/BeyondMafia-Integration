@@ -5,8 +5,8 @@ const Message = require("./Message");
 const Quote = require("./Quote");
 const Utils = require("./Utils");
 const Spam = require("./Spam");
-const constants = require("../../constants");
-const logger = require("../../logging")("games");
+const constants = require("../../data/constants");
+const logger = require("../../modules/logging")("games");
 
 module.exports = class Player {
 

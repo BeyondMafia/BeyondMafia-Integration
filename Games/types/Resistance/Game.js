@@ -2,7 +2,7 @@ const Game = require("../../core/Game");
 const Player = require("./Player");
 const Queue = require("../../core/Queue");
 const Winners = require("../../core/Winners");
-const Random = require("../../../Random");
+const Random = require("../../../lib/Random");
 
 module.exports = class ResistanceGame extends Game {
 
@@ -66,9 +66,9 @@ module.exports = class ResistanceGame extends Game {
 			if (this.currentMissionFails > 0) {
 				this.missionFails++;
 				var plural = this.currentMissionFails > 1;
-				this.queueAlert(`Mission ${this.mission} failed due to ${this.currentMissionFails} team member${plural ? "s": ""}.`);
+				this.queueAlert(`Mission ${this.mission} failed due to ${this.currentMissionFails} team member${plural ? "s" : ""}.`);
 			}
-			else 
+			else
 				this.queueAlert(`Mission ${this.mission} succeeded.`);
 
 			this.mission++;

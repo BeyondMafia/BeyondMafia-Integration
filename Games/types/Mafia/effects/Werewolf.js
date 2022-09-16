@@ -1,6 +1,6 @@
 const Effect = require("../Effect");
 const Action = require("../Action");
-const Random = require("../../../../Random");
+const Random = require("../../../../lib/Random");
 
 module.exports = class Werewolf extends Effect {
 

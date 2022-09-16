@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const Random = require("../../../../../Random");
+const Random = require("../../../../../lib/Random");
 const Utils = require("../../../../core/Utils");
 
 module.exports = class SeeRole extends Card {
@@ -18,7 +18,7 @@ module.exports = class SeeRole extends Card {
 					run: function () {
 						if (this.target == "2 Excess Roles") {
 							var roleIndexes = this.game.excessRoles.map((r, i) => i);
-							
+
 							var roleIndex1 = Random.randArrayVal(roleIndexes, true);
 							var roleIndex2 = Random.randArrayVal(roleIndexes, true);
 

@@ -1,4 +1,4 @@
-const Random = require("../../../../Random");
+const Random = require("../../../../lib/Random");
 const Item = require("../Item");
 
 module.exports = class Leader extends Item {
@@ -8,7 +8,7 @@ module.exports = class Leader extends Item {
 
 		this.listeners = {
 			"meetingsMade": function () {
-				this.holder.sendAlert(`Choose ${this.game.currentSwapAmt} hostage${this.game.currentSwapAmt > 1 ? "s": ""} to swap.`);
+				this.holder.sendAlert(`Choose ${this.game.currentSwapAmt} hostage${this.game.currentSwapAmt > 1 ? "s" : ""} to swap.`);
 			}
 		};
 		this.meetings = {

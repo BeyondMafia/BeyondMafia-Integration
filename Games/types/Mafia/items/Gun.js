@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const Random = require("../../../../Random");
+const Random = require("../../../../lib/Random");
 
 module.exports = class Gun extends Item {
 

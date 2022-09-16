@@ -1,14 +1,15 @@
 const express = require("express");
 const bluebird = require("bluebird");
 const fs = require("fs");
+const fbAdmin = require("firebase-admin");
 const formidable = bluebird.promisifyAll(require("formidable"), { multiArgs: true });
 const sharp = require("sharp");
 const color = require("color");
 const models = require("../db/models");
 const routeUtils = require("./utils");
-const redis = require("../redis");
-const constants = require("../constants");
-const logger = require("../logging")(".");
+const redis = require("../modules/redis");
+const constants = require("../data/constants");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
 
 router.get("/info", async function (req, res) {
@@ -825,6 +826,7 @@ router.post("/delete", async function (req, res) {
                     deleted: true
                 },
                 $unset: {
+                    fbUid: "",
                     avatar: "",
                     banner: "",
                     bio: "",
@@ -847,6 +849,7 @@ router.post("/delete", async function (req, res) {
 
         await redis.setUserOffline(userId);
         await redis.deleteUserInfo(userId);
+        await fbAdmin.auth().deleteUser(req.user.fbUid);
 
         res.sendStatus(200);
     }

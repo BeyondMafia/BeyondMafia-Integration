@@ -1,10 +1,10 @@
 const express = require("express");
-const constants = require("../constants");
+const constants = require("../data/constants");
 const models = require("../db/models");
 const routeUtils = require("./utils");
-const redis = require("../redis");
-const gameLoadBalancer = require("../gameLoadBalancer");
-const logger = require("../logging")(".");
+const redis = require("../modules/redis");
+const gameLoadBalancer = require("../modules/gameLoadBalancer");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
 
 router.post("/leave", async function (req, res) {

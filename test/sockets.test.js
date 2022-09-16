@@ -1,7 +1,7 @@
 const chai = require("chai"),
 	should = chai.should();
 const db = require("../db/db");
-const sockets = require("../sockets");
+const sockets = require("../lib/sockets");
 
 describe("Sockets", function () {
 	describe("Message stringify", function () {
@@ -15,7 +15,7 @@ describe("Sockets", function () {
 			message = sockets.stringifyMessage("test", true);
 			message.should.equal("test:boolean:true");
 
-			message = sockets.stringifyMessage("test", {a: 1});
+			message = sockets.stringifyMessage("test", { a: 1 });
 			message.should.equal("test:object:{\"a\":1}");
 
 			message = sockets.stringifyMessage("test", [1, 2, 3]);

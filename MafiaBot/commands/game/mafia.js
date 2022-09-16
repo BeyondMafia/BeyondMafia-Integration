@@ -2,7 +2,7 @@ const commando = require("discord.js-commando");
 const axios = require("axios");
 const global = require("../../components/global");
 const models = require("../../../db/models");
-const logger = require("../../../logging")("bot");
+const logger = require("../../../modules/logging")("bot");
 const bot = global.bot;
 
 module.exports = class Mafia extends commando.Command {

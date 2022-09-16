@@ -1,5 +1,5 @@
 const Effect = require("../Effect");
-const Random = require("../../../../Random");
+const Random = require("../../../../lib/Random");
 
 module.exports = class Insanity extends Effect {
 

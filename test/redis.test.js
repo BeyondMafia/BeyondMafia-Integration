@@ -1,7 +1,7 @@
 const chai = require("chai"),
 	should = chai.should();
 const db = require("../db/db");
-const redis = require("../redis");
+const redis = require("../modules/redis");
 
 describe("Redis", function () {
 	describe("Token authentication", function () {

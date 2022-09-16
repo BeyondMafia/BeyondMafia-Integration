@@ -2,7 +2,7 @@
 // const chai = require("chai"),
 //     should = chai.should();
 // const db = require("../../db/db");
-// const redis = require("../../redis");
+// const redis = require("../../modules/redis");
 // const shortid = require("shortid");
 // const Game = require("../../Games/types/Mafia/Game");
 // const User = require("../../Games/core/User");

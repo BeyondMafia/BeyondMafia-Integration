@@ -12,18 +12,22 @@ This is the source code powering [EpicMafia.org](https://epicmafia.org), a non-p
 ## Running the site locally
 1. Install node.js (the server uses node 14.15.1)
 2. Install MongoDB and Redis and run them as services. If using Windows, install Memurai instead of Redis. 
-3. Clone the repository
+3. Install pm2
+```bash
+npm i -g pm2
+```
+4. Clone the repository
 ```bash
 git clone https://github.com/epicmafia-community-org/EpicMafia.git
 ```
-4. Install node modules
+5. Install the node modules
 ```bash
 cd EpicMafia
 npm install
 cd react_main
 npm install
 ```
-5. Create .env file for the server
+6. Create .env file for the server
 
 Example file:
 ```
@@ -31,39 +35,44 @@ NODE_ENV=development
 PORT=3000
 UPLOAD_PATH=uploads
 BASE_URL=http://localhost:3001
+
 GAME_PORTS=[3010]
 CHAT_PORT=2999
 SOCKET_PING_INTERVAL=10000
 SERVER_SOCKET_PING_INTERVAL=2000
 GAME_CREATION_TIMEOUT=5000
+
 SESSION_SECRET=x
 LOAD_BALANCER_KEY=x
 BOT_SECRET=x
 BOT_KEY=x
+
 MONGO_URL=localhost
 MONGO_DB=dbname
-MONGO_USER=dbuser
+MONGO_USER=admin
 MONGO_PW=x
+
 REDIS_DB=0
+
 OAUTH_URL=http://localhost:3000
 OAUTH_SUCCESS_REDIR=http://localhost:3001
 OAUTH_FAIL_REDIR=http://localhost:3001/signin
-DISCORD_CLIENT_ID=x
-DISCORD_CLIENT_SECRET=x
-TWITCH_CLIENT_ID=x
-TWITCH_CLIENT_SECRET=x
-GOOGLE_CLIENT_ID=x
-GOOGLE_CLIENT_SECRET=x
-STEAM_API_KEY=x
-SPAM_SUM_LIMIT=15
-SPAM_RATE_LIMIT=10
-MAX_SETUPS=100
-MAX_MSG_LENGTH=240
-MAX_TEXT_INPUT_LENGTH=100
-PLAYER_LIMIT=50
-SPECTATOR_LIMIT=100
+
+FIREBASE_API_KEY=x
+FIREBASE_AUTH_DOMAIN=x.firebaseapp.com
+FIREBASE_PROJECT_ID=x
+FIREBASE_MESSAGING_SENDER_ID=x
+FIREBASE_APP_ID=x
+FIREBASE_MEASUREMENT_ID=x
+
 AGORA_ID=x
 AGORA_CERT=x
+
+IP_API_URL=https://ipqualityscore.com/api/json/ip
+IP_API_KEY=x
+IP_API_PARAMS=strictness=0&allow_public_access_points=true&fast=true&lighter_penalties=true&mobile=true
+
+RESERVED_NAMES={}
 ```
 6. Create a .env file for the React app
 

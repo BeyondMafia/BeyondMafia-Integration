@@ -1,10 +1,10 @@
 const shortid = require("shortid");
 const Message = require("./Message");
 const Quote = require("./Quote");
-const Random = require("../../Random");
+const Random = require("../../lib/Random");
 const ArrayHash = require("./ArrayHash");
 const Agora = require("./Agora");
-const constants = require("../../constants");
+const constants = require("../../data/constants");
 
 module.exports = class Meeting {
 

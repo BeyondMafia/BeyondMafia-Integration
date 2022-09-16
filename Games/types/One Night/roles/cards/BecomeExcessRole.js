@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const Random = require("../../../../../Random");
+const Random = require("../../../../../lib/Random");
 const Utils = require("../../../../core/Utils");
 
 module.exports = class BecomeExcessRole extends Card {

@@ -1,5 +1,5 @@
 const Role = require("../../Role");
-const Random = require("../../../../../Random");
+const Random = require("../../../../../lib/Random");
 const Utils = require("../../../../core/Utils");
 
 module.exports = class Werewolf extends Role {
@@ -22,7 +22,7 @@ module.exports = class Werewolf extends Role {
 
 					var excessRoleIndex = Random.randInt(0, this.game.excessRoles.length - 1);
 					var excessRole = this.game.excessRoles[excessRoleIndex];
-					
+
 					this.actor.queueAlert(`${excessRole} is the ${Utils.numToPos(excessRoleIndex + 1)} excess role.`);
 				}
 			}

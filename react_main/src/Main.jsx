@@ -11,7 +11,7 @@ import Game from "./pages/Game/Game";
 import Play from "./pages/Play/Play";
 import Community from "./pages/Community/Community";
 import Bots from "./pages/Bots/Bots";
-import Signin from "./pages/Signin/Signin";
+import SignUp from "./pages/Auth/SignUp";
 import User, { Avatar, useUser } from "./pages/User/User";
 import Legal from "./pages/Legal/Legal";
 import Popover, { usePopover } from "./components/Popover";
@@ -48,7 +48,7 @@ function Main() {
         async function getInfo() {
             try {
                 var res = await axios.get("/user/info")
-    
+
                 if (res.data.id) {
                     res.data.loggedIn = true;
                     res.data.loaded = true;
@@ -64,7 +64,7 @@ function Main() {
                 }
                 else
                     user.clear();
-    
+
                 if (res.data.nameChanged == false) {
                     siteInfo.showAlert(() => (
                         <div>
@@ -72,7 +72,7 @@ function Main() {
                         </div>
                     ), "basic", true);
                 }
-    
+
                 if (res.data.inGame) {
                     siteInfo.showAlert(index => (
                         <div>
@@ -87,7 +87,7 @@ function Main() {
             catch (e) {
                 errorAlert(e);
             }
-    
+
         }
 
         getInfo();
@@ -119,7 +119,7 @@ function Main() {
                                             <Route path="/play" render={() => <Play />} />
                                             <Route path="/community" render={() => <Community />} />
                                             <Route path="/bots" render={() => <Bots />} />
-                                            <Route path="/signin" render={() => <Signin />} />
+                                            <Route path="/signin" render={() => <SignUp />} />
                                             <Route path="/user" render={() => <User />} />
                                             <Route path="/legal" render={() => <Legal />} />
                                             <Route render={() => <Redirect to="/play" />} />

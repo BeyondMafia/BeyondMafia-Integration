@@ -5,7 +5,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const logger = require("./logging")(".");
+const logger = require("./modules/logging")(".");
 const passport = require("passport");
 
 const indexRouter = require("./routes/index");
@@ -21,7 +21,7 @@ const chatRouter = require("./routes/chat");
 const notifsRouter = require("./routes/notifs");
 const shopRouter = require("./routes/shop");
 
-const session = require("./session");
+const session = require("./modules/session");
 
 const app = express();
 

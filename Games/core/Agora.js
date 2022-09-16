@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const crc32 = require('crc-32');
 const UINT32 = require('cuint').UINT32;
-const Random = require("../../Random");
+const Random = require("../../lib/Random");
 
 const version = "006";
 const VERSION_LENGTH = 3;
@@ -29,7 +29,7 @@ module.exports = class Agora {
 	static generateToken(userId, channelId) {
 		var token = new AccessToken(process.env.AGORA_ID, process.env.AGORA_CERT, channelId, userId);
 		var expiration = Math.floor((Date.now()) / 1000) + lifespan;
-		
+
 		token.addPriviledge(priviledges.kJoinChannel, expiration);
 		token.addPriviledge(priviledges.kPublishAudioStream, expiration);
 

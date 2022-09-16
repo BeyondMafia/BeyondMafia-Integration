@@ -1,19 +1,9 @@
 const express = require("express");
-const braintree = require("braintree");
 const routeUtils = require("./utils");
-const redis = require("../redis");
-const constants = require("../constants");
+const redis = require("../modules/redis");
 const models = require("../db/models");
-const shortid = require("shortid");
-const logger = require("../logging")(".");
+const logger = require("../modules/logging")(".");
 const router = express.Router();
-
-const gateway = new braintree.BraintreeGateway({
-	environment: process.env.NODE_ENV == "production" ? braintree.Environment.Production : braintree.Environment.Sandbox,
-	merchantId: process.env.BRAIN_MERCHANT_ID,
-	publicKey: process.env.BRAIN_PUBLIC_KEY,
-	privateKey: process.env.BRAIN_PRIVATE_KEY
-});
 
 const shopItems = [
 	{
@@ -33,7 +23,7 @@ const shopItems = [
 		price: 20,
 		limit: 1,
 		onBuy: function () {
-			
+
 		}
 	},
 	{
@@ -43,7 +33,7 @@ const shopItems = [
 		price: 20,
 		limit: null,
 		onBuy: function () {
-			
+
 		}
 	},
 	{
@@ -53,7 +43,7 @@ const shopItems = [
 		price: 100,
 		limit: 1,
 		onBuy: function () {
-			
+
 		}
 	},
 	{
@@ -63,7 +53,7 @@ const shopItems = [
 		price: 400,
 		limit: 1,
 		onBuy: function () {
-			
+
 		}
 	},
 	{
@@ -73,7 +63,7 @@ const shopItems = [
 		price: 800,
 		limit: 1,
 		onBuy: function () {
-			
+
 		}
 	},
 ];

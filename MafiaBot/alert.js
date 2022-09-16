@@ -1,7 +1,7 @@
 const commando = require("discord.js-commando");
 const path = require("path");
 const dotenv = require("dotenv").config({ path: path.join(__dirname, "../.env") });
-const logger = require("../logging")("bot");
+const logger = require("../modules/logging")("bot");
 
 (async function () {
 	try {

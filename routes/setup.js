@@ -3,10 +3,10 @@ const shortid = require("shortid");
 const oHash = require("object-hash");
 const models = require("../db/models");
 const routeUtils = require("./utils");
-const constants = require("../constants");
-const roleData = require("../roleData");
-const redis = require("../redis");
-const logger = require("../logging")(".");
+const constants = require("../data/constants");
+const roleData = require("..//data/roles");
+const redis = require("../modules/redis");
+const logger = require("../modules/logging")(".");
 const utils = require("./utils");
 const router = express.Router();
 
@@ -584,7 +584,7 @@ function verifyRolesAndCount(setup) {
 			else
 				if (tempTotal != total)
 					return ["All rolesets must have the same number of roles"];
-			
+
 			//Check the alignment counts
 			let countCheck = countChecks[gameType](roleset, tempCount, total);
 
