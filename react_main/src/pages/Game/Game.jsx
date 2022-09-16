@@ -115,7 +115,7 @@ function GameWrapper(props) {
 		updateSettings({ type: "load" });
 
 		if (!props.review) {
-			document.title = `Game ${gameId} | EpicMafia`;
+			document.title = `Game ${gameId} | BeyondMafia`;
 			loadAudioFiles(audioFileNames, audioLoops, audioOverrides, audioVolumes);
 			requestNotificationAccess();
 
@@ -149,7 +149,7 @@ function GameWrapper(props) {
 			}
 		}
 		else {
-			document.title = `Review Game ${gameId} | EpicMafia`;
+			document.title = `Review Game ${gameId} | BeyondMafia`;
 
 			axios.get(`/game/${gameId}/review/data`)
 				.then(res => {
@@ -773,7 +773,7 @@ export function TopBar(props) {
 						className="btn btn-theme-sec rehost-game"
 						onClick={onRehostGameClick}>
 						Rehost
-				</div>
+					</div>
 				}
 			</div>
 		</div>

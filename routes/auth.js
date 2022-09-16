@@ -15,6 +15,7 @@ router.post("/", async function (req, res) {
 		var idToken = String(req.body.idToken);
 		var userData = await fbAdmin.auth().verifyIdToken(idToken);
 		await authSuccess(userData.uid, userData.email);
+		res.sendStatus(200);
 	}
 	catch (e) {
 		logger.error(e);

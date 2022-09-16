@@ -1,5 +1,4 @@
 import React, { useContext, useRef } from "react";
-import axios from "axios";
 
 import { PopoverContext } from "../Contexts";
 import { RoleCount } from "./Roles";

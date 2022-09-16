@@ -12,7 +12,7 @@ export default function Settings(props) {
 	const [searchVal, setSearchVal] = useState("");
 
 	useEffect(() => {
-		document.title = "Users | EpicMafia";
+		document.title = "Users | BeyondMafia";
 
 		axios.get("/user/online")
 			.then(res => {
@@ -51,7 +51,7 @@ export default function Settings(props) {
 	return (
 		<div className="span-panel user-search">
 			<div className="form">
-				<input 
+				<input
 					type="text"
 					placeholder="Username"
 					value={searchVal}

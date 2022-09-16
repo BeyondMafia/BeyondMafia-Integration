@@ -26,14 +26,14 @@ export default function CreateSplitDecisionSetup() {
 			min: "1",
 			max: "24",
 		},
-        {
-            label: "Round Amount",
-            ref: "aroundAmt",
-            type: "number",
-            value: 3,
-            min: 2,
-            max: 10
-        },
+		{
+			label: "Round Amount",
+			ref: "aroundAmt",
+			type: "number",
+			value: 3,
+			min: 2,
+			max: 10
+		},
 		{
 			label: "Whispers",
 			ref: "whispers",
@@ -92,8 +92,8 @@ export default function CreateSplitDecisionSetup() {
 	const siteInfo = useContext(SiteInfoContext);
 
 	useEffect(() => {
-		document.title = "Create Split Decision Setup | EpicMafia";
-    }, []);
+		document.title = "Create Split Decision Setup | BeyondMafia";
+	}, []);
 
 	function onCreateSetup(roleData, editing, setRedirect) {
 		axios.post("/setup/create", {

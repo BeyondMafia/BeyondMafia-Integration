@@ -118,7 +118,7 @@ export default function LearnMafia(props) {
 	];
 
 	useEffect(() => {
-		document.title = "Learn Mafia | EpicMafia";
+		document.title = "Learn Mafia | BeyondMafia";
 	}, []);
 
 	return (
@@ -126,37 +126,37 @@ export default function LearnMafia(props) {
 			<div className="learn">
 				<div className="heading">
 					Synopsis
-			</div>
+				</div>
 				<div className="paragraphs">
 					<div className="paragraph">
 						Mafia is a game of social deception where an informed minority (the Mafia) compete against the uniformed majority (the Village).
 						The Mafia choose one player to kill each night, and they win the game if they successfully outnumber the non-mafia players at any point.
 						Everyone votes to execute one person during the day, with the Village aiming to eliminate all mafia members.
-				</div>
+					</div>
 					<div className="paragraph">
 						In addition to the Village and the Mafia, there are two other alignments: Independent and Monsters. Independents are not aligned with a side and usually have their own unique win condition.
 						Monsters meet together and win if they reach the majority just like the mafia, but they do not vote to kill someone each night.
-				</div>
+					</div>
 					<div className="paragraph">
 						At the beginning of a game, each player is given a role. This role may grant the player special abilities, usually in the form of actions they can take to aid their side.
 						A list of all roles and their abilities can be found below.
-				</div>
+					</div>
 				</div>
 				<div className="heading">
 					Roles
-			</div>
+				</div>
 				<RoleSearch gameType={gameType} />
 				<div className="heading">
 					Items
-			</div>
+				</div>
 				<PanelGrid panels={items} />
 				<div className="heading">
 					Mechanics
-			</div>
+				</div>
 				<PanelGrid panels={mechanics} />
 				<div className="heading">
 					Modifiers
-			</div>
+				</div>
 				<PanelGrid panels={modifiers} />
 			</div>
 		</div>

@@ -26,7 +26,7 @@ export default function Join(props) {
     const errorAlert = useErrorAlert();
 
     useEffect(() => {
-        document.title = `Play (${lobby}) | EpicMafia`;
+        document.title = `Play (${lobby}) | BeyondMafia`;
         getGameList(listType, 1);
         setPage(1);
     }, [lobby]);

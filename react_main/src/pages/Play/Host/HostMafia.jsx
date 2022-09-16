@@ -26,9 +26,9 @@ export default function HostMafia() {
         {
             label: "Lobby",
             ref: "lobby",
-			type: "select",
+            type: "select",
             value: localStorage.getItem("lobby") || "Main",
-			options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
+            options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
         },
         {
             label: "Private",
@@ -92,29 +92,29 @@ export default function HostMafia() {
         }
     ]);
 
-	useEffect(() => {
-		document.title = "Host Mafia | EpicMafia";
+    useEffect(() => {
+        document.title = "Host Mafia | BeyondMafia";
     }, []);
-    
+
     function onHostGame() {
         var scheduled = formFields[7].value;
 
         if (selSetup.id)
             axios.post("/game/host", {
-                    gameType: gameType,
-                    setup: selSetup.id,
-                    lobby: formFields[1].value,
-                    private: formFields[2].value,
-                    guests: formFields[3].value,
-                    ranked: formFields[4].value,
-                    spectating: formFields[5].value,
-                    voiceChat: formFields[6].value,
-                    scheduled: scheduled && (new Date(formFields[8].value)).getTime(),
-                    stateLengths: {
-                        "Day": formFields[9].value,
-                        "Night": formFields[10].value
-                    }
-                })
+                gameType: gameType,
+                setup: selSetup.id,
+                lobby: formFields[1].value,
+                private: formFields[2].value,
+                guests: formFields[3].value,
+                ranked: formFields[4].value,
+                spectating: formFields[5].value,
+                voiceChat: formFields[6].value,
+                scheduled: scheduled && (new Date(formFields[8].value)).getTime(),
+                stateLengths: {
+                    "Day": formFields[9].value,
+                    "Night": formFields[10].value
+                }
+            })
                 .then(res => {
                     if (scheduled) {
                         siteInfo.showAlert(`Game scheduled.`, "success");
@@ -124,7 +124,7 @@ export default function HostMafia() {
                         setRedirect(`/game/${res.data}`);
                 })
                 .catch(errorAlert);
-        else 
+        else
             errorAlert("You must choose a setup");
     }
 

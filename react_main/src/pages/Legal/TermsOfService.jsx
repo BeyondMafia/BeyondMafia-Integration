@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 
 export default function PrivacyPolicy() {
 	useEffect(() => {
-		document.title = "Terms of Service | EpicMafia";
-    }, []);
+		document.title = "Terms of Service | BeyondMafia";
+	}, []);
 
 	return (
 		<div className="span-panel legal">

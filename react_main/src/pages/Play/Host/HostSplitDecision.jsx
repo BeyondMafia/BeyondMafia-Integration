@@ -26,9 +26,9 @@ export default function HostSplitDecision() {
         {
             label: "Lobby",
             ref: "lobby",
-			type: "select",
+            type: "select",
             value: localStorage.getItem("lobby") || "Main",
-			options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
+            options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
         },
         {
             label: "Private",
@@ -84,7 +84,7 @@ export default function HostSplitDecision() {
     ]);
 
     useEffect(() => {
-        document.title = "Host Split Decision | EpicMafia";
+        document.title = "Host Split Decision | BeyondMafia";
     }, []);
 
     function onHostGame() {

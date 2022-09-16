@@ -11,7 +11,7 @@ import Game from "./pages/Game/Game";
 import Play from "./pages/Play/Play";
 import Community from "./pages/Community/Community";
 import Bots from "./pages/Bots/Bots";
-import SignUp from "./pages/Auth/SignUp";
+import Auth from "./pages/Auth/Auth";
 import User, { Avatar, useUser } from "./pages/User/User";
 import Legal from "./pages/Legal/Legal";
 import Popover, { usePopover } from "./components/Popover";
@@ -119,7 +119,7 @@ function Main() {
                                             <Route path="/play" render={() => <Play />} />
                                             <Route path="/community" render={() => <Community />} />
                                             <Route path="/bots" render={() => <Bots />} />
-                                            <Route path="/signin" render={() => <SignUp />} />
+                                            <Route path="/auth" render={() => <Auth />} />
                                             <Route path="/user" render={() => <User />} />
                                             <Route path="/legal" render={() => <Legal />} />
                                             <Route render={() => <Redirect to="/play" />} />
@@ -151,11 +151,9 @@ function Header(props) {
                 <Nav>
                     <NavLink to="/play">Play</NavLink>
                     <NavLink to="/community">Community</NavLink>
-                    <a href="https://wiki.epicmafia.org">Wiki</a>
-                    {/* <a href="https://discord.gg/6MeWWHx">Community</a> */}
-                    {/* <NavLink to="/bots">Bots</NavLink> */}
+                    <a href="https://wiki.beyondmafia.com">Wiki</a>
                     {!user.loggedIn &&
-                        <NavLink to="/signin" className="nav-link">Sign In</NavLink>
+                        <NavLink to="/auth" className="nav-link">Sign In</NavLink>
                     }
                     {user.loggedIn &&
                         <>
@@ -341,7 +339,7 @@ function Footer() {
     return (
         <div className="footer">
             <div className="footer-inner">
-                <p>© {year} EpicMafia</p>
+                <p>© {year} BeyondMafia</p>
             </div>
         </div>
     );

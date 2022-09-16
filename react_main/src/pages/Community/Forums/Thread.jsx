@@ -31,7 +31,7 @@ export default function Thread(props) {
 	const params = new URLSearchParams(location.search);
 
 	useEffect(() => {
-		document.title = "Forums | EpicMafia";
+		document.title = "Forums | BeyondMafia";
 	}, []);
 
 	useEffect(() => {

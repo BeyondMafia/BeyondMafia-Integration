@@ -14,7 +14,7 @@ export default function Categories(props) {
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
-		document.title = "Categories | EpicMafia";
+		document.title = "Categories | BeyondMafia";
 		props.updateForumNavInfo({ action: "home" });
 
 		axios.get("/forums/categories")

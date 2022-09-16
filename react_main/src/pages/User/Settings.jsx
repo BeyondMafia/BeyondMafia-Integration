@@ -7,7 +7,6 @@ import { UserContext, SiteInfoContext } from "../../Contexts";
 import LoadingPage from "../Loading";
 import Form, { useForm } from "../../components/Form";
 import { useErrorAlert } from "../../components/Alerts";
-import { SignUpButtons } from "../Auth/SignUp";
 
 import "../../css/settings.css";
 import "../../css/signin.css";
@@ -120,7 +119,7 @@ export default function Settings(props) {
 	]);
 
 	useEffect(() => {
-		document.title = "Settings | EpicMafia";
+		document.title = "Settings | BeyondMafia";
 	}, []);
 
 	useEffect(() => {
@@ -272,12 +271,6 @@ export default function Settings(props) {
 						onClick={onDeleteClick}>
 						Delete Account
 					</div>
-				</div>
-				<div className="accounts-column">
-					<SignUpButtons link accounts={accounts} />
-				</div>
-				<div className="accounts-column">
-					<SignUpButtons unlink accounts={accounts} setAccounts={setAccounts} />
 				</div>
 			</div>
 		</div>

@@ -98,9 +98,9 @@ export default function CreateOneNightSetup() {
 	const siteInfo = useContext(SiteInfoContext);
 
 	useEffect(() => {
-		document.title = "Create One Night Setup | EpicMafia";
+		document.title = "Create One Night Setup | BeyondMafia";
 	}, []);
-	
+
 	function onCreateSetup(roleData, editing, setRedirect) {
 		axios.post("/setup/create", {
 			gameType: gameType,

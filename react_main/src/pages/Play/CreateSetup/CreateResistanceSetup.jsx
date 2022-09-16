@@ -99,9 +99,9 @@ export default function CreateResistanceSetup() {
 	const siteInfo = useContext(SiteInfoContext);
 
 	useEffect(() => {
-		document.title = "Create Resistance Setup | EpicMafia";
+		document.title = "Create Resistance Setup | BeyondMafia";
 	}, []);
-	
+
 	function onCreateSetup(roleData, editing, setRedirect) {
 		axios.post("/setup/create", {
 			gameType: gameType,

@@ -13,7 +13,7 @@ export default function LandingPage(props) {
 				BeyondMafia is the spiritual successor to EpicMafia. The site is completely free and always will be. The source code is publically viewable and anyone can contribute.
 			</div>
 			<div className="paragraph">
-				The site features 50+ roles, 4 social deception games, integrated voice chat for games, forums, profiles, and more.
+				The site features 50+ roles, 4 social deception games, integrated voice chat, forums, profiles, and more.
 			</div>
 			<div className="paragraph">
 				To play, <a href="/signin" className="btn btn-theme">click here</a> to create an account.

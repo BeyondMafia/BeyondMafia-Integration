@@ -120,8 +120,8 @@ export default function CreateMafiaSetup() {
 	const siteInfo = useContext(SiteInfoContext);
 
 	useEffect(() => {
-		document.title = "Create Mafia Setup | EpicMafia";
-    }, []);
+		document.title = "Create Mafia Setup | BeyondMafia";
+	}, []);
 
 	function onCreateSetup(roleData, editing, setRedirect) {
 		axios.post("/setup/create", {

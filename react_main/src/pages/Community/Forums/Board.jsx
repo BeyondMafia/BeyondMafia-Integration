@@ -28,16 +28,16 @@ export default function Board(props) {
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
-		document.title = "Create Mafia Setup | EpicMafia";
+		document.title = "Create Mafia Setup | BeyondMafia";
 	}, []);
-	
+
 	useEffect(() => {
 		axios.get(`/forums/board/${boardId}`)
 			.then(res => {
 				setBoardInfo(res.data);
 				setLoaded(true);
 
-				document.title = `${res.data.name} | EpicMafia`;
+				document.title = `${res.data.name} | BeyondMafia`;
 
 				props.updateForumNavInfo({
 					type: "board",

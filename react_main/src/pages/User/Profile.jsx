@@ -72,7 +72,7 @@ export default function Profile() {
 					setFriendRequests(res.data.friendRequests);
 					setStats(res.data.stats);
 
-					document.title = `${res.data.name}'s Profile | EpicMafia`;
+					document.title = `${res.data.name}'s Profile | BeyondMafia`;
 				})
 				.catch(e => {
 					errorAlert(e);
@@ -429,7 +429,7 @@ export default function Profile() {
 						<div className="box-panel ratings">
 							<div className="heading">
 								Mafia Ratings
-						</div>
+							</div>
 							<div className="content">
 								{ratings}
 							</div>
@@ -438,7 +438,7 @@ export default function Profile() {
 					<div className="box-panel recent-games">
 						<div className="heading">
 							Recent Games
-					</div>
+						</div>
 						<div className="content">
 							{recentGamesRows}
 							{recentGames.length == 0 &&
@@ -450,7 +450,7 @@ export default function Profile() {
 						<div className="box-panel friend-requests">
 							<div className="heading">
 								Friend Requests
-						</div>
+							</div>
 							<div className="content">
 								{friendRequestRows}
 							</div>
@@ -459,7 +459,7 @@ export default function Profile() {
 					<div className="box-panel friends">
 						<div className="heading">
 							Friends
-					</div>
+						</div>
 						<div className="content">
 							<PageNav
 								page={friendsPage}
@@ -478,7 +478,7 @@ export default function Profile() {
 					<div className="box-panel created-setups">
 						<div className="heading">
 							Setups Created
-					</div>
+						</div>
 						<div className="content">
 							{createdSetupRows}
 							{createdSetups.length == 0 &&

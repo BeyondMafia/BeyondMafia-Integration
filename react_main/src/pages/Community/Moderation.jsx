@@ -19,7 +19,7 @@ export default function Moderation() {
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
-		document.title = "Moderation | EpicMafia";
+		document.title = "Moderation | BeyondMafia";
 
 		axios.get("/mod/groups")
 			.then((res) => {
@@ -64,7 +64,7 @@ export default function Moderation() {
 				<div className="span-panel action-panel">
 					<div className="title">
 						Do Action
-				</div>
+					</div>
 					<ModCommands />
 				</div>
 			}

@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     margin: 0px;
@@ -6,13 +7,13 @@ html, body {
 
     overflow-x: initial;
     background-color: #121212;
-    background-image: url("/images/scatter.png");
+    background-image: url("/images/bg1.png");
     color: white;
     font-size: 16px;
 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -41,7 +42,7 @@ a {
 .main-container {
     display: flex;
     flex-flow: column nowrap;
-    
+
     box-sizing: border-box;
     width: 1000px;
     max-width: 100%;
@@ -54,8 +55,6 @@ a {
     flex-flow: row wrap;
 
     margin-bottom: 20px;
-
-    border-bottom: 1px solid #3b3a40;
 }
 
 .logo-wrapper {
@@ -63,27 +62,27 @@ a {
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
-    
+
     margin-left: 20px;
 }
 
 .logo {
     width: 120px;
-    height: 56px;
+    height: 83px;
 
     margin-bottom: 10px;
 
-    background-image: url("/images/em_logo.png");
-	background-size: 100% 100%;
+    background-image: url("/images/title_logo.png");
+    background-size: 100% 100%;
 }
 
 .logo-text {
-	font-size: 75px;
-	font-family: JuiceITC;
+    font-size: 75px;
+    font-family: JuiceITC;
 }
 
 .logo-text span {
-	color: #922222;
+    color: #922222;
 }
 
 .nav-wrapper {
@@ -122,18 +121,18 @@ a {
 }
 
 .box-panel {
-	display: flex;
-	flex-flow: column;
+    display: flex;
+    flex-flow: column;
 
     padding: 8px;
-	border-radius: 3px;
+    border-radius: 3px;
 
     background-color: #2e2e2e;
-	box-shadow: 0px 0px 2px black;
+    box-shadow: 0px 0px 2px black;
 }
 
 .box-panel .heading {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .box-panel .content {
@@ -142,7 +141,7 @@ a {
 }
 
 .box-panel .heading {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .loading-page {
@@ -186,9 +185,9 @@ div.center {
 }
 
 .column {
-	display: flex;
-	flex-flow: column;
-	flex-shrink: 0;
+    display: flex;
+    flex-flow: column;
+    flex-shrink: 0;
 }
 
 .dim {
@@ -210,31 +209,31 @@ div.center {
 }
 
 .dropdown-menu {
-	position: absolute;
+    position: absolute;
     top: 0px;
     left: 0px;
 
-	min-width: 100px;
-	padding: 5px 0px;
-	border-radius: 3px;
+    min-width: 100px;
+    padding: 5px 0px;
+    border-radius: 3px;
 
-	background-color: #373737;
+    background-color: #373737;
     box-shadow: 0px 0px 3px black;
     z-index: 5;
 
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .dropdown-menu-option {
-	padding: 5px 10px;
+    padding: 5px 10px;
 
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .dropdown-menu-option:hover {
-	border-radius: 3px;
+    border-radius: 3px;
 
-	background-color: #3f3f3f;
+    background-color: #3f3f3f;
 }
 
 .popover {
@@ -268,7 +267,8 @@ div.center {
     border-color: #ced4da;
 }
 
-div:focus, input:focus {
+div:focus,
+input:focus {
     outline: none;
 }
 
@@ -299,7 +299,7 @@ span.theme {
 }
 
 .btn:hover {
-	opacity: 0.8;
+    opacity: 0.8;
 }
 
 .btn[disabled] {
@@ -349,31 +349,32 @@ span.theme {
     opacity: 0.5;
 }
 
-::selection, ::-moz-selection {
+::selection,
+::-moz-selection {
     background-color: green;
 }
 
 .rainbow {
     background: red;
-    background: -webkit-linear-gradient(left, orange , yellow, green, cyan, blue, violet);
+    background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet);
     background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
     background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
-    background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
+    background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .no-highlight {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.clickable { 
-	cursor: pointer;
+.clickable {
+    cursor: pointer;
 }
 
 .not-clickable {
@@ -381,7 +382,7 @@ span.theme {
 }
 
 .italic {
-	font-style: italic;
+    font-style: italic;
 }
 
 .notif-bound {
@@ -394,16 +395,16 @@ span.theme {
     align-items: center;
     justify-content: center;
 
-	position: absolute;
+    position: absolute;
     z-index: 100;
-	top: -4px;
+    top: -4px;
     right: -4px;
-    
+
     color: red;
 }
 
 .notif-bound .notif-icon.l-offset {
-	top: -10px;
+    top: -10px;
     right: -10px;
 }
 
@@ -483,14 +484,12 @@ span.theme {
     opacity: 0.7;
 }
 
-.nav .notif-list .notif .info .content {
-
-}
+.nav .notif-list .notif .info .content {}
 
 /*
  * Popovers
  */
-.popover-body > ul > li > div {
+.popover-body>ul>li>div {
     margin-bottom: 10px;
 }
 
@@ -501,23 +500,38 @@ span.theme {
 }
 
 @keyframes cssload-spin {
-	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+    100% {
+        transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-o-keyframes cssload-spin {
-	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+    100% {
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-ms-keyframes cssload-spin {
-	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+    100% {
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-webkit-keyframes cssload-spin {
-	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-moz-keyframes cssload-spin {
-	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes delayedShow {

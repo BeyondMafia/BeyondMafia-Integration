@@ -24,7 +24,7 @@ export default function Shop(props) {
 	const shopTypeButtons = ["Spend Coins"];
 
 	useEffect(() => {
-		document.title = "Shop | EpicMafia";
+		document.title = "Shop | BeyondMafia";
 	}, []);
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ export default function Shop(props) {
 					{item.price} coins
 				</div>
 				<div className="owned">
-					Owned: 
+					Owned:
 					<div className="amt">
 						{user.itemsOwned[item.key]}
 						{item.limit != null &&
@@ -93,7 +93,7 @@ export default function Shop(props) {
 						}
 					</div>
 				</div>
-				<div 
+				<div
 					className={`buy btn btn-theme`}
 					disabled={item.limit != null && user.itemsOwned[item.key] >= item.limit}
 					onClick={() => onBuyItem(i)}>

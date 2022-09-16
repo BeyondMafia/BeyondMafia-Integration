@@ -26,9 +26,9 @@ export default function HostResistance() {
         {
             label: "Lobby",
             ref: "lobby",
-			type: "select",
+            type: "select",
             value: localStorage.getItem("lobby") || "Main",
-			options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
+            options: Lobbies.map(lobby => ({ label: lobby, value: lobby })),
         },
         {
             label: "Private",
@@ -93,7 +93,7 @@ export default function HostResistance() {
     ]);
 
     useEffect(() => {
-        document.title = "Host Resistance | EpicMafia";
+        document.title = "Host Resistance | BeyondMafia";
     }, []);
 
     function onHostGame() {
