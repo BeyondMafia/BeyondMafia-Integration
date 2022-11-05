@@ -20,40 +20,37 @@ import CreateOneNightSetup from "./CreateSetup/CreateOneNightSetup";
 import LearnOneNight from "./Learn/LearnOneNight";
 
 import { SubNav } from "../../components/Nav";
-import { GameTypes, Lobbies } from "../../Constants";
+import { GameTypes } from "../../Constants";
 import { UserContext } from "../../Contexts";
 
 export default function Play(props) {
     const defaultGameType = "Mafia";
-    const defaultLobby = "Main";
 
     const user = useContext(UserContext);
     const location = useLocation();
     const history = useHistory();
     const params = new URLSearchParams(location.search);
     const inLobby = location.pathname == "/play";
-
     const [gameType, setGameType] = useState(params.get("game") || localStorage.getItem("gameType") || defaultGameType);
-    const [lobby, setLobby] = useState(params.get("lobby") || localStorage.getItem("lobby") || defaultLobby);
-    
+
     const links = [
         {
-            text: "Play",
+            text: "PLAY",
             path: "/play",
             exact: true
         },
         {
-            text: "Host",
+            text: "HOST",
             path: `/play/host`,
             hide: !user.loggedIn
         },
         {
-            text: "Create Setup",
+            text: "CREATE SETUP",
             path: `/play/create`,
             hide: !user.loggedIn
         },
         {
-            text: "Learn",
+            text: "LEARN",
             path: `/play/learn`
         }
     ];
@@ -65,37 +62,22 @@ export default function Play(props) {
             history.push(location.pathname + `?game=${gameType}`);
     }, [location.pathname, gameType]);
 
-    useEffect(() => {
-        localStorage.setItem("lobby", lobby);
-
-        if (inLobby && params.get("lobby") != lobby)
-            history.push(location.pathname + `?lobby=${lobby}`);
-    }, [location.pathname, lobby]);
-
     function onFilterGameType(gameType) {
         setGameType(gameType);
     }
-
-    function onFilterLobby(lobby) {
-        setLobby(lobby);
-    }
-
-    if (Lobbies.indexOf(lobby) == -1)
-        onFilterLobby(defaultLobby);
 
     return (
         <>
             <SubNav
                 links={links}
-                showFilter={true}
-                filterSel={inLobby ? lobby : gameType}
-                filterOptions={inLobby ? Lobbies : GameTypes}
-                onFilter={inLobby ? onFilterLobby : onFilterGameType}
-                filterIcon={inLobby ? <i className="fas fa-house-user" /> : <i className="fas fa-gamepad" />} />
+                showFilter={!inLobby}
+                filterSel={gameType}
+                filterOptions={GameTypes}
+                onFilter={onFilterGameType}
+                filterIcon={<i className="fas fa-gamepad" />} />
             <div className="inner-content">
                 <Switch>
-                    <Route exact path="/play" render={() => <Join lobby={lobby} />} />
-
+                    <Route exact path="/play" render={() => <Join />} />
                     <Route
                         exact
                         path="/play/host"

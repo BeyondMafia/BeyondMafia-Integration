@@ -158,7 +158,7 @@ function Header(props) {
                         <NavLink to="/auth" className="nav-link">LOG IN</NavLink>
                     }
                     {user.loggedIn &&
-                        <div class="user-wrapper">
+                        <div className="user-wrapper">
                             <SiteNotifs />
                             <Link to="/user" className="profile-link">
                                 <Avatar

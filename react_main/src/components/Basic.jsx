@@ -4,21 +4,19 @@ import { emotify } from "./Emotes";
 import badWords from "../json/profanity";
 
 export function ItemList(props) {
-	if (props.items.length == 0) {
-		return (
-			<div className="item-list">
-				<div className="none-yet">{props.empty}</div>
-			</div>
-		);
-	}
-	else {
-		let itemRows = props.items.map(props.map);
-		return (
-			<div className={`item-list ${props.className || ""}`}>
-				{itemRows}
-			</div>
-		);
-	}
+	const items = props.items;
+	const minHeight = props.minHeight || 300;
+	const backgroundColor = props.backgroundColor || "white";
+
+	const itemRows = items.map(props.map);
+
+	return (
+		<div
+			className={`item-list ${props.className || ""}`}
+			style={{ minHeight: `${minHeight}px`, backgroundColor }}>
+			{itemRows}
+		</div>
+	);
 }
 
 export function PanelGrid(props) {
@@ -155,15 +153,15 @@ export function linkify(text) {
 		let segment = [];
 		let lastIndex = 0;
 		let regexRes = linkRegex.exec(_segment);
-	
+
 		while (regexRes) {
 			segment.push(_segment.slice(lastIndex, regexRes.index));
 			segment.push(<a href={regexRes[0]} target="blank" key={lastIndex}>{regexRes[0]}</a>);
-	
+
 			lastIndex = linkRegex.lastIndex;
 			regexRes = linkRegex.exec(_segment);
 		}
-	
+
 		segment.push(_segment.slice(lastIndex, _segment.length));
 		text[i] = segment;
 	}

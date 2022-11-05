@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 
 import { UserContext, PopoverContext, SiteInfoContext } from "../../Contexts"
@@ -11,25 +11,36 @@ import { camelCase } from "../../utils"
 import LoadingPage from "../Loading";
 import LandingPage from "../Landing";
 import Comments from "../Community/Comments";
+import { Lobbies } from "../../Constants";
 
 import "../../css/play.css";
 
 export default function Join(props) {
-    const lobby = props.lobby;
+    const defaultLobby = "Main";
+    const gameListButtons = ["Open", "In Progress", "Finished"];
 
     const [listType, setListType] = useState("Open");
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
     const [games, setGames] = useState([]);
+    const location = useLocation();
+    const history = useHistory();
 
     const user = useContext(UserContext);
     const errorAlert = useErrorAlert();
+    const params = new URLSearchParams(location.search);
+    const [lobby, setLobby] = useState(params.get("lobby") || localStorage.getItem("lobby") || defaultLobby);
 
     useEffect(() => {
+        localStorage.setItem("lobby", lobby);
+
+        if (params.get("lobby") != lobby)
+            history.push(location.pathname + `?lobby=${lobby}`);
+
         document.title = `Play (${lobby}) | BeyondMafia`;
         getGameList(listType, 1);
         setPage(1);
-    }, [lobby]);
+    }, [location.pathname, lobby]);
 
     function getGameList(listType, page) {
         axios.get(`/game/list?list=${camelCase(listType)}&page=${page}&lobby=${lobby}`)
@@ -42,11 +53,8 @@ export default function Join(props) {
             .catch(errorAlert);
     }
 
-    function onGameListNavClick(listType) {
-        getGameList(listType, 1);
-    }
-
-    const gameListButtons = ["Open", "In Progress", "Finished"];
+    if (Lobbies.indexOf(lobby) == -1)
+        setLobby(defaultLobby);
 
     if (!user.loaded)
         return <LoadingPage />;
@@ -57,30 +65,59 @@ export default function Join(props) {
     return (
         <>
             <div className="span-panel lobby">
-                <div className="top-bar">
-                    <div className="btn-group-wrapper">
-                        <ButtonGroup sel={listType} buttons={gameListButtons} onClick={onGameListNavClick} />
-                        <i className="refresh-games fas fa-sync-alt" onClick={() => getGameList(listType, page)} />
-                    </div>
+                <div className="left-panel">
+
                 </div>
-                <ItemList
-                    items={games}
-                    map={game => (
-                        <GameRow
-                            game={game}
+                <div className="right-panel">
+                    <div className="top-bar lobby-list">
+                        <LobbyLink
+                            text="Main"
                             lobby={lobby}
-                            type={listType}
-                            refresh={() => getGameList(listType, page)}
-                            key={game.id} />
-                    )}
-                    empty="No games" />
-                <PageNav
-                    page={page}
-                    maxPage={pageCount}
-                    onNav={(page) => getGameList(listType, page)} />
+                            setLobby={setLobby} />
+                        <LobbyLink
+                            text="Sandbox"
+                            lobby={lobby}
+                            setLobby={setLobby} />
+                        <LobbyLink
+                            text="Competitive"
+                            lobby={lobby}
+                            setLobby={setLobby} />
+                        <LobbyLink
+                            text="Games"
+                            lobby={lobby}
+                            setLobby={setLobby} />
+                    </div>
+                    <ItemList
+                        items={games}
+                        map={game => (
+                            <GameRow
+                                game={game}
+                                lobby={lobby}
+                                type={listType}
+                                refresh={() => getGameList(listType, page)}
+                                key={game.id} />
+                        )}
+                        empty="No games" />
+                    <PageNav
+                        page={page}
+                        maxPage={pageCount}
+                        onNav={(page) => getGameList(listType, page)} />
+                </div>
             </div>
             <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
         </>
+    );
+}
+
+export function LobbyLink(props) {
+    const active = props.lobby.toLowerCase() == props.text.toLowerCase();
+
+    return (
+        <div
+            className={`lobby-link ${active ? "active" : ""}`}
+            onClick={() => { props.setLobby(props.text); console.log("test") }}>
+            {props.text.toUpperCase()}
+        </div>
     );
 }
 

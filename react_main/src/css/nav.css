@@ -24,11 +24,10 @@
 }
 
 .nav a:hover {
-	border-bottom-color: #62a0db;
+	opacity: 0.7;
 }
 
 .nav a.active {
-	border-bottom-color: #62a0db;
 	opacity: 1;
 }
 
@@ -59,7 +58,7 @@
 
 	margin-bottom: 10px;
 
-	background-color: #57a1dc;
+	background-color: #344577;
 }
 
 .sub-nav a {
@@ -72,12 +71,11 @@
 }
 
 .sub-nav a:hover {
-	border-bottom: 2px solid #436e96;
+	background-color: #2f3e6a;
 }
 
 .sub-nav a.active {
-	box-sizing: border-box;
-	border-bottom: 2px solid #62a0db !important;
+	background-color: #28355c;
 }
 
 .sub-nav .filter {
