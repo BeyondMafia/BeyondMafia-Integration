@@ -142,19 +142,23 @@ function Header(props) {
 
     return (
         <div className="header">
+            <div className="nav-wrapper left">
+                <Nav>
+                    <NavLink to="/play">LOBBY</NavLink>
+                    <NavLink to="/community">COMMUNITY</NavLink>
+                </Nav>
+            </div>
             <Link to="/" className="logo-wrapper">
                 <div className="logo" />
             </Link>
-            <div className="nav-wrapper">
+            <div className="nav-wrapper right">
                 <Nav>
-                    <NavLink to="/play">Play</NavLink>
-                    <NavLink to="/community">Community</NavLink>
-                    <a href="https://wiki.beyondmafia.com">Wiki</a>
+                    <a href="https://wiki.beyondmafia.com">WIKI</a>
                     {!user.loggedIn &&
-                        <NavLink to="/auth" className="nav-link">Log In</NavLink>
+                        <NavLink to="/auth" className="nav-link">LOG IN</NavLink>
                     }
                     {user.loggedIn &&
-                        <>
+                        <div class="user-wrapper">
                             <SiteNotifs />
                             <Link to="/user" className="profile-link">
                                 <Avatar
@@ -162,7 +166,7 @@ function Header(props) {
                                     name={user.name}
                                     hasImage={user.avatar} />
                             </Link>
-                        </>
+                        </div>
 
                     }
                 </Nav>

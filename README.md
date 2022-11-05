@@ -54,10 +54,6 @@ MONGO_PW=x
 
 REDIS_DB=0
 
-OAUTH_URL=http://localhost:3000
-OAUTH_SUCCESS_REDIR=http://localhost:3001
-OAUTH_FAIL_REDIR=http://localhost:3001/signin
-
 FIREBASE_API_KEY=x
 FIREBASE_AUTH_DOMAIN=x.firebaseapp.com
 FIREBASE_PROJECT_ID=x

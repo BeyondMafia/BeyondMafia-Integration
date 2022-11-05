@@ -56,7 +56,7 @@ export default function Join(props) {
 
     return (
         <>
-            <div className="span-panel">
+            <div className="span-panel lobby">
                 <div className="top-bar">
                     <div className="btn-group-wrapper">
                         <ButtonGroup sel={listType} buttons={gameListButtons} onClick={onGameListNavClick} />

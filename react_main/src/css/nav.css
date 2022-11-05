@@ -1,9 +1,10 @@
 .nav {
+	flex-grow: 1;
+
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
-
-	margin-right: 40px;
+	justify-content: space-evenly;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -57,10 +58,8 @@
 	flex-flow: row nowrap;
 
 	margin-bottom: 10px;
-	border-radius: 3px;
 
-	background-color: #1d1d1d;
-	box-shadow: 0px 0px 5px black;
+	background-color: #57a1dc;
 }
 
 .sub-nav a {

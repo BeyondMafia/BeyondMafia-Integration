@@ -4,7 +4,7 @@ const shortid = require("shortid");
 const constants = require("../data/constants");
 const routeUtils = require("../routes/utils");
 const models = require("../db/models");
-const fbServiceAccount = require("../arcmafia-firebase-adminsdk-3rit5-12eaea47a7.json");
+const fbServiceAccount = require("../" + process.env.FIREBASE_JSON_FILE);
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 

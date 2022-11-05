@@ -1,9 +1,13 @@
+.span-panel.lobby {
+    background-color: #57a1dc;
+}
+
 .game-row {
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
     justify-content: flex-start;
-    
+
     margin-top: 10px;
 }
 
@@ -31,9 +35,11 @@
     font-size: 30px;
 }
 
-.game-row .game-info, .game-row .ranked, .game-row .voice-chat {
+.game-row .game-info,
+.game-row .ranked,
+.game-row .voice-chat {
     align-self: center;
-    
+
     margin-left: 10px;
 }
 
