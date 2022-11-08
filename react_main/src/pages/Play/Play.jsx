@@ -35,22 +35,22 @@ export default function Play(props) {
 
     const links = [
         {
-            text: "PLAY",
+            text: "Play",
             path: "/play",
             exact: true
         },
         {
-            text: "HOST",
+            text: "Host",
             path: `/play/host`,
             hide: !user.loggedIn
         },
         {
-            text: "CREATE SETUP",
+            text: "Create Setup",
             path: `/play/create`,
             hide: !user.loggedIn
         },
         {
-            text: "LEARN",
+            text: "Learn",
             path: `/play/learn`
         }
     ];

@@ -40,6 +40,7 @@ export default function Setup(props) {
 
 		roleCounts = roleNames.map(role => (
 			<RoleCount
+				small
 				role={role}
 				count={props.setup.roles[0][role]}
 				gameType={props.setup.gameType}
@@ -82,8 +83,8 @@ export function SmallRoleList(props) {
 	if (Array.isArray(props.roles))
 		roles = props.roles.map(role => (
 			<RoleCount
+				small
 				role={role}
-				small={true}
 				key={role}
 				gameType={props.gameType} />
 		));

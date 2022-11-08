@@ -1,3 +1,9 @@
+:root {
+    --theme-color: #344577;
+    --theme-color-sec: #28355c;
+    --theme-color-hover: #2f3e6a;
+}
+
 html,
 body {
     width: 100%;
@@ -6,8 +12,9 @@ body {
     padding: 0px;
 
     overflow-x: initial;
-    background-color: #121212;
+    background-color: #030000;
     background-image: url("/images/bg1.png");
+    background-repeat: no-repeat;
     color: white;
     font-size: 16px;
 
@@ -259,10 +266,6 @@ input:focus {
     outline: none;
 }
 
-span.theme {
-    color: #97bde1;
-}
-
 .btn:focus {
     box-shadow: none;
 }
@@ -273,12 +276,10 @@ span.theme {
     align-items: center;
     justify-content: center;
 
-    padding: 8px 8px;
+    padding: 5px;
     border: none;
-    border-radius: 3px;
 
     background-color: #6c757d;
-    box-shadow: 0px 0px 1px black;
     color: white;
     outline: none;
     text-decoration: none;
@@ -296,12 +297,7 @@ span.theme {
 }
 
 .btn-theme {
-    background-color: #62a0db;
-}
-
-.btn-theme-sec {
-    background-color: #72b4f1;
-    color: #262626;
+    background-color: var(--theme-color);
 }
 
 .popover hr {
@@ -580,4 +576,9 @@ span.theme {
 @font-face {
     font-family: JuiceITC;
     src: url("/fonts/juiceitc.ttf");
+}
+
+@font-face {
+    font-family: Spooky;
+    src: url("/fonts/spooky.ttf");
 }

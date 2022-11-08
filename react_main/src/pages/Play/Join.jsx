@@ -88,6 +88,7 @@ export default function Join(props) {
                             setLobby={setLobby} />
                     </div>
                     <ItemList
+                        className="games"
                         items={games}
                         map={game => (
                             <GameRow
@@ -95,6 +96,7 @@ export default function Join(props) {
                                 lobby={lobby}
                                 type={listType}
                                 refresh={() => getGameList(listType, page)}
+                                odd={games.indexOf(game) % 2 == 1}
                                 key={game.id} />
                         )}
                         empty="No games" />
@@ -147,7 +149,7 @@ export function GameRow(props) {
     switch (props.type) {
         case "Open":
             linkPath = `/game/${props.game.id}`;
-            buttonClass += "btn-theme";
+            buttonClass += "btn-join";
 
             if (props.game.scheduled <= Date.now())
                 buttonText = "Join";
@@ -166,7 +168,7 @@ export function GameRow(props) {
             break;
         case "Finished":
             linkPath = `/game/${props.game.id}/review`;
-            buttonClass += "btn-theme";
+            buttonClass += "btn-review";
             buttonText = "Review";
             break;
     }
@@ -225,71 +227,106 @@ export function GameRow(props) {
         return <></>;
 
     return (
-        <div className="game-row">
-            {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
-                <Link
-                    to={linkPath}
-                    className={buttonClass}
-                    disabled={props.type == "In Progress" && !props.game.spectating}>
-                    {buttonText}
-                </Link>
-            }
-            {user.loggedIn && props.game.scheduled > Date.now() && !reserved &&
-                <div
-                    className="btn btn-theme"
-                    onClick={onReserve}>
-                    Reserve
-                </div>
-            }
-            {user.loggedIn && props.game.scheduled > Date.now() && reserved &&
-                <div
-                    className="btn btn-theme"
-                    onClick={onUnreserve}>
-                    Unreserve
-                </div>
-            }
-            {props.game.scheduled > Date.now() && user.id == props.game.hostId &&
-                <div
-                    className="btn btn-theme-sec"
-                    onClick={onCancel}>
-                    Cancel
-                </div>
-            }
-            {props.game.broken &&
-                <i className="fas fa-car-crash review-icon" />
-            }
-            {props.game.private &&
-                <i className="fas fa-lock review-icon" />
-            }
-            {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
-                <div
-                    className="btn btn-theme-sec btn-rehost"
-                    onClick={onRehostClick}>
-                    Rehost
-                </div>
-            }
-            <Setup
-                setup={props.game.setup}
-                maxRolesCount={props.smallSetup ? 3 : 5} />
-            {props.type == "Open" && props.game.scheduled <= Date.now() &&
-                <div className="player-count">
-                    {props.game.players} / {props.game.setup.total}
-                </div>
-            }
-            {props.game.ranked &&
+        <div className={`game-row ${props.odd ? "odd" : ""}`}>
+            <div className="btns-wrapper">
+                {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
+                    <Link
+                        to={linkPath}
+                        className={buttonClass}
+                        disabled={props.type == "In Progress" && !props.game.spectating}>
+                        {buttonText}
+                    </Link>
+                }
+                {user.loggedIn && props.game.scheduled > Date.now() && !reserved &&
+                    <div
+                        className="btn btn-theme"
+                        onClick={onReserve}>
+                        Reserve
+                    </div>
+                }
+                {user.loggedIn && props.game.scheduled > Date.now() && reserved &&
+                    <div
+                        className="btn btn-theme"
+                        onClick={onUnreserve}>
+                        Unreserve
+                    </div>
+                }
+                {props.game.scheduled > Date.now() && user.id == props.game.hostId &&
+                    <div
+                        className="btn btn-theme-sec"
+                        onClick={onCancel}>
+                        Cancel
+                    </div>
+                }
+                {props.game.broken &&
+                    <i className="fas fa-car-crash review-icon" />
+                }
+                {props.game.private &&
+                    <i className="fas fa-lock review-icon" />
+                }
+                {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
+                    <div
+                        className="btn btn-rehost"
+                        onClick={onRehostClick}>
+                        Rehost
+                    </div>
+                }
+            </div>
+            <div className="player-count-wrapper">
+                {props.type != "Finished" &&
+                    <PlayerCount game={props.game} />
+                }
+                {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
+                    <div
+                        className="btn btn-rehost"
+                        onClick={onRehostClick}>
+                        Rehost
+                    </div>
+                }
+            </div>
+            <div className="setup-wrapper">
+                <Setup
+                    setup={props.game.setup}
+                    maxRolesCount={props.smallSetup ? 3 : 5} />
+            </div>
+            <div className="setup-name">
+                {props.game.setup.name}
+            </div>
+            <div className="game-infos">
+                {props.game.ranked &&
+                    <i
+                        className="ranked fas fa-chart-bar"
+                        title="Ranked game" />
+                }
+                {props.game.voiceChat &&
+                    <i
+                        className="voice-chat fas fa-microphone"
+                        title="Voice chat game" />
+                }
                 <i
-                    className="ranked fas fa-chart-bar"
-                    title="Ranked game" />
-            }
-            {props.game.voiceChat &&
-                <i
-                    className="voice-chat fas fa-microphone"
-                    title="Voice chat game" />
-            }
-            <i
-                className="game-info fas fa-info-circle"
-                ref={infoRef}
-                onClick={onInfoClick} />
+                    className="game-info fas fa-info-circle"
+                    ref={infoRef}
+                    onClick={onInfoClick} />
+            </div>
+        </div>
+    );
+}
+
+function PlayerCount(props) {
+    const game = props.game;
+    const circles = [];
+
+    for (let i = 0; i < game.setup.total; i++) {
+        circles.push(
+            <div
+                className={`player-circle ${i < game.players ? "filled" : ""}`}
+                key={i} />
+        );
+    }
+
+    return (
+        <div className="player-count">
+            {circles}
         </div>
     );
 }

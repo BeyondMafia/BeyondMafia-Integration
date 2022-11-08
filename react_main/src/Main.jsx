@@ -144,8 +144,8 @@ function Header(props) {
         <div className="header">
             <div className="nav-wrapper left">
                 <Nav>
-                    <NavLink to="/play">LOBBY</NavLink>
-                    <NavLink to="/community">COMMUNITY</NavLink>
+                    <NavLink to="/play">Lobby</NavLink>
+                    <NavLink to="/community">Community</NavLink>
                 </Nav>
             </div>
             <Link to="/" className="logo-wrapper">
@@ -153,9 +153,9 @@ function Header(props) {
             </Link>
             <div className="nav-wrapper right">
                 <Nav>
-                    <a href="https://wiki.beyondmafia.com">WIKI</a>
+                    <a href="https://wiki.beyondmafia.com">Wiki</a>
                     {!user.loggedIn &&
-                        <NavLink to="/auth" className="nav-link">LOG IN</NavLink>
+                        <NavLink to="/auth" className="nav-link">Log In</NavLink>
                     }
                     {user.loggedIn &&
                         <div className="user-wrapper">

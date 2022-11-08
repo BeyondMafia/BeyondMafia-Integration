@@ -8,19 +8,19 @@
 }
 
 .role-list {
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: flex-start;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
 }
 
 .role-cell {
-	display: flex;
-	flex-flow: row nowrap;
-	align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 
-	margin: 10px 10px 0px 0px;
-	padding: 5px;
-	border-radius: 3px;
+    margin: 10px 10px 0px 0px;
+    padding: 5px;
+    border-radius: 3px;
 
     background-color: #373737;
     box-shadow: 0px 0px 1px black;
@@ -34,7 +34,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    
+
     cursor: pointer;
 }
 
@@ -59,15 +59,9 @@
     border-radius: 3px;
     background-image: url("/images/roles.png");
 
-    -webkit-filter: drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray);
+    -webkit-filter: drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray);
 
-    filter: drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray);
+    filter: drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray);
 }
 
 .role.bg {
@@ -77,6 +71,8 @@
 .role.small {
     width: 30px;
     height: 30px;
+    border-radius: 50px;
+
     background-image: url("/images/roles.png");
 }
 

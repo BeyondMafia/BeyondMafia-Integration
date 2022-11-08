@@ -10,10 +10,9 @@
     border-radius: 3px;
     overflow-x: hidden;
 
-    background-color: #373737;
-    box-shadow: 0px 0px 1px black;
+    color: black;
     cursor: pointer;
-    
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -28,7 +27,8 @@
     font-size: 20px;
 }
 
-.popover .setup, .roleList {
+.popover .setup,
+.roleList {
     flex-flow: row wrap;
 }
 
@@ -56,15 +56,19 @@
     background: black;
 }
 
-.i-Village, .i-Blue, .i-Resistance {
+.i-Village,
+.i-Blue,
+.i-Resistance {
     color: #66adff;
 }
 
-.i-Mafia, .i-Spies {
+.i-Mafia,
+.i-Spies {
     color: #505d66;
 }
 
-.i-Monsters, .i-Werewolves {
+.i-Monsters,
+.i-Werewolves {
     color: #b161d3;
 }
 
@@ -79,7 +83,7 @@
 .small-role-list {
     display: flex;
     flex-flow: row wrap;
-    
+
     padding: 5px 0px;
     border-top: 1px solid #d6d6d6;
 }
@@ -101,15 +105,9 @@
 
     background-image: url("/images/games.png");
 
-    -webkit-filter: drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray)
-                    drop-shadow(0px 0px 0.35px gray);
+    -webkit-filter: drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray);
 
-    filter: drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray)
-                drop-shadow(0px 0px 0.35px gray);
+    filter: drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray) drop-shadow(0px 0px 0.35px gray);
 }
 
 .game-icon.Mafia {
@@ -123,6 +121,7 @@
 .game-icon.Resistance {
     background-position: -60px 0;
 }
+
 .game-icon.One-Night {
     background-position: -90px 0;
 }

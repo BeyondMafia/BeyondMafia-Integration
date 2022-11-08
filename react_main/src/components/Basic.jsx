@@ -5,15 +5,11 @@ import badWords from "../json/profanity";
 
 export function ItemList(props) {
 	const items = props.items;
-	const minHeight = props.minHeight || 300;
-	const backgroundColor = props.backgroundColor || "white";
-
 	const itemRows = items.map(props.map);
 
 	return (
 		<div
-			className={`item-list ${props.className || ""}`}
-			style={{ minHeight: `${minHeight}px`, backgroundColor }}>
+			className={`item-list ${props.className || ""}`}>
 			{itemRows}
 		</div>
 	);
