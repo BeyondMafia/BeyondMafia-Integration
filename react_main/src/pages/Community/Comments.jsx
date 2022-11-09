@@ -28,7 +28,6 @@ export default function Comments(props) {
 
 	useEffect(() => {
 		setComments([]);
-		setLoaded(false);
 		onCommentsPageNav(1);
 	}, [location]);
 
