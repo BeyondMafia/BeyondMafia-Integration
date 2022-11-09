@@ -13,22 +13,24 @@
 }
 
 .react-mde button.selected {
-	border: 1px solid #222222 !important;
+	border: 1px solid #c7c7c7 !important;
 }
 
 .react-mde textarea {
-	background-color: #373737;
 	outline: none;
 }
 
 .react-mde .grip {
-	border-top: 1px solid #242424;
+	border-top: 1px solid #c7c7c7;
 
-	background-color: #2e2e2e;
+	color: white;
 }
 
 .mde-preview.md-content {
 	padding: 5px;
+
+	background-color: white;
+	color: black;
 }
 
 .md-content p {

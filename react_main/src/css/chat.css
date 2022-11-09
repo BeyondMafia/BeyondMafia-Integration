@@ -9,8 +9,6 @@
 	right: 50px;
 	z-index: 30;
 
-	border-radius: 3px 3px 0px 0px;
-
 	box-shadow: 0px 0px 15px black;
 }
 
@@ -22,9 +20,8 @@
 
 	min-width: 150px;
 	padding: 10px 20px;
-	border-radius: 3px 3px 0px 0px;
 
-	border-bottom: 1px solid #181818;
+	border-bottom: 1px solid var(--theme-color-sec);
 	background-color: var(--theme-color);
 	cursor: pointer;
 }
@@ -50,8 +47,8 @@
 	justify-content: flex-start;
 
 	width: 200px;
-	border-right: 1px solid #181818;
-	background-color: #1d1d1d;
+	border-right: 1px solid #c7c7c7;
+	background-color: #f3f3f3;
 }
 
 .chat-wrapper .channel-type-nav {
@@ -63,41 +60,31 @@
 	justify-content: center;
 
 	margin-top: 10px;
-	border-radius: 3px;
-	border: 1px solid #181818;
+	border: 1px solid var(--theme-color);
 }
 
 .chat-wrapper .channel-type-nav .channel-type {
 	padding: 5px;
 
-	background-color: #262626;
+	background-color: var(--theme-color);
 	cursor: pointer;
 }
 
 .chat-wrapper .channel-type-nav .channel-type:hover {
-	background-color: #292929;
-}
-
-.chat-wrapper .channel-type-nav .channel-type:first-child {
-	border-radius: 3px 0px 0px 3px;
-}
-
-.chat-wrapper .channel-type-nav .channel-type:last-child {
-	border-radius: 0px 3px 3px 0px;
+	background-color: var(--theme-color-hover);
 }
 
 .chat-wrapper .channel-type-nav .channel-type.sel {
-	background-color: #2e2e2e;
+	background-color: var(--theme-color-sec);
 }
 
 .chat-wrapper .user-search {
 	margin: 10px 10px 0px 10px;
 	padding: 5px;
-	border: 1px solid #181818;
-	border-radius: 3px;
+	border: 1px solid #c7c7c7;
 
-	background-color: #292929;
-	color: white;
+	background-color: white;
+	color: black;
 }
 
 .chat-wrapper .channel-list {
@@ -122,19 +109,19 @@
 
 	margin-bottom: 5px;
 	padding: 5px 8px;
-	border: 1px solid #181818;
-	border-radius: 20px;
+	border: 1px solid var(--theme-color);
 	line-height: 18px;
 
+	background-color: var(--theme-color);
 	cursor: pointer;
 }
 
 .chat-wrapper .channel:hover {
-	background-color: #202020;
+	background-color: var(--theme-color-hover);
 }
 
 .chat-wrapper .channel.sel {
-	background-color: #262626;
+	background-color: var(--theme-color-sec);
 }
 
 .chat-wrapper .channel .name-with-avatar {
@@ -144,12 +131,15 @@
 
 .chat-wrapper .channel .name-with-avatar .user-name {
 	max-width: 110px;
+
+	color: white !important;
 }
 
 .create-dm-btn {
 	align-self: center;
 
 	margin-bottom: 10px;
+	padding: 8px !important;
 }
 
 .create-dm-btn i {
@@ -166,7 +156,8 @@
 
 	width: 0px;
 
-	background-color: #262626;
+	background-color: white;
+	color: black;
 }
 
 .chat-wrapper .channel-top {
@@ -176,7 +167,9 @@
 	justify-content: flex-start;
 
 	box-sizing: border-box;
-	border-bottom: 1px solid #1f1f1f;
+	border-bottom: 1px solid #c7c7c7;
+
+	background-color: #f3f3f3;
 }
 
 .chat-wrapper .channel-top .channel-name {
@@ -208,7 +201,7 @@
 	justify-content: flex-start;
 
 	padding: 0px 15px;
-	border-left: 1px solid #1f1f1f;
+	border-left: 1px solid #c7c7c7;
 
 	cursor: pointer;
 }
@@ -260,7 +253,7 @@
 .chat-wrapper .message .info .timestamp {
 	margin-left: 10px;
 
-	opacity: 0.3;
+	opacity: 0.5;
 	font-size: 13px;
 }
 
@@ -275,14 +268,14 @@
 	margin-top: 5px;
 	padding: 5px;
 
-	background-color: #373737;
-	border-radius: 5px;
+	background-color: #f3f3f3;
 	overflow-x: hidden;
 	white-space: pre-wrap;
 }
 
 .chat-wrapper .message.self .content {
 	background-color: var(--theme-color);
+	color: white;
 }
 
 .chat-wrapper .message .content a {
@@ -292,9 +285,9 @@
 .chat-wrapper .message .context {
 	position: absolute;
 	padding: 5px 0px;
-	border-radius: 3px;
 
-	background-color: #2e2e2e;
+	background-color: var(--theme-color);
+	color: white;
 	visibility: hidden;
 	z-index: 20;
 }
@@ -306,7 +299,7 @@
 }
 
 .chat-wrapper .message .context .item:hover {
-	background-color: #353535;
+	background-color: var(--theme-color-sec);
 }
 
 .chat-wrapper .channel-input-wrapper {
@@ -316,18 +309,19 @@
 	justify-content: flex-start;
 
 	padding: 10px;
-	border-top: 1px solid #1f1f1f;
+	border-top: 1px solid #c7c7c7;
+
+	background-color: #f3f3f3;
 }
 
 .chat-wrapper .channel-input {
 	flex-grow: 1;
 
-	border: 1px solid #202020;
-	border-radius: 3px;
+	border: 1px solid #c7c7c7;
 	padding: 5px;
 
-	background-color: #2e2e2e;
-	color: white;
+	background-color: white;
+	color: black;
 }
 
 /* Scrollbar */
@@ -344,12 +338,12 @@
 }
 
 .chat-wrapper ::-webkit-scrollbar-thumb {
-	background: #1d1d1d;
+	background: var(--scroll-color);
 	z-index: -1;
 }
 
 .chat-wrapper ::-webkit-scrollbar-thumb:hover {
-	background: #1a1a1a;
+	background: var(--scroll-color);
 	z-index: -1;
 }
 

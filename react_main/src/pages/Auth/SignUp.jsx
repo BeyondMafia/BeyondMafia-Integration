@@ -42,19 +42,14 @@ export default function SignUp() {
 		} catch (e) {
 			setLoading(false);
 
-			switch (e.message) {
-				case "Firebase: Error (auth/invalid-email).":
-					errorAlert("Invalid email.");
-					break;
-				case "Firebase: Password should be at least 6 characters (auth/weak-password).":
-					errorAlert("Password should be at least 6 characters");
-					break;
-				case "Firebase: Error (auth/email-already-in-use).":
-					errorAlert("Email already in use.")
-					break;
-				default:
-					errorAlert("Error signing up.");
-			}
+			if (e.message.indexOf("(auth/invalid-email)") != -1)
+				errorAlert("Invalid email.");
+			else if (e.message.indexOf("(auth/weak-password)") != -1)
+				errorAlert("Password should be at least 6 characters.");
+			else if (e.message.indexOf("(auth/email-already-in-use)") != -1)
+				errorAlert("Email already in use.");
+			else
+				errorAlert("Error signing up.");
 		}
 	}
 

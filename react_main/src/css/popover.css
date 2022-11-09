@@ -6,24 +6,24 @@
 	top: 0px;
 	left: 0px;
 	z-index: 10;
-	
+
 	box-sizing: border-box;
 	min-height: 63px;
 	max-width: 240px;
-	border-radius: 3px;
 
 	overflow-x: hidden;
 
-	background-color: #373737;
+	background-color: white;
+	color: black;
 	box-shadow: 0px 0px 3px black;
 	visibility: hidden;
 }
 
 .popover-title {
 	padding: 8px;
-	border-radius: 3px 3px 0px 0px;
+	border-bottom: 1px solid #c7c7c7;
 
-	background-color: #2e2e2e;
+	background-color: #f3f3f3;
 	font-weight: 700;
 }
 
@@ -48,13 +48,13 @@
 .triangle-left {
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent;
-	border-right: 10px solid #373737;
+	border-right: 10px solid #c7c7c7;
 }
 
 .triangle-right {
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent;
-	border-left: 10px solid #373737;
+	border-left: 10px solid #c7c7c7;
 }
 
 .popover-window .loading-wheel {
@@ -103,16 +103,16 @@
 }
 
 .popover-window ::-webkit-scrollbar-track {
-    background: transparent;
+	background: transparent;
 	z-index: -1;
 }
 
 .popover-window ::-webkit-scrollbar-thumb {
-	background: #1d1d1d;
+	background: var(--scroll-color);
 	z-index: -1;
 }
 
 .popover-window ::-webkit-scrollbar-thumb:hover {
-	background: #1a1a1a;
+	background: var(--scroll-color);
 	z-index: -1;
 }

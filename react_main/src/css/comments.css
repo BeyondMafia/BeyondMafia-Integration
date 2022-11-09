@@ -21,5 +21,16 @@
 	flex-flow: column;
 	align-items: flex-start;
 	justify-content: flex-start;
+}
 
+.comments-page .post {
+	padding: 10px;
+	width: 485px;
+
+	color: black;
+	background-color: #f3f3f3;
+}
+
+.comments-page .post:nth-child(2) {
+	margin-top: 0px;
 }

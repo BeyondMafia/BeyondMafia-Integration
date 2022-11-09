@@ -1,5 +1,5 @@
 .deleted {
-	background-color: #4b2626 !important;
+	background-color: #eb9b9b !important;
 }
 
 .forum-nav {
@@ -303,7 +303,7 @@
 }
 
 .vote-widget i.sel {
-	color: #62a0db;
+	color: var(--theme-color-light);
 }
 
 .board-wrapper .thread-link {

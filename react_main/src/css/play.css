@@ -25,6 +25,8 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
+
+    font-family: Spooky;
 }
 
 .lobby-list .lobby-link {

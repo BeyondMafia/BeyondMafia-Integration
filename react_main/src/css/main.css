@@ -2,6 +2,8 @@
     --theme-color: #344577;
     --theme-color-sec: #28355c;
     --theme-color-hover: #2f3e6a;
+    --theme-color-light: #62a0db;
+    --scroll-color: #8b8b8b;
 }
 
 html,
@@ -298,6 +300,10 @@ input:focus {
 
 .btn-theme {
     background-color: var(--theme-color);
+}
+
+.btn-theme-sec {
+    background-color: var(--theme-color-sec);
 }
 
 .popover hr {

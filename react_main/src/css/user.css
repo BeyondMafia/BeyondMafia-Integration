@@ -48,7 +48,7 @@
 	flex-flow: row nowrap;
 	align-items: center;
 
-	color: white;
+	color: black;
 	text-decoration: none;
 	line-height: 0px;
 	white-space: nowrap;
@@ -78,7 +78,7 @@
 }
 
 .status-icon.online {
-	background-color: #367448;
+	background-color: #59ad72;
 }
 
 .status-icon.offline {

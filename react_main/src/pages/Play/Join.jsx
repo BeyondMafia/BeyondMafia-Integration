@@ -117,8 +117,8 @@ export function LobbyLink(props) {
     return (
         <div
             className={`lobby-link ${active ? "active" : ""}`}
-            onClick={() => { props.setLobby(props.text); console.log("test") }}>
-            {props.text.toUpperCase()}
+            onClick={() => props.setLobby(props.text)}>
+            {props.text}
         </div>
     );
 }

@@ -163,7 +163,7 @@ function Comment(props) {
 		content = "*deleted*";
 
 	return (
-		<div className={`post span-panel ${comment.deleted ? "deleted" : ""} ${props.className}`}>
+		<div className={`post ${comment.deleted ? "deleted" : ""} ${props.className || ""}`}>
 			<div className="vote-wrapper">
 				<VoteWidget
 					item={comment}

@@ -41,16 +41,16 @@ export default function LogIn() {
 		} catch (e) {
 			setLoading(false);
 
-			switch (e.message) {
-				case "Firebase: Error (auth/wrong-password).":
-					errorAlert("Incorrect password.");
-					break;
-				case "Firebase: Error (auth/user-not-found).":
-					errorAlert("Account does not exist.");
-					break;
-				default:
-					errorAlert("Error logging in.");
-			}
+			if (e.message.indexOf("(auth/wrong-password)") != -1)
+				errorAlert("Incorrect password.");
+			else if (e.message.indexOf("(auth/invalid-email)") != -1)
+				errorAlert("Invalid email.");
+			else if (e.message.indexOf("(auth/user-not-found)") != -1)
+				errorAlert("Account does not exist.");
+			else if (e.message.indexOf("(auth/too-many-requests)") != -1)
+				errorAlert("Too many login attempts on this account. Please try again later.");
+			else
+				errorAlert("Error logging in.");
 		}
 	}
 
