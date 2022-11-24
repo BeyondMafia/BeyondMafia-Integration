@@ -23,6 +23,8 @@ import { SubNav } from "../../components/Nav";
 import { GameTypes } from "../../Constants";
 import { UserContext } from "../../Contexts";
 
+import "../../css/play.css";
+
 export default function Play(props) {
     const defaultGameType = "Mafia";
 
@@ -75,7 +77,7 @@ export default function Play(props) {
                 filterOptions={GameTypes}
                 onFilter={onFilterGameType}
                 filterIcon={<i className="fas fa-gamepad" />} />
-            <div className="inner-content">
+            <div className="inner-content play">
                 <Switch>
                     <Route exact path="/play" render={() => <Join />} />
                     <Route
@@ -145,5 +147,17 @@ export default function Play(props) {
                 </Switch>
             </div>
         </>
+    );
+}
+
+export function TopBarLink(props) {
+    const active = props.sel.toLowerCase() == props.text.toLowerCase();
+
+    return (
+        <div
+            className={`top-link ${active ? "active" : ""}`}
+            onClick={props.onClick}>
+            {props.text}
+        </div>
     );
 }

@@ -11,6 +11,7 @@ import { useErrorAlert } from "../../../components/Alerts";
 import { camelCase } from "../../../utils";
 
 import "../../../css/host.css";
+import { TopBarLink } from "../Play";
 
 export default function Host(props) {
     const gameType = props.gameType;
@@ -118,12 +119,19 @@ export default function Host(props) {
             .catch(errorAlert);
     }
 
-    const hostButtons = ["Featured", "Popular", "Favorites", "Yours"];
+    const hostButtonLabels = ["Featured", "Popular", "Favorites", "Yours"];
+    const hostButtons = hostButtonLabels.map(label => (
+        <TopBarLink
+            text={label}
+            sel={listType}
+            onClick={() => onHostNavClick(label)}
+            key={label} />
+    ));
 
     return (
-        <div className="span-panel">
+        <div className="span-panel main host">
             <div className="top-bar">
-                <ButtonGroup sel={listType} buttons={hostButtons} onClick={onHostNavClick} />
+                {hostButtons}
                 <SearchBar value={searchVal} placeholder="Setup Name" onInput={onSearchInput} />
             </div>
             <ItemList
@@ -169,13 +177,15 @@ function SetupRow(props) {
         favIconFormat = "fas";
 
     return (
-        <div className="setup-row">
+        <div className="row">
             {user.loggedIn &&
                 <i
                     className={`select-setup fa-circle ${selIconFormat}`}
                     onClick={() => props.onSelect(props.setup)} />
             }
-            <Setup setup={props.setup} />
+            <div className="setup-wrapper">
+                <Setup setup={props.setup} />
+            </div>
             {user.loggedIn &&
                 <i
                     className={`setup-btn fav-setup fa-star ${favIconFormat}`}

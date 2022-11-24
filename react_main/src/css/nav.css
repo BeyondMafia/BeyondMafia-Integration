@@ -192,29 +192,3 @@
 .page-sel {
 	background-color: var(--theme-color) !important;
 }
-
-.search-bar {
-	display: flex;
-	flex-flow: row nowrap;
-
-	box-shadow: 0px 0px 1px black;
-}
-
-.search-bar input {
-	box-sizing: border-box;
-
-	width: 200px;
-	padding: 10px;
-	border: none;
-	border-radius: 3px 0px 0px 3px;
-
-	background-color: #373737;
-	color: white;
-}
-
-.search-icon {
-	padding: 8px 12px;
-	border-radius: 0px 3px 3px 0px;
-
-	background-color: #2e2e2e;
-}

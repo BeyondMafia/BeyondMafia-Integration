@@ -13,7 +13,8 @@ import LandingPage from "../Landing";
 import Comments from "../Community/Comments";
 import { Lobbies } from "../../Constants";
 
-import "../../css/play.css";
+import "../../css/join.css";
+import { TopBarLink } from "./Play";
 
 export default function Join(props) {
     const defaultLobby = "Main";
@@ -64,28 +65,28 @@ export default function Join(props) {
 
     return (
         <>
-            <div className="span-panel lobby">
+            <div className="span-panel main join">
                 <div className="left-panel">
 
                 </div>
                 <div className="right-panel">
                     <div className="top-bar lobby-list">
-                        <LobbyLink
+                        <TopBarLink
                             text="Main"
-                            lobby={lobby}
-                            setLobby={setLobby} />
-                        <LobbyLink
+                            sel={lobby}
+                            onClick={() => setLobby("Main")} />
+                        <TopBarLink
                             text="Sandbox"
-                            lobby={lobby}
-                            setLobby={setLobby} />
-                        <LobbyLink
+                            sel={lobby}
+                            onClick={() => setLobby("Sandbox")} />
+                        <TopBarLink
                             text="Competitive"
-                            lobby={lobby}
-                            setLobby={setLobby} />
-                        <LobbyLink
+                            sel={lobby}
+                            onClick={() => setLobby("Competitive")} />
+                        <TopBarLink
                             text="Games"
-                            lobby={lobby}
-                            setLobby={setLobby} />
+                            sel={lobby}
+                            onClick={() => setLobby("Games")} />
                     </div>
                     <ItemList
                         className="games"
@@ -108,18 +109,6 @@ export default function Join(props) {
             </div>
             <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
         </>
-    );
-}
-
-export function LobbyLink(props) {
-    const active = props.lobby.toLowerCase() == props.text.toLowerCase();
-
-    return (
-        <div
-            className={`lobby-link ${active ? "active" : ""}`}
-            onClick={() => props.setLobby(props.text)}>
-            {props.text}
-        </div>
     );
 }
 
@@ -227,7 +216,7 @@ export function GameRow(props) {
         return <></>;
 
     return (
-        <div className={`game-row ${props.odd ? "odd" : ""}`}>
+        <div className={`row ${props.odd ? "odd" : ""}`}>
             <div className="btns-wrapper">
                 {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
                     <Link

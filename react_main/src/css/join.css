@@ -1,0 +1,100 @@
+.play .span-panel.join {
+	flex-flow: row nowrap;
+}
+
+.play .join .left-panel {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.play .join .right-panel {
+	flex-grow: 1;
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.join .row .btn-join,
+.join .row .btn-rehost {
+	background-color: #cf2e2e;
+}
+
+.join .row .btn-review {
+	background-color: var(--theme-color-sec);
+}
+
+.join .row .btn-rehost {
+	margin-right: 10px;
+}
+
+.join .row .player-count {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	width: 144px;
+}
+
+.join .row .player-circle {
+	width: 10px;
+	height: 10px;
+	margin: 2px;
+	border-radius: 50px;
+
+	background-color: var(--theme-color);
+	opacity: 0.6;
+}
+
+.join .row .player-circle.filled {
+	opacity: 1 !important;
+}
+
+.join .row .setup-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+
+	width: 260px;
+}
+
+.join .row .setup-name {
+	width: 120px;
+	margin-left: 5px;
+
+	overflow-x: hidden;
+	font-weight: bold;
+	opacity: 0.6;
+}
+
+.join .row .review-icon {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin-right: 10px;
+
+	font-size: 30px;
+}
+
+.join .row .game-info,
+.join .row .ranked,
+.join .row .voice-chat {
+	align-self: center;
+
+	margin-left: 10px;
+}
+
+.join .row .voice-chat {
+	color: #e23b3b;
+}
+
+.join .row .game-info {
+	cursor: pointer;
+}

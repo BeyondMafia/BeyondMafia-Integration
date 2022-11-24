@@ -47,7 +47,7 @@ export default function Form(props) {
 
 				if (inverted)
 					ref = ref.slice(1);
-	
+
 				for (let field of props.fields) {
 					if (field.ref == ref && field.type == "boolean") {
 						let value = field.value == true;
@@ -212,7 +212,7 @@ export default function Form(props) {
 			{formFields}
 			{props.submitText &&
 				<div
-					className="btn btn-theme"
+					className="btn btn-theme-sec"
 					onClick={props.onSubmit}>
 					{props.submitText}
 				</div>
