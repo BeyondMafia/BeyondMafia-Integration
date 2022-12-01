@@ -7,6 +7,7 @@ import { useErrorAlert } from "./Alerts";
 import { hyphenDelimit } from "../utils";
 import { Alignments } from "../Constants";
 import LoadingPage from "../pages/Loading";
+import { TopBarLink } from "../pages/Play/Play";
 
 export function RoleCount(props) {
 	const roleRef = useRef();
@@ -107,6 +108,14 @@ export function RoleSearch(props) {
 		);
 	}
 
+	const alignButtons = Alignments[props.gameType].map(type => (
+		<TopBarLink
+			text={type}
+			sel={roleListType}
+			onClick={() => onAlignNavClick(type)}
+			key={type} />
+	));
+
 	if (!siteInfo.roles)
 		return <LoadingPage className="roles-loading" />;
 
@@ -142,10 +151,7 @@ export function RoleSearch(props) {
 	return (
 		<div className="role-list-container">
 			<div className="top-bar">
-				<ButtonGroup
-					sel={roleListType}
-					buttons={Alignments[props.gameType]}
-					onClick={onAlignNavClick} />
+				{alignButtons}
 				<SearchBar
 					value={searchVal}
 					placeholder="Role Name"

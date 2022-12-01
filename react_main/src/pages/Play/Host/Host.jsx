@@ -145,6 +145,7 @@ export default function Host(props) {
                         onFav={onFavSetup}
                         onEdit={onEditSetup}
                         onDel={onDelSetup}
+                        odd={setups.indexOf(setup) % 2 == 1}
                         key={setup.id} />
                 )}
                 empty="No setups" />
@@ -177,7 +178,7 @@ function SetupRow(props) {
         favIconFormat = "fas";
 
     return (
-        <div className="row">
+        <div className={`row ${props.odd ? "odd" : ""}`}>
             {user.loggedIn &&
                 <i
                     className={`select-setup fa-circle ${selIconFormat}`}
@@ -185,6 +186,9 @@ function SetupRow(props) {
             }
             <div className="setup-wrapper">
                 <Setup setup={props.setup} />
+            </div>
+            <div className="setup-name">
+                {props.setup.name}
             </div>
             {user.loggedIn &&
                 <i

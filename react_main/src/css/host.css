@@ -13,8 +13,8 @@
 	padding: 4px;
 	border: none;
 
-	background-color: var(--theme-color);
-	color: white;
+	background-color: white;
+	color: black;
 }
 
 .host .search-bar input::placeholder {
@@ -34,6 +34,15 @@
 	justify-content: flex-start;
 
 	width: 260px;
+}
+
+.host .row .setup-name {
+	width: 120px;
+	margin-left: 5px;
+
+	overflow-x: hidden;
+	font-weight: bold;
+	opacity: 0.6;
 }
 
 .host .row i:hover {

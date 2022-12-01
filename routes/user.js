@@ -501,9 +501,9 @@ router.post("/name", async function (req, res) {
             return;
         }
 
-        if (name.length < 1 || name.length > 20) {
+        if (name.length < 1 || name.length > constants.maxUserNameLength) {
             res.status(500);
-            res.send("Names must be between 4 and 20 characters.");
+            res.send(`Names must be between 4 and ${constants.maxUserNameLength} characters.`);
             return;
         }
 

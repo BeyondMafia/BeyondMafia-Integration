@@ -25,7 +25,7 @@
 .learn .panel {
 	margin-right: 10px;
 
-	background-color: #373737;
+	background-color: white;
 }
 
 .learn .panel .heading {
@@ -38,11 +38,11 @@
 	opacity: 0.7;
 }
 
-.paragraph a {
-	color: #97bde1;
+.learn .paragraph a {
+	color: var(--theme-color-light);
 }
 
-.paragraph a:hover {
+.learn .paragraph a:hover {
 	opacity: 0.8;
 }
 
@@ -52,4 +52,33 @@
 
 .learn .heading .icon {
 	margin-right: 5px;
+}
+
+.learn .search-bar {
+	display: flex;
+	flex-flow: row nowrap;
+
+	border: 1px solid var(--theme-color-sec);
+	border-bottom: none;
+}
+
+.learn .search-bar input {
+	box-sizing: border-box;
+
+	width: 150px;
+	padding: 4px;
+	border: none;
+
+	background-color: white;
+	color: black;
+}
+
+.learn .search-bar input::placeholder {
+	color: #b9b9b9;
+}
+
+.learn .search-icon {
+	padding: 3px 5px;
+
+	background-color: var(--theme-color-sec);
 }

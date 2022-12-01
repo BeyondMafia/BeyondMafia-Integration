@@ -122,7 +122,7 @@ export default function LearnMafia(props) {
 	}, []);
 
 	return (
-		<div className="span-panel">
+		<div className="span-panel main">
 			<div className="learn">
 				<div className="heading">
 					Synopsis

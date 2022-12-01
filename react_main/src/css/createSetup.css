@@ -1,3 +1,32 @@
+.create-setup .search-bar {
+	display: flex;
+	flex-flow: row nowrap;
+
+	border: 1px solid var(--theme-color-sec);
+	border-bottom: none;
+}
+
+.create-setup .search-bar input {
+	box-sizing: border-box;
+
+	width: 150px;
+	padding: 4px;
+	border: none;
+
+	background-color: white;
+	color: black;
+}
+
+.create-setup .search-bar input::placeholder {
+	color: #b9b9b9;
+}
+
+.create-setup .search-icon {
+	padding: 3px 5px;
+
+	background-color: var(--theme-color-sec);
+}
+
 .add-role {
 	margin-right: 3px;
 }
@@ -18,7 +47,7 @@
 	position: absolute;
 	right: 10px;
 
-	color: #ef9a9a;
+	color: #e45050;
 	cursor: pointer;
 }
 
@@ -59,12 +88,11 @@
 	padding: 10px;
 	border-radius: 3px;
 
-	background-color: #2e2e2e;
-	box-shadow: 0px 0px 1px black;
+	background-color: white;
 }
 
 .roleset.sel {
-	background-color: #373737;
+	background-color: #f3f3f3;
 }
 
 .roleset .role {

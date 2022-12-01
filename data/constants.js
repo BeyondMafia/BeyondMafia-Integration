@@ -106,7 +106,7 @@ module.exports = {
 	voteSpamSumLimit: 15,
 	voteSpamRateLimit: 10,
 
-	maxUserNameLength: 15,
+	maxUserNameLength: 20,
 	maxGroupNameLength: 20,
 	maxCategoryNameLength: 20,
 	maxBoardNameLength: 20,

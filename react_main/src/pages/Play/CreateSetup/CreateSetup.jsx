@@ -7,13 +7,11 @@ import { RoleCount, RoleSearch } from "../../../components/Roles";
 import Form from "../../../components/Form";
 import LoadingPage from "../../Loading";
 import { useErrorAlert } from "../../../components/Alerts";
-import { Alignments } from "../../../Constants";
 
 import "../../../css/createSetup.css";
 
 export default function CreateSetup(props) {
 	const gameType = props.gameType;
-	const alignments = Alignments[props.gameType];
 	const formFields = props.formFields;
 	const updateFormFields = props.updateFormFields;
 	const closedField = props.closedField;
@@ -218,7 +216,7 @@ export default function CreateSetup(props) {
 		return <LoadingPage />;
 
 	return (
-		<div className="span-panel">
+		<div className="span-panel main create-setup">
 			<RoleSearch
 				onAddClick={onAddRole}
 				gameType={gameType} />

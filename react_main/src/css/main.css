@@ -130,8 +130,8 @@ a {
     padding: 8px;
     border-radius: 3px;
 
-    background-color: #2e2e2e;
-    box-shadow: 0px 0px 2px black;
+    background-color: white;
+    color: black;
 }
 
 .box-panel .heading {
@@ -173,8 +173,8 @@ div.center {
     padding: 3px 5px;
     border-left: 2px solid #62a0db;
 
-    background-color: #2e2e2e;
-    box-shadow: 0px 0px 1px black;
+    background-color: white;
+    color: black;
 }
 
 .paragraph:last-child {
@@ -214,7 +214,8 @@ div.center {
     padding: 5px 0px;
     border-radius: 3px;
 
-    background-color: #373737;
+    background-color: white;
+    color: black;
     box-shadow: 0px 0px 3px black;
     z-index: 5;
 
@@ -230,7 +231,7 @@ div.center {
 .dropdown-menu-option:hover {
     border-radius: 3px;
 
-    background-color: #3f3f3f;
+    background-color: #f3f3f3;
 }
 
 .popover {
@@ -309,11 +310,6 @@ input:focus {
 
 .popover hr {
     margin: 5px 0px;
-}
-
-.role-count-wrap {
-    display: flex;
-    flex-flow: row nowrap;
 }
 
 .panel-grid {
