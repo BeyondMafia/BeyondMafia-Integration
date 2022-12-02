@@ -278,9 +278,11 @@ export function GameRow(props) {
                     setup={props.game.setup}
                     maxRolesCount={props.smallSetup ? 3 : 5} />
             </div>
-            <div className="setup-name">
-                {props.game.setup.name}
-            </div>
+            {!props.smallSetup &&
+                <div className="setup-name">
+                    {props.game.setup.name}
+                </div>
+            }
             <div className="game-infos">
                 {props.game.ranked &&
                     <i

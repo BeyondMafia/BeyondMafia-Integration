@@ -59,7 +59,7 @@ export default function Moderation() {
 		return <LoadingPage />;
 
 	return (
-		<>
+		<div class="moderation">
 			{user.perms.viewModActions &&
 				<div className="span-panel action-panel">
 					<div className="title">
@@ -69,7 +69,7 @@ export default function Moderation() {
 				</div>
 			}
 			{groupsPanels}
-		</>
+		</div>
 	);
 }
 
@@ -153,7 +153,7 @@ function ModCommands() {
 			</div>
 			{command &&
 				<div
-					className="btn btn-theme submit"
+					className="btn btn-theme-sec submit"
 					onClick={onRunClick}>
 					Run
 				</div>

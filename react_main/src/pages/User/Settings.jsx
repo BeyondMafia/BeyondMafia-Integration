@@ -233,7 +233,7 @@ export default function Settings(props) {
 		return <LoadingPage />
 
 	return (
-		<div className="span-panel settings">
+		<div className="span-panel main settings">
 			<div className="heading">
 				Site
 			</div>
@@ -261,7 +261,7 @@ export default function Settings(props) {
 			<div className="accounts-row">
 				<div className="accounts-column">
 					<div
-						className="btn btn-theme logout"
+						className="btn btn-theme-sec logout"
 						onClick={onLogoutClick}>
 						Sign Out
 					</div>

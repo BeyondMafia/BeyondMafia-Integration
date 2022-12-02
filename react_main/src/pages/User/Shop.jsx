@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import * as braintreeDropin from "braintree-web-drop-in";
 import update from "immutability-helper";
 
-import { ButtonGroup } from "../../components/Nav";
 import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
 import { UserContext, SiteInfoContext } from "../../Contexts";
@@ -13,15 +11,11 @@ import "../../css/shop.css";
 
 export default function Shop(props) {
 	const [shopInfo, setShopInfo] = useState({ shopItems: [], balance: 0 });
-	const [shopType, setShopType] = useState("Spend Coins");
 	const [loaded, setLoaded] = useState(false);
-	const [canBuy, setCanBuy] = useState(true);
 
 	const user = useContext(UserContext);
 	const siteInfo = useContext(SiteInfoContext);
 	const errorAlert = useErrorAlert();
-
-	const shopTypeButtons = ["Spend Coins"];
 
 	useEffect(() => {
 		document.title = "Shop | BeyondMafia";
@@ -38,10 +32,6 @@ export default function Shop(props) {
 			})
 			.catch(errorAlert);
 	}, [user.loaded]);
-
-	function onShopTypeClick(type) {
-		setShopType(type);
-	}
 
 	function onBuyItem(index) {
 		const item = shopInfo.shopItems[index];
@@ -110,19 +100,15 @@ export default function Shop(props) {
 		return <LoadingPage />;
 
 	return (
-		<div className="span-panel shop">
+		<div className="span-panel main shop">
 			<div className="top-bar">
-				<ButtonGroup
-					sel={shopType}
-					buttons={shopTypeButtons}
-					onClick={onShopTypeClick} />
 				<div className="balance">
 					<i className="fas fa-coins" />
 					{shopInfo.balance}
 				</div>
 			</div>
 			<div className="shop-items">
-				{shopType == "Spend Coins" && shopItems}
+				{shopItems}
 			</div>
 		</div>
 	);

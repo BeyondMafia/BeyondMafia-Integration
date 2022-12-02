@@ -12,7 +12,7 @@ import "../css/roles.css"
 export default function Setup(props) {
 	const popover = useContext(PopoverContext);
 	const setupRef = useRef();
-	const maxRoleCounts = props.maxRolesCounts || 5;
+	const maxRolesCount = props.maxRolesCount || 5;
 
 	var roleCounts, multi;
 	var overSize = false;
@@ -47,8 +47,8 @@ export default function Setup(props) {
 				key={role} />
 		));
 
-		if (roleCounts.length > maxRoleCounts) {
-			roleCounts = roleCounts.slice(0, maxRoleCounts);
+		if (roleCounts.length > maxRolesCount) {
+			roleCounts = roleCounts.slice(0, maxRolesCount);
 			overSize = true;
 		}
 	}

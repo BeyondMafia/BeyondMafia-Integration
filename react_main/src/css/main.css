@@ -123,12 +123,15 @@ a {
     font-weight: 700;
 }
 
+.span-panel.main {
+    background-color: #344577;
+}
+
 .box-panel {
     display: flex;
     flex-flow: column;
 
     padding: 8px;
-    border-radius: 3px;
 
     background-color: white;
     color: black;
@@ -212,7 +215,6 @@ div.center {
 
     min-width: 100px;
     padding: 5px 0px;
-    border-radius: 3px;
 
     background-color: white;
     color: black;
@@ -229,8 +231,6 @@ div.center {
 }
 
 .dropdown-menu-option:hover {
-    border-radius: 3px;
-
     background-color: #f3f3f3;
 }
 
@@ -306,6 +306,10 @@ input:focus {
 
 .btn-theme-sec {
     background-color: var(--theme-color-sec);
+}
+
+.btn-theme-third {
+    background-color: var(--theme-color-hover);
 }
 
 .popover hr {
@@ -431,10 +435,10 @@ input:focus {
     width: 300px;
     max-height: 350px;
     padding: 10px;
-    border-radius: 3px;
 
     z-index: 10;
-    background-color: #1d1d1d;
+    background-color: white;
+    color: black;
     box-shadow: 0px 0px 5px black;
     overflow: auto;
     visibility: hidden;
@@ -452,6 +456,10 @@ input:focus {
 
     opacity: 1.0;
     font-weight: normal;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    color: black;
 }
 
 .nav .notif-list .notif:hover {

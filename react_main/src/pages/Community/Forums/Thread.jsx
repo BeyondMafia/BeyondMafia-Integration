@@ -440,7 +440,7 @@ function Post(props) {
 							onChange={setEditContent} />
 						<div className="post-btn-wrapper">
 							<div
-								className="post-reply btn btn-theme"
+								className="post-reply btn btn-theme-third"
 								onClick={onEditSave}>
 								Save
 							</div>

@@ -8,7 +8,7 @@
 	flex-shrink: 0;
 }
 
-.field-wrapper {
+.form .field-wrapper {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: stretch;
@@ -216,6 +216,7 @@
 	justify-content: flex-start;
 
 	background-color: white;
+	color: black;
 
 	cursor: pointer;
 }
@@ -224,7 +225,7 @@
 	border: none;
 
 	background-color: white;
-	color: white;
+	color: black;
 }
 
 .search-select .icon-wrapper {
@@ -245,6 +246,7 @@
 
 	overflow-y: auto;
 	background-color: white;
+	color: black;
 	visibility: hidden;
 }
 
@@ -261,12 +263,11 @@
 }
 
 .search-select .option-row:hover {
-	background-color: white;
-
+	background-color: #f3f3f3;
 }
 
 .search-select input::placeholder {
-	color: white;
+	color: black;
 }
 
 [type="datetime-local"] {

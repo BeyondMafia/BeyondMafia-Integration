@@ -6,7 +6,7 @@
 }
 
 .shop .balance i {
-	margin-right: 5px;
+	margin: 5px 5px 0px 0px;
 
 	font-size: 20px;
 }
@@ -28,9 +28,8 @@
 	margin: 10px 10px 0px 0px;
 	padding: 8px;
 
-	border-radius: 3px;
-	box-shadow: 0px 0px 1px black;
-	background-color: #2e2e2e;
+	background-color: white;
+	color: black;
 }
 
 .shop .shop-item .name {

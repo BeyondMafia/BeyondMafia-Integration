@@ -15,7 +15,7 @@ export default function Forums() {
 	const [forumNavInfo, updateForumNavInfo] = useForumNavInfo();
 
 	return (
-		<>
+		<div class="forums">
 			<ForumNav forumNavInfo={forumNavInfo} />
 			<Switch>
 				<Route exact path="/community/forums" render={() => <Categories updateForumNavInfo={updateForumNavInfo} />} />
@@ -23,7 +23,7 @@ export default function Forums() {
 				<Route exact path="/community/forums/thread/:threadId" render={() => <Thread updateForumNavInfo={updateForumNavInfo} />} />
 				<Route render={() => <Redirect to="/community/forums" />} />
 			</Switch>
-		</>
+		</div>
 	);
 }
 
@@ -141,7 +141,7 @@ export function VoteWidget(props) {
 
 				if (itemKey)
 					items = itemHolder[itemKey];
-				else 
+				else
 					items = itemHolder;
 
 				for (let i in items) {
@@ -156,7 +156,7 @@ export function VoteWidget(props) {
 								}
 							}));
 						}
-						else 
+						else
 							setItemHolder(newItems);
 						break;
 					}

@@ -16,7 +16,7 @@
 	flex-flow: column;
 	align-items: stretch;
 	justify-content: flex-start;
-	
+
 	position: fixed;
 
 	top: 20px;
@@ -30,12 +30,15 @@
 	border-radius: 30px;
 }
 
-.modal-header, .modal-content, .modal-footer {
+.modal-header,
+.modal-content,
+.modal-footer {
 	padding: 10px;
 }
 
-.modal-header, .modal-footer {
-	background-color: #1d1d1d;
+.modal-header,
+.modal-footer {
+	background-color: var(--theme-color-sec);
 }
 
 .modal-header {
@@ -49,7 +52,7 @@
 }
 
 .modal-content {
-	background-color: #262626;
+	background-color: var(--theme-color);
 }
 
 .modal a {

@@ -49,7 +49,7 @@ export default function Settings(props) {
 	));
 
 	return (
-		<div className="span-panel user-search">
+		<div className="span-panel main user-search">
 			<div className="form">
 				<input
 					type="text"

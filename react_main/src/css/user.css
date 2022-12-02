@@ -88,7 +88,10 @@
 .profile {
 	display: flex;
 	flex-flow: row nowrap;
-	/* Make column for mobile */
+}
+
+.profile i {
+	cursor: pointer;
 }
 
 .profile .main-panel {
@@ -97,15 +100,12 @@
 	display: flex;
 	flex-flow: column;
 
-	border-radius: 3px;
-
-	background-color: #262626;
+	background-color: var(--theme-color);
 	box-shadow: 0px 0px 1px black;
 }
 
 .profile .banner {
 	height: 200px;
-	border-radius: 3px 3px 0px 0px;
 
 	background-image: url("/images/banner.png");
 }
@@ -129,10 +129,14 @@
 }
 
 .profile .user-info {
+	flex-grow: 1;
+
 	display: flex;
 	flex-flow: column;
 	align-items: stretch;
 	justify-content: flex-start;
+
+	padding: 8px;
 }
 
 .profile .avi-name-row {
@@ -166,7 +170,30 @@
 .profile .box-panel {
 	margin-bottom: 10px;
 
-	background-color: #262626;
+	background-color: var(--theme-color);
+}
+
+.profile .box-panel .heading {
+	color: white;
+}
+
+.profile .box-panel .content {
+	padding: 5px;
+
+	background-color: white;
+	color: black;
+}
+
+.profile .box-panel .row {
+	padding: 0px 0px 5px 0px;
+}
+
+.profile .box-panel .row:last-child {
+	padding-bottom: 0px;
+}
+
+.profile .page-nav {
+	color: white;
 }
 
 .profile .page-nav:first-child {
@@ -216,6 +243,10 @@
 	opacity: 0.7;
 }
 
+.profile .friend-request .avatar {
+	box-shadow: none;
+}
+
 /* .profile .friend {
 	display: flex;
 	flex-flow: row nowrap;
@@ -229,13 +260,21 @@
 	opacity: 0.6;
 }
 
+.profile .friend .avatar {
+	box-shadow: none;
+}
+
 .profile .bio {
+	flex-grow: 1;
+
 	display: flex;
 	flex-flow: column;
 
 	box-sizing: border-box;
-
 	padding: 15px;
+
+	background-color: white;
+	color: black;
 }
 
 .profile .bio.edit {
@@ -245,20 +284,6 @@
 .profile .bio.edit:hover {
 	box-shadow: 0px 0px 5px #62a0db;
 }
-
-/* .profile .bio textarea {
-	width: 99%;
-	height: 100px;
-
-	border: none;
-
-	background-color: #2e2e2e;
-	box-shadow: 0px 0px 1px black;
-	color: white;
-	outline: none;
-	
-	resize: vertical;
-} */
 
 .profile .bio .buttons {
 	display: flex;
@@ -271,6 +296,10 @@
 	align-self: flex-start;
 
 	margin-right: 10px;
+}
+
+.profile .react-mde .grip {
+	color: black;
 }
 
 .profile .options {
@@ -318,7 +347,6 @@
 	margin-left: 10px;
 	border: 3px solid #1d1d1d;
 	border-left: 0px;
-	border-radius: 3px;
 
 	background-color: #1d1d1d;
 	box-shadow: 0px 0px 1px black;
