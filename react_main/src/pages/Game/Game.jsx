@@ -1835,7 +1835,7 @@ function SettingsModal(props) {
 				Save
 			</div>
 			<div
-				className="settings-cancel btn btn-theme-sec"
+				className="settings-cancel btn btn-theme-third"
 				onClick={cancel}>
 				Cancel
 			</div>

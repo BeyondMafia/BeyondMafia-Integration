@@ -18,9 +18,9 @@ import { TopBarLink } from "./Play";
 
 export default function Join(props) {
     const defaultLobby = "Main";
-    const gameListButtons = ["Open", "In Progress", "Finished"];
+    const gameListButtons = ["All", "Open", "In Progress", "Finished"];
 
-    const [listType, setListType] = useState("Open");
+    const [listType, setListType] = useState("All");
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
     const [games, setGames] = useState([]);
@@ -95,7 +95,6 @@ export default function Join(props) {
                             <GameRow
                                 game={game}
                                 lobby={lobby}
-                                type={listType}
                                 refresh={() => getGameList(listType, page)}
                                 odd={games.indexOf(game) % 2 == 1}
                                 key={game.id} />
@@ -135,7 +134,7 @@ export function GameRow(props) {
     var linkPath, buttonText;
     var buttonClass = "btn ";
 
-    switch (props.type) {
+    switch (props.game.status) {
         case "Open":
             linkPath = `/game/${props.game.id}`;
             buttonClass += "btn-join";
@@ -146,12 +145,12 @@ export function GameRow(props) {
         case "In Progress":
             if (props.game.spectating || user.perms.canSpectateAny) {
                 linkPath = `/game/${props.game.id}`;
-                buttonClass += "btn-theme";
+                buttonClass += "btn-spectate";
                 buttonText = "Spectate";
             }
             else {
                 linkPath = "/play";
-                buttonClass += "btn-theme";
+                buttonClass += "btn-in-progress";
                 buttonText = "In Progress";
             }
             break;

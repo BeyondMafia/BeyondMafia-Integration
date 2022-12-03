@@ -181,7 +181,7 @@
 	height: 12px;
 	border-radius: 10px;
 
-	background-color: #6b3838;
+	background-color: var(--theme-color);
 	outline: none;
 }
 
@@ -193,7 +193,7 @@
 	height: 18px;
 	border-radius: 50px;
 
-	background-color: #8e3939;
+	background-color: var(--theme-color-light);
 	cursor: pointer;
 }
 
@@ -205,7 +205,7 @@
 	height: 18px;
 	border-radius: 50px;
 
-	background-color: #8e3939;
+	background-color: var(--theme-color-light);
 	cursor: pointer;
 }
 

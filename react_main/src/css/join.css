@@ -23,6 +23,19 @@
 	background-color: #cf2e2e;
 }
 
+.join .row .btn-spectate {
+	background-color: #e76119;
+}
+
+.join .row .btn-in-progress {
+	background-color: #b9724c;
+	cursor: default;
+}
+
+.join .row .btn-in-progress {
+	opacity: 1;
+}
+
 .join .row .btn-review {
 	background-color: var(--theme-color-sec);
 }

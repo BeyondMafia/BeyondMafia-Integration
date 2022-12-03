@@ -12,6 +12,8 @@
 	top: 0px;
 	left: 0px;
 	margin: 15px 0px 5px 0px;
+
+	font-weight: bold;
 }
 
 .learn .heading:first-child {

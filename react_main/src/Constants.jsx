@@ -1,5 +1,5 @@
 export const GameTypes = ["Mafia", "Split Decision", "Resistance", "One Night"];
-export const Lobbies = ["Main", "Sandbox"];
+export const Lobbies = ["Main", "Sandbox", "Competitive", "Games"];
 
 export const Alignments = {
 	"Mafia": ["Village", "Mafia", "Monsters", "Independent"],

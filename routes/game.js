@@ -30,74 +30,80 @@ router.get("/list", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
         const userId = await routeUtils.verifyLoggedIn(req, true);
-        const pageSize = 7;
-        const pageLimit = 20;
-        const start = ((Number(req.query.page) || 1) - 1) * pageSize;
-        const gameLimit = pageSize * pageLimit;
-        const listName = String(req.query.list);
+        const start = ((Number(req.query.page) || 1) - 1) * constants.lobbyPageSize;
+        const gameLimit = constants.lobbyPageSize * constants.lobbyPageLimit;
+        const listName = String(req.query.list).toLowerCase();
         const lobby = String(req.query.lobby || "Main");
+        var games = [];
 
         if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
             logger.error("Invalid lobby.");
-            res.send({ games: [], pages: 1 });
+            res.send({ games, pages: 1 });
             return;
         }
 
-        if (listName != "finished") {
-            const end = start + pageSize;
-            var games = [];
-
-            if (listName == "open") {
-                games = await redis.getOpenPublicGames();
-                games.sort((a, b) => {
-                    return routeUtils.scoreGame(b) - routeUtils.scoreGame(a);
-                });
-            }
-            else {
-                games = await redis.getInProgressPublicGames();
-                games.sort((a, b) => b.startTime - a.startTime);
-            }
-
-            games = games.filter(game => game.lobby == lobby).slice(start, end);
-            var newGames = [];
-
-            for (let game of games) {
-                let newGame = {};
-
-                newGame.id = game.id;
-                newGame.type = game.type;
-                newGame.setup = await models.Setup.findOne({ id: game.settings.setup })
-                    .select("id gameType name roles closed count total -_id");
-                newGame.setup = newGame.setup.toJSON();
-                newGame.hostId = game.hostId;
-                newGame.players = game.players.length;
-                newGame.ranked = game.settings.ranked;
-                newGame.spectating = game.settings.spectating;
-                newGame.voiceChat = game.settings.voiceChat
-                newGame.scheduled = game.settings.scheduled
-
-                if (userId) {
-                    var reservations = await redis.getGameReservations(game.id);
-                    newGame.reserved = reservations.indexOf(userId) != -1;
-                }
-
-                newGames.push(newGame);
-            }
-
-            res.send({ games: newGames, pages: Math.ceil(newGames.length / pageSize) || 1 })
+        if (start >= gameLimit) {
+            res.send({ games: [], pages: constants.lobbyPageLimit });
+            return;
         }
-        else if (start < gameLimit) {
-            const games = await models.Game.find({ lobby })
+
+        const end = start + constants.lobbyPageSize;
+
+        if (listName == "all" || listName == "open") {
+            var openGames = await redis.getOpenPublicGames();
+            openGames.sort((a, b) => {
+                return routeUtils.scoreGame(b) - routeUtils.scoreGame(a);
+            });
+            games = games.concat(openGames);
+        }
+
+        if (listName == "all" || listName == "in progress") {
+            var inProgressGames = await redis.getInProgressPublicGames();
+            inProgressGames.sort((a, b) => b.startTime - a.startTime);
+            games = games.concat(inProgressGames);
+        }
+
+        var count = games.length;
+        games = games.filter(game => game.lobby == lobby).slice(start, end);
+
+        for (let i in games) {
+            let game = games[i];
+            let newGame = {};
+
+            newGame.id = game.id;
+            newGame.type = game.type;
+            newGame.setup = await models.Setup.findOne({ id: game.settings.setup })
+                .select("id gameType name roles closed count total -_id");
+            newGame.setup = newGame.setup.toJSON();
+            newGame.hostId = game.hostId;
+            newGame.players = game.players.length;
+            newGame.ranked = game.settings.ranked;
+            newGame.spectating = game.settings.spectating;
+            newGame.voiceChat = game.settings.voiceChat
+            newGame.scheduled = game.settings.scheduled
+            newGame.status = game.status;
+
+            if (userId) {
+                var reservations = await redis.getGameReservations(game.id);
+                newGame.reserved = reservations.indexOf(userId) != -1;
+            }
+
+            games[i] = newGame;
+        }
+
+        if (listName == "all" || listName == "finished") {
+            var finishedGames = await models.Game.find({ lobby })
                 .select("id type setup ranked private spectating guests voiceChat stateLengths gameTypeOptions broken -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
                 .sort("-endTime")
-                .skip(start)
-                .limit(pageSize);
-            const count = await models.Game.estimatedDocumentCount();
-            res.send({ games: games, pages: Math.min(Math.ceil(count / pageSize), pageLimit) || 1 });
+                .skip(Math.max(start - count, 0))
+                .limit(constants.lobbyPageSize - games.length);
+            finishedGames = finishedGames.map(game => ({ ...game.toObject(), status: "Finished" }));
+            games = games.concat(finishedGames);
         }
-        else
-            res.send({ games: [], pages: pageLimit });
+
+        count += await models.Game.estimatedDocumentCount();
+        res.send({ games: games, pages: Math.min(Math.ceil(count / constants.lobbyPageSize), constants.lobbyPageLimit) || 1 });
     }
     catch (e) {
         logger.error(e);

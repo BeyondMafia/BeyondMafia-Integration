@@ -26,8 +26,8 @@
 }
 
 .game .game-name {
-	font-size: 75px;
-	font-family: JuiceITC;
+	font-size: 65px;
+	font-family: Spooky;
 }
 
 .game .game-name span {
@@ -168,8 +168,8 @@
 	margin: 0px;
 	padding: 0px;
 
-	background-color: #262626;
-	box-shadow: 0px 0px 5px black;
+	background-color: white;
+	color: black;
 }
 
 .game .left-panel,
@@ -197,16 +197,15 @@
 
 .game .tab {
 	padding: 10px;
-	border-radius: 3px 3px 0px 0px;
 
 	z-index: 0;
-	background-color: #1a1a1a;
-	box-shadow: inset 0px 0px 2px black;
+	background-color: var(--theme-color-sec);
+	color: white;
 	cursor: pointer;
 }
 
 .game .tab.sel {
-	background-color: #1d1d1d;
+	background-color: var(--theme-color);
 	box-shadow: none;
 	z-index: 1;
 }
@@ -217,7 +216,7 @@
 
 	margin-top: 10px;
 
-	color: #d1d1d1;
+	color: black;
 }
 
 .game .message:last-child {
@@ -247,7 +246,6 @@
 	margin-left: 10px;
 
 	overflow-x: hidden;
-	color: #d1d1d1;
 }
 
 .game .message .prefix {
@@ -327,20 +325,16 @@
 	display: flex;
 	flex-flow: column;
 
-	border-radius: 0px 3px 3px 3px;
 	padding-top: 10px;
 
-	background-color: #1d1d1d;
+	background-color: var(--theme-color);
 }
 
 .game .speech-display {
 	flex-grow: 1;
 	flex-basis: 0px;
 
-	background-color: #262626;
-	box-shadow:
-		inset 0px 10px 5px -10px black,
-		inset 0px -10px 3px -10px black;
+	background-color: white;
 
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -357,15 +351,13 @@
 	flex-grow: 1;
 	display: flex;
 	flex-flow: row;
-
-	box-shadow: 0px 0px 1px black;
 }
 
 .game .speech-dropdown {
 	border-right: 1px solid #262626;
-	border-radius: 3px 0px 0px 3px;
 
-	background-color: #2e2e2e;
+	background-color: var(--theme-color-sec);
+	color: white;
 }
 
 .game .speech-input {
@@ -373,10 +365,9 @@
 
 	padding: 5px;
 	border: none;
-	border-radius: 0px 3px 3px 0px;
 
-	background-color: #373737;
-	color: white;
+	background-color: white;
+	color: black;
 	font-size: 16px;
 }
 
@@ -390,7 +381,7 @@
 	padding: 5px;
 	border-radius: 5px;
 
-	background-color: #313131;
+	background-color: var(--theme-color);
 	font-size: 20px;
 	text-align: center;
 	cursor: pointer;
@@ -401,11 +392,11 @@
 }
 
 .game .speech-input-area i.disabled {
-	opacity: 0.3;
+	opacity: 0.5;
 }
 
 .game .speech-input-area i.disabled:hover {
-	opacity: 0.2;
+	opacity: 0.3;
 }
 
 .game .dropdown-control {
@@ -424,9 +415,9 @@
 
 	min-width: 100px;
 	padding: 5px 0px;
-	border-radius: 3px;
 
-	background-color: #373737;
+	background-color: var(--theme-color);
+	color: white;
 	box-shadow: 0px 0px 1px black;
 
 	visibility: hidden;
@@ -439,9 +430,8 @@
 }
 
 .game .dropdown-menu-option:hover {
-	border-radius: 3px;
 
-	background-color: #3f3f3f;
+	background-color: var(--theme-color-hover);
 }
 
 .game .side-menu {
@@ -478,15 +468,14 @@
 .game .side-menu-title {
 	padding: 10px;
 
-	background-color: #1d1d1d;
-	box-shadow: 0px 0px 4px black;
+	background-color: var(--theme-color);
+	color: white;
 }
 
 .game .side-menu:first-child .side-menu-title {
 	padding: 10px;
 
-	background-color: #1d1d1d;
-	box-shadow: 0px 0.5px 3px black;
+	background-color: var(--theme-color);
 }
 
 .game .side-menu-title i {
@@ -544,8 +533,6 @@
 
 .game .player-list .section-title {
 	margin: 20px 0px 10px 0px;
-
-	opacity: 0.7;
 }
 
 .game .player-list .section-title i {
@@ -567,11 +554,15 @@
 
 	margin-bottom: 10px;
 	padding: 0px 5px;
+
+	color: #bd4c4c;
 }
 
 .game .action .action-name {
 	margin-top: 10px;
 	padding-top: 0px;
+
+	font-weight: bold;
 }
 
 .game .action .btn {
@@ -589,7 +580,6 @@
 	display: flex;
 	flex-flow: row nowrap;
 
-	color: #9a9a9a;
 }
 
 .game .action .vote.multi {
@@ -616,7 +606,7 @@
 .game .action .vote .selection {
 	margin-left: 5px;
 
-	color: white;
+	color: black;
 }
 
 .game .last-will-wrapper,
@@ -637,9 +627,8 @@
 	border: none;
 	padding: 5px;
 
-	background-color: #343434;
-	box-shadow: 0px 0px 1px black;
-	color: white;
+	background-color: #f3f3f3;
+	color: black;
 	outline: none;
 	resize: none;
 }
@@ -697,10 +686,9 @@
 .game .speech-filters input {
 	padding: 5px;
 	border: none;
-	border-radius: 3px;
 
-	background-color: #373737;
-	color: white;
+	background-color: #f3f3f3;
+	color: black;
 }
 
 .game .speech-filters input:first-child {
@@ -721,12 +709,12 @@
 }
 
 .game ::-webkit-scrollbar-thumb {
-	background: #1d1d1d;
+	background: var(--theme-color-sec);
 	z-index: -1;
 }
 
 .game ::-webkit-scrollbar-thumb:hover {
-	background: #1a1a1a;
+	background: var(--theme-color-sec);
 	z-index: -1;
 }
 

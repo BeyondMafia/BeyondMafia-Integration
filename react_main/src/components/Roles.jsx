@@ -46,7 +46,7 @@ export function RoleCount(props) {
 			<div className="role-count-wrap">
 				<div
 					className={`role role-${roleClass} ${props.small ? "small" : ""} ${props.bg ? "bg" : ""}`}
-					title={`${roleName} ${modifier ? `(${modifier})` : ""}`}
+					title={`${roleName || ""} ${modifier ? `(${modifier})` : ""}`}
 					onClick={onRoleClick}
 					ref={roleRef}>
 					{modifier &&

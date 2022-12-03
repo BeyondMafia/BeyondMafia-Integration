@@ -1,7 +1,7 @@
 module.exports = {
 	restart: null,
 	gameTypes: ["Mafia", "Split Decision", "Resistance", "One Night"],
-	lobbies: ["Main", "Sandbox"],
+	lobbies: ["Main", "Sandbox", "Competitive", "Games"],
 	alignments: {
 		"Mafia": ["Village", "Mafia", "Monsters", "Independent"],
 		"Split Decision": ["Blue", "Red", "Independent"],
@@ -127,6 +127,9 @@ module.exports = {
 	maxCommentLength: 500,
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
+
+	lobbyPageSize: 7,
+	lobbyPageLimit: 20,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,
