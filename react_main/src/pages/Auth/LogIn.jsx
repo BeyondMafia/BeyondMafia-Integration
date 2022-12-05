@@ -58,7 +58,7 @@ export default function LogIn() {
 		return <LoadingPage />;
 
 	return (
-		<div className="span-panel login">
+		<div className="span-panel main login">
 			<form onSubmit={onSubmit}>
 				<div className="input-wrapper">
 					<label>Email</label>

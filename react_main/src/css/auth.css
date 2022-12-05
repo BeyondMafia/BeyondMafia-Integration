@@ -26,7 +26,6 @@
 .auth input[type="password"] {
 	padding: 5px;
 	border: 1px solid gray;
-	border-radius: 5px;
 }
 
 .auth-btn {
@@ -36,7 +35,6 @@
 	justify-content: center;
 
 	padding: 5px;
-	border-radius: 5px;
 	border: none;
 
 	background-color: #62a0db;
@@ -54,6 +52,12 @@
 
 .auth-btn.disabled:hover {
 	opacity: 0.5;
+}
+
+.auth .legal {
+	width: 600px;
+
+	text-align: center;
 }
 
 .auth .legal a {

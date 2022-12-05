@@ -66,14 +66,14 @@ a {
     margin-bottom: 20px;
 }
 
-.logo-wrapper {
+.header .logo-wrapper {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
 }
 
-.logo {
+.header .logo {
     width: 120px;
     height: 83px;
 
@@ -81,15 +81,6 @@ a {
 
     background-image: url("/images/title_logo.png");
     background-size: 100% 100%;
-}
-
-.logo-text {
-    font-size: 75px;
-    font-family: JuiceITC;
-}
-
-.logo-text span {
-    color: #62a0db;
 }
 
 .nav-wrapper {
@@ -174,7 +165,7 @@ div.center {
 .paragraph {
     margin-bottom: 7px;
     padding: 3px 5px;
-    border-left: 2px solid #62a0db;
+    border-left: 3px solid #62a0db;
 
     background-color: white;
     color: black;

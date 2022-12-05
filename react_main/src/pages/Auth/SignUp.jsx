@@ -57,7 +57,7 @@ export default function SignUp() {
 		return <LoadingPage />;
 
 	return (
-		<div className="span-panel login">
+		<div className="span-panel main login">
 			<form onSubmit={onSubmit}>
 				<div className="input-wrapper">
 					<label>Email</label>
@@ -75,7 +75,7 @@ export default function SignUp() {
 			</form>
 			<div className="legal">
 				By signing up you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
-				and accept our <Link to="/legal/privacy">Privacy Policy</Link>.
+				and accept our <Link to="/legal/privacy">Privacy Policy</Link>, and that you are at least 13 years of age.
 			</div>
 		</div>
 	);
