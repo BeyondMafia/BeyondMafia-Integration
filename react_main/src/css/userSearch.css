@@ -1,4 +1,4 @@
-.user-search {
+.user-search-page {
 	display: flex;
 	flex-flow: column;
 	align-items: flex-start;
@@ -7,18 +7,18 @@
 	min-height: 100px;
 }
 
-.user-search input {
+.user-search-page input {
 	border-radius: 0px !important;
 }
 
-.user-search .users {
+.user-search-page .users {
 	display: flex;
 	flex-flow: row wrap;
 	align-items: stretch;
 	justify-content: flex-start;
 }
 
-.user-search .user-cell {
+.user-search-page .user-cell {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
@@ -31,6 +31,6 @@
 	color: black;
 }
 
-.user-search .user-cell .status-icon {
+.user-search-page .user-cell .status-icon {
 	margin-left: 5px;
 }
