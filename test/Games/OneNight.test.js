@@ -6,7 +6,7 @@
 // const shortid = require("shortid");
 // const Game = require("../../Games/types/Mafia/Game");
 // const User = require("../../Games/core/User");
-// const Socket = require("../../sockets").TestSocket;
+// const Socket = require("../../lib/sockets").TestSocket;
 
 // function makeUser() {
 //     return new User({

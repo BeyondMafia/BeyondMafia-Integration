@@ -1,1 +1,0 @@
-rm -rf build_public; mv build build_public

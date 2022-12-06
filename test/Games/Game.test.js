@@ -5,7 +5,7 @@ const db = require("../../db/db");
 const redis = require("../../modules/redis");
 const Game = require("../../Games/core/Game");
 const User = require("../../Games/core/User");
-const Socket = require("../../sockets").TestSocket;
+const Socket = require("../../lib/sockets").TestSocket;
 const constants = require("../../data/constants");
 
 describe("Games/Game", function () {
