@@ -1,4 +1,4 @@
-name: build
+name: test
 on: [push]
 jobs:
   build-react:
@@ -8,8 +8,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14.15.1'
-      - name: Run react-scripts build
-        working-directory: ./react_main
+      - name: Run tests
         run: |
-          npm install -g react-scripts@3.4.4
-          npm run build
+          npm install
+          npm run test
