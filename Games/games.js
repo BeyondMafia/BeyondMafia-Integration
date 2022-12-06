@@ -10,8 +10,8 @@ const logger = require("../modules/logging")("games");
 const User = require("./core/User");
 
 const serverId = Number(process.env.pm_id) || 0;
-const ports = JSON.parse(process.env.GAME_PORTS);
-const port = ports[serverId % ports.length];
+const ports = JSON.parse(process.env.GAME_PORTS || "{}");
+const port = ports[serverId % ports.length] || "3010";
 const server = new sockets.SocketServer(port);
 
 var games = {};
