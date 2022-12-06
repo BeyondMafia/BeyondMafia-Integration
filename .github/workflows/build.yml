@@ -11,5 +11,5 @@ jobs:
       - name: Run react-scripts build
         working-directory: ./react_main
         run: |
-          npm install -g react-scripts@3.4.4
+          npm install
           npm run build
