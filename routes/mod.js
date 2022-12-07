@@ -23,6 +23,9 @@ router.get("/groups", async function (req, res) {
 			for (let member of group.members)
 				member.status = await redis.getUserStatus(member.id);
 
+			if (group.rank == null)
+				group.rank == Infinity;
+
 			delete group._id;
 		}
 

@@ -229,7 +229,7 @@ module.exports = {
 	defaultGroups: {
 		"Owner": {
 			rank: Infinity,
-			visible: false,
+			visible: true,
 			perms: "*"
 		},
 		"Admin": {
