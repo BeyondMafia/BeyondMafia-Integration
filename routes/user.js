@@ -29,6 +29,7 @@ router.get("/info", async function (req, res) {
             return;
         }
 
+        user.csrf = req.session.user.csrf;
         user.inGame = await redis.inGame(user.id);
         user.perms = await redis.getUserPermissions(userId) || {};
         user.rank = String(user.perms.rank || 0);

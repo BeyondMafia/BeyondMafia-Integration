@@ -21,6 +21,7 @@ const notifsRouter = require("./routes/notifs");
 const shopRouter = require("./routes/shop");
 
 const session = require("./modules/session");
+const csrf = require("./modules/csrf");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session);
+app.use(csrf);
 app.use("/uploads", express.static(path.join(__dirname, process.env.UPLOAD_PATH), { maxAge: 3600 }));
 app.use(express.static(path.join(__dirname, "react_main/build_public"), { maxAge: 3600 }));
 
@@ -46,6 +48,9 @@ app.use("/notifs", notifsRouter);
 app.use("/shop", shopRouter);
 
 app.get("*", (req, res) => {
+    if (!req.session.csrf)
+        req.session.csrf = crypto.randomInt((2 ** 48) - 1);
+
     res.sendFile(path.join(__dirname, "react_main/build_public/index.html"));
 });
 

@@ -2,6 +2,7 @@ const express = require("express");
 const fbAdmin = require("firebase-admin");
 const shortid = require("shortid");
 const axios = require("axios");
+const crypto = require("crypto");
 const constants = require("../data/constants");
 const routeUtils = require("../routes/utils");
 const models = require("../db/models");
@@ -135,7 +136,8 @@ async function authSuccess(req, uid, email) {
 		req.session.user = {
 			id,
 			fbUid: uid,
-			_id: user._id
+			_id: user._id,
+			csrf: crypto.randomInt((2 ** 48) - 1)
 		};
 		return id;
 	}

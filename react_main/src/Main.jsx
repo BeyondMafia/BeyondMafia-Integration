@@ -49,6 +49,8 @@ function Main() {
                 var res = await axios.get("/user/info")
 
                 if (res.data.id) {
+                    axios.defaults.headers.common['x-csrf'] = res.data.csrf;
+
                     res.data.loggedIn = true;
                     res.data.loaded = true;
                     res.data.rank = Number(res.data.rank);
