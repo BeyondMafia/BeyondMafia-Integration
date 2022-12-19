@@ -15,7 +15,7 @@ export default function Forums() {
 	const [forumNavInfo, updateForumNavInfo] = useForumNavInfo();
 
 	return (
-		<div class="forums">
+		<div className="forums">
 			<ForumNav forumNavInfo={forumNavInfo} />
 			<Switch>
 				<Route exact path="/community/forums" render={() => <Categories updateForumNavInfo={updateForumNavInfo} />} />

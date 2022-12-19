@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import axios from "axios";
 
 import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
+import { Modal } from "../../components/Modal";
+import { SiteInfoContext } from "../../Contexts";
 
 export default function LogIn() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [submitDisabled, setSubmitDisabled] = useState(true);
 	const [loading, setLoading] = useState(false);
+	const [showResetPw, setShowResetPw] = useState(false);
+	const siteInfo = useContext(SiteInfoContext);
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
@@ -37,7 +41,15 @@ export default function LogIn() {
 				.then(() => {
 					window.location.reload();
 				})
-				.catch(errorAlert);
+				.catch((e) => {
+					errorAlert(e);
+					setLoading(false);
+
+					try {
+						if (e.response && e.response.status == 403)
+							sendEmailVerification(userCred.user);
+					} catch (e) { }
+				});
 		} catch (e) {
 			setLoading(false);
 
@@ -54,26 +66,94 @@ export default function LogIn() {
 		}
 	}
 
+	async function onResetPw(e) {
+		try {
+			e.preventDefault();
+			setShowResetPw(false);
+			setLoading(true);
+
+			const auth = getAuth();
+			await sendPasswordResetEmail(auth, email);
+
+			siteInfo.showAlert("Password reset email sent.", "success");
+			setLoading(false);
+		} catch (e) {
+			errorAlert("Error resetting password.");
+			setLoading(false);
+		}
+	}
+
+	const modalContent = (
+		<form className="form" onSubmit={onResetPw}>
+			<div className="field-wrapper">
+				<div className="label">
+					Email
+				</div>
+				<input
+					type="text"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)} />
+			</div>
+		</form>
+	);
+	const modalFooter = (
+		<div className="control">
+			<div
+				className="reset btn btn-theme"
+				onClick={onResetPw}>
+				Reset
+			</div>
+			<div
+				className="cancel btn btn-theme-third"
+				onClick={() => setShowResetPw(false)}>
+				Cancel
+			</div>
+		</div>
+	);
+
 	if (loading)
 		return <LoadingPage />;
 
 	return (
 		<div className="span-panel main login">
-			<form onSubmit={onSubmit}>
-				<div className="input-wrapper">
-					<label>Email</label>
-					<input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+			<form className="form" onSubmit={onSubmit}>
+				<div className="field-wrapper">
+					<div className="label">
+						Email
+					</div>
+					<input
+						type="text"
+						value={email}
+						onChange={e => setEmail(e.target.value)} />
 				</div>
-				<div className="input-wrapper">
-					<label>Password</label>
-					<input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+				<div className="field-wrapper">
+					<div className="label">
+						Password
+					</div>
+					<input
+						type="password"
+						value={password}
+						onChange={e => setPassword(e.target.value)} />
 				</div>
+				<a
+					className="forgot-pw"
+					href="#"
+					onClick={() => setShowResetPw(true)}>
+					Forgot password?
+				</a>
 				<input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Log In" />
 			</form>
 			<div className="legal">
 				By logging in you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
 				and accept our <Link to="/legal/privacy">Privacy Policy</Link>.
 			</div>
+			<Modal
+				className="reset-pw"
+				show={showResetPw}
+				onBgClick={() => setShowResetPw(false)}
+				header={"Reset Password"}
+				content={modalContent}
+				footer={modalFooter} />
 		</div>
 	);
 }

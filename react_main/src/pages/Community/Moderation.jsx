@@ -59,7 +59,7 @@ export default function Moderation() {
 		return <LoadingPage />;
 
 	return (
-		<div class="moderation">
+		<div className="moderation">
 			{user.perms.viewModActions &&
 				<div className="span-panel action-panel">
 					<div className="title">

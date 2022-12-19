@@ -30,6 +30,7 @@
 }
 
 .form input[type="text"],
+.form input[type="password"],
 .form input[type="number"],
 .form select,
 .form .switch-wrapper {
@@ -62,7 +63,8 @@
 	background-color: white;
 }
 
-.form input[type="text"] {
+.form input[type="text"],
+.form input[type="password"] {
 	width: 200px;
 	font-size: 15px;
 }

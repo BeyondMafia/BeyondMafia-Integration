@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
 import axios from "axios";
 
 import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
+import { SiteInfoContext } from "../../Contexts";
 
 export default function SignUp() {
 	const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ export default function SignUp() {
 	const [passwordConf, setPasswordConf] = useState("");
 	const [submitDisabled, setSubmitDisabled] = useState(true);
 	const [loading, setLoading] = useState(false);
+	const [signedUp, setSignedUp] = useState(false);
+	const siteInfo = useContext(SiteInfoContext);
 	const errorAlert = useErrorAlert();
 
 	useEffect(() => {
@@ -33,12 +36,11 @@ export default function SignUp() {
 
 			const auth = getAuth();
 			const userCred = await createUserWithEmailAndPassword(auth, email, password);
-			const idToken = await userCred.user.getIdToken(true);
-			axios.post("/auth", { idToken })
-				.then(() => {
-					window.location.reload();
-				})
-				.catch(errorAlert);
+			await sendEmailVerification(userCred.user);
+
+			siteInfo.showAlert("Account created. Please click the verification link in your email before logging in. Be sure to check your spam folder.", "success");
+			setSignedUp(true);
+			setLoading(false);
 		} catch (e) {
 			setLoading(false);
 
@@ -56,20 +58,38 @@ export default function SignUp() {
 	if (loading)
 		return <LoadingPage />;
 
+	if (signedUp)
+		return <Redirect to="/auth/login" />;
+
 	return (
 		<div className="span-panel main login">
-			<form onSubmit={onSubmit}>
-				<div className="input-wrapper">
-					<label>Email</label>
-					<input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+			<form className="form" onSubmit={onSubmit}>
+				<div className="field-wrapper">
+					<div className="label">
+						Email
+					</div>
+					<input
+						type="text"
+						value={email}
+						onChange={e => setEmail(e.target.value)} />
 				</div>
-				<div className="input-wrapper">
-					<label>Password</label>
-					<input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+				<div className="field-wrapper">
+					<div className="label">
+						Password
+					</div>
+					<input
+						type="password"
+						value={password}
+						onChange={e => setPassword(e.target.value)} />
 				</div>
-				<div className="input-wrapper">
-					<label>Confirm Password</label>
-					<input type="password" value={passwordConf} onChange={e => setPasswordConf(e.target.value)} />
+				<div className="field-wrapper">
+					<div className="label">
+						Confirm Password
+					</div>
+					<input
+						type="password"
+						value={passwordConf}
+						onChange={e => setPasswordConf(e.target.value)} />
 				</div>
 				<input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Sign Up" />
 			</form>

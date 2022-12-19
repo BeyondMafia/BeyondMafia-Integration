@@ -4,13 +4,21 @@
 	align-items: center;
 }
 
-.auth form {
+.auth .form {
+	align-self: center;
+
 	display: flex;
 	flex-flow: column;
 	align-items: stretch;
 	justify-content: flex-start;
 
 	margin-bottom: 20px;
+}
+
+.auth .form a {
+	margin: -5px 0px 5px 0px;
+
+	color: var(--theme-color-text);
 }
 
 .auth .input-wrapper {
@@ -22,19 +30,13 @@
 	margin-bottom: 10px;
 }
 
-.auth input[type="text"],
-.auth input[type="password"] {
-	padding: 5px;
-	border: 1px solid gray;
-}
-
 .auth-btn {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
 	justify-content: center;
 
-	padding: 5px;
+	padding: 8px;
 	border: none;
 
 	background-color: #62a0db;
@@ -61,10 +63,32 @@
 }
 
 .auth .legal a {
-	color: #97bde1;
+	color: var(--theme-color-text);
 	text-decoration: none;
 }
 
 .auth .legal a:hover {
 	opacity: 0.8;
+}
+
+.auth .modal .form {
+	align-items: center;
+
+	margin-bottom: 0px;
+}
+
+.auth .modal .form .field-wrapper {
+	margin-bottom: 0px;
+}
+
+.auth .modal .control {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.auth .modal .control .reset,
+.auth .modal .control .resend {
+	margin-right: 10px;
 }

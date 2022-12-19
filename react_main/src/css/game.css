@@ -265,7 +265,7 @@
 }
 
 .game .message .content a {
-	color: #97bde1;
+	color: var(--theme-color-text);
 }
 
 .game .message .content a:hover {

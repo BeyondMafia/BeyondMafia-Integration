@@ -60,7 +60,7 @@
 
 .alert a {
     text-decoration: none;
-    color: #97bde1;
+    color: var(--theme-color-text);
     cursor: pointer;
 }
 

@@ -17,8 +17,15 @@ router.post("/", async function (req, res) {
 	try {
 		var idToken = String(req.body.idToken);
 		var userData = await fbAdmin.auth().verifyIdToken(idToken);
-		await authSuccess(req, userData.uid, userData.email);
-		res.sendStatus(200);
+		var verified = userData.email_verified;
+
+		if (verified) {
+			await authSuccess(req, userData.uid, userData.email);
+			res.sendStatus(200);
+		} else {
+			res.status(403);
+			res.send("Please verify your email address before logging in. Be sure to check your spam folder.");
+		}
 	}
 	catch (e) {
 		logger.error(e);
