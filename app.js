@@ -48,9 +48,6 @@ app.use("/notifs", notifsRouter);
 app.use("/shop", shopRouter);
 
 app.get("*", (req, res) => {
-    if (!req.session.csrf)
-        req.session.csrf = crypto.randomInt((2 ** 48) - 1);
-
     res.sendFile(path.join(__dirname, "react_main/build_public/index.html"));
 });
 
