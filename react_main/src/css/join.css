@@ -111,3 +111,21 @@
 .join .row .game-info {
 	cursor: pointer;
 }
+
+@media (max-width: 800px) {
+	.join .row .btn {
+		width: 80px;
+	}
+
+	.join .row .player-count {
+		width: 50px;
+	}
+
+	.join .row .setup-wrapper {
+		width: 135px;
+	}
+
+	.join .row .setup-name {
+		display: none;
+	}
+}

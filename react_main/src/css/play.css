@@ -74,3 +74,16 @@
     flex-flow: row nowrap;
     align-items: center;
 }
+
+@media (max-width: 800px) {
+    .play .top-bar {
+        flex-flow: row wrap;
+    }
+
+    .play .top-link {
+        width: 85px !important;
+        margin-right: 3px !important;
+        padding: 3px 0px !important;
+        font-size: 15px !important;
+    }
+}

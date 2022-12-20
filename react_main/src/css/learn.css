@@ -61,7 +61,6 @@
 	flex-flow: row nowrap;
 
 	border: 1px solid var(--theme-color-sec);
-	border-bottom: none;
 }
 
 .learn .search-bar input {
@@ -83,4 +82,10 @@
 	padding: 3px 5px;
 
 	background-color: var(--theme-color-sec);
+}
+
+@media (max-width: 800px) {
+	.play .learn .role-list-container .top-link {
+		font-size: 13px !important;
+	}
 }

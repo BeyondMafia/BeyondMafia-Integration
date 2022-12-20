@@ -3,7 +3,6 @@
 	flex-flow: row nowrap;
 
 	border: 1px solid var(--theme-color-sec);
-	border-bottom: none;
 }
 
 .host .search-bar input {
@@ -74,4 +73,16 @@
 
 .host .row .del-setup {
 	color: #e45050;
+}
+
+@media (max-width: 800px) {
+	.host .row {
+		flex-flow: row wrap;
+	}
+
+	.host .row .setup-name {
+		width: auto;
+		min-width: 50px;
+		max-width: 120px;
+	}
 }

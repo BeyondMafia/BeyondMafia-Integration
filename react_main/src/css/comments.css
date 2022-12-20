@@ -34,3 +34,15 @@
 .comments-page .post:nth-child(2) {
 	margin-top: 0px;
 }
+
+@media (max-width: 800px) {
+	.comments-wrapper {
+		align-self: stretch;
+	}
+
+	.comments-page .post {
+		align-self: stretch;
+
+		width: auto;
+	}
+}

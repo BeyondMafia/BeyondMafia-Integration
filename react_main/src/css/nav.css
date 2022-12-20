@@ -70,6 +70,7 @@
 
 	color: white;
 	text-decoration: none;
+	text-align: center;
 	font-weight: 500;
 }
 
@@ -210,4 +211,33 @@
 
 .page-nav.inverted .page-num.page-sel {
 	background-color: var(--theme-color-sec) !important;
+}
+
+@media (max-width: 800px) {
+	.sub-nav {
+		font-size: 15px;
+	}
+
+	.sub-nav a {
+		padding: 3px 5px;
+	}
+
+	.sub-nav .filter {
+		justify-content: center;
+	}
+
+	.sub-nav .filter .dropdown {
+		align-items: flex-start;
+
+		padding: 0px;
+	}
+
+	.sub-nav .filter .dropdown-control {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		justify-content: flex-start;
+
+		font-size: 11px;
+	}
 }
