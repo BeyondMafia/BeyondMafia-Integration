@@ -62,7 +62,7 @@ export default function Profile() {
 					setName(res.data.name);
 					setAvatar(res.data.avatar);
 					setBanner(res.data.banner);
-					setBio(filterProfanity(res.data.bio, "\\*") || "");
+					setBio(filterProfanity(res.data.bio, user.settings, "\\*") || "");
 					setIsFriend(res.data.isFriend);
 					setSettings(res.data.settings);
 					setAccounts(res.data.accounts || {});
@@ -164,7 +164,7 @@ export default function Profile() {
 		axios.post(`/user/bio`, { bio: bio })
 			.then(() => {
 				setEditingBio(false);
-				setBio(filterProfanity(bio, "\\*"));
+				setBio(filterProfanity(bio, user.settings, "\\*"));
 			})
 			.catch(errorAlert);
 	}

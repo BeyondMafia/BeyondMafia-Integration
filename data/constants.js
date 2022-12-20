@@ -141,6 +141,7 @@ module.exports = {
 	referralGames: 5,
 	referralCoins: 50,
 
+	// Perms given to all users
 	defaultPerms: [
 		"signIn",
 		"playGame",
@@ -155,9 +156,11 @@ module.exports = {
 		"editBio",
 		"changeName",
 	],
+	// Perms that can only be granted by a user with rank Infinity
 	protectedPerms: [
 		"createGroup",
 		"giveGroup",
+		"removeFromGroup",
 		"updateGroupPerms",
 		"givePermToAll",
 		"clearAllIPs",
@@ -165,6 +168,7 @@ module.exports = {
 		"changeUsersName",
 		"scheduleRestart",
 	],
+	// The list of all enabled perms
 	allPerms: {
 		"signIn": true,
 		"playGame": true,
@@ -225,12 +229,38 @@ module.exports = {
 		"changeUsersName": true,
 		"whitelist": true,
 		"scheduleRestart": true,
+		"disableAllCensors": true,
 	},
 	defaultGroups: {
 		"Owner": {
 			rank: Infinity,
 			visible: true,
 			perms: "*"
+		},
+		"Dev": {
+			rank: Infinity,
+			visible: true,
+			perms: [
+				"createGroup",
+				"deleteGroup",
+				"giveGroup",
+				"removeFromGroup",
+				"updateGroupPerms",
+				"viewPerms",
+				"viewDeleted",
+				"viewModActions",
+				"forceSignOut",
+				"viewAlts",
+				"viewBans",
+				"noCooldowns",
+				"canSpectateAny",
+				"breakGame",
+				"clearAllIPs",
+				"giveCoins",
+				"whitelist",
+				"scheduleRestart",
+				"disableAllCensors",
+			]
 		},
 		"Admin": {
 			rank: 10,
@@ -277,6 +307,7 @@ module.exports = {
 				"featureSetup",
 				"clearAllUserContent",
 				"whitelist",
+				"disableAllCensors",
 			]
 		},
 		"Mod": {
@@ -312,6 +343,7 @@ module.exports = {
 				"breakGame",
 				"featureSetup",
 				"whitelist",
+				"disableAllCensors",
 			]
 		}
 	},

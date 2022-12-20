@@ -5,6 +5,8 @@
 
 .settings .heading {
 	margin-bottom: 5px;
+
+	font-weight: bold;
 }
 
 .settings .accounts-row {

@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 
-import { PopoverContext } from "../Contexts";
+import { PopoverContext, UserContext } from "../Contexts";
 import { RoleCount } from "./Roles";
 import { Alignments } from "../Constants";
 import { filterProfanity } from "./Basic";
@@ -10,6 +10,7 @@ import "../css/setup.css"
 import "../css/roles.css"
 
 export default function Setup(props) {
+	const user = useContext(UserContext);
 	const popover = useContext(PopoverContext);
 	const setupRef = useRef();
 	const maxRolesCount = props.maxRolesCount || 5;
@@ -58,7 +59,7 @@ export default function Setup(props) {
 			`/setup/${props.setup.id}`,
 			"setup",
 			setupRef.current,
-			filterProfanity(props.setup.name),
+			filterProfanity(props.setup.name, user.settings),
 			data => data.roles = JSON.parse(data.roles)
 		);
 	}

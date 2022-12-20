@@ -134,8 +134,8 @@
 
 .form .color-picker {
 	width: 50px;
-
-	border-radius: 0px 3px 3px 0px;
+	border: 1px solid #c7c7c7;
+	border-left: none;
 
 	cursor: pointer;
 }

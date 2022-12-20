@@ -37,10 +37,10 @@ export default function Thread(props) {
 	useEffect(() => {
 		axios.get(`/forums/thread/${threadId}?reply=${params.get("reply") || ""}`)
 			.then(res => {
-				res.data.content = filterProfanity(res.data.content, "\\*");
+				res.data.content = filterProfanity(res.data.content, user.settings, "\\*");
 
 				for (let reply of res.data.replies)
-					reply.content = filterProfanity(reply.content, "\\*");
+					reply.content = filterProfanity(reply.content, user.settings, "\\*");
 
 				setThreadInfo(res.data);
 				setPage(res.data.page);
@@ -130,10 +130,10 @@ export default function Thread(props) {
 	function onThreadPageNav(page) {
 		axios.get(`/forums/thread/${threadId}?page=${page}`)
 			.then(res => {
-				res.data.content = filterProfanity(res.data.content, "\\*");
+				res.data.content = filterProfanity(res.data.content, user.settings, "\\*");
 
 				for (let reply of res.data.replies)
-					reply.content = filterProfanity(reply.content, "\\*");
+					reply.content = filterProfanity(reply.content, user.settings, "\\*");
 
 				setPage(page);
 				setThreadInfo(res.data);

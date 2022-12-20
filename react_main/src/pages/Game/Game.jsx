@@ -72,7 +72,6 @@ function GameWrapper(props) {
 	const [activity, updateActivity] = useActivity(agoraClient, localAudioTrack);
 	const [playAudio, loadAudioFiles, stopAudio, stopAudios, setVolume] = useAudio(settings);
 	const siteInfo = useContext(SiteInfoContext);
-	const user = useContext(UserContext);
 	const popover = useContext(PopoverContext);
 	const errorAlert = useErrorAlert();
 	const { gameId } = useParams();
@@ -1040,6 +1039,7 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
 function Message(props) {
 	const history = props.history;
 	const players = props.players;
+	const user = useContext(UserContext);
 
 	var message = props.message;
 	var player, quotedMessage;
@@ -1133,6 +1133,7 @@ function Message(props) {
 						}
 						<UserText
 							text={message.content}
+							settings={user.settings}
 							filterProfanity
 							linkify
 							emotify />
@@ -1148,6 +1149,7 @@ function Message(props) {
 						<div className="quote-content">
 							<UserText
 								text={quotedMessage.content}
+								settings={user.settings}
 								filterProfanity
 								linkify
 								emotify />

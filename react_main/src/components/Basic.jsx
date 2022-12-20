@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { emotify } from "./Emotes";
-import badWords from "../json/profanity";
+import badWords from "../json/badWords";
+import slurs from "../json/slurs";
 
 export function ItemList(props) {
 	const items = props.items;
@@ -121,7 +122,7 @@ export function UserText(props) {
 		let text = props.text;
 
 		if (props.filterProfanity)
-			text = filterProfanity(text, props.profChar);
+			text = filterProfanity(text, props.settings, props.profChar);
 
 		if (props.linkify)
 			text = linkify(text);
@@ -166,12 +167,14 @@ export function linkify(text) {
 	return text.length == 1 ? text[0] : text;
 }
 
-export function filterProfanity(text, char) {
+export function filterProfanity(text, settings, char) {
 	if (text == null)
 		return;
 
 	if (!Array.isArray(text))
 		text = [text];
+
+	settings = settings || {};
 
 	for (let i in text) {
 		let segment = text[i];
@@ -181,27 +184,37 @@ export function filterProfanity(text, char) {
 
 		char = char || "*";
 
-		for (let word of badWords) {
-			let regex = new RegExp(word, "i");
-			let regexRes = regex.exec(segment);
+		if (!settings.disablePg13Censor)
+			segment = filterProfanitySegment(badWords, segment, char);
 
-			while (regexRes) {
-				let index = regexRes.index;
-				let length = regexRes[0].length;
-				let replacement = char.repeat(length);
-
-				segment = segment.split("");
-				segment.splice(index, length, replacement);
-				segment = segment.join("");
-				regexRes = regex.exec(segment);
-			}
-		}
+		if (!settings.disableAllCensors)
+			segment = filterProfanitySegment(slurs, segment, char);
 
 		text[i] = segment;
 	}
 
 	text = text.flat();
 	return text.length == 1 ? text[0] : text;
+}
+
+function filterProfanitySegment(profanity, segment, char) {
+	for (let word of profanity) {
+		let regex = new RegExp(word, "i");
+		let regexRes = regex.exec(segment);
+
+		while (regexRes) {
+			let index = regexRes.index;
+			let length = regexRes[0].length;
+			let replacement = char.repeat(length);
+
+			segment = segment.split("");
+			segment.splice(index, length, replacement);
+			segment = segment.join("");
+			regexRes = regex.exec(segment);
+		}
+	}
+
+	return segment;
 }
 
 export function useOnOutsideClick(refs, action) {

@@ -48,6 +48,9 @@ export default function Comments(props) {
 				setLoaded(true);
 
 				if (res.data.length > 0) {
+					for (let comment of res.data)
+						comment.content = filterProfanity(comment.content, user.settings, "\\*");
+
 					setComments(res.data);
 					setPage(_page);
 				}

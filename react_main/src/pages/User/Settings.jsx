@@ -34,6 +34,18 @@ export default function Settings(props) {
 			type: "boolean",
 		},
 		{
+			label: "Disable PG-13 Censor",
+			ref: "disablePg13Censor",
+			type: "boolean",
+			showIf: "!disableAllCensors"
+		},
+		{
+			label: "Disable All Censors",
+			ref: "disableAllCensors",
+			type: "boolean",
+			showIf: (deps) => deps.user.perms.disableAllCensors
+		},
+		{
 			label: "Hide Deleted Posts",
 			ref: "hideDeleted",
 			type: "boolean",
@@ -79,7 +91,7 @@ export default function Settings(props) {
 			label: "Background Color",
 			ref: "backgroundColor",
 			type: "color",
-			default: "#262626",
+			default: "#5357a5",
 			disabled: (deps) => !deps.user.itemsOwned.customProfile
 		},
 		{
@@ -175,6 +187,9 @@ export default function Settings(props) {
 				prop: action.ref,
 				value: action.value
 			})
+				.then(() => {
+					user.updateSetting(action.ref, action.value);
+				})
 				.catch(errorAlert);
 		}
 

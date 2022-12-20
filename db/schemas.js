@@ -19,6 +19,8 @@ var schemas = {
             textColor: String,
             nameColor: String,
             onlyFriendDMs: { type: Boolean, default: false },
+            disablePg13Censor: { type: Boolean, default: false },
+            disableAllCensors: { type: Boolean, default: false },
             hideDeleted: Boolean,
         },
         accounts: {

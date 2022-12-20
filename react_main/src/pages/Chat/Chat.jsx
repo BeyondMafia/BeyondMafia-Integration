@@ -497,6 +497,7 @@ function Message(props) {
 				{/* {linkify(message.content)} */}
 				<UserText
 					text={message.content}
+					settings={user.settings}
 					filterProfanity
 					linkify
 					emotify />
@@ -699,15 +700,10 @@ function useChannelReducer() {
 		switch (action.type) {
 			case "set":
 				newChannel = action.channel;
-
-				// for (let message of newChannel.messages)
-				// 	message.content = filterProfanity(message.content);
 				break;
 			case "message":
 				if (action.message.channel != channel.id)
 					break;
-
-				// action.message.content = filterProfanity(action.message.content);
 
 				newChannel = update(channel, {
 					messages: {
@@ -736,9 +732,6 @@ function useChannelReducer() {
 				}
 				break;
 			case "oldMessages":
-				// for (let message of action.messages)
-				// 	message.content = filterProfanity(message.content);
-
 				newChannel = update(channel, {
 					messages: {
 						$unshift: action.messages

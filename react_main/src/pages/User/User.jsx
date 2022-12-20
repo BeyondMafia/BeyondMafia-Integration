@@ -188,11 +188,22 @@ export function useUser() {
 		}
 	}
 
+	function updateSetting(prop, value) {
+		setUser(update(user, {
+			settings: {
+				[prop]: {
+					$set: value
+				}
+			}
+		}));
+	}
+
 	return {
 		...user,
 		state: user,
 		set: setUser,
 		blockUserToggle,
+		updateSetting,
 		clear
 	};
 }

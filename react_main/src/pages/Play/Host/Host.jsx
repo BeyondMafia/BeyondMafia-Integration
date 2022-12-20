@@ -41,7 +41,7 @@ export default function Host(props) {
 
             axios.get(`/setup/${params.get("setup")}`)
                 .then(res => {
-                    res.data.name = filterProfanity(res.data.name);
+                    res.data.name = filterProfanity(res.data.name, user.settings);
                     setSelSetup(res.data);
                 })
                 .catch(errorAlert);
