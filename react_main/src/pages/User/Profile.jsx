@@ -452,6 +452,7 @@ export default function Profile() {
 						</div>
 						<div className="content">
 							<PageNav
+								inverted
 								page={friendsPage}
 								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />
@@ -460,6 +461,7 @@ export default function Profile() {
 								"No friends yet"
 							}
 							<PageNav
+								inverted
 								page={friendsPage}
 								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />

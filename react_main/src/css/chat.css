@@ -60,7 +60,7 @@
 	justify-content: center;
 
 	margin-top: 10px;
-	border: 1px solid var(--theme-color);
+	border: 1px solid var(--theme-color-sec);
 }
 
 .chat-wrapper .channel-type-nav .channel-type {
@@ -71,7 +71,7 @@
 }
 
 .chat-wrapper .channel-type-nav .channel-type:hover {
-	background-color: var(--theme-color-hover);
+	opacity: 0.95;
 }
 
 .chat-wrapper .channel-type-nav .channel-type.sel {
@@ -117,11 +117,12 @@
 }
 
 .chat-wrapper .channel:hover {
-	background-color: var(--theme-color-hover);
+	opacity: 0.95;
 }
 
 .chat-wrapper .channel.sel {
 	background-color: var(--theme-color-sec);
+	border-color: var(--theme-color-sec);
 }
 
 .chat-wrapper .channel .name-with-avatar {
@@ -299,7 +300,7 @@
 }
 
 .chat-wrapper .message .context .item:hover {
-	background-color: var(--theme-color-sec);
+	opacity: 0.8;
 }
 
 .chat-wrapper .channel-input-wrapper {
@@ -344,6 +345,7 @@
 
 .chat-wrapper ::-webkit-scrollbar-thumb:hover {
 	background: var(--scroll-color);
+	opacity: 0.8;
 	z-index: -1;
 }
 

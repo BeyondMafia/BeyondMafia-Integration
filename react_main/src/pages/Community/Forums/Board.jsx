@@ -205,6 +205,7 @@ export default function Board(props) {
 				</div>
 			}
 			<PageNav
+				inverted
 				page={boardPage}
 				onNav={onBoardPageNav} />
 			<div className="threads span-panel">
@@ -216,6 +217,7 @@ export default function Board(props) {
 				}
 			</div>
 			<PageNav
+				inverted
 				page={boardPage}
 				onNav={onBoardPageNav} />
 		</div>

@@ -1,6 +1,6 @@
 :root {
-    --theme-color: #344577;
-    --theme-color-sec: #28355c;
+    --theme-color: #5357a5;
+    --theme-color-sec: #3f3961;
     --theme-color-hover: #2f3e6a;
     --theme-color-light: #62a0db;
     --theme-color-text: #97bde1;
@@ -15,8 +15,9 @@ body {
     padding: 0px;
 
     overflow-x: initial;
-    background-color: #030000;
-    background-image: url("/images/bg1.png");
+    background-color: #302648;
+    background-image: url("/images/bg_main.jpg");
+    background-size: cover;
     background-repeat: no-repeat;
     color: white;
     font-size: 16px;
@@ -116,7 +117,7 @@ a {
 }
 
 .span-panel.main {
-    background-color: #344577;
+    background-color: var(--theme-color);
 }
 
 .box-panel {
@@ -223,7 +224,7 @@ div.center {
 }
 
 .dropdown-menu-option:hover {
-    background-color: #f3f3f3;
+    opacity: 0.8;
 }
 
 .popover {
@@ -584,4 +585,14 @@ input:focus {
 @font-face {
     font-family: Spooky;
     src: url("/fonts/spooky.ttf");
+}
+
+@font-face {
+    font-family: Autophobia;
+    src: url("/fonts/autophobia.ttf");
+}
+
+@font-face {
+    font-family: PoppinsExtraBold;
+    src: url("/fonts/poppins_extrabold.ttf");
 }

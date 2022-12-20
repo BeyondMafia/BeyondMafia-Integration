@@ -68,6 +68,7 @@ export function PageNav(props) {
 	const maxPage = props.maxPage;
 	const range = props.range || 5;
 	const onNav = props.onNav;
+	const inverted = props.inverted;
 	const noRange = maxPage == null;
 
 	const [pages, updatePages] = useReducer(
@@ -137,7 +138,7 @@ export function PageNav(props) {
 	});
 
 	return (
-		<div className="page-nav">
+		<div className={`page-nav ${inverted ? "inverted" : ""}`}>
 			<div
 				className="page-nav-left max"
 				onClick={() => onClick(1)}>

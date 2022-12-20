@@ -41,12 +41,17 @@
 }
 
 .forums .forum-nav .path a {
+	font-family: PoppinsExtraBold;
 	text-decoration: none;
 	color: white;
 }
 
 .forums .forum-category {
 	margin-top: 10px;
+}
+
+.forums .forum-category .title {
+	font-family: PoppinsExtraBold;
 }
 
 .forums .forum-category .category-name {
@@ -252,7 +257,7 @@
 }
 
 .forums .board-wrapper .board-title {
-	font-weight: 700;
+	font-family: PoppinsExtraBold;
 }
 
 .forums .board-wrapper .create-thread {
@@ -293,6 +298,10 @@
 	margin: 0px;
 	padding: 0px;
 	border: none;
+}
+
+.forums .board-wrapper .thread-title {
+	font-weight: 700;
 }
 
 .forums .board-wrapper .thread .thread-title i {

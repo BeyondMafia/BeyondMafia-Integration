@@ -11,20 +11,21 @@
     align-items: center;
     justify-content: flex-start;
 
-    font-family: Spooky;
+    font-family: PoppinsExtraBold;
 }
 
 .play .top-link {
     width: 120px;
     margin-right: 30px;
-    padding: 5px;
+    padding: 3px 5px;
 
     text-align: center;
+    text-transform: uppercase;
     cursor: pointer;
 }
 
 .play .top-link.active {
-    background-color: #28355c;
+    background-color: var(--theme-color-sec);
 }
 
 .row {
@@ -43,8 +44,10 @@
 .row .btn {
     width: 120px;
     margin-right: 10px;
+    padding: 3px 5px;
 
-    font-family: Spooky;
+    font-family: Autophobia;
+    font-size: 18px;
 }
 
 

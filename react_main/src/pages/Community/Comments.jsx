@@ -115,6 +115,7 @@ export default function Comments(props) {
 			</div>
 			<div className="comments-page">
 				<PageNav
+					inverted
 					page={page}
 					onNav={onCommentsPageNav} />
 				{comments.length == 0 &&
@@ -122,6 +123,7 @@ export default function Comments(props) {
 				}
 				{commentRows}
 				<PageNav
+					inverted
 					page={page}
 					onNav={onCommentsPageNav} />
 			</div>

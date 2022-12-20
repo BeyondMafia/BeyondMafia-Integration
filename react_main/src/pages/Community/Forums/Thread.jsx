@@ -236,6 +236,7 @@ export default function Thread(props) {
 			</div>
 			<div className="replies-wrapper">
 				<PageNav
+					inverted
 					page={page}
 					maxPage={threadInfo.pageCount}
 					onNav={onThreadPageNav} />
@@ -246,6 +247,7 @@ export default function Thread(props) {
 					{replies}
 				</div>
 				<PageNav
+					inverted
 					page={page}
 					maxPage={threadInfo.pageCount}
 					onNav={onThreadPageNav} />

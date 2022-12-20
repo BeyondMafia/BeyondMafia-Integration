@@ -46,10 +46,11 @@ function Main() {
     useEffect(() => {
         async function getInfo() {
             try {
-                var res = await axios.get("/user/info")
+                var res = await axios.get("/user/info");
 
                 if (res.data.id) {
                     axios.defaults.headers.common['x-csrf'] = res.data.csrf;
+                    axios.post("/user/online");
 
                     res.data.loggedIn = true;
                     res.data.loaded = true;
@@ -92,7 +93,6 @@ function Main() {
         }
 
         getInfo();
-        axios.post("/user/online");
 
         var onlineInterval = setInterval(() => {
             axios.post("/user/online");
