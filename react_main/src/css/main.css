@@ -1,7 +1,7 @@
 :root {
     --theme-color: #5357a5;
     --theme-color-sec: #3f3961;
-    --theme-color-hover: #2f3e6a;
+    --theme-color-third: #2a2640;
     --theme-color-light: #62a0db;
     --theme-color-text: #97bde1;
     --scroll-color: #8b8b8b;
@@ -302,7 +302,7 @@ input:focus {
 }
 
 .btn-theme-third {
-    background-color: var(--theme-color-hover);
+    background-color: var(--theme-color-third);
 }
 
 .popover hr {
