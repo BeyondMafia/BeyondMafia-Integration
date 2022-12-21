@@ -74,7 +74,6 @@ RESERVED_NAMES={}
 
 Example file:
 ```
-Example file:
 PORT=3001
 REACT_APP_URL=http://localhost:3000
 REACT_APP_SOCKET_URI=localhost
