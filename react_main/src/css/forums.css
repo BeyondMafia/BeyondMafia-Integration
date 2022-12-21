@@ -300,7 +300,7 @@
 	border: none;
 }
 
-.forums .board-wrapper .thread-title {
+.forums .board-wrapper .thread .thread-title {
 	font-weight: 700;
 }
 
