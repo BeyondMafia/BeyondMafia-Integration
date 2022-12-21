@@ -1,6 +1,7 @@
 .env
 .env_old
 
+.idea/
 node_modules/
 logs/
 testing/
