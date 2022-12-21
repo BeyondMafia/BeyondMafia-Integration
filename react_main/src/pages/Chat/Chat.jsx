@@ -34,6 +34,11 @@ export default function Chat() {
 	useLayoutEffect(() => manageScroll());
 
 	useEffect(() => {
+		if (!user.loggedIn && token)
+			setToken("");
+	}, [user.loggedIn]);
+
+	useEffect(() => {
 		if (!token)
 			return;
 
