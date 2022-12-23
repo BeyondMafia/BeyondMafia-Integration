@@ -35,6 +35,10 @@
 	margin-top: 0px;
 }
 
+.comments-page .post .md-content {
+	background-color: transparent;
+}
+
 .comments-page .post .md-content a {
 	color: var(--theme-color-light);
 }

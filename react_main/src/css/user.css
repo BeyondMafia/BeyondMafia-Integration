@@ -107,7 +107,8 @@
 .profile .banner {
 	height: 200px;
 
-	background-image: url("/images/banner.png");
+	/* background-image: url("/images/banner.png"); */
+	background-color: var(--theme-color-sec);
 }
 
 .profile .banner .edit {
