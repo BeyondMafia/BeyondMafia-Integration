@@ -102,6 +102,7 @@ function ModCommands() {
 					<UserSearchSelect
 						value={argValues[arg.name] || ""}
 						setValue={(value) => updateArgValue(arg.name, value, arg.isArray)}
+						placeholder={placeholder}
 						key={arg.name} />
 				);
 			}

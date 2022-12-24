@@ -455,7 +455,7 @@ export function SearchSelect(props) {
 			ref={searchSelectRef}>
 			<input
 				value={inputValue}
-				placeholder={value}
+				placeholder={value || props.placeholder}
 				onChange={onInputChange}
 				onKeyDown={onKeyDown} />
 			<div className="icon-wrapper">
