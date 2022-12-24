@@ -56,6 +56,11 @@ export default function HostSplitDecision() {
             type: "boolean"
         },
         {
+            label: "Ready Check",
+            ref: "readyCheck",
+            type: "boolean"
+        },
+        {
             label: "Start Date",
             ref: "startDate",
             type: "datetime-local",
@@ -94,15 +99,17 @@ export default function HostSplitDecision() {
             axios.post("/game/host", {
                 gameType: gameType,
                 setup: selSetup.id,
-                lobby: formFields[1].value,
-                private: formFields[2].value,
-                guests: formFields[3].value,
-                spectating: formFields[4].value,
-                voiceChat: formFields[5].value,
-                scheduled: scheduled && (new Date(formFields[7].value)).getTime(),
+                lobby: getFormFieldValue("lobby"),
+                private: getFormFieldValue("private"),
+                guests: getFormFieldValue("guests"),
+                ranked: getFormFieldValue("ranked"),
+                spectating: getFormFieldValue("spectating"),
+                voiceChat: getFormFieldValue("voiceChat"),
+                scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
+                readyCheck: getFormFieldValue("readyCheck"),
                 stateLengths: {
-                    "Initial Round": formFields[8].value,
-                    "Hostage Swap": formFields[9].value
+                    "Initial Round": getFormFieldValue("initialRoundLength"),
+                    "Hostage Swap": getFormFieldValue("hostageSwapLength")
                 }
             })
                 .then(res => {
@@ -116,6 +123,12 @@ export default function HostSplitDecision() {
                 .catch(errorAlert);
         else
             errorAlert("You must choose a setup");
+    }
+
+    function getFormFieldValue(ref) {
+        for (let field of formFields)
+            if (field.ref == ref)
+                return field.value;
     }
 
     if (redirect)

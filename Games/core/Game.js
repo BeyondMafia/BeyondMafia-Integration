@@ -47,6 +47,7 @@ module.exports = class Game {
 		this.ranked = options.settings.ranked;
 		this.spectating = options.settings.spectating;
 		this.voiceChat = options.settings.voiceChat;
+		this.readyCheck = options.settings.readyCheck;
 		this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
 		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 5000;
 		this.players = new ArrayHash();
@@ -107,6 +108,7 @@ module.exports = class Game {
 					scheduled: this.scheduled,
 					spectating: this.spectating,
 					voiceChat: this.voiceChat,
+					readyCheck: this.readyCheck,
 					stateLengths: this.stateLengths,
 					gameTypeOptions: this.getGameTypeOptions()
 				},
@@ -496,8 +498,10 @@ module.exports = class Game {
 	checkGameStart() {
 		if (this.players.length == this.setup.total) {
 			if (!this.isTest) {
-				this.startReadyCheck();
-				//this.startPregameCountdown();
+				if (this.readyCheck)
+					this.startReadyCheck();
+				else
+					this.startPregameCountdown();
 			}
 			else
 				this.start();
@@ -1150,6 +1154,7 @@ module.exports = class Game {
 				guests: this.guests,
 				spectating: this.spectating,
 				voiceChat: this.voiceChat,
+				readyCheck: this.readyCheck,
 				stateLengths: this.stateLengths,
 				gameTypeOptions: JSON.stringify(this.getGameTypeOptions())
 			});

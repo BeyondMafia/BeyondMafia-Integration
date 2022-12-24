@@ -28,6 +28,7 @@ module.exports = class MafiaGame extends Game {
 				length: options.settings.stateLengths["Day"]
 			}
 		];
+		this.extendLength = options.settings.extendLength;
 		this.dayCount = 0;
 		this.spectatorMeetFilter = {
 			"Village": true,
@@ -54,7 +55,7 @@ module.exports = class MafiaGame extends Game {
 					this.target.kill("leave", this.actor);
 				}
 			}));
-			
+
 			player.recordStat("survival", false);
 		}
 	}
@@ -120,7 +121,7 @@ module.exports = class MafiaGame extends Game {
 				if (this.extensionVotes < votesNeeded || this.isTest)
 					break;
 
-				this.timers["main"].extend(3 * 60 * 1000);
+				this.timers["main"].extend(this.extendLength * 60 * 1000);
 				this.extensions++;
 				this.extensionVotes = 0;
 
@@ -196,6 +197,12 @@ module.exports = class MafiaGame extends Game {
 		}
 
 		await super.endGame(winners);
+	}
+
+	getGameTypeOptions() {
+		return {
+			extendLength: this.extendLength,
+		};
 	}
 
 }

@@ -75,6 +75,11 @@ export default function HostMafia() {
             max: Date.now() + (4 * 7 * 24 * 60 * 60 * 1000)
         },
         {
+            label: "Ready Check",
+            ref: "readyCheck",
+            type: "boolean"
+        },
+        {
             label: "Day Length (minutes)",
             ref: "dayLength",
             type: "number",
@@ -89,6 +94,14 @@ export default function HostMafia() {
             value: 2,
             min: 1,
             max: 10
+        },
+        {
+            label: "Extension Length (minutes)",
+            ref: "extendLength",
+            type: "number",
+            value: 3,
+            min: 1,
+            max: 5
         }
     ]);
 
@@ -97,23 +110,25 @@ export default function HostMafia() {
     }, []);
 
     function onHostGame() {
-        var scheduled = formFields[7].value;
+        var scheduled = getFormFieldValue("scheduled");
 
         if (selSetup.id)
             axios.post("/game/host", {
                 gameType: gameType,
                 setup: selSetup.id,
-                lobby: formFields[1].value,
-                private: formFields[2].value,
-                guests: formFields[3].value,
-                ranked: formFields[4].value,
-                spectating: formFields[5].value,
-                voiceChat: formFields[6].value,
-                scheduled: scheduled && (new Date(formFields[8].value)).getTime(),
+                lobby: getFormFieldValue("lobby"),
+                private: getFormFieldValue("private"),
+                guests: getFormFieldValue("guests"),
+                ranked: getFormFieldValue("ranked"),
+                spectating: getFormFieldValue("spectating"),
+                voiceChat: getFormFieldValue("voiceChat"),
+                scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
+                readyCheck: getFormFieldValue("readyCheck"),
                 stateLengths: {
-                    "Day": formFields[9].value,
-                    "Night": formFields[10].value
-                }
+                    "Day": getFormFieldValue("dayLength"),
+                    "Night": getFormFieldValue("nightLength")
+                },
+                extendLength: getFormFieldValue("extendLength"),
             })
                 .then(res => {
                     if (scheduled) {
@@ -126,6 +141,12 @@ export default function HostMafia() {
                 .catch(errorAlert);
         else
             errorAlert("You must choose a setup");
+    }
+
+    function getFormFieldValue(ref) {
+        for (let field of formFields)
+            if (field.ref == ref)
+                return field.value;
     }
 
     if (redirect)

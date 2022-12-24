@@ -18,8 +18,16 @@
 	justify-content: flex-start;
 }
 
-.join .row .btn-join,
-.join .row .btn-rehost {
+.join .row .btns-wrapper {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+
+	width: 140px;
+}
+
+.join .row .btn-join {
 	background-color: #cf2e2e;
 }
 
@@ -38,10 +46,6 @@
 
 .join .row .btn-review {
 	background-color: var(--theme-color-sec);
-}
-
-.join .row .btn-rehost {
-	margin-right: 10px;
 }
 
 .join .row .player-count {
@@ -96,9 +100,17 @@
 	font-size: 30px;
 }
 
+.join .row .game-infos {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
 .join .row .game-info,
 .join .row .ranked,
-.join .row .voice-chat {
+.join .row .voice-chat,
+.join .row .rehost {
 	align-self: center;
 
 	margin-left: 10px;
@@ -108,7 +120,8 @@
 	color: #e23b3b;
 }
 
-.join .row .game-info {
+.join .row .game-info,
+.join .row .rehost {
 	cursor: pointer;
 }
 

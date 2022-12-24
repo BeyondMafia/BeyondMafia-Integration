@@ -175,6 +175,8 @@ export function GameRow(props) {
             private: false,
             ranked: props.game.ranked,
             spectating: props.game.spectating,
+            voiceChat: props.game.voiceChat,
+            readyCheck: props.game.readyCheck,
             stateLengths: stateLengths,
             ...JSON.parse(props.game.gameTypeOptions)
         })
@@ -247,17 +249,10 @@ export function GameRow(props) {
                     </div>
                 }
                 {props.game.broken &&
-                    <i className="fas fa-car-crash review-icon" />
+                    <i className="fas fa-car-crash review-icon" title="Broken" />
                 }
                 {props.game.private &&
-                    <i className="fas fa-lock review-icon" />
-                }
-                {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
-                    <div
-                        className="btn btn-rehost"
-                        onClick={onRehostClick}>
-                        Rehost
-                    </div>
+                    <i className="fas fa-lock review-icon" title="Private" />
                 }
             </div>
             <div className="player-count-wrapper">
@@ -292,6 +287,12 @@ export function GameRow(props) {
                     <i
                         className="voice-chat fas fa-microphone"
                         title="Voice chat game" />
+                }
+                {props.game.status == "Finished" && user.loggedIn && !props.smallSetup &&
+                    <i
+                        className="rehost fas fa-redo"
+                        title="Rehost"
+                        onClick={onRehostClick} />
                 }
                 <i
                     className="game-info fas fa-info-circle"

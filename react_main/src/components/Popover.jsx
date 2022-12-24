@@ -338,7 +338,7 @@ export function parseGamePopover(game) {
 		);
 	}
 
-	result.push(<InfoRow title="Players" content={playerList} key={0} />);
+	result.push(<InfoRow title="Players" content={playerList} key="players" />);
 
 	//State lengths
 	const stateLengths = [];
@@ -347,30 +347,38 @@ export function parseGamePopover(game) {
 		stateLengths.push(<div key={stateName}>{stateName}: <Time millisec={game.settings.stateLengths[stateName]} /></div>);
 	}
 
-	result.push(<InfoRow title="State Lengths" content={stateLengths} key={1} />);
+	result.push(<InfoRow title="State Lengths" content={stateLengths} key="stateLengths" />);
 
 	//Ranked
-	result.push(<InfoRow title="Ranked" content={game.settings.ranked ? "Yes" : "No"} key={2} />);
+	result.push(<InfoRow title="Ranked" content={game.settings.ranked ? "Yes" : "No"} key="ranked" />);
 
 	//Spectating
-	result.push(<InfoRow title="Spectating" content={game.settings.spectating ? "Yes" : "No"} key={3} />);
+	result.push(<InfoRow title="Spectating" content={game.settings.spectating ? "Yes" : "No"} key="spectating" />);
 
 	//Guests
-	result.push(<InfoRow title="Guests Allowed" content={game.settings.guests ? "Yes" : "No"} key={4} />);
+	result.push(<InfoRow title="Guests Allowed" content={game.settings.guests ? "Yes" : "No"} key="guests" />);
 
-	switch (game.type) { }
+	//Guests
+	result.push(<InfoRow title="Ready Check" content={game.settings.readyCheck ? "Yes" : "No"} key="readyCheck" />);
+
+	switch (game.type) {
+		case "Mafia":
+			var extendLength = game.settings.gameTypeOptions.extendLength || 3;
+			result.push(<InfoRow title="Extension Length" content={<Time millisec={extendLength * 60 * 1000} />} key="extendLength" />);
+			break;
+	}
 
 	//Created at
 	if (game.createTime)
-		result.push(<InfoRow title="Created At" content={(new Date(game.createTime)).toLocaleString()} key={5} />);
+		result.push(<InfoRow title="Created At" content={(new Date(game.createTime)).toLocaleString()} key="createdAt" />);
 
 	//Started at
 	if (game.startTime)
-		result.push(<InfoRow title="Started At" content={(new Date(game.startTime)).toLocaleString()} key={6} />);
+		result.push(<InfoRow title="Started At" content={(new Date(game.startTime)).toLocaleString()} key="startedAt" />);
 
 	//Ended at
 	if (game.endTime)
-		result.push(<InfoRow title="Ended At" content={(new Date(game.endTime)).toLocaleString()} key={7} />);
+		result.push(<InfoRow title="Ended At" content={(new Date(game.endTime)).toLocaleString()} key="endedAt" />);
 
 	return result;
 }

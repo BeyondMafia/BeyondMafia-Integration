@@ -81,6 +81,7 @@ router.get("/list", async function (req, res) {
             newGame.spectating = game.settings.spectating;
             newGame.voiceChat = game.settings.voiceChat
             newGame.scheduled = game.settings.scheduled
+            newGame.readyCheck = game.settings.readyCheck;
             newGame.status = game.status;
 
             if (userId) {
@@ -93,7 +94,7 @@ router.get("/list", async function (req, res) {
 
         if (listName == "all" || listName == "finished") {
             var finishedGames = await models.Game.find({ lobby })
-                .select("id type setup ranked private spectating guests voiceChat stateLengths gameTypeOptions broken -_id")
+                .select("id type setup ranked private spectating guests voiceChat readyCheck stateLengths gameTypeOptions broken -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
                 .sort("-endTime")
                 .skip(Math.max(start - count, 0))
@@ -194,7 +195,7 @@ router.get("/:id/info", async function (req, res) {
 
         if (!game) {
             game = await models.Game.findOne({ id: gameId })
-                .select("type users players left stateLengths ranked spectating guests voiceChat startTime endTime gameTypeOptions -_id")
+                .select("type users players left stateLengths ranked spectating guests voiceChat readyCheck startTime endTime gameTypeOptions -_id")
                 .populate("users", "id name avatar -_id");
 
             if (!game) {
@@ -211,6 +212,7 @@ router.get("/:id/info", async function (req, res) {
                 spectating: game.spectating,
                 guests: game.guests,
                 voiceChat: game.voiceChat,
+                readyCheck: game.readyCheck,
                 stateLengths: game.stateLengths,
                 gameTypeOptions: JSON.parse(game.gameTypeOptions)
             };
@@ -417,6 +419,7 @@ router.post("/host", async function (req, res) {
                 voiceChat: Boolean(req.body.voiceChat),
                 rehostId: rehostId,
                 scheduled: scheduled,
+                readyCheck: Boolean(req.body.readyCheck),
                 stateLengths: stateLengths,
                 ...settings
             });
@@ -547,7 +550,12 @@ router.post("/cancel", async function (req, res) {
 
 const settingsChecks = {
     "Mafia": (settings, setup) => {
-        return {};
+        var extendLength = Number(settings.extendLength);
+
+        if (extendLength < 1 || extendLength > 5)
+            return "Extension length must be between 1 and 5 minutes.";
+
+        return { extendLength };
     },
     "Split Decision": (settings, setup) => {
         return {};
