@@ -5,7 +5,7 @@ module.exports = class VillageMeeting extends Meeting {
     constructor(game) {
         super(game, "Village");
 
-        this.actionName = "Village Lynch";
+        this.actionName = "Village Vote";
         this.group = true;
         this.speech = true;
         this.voting = true;

@@ -22,7 +22,6 @@ export default function Join(props) {
 
     const [listType, setListType] = useState("All");
     const [page, setPage] = useState(1);
-    const [pageCount, setPageCount] = useState(1);
     const [games, setGames] = useState([]);
     const location = useLocation();
     const history = useHistory();
@@ -40,16 +39,27 @@ export default function Join(props) {
 
         document.title = `Play (${lobby}) | BeyondMafia`;
         getGameList(listType, 1);
-        setPage(1);
     }, [location.pathname, lobby]);
 
-    function getGameList(listType, page) {
-        axios.get(`/game/list?list=${camelCase(listType)}&page=${page}&lobby=${lobby}`)
+    function getGameList(_listType, _page) {
+        var filterArg;
+
+        if (_page == 1)
+            filterArg = "last=Infinity&page=1";
+        else if (_page < page && games.length != 0)
+            filterArg = `first=${games[0].endTime}&page=${_page}`;
+        else if (_page > page && games.length != 0)
+            filterArg = `last=${games[games.length - 1].endTime}&page=${_page}`;
+        else
+            return;
+
+        axios.get(`/game/list?list=${camelCase(_listType)}&lobby=${lobby}&${filterArg}`)
             .then(res => {
-                setListType(listType);
-                setPage(page);
-                setGames(res.data.games);
-                setPageCount(res.data.pages);
+                if (res.data.length > 0 || _page == 1) {
+                    setListType(_listType);
+                    setPage(_page);
+                    setGames(res.data);
+                }
             })
             .catch(errorAlert);
     }
@@ -102,7 +112,6 @@ export default function Join(props) {
                         empty="No games" />
                     <PageNav
                         page={page}
-                        maxPage={pageCount}
                         onNav={(page) => getGameList(listType, page)} />
                 </div>
             </div>

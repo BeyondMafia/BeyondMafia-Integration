@@ -127,9 +127,7 @@ module.exports = {
 	maxCommentLength: 500,
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
-
 	lobbyPageSize: 7,
-	lobbyPageLimit: 20,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,
@@ -234,12 +232,12 @@ module.exports = {
 	defaultGroups: {
 		"Owner": {
 			rank: Infinity,
-			visible: true,
+			visible: false,
 			perms: "*"
 		},
 		"Dev": {
 			rank: Infinity,
-			visible: true,
+			visible: false,
 			perms: [
 				"createGroup",
 				"deleteGroup",

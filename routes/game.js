@@ -29,25 +29,21 @@ router.post("/leave", async function (req, res) {
 router.get("/list", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-        const userId = await routeUtils.verifyLoggedIn(req, true);
-        const start = ((Number(req.query.page) || 1) - 1) * constants.lobbyPageSize;
-        const gameLimit = constants.lobbyPageSize * constants.lobbyPageLimit;
-        const listName = String(req.query.list).toLowerCase();
-        const lobby = String(req.query.lobby || "Main");
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+        var start = ((Number(req.query.page) || 1) - 1) * constants.lobbyPageSize;
+        var listName = String(req.query.list).toLowerCase();
+        var lobby = String(req.query.lobby || "Main");
+        var last = Number(req.query.last);
+        var first = Number(req.query.first);
         var games = [];
 
         if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
             logger.error("Invalid lobby.");
-            res.send({ games, pages: 1 });
+            res.send([]);
             return;
         }
 
-        if (start >= gameLimit) {
-            res.send({ games: [], pages: constants.lobbyPageLimit });
-            return;
-        }
-
-        const end = start + constants.lobbyPageSize;
+        var end = start + constants.lobbyPageSize;
 
         if (listName == "all" || listName == "open") {
             var openGames = await redis.getOpenPublicGames();
@@ -63,7 +59,6 @@ router.get("/list", async function (req, res) {
             games = games.concat(inProgressGames);
         }
 
-        var count = games.length;
         games = games.filter(game => game.lobby == lobby).slice(start, end);
 
         for (let i in games) {
@@ -83,6 +78,7 @@ router.get("/list", async function (req, res) {
             newGame.scheduled = game.settings.scheduled
             newGame.readyCheck = game.settings.readyCheck;
             newGame.status = game.status;
+            newGame.endTime = 0;
 
             if (userId) {
                 var reservations = await redis.getGameReservations(game.id);
@@ -92,32 +88,51 @@ router.get("/list", async function (req, res) {
             games[i] = newGame;
         }
 
-        if (listName == "all" || listName == "finished") {
-            var finishedGames = await models.Game.find({ lobby })
-                .select("id type setup ranked private spectating guests voiceChat readyCheck stateLengths gameTypeOptions broken -_id")
+        if ((listName == "all" || listName == "finished") && games.length < constants.lobbyPageSize) {
+            var gameFilter = { lobby };
+            var sortType, reversed;
+
+            if (isNaN(last) && isNaN(first))
+                last = Infinity;
+
+            if (!isNaN(last)) {
+                gameFilter.endTime = { $lt: last };
+                sortType = "-endTime";
+                reversed = false;
+            }
+            else {
+                gameFilter.endTime = { $gte: first };
+                sortType = "endTime";
+                reversed = true;
+            }
+
+            var finishedGames = await models.Game.find(gameFilter)
+                .select("id type setup ranked private spectating guests voiceChat readyCheck stateLengths gameTypeOptions broken endTime -_id")
                 .populate("setup", "id gameType name roles closed count total -_id")
-                .sort("-endTime")
-                .skip(Math.max(start - count, 0))
+                .sort(sortType)
                 .limit(constants.lobbyPageSize - games.length);
+
+            if (reversed)
+                finishedGames.reverse();
+
             finishedGames = finishedGames.map(game => ({ ...game.toObject(), status: "Finished" }));
             games = games.concat(finishedGames);
         }
 
-        count += await models.Game.estimatedDocumentCount();
-        res.send({ games: games, pages: Math.min(Math.ceil(count / constants.lobbyPageSize), constants.lobbyPageLimit) || 1 });
+        res.send(games);
     }
     catch (e) {
         logger.error(e);
-        res.send({ games: [], pages: 1 });
+        res.send([]);
     }
 });
 
 router.get("/:id/connect", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-        const gameId = String(req.params.id);
-        const userId = await routeUtils.verifyLoggedIn(req, true);
-        const game = await redis.getGameInfo(gameId, true);
+        var gameId = String(req.params.id);
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+        var game = await redis.getGameInfo(gameId, true);
 
         if (!game) {
             res.status(500);
@@ -137,9 +152,9 @@ router.get("/:id/connect", async function (req, res) {
             return;
         }
 
-        const type = game.type;
-        const port = game.port;
-        const token = userId && await redis.createAuthToken(userId);
+        var type = game.type;
+        var port = game.port;
+        var token = userId && await redis.createAuthToken(userId);
 
         if (type && !isNaN(port))
             res.send({ port, type, token });
@@ -252,10 +267,10 @@ router.post("/host", async function (req, res) {
             return;
         }
 
-        const gameType = String(req.body.gameType);
-        const lobby = String(req.body.lobby);
-        const rehostId = req.body.rehost && String(req.body.rehost);
-        const scheduled = Number(req.body.scheduled);
+        var gameType = String(req.body.gameType);
+        var lobby = String(req.body.lobby);
+        var rehostId = req.body.rehost && String(req.body.rehost);
+        var scheduled = Number(req.body.scheduled);
 
         if (!routeUtils.validProp(gameType) || constants.gameTypes.indexOf(gameType) == -1) {
             res.status(500);
@@ -280,7 +295,7 @@ router.post("/host", async function (req, res) {
             }
         }
 
-        const configuredStateLengths = Object(req.body.stateLengths);
+        var configuredStateLengths = Object(req.body.stateLengths);
         var stateLengths = {};
 
         for (let stateName in constants.configurableStates[gameType]) {
@@ -357,7 +372,7 @@ router.post("/host", async function (req, res) {
             return;
         }
 
-        const settings = settingsChecks[gameType](req.body, setup);
+        var settings = settingsChecks[gameType](req.body, setup);
 
         if (typeof settings == "string") {
             res.status(500);
@@ -409,7 +424,7 @@ router.post("/host", async function (req, res) {
         }
 
         try {
-            const gameId = await gameLoadBalancer.createGame(userId, gameType, {
+            var gameId = await gameLoadBalancer.createGame(userId, gameType, {
                 setup: setup,
                 lobby: lobby,
                 private: Boolean(req.body.private),

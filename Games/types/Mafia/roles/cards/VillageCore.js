@@ -7,7 +7,6 @@ module.exports = class VillageCore extends Card {
 
 		this.meetings = {
 			"Village": {
-				actionName: "Village Vote",
 				type: "Village",
 				states: ["Day"],
 				whileDead: true,

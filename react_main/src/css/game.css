@@ -121,6 +121,10 @@
 	color: white;
 }
 
+.game .misc-wrapper i {
+	color: white;
+}
+
 .game .misc-wrapper .misc-icon {
 	cursor: pointer;
 }

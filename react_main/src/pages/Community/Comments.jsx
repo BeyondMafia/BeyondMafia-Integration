@@ -36,9 +36,9 @@ export default function Comments(props) {
 
 		if (_page == 1)
 			filterArg = "last=Infinity";
-		else if (_page < page && comments.length)
+		else if (_page < page && comments.length != 0)
 			filterArg = `first=${comments[0].date}`;
-		else if (_page > page && comments.length)
+		else if (_page > page && comments.length != 0)
 			filterArg = `last=${comments[comments.length - 1].date}`;
 		else
 			return;

@@ -127,7 +127,7 @@ var schemas = {
         winners: [String],
         history: String,
         startTime: Number,
-        endTime: Number,
+        endTime: { type: Number, index: true },
         ranked: Boolean,
         private: Boolean,
         guests: Boolean,

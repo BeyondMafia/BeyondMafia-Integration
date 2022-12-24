@@ -141,4 +141,8 @@
 	.join .row .setup-name {
 		display: none;
 	}
+
+	.join .row .btns-wrapper {
+		width: 98px;
+	}
 }
