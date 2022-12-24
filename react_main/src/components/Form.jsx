@@ -2,8 +2,10 @@ import React, { useState, useReducer, useRef, useEffect } from "react";
 import { ChromePicker } from "react-color";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
+import axios from "axios";
 
 import { useOnOutsideClick } from "./Basic";
+import { useErrorAlert } from "./Alerts";
 
 import "react-mde/lib/styles/css/react-mde.css";
 import "react-mde/lib/styles/css/react-mde-editor.css";
@@ -371,6 +373,18 @@ export function SearchSelect(props) {
 		optionsRef.current.style.visibility = "visible";
 	});
 
+	useEffect(() => {
+		if (inputValue == "")
+			setMatchingOptions(props.options);
+		else {
+			var options = props.options.filter(option => (
+				option.toLowerCase().includes(inputValue.toLowerCase())
+			));
+
+			setMatchingOptions(options);
+		}
+	}, [inputValue, props.options]);
+
 	const options = matchingOptions.map(option => (
 		<div
 			className="option-row"
@@ -415,15 +429,8 @@ export function SearchSelect(props) {
 	function onInputChange(e) {
 		setInputValue(e.target.value);
 
-		if (e.target.value == "")
-			setMatchingOptions(props.options);
-		else {
-			var options = props.options.filter(option => (
-				option.toLowerCase().includes(e.target.value.toLowerCase())
-			));
-
-			setMatchingOptions(options);
-		}
+		if (props.onInputChange)
+			props.onInputChange(e);
 	}
 
 	function onSelectFocus() {
@@ -471,6 +478,48 @@ export function SearchSelect(props) {
 				</div>
 			}
 		</div>
+	);
+}
+
+export function UserSearchSelect(props) {
+	const [options, setOptions] = useState([]);
+	const [idMap, setIdMap] = useState({});
+	const [query, setQuery] = useState("");
+	const [valueName, setValueName] = useState("");
+
+	useEffect(() => {
+		if (query.length == 0)
+			return;
+
+		axios.get(`/user/searchName?query=${query}`)
+			.then(res => {
+				var newIdMap = {};
+
+				for (let userData of res.data)
+					newIdMap[userData.name] = userData.id;
+
+				setIdMap(newIdMap);
+				setOptions(res.data.map(user => user.name));
+			})
+			.catch(useErrorAlert);
+	}, [query]);
+
+	function setValue(option) {
+		setValueName(option);
+		props.setValue(idMap[option]);
+	}
+
+	function onInputChange(e) {
+		setQuery(e.target.value);
+	}
+
+	return (
+		<SearchSelect
+			{...props}
+			options={options}
+			value={valueName}
+			setValue={setValue}
+			onInputChange={onInputChange} />
 	);
 }
 

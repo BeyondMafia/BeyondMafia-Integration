@@ -3,7 +3,7 @@ import axios from "axios";
 import update from "immutability-helper";
 
 import { useErrorAlert } from "../../components/Alerts";
-import { SearchSelect } from "../../components/Form";
+import { SearchSelect, UserSearchSelect } from "../../components/Form";
 import { SiteInfoContext, UserContext } from "../../Contexts";
 import { NameWithAvatar, StatusIcon } from "../User/User";
 import LoadingPage from "../Loading";
@@ -96,6 +96,15 @@ function ModCommands() {
 				placeholder = `${placeholder} (${arg.default})`;
 			else if (arg.optional)
 				placeholder = `[${placeholder}]`;
+
+			if (arg.type == "user_search") {
+				return (
+					<UserSearchSelect
+						value={argValues[arg.name] || ""}
+						setValue={(value) => updateArgValue(arg.name, value, arg.isArray)}
+						key={arg.name} />
+				);
+			}
 
 			return (
 				<input
@@ -329,9 +338,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "giveGroup",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text"
+					type: "user_search"
 				},
 				{
 					label: "Group Name",
@@ -353,9 +362,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "removeFromGroup",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text"
+					type: "user_search"
 				},
 				{
 					label: "Group Name",
@@ -396,9 +405,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewPerms",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text"
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -505,9 +514,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "forumBan",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Length",
@@ -528,9 +537,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "chatBan",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Length",
@@ -551,9 +560,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "gameBan",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Length",
@@ -574,9 +583,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "hostRankedBan",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Length",
@@ -597,9 +606,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "siteBan",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Length",
@@ -620,9 +629,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "forceSignOut",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -638,9 +647,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "forumUnban",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -656,9 +665,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "chatUnban",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -674,9 +683,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "gameUnban",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -692,9 +701,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "siteUnban",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -710,9 +719,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewAlts",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -728,9 +737,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewBans",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -764,9 +773,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearBio",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -782,9 +791,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAccountDisplay",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -800,9 +809,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearName",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -818,9 +827,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAvi",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -836,9 +845,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAllUserContent",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
@@ -854,12 +863,12 @@ function useModCommands(argValues, commandRan) {
 			perm: "changeName",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
-					label: "Name",
+					label: "New Name",
 					name: "name",
 					type: "text",
 				},
@@ -877,9 +886,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "giveCoins",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 				{
 					label: "Amount",
@@ -948,9 +957,9 @@ function useModCommands(argValues, commandRan) {
 			perm: "whitelist",
 			args: [
 				{
-					label: "User Id",
+					label: "User Name",
 					name: "userId",
-					type: "text",
+					type: "user_search"
 				},
 			],
 			run: function () {
