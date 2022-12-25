@@ -7,6 +7,17 @@ const redis = require("../modules/redis");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 
+async function createModAction(modId, name, args) {
+	var modAction = new models.ModAction({
+		id: shortid.generate(),
+		modId,
+		name,
+		args,
+		date: Date.now()
+	});
+	await modAction.save();
+}
+
 router.get("/groups", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
@@ -144,6 +155,7 @@ router.post("/group", async function (req, res) {
 		});
 		await group.save();
 
+		createModAction(userId, "Create Group", [name, String(rank), permissions.join(",")]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -182,6 +194,7 @@ router.post("/group/delete", async function (req, res) {
 		for (let member of members)
 			await redis.cacheUserPermissions(member);
 
+		createModAction(userId, "Delete Group", [name]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -266,8 +279,9 @@ router.post("/groupPerms", async function (req, res) {
 				}
 			}
 		).exec();
-
 		await redis.cacheUserPermissions(userId);
+
+		createModAction(userId, "Update Group Permissions", [groupName, addPermissions.join(","), removePermissions.join(",")]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -320,6 +334,7 @@ router.post("/addToGroup", async function (req, res) {
 		await inGroup.save();
 		await redis.cacheUserPermissions(userIdToAdd);
 
+		createModAction(userId, "Add User to Group", [userIdToAdd, groupName]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -360,6 +375,7 @@ router.post("/removeFromGroup", async function (req, res) {
 		await models.InGroup.deleteOne({ user: userToRemove._id, group: group._id }).exec();
 		await redis.cacheUserPermissions(userIdToRemove);
 
+		createModAction(userId, "Remove User from Group", [userIdToRemove, groupName]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -373,7 +389,7 @@ router.post("/forumBan", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToBan = String(req.body.userId);
-		var length = String(req.body.length);
+		var lengthStr = String(req.body.length);
 		var perm = "forumBan";
 		var banRank = await redis.getUserRank(userIdToBan);
 
@@ -386,7 +402,7 @@ router.post("/forumBan", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
 
-		length = routeUtils.parseTime(length);
+		var length = routeUtils.parseTime(lengthStr);
 
 		if (length == null) {
 			res.status(500);
@@ -413,6 +429,7 @@ router.post("/forumBan", async (req, res) => {
 			icon: "ban"
 		}, [userIdToBan]);
 
+		createModAction(userId, "Forum Ban", [userIdToBan, lengthStr]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -426,7 +443,7 @@ router.post("/chatBan", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToBan = String(req.body.userId);
-		var length = String(req.body.length);
+		var lengthStr = String(req.body.length);
 		var perm = "chatBan";
 		var banRank = await redis.getUserRank(userIdToBan);
 
@@ -439,7 +456,7 @@ router.post("/chatBan", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
 
-		length = routeUtils.parseTime(length);
+		length = routeUtils.parseTime(lengthStr);
 
 		if (length == null) {
 			res.status(500);
@@ -466,6 +483,7 @@ router.post("/chatBan", async (req, res) => {
 			icon: "ban"
 		}, [userIdToBan]);
 
+		createModAction(userId, "Chat Ban", [userIdToBan, lengthStr]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -479,7 +497,7 @@ router.post("/gameBan", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToBan = String(req.body.userId);
-		var length = String(req.body.length);
+		var lengthStr = String(req.body.length);
 		var perm = "gameBan";
 		var banRank = await redis.getUserRank(userIdToBan);
 
@@ -492,7 +510,7 @@ router.post("/gameBan", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
 
-		length = routeUtils.parseTime(length);
+		length = routeUtils.parseTime(lengthStr);
 
 		if (length == null) {
 			res.status(500);
@@ -519,6 +537,7 @@ router.post("/gameBan", async (req, res) => {
 			icon: "ban"
 		}, [userIdToBan]);
 
+		createModAction(userId, "Game Ban", [userIdToBan, lengthStr]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -532,7 +551,7 @@ router.post("/hostRankedBan", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToBan = String(req.body.userId);
-		var length = String(req.body.length);
+		var lengthStr = String(req.body.length);
 		var perm = "hostRankedBan";
 		var banRank = await redis.getUserRank(userIdToBan);
 
@@ -545,7 +564,7 @@ router.post("/hostRankedBan", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
 
-		length = routeUtils.parseTime(length);
+		length = routeUtils.parseTime(lengthStr);
 
 		if (length == null) {
 			res.status(500);
@@ -572,6 +591,7 @@ router.post("/hostRankedBan", async (req, res) => {
 			icon: "ban"
 		}, [userIdToBan]);
 
+		createModAction(userId, "Host Ranked Ban", [userIdToBan, lengthStr]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -585,14 +605,14 @@ router.post("/siteBan", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var userIdToBan = String(req.body.userId);
-		var length = String(req.body.length);
+		var lengthStr = String(req.body.length);
 		var perm = "siteBan";
 		var banRank = (await redis.getUserRank(userIdToBan)) || 0;
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm, banRank + 1)))
 			return;
 
-		length = routeUtils.parseTime(length);
+		length = routeUtils.parseTime(lengthStr);
 
 		if (length == null) {
 			res.status(500);
@@ -617,6 +637,7 @@ router.post("/siteBan", async (req, res) => {
 		await models.User.updateOne({ id: userIdToBan }, { $set: { banned: true } }).exec();
 		await models.Session.deleteMany({ "session.user.id": userIdToBan }).exec();
 
+		createModAction(userId, "Site Ban", [userIdToBan, lengthStr]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -643,6 +664,8 @@ router.post("/logout", async (req, res) => {
 			return;
 
 		await models.Session.deleteMany({ "session.user.id": userIdToActOn }).exec();
+
+		createModAction(userId, "Force Sign Out", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -671,6 +694,7 @@ router.post("/forumUnban", async (req, res) => {
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "forum", auto: false }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
+		createModAction(userId, "Forum Unban", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -699,6 +723,7 @@ router.post("/chatUnban", async (req, res) => {
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "chat", auto: false }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
+		createModAction(userId, "Chat Unban", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -727,6 +752,7 @@ router.post("/gameUnban", async (req, res) => {
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "game", auto: false }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
+		createModAction(userId, "Game Unban", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -755,6 +781,7 @@ router.post("/siteUnban", async (req, res) => {
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "site", auto: false }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
+		createModAction(userId, "Site Unban", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -777,6 +804,7 @@ router.post("/whitelist", async (req, res) => {
 		await models.User.updateOne({ id: userIdToActOn }, { $set: { flagged: false } });
 		await redis.cacheUserPermissions(userIdToActOn);
 
+		createModAction(userId, "Whitelist", [userIdToActOn]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -810,6 +838,7 @@ router.get("/alts", async (req, res) => {
 			.select("name");
 		users = users.map(u => u.name);
 
+		createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
 		res.send(users);
 	}
 	catch (e) {
@@ -865,6 +894,7 @@ router.post("/clearSetupName", async (req, res) => {
 			{ $set: { name: `Setup ${setupId}` } }
 		).exec();
 
+		createModAction(userId, "Clear Setup Name", [setupId]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -890,6 +920,8 @@ router.post("/clearBio", async (req, res) => {
 		).exec();
 
 		await redis.cacheUserInfo(userIdToClear, true);
+
+		createModAction(userId, "Clear Bio", [userIdToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -914,6 +946,8 @@ router.post("/clearAvi", async (req, res) => {
 		).exec();
 
 		await redis.cacheUserInfo(userIdToClear, true);
+
+		createModAction(userId, "Clear Avatar", [userIdToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -946,6 +980,8 @@ router.post("/clearAccountDisplay", async (req, res) => {
 		).exec();
 
 		await redis.cacheUserInfo(userIdToClear, true);
+
+		createModAction(userId, "Clear Accounts Display", [userIdToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -970,6 +1006,8 @@ router.post("/clearName", async (req, res) => {
 		).exec();
 
 		await redis.cacheUserInfo(userIdToClear, true);
+
+		createModAction(userId, "Clear Name", [userIdToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -1035,6 +1073,7 @@ router.post("/clearAllContent", async (req, res) => {
 		await models.ChatMessage.deleteMany({ senderId: userIdToClear }).exec();
 		await redis.cacheUserInfo(userIdToClear, true);
 
+		createModAction(userId, "Clear All Site Content", [userIdToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -1054,6 +1093,8 @@ router.post("/breakGame", async (req, res) => {
 			return;
 
 		await redis.breakGame(gameToClear);
+
+		createModAction(userId, "Break Game", [gameToClear]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -1072,6 +1113,7 @@ router.post("/clearAllIPs", async (req, res) => {
 			return;
 
 		await models.User.updateMany({}, { $unset: { ip: "" } }).exec();
+
 		res.sendStatus(200);
 	}
 	catch (e) {

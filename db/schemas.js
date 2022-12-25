@@ -28,7 +28,7 @@ var schemas = {
             twitch: String,
             steam: String,
         },
-        joined: Number,
+        joined: { type: Number, index: true },
         lastActive: Number,
         numFriends: { type: Number, default: 0 },
         dev: Boolean,
@@ -266,6 +266,14 @@ var schemas = {
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
         group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", index: true },
     }),
+    "ModAction": new mongoose.Schema({
+        id: { type: String, index: true },
+        modId: String,
+        name: String,
+        args: [String],
+        reason: String,
+        date: { type: Number, index: true },
+    }),
     "Ban": new mongoose.Schema({
         id: { type: String, index: true },
         userId: { type: String, index: true },
@@ -346,6 +354,13 @@ schemas.FriendRequest.virtual("user", {
 schemas.FriendRequest.virtual("target", {
     ref: "User",
     localField: "targetId",
+    foreignField: "id",
+    justOne: true
+});
+
+schemas.ModAction.virtual("mod", {
+    ref: "User",
+    localField: "modId",
     foreignField: "id",
     justOne: true
 });

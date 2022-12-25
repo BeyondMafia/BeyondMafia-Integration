@@ -616,9 +616,17 @@ module.exports = class Player {
 		noModifier = noModifier || this.role.hideModifier[type];
 
 		if (this.tempAppearance[type] != null)
-			return `${this.tempAppearance[type]}:${noModifier ? "" : this.role.modifier}`;
+			return `${this.tempAppearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
 
-		return `${this.role.appearance[type]}:${noModifier ? "" : this.role.modifier}`;
+		return `${this.role.appearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
+	}
+
+	getRevealText(type) {
+		var appearance = this.getAppearance(type);
+		var roleName = appearance.split(":")[0];
+		var modifier = appearance.split(":")[1];
+
+		return `${roleName}${modifier ? ` (${modifier})` : ""}`;
 	}
 
 	setTempAppearance(type, appearance) {
