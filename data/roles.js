@@ -187,6 +187,13 @@ const roleData = {
                 "Can anonymously contact any non-Village role.",
             ],
         },
+        "Capybara": {
+            alignment: "Village",
+            description: [
+                "Chooses another player to give a Yuzu OrangeZ to invite them to join a hot springs relaxation.",
+                "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
