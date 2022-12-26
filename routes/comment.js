@@ -13,34 +13,17 @@ router.get("/", async function (req, res) {
 		var location = String(req.query.location);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
-		var commentFilter = { location };
-		var sortType, reversed;
 
-		if (isNaN(last) && isNaN(first))
-			last = Infinity;
-
-		if (!isNaN(last)) {
-			commentFilter.date = { $lt: last };
-			sortType = "-date";
-			reversed = false;
-		}
-		else {
-			commentFilter.date = { $gte: first };
-			sortType = "date";
-			reversed = true;
-		}
-
-		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
-			commentFilter.deleted = false;
-
-		var comments = await models.Comment.find(commentFilter)
-			.select("id author content date voteCount deleted -_id")
-			.populate("author", "id name avatar -_id")
-			.sort(sortType)
-			.limit(constants.commentsPerPage);
-
-		if (reversed)
-			comments = comments.reverse();
+		var comments = await routeUtils.modelPageQuery(
+			models.Comment,
+			{ location },
+			"date",
+			last,
+			first,
+			"id author content date voteCount deleted -_id",
+			constants.commentsPerPage,
+			["author", "id name avatar -_id"]
+		);
 
 		var votes = {};
 		var commentIds = comments.map(comment => comment.id);

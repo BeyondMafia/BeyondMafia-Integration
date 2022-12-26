@@ -166,6 +166,21 @@ export function PageNav(props) {
 	);
 }
 
+export function getPageNavFilterArg(newPage, oldPage, pageItems, sortField) {
+	var filterArg;
+
+	if (newPage == 1)
+		filterArg = "last=Infinity";
+	else if (newPage < oldPage && pageItems.length != 0)
+		filterArg = `first=${pageItems[0][sortField]}`;
+	else if (newPage > oldPage && pageItems.length != 0)
+		filterArg = `last=${pageItems[pageItems.length - 1][sortField]}`;
+	else
+		return;
+
+	return filterArg;
+}
+
 export function SearchBar(props) {
 	function onInput(event) {
 		props.onInput(event.target.value);

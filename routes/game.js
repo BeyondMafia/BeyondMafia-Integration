@@ -89,32 +89,16 @@ router.get("/list", async function (req, res) {
         }
 
         if ((listName == "all" || listName == "finished") && games.length < constants.lobbyPageSize) {
-            var gameFilter = { lobby };
-            var sortType, reversed;
-
-            if (isNaN(last) && isNaN(first))
-                last = Infinity;
-
-            if (!isNaN(last)) {
-                gameFilter.endTime = { $lt: last };
-                sortType = "-endTime";
-                reversed = false;
-            }
-            else {
-                gameFilter.endTime = { $gte: first };
-                sortType = "endTime";
-                reversed = true;
-            }
-
-            var finishedGames = await models.Game.find(gameFilter)
-                .select("id type setup ranked private spectating guests voiceChat readyCheck stateLengths gameTypeOptions broken endTime -_id")
-                .populate("setup", "id gameType name roles closed count total -_id")
-                .sort(sortType)
-                .limit(constants.lobbyPageSize - games.length);
-
-            if (reversed)
-                finishedGames.reverse();
-
+            var finishedGames = await routeUtils.modelPageQuery(
+                models.Game,
+                { lobby },
+                "endTime",
+                last,
+                first,
+                "id type setup ranked private spectating guests voiceChat readyCheck stateLengths gameTypeOptions broken endTime -_id",
+                constants.lobbyPageSize - games.length,
+                ["setup", "id gameType name roles closed count total -_id"]
+            );
             finishedGames = finishedGames.map(game => ({ ...game.toObject(), status: "Finished" }));
             games = games.concat(finishedGames);
         }

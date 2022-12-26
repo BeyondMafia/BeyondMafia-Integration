@@ -273,6 +273,9 @@ var schemas = {
         args: [String],
         reason: String,
         date: { type: Number, index: true },
+    }, {
+        toObject: { virtuals: true },
+        toJSON: { virtuals: true }
     }),
     "Ban": new mongoose.Schema({
         id: { type: String, index: true },

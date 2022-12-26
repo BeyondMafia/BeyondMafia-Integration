@@ -1,8 +1,26 @@
 .moderation {
 	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.moderation .main-section {
+	flex-grow: 1;
+
+	display: flex;
 	flex-flow: column nowrap;
 	align-items: stretch;
 	justify-content: flex-start;
+}
+
+.moderation .side-column {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+
+	margin-left: 10px;
 }
 
 .moderation .span-panel {
@@ -86,4 +104,58 @@
 
 .moderation .group-panel .members .member .status-icon {
 	margin-left: 5px;
+}
+
+.moderation .box-panel {
+	margin-bottom: 10px;
+	width: 276px;
+
+	background-color: var(--theme-color);
+}
+
+.moderation .box-panel .heading {
+	color: white;
+}
+
+.moderation .box-panel .actions-wrapper {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.moderation .box-panel .page-nav {
+	color: white;
+}
+
+.moderation .box-panel .action {
+	align-self: stretch;
+
+	margin-bottom: 10px;
+	padding: 5px;
+
+	background-color: white;
+}
+
+.moderation .action .top-row {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin-bottom: 10px;
+}
+
+.moderation .action .date {
+	margin-left: 10px;
+
+	opacity: 0.6;
+}
+
+.moderation .action .action-name {
+	font-weight: 700;
+}
+
+.moderation .action-arg a {
+	color: var(--theme-color-light);
 }

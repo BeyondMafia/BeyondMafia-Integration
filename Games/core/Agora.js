@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const crc32 = require('crc-32');
 const UINT32 = require('cuint').UINT32;
 const Random = require("../../lib/Random");
+const logger = require("../../modules/logging")("games");
 
 const version = "006";
 const VERSION_LENGTH = 3;
@@ -103,8 +104,8 @@ function AccessToken(appID, appCertificate, channelName, uid) {
 			this.ts = msgs.ts;
 			this.messages = msgs.messages;
 
-		} catch (err) {
-			console.log(err);
+		} catch (e) {
+			logger.error(e);
 			return false;
 		}
 

@@ -292,6 +292,40 @@ async function getModIds() {
 	return modIds;
 }
 
+async function modelPageQuery(model, baseFilter, sortField, last, first, select, limit, ...populates) {
+	var reversed, sortType;
+
+	if (isNaN(last) && isNaN(first))
+		last = Infinity;
+
+	if (!isNaN(last)) {
+		baseFilter[sortField] = { $lt: last };
+		sortType = "-" + sortField;
+		reversed = false;
+	}
+	else {
+		baseFilter[sortField] = { $gte: first };
+		sortType = sortField;
+		reversed = true;
+	}
+
+	var query = model.find(baseFilter).select(select).sort(sortType).limit(limit);
+
+	for (let populate of populates) {
+		if (Array.isArray(populate))
+			query = query.populate(populate[0], populate[1]);
+		else
+			query = query.populate(populate);
+	}
+
+	var result = await query;
+
+	if (reversed)
+		result.reverse();
+
+	return result;
+}
+
 module.exports = {
 	getIP,
 	getUserId,
@@ -310,4 +344,5 @@ module.exports = {
 	nameGen,
 	rateLimit,
 	getModIds,
+	modelPageQuery,
 };

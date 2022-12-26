@@ -128,6 +128,7 @@ module.exports = {
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
 	lobbyPageSize: 7,
+	modActionPageSize: 7,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,

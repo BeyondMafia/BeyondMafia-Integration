@@ -835,8 +835,7 @@ router.get("/alts", async (req, res) => {
 
 		var ips = user.ip;
 		var users = await models.User.find({ ip: { $elemMatch: { $in: ips } } })
-			.select("name");
-		users = users.map(u => u.name);
+			.select("id name -_id");
 
 		createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
 		res.send(users);
@@ -1198,6 +1197,32 @@ router.post("/scheduleRestart", async (req, res) => {
 		logger.error(e);
 		res.status(500);
 		res.send("Error scheduling restart.");
+	}
+});
+
+router.get("/actions", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var last = Number(req.query.last);
+		var first = Number(req.query.first);
+
+		var actions = await routeUtils.modelPageQuery(
+			models.ModAction,
+			{},
+			"date",
+			last,
+			first,
+			"id modId mod name args reason date -_id",
+			constants.modActionPageSize,
+			["mod", "id name avatar -_id"]
+		);
+
+		res.send(actions);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading mod actions.");
 	}
 });
 

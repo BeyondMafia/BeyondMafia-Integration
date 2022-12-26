@@ -61,20 +61,13 @@ router.get("/categories", async function (req, res) {
 router.get("/board/:id", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
+		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
+
 		var userId = await routeUtils.verifyLoggedIn(req, true);
 		var boardId = String(req.params.id);
 		var sortType = String(req.query.sortType);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
-		var threadFilter, reversed;
-
-		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
-
-		if (sortTypes.indexOf(sortType) == -1)
-			sortType = "bumpDate";
-
-		if (isNaN(last) && isNaN(first))
-			last = Infinity;
 
 		var board = await models.ForumBoard.findOne({ id: boardId })
 			.select("id name icon category")
@@ -86,32 +79,33 @@ router.get("/board/:id", async function (req, res) {
 			return;
 		}
 
-		if (!isNaN(last)) {
-			threadFilter = { board: board._id, [sortType]: { $lt: last }, pinned: false };
-			sortType = `-${sortType}`;
-			reversed = false;
-		}
-		else {
-			threadFilter = { board: board._id, [sortType]: { $gt: first }, pinned: false };
-			reversed = true;
-		}
+		var threadFilter = { board: board._id, pinned: false };
 
 		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
 			threadFilter.deleted = false;
 
-		var threads = await models.ForumThread.find(threadFilter)
-			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
-			.populate("author", "id name avatar -_id")
-			.populate({
+		if (sortTypes.indexOf(sortType) == -1)
+			sortType = "bumpDate";
+
+		var threads = await routeUtils.modelPageQuery(
+			models.ForumThread,
+			threadFilter,
+			sortType,
+			last,
+			first,
+			"id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id",
+			constants.threadsPerPage,
+			["author", "id name avatar -_id"],
+			{
 				path: "recentReplies",
 				select: "id author postDate -_id",
 				populate: {
 					path: "author",
 					select: "id name avatar -_id"
 				}
-			})
-			.sort(sortType)
-			.limit(constants.threadsPerPage);
+			}
+		);
+
 		var pinnedThreads = await models.ForumThread.find({ board: board._id, pinned: true })
 			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
 			.populate("author", "id name avatar -_id")
@@ -124,9 +118,6 @@ router.get("/board/:id", async function (req, res) {
 				}
 			})
 			.sort("-bumpDate");
-
-		if (reversed)
-			threads = threads.reverse();
 
 		var votes = {};
 		var threadIds = threads.map(thread => thread.id);
@@ -1046,7 +1037,7 @@ router.get("/search", async function (req, res) {
 	try {
 		var query = String(req.query.query);
 		var user = String(req.query.user);
-		var lastId = String(req.query.lastId);
+		var last = String(req.query.last);
 
 		var threads = await models.ForumThread.find({})
 			.select("id author title content")

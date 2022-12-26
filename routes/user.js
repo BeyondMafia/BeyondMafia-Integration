@@ -197,29 +197,20 @@ router.get("/:id/friends", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
         var userId = String(req.params.id);
-        var last = Number(req.body.lastId);
-        var first = Number(req.body.firstId);
-        var friendFilter, sortType, reversed;
+        var last = Number(req.query.last);
+        var first = Number(req.query.first);
 
-        if (isNaN(last) && isNaN(first))
-            last = Infinity;
+        var friends = await routeUtils.modelPageQuery(
+            models.Friend,
+            { userId },
+            "lastActive",
+            last,
+            first,
+            "friendId friend lastActive -_id",
+            constants.friendsPerPage,
+            ["friend", "id name avatar"]
+        );
 
-        if (!isNaN(last)) {
-            friendFilter = { userId, lastActive: { $lt: last } };
-            sortType = "-lastActive";
-            reversed = false;
-        }
-        else {
-            friendFilter = { userId, lastActive: { $gte: first } };
-            sortType = "lastActive";
-            reversed = true;
-        }
-
-        var friends = await models.Friend.find(friendFilter)
-            .select("friendId friend lastActive -_id")
-            .populate("friend", "id name avatar")
-            .sort(sortType)
-            .limit(constants.friendsPerPage);
         friends = friends.map(friend => {
             friend = friend.toJSON();
 
@@ -228,9 +219,6 @@ router.get("/:id/friends", async function (req, res) {
                 lastActive: friend.lastActive
             }
         });
-
-        if (reversed)
-            friends = friends.reverse();
 
         res.send(friends);
     }

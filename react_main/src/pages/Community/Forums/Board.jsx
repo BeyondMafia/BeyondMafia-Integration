@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, useParams, Link } from "react-router-dom";
 import axios from "axios";
-import update from "immutability-helper";
 
 import LoadingPage from "../../Loading";
 import { useErrorAlert } from "../../../components/Alerts";
-import { PageNav } from "../../../components/Nav";
+import { getPageNavFilterArg, PageNav } from "../../../components/Nav";
 import { NameWithAvatar } from "../../User/User";
 import { Modal } from "../../../components/Modal";
 import { VoteWidget, ViewsAndReplies } from "./Forums";
@@ -66,18 +65,11 @@ export default function Board(props) {
 	}
 
 	function onBoardPageNav(page) {
-		var filterArg;
+		var filterArg = getPageNavFilterArg(page, boardPage, boardInfo.threads, sortType);
 
-		if (page == 1)
-			filterArg = "last=Infinity";
-		else if (page < boardPage && boardInfo.threads.length)
-			filterArg = `first=${boardInfo.threads[0][sortType]}`;
-		else if (page > boardPage && boardInfo.threads.length)
-			filterArg = `last=${boardInfo.threads[boardInfo.threads.length - 1][sortType]}`;
-		else
+		if (filterArg == null)
 			return;
 
-		console.log(page);
 		axios.get(`/forums/board/${boardId}?sortType=${sortType}&${filterArg}`)
 			.then(res => {
 				if (res.data.threads.length > 0) {
