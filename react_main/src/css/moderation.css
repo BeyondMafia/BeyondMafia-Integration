@@ -125,6 +125,8 @@
 }
 
 .moderation .box-panel .page-nav {
+	margin-top: 0px;
+
 	color: white;
 }
 
