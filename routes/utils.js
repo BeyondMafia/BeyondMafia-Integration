@@ -326,6 +326,17 @@ async function modelPageQuery(model, baseFilter, sortField, last, first, select,
 	return result;
 }
 
+async function createModAction(modId, name, args) {
+	var modAction = new models.ModAction({
+		id: shortid.generate(),
+		modId,
+		name,
+		args,
+		date: Date.now()
+	});
+	await modAction.save();
+}
+
 module.exports = {
 	getIP,
 	getUserId,
@@ -345,4 +356,5 @@ module.exports = {
 	rateLimit,
 	getModIds,
 	modelPageQuery,
+	createModAction,
 };

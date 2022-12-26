@@ -93,7 +93,7 @@ function ModCommands() {
 	var args = [];
 
 	for (let commandName in modCommands)
-		if (user.perms[modCommands[commandName].perm])
+		if (user.perms[modCommands[commandName].perm] && !modCommands[commandName].hidden)
 			options.push(commandName);
 
 	if (command) {
@@ -447,7 +447,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Move Thread": {
+		"Move Forum Thread": {
 			perm: "moveThread",
 			args: [
 				{
@@ -997,6 +997,78 @@ function useModCommands(argValues, commandRan) {
 					})
 					.catch(errorAlert);
 			}
+		},
+		"Delete Forum Board": {
+			hidden: true,
+			args: [
+				{
+					label: "Name",
+				},
+			],
+		},
+		"Update Board Description": {
+			hidden: true,
+			args: [
+				{
+					label: "Name",
+				},
+			],
+		},
+		"Delete Thread": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Restore Thread": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Toggle Forum Thread Pin": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Toggle Forum Thread Lock": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Delete Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
+		},
+		"Restore Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
+		},
+		"Restore Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
 		},
 	};
 }
