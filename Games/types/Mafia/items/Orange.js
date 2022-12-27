@@ -14,17 +14,28 @@ module.exports = class Orange extends Item {
                 inputType: "boolean",
                 action: {
                     labels: ["springs", "orange"],
-                    priority: -10,
-                    item: this
+                    priority: 10,
+                    item: this,
+                    run: function () {
+                        if (this.target == "Yes") {
+                            this.actor.role.data.visitHotSprings = true;
+                        }
+                    }
                 }
             },
-
-			"Hot Springs": {
-				actionName: "Enjoy the spa",
-				states: ["Night"],
-				flags: ["group", "speech", "voting", "anonymous"],
-				inputType: "boolean",
-			}
+            "Hot Springs": {
+                states: ["Night"],
+                flags: ["group", "speech", "anonymous"],
+                shouldMeet: function () {
+                    return this.data.visitHotSprings;
+                }
+            }
+        };
+        this.listeners = {
+            "state": function (stateInfo) {
+                if (stateInfo.name.match(/Day/) && this.holder.role.data.visitHotSprings)
+                    this.drop();
+            }
         };
     }
 
