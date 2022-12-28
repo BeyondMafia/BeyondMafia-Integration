@@ -6,6 +6,10 @@
 	width: 100%;
 }
 
+.game a {
+	color: var(--theme-color-light);
+}
+
 .game .loading-page {
 	height: 100%;
 }
@@ -101,7 +105,7 @@
 	flex-flow: row nowrap;
 	align-items: center;
 
-	color: #62a0db;
+	color: white;
 	font-size: 13px;
 }
 

@@ -111,12 +111,16 @@ export default function HostMafia() {
 
     function onHostGame() {
         var scheduled = getFormFieldValue("scheduled");
+        var lobby = getFormFieldValue("lobby");
+
+        if (lobby == "All")
+            lobby = "Main";
 
         if (selSetup.id)
             axios.post("/game/host", {
-                gameType: gameType,
+                gameType,
+                lobby,
                 setup: selSetup.id,
-                lobby: getFormFieldValue("lobby"),
                 private: getFormFieldValue("private"),
                 guests: getFormFieldValue("guests"),
                 ranked: getFormFieldValue("ranked"),

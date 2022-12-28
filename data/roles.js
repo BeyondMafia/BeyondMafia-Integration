@@ -390,7 +390,7 @@ const roleData = {
         "Villager": {
             alignment: "Village",
             description: [
-                "Wins if at least one Werewolf dies or if no one dies if no Werewovles are present."
+                "Wins if at least one Werewolf dies or if no one dies if no Werewolves are present."
             ]
         },
         "Hunter": {
@@ -402,7 +402,7 @@ const roleData = {
         "Mason": {
             alignment: "Village",
             description: [
-                "Learns who the other Masons are at the beginning of the night."
+                "Learns who the other Masons were at the beginning of the night."
             ]
         },
         "Seer": {
@@ -435,16 +435,16 @@ const roleData = {
         "Werewolf": {
             alignment: "Werewolves",
             description: [
-                "Learns who the other Werewolves are at the beginning of the night.",
+                "Learns who the other Werewolves were at the beginning of the night.",
                 "If there are no other Werewolves, learns one excess role.",
-                "Wins if Werewovles are present but no Werewolves die.",
+                "Wins if Werewolves are present but no Werewolves die.",
             ]
         },
         "Minion": {
             alignment: "Werewolves",
             description: [
                 "Learns who the Werewolves are at the beginning of the night.",
-                "Wins with the Werewovles, and wins if a non-minion player dies when no Werewolves are present.",
+                "Wins with the Werewolves, and wins if a non-minion player dies when no Werewolves are present.",
             ]
         },
         //Independent
