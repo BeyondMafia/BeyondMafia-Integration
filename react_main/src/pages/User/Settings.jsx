@@ -117,14 +117,14 @@ export default function Settings(props) {
 			label: "Name Color",
 			ref: "nameColor",
 			type: "color",
-			default: "#fff",
+			default: "#000",
 			disabled: (deps) => !deps.user.itemsOwned.textColors
 		},
 		{
 			label: "Text Color",
 			ref: "textColor",
 			type: "color",
-			default: "#fff",
+			default: "#000",
 			disabled: (deps) => !deps.user.itemsOwned.textColors
 		}
 	]);

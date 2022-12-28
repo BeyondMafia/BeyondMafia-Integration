@@ -331,14 +331,9 @@ router.post("/settings/update", async function (req, res) {
         if (prop == "backgroundColor" || prop == "textColor" || prop == "nameColor") {
             var c = new color(value);
 
-            if (prop == "backgroundColor" && c.isLight()) {
+            if ((prop == "textColor" || prop == "nameColor") && c.isLight()) {
                 res.status(500);
-                res.send("Background color is too light.");
-                return;
-            }
-            else if ((prop == "textColor" || prop == "nameColor") && c.isDark()) {
-                res.status(500);
-                res.send("Color is too dark.");
+                res.send("Color is too light.");
                 return;
             }
         }

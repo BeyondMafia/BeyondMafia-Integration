@@ -117,7 +117,12 @@ export default function Profile() {
 							break;
 					}
 				})
-				.catch(errorAlert);
+				.catch((e) => {
+					if (e.response == null)
+						errorAlert("File too large, must be less than 1 MB.");
+					else
+						errorAlert(e);
+				});
 		}
 	}
 
@@ -217,11 +222,11 @@ export default function Profile() {
 			.catch(errorAlert);
 	}
 
-	const mainPanelStyle = {};
+	const panelStyle = {};
 	const bannerStyle = {};
 
 	if (settings.backgroundColor)
-		mainPanelStyle.backgroundColor = settings.backgroundColor;
+		panelStyle.backgroundColor = settings.backgroundColor;
 
 	if (banner)
 		bannerStyle.backgroundImage = `url(/uploads/${userId}_banner.jpg?t=${siteInfo.cacheVal})`;
@@ -319,7 +324,7 @@ export default function Profile() {
 	return (
 		<>
 			<div className="profile">
-				<div className="main-panel" style={mainPanelStyle}>
+				<div className="main-panel" style={panelStyle}>
 					<div className="banner" style={bannerStyle}>
 						{isSelf &&
 							<HiddenUpload
@@ -416,7 +421,7 @@ export default function Profile() {
 				</div>
 				<div className="side column">
 					{ratings.length > 0 &&
-						<div className="box-panel ratings">
+						<div className="box-panel ratings" style={panelStyle}>
 							<div className="heading">
 								Mafia Ratings
 							</div>
@@ -425,7 +430,7 @@ export default function Profile() {
 							</div>
 						</div>
 					}
-					<div className="box-panel recent-games">
+					<div className="box-panel recent-games" style={panelStyle}>
 						<div className="heading">
 							Recent Games
 						</div>
@@ -437,7 +442,7 @@ export default function Profile() {
 						</div>
 					</div>
 					{friendRequests.length > 0 &&
-						<div className="box-panel friend-requests">
+						<div className="box-panel friend-requests" style={panelStyle}>
 							<div className="heading">
 								Friend Requests
 							</div>
@@ -446,7 +451,7 @@ export default function Profile() {
 							</div>
 						</div>
 					}
-					<div className="box-panel friends">
+					<div className="box-panel friends" style={panelStyle}>
 						<div className="heading">
 							Friends
 						</div>
@@ -467,7 +472,7 @@ export default function Profile() {
 								onNav={onFriendsPageNav} />
 						</div>
 					</div>
-					<div className="box-panel created-setups">
+					<div className="box-panel created-setups" style={panelStyle}>
 						<div className="heading">
 							Setups Created
 						</div>
