@@ -118,8 +118,8 @@ export default function Profile() {
 					}
 				})
 				.catch((e) => {
-					if (e.response == null)
-						errorAlert("File too large, must be less than 1 MB.");
+					if (e.response == null || e.response.status == 413)
+						errorAlert("File too large, must be less than 2 MB.");
 					else
 						errorAlert(e);
 				});
