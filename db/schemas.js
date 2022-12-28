@@ -141,6 +141,7 @@ var schemas = {
     "ForumCategory": new mongoose.Schema({
         id: { type: String, index: true },
         name: String,
+        rank: { type: Number, default: 0 },
         position: { type: Number, default: 0 },
         boards: [{ type: mongoose.Schema.Types.ObjectId, ref: "ForumBoard" }]
     }),
@@ -268,8 +269,8 @@ var schemas = {
     }),
     "ModAction": new mongoose.Schema({
         id: { type: String, index: true },
-        modId: String,
-        name: String,
+        modId: { type: String, index: true },
+        name: { type: String, index: true },
         args: [String],
         reason: String,
         date: { type: Number, index: true },

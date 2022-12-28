@@ -1258,7 +1258,9 @@ function SpeechInput(props) {
 
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
-		setLastTyped(Date.now());
+
+		if (e.target.value.length > 0 && (e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me "))
+			setLastTyped(Date.now());
 	}
 
 	function onSpeechSubmit(e) {
@@ -1416,7 +1418,7 @@ export function PlayerRows(props) {
 				<ReactLoading
 					className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
 					type="bubbles"
-					color="white"
+					color="black"
 					width="20"
 					height="20" />
 			}

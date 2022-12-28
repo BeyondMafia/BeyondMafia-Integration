@@ -759,7 +759,7 @@ async function hasPermissions(userId, perms, rank) {
 		return false;
 
 	for (let perm of perms)
-		if (!permInfo.perms[perm])
+		if (perm != null && permInfo.perms[perm] == null)
 			return false;
 
 	return true;

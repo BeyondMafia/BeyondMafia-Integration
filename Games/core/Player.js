@@ -73,7 +73,7 @@ module.exports = class Player {
 
 				message.content = message.content.slice(0, constants.maxGameMessageLength);
 
-				if (message.content[0] == "/") {
+				if (message.content[0] == "/" && message.content.slice(0, 4) != "/me ") {
 					this.parseCommand(message);
 					return;
 				}

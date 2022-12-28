@@ -10,7 +10,9 @@ const router = express.Router();
 router.get("/categories", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
-		var categories = await models.ForumCategory.find({})
+		var userId = await routeUtils.verifyLoggedIn(req, true);
+		var rank = userId ? await redis.getUserRank(userId) : 0;
+		var categories = await models.ForumCategory.find({ rank: { $lte: rank } })
 			.select("id name position boards -_id")
 			.populate({
 				path: "boards",
@@ -64,14 +66,15 @@ router.get("/board/:id", async function (req, res) {
 		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
 
 		var userId = await routeUtils.verifyLoggedIn(req, true);
+		var rank = userId ? await redis.getUserRank() : 0;
 		var boardId = String(req.params.id);
 		var sortType = String(req.query.sortType);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
 
-		var board = await models.ForumBoard.findOne({ id: boardId })
+		var board = await models.ForumBoard.findOne({ id: boardId, "category.rank": { $lte: rank } })
 			.select("id name icon category")
-			.populate("category", "id name -_id");
+			.populate("category", "id name rank -_id");
 
 		if (!board) {
 			res.status(500);
@@ -245,6 +248,7 @@ router.post("/category", async function (req, res) {
 			return;
 
 		var name = String(req.body.name).slice(0, constants.maxCategoryNameLength);
+		var rank = Number(req.body.rank) || 0;
 		var position = Number(req.body.position) || 0;
 
 		var category = await models.ForumCategory.findOne({ name: new RegExp(name, "i") })
@@ -259,6 +263,7 @@ router.post("/category", async function (req, res) {
 		category = new models.ForumCategory({
 			id: shortid.generate(),
 			name,
+			rank,
 			position
 		});
 		await category.save();
@@ -326,13 +331,14 @@ router.post("/board", async function (req, res) {
 router.post("/board/delete", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
+		var rank = await redis.getUserRank(userId);
 		var perm = "deleteBoard";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
 		var name = String(req.body.name);
-		await models.ForumBoard.deleteOne({ name: name }).exec();
+		await models.ForumBoard.deleteOne({ name, rank: { $lte: rank } }).exec();
 
 		routeUtils.createModAction(userId, "Delete Forum Board", [name]);
 		res.sendStatus(200);

@@ -32,12 +32,12 @@ router.get("/list", async function (req, res) {
         var userId = await routeUtils.verifyLoggedIn(req, true);
         var start = ((Number(req.query.page) || 1) - 1) * constants.lobbyPageSize;
         var listName = String(req.query.list).toLowerCase();
-        var lobby = String(req.query.lobby || "Main");
+        var lobby = String(req.query.lobby || "All");
         var last = Number(req.query.last);
         var first = Number(req.query.first);
         var games = [];
 
-        if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
+        if (!routeUtils.validProp(lobby) || (constants.lobbies.indexOf(lobby) == -1 && lobby != "All")) {
             logger.error("Invalid lobby.");
             res.send([]);
             return;
@@ -59,7 +59,10 @@ router.get("/list", async function (req, res) {
             games = games.concat(inProgressGames);
         }
 
-        games = games.filter(game => game.lobby == lobby).slice(start, end);
+        if (lobby != "All")
+            games = games.filter(game => game.lobby == lobby)
+
+        games = games.slice(start, end);
 
         for (let i in games) {
             let game = games[i];
@@ -89,9 +92,10 @@ router.get("/list", async function (req, res) {
         }
 
         if ((listName == "all" || listName == "finished") && games.length < constants.lobbyPageSize) {
+            var gameFilter = lobby != "All" ? { lobby } : {};
             var finishedGames = await routeUtils.modelPageQuery(
                 models.Game,
-                { lobby },
+                gameFilter,
                 "endTime",
                 last,
                 first,

@@ -236,7 +236,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Create Category": {
+		"Create Forum Category": {
 			perm: "createCategory",
 			args: [
 				{
@@ -244,6 +244,12 @@ function useModCommands(argValues, commandRan) {
 					name: "name",
 					type: "text",
 					maxlength: MaxCategoryNameLength
+				},
+				{
+					label: "Rank",
+					name: "rank",
+					type: "number",
+					default: 0
 				},
 				{
 					label: "Position",
@@ -261,7 +267,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Create Board": {
+		"Create Forum Board": {
 			perm: "createBoard",
 			args: [
 				{
@@ -428,7 +434,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Delete Board": {
+		"Delete Forum Board": {
 			perm: "deleteBoard",
 			args: [
 				{

@@ -17,7 +17,7 @@ import "../../css/join.css";
 import { TopBarLink } from "./Play";
 
 export default function Join(props) {
-    const defaultLobby = "Main";
+    const defaultLobby = "All";
     const gameListButtons = ["All", "Open", "In Progress", "Finished"];
 
     const [listType, setListType] = useState("All");
@@ -59,7 +59,7 @@ export default function Join(props) {
             .catch(errorAlert);
     }
 
-    if (Lobbies.indexOf(lobby) == -1)
+    if (lobby != "All" && Lobbies.indexOf(lobby) == -1)
         setLobby(defaultLobby);
 
     if (!user.loaded)
@@ -76,6 +76,10 @@ export default function Join(props) {
                 </div>
                 <div className="right-panel">
                     <div className="top-bar lobby-list">
+                        <TopBarLink
+                            text="All"
+                            sel={lobby}
+                            onClick={() => setLobby("All")} />
                         <TopBarLink
                             text="Main"
                             sel={lobby}
@@ -110,7 +114,8 @@ export default function Join(props) {
                         onNav={(page) => getGameList(listType, page)} />
                 </div>
             </div>
-            <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
+            <Comments
+                location={lobby == "Main" || lobby == "All" ? "lobby" : `lobby-${lobby}`} />
         </>
     );
 }
