@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { UserContext, PopoverContext, SiteInfoContext } from "../../Contexts"
 import Setup from "../../components/Setup"
-import { ButtonGroup, PageNav, SubNav } from "../../components/Nav"
+import { ButtonGroup, getPageNavFilterArg, PageNav, SubNav } from "../../components/Nav"
 import { ItemList } from "../../components/Basic"
 import { useErrorAlert } from "../../components/Alerts";
 import { camelCase } from "../../utils"
@@ -42,17 +42,12 @@ export default function Join(props) {
     }, [location.pathname, lobby]);
 
     function getGameList(_listType, _page) {
-        var filterArg;
+        var filterArg = getPageNavFilterArg(_page, page, games, "endTime");
 
-        if (_page == 1)
-            filterArg = "last=Infinity&page=1";
-        else if (_page < page && games.length != 0)
-            filterArg = `first=${games[0].endTime}&page=${_page}`;
-        else if (_page > page && games.length != 0)
-            filterArg = `last=${games[games.length - 1].endTime}&page=${_page}`;
-        else
+        if (filterArg == null)
             return;
 
+        filterArg += `&page=${_page}`;
         axios.get(`/game/list?list=${camelCase(_listType)}&lobby=${lobby}&${filterArg}`)
             .then(res => {
                 if (res.data.length > 0 || _page == 1) {

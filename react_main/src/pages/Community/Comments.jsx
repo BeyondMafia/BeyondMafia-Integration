@@ -6,7 +6,7 @@ import { useErrorAlert } from "../../components/Alerts";
 import { VoteWidget } from "./Forums/Forums";
 import { NameWithAvatar } from "../User/User";
 import { Time, filterProfanity } from "../../components/Basic";
-import { PageNav } from "../../components/Nav";
+import { getPageNavFilterArg, PageNav } from "../../components/Nav";
 import { TextEditor } from "../../components/Form";
 import { UserContext } from "../../Contexts";
 import LoadingPage from "../Loading";
@@ -32,15 +32,9 @@ export default function Comments(props) {
 	}, [location]);
 
 	function onCommentsPageNav(_page) {
-		var filterArg;
+		var filterArg = getPageNavFilterArg(_page, page, comments, "date");
 
-		if (_page == 1)
-			filterArg = "last=Infinity";
-		else if (_page < page && comments.length != 0)
-			filterArg = `first=${comments[0].date}`;
-		else if (_page > page && comments.length != 0)
-			filterArg = `last=${comments[comments.length - 1].date}`;
-		else
+		if (filterArg == null)
 			return;
 
 		axios.get(`/comment?location=${location}&${filterArg}`)

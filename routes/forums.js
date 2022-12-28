@@ -61,20 +61,13 @@ router.get("/categories", async function (req, res) {
 router.get("/board/:id", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
+		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
+
 		var userId = await routeUtils.verifyLoggedIn(req, true);
 		var boardId = String(req.params.id);
 		var sortType = String(req.query.sortType);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
-		var threadFilter, reversed;
-
-		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
-
-		if (sortTypes.indexOf(sortType) == -1)
-			sortType = "bumpDate";
-
-		if (isNaN(last) && isNaN(first))
-			last = Infinity;
 
 		var board = await models.ForumBoard.findOne({ id: boardId })
 			.select("id name icon category")
@@ -86,32 +79,33 @@ router.get("/board/:id", async function (req, res) {
 			return;
 		}
 
-		if (!isNaN(last)) {
-			threadFilter = { board: board._id, [sortType]: { $lt: last }, pinned: false };
-			sortType = `-${sortType}`;
-			reversed = false;
-		}
-		else {
-			threadFilter = { board: board._id, [sortType]: { $gt: first }, pinned: false };
-			reversed = true;
-		}
+		var threadFilter = { board: board._id, pinned: false };
 
 		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
 			threadFilter.deleted = false;
 
-		var threads = await models.ForumThread.find(threadFilter)
-			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
-			.populate("author", "id name avatar -_id")
-			.populate({
+		if (sortTypes.indexOf(sortType) == -1)
+			sortType = "bumpDate";
+
+		var threads = await routeUtils.modelPageQuery(
+			models.ForumThread,
+			threadFilter,
+			sortType,
+			last,
+			first,
+			"id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id",
+			constants.threadsPerPage,
+			["author", "id name avatar -_id"],
+			{
 				path: "recentReplies",
 				select: "id author postDate -_id",
 				populate: {
 					path: "author",
 					select: "id name avatar -_id"
 				}
-			})
-			.sort(sortType)
-			.limit(constants.threadsPerPage);
+			}
+		);
+
 		var pinnedThreads = await models.ForumThread.find({ board: board._id, pinned: true })
 			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
 			.populate("author", "id name avatar -_id")
@@ -124,9 +118,6 @@ router.get("/board/:id", async function (req, res) {
 				}
 			})
 			.sort("-bumpDate");
-
-		if (reversed)
-			threads = threads.reverse();
 
 		var votes = {};
 		var threadIds = threads.map(thread => thread.id);
@@ -272,6 +263,7 @@ router.post("/category", async function (req, res) {
 		});
 		await category.save();
 
+		routeUtils.createModAction(userId, "Create Forum Category", [name, String(position)]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -321,6 +313,7 @@ router.post("/board", async function (req, res) {
 			{ $push: { boards: board._id } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Create Forum Board", [name]);
 		res.send(board.id);
 	}
 	catch (e) {
@@ -341,6 +334,7 @@ router.post("/board/delete", async function (req, res) {
 		var name = String(req.body.name);
 		await models.ForumBoard.deleteOne({ name: name }).exec();
 
+		routeUtils.createModAction(userId, "Delete Forum Board", [name]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -353,12 +347,12 @@ router.post("/board/delete", async function (req, res) {
 router.post("/board/updateDescription", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		var perm = "createBoard";
+		var perm = "updateBoard";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		var boardId = String(req.body.id);
+		var name = String(req.body.name);
 		var description = String().slice(0, constants.maxBoardDescLength);
 
 		await models.ForumBoard.updateOne(
@@ -366,6 +360,7 @@ router.post("/board/updateDescription", async function (req, res) {
 			{ $set: { description: description } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Update Board Description", [name]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -471,6 +466,9 @@ router.post("/thread/delete", async function (req, res) {
 			{ $set: { deleted: true } }
 		).exec();
 
+		if (thread.author.id != userId)
+			routeUtils.createModAction(userId, "Delete Forum Thread", [threadId]);
+
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -504,6 +502,7 @@ router.post("/thread/restore", async function (req, res) {
 			{ $set: { deleted: false } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Restore Forum Thread", [threadId]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -537,6 +536,7 @@ router.post("/thread/togglePinned", async function (req, res) {
 			{ $set: { pinned: !thread.pinned } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Toggle Forum Thread Pin", [threadId]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -570,6 +570,7 @@ router.post("/thread/toggleLocked", async function (req, res) {
 			{ $set: { locked: !thread.locked } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Toggle Forum Thread Lock", [threadId]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -625,7 +626,6 @@ router.post("/thread/edit", async function (req, res) {
 
 router.post("/thread/notify", async function (req, res) {
 	try {
-		var userId = await routeUtils.verifyLoggedIn(req);
 		var threadId = String(req.body.thread);
 
 		var thread = await models.ForumThread.findOne({ id: threadId, author: req.session.user._id, deleted: false })
@@ -685,6 +685,7 @@ router.post("/thread/move", async function (req, res) {
 			{ $set: { board: board._id } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Move Forum Thread", [threadId, boardName]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -836,6 +837,9 @@ router.post("/reply/delete", async function (req, res) {
 			{ $set: { deleted: true } }
 		).exec();
 
+		if (reply.author.id != userId)
+			routeUtils.createModAction(userId, "Delete Forum Reply", [replyId]);
+
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -876,6 +880,7 @@ router.post("/reply/restore", async function (req, res) {
 			{ $set: { deleted: false } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Restore Forum Reply", [replyId]);
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -1046,7 +1051,7 @@ router.get("/search", async function (req, res) {
 	try {
 		var query = String(req.query.query);
 		var user = String(req.query.user);
-		var lastId = String(req.query.lastId);
+		var last = String(req.query.last);
 
 		var threads = await models.ForumThread.find({})
 			.select("id author title content")

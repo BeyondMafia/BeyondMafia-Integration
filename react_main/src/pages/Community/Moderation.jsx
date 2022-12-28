@@ -10,6 +10,9 @@ import LoadingPage from "../Loading";
 import { MaxBoardNameLength, MaxCategoryNameLength, MaxGroupNameLength, MaxBoardDescLength } from "../../Constants";
 
 import "../../css/moderation.css";
+import { getPageNavFilterArg, PageNav } from "../../components/Nav";
+import { Time } from "../../components/Basic";
+import { Link } from "react-router-dom";
 
 export default function Moderation() {
 	const [groups, setGroups] = useState([]);
@@ -60,15 +63,20 @@ export default function Moderation() {
 
 	return (
 		<div className="moderation">
-			{user.perms.viewModActions &&
-				<div className="span-panel action-panel">
-					<div className="title">
-						Do Action
+			<div className="main-section">
+				{user.perms.viewModActions &&
+					<div className="span-panel action-panel">
+						<div className="title">
+							Do Action
+						</div>
+						<ModCommands />
 					</div>
-					<ModCommands />
-				</div>
-			}
-			{groupsPanels}
+				}
+				{groupsPanels}
+			</div>
+			<div className="side-column">
+				<ModActions />
+			</div>
 		</div>
 	);
 }
@@ -85,7 +93,7 @@ function ModCommands() {
 	var args = [];
 
 	for (let commandName in modCommands)
-		if (user.perms[modCommands[commandName].perm])
+		if (user.perms[modCommands[commandName].perm] && !modCommands[commandName].hidden)
 			options.push(commandName);
 
 	if (command) {
@@ -339,7 +347,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "giveGroup",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -363,7 +371,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "removeFromGroup",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -406,7 +414,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewPerms",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -439,7 +447,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Move Thread": {
+		"Move Forum Thread": {
 			perm: "moveThread",
 			args: [
 				{
@@ -515,7 +523,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "forumBan",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -538,7 +546,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "chatBan",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -561,7 +569,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "gameBan",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -584,7 +592,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "hostRankedBan",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -607,7 +615,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "siteBan",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -630,7 +638,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "forceSignOut",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -648,7 +656,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "forumUnban",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -666,7 +674,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "chatUnban",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -684,7 +692,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "gameUnban",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -702,7 +710,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "siteUnban",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -720,7 +728,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewAlts",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -728,7 +736,7 @@ function useModCommands(argValues, commandRan) {
 			run: function () {
 				axios.get(`/mod/alts?userId=${argValues.userId}`)
 					.then(res => {
-						alert(res.data.join(", "));
+						alert(res.data.map(u => `${u.name} (${u.id})`).join(", "));
 						commandRan();
 					})
 					.catch(errorAlert);
@@ -738,7 +746,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "viewBans",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -774,7 +782,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearBio",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -792,7 +800,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAccountDisplay",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -810,7 +818,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearName",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -828,7 +836,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAvi",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -846,7 +854,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "clearAllUserContent",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -864,7 +872,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "changeName",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -887,7 +895,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "giveCoins",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -958,7 +966,7 @@ function useModCommands(argValues, commandRan) {
 			perm: "whitelist",
 			args: [
 				{
-					label: "User Name",
+					label: "User",
 					name: "userId",
 					type: "user_search"
 				},
@@ -990,5 +998,161 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Delete Forum Board": {
+			hidden: true,
+			args: [
+				{
+					label: "Name",
+				},
+			],
+		},
+		"Update Board Description": {
+			hidden: true,
+			args: [
+				{
+					label: "Name",
+				},
+			],
+		},
+		"Delete Thread": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Restore Thread": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Toggle Forum Thread Pin": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Toggle Forum Thread Lock": {
+			hidden: true,
+			args: [
+				{
+					label: "Thread ID",
+				},
+			],
+		},
+		"Delete Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
+		},
+		"Restore Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
+		},
+		"Restore Forum Reply": {
+			hidden: true,
+			args: [
+				{
+					label: "Reply ID",
+				},
+			],
+		},
 	};
+}
+
+function ModActions(props) {
+	const [page, setPage] = useState(1);
+	const [actions, setActions] = useState([]);
+
+	const modCommands = useModCommands({}, () => { });
+	const errorAlert = useErrorAlert();
+
+	useEffect(() => {
+		onPageNav(1);
+	}, []);
+
+	function onPageNav(_page) {
+		var filterArg = getPageNavFilterArg(_page, page, actions, "date");
+
+		if (filterArg == null)
+			return;
+
+		axios.get(`/mod/actions?${filterArg}`)
+			.then(res => {
+				if (res.data.length > 0) {
+					setActions(res.data);
+					setPage(_page);
+				}
+			})
+			.catch(errorAlert);
+	}
+
+	const actionRows = actions.map(action => {
+		let command = modCommands[action.name];
+		let actionArgs = action.args.map((arg, i) => {
+			let label = command.args[i].label;
+
+			if (label == "User")
+				arg = <Link to={`/user/${arg}`}>{arg}</Link>
+
+			return (
+				<div className="action-arg" key={i}>
+					{label}: {arg}
+				</div>
+			);
+		});
+
+		return (
+			<div className="action" key={action.id}>
+				<div className="top-row">
+					<NameWithAvatar
+						id={action.mod.id}
+						name={action.mod.name}
+						avatar={action.mod.avatar} />
+					<div className="date">
+						<Time
+							minSec
+							millisec={Date.now() - action.date}
+							suffix=" ago" />
+					</div>
+				</div>
+				<div className="action-name">
+					{action.name}
+				</div>
+				<div className="action-args">
+					{actionArgs}
+				</div>
+			</div>
+		);
+	});
+
+	return (
+		<div className="box-panel">
+			<div className="heading">
+				Mod Actions
+			</div>
+			<div className="actions-wrapper">
+				<PageNav
+					page={page}
+					onNav={onPageNav} />
+				{actionRows}
+				<PageNav
+					page={page}
+					onNav={onPageNav} />
+			</div>
+		</div>
+	);
 }

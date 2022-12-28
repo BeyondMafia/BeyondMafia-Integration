@@ -128,6 +128,7 @@ module.exports = {
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
 	lobbyPageSize: 7,
+	modActionPageSize: 7,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,
@@ -196,6 +197,7 @@ module.exports = {
 		"restoreDeleted": true,
 		"createBoard": true,
 		"deleteBoard": true,
+		"updateBoard": true,
 		"createRoom": true,
 		"deleteRoom": true,
 		"deleteChatMessage": true,
@@ -264,7 +266,6 @@ module.exports = {
 			rank: 10,
 			visible: true,
 			perms: [
-				"createCategory",
 				"deleteAnyPost",
 				"lockThreads",
 				"pinThreads",
@@ -278,7 +279,7 @@ module.exports = {
 				"viewDeleted",
 				"restoreDeleted",
 				"createBoard",
-				"deleteBoard",
+				"updateBoard",
 				"createRoom",
 				"deleteRoom",
 				"deleteChatMessage",
