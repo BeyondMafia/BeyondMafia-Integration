@@ -1,4 +1,4 @@
-# Setting up the Development Environment
+# Setting up the Development Environment: External Dependencies
 
 This project relies on a few external APIs. This section walksthrough how to set up projects and get the API keys for:
 
