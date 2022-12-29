@@ -139,6 +139,10 @@ router.get("/:id/profile", async function (req, res) {
         else
             user.friendRequests = [];
 
+        for (let game of user.games)
+            if (game.status == null)
+                game.status = "Finished";
+
         var inGame = await redis.inGame(userId);
         var game;
 

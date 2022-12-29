@@ -273,7 +273,7 @@ export default function Profile() {
 			game={game}
 			type={game.status || "Finished"}
 			key={game.id}
-			smallSetup />
+			small />
 	));
 
 	const createdSetupRows = createdSetups.map(setup => (

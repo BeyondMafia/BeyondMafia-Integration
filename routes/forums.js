@@ -66,17 +66,17 @@ router.get("/board/:id", async function (req, res) {
 		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
 
 		var userId = await routeUtils.verifyLoggedIn(req, true);
-		var rank = userId ? await redis.getUserRank() : 0;
+		var rank = userId ? await redis.getUserRank(userId) : 0;
 		var boardId = String(req.params.id);
 		var sortType = String(req.query.sortType);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
 
-		var board = await models.ForumBoard.findOne({ id: boardId, "category.rank": { $lte: rank } })
+		var board = await models.ForumBoard.findOne({ id: boardId })
 			.select("id name icon category")
 			.populate("category", "id name rank -_id");
 
-		if (!board) {
+		if (!board || board.category.rank > rank) {
 			res.status(500);
 			res.end("Board not found");
 			return;
