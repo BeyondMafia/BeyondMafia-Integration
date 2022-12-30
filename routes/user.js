@@ -212,7 +212,7 @@ router.get("/:id/friends", async function (req, res) {
             first,
             "friendId friend lastActive -_id",
             constants.friendsPerPage,
-            ["friend", "id name avatar"]
+            ["friend", "id name avatar -_id"]
         );
 
         friends = friends.map(friend => {

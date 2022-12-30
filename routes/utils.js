@@ -304,7 +304,7 @@ async function modelPageQuery(model, baseFilter, sortField, last, first, select,
 		reversed = false;
 	}
 	else {
-		baseFilter[sortField] = { $gte: first };
+		baseFilter[sortField] = { $gt: first };
 		sortType = sortField;
 		reversed = true;
 	}
