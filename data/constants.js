@@ -355,6 +355,7 @@ module.exports = {
 		"vote": 500,
 		"sendChatMessage": 500,
 		"deleteAccount": 24 * 60 * 60 * 1000,
-		"postComment": 30 * 1000
+		"postComment": 30 * 1000,
+		"favSetup": 500,
 	},
 };
