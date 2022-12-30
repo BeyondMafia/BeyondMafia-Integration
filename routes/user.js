@@ -78,6 +78,30 @@ router.get("/online", async function (req, res) {
     }
 });
 
+router.get("/newest", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var last = Number(req.query.last);
+        var first = Number(req.query.first);
+
+        var users = await routeUtils.modelPageQuery(
+            models.User,
+            {},
+            "joined",
+            last,
+            first,
+            "id name avatar joined -_id",
+            constants.newestUsersPageSize,
+        );
+
+        res.send(users);
+    }
+    catch (e) {
+        logger.error(e);
+        res.send([]);
+    }
+});
+
 router.post("/online", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req, true);

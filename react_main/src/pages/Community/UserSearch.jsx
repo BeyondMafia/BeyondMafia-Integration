@@ -6,19 +6,15 @@ import { useErrorAlert } from "../../components/Alerts";
 import { NameWithAvatar, StatusIcon } from "../User/User";
 
 import "../../css/userSearch.css";
+import { getPageNavFilterArg, PageNav } from "../../components/Nav";
+import { Time } from "../../components/Basic";
 
-export default function Settings(props) {
+export default function UserSearch(props) {
 	const [userList, setUserList] = useState([]);
 	const [searchVal, setSearchVal] = useState("");
 
 	useEffect(() => {
 		document.title = "Users | BeyondMafia";
-
-		axios.get("/user/online")
-			.then(res => {
-				setUserList(res.data);
-			})
-			.catch(useErrorAlert);
 	}, []);
 
 	useEffect(() => {
@@ -49,16 +45,80 @@ export default function Settings(props) {
 	));
 
 	return (
-		<div className="span-panel main user-search-page">
-			<div className="form">
-				<input
-					type="text"
-					placeholder="Username"
-					value={searchVal}
-					onChange={(e) => setSearchVal(e.target.value)} />
+		<div className="user-search-page">
+			<div className="span-panel main">
+				<div className="form">
+					<input
+						type="text"
+						placeholder="Username"
+						value={searchVal}
+						onChange={(e) => setSearchVal(e.target.value)} />
+				</div>
+				<div className="users">
+					{users}
+				</div>
 			</div>
-			<div className="users">
-				{users}
+			<NewestUsers />
+		</div>
+	);
+}
+
+function NewestUsers(props) {
+	const [page, setPage] = useState(1);
+	const [users, setUsers] = useState([]);
+
+	const errorAlert = useErrorAlert();
+
+	useEffect(() => {
+		onPageNav(1);
+	}, []);
+
+	function onPageNav(_page) {
+		var filterArg = getPageNavFilterArg(_page, page, users, "joined");
+
+		if (filterArg == null)
+			return;
+
+		axios.get(`/user/newest?${filterArg}`)
+			.then(res => {
+				if (res.data.length > 0) {
+					setUsers(res.data);
+					setPage(_page);
+				}
+			})
+			.catch(errorAlert);
+	}
+
+	const userRows = users.map(user => (
+		<div className="user-row" key={user.id}>
+			<NameWithAvatar
+				id={user.id}
+				name={user.name}
+				avatar={user.avatar} />
+			<div className="joined">
+				<Time
+					minSec
+					millisec={Date.now() - user.joined}
+					suffix=" ago" />
+			</div>
+		</div>
+	));
+
+	return (
+		<div className="newest-users box-panel">
+			<div className="heading">
+				Newest Users
+			</div>
+			<div className="newest-users-list">
+				<PageNav
+					page={page}
+					onNav={onPageNav}
+					inverted />
+				{userRows}
+				<PageNav
+					page={page}
+					onNav={onPageNav}
+					inverted />
 			</div>
 		</div>
 	);
