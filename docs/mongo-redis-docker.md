@@ -1,14 +1,8 @@
-# Setting up the Development Environment: MongoDB
+# Setting up the Development Environment: Docker Guide for MongoDB and Redis
 
-There are many ways you can bootstrap MongoDB locally.
+There are many ways you can bootstrap MongoDB and Redis locally. This method runs MongoDB and Redis in containers. Prerequisite: [docker](https://docs.docker.com/get-docker/).
 
-## windows
-
-## linux
-
-## docker
-
-This method runs MongoDB in a container. Prerequisites: [docker](https://docs.docker.com/get-docker/).
+## MongoDB
 
 1. Run the mongo container.
 
@@ -57,5 +51,11 @@ MONGO_PW=password
 
 ```
 docker rm -f mongo
-docker volume prune
+docker volume rm local-mongo
+```
+
+## Redis
+
+```
+docker run -d -p 6379:6379 --name redis redis
 ```

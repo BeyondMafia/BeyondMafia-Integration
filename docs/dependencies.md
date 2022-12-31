@@ -48,7 +48,7 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 <img src="https://user-images.githubusercontent.com/24848927/209988300-bee979fd-3750-40c1-80bf-d7e428b2a6ff.png" alt="service account" width="700"/>
 
-6. Copy the contents of the downloaded file into `/BeyondMafia-Integration/firebase.json`.
+6. Copy the contents of the downloaded file into `xx/BeyondMafia-Integration/firebase.json`. You can use other file names, but update the `FIREBASE_JSON_FILE` env accordingly.
 
 ## Agora
 
