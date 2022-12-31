@@ -18,6 +18,37 @@
 	justify-content: flex-start;
 }
 
+.play .lobby-banner {
+	height: 200px;
+	margin: 10px;
+
+	background-repeat: no-repeat;
+	background-position: center; 
+	background-size: auto 100%;
+}
+
+.play .lobby-banner-all {
+	background-image: url("/images/banner-all.png");
+}
+
+.play .lobby-banner-main {
+	background-image: url("/images/banner-main.png");
+}
+
+.play .lobby-banner-sandbox {
+	background-image: url("/images/banner-sandbox.png");
+}
+
+
+.play .lobby-banner-competitive {
+	background-image: url("/images/banner-competitive.png");
+}
+
+.play .lobby-banner-games {
+	background-image: url("/images/banner-games.png");
+}
+
+
 .join .row .btns-wrapper {
 	display: flex;
 	flex-flow: column nowrap;

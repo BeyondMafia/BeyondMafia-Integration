@@ -97,6 +97,7 @@ export default function Join(props) {
                             sel={lobby}
                             onClick={() => setLobby("Games")} />
                     </div>
+                    <Banner lobby={lobby}/>
                     <ItemList
                         className="games"
                         items={games}
@@ -112,12 +113,21 @@ export default function Join(props) {
                     <PageNav
                         page={page}
                         onNav={(page) => getGameList(listType, page)} />
+
                 </div>
             </div>
             <Comments
                 location={lobby == "Main" || lobby == "All" ? "lobby" : `lobby-${lobby}`} />
         </>
     );
+}
+
+export function Banner(props) {
+    const lobbyString = props.lobby.toLowerCase()
+    var lobbyBannerClass = `lobby-banner lobby-banner-${lobbyString}`
+    return (
+        <div className={lobbyBannerClass}></div>
+    )
 }
 
 export function GameRow(props) {
