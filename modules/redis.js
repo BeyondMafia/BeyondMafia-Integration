@@ -190,6 +190,12 @@ async function getBasicUserInfo(userId) {
 	info.avatar = await client.getAsync(`user:${userId}:info:avatar`) == "true";
 	info.status = await client.getAsync(`user:${userId}:info:status`);
 
+	var settings = JSON.parse(await client.getAsync(`user:${userId}:info:settings`));
+	info.settings = {
+		nameColor: settings.nameColor,
+		textColor: settings.textColor,
+	};
+
 	return info;
 }
 

@@ -290,6 +290,14 @@ const roleData = {
                 "All votes and speech are anonymous during an eclipse."
             ],
         },
+        "Cultist": {
+            alignment: "Monsters",
+            description: [
+                "Meets with other Cultists and Monsters during the night.",
+                "The Cultists convert one player into a Cultist each night.",
+                "All Cultists die if a leader (original Cultist) dies.",
+            ],
+        },
         "Cthulhu": {
             alignment: "Monsters",
             description: [
@@ -323,14 +331,6 @@ const roleData = {
             alignment: "Independent",
             description: [
                 "Wins if survives until the end of the game."
-            ],
-        },
-        "Cultist": {
-            alignment: "Independent",
-            description: [
-                "Meets with other Cultists during the night.",
-                "The group converts one player into a Cultist each night.",
-                "All Cultists die if a leader (original Cultist) dies.",
             ],
         },
     },

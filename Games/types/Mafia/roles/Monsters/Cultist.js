@@ -5,14 +5,14 @@ module.exports = class Cultist extends Role {
 	constructor(player, data) {
 		super("Cultist", player, data);
 
-		this.alignment = "Independent";
+		this.alignment = "Monsters";
 		this.cards = [
-			"VillageCore", 
-			"WinAllSameRole", 
-			"MeetWithCultists", 
+			"VillageCore",
+			"WinWithMonsters",
+			"MeetingMonster",
+			"MeetWithCultists",
 			"KillSameRoleOnDeath"
 		];
-		this.winCount = "Cultist";
 	}
 
 }

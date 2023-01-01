@@ -6,7 +6,12 @@ module.exports = class Cthulhu extends Role {
 		super("Cthulhu", player, data);
 
 		this.alignment = "Monsters";
-		this.cards = ["VillageCore", "WinWithMonsters", "MeetingMonster", "MakeVisitorsInsane"];
+		this.cards = [
+			"VillageCore",
+			"WinWithMonsters",
+			"MeetingMonster",
+			"MakeVisitorsInsane"
+		];
 	}
 
 }

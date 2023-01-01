@@ -21,7 +21,6 @@
 	min-width: 150px;
 	padding: 10px 20px;
 
-	border-bottom: 1px solid var(--theme-color-sec);
 	background-color: var(--theme-color);
 	cursor: pointer;
 }
@@ -276,7 +275,7 @@
 
 .chat-wrapper .message.self .content {
 	background-color: var(--theme-color-text);
-	color: white;
+	color: black;
 }
 
 .chat-wrapper .message .content a {

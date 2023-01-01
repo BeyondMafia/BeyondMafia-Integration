@@ -112,7 +112,7 @@ const channelMembers = {};
 
 						var messages = await models.ChatMessage.find({ channel: currentChannel, date: { $lt: lastDate } })
 							.select("id senderId sender date channel content -_id")
-							.populate("sender", "id name avatar -_id")
+							.populate("sender", "id name avatar settings.nameColor settings.textColor -_id")
 							.sort("-date")
 							.limit(constants.chatMessagesPerLoad);
 
