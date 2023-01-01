@@ -236,11 +236,7 @@ module.exports = class Meeting {
 			inputType: this.inputType,
 			votes: votes,
 			voteRecord: voteRecord,
-			messages: this.messages.reduce((msgs, m) => {
-				m = m.getMessageInfo(member.player);
-				if (m) msgs.push(m);
-				return msgs;
-			}, []),
+			messages: this.getPlayerMessages(member.player),
 			canVote: member.canVote,
 			canUnvote: member.canUnvote,
 			canTalk: member.canTalk,
@@ -248,6 +244,14 @@ module.exports = class Meeting {
 			vcToken: this.speech && !this.anonymous && member.canTalk && member.vcToken,
 			amMember: member.id != null
 		};
+	}
+
+	getPlayerMessages(player) {
+		return this.messages.reduce((msgs, m) => {
+			m = m.getMessageInfo(player);
+			if (m) msgs.push(m);
+			return msgs;
+		}, []);
 	}
 
 	getSpeechAbilityInfo(member) {

@@ -18,4 +18,12 @@ module.exports = class PregameMeeting extends Meeting {
 		player.leftMeeting(this);
 	}
 
+	getPlayerMessages(player) {
+		return this.messages.reduce((msgs, m) => {
+			m = m.getMessageInfo();
+			if (m) msgs.push(m);
+			return msgs;
+		}, []);
+	}
+
 }

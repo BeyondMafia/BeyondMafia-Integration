@@ -70,6 +70,7 @@ export default function Profile() {
 					setCreatedSetups(res.data.setups);
 					setMaxFriendsPage(res.data.maxFriendsPage);
 					setFriendRequests(res.data.friendRequests);
+					setFriendsPage(1);
 					setStats(res.data.stats);
 
 					document.title = `${res.data.name}'s Profile | BeyondMafia`;

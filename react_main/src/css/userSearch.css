@@ -45,6 +45,8 @@
 }
 
 .user-search-page .newest-users {
+	flex-shrink: 0;
+
 	margin-left: 10px;
 	width: 250px;
 

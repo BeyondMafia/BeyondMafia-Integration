@@ -18,7 +18,6 @@ import { TopBarLink } from "./Play";
 
 export default function Join(props) {
     const defaultLobby = "All";
-    const gameListButtons = ["All", "Open", "In Progress", "Finished"];
 
     const [listType, setListType] = useState("All");
     const [page, setPage] = useState(1);
