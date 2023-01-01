@@ -11,7 +11,7 @@ import Setup from "../../components/Setup";
 import { GameRow } from "../Play/Join";
 import { Time, filterProfanity } from "../../components/Basic";
 import { useErrorAlert } from "../../components/Alerts";
-import { PageNav } from "../../components/Nav";
+import { getPageNavFilterArg, PageNav } from "../../components/Nav";
 import { RatingThresholds, RequiredTotalForStats } from "../../Constants";
 import { capitalize } from "../../utils";
 import Comments from "../Community/Comments";
@@ -70,6 +70,7 @@ export default function Profile() {
 					setCreatedSetups(res.data.setups);
 					setMaxFriendsPage(res.data.maxFriendsPage);
 					setFriendRequests(res.data.friendRequests);
+					setFriendsPage(1);
 					setStats(res.data.stats);
 
 					document.title = `${res.data.name}'s Profile | BeyondMafia`;
@@ -201,23 +202,17 @@ export default function Profile() {
 	}
 
 	function onFriendsPageNav(page) {
-		var filterArg;
+		var filterArg = getPageNavFilterArg(page, friendsPage, friends, "lastActive");
 
-		if (page == 1)
-			filterArg = "last=Infinity";
-		else if (page == maxFriendsPage)
-			filterArg = "first=-1";
-		if (page < friendsPage)
-			filterArg = `first=${friends[0].lastActive}`;
-		else if (page > friendsPage)
-			filterArg = `last=${friends[friends.length - 1].lastActive}`;
-		else
+		if (filterArg == null)
 			return;
 
 		axios.get(`/user/${userId}/friends?${filterArg}`)
 			.then(res => {
-				setFriends(res.data);
-				setFriendsPage(page);
+				if (res.data.length) {
+					setFriends(res.data);
+					setFriendsPage(page);
+				}
 			})
 			.catch(errorAlert);
 	}
@@ -273,7 +268,7 @@ export default function Profile() {
 			game={game}
 			type={game.status || "Finished"}
 			key={game.id}
-			smallSetup />
+			small />
 	));
 
 	const createdSetupRows = createdSetups.map(setup => (
@@ -459,7 +454,6 @@ export default function Profile() {
 							<PageNav
 								inverted
 								page={friendsPage}
-								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />
 							{friendRows}
 							{friends.length == 0 &&
@@ -468,7 +462,6 @@ export default function Profile() {
 							<PageNav
 								inverted
 								page={friendsPage}
-								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />
 						</div>
 					</div>

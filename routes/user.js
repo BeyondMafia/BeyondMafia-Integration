@@ -78,6 +78,30 @@ router.get("/online", async function (req, res) {
     }
 });
 
+router.get("/newest", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var last = Number(req.query.last);
+        var first = Number(req.query.first);
+
+        var users = await routeUtils.modelPageQuery(
+            models.User,
+            {},
+            "joined",
+            last,
+            first,
+            "id name avatar joined -_id",
+            constants.newestUsersPageSize,
+        );
+
+        res.send(users);
+    }
+    catch (e) {
+        logger.error(e);
+        res.send([]);
+    }
+});
+
 router.post("/online", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req, true);
@@ -138,6 +162,10 @@ router.get("/:id/profile", async function (req, res) {
         }
         else
             user.friendRequests = [];
+
+        for (let game of user.games)
+            if (game.status == null)
+                game.status = "Finished";
 
         var inGame = await redis.inGame(userId);
         var game;
@@ -208,7 +236,7 @@ router.get("/:id/friends", async function (req, res) {
             first,
             "friendId friend lastActive -_id",
             constants.friendsPerPage,
-            ["friend", "id name avatar"]
+            ["friend", "id name avatar -_id"]
         );
 
         friends = friends.map(friend => {

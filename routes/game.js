@@ -368,6 +368,14 @@ router.post("/host", async function (req, res) {
             return;
         }
 
+        var lobbyCheck = lobbyChecks[lobby](gameType, req.body, setup);
+
+        if (typeof lobbyCheck == "string") {
+            res.status(500);
+            res.send(lobbyCheck);
+            return;
+        }
+
         setup = setup.toJSON();
         setup.roles = JSON.parse(setup.roles);
 
@@ -550,6 +558,34 @@ router.post("/cancel", async function (req, res) {
         res.send("Error cancelling scheduled game.");
     }
 });
+
+const lobbyChecks = {
+    "Main": (gameType, setup, settings) => {
+        if (gameType != "Mafia")
+            return "Only Mafia is allowed in Main lobby.";
+
+        if (setup.comp)
+            return "Competitive games are not allowed in Main lobby.";
+    },
+    "Sandbox": (gameType, setup, settings) => {
+        if (setup.ranked)
+            return "Ranked games are not allowed in Sandbox lobby.";
+
+        if (setup.comp)
+            return "Competitive games are not allowed in Sandbox lobby.";
+    },
+    "Competitive": (gameType, setup, settings) => {
+        if (gameType != "Mafia")
+            return "Only Mafia is allowed in Competitive lobby.";
+
+        if (!setup.comp)
+            return "Only comp games are allowed in Competitive lobby";
+    },
+    "Games": (gameType, setup, settings) => {
+        if (gameType == "Mafia")
+            return "Only games other than Mafia are allowed in Games lobby.";
+    },
+};
 
 const settingsChecks = {
     "Mafia": (settings, setup) => {

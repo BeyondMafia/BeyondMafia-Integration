@@ -209,8 +209,9 @@
 	margin-bottom: 0px;
 }
 
-.profile .game-row:first-child {
-	margin-top: 0px;
+.profile .game-row .btn {
+	width: auto;
+	margin: 0px;
 }
 
 .profile .recent-games .setup {

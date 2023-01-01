@@ -295,6 +295,10 @@ router.post("/favorite", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var setupId = String(req.body.id);
+
+		if (!(await routeUtils.rateLimit(userId, "favSetup", res)))
+			return;
+
 		var result = await redis.updateFavSetup(userId, setupId);
 
 		if (result != "-2")

@@ -13,10 +13,14 @@ router.get("/", async function (req, res) {
 		var location = String(req.query.location);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
+		var commentFilter = { location };
+
+		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
+			commentFilter.deleted = false;
 
 		var comments = await routeUtils.modelPageQuery(
 			models.Comment,
-			{ location },
+			commentFilter,
 			"date",
 			last,
 			first,

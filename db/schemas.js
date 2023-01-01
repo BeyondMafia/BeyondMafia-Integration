@@ -88,7 +88,7 @@ var schemas = {
         hash: { type: String, index: true },
         name: { type: String, index: true },
         gameType: { type: String, index: true },
-        creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
         closed: Boolean,
         unique: Boolean,
         roles: String,

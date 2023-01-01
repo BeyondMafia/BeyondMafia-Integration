@@ -18,7 +18,6 @@ import { TopBarLink } from "./Play";
 
 export default function Join(props) {
     const defaultLobby = "All";
-    const gameListButtons = ["All", "Open", "In Progress", "Finished"];
 
     const [listType, setListType] = useState("All");
     const [page, setPage] = useState(1);
@@ -153,10 +152,13 @@ export function GameRow(props) {
     var linkPath, buttonText;
     var buttonClass = "btn ";
 
+    if (props.small)
+        buttonClass += "btn-small ";
+
     switch (props.game.status) {
         case "Open":
             linkPath = `/game/${props.game.id}`;
-            buttonClass += "btn-join";
+            buttonClass += "btn-join ";
 
             if (props.game.scheduled <= Date.now())
                 buttonText = "Join";
@@ -164,18 +166,18 @@ export function GameRow(props) {
         case "In Progress":
             if (props.game.spectating || user.perms.canSpectateAny) {
                 linkPath = `/game/${props.game.id}`;
-                buttonClass += "btn-spectate";
+                buttonClass += "btn-spectate ";
                 buttonText = "Spectate";
             }
             else {
                 linkPath = "/play";
-                buttonClass += "btn-in-progress";
+                buttonClass += "btn-in-progress ";
                 buttonText = "In Progress";
             }
             break;
         case "Finished":
             linkPath = `/game/${props.game.id}/review`;
-            buttonClass += "btn-review";
+            buttonClass += "btn-review ";
             buttonText = "Review";
             break;
     }
@@ -236,13 +238,14 @@ export function GameRow(props) {
         return <></>;
 
     return (
-        <div className={`row ${props.odd ? "odd" : ""}`}>
+        <div className={`row ${props.odd ? "odd" : ""} game-row`}>
+            {/* {!props.small && */}
             <div className="btns-wrapper">
-                {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
+                {(user.loggedIn || props.status == "Finished") && !props.game.broken && !props.game.private &&
                     <Link
                         to={linkPath}
                         className={buttonClass}
-                        disabled={props.type == "In Progress" && !props.game.spectating}>
+                        disabled={props.status == "In Progress" && !props.game.spectating}>
                         {buttonText}
                     </Link>
                 }
@@ -274,24 +277,16 @@ export function GameRow(props) {
                     <i className="fas fa-lock review-icon" title="Private" />
                 }
             </div>
+            {/* } */}
             <div className="player-count-wrapper">
-                {props.type != "Finished" &&
-                    <PlayerCount game={props.game} />
-                }
-                {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
-                    <div
-                        className="btn btn-rehost"
-                        onClick={onRehostClick}>
-                        Rehost
-                    </div>
-                }
+                <PlayerCount game={props.game} />
             </div>
             <div className="setup-wrapper">
                 <Setup
                     setup={props.game.setup}
-                    maxRolesCount={props.smallSetup ? 3 : 5} />
+                    maxRolesCount={props.small ? 3 : 5} />
             </div>
-            {!props.smallSetup &&
+            {!props.small &&
                 <div className="setup-name">
                     {props.game.setup.name}
                 </div>
@@ -307,7 +302,7 @@ export function GameRow(props) {
                         className="voice-chat fas fa-microphone"
                         title="Voice chat game" />
                 }
-                {props.game.status == "Finished" && user.loggedIn && !props.smallSetup &&
+                {props.game.status == "Finished" && user.loggedIn && !props.small &&
                     <i
                         className="rehost fas fa-redo"
                         title="Rehost"
