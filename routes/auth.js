@@ -48,7 +48,7 @@ router.post("/verifyCaptcha", async function (req, res) {
 			(
 				capRes.data.success &&
 				capRes.data.action == "auth" &&
-				capRes.data.score < constants.captchaThreshold
+				capRes.data.score > constants.captchaThreshold
 			)
 		) {
 			res.sendStatus(200);
