@@ -5,7 +5,7 @@ import update from "immutability-helper";
 import { useErrorAlert } from "../../components/Alerts";
 import { SearchSelect, UserSearchSelect } from "../../components/Form";
 import { SiteInfoContext, UserContext } from "../../Contexts";
-import { NameWithAvatar, StatusIcon } from "../User/User";
+import { Badge, NameWithAvatar, StatusIcon } from "../User/User";
 import LoadingPage from "../Loading";
 import { MaxBoardNameLength, MaxCategoryNameLength, MaxGroupNameLength, MaxBoardDescLength } from "../../Constants";
 
@@ -49,6 +49,12 @@ export default function Moderation() {
 		return (
 			<div className="span-panel group-panel" key={group.name}>
 				<div className="title">
+					{group.badge &&
+						<Badge
+							icon={group.badge}
+							color={group.badgeColor || "black"}
+							name={group.name} />
+					}
 					{group.name + "s"}
 				</div>
 				<div className="members">

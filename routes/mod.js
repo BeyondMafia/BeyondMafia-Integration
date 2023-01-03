@@ -11,7 +11,7 @@ router.get("/groups", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
 		var visibleGroups = await models.Group.find({ visible: true })
-			.select("name rank");
+			.select("name rank badge badgeColor");
 		visibleGroups = visibleGroups.map(group => group.toJSON());
 
 		for (let group of visibleGroups) {

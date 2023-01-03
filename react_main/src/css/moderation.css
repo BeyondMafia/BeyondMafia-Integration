@@ -79,7 +79,16 @@
 }
 
 .moderation .group-panel .title {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
 	margin-bottom: 5px !important;
+}
+
+.moderation .group-panel .title .badge {
+	margin: 0px 8px 0px 0px;
 }
 
 .moderation .group-panel .members {
