@@ -6,6 +6,7 @@ import axios from "axios";
 import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
 import { SiteInfoContext } from "../../Contexts";
+import { verifyRecaptcha } from "../../utils";
 
 export default function SignUp() {
 	const [email, setEmail] = useState("");
@@ -33,12 +34,13 @@ export default function SignUp() {
 				return;
 
 			setLoading(true);
+			await verifyRecaptcha("auth");
 
 			const auth = getAuth();
 			const userCred = await createUserWithEmailAndPassword(auth, email, password);
 			await sendEmailVerification(userCred.user);
 
-			siteInfo.showAlert("Account created. Please click the verification link in your email before logging in. Be sure to check your spam folder.", "success");
+			siteInfo.showAlert("Account created. Please click the verification link in your email before logging in. Be sure to check your spam folder.", "success", true);
 			setSignedUp(true);
 			setLoading(false);
 		} catch (e) {
@@ -51,7 +53,7 @@ export default function SignUp() {
 			else if (e.message.indexOf("(auth/email-already-in-use)") != -1)
 				errorAlert("Email already in use.");
 			else
-				errorAlert("Error signing up.");
+				errorAlert(e);
 		}
 	}
 

@@ -9,6 +9,7 @@ import Form, { useForm } from "../../components/Form";
 import { useErrorAlert } from "../../components/Alerts";
 
 import "../../css/settings.css";
+import { setCaptchaVisible } from "../../utils";
 
 export default function Settings(props) {
 	const [settingsLoaded, setSettingsLoaded] = useState(false);
@@ -222,6 +223,7 @@ export default function Settings(props) {
 		axios.post("/user/logout")
 			.then(res => {
 				user.clear();
+				setCaptchaVisible(true);
 				history.push("/");
 			})
 			.catch(errorAlert);

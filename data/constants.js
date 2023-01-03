@@ -143,6 +143,7 @@ module.exports = {
 	referralCoins: 50,
 
 	minMafiaSetupTotal: 5,
+	captchaThreshold: 0.5,
 
 	// Perms given to all users
 	defaultPerms: [

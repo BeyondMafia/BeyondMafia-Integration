@@ -7,6 +7,7 @@ import LoadingPage from "../Loading";
 import { useErrorAlert } from "../../components/Alerts";
 import { Modal } from "../../components/Modal";
 import { SiteInfoContext } from "../../Contexts";
+import { verifyRecaptcha } from "../../utils";
 
 export default function LogIn() {
 	const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ export default function LogIn() {
 				return;
 
 			setLoading(true);
+			await verifyRecaptcha("auth");
 
 			const auth = getAuth();
 			const userCred = await signInWithEmailAndPassword(auth, email, password);
@@ -62,7 +64,7 @@ export default function LogIn() {
 			else if (e.message.indexOf("(auth/too-many-requests)") != -1)
 				errorAlert("Too many login attempts on this account. Please try again later.");
 			else
-				errorAlert("Error logging in.");
+				errorAlert(e);
 		}
 	}
 

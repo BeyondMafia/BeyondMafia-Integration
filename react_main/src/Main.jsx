@@ -18,6 +18,7 @@ import Chat from "./pages/Chat/Chat";
 
 import "./css/main.css";
 import { useReducer } from "react";
+import { setCaptchaVisible } from "./utils";
 
 function Main() {
     var cacheVal = window.localStorage.getItem("cacheVal");
@@ -63,9 +64,13 @@ function Main() {
                         axios.post("/user/referred", { referrer });
                         window.localStorage.removeItem("referrer");
                     }
+
+                    setCaptchaVisible(false);
                 }
-                else
+                else {
                     user.clear();
+                    setCaptchaVisible(true);
+                }
 
                 if (res.data.nameChanged == false) {
                     siteInfo.showAlert(() => (

@@ -35,6 +35,40 @@ router.post("/", async function (req, res) {
 	}
 });
 
+router.post("/verifyCaptcha", async function (req, res) {
+	try {
+		var token = String(req.body.token);
+		var capRes;
+
+		if (process.env.NODE_ENV == "production") {
+			capRes = await axios.post(" https://www.google.com/recaptcha/api/siteverify", {
+				secret: process.env.RECAPTCHA_KEY,
+				response: token,
+				remoteip: routeUtils.getIP(req),
+			});
+		}
+
+		if (
+			process.env.NODE_ENV == "development" ||
+			(
+				capRes.data.success &&
+				capRes.data.action == "auth" &&
+				capRes.data.score < constants.captchaThreshold
+			)
+		) {
+			res.sendStatus(200);
+		} else {
+			res.status(403);
+			res.send("reCAPTCHA v3 thinks you're a bot. Please try again later.");
+		}
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error verifying captcha.");
+	}
+});
+
 async function authSuccess(req, uid, email) {
 	try {
 		/* *** Scenarios ***
