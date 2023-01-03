@@ -13,6 +13,22 @@
             ],
             "enableContentValidation": false,
             "program": "${workspaceFolder}/bin/www"
+        },
+        {
+            "args": [
+                "--timeout",
+                "12000",
+                "--recursive",
+                "${workspaceFolder}/test"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         }
     ]
 }

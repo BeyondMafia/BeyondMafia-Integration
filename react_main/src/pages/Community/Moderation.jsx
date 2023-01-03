@@ -1038,7 +1038,7 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Delete Thread": {
+		"Delete Forum Thread": {
 			hidden: true,
 			args: [
 				{
@@ -1046,7 +1046,7 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Restore Thread": {
+		"Restore Forum Thread": {
 			hidden: true,
 			args: [
 				{

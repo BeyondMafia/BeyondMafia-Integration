@@ -50,6 +50,8 @@ function Main() {
                 var res = await axios.get("/user/info");
 
                 if (res.data.id) {
+                    setCaptchaVisible(false);
+
                     axios.defaults.headers.common['x-csrf'] = res.data.csrf;
                     axios.post("/user/online");
 
@@ -64,8 +66,6 @@ function Main() {
                         axios.post("/user/referred", { referrer });
                         window.localStorage.removeItem("referrer");
                     }
-
-                    setCaptchaVisible(false);
                 }
                 else {
                     user.clear();
