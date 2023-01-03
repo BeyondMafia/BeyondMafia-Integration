@@ -40,15 +40,8 @@ router.post("/verifyCaptcha", async function (req, res) {
 		var token = String(req.body.token);
 		var capRes;
 
-		if (process.env.NODE_ENV == "production") {
-			capRes = await axios.post(" https://www.google.com/recaptcha/api/siteverify", {
-				secret: process.env.RECAPTCHA_KEY,
-				response: token,
-				remoteip: routeUtils.getIP(req),
-			});
-		}
-
-		logger.warn(capRes && capRes.data);
+		if (process.env.NODE_ENV == "production")
+			capRes = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_KEY}&response=${token}`);
 
 		if (
 			process.env.NODE_ENV == "development" ||
