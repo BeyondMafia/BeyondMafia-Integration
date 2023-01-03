@@ -26,8 +26,14 @@ router.get("/", async function (req, res) {
 			first,
 			"id author content date voteCount deleted -_id",
 			constants.commentsPerPage,
-			["author", "id name avatar -_id"]
+			["author", "id -_id"]
 		);
+
+		for (let i in comments) {
+			let comment = comments[i].toJSON();
+			comment.author = await redis.getBasicUserInfo(comment.author.id);
+			comments[i] = comment;
+		}
 
 		var votes = {};
 		var commentIds = comments.map(comment => comment.id);
@@ -43,7 +49,6 @@ router.get("/", async function (req, res) {
 				votes[vote.item] = vote.direction;
 
 			comments = comments.map(comment => {
-				comment = comment.toJSON();
 				comment.vote = votes[comment.id] || 0;
 				return comment;
 			});

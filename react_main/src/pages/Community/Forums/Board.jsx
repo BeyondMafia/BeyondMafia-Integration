@@ -121,7 +121,8 @@ export default function Board(props) {
 						small
 						id={thread.author.id}
 						avatar={thread.author.avatar}
-						name={thread.author.name} />
+						name={thread.author.name}
+						groups={thread.author.groups} />
 					<div className="counts">
 						<ViewsAndReplies
 							viewCount={thread.viewCount || 0}

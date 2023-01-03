@@ -201,6 +201,18 @@ function useModCommands(argValues, commandRan) {
 					default: 0
 				},
 				{
+					label: "Badge",
+					name: "badge",
+					type: "text",
+					optional: true
+				},
+				{
+					label: "Badge Color",
+					name: "badgeColor",
+					type: "text",
+					optional: true
+				},
+				{
 					label: "Permissions",
 					name: "permissions",
 					type: "text",

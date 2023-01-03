@@ -127,6 +127,7 @@ module.exports = {
 	maxCommentLength: 500,
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
+
 	lobbyPageSize: 7,
 	modActionPageSize: 7,
 	newestUsersPageSize: 7,
@@ -140,6 +141,8 @@ module.exports = {
 	friendsPerPage: 10,
 	referralGames: 5,
 	referralCoins: 50,
+
+	minMafiaSetupTotal: 5,
 
 	// Perms given to all users
 	defaultPerms: [

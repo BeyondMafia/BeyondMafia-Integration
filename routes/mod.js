@@ -98,6 +98,8 @@ router.post("/group", async function (req, res) {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var name = routeUtils.capitalizeWords(String(req.body.name));
 		var rank = Number(req.body.rank);
+		var badge = String(req.body.badge || "");
+		var badgeColor = String(req.body.badgeColor || "");
 		var perm = "createGroup";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm, rank + 1)))
@@ -140,6 +142,8 @@ router.post("/group", async function (req, res) {
 			id: shortid.generate(),
 			name,
 			rank,
+			badge,
+			badgeColor,
 			permissions
 		});
 		await group.save();
@@ -321,6 +325,7 @@ router.post("/addToGroup", async function (req, res) {
 			group: group._id
 		});
 		await inGroup.save();
+		await redis.cacheUserInfo(userIdToAdd, true);
 		await redis.cacheUserPermissions(userIdToAdd);
 
 		routeUtils.createModAction(userId, "Add User to Group", [userIdToAdd, groupName]);

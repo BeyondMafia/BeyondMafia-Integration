@@ -261,6 +261,8 @@ var schemas = {
         name: { type: String, index: true },
         rank: { type: Number, default: 0 },
         permissions: [String],
+        badge: String,
+        badgeColor: String,
         visible: { type: Boolean, index: true }
     }),
     "InGroup": new mongoose.Schema({

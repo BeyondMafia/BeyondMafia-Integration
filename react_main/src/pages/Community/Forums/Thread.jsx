@@ -372,7 +372,8 @@ function Post(props) {
 							<NameWithAvatar
 								id={postInfo.author.id}
 								name={postInfo.author.name}
-								avatar={postInfo.author.avatar} />
+								avatar={postInfo.author.avatar}
+								groups={postInfo.author.groups} />
 							<div className="post-date">
 								<Time
 									minSec

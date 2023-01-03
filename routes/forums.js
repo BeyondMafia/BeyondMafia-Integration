@@ -98,7 +98,7 @@ router.get("/board/:id", async function (req, res) {
 			first,
 			"id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id",
 			constants.threadsPerPage,
-			["author", "id name avatar -_id"],
+			["author", "id -_id"],
 			{
 				path: "recentReplies",
 				select: "id author postDate -_id",
@@ -111,7 +111,7 @@ router.get("/board/:id", async function (req, res) {
 
 		var pinnedThreads = await models.ForumThread.find({ board: board._id, pinned: true })
 			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
-			.populate("author", "id name avatar -_id")
+			.populate("author", "id -_id")
 			.populate({
 				path: "recentReplies",
 				select: "id author postDate -_id",
@@ -121,6 +121,18 @@ router.get("/board/:id", async function (req, res) {
 				}
 			})
 			.sort("-bumpDate");
+
+		for (let i in threads) {
+			let thread = threads[i].toJSON();
+			thread.author = await redis.getBasicUserInfo(thread.author.id);
+			threads[i] = thread;
+		}
+
+		for (let i in pinnedThreads) {
+			let thread = pinnedThreads[i].toJSON();
+			thread.author = await redis.getBasicUserInfo(thread.author.id);
+			pinnedThreads[i] = thread;
+		}
 
 		var votes = {};
 		var threadIds = threads.map(thread => thread.id);
@@ -134,16 +146,12 @@ router.get("/board/:id", async function (req, res) {
 
 			for (let vote of voteList)
 				votes[vote.item] = vote.direction;
-		}
 
-		threads = threads.map(thread => {
-			thread = thread.toJSON();
-
-			if (userId)
+			threads = threads.map(thread => {
 				thread.vote = votes[thread.id] || 0;
-
-			return thread;
-		});
+				return thread;
+			});
+		}
 
 		board = board.toJSON();
 		board.threads = threads;
@@ -177,7 +185,7 @@ router.get("/thread/:id", async function (req, res) {
 
 		var thread = await models.ForumThread.findOne({ id: threadId })
 			.populate("board", "id name -_id")
-			.populate("author", "id name avatar -_id");
+			.populate("author", "id -_id");
 
 		var canViewDeleted = await routeUtils.verifyPermission(userId, "viewDeleted");
 
@@ -201,12 +209,18 @@ router.get("/thread/:id", async function (req, res) {
 
 		var replies = await models.ForumReply.find(replyFilter)
 			.select("id author content page postDate voteCount deleted -_id")
-			.populate("author", "id name avatar -_id")
+			.populate("author", "id -_id")
 			.sort("postDate");
 
+		for (let i in replies) {
+			let reply = replies[i].toJSON();
+			reply.author = await redis.getBasicUserInfo(reply.author.id);
+			replies[i] = reply;
+		}
+
 		thread = thread.toJSON();
+		thread.author = await redis.getBasicUserInfo(thread.author.id);
 		thread.vote = (vote && vote.direction) || 0;
-		replies = replies.map(reply => reply.toJSON());
 		thread.replies = replies;
 		thread.pageCount = Math.ceil(thread.replyCount / constants.repliesPerPage) || 1;
 		thread.page = page;

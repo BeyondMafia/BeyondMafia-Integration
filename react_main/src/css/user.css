@@ -85,6 +85,26 @@
 	background-color: #525252;
 }
 
+.badge-list {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+}
+
+.badge-list.small {
+	font-size: 10px;
+}
+
+.badge {
+	margin-left: 2px;
+	padding: 2px;
+
+	border-radius: 50px;
+	background-color: white;
+	line-height: 0px;
+}
+
 .profile {
 	display: flex;
 	flex-flow: row nowrap;
@@ -448,6 +468,11 @@
 .profile .ratings .rating .score {
 	font-size: 25px;
 	text-align: center;
+}
+
+.profile .badge-list {
+	margin-top: -10px;
+	margin-bottom: 10px;
 }
 
 

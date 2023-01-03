@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
-import { Avatar, NameWithAvatar } from "./User";
+import { Avatar, Badges, NameWithAvatar } from "./User";
 import { HiddenUpload, TextEditor } from "../../components/Form";
 import LoadingPage from "../Loading";
 import Setup from "../../components/Setup";
@@ -37,6 +37,7 @@ export default function Profile() {
 	const [friends, setFriends] = useState([]);
 	const [friendRequests, setFriendRequests] = useState([]);
 	const [stats, setStats] = useState({ Mafia: {} });
+	const [groups, setGroups] = useState([]);
 
 	const user = useContext(UserContext);
 	const siteInfo = useContext(SiteInfoContext);
@@ -72,6 +73,7 @@ export default function Profile() {
 					setFriendRequests(res.data.friendRequests);
 					setFriendsPage(1);
 					setStats(res.data.stats);
+					setGroups(res.data.groups);
 
 					document.title = `${res.data.name}'s Profile | BeyondMafia`;
 				})
@@ -349,6 +351,7 @@ export default function Profile() {
 								</div>
 							</div>
 						</div>
+						<Badges groups={groups} />
 						{!isSelf && user.loggedIn &&
 							<div className="options">
 								<i

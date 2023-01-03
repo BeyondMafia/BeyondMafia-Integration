@@ -176,7 +176,8 @@ function Comment(props) {
 							<NameWithAvatar
 								id={comment.author.id}
 								name={comment.author.name}
-								avatar={comment.author.avatar} />
+								avatar={comment.author.avatar}
+								groups={comment.author.groups} />
 							<div className="post-date">
 								<Time
 									minSec

@@ -152,6 +152,7 @@ router.get("/:id/profile", async function (req, res) {
         }
 
         user = user.toJSON();
+        user.groups = (await redis.getBasicUserInfo(userId)).groups;
         user.maxFriendsPage = Math.ceil(user.numFriends / constants.friendsPerPage) || 1;
 
         if (isSelf) {

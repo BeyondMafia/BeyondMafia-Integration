@@ -402,6 +402,12 @@ router.post("/create", async function (req, res) {
 			return;
 		}
 
+		if (setup.gameType == "Mafia" && newTotal < constants.minMafiaSetupTotal) {
+			res.status(500);
+			res.send(`Mafia setups must have at least ${constants.minMafiaSetupTotal} players.`);
+			return;
+		}
+
 		setup.roles = newRoles;
 		setup.count = newCount;
 		setup.total = newTotal;
