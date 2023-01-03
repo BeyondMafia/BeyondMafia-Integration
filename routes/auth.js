@@ -48,7 +48,7 @@ router.post("/verifyCaptcha", async function (req, res) {
 			});
 		}
 
-		logger.log(capRes && capRes.data);
+		logger.warn(capRes && capRes.data);
 
 		if (
 			process.env.NODE_ENV == "development" ||
