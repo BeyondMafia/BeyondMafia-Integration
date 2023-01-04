@@ -1058,12 +1058,12 @@ function Message(props) {
 		var state = history.states[message.fromState];
 
 		if (!state)
-			return;
+			return <></>;
 
 		var meeting = state.meetings[message.fromMeetingId];
 
 		if (!meeting)
-			return;
+			return <></>;
 
 		for (let msg of meeting.messages) {
 			if (msg.id == message.messageId) {
@@ -1206,7 +1206,7 @@ function SpeechInput(props) {
 
 	useEffect(() => {
 		if (!selTab)
-			return;
+			return <></>;
 
 		const speechAbilities = meetings[selTab].speechAbilities;
 		const newDropdownOptions = [{ label: "Say", id: "Say", placeholder: "to everyone" }];
