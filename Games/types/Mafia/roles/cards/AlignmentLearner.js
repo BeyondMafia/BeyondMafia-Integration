@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-import { PRIORITY_ALIGNMENT_LEARNER } from "../../const/Priority"
+const { PRIORITY_ALIGNMENT_LEARNER } = require("../../const/Priority");
 
 module.exports = class AlignmentLearner extends Card {
 

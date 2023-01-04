@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_LYNCH_REVENGE } = require("../../const/Priority");
 
 module.exports = class LynchRevenge extends Card {
 
@@ -17,7 +18,7 @@ module.exports = class LynchRevenge extends Card {
 					return false;
 				},
 				action: {
-					priority: 0,
+					priority: PRIORITY_LYNCH_REVENGE,
 					labels: ["kill"],
 					run: function () {
 						if (this.dominates())
