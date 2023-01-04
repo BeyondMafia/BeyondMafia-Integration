@@ -1168,17 +1168,17 @@ module.exports = class Game {
 						$set: { stats: player.user.stats, playedGame: true },
 						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
-							coins: this.ranked ? 1 : 0
+							// coins: this.ranked ? 1 : 0
 						}
 					}
 				).exec();
 
-				if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
-					await models.User.updateOne(
-						{ id: player.user.referrer },
-						{ $inc: { coins: constants.referralCoins } }
-					);
-				}
+				// if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
+				// 	await models.User.updateOne(
+				// 		{ id: player.user.referrer },
+				// 		{ $inc: { coins: constants.referralCoins } }
+				// 	);
+				// }
 			}
 
 			var rolePlays = setup.rolePlays || {};

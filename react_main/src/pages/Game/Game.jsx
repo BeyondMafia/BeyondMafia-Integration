@@ -1259,8 +1259,13 @@ function SpeechInput(props) {
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
 
-		if (e.target.value.length > 0 && (e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me "))
+		if (
+			e.target.value.length > 0 &&
+			(e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me ") &&
+			!meetings[selTab].anonymous
+		) {
 			setLastTyped(Date.now());
+		}
 	}
 
 	function onSpeechSubmit(e) {
