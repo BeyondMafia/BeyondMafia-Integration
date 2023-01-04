@@ -403,6 +403,10 @@ module.exports = class Game {
 		await redis.leaveGame(player.user.id);
 	}
 
+	vegPlayer(player) {
+
+	}
+
 	createPlayerGoneObj(player) {
 		return {
 			id: player.id,

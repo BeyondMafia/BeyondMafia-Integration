@@ -96,8 +96,12 @@ module.exports = class MafiaGame extends Game {
 		) {
 			this.statesSinceLastDeath++;
 
-			if (this.statesSinceLastDeath >= this.noDeathLimit)
-				this.queueAlert("No one has died for a while, you must act.")
+			if (this.statesSinceLastDeath >= this.noDeathLimit) {
+				if (stateName != "Day")
+					this.queueAlert("No one has died for a while, you must act.")
+				else
+					this.queueAlert("A giant meteor will destroy the town and no one will win if no one dies today.")
+			}
 		}
 		else if (this.resetLastDeath) {
 			this.statesSinceLastDeath = 0;
