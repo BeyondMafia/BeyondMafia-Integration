@@ -178,10 +178,15 @@ export function GameRow(props) {
         for (let stateName in props.game.stateLengths)
             stateLengths[stateName] = props.game.stateLengths[stateName] / 60000;
 
+        var lobby = props.lobby;
+
+        if (lobby = "All")
+            lobby = "Main";
+
         axios.post("/game/host", {
             gameType: props.game.type,
             setup: props.game.setup.id,
-            lobby: props.lobby,
+            lobby: lobby,
             guests: props.game.guests,
             private: false,
             ranked: props.game.ranked,
