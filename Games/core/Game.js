@@ -9,7 +9,7 @@ const Timer = require("./Timer");
 const Random = require("../../lib/Random");
 const Utils = require("./Utils");
 const ArrayHash = require("./ArrayHash");
-const games = require("../games");
+const { games, deprecationCheck } = require("../games");
 const events = require("events");
 const models = require("../../db/models");
 const redis = require("../../modules/redis");
@@ -1209,6 +1209,9 @@ module.exports = class Game {
 					$set: { rolePlays, roleWins }
 				}
 			).exec();
+
+			delete games[this.id];
+			deprecationCheck();
 		}
 		catch (e) {
 			logger.error(e);

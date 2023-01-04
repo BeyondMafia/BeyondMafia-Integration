@@ -643,7 +643,7 @@ async function registerGameServer(port) {
 }
 
 async function removeGameServer(port) {
-	await client.sremAsync("gameServers", port)
+	await client.sremAsync("gameServers", port);
 }
 
 async function getNextGameServerPort() {

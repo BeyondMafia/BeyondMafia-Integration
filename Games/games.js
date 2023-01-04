@@ -8,17 +8,19 @@ const routeUtils = require("../routes/utils");
 const constants = require("../data/constants");
 const logger = require("../modules/logging")("games");
 const User = require("./core/User");
+const publisher = redis.client.duplicate();
 
-const serverId = Number(process.env.pm_id) || 0;
-const ports = JSON.parse(process.env.GAME_PORTS || "{}");
-const port = ports[serverId % ports.length] || "3010";
+const serverId = Number(process.env.NODE_APP_INSTANCE) || 0;
+const port = Number(process.env.GAME_PORT || "3010") + serverId;
 const server = new sockets.SocketServer(port);
 
 var games = {};
+var deprecated = false;
 
 (async function () {
 	try {
 		await redis.registerGameServer(port);
+		await publisher.publish("gamePorts", port);
 		await db.promise;
 
 		process
@@ -177,7 +179,7 @@ var games = {};
 					}
 				});
 
-				// The main cancelling a game
+				// The main server cancelling a game
 				socket.on("cancelGame", async data => {
 					try {
 						if (!socket.isServer)
@@ -194,6 +196,20 @@ var games = {};
 					catch (e) {
 						logger.error(e);
 						socket.send("gameLeaveError", { userId: data.userId, error: e.message });
+					}
+				});
+
+				// The main server marking deprecating this process 
+				socket.on("deprecated", async data => {
+					try {
+						if (!socket.isServer)
+							throw new Error("Not authenticated as server.");
+
+						deprecated = true;
+						await deprecationCheck();
+					}
+					catch (e) {
+						logger.error(e);
 					}
 				});
 			}
@@ -238,4 +254,9 @@ async function clearBrokenGames() {
 	}
 }
 
-module.exports = games;
+async function deprecationCheck() {
+	if (deprecated && Object.keys(games).length == 0)
+		await onClose();
+}
+
+module.exports = { games, deprecationCheck };
