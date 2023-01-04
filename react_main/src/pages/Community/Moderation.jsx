@@ -1022,6 +1022,42 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Kick Player": {
+			perm: "kick",
+			args: [
+				{
+					label: "User",
+					name: "userId",
+					type: "user_search"
+				},
+			],
+			run: function () {
+				axios.post("/mod/kick", argValues)
+					.then(() => {
+						siteInfo.showAlert("Kicked player.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Break Port Games": {
+			perm: "breakPortGames",
+			args: [
+				{
+					label: "Port",
+					name: "port",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/breakPortGames", argValues)
+					.then(() => {
+						siteInfo.showAlert("Games broken.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Delete Forum Board": {
 			hidden: true,
 			args: [
