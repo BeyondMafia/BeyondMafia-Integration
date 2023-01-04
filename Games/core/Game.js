@@ -9,6 +9,8 @@ const Timer = require("./Timer");
 const Random = require("../../lib/Random");
 const Utils = require("./Utils");
 const ArrayHash = require("./ArrayHash");
+const Action = require("./Action");
+const Winners = require("./Winners");
 const games = require("../games");
 const events = require("events");
 const models = require("../../db/models");
@@ -395,7 +397,7 @@ module.exports = class Game {
 			}
 
 			if (!remainingPlayer) {
-				await this.cancel();
+				await this.onAllPlayersLeft();
 				return;
 			}
 		}
@@ -403,8 +405,22 @@ module.exports = class Game {
 		await redis.leaveGame(player.user.id);
 	}
 
-	vegPlayer(player) {
+	async onAllPlayersLeft() {
+		this.immediateEnd();
+	}
 
+	async vegPlayer(player) {
+		if (player.left)
+			return;
+
+		this.queueAction(new Action({
+			actor: player,
+			target: player,
+			run: function () {
+				this.target.kill("veg", this.actor);
+			}
+		}));
+		await this.playerLeave(player);
 	}
 
 	createPlayerGoneObj(player) {
@@ -1083,6 +1099,26 @@ module.exports = class Game {
 
 	getGameTypeOptions() {
 		return {};
+	}
+
+	immediateEnd() {
+		this.endNow = true;
+
+		// Clear current timers
+		this.clearTimers();
+
+		// Finish all meetings and take actions
+		this.finishMeetings();
+
+		// Take snapshot of roles
+		this.history.recordAllRoles();
+
+		// Take snapshot of dead players
+		this.history.recordAllDead();
+
+		var winners = new Winners(this);
+		winners.addGroup("No one");
+		this.endGame(winners);
 	}
 
 	async endGame(winners) {

@@ -8,6 +8,7 @@ module.exports = class PregameReadyMeeting extends Meeting {
 		this.group = true;
 		this.voting = true;
 		this.noRecord = true;
+		this.noVeg = true;
 
 		this.inputType = "button";
 		this.targets = ["Ready"];

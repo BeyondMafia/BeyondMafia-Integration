@@ -30,6 +30,7 @@ module.exports = class Meeting {
 		this.votesInvisible = game.setup.votesInvisible;
 		this.mustAct = game.isMustAct();
 		this.noAct = game.isNoAct();
+		this.noVeg = false;
 		/***/
 
 		this.inputType = "player";
@@ -144,6 +145,7 @@ module.exports = class Meeting {
 			this.game.removeMeeting(this);
 
 		player.leftMeeting(this);
+		this.updateReady();
 	}
 
 	init() {
@@ -489,16 +491,7 @@ module.exports = class Meeting {
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeVote(vote);
 
-		if (!this.multi)
-			this.ready = Object.keys(this.votes).length == this.totalVoters;
-		else
-			this.ready = this.votes[voter.id].length >= this.multiMin;
-
-		if (!this.instant && !this.repeatable)
-			this.game.checkAllMeetingsReady();
-		else if (this.ready)
-			this.finish(true);
-
+		this.updateReady();
 		return true;
 	}
 
@@ -622,12 +615,17 @@ module.exports = class Meeting {
 		}
 
 		// Veg players who didn't vote
-		for (let member of this.members) {
-			if (
-				(!this.multi && this.votes[member.id]) ||
-				(this.multi && selections.length < this.multiMin)
-			) {
-				this.game.vegPlayer(member.player);
+		if (!this.noVeg) {
+			for (let member of this.members) {
+				if (!member.canVote)
+					continue;
+
+				if (
+					(!this.multi && this.votes[member.id] == null) ||
+					(this.multi && selections.length < this.multiMin)
+				) {
+					this.game.vegPlayer(member.player);
+				}
 			}
 		}
 
@@ -763,6 +761,18 @@ module.exports = class Meeting {
 
 	checkReady() {
 		return this.ready || !this.voting;
+	}
+
+	updateReady() {
+		if (!this.multi)
+			this.ready = Object.keys(this.votes).length == this.totalVoters;
+		else
+			this.ready = this.votes[voter.id].length >= this.multiMin;
+
+		if (!this.instant && !this.repeatable)
+			this.game.checkAllMeetingsReady();
+		else if (this.ready)
+			this.finish(true);
 	}
 
 }

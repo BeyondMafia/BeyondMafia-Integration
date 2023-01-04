@@ -5,6 +5,8 @@ const Message = require("./Message");
 const Quote = require("./Quote");
 const Utils = require("./Utils");
 const Spam = require("./Spam");
+const deathMessages = require("./death");
+const revivalMessages = require("./revival");
 const constants = require("../../data/constants");
 const logger = require("../../modules/logging")("games");
 
@@ -27,6 +29,8 @@ module.exports = class Player {
 		this.tempAppearance = {};
 		this.history = new History(this.game, this);
 		this.ready = false;
+		this.deathMessages = deathMessages;
+		this.revivalMessages = revivalMessages;
 	}
 
 	init() {
@@ -757,7 +761,9 @@ module.exports = class Player {
 
 		this.game.resetLastDeath = true;
 		this.game.queueDeath(this);
-		this.queueDeathMessage(killType, instant);
+
+		if (killType != "silent")
+			this.queueDeathMessage(killType, instant);
 
 		if (!this.game.setup.noReveal)
 			this.role.revealToAll(false, this.getRevealType(killType));
@@ -768,7 +774,10 @@ module.exports = class Player {
 		if (!instant)
 			return;
 
-		for (let meeting of this.getMeetings())
+		this.meet();
+		this.sendMeetings();
+
+		for (let meeting of this.getMeetings()) {
 			if (!meeting.members[this.id].whileDead)
 				meeting.leave(this);
 			else {
@@ -786,11 +795,10 @@ module.exports = class Player {
 
 				for (let member of meeting.members)
 					member.player.sendMeeting(meeting);
+
+				meeting.updateReady();
 			}
-
-
-		this.meet();
-		this.sendMeetings();
+		}
 	}
 
 	revive(revivalType, reviver, instant) {
@@ -828,10 +836,6 @@ module.exports = class Player {
 	getRevealType(deathType) {
 		return "reveal";
 	}
-
-	deathMessages() { }
-
-	revivalMessages() { }
 
 	queueDeathMessage(type) {
 		const deathMessage = this.deathMessages(type || "basic", this.name);
