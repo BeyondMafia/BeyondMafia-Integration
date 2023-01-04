@@ -124,13 +124,13 @@ router.get("/board/:id", async function (req, res) {
 
 		for (let i in threads) {
 			let thread = threads[i].toJSON();
-			thread.author = await redis.getBasicUserInfo(thread.author.id);
+			thread.author = await redis.getBasicUserInfo(thread.author.id, true);
 			threads[i] = thread;
 		}
 
 		for (let i in pinnedThreads) {
 			let thread = pinnedThreads[i].toJSON();
-			thread.author = await redis.getBasicUserInfo(thread.author.id);
+			thread.author = await redis.getBasicUserInfo(thread.author.id, true);
 			pinnedThreads[i] = thread;
 		}
 
@@ -214,12 +214,12 @@ router.get("/thread/:id", async function (req, res) {
 
 		for (let i in replies) {
 			let reply = replies[i].toJSON();
-			reply.author = await redis.getBasicUserInfo(reply.author.id);
+			reply.author = await redis.getBasicUserInfo(reply.author.id, true);
 			replies[i] = reply;
 		}
 
 		thread = thread.toJSON();
-		thread.author = await redis.getBasicUserInfo(thread.author.id);
+		thread.author = await redis.getBasicUserInfo(thread.author.id, true);
 		thread.vote = (vote && vote.direction) || 0;
 		thread.replies = replies;
 		thread.pageCount = Math.ceil(thread.replyCount / constants.repliesPerPage) || 1;

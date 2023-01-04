@@ -54,12 +54,12 @@ export default function HostMafia() {
             type: "boolean",
             showIf: "!ranked"
         },
-        {
-            label: "Voice Chat",
-            ref: "voiceChat",
-            type: "boolean",
-            showIf: "!ranked"
-        },
+        // {
+        //     label: "Voice Chat",
+        //     ref: "voiceChat",
+        //     type: "boolean",
+        //     showIf: "!ranked"
+        // },
         {
             label: "Scheduled",
             ref: "scheduled",
@@ -125,7 +125,7 @@ export default function HostMafia() {
                 guests: getFormFieldValue("guests"),
                 ranked: getFormFieldValue("ranked"),
                 spectating: getFormFieldValue("spectating"),
-                voiceChat: getFormFieldValue("voiceChat"),
+                // voiceChat: getFormFieldValue("voiceChat"),
                 scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
                 readyCheck: getFormFieldValue("readyCheck"),
                 stateLengths: {

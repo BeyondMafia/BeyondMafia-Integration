@@ -14,14 +14,20 @@ module.exports = class CleanDeath extends Card {
 					priority: -2,
 					run: function () {
 						var targetRole = this.target.role;
-						var actorRole = this.target.role;
+						var actorRole = this.actor.role;
 
 						if (!targetRole.data.lastCleanedAppearance) {
+							var role = this.target.getAppearance("death", true);
+							this.actor.queueAlert(`You discover ${this.target.name}'s role is ${role}.`);
+
 							actorRole.data.cleanedPlayer = this.target;
 							targetRole.data.lastCleanedAppearance = targetRole.appearance.death;
 							targetRole.appearance.death = null;
 						}
 					}
+				},
+				shouldMeet() {
+					return !this.data.cleanedPlayer;
 				}
 			}
 		};
@@ -31,7 +37,6 @@ module.exports = class CleanDeath extends Card {
 
 				if (stateInfo.name.match(/Day/) && target && target.role.data.lastCleanedAppearance) {
 					target.role.appearance.death = target.role.data.lastCleanedAppearance;
-					this.data.cleanedPlayer = null;
 					target.role.data.lastCleanedAppearance = null;
 				}
 			}

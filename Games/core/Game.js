@@ -11,7 +11,7 @@ const Utils = require("./Utils");
 const ArrayHash = require("./ArrayHash");
 const Action = require("./Action");
 const Winners = require("./Winners");
-const games = require("../games");
+const { games, deprecationCheck } = require("../games");
 const events = require("events");
 const models = require("../../db/models");
 const redis = require("../../modules/redis");
@@ -1208,17 +1208,17 @@ module.exports = class Game {
 						$set: { stats: player.user.stats, playedGame: true },
 						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
-							coins: this.ranked ? 1 : 0
+							// coins: this.ranked ? 1 : 0
 						}
 					}
 				).exec();
 
-				if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
-					await models.User.updateOne(
-						{ id: player.user.referrer },
-						{ $inc: { coins: constants.referralCoins } }
-					);
-				}
+				// if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
+				// 	await models.User.updateOne(
+				// 		{ id: player.user.referrer },
+				// 		{ $inc: { coins: constants.referralCoins } }
+				// 	);
+				// }
 			}
 
 			var rolePlays = setup.rolePlays || {};
@@ -1249,6 +1249,9 @@ module.exports = class Game {
 					$set: { rolePlays, roleWins }
 				}
 			).exec();
+
+			delete games[this.id];
+			deprecationCheck();
 		}
 		catch (e) {
 			logger.error(e);

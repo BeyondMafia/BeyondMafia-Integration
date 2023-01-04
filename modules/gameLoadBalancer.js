@@ -2,6 +2,7 @@ const shortid = require("shortid");
 const sockets = require("../lib/sockets");
 const redis = require("./redis");
 const logger = require("./logging")(".");
+const subscriber = redis.client.duplicate();
 
 var gameServerPorts = [];
 var servers = {};
@@ -11,53 +12,66 @@ var waiting = {};
 	try {
 		gameServerPorts = await redis.getAllGameServerPorts();
 
-		for (let i = 0; i < gameServerPorts.length; i++) {
-			let port = gameServerPorts[i];
-			let socket = new sockets.ClientSocket(`ws://localhost:${port}`, true);
+		for (let i = 0; i < gameServerPorts.length; i++)
+			establishGameConn(gameServerPorts[i]);
 
-			servers[port] = socket;
+		subscriber.subscribe("gamePorts", "deprecate");
 
-			socket.on("connected", () => {
-				socket.send("authAsServer", process.env.LOAD_BALANCER_KEY);
-			});
-
-			socket.on("gameCreated", gameId => {
-				const gameResults = waiting[gameId];
-				if (!gameResults) return;
-
-				delete waiting[gameId];
-				gameResults.resolve(gameId);
-			});
-
-			socket.on("gameCreateError", info => {
-				const gameResults = waiting[info.gameId];
-				if (!gameResults) return;
-
-				delete waiting[info.gameId];
-				gameResults.reject(new Error(info.error));
-			});
-
-			socket.on("gameLeft", userId => {
-				const leaveResults = waiting[userId];
-				if (!leaveResults) return;
-
-				delete waiting[userId];
-				leaveResults.resolve();
-			});
-
-			socket.on("gameLeaveError", info => {
-				const leaveResults = waiting[info.userId];
-				if (!leaveResults) return;
-
-				delete waiting[info.userId];
-				leaveResults.reject(new Error(info.error));
-			});
-		}
+		subscriber.on("message", (chan, port) => {
+			if (chan == "gamePorts")
+				establishGameConn(port);
+			else if (chan == "deprecate")
+				deprecateServer(port);
+		});
 	}
 	catch (e) {
 		logger.error(e);
 	}
 })();
+
+function establishGameConn(port) {
+	if (servers[port])
+		servers[port].terminate();
+
+	let socket = new sockets.ClientSocket(`ws://localhost:${port}`, true);
+	servers[port] = socket;
+
+	socket.on("connected", () => {
+		socket.send("authAsServer", process.env.LOAD_BALANCER_KEY);
+	});
+
+	socket.on("gameCreated", gameId => {
+		const gameResults = waiting[gameId];
+		if (!gameResults) return;
+
+		delete waiting[gameId];
+		gameResults.resolve(gameId);
+	});
+
+	socket.on("gameCreateError", info => {
+		const gameResults = waiting[info.gameId];
+		if (!gameResults) return;
+
+		delete waiting[info.gameId];
+		gameResults.reject(new Error(info.error));
+	});
+
+	socket.on("gameLeft", userId => {
+		const leaveResults = waiting[userId];
+		if (!leaveResults) return;
+
+		delete waiting[userId];
+		leaveResults.resolve();
+	});
+
+	socket.on("gameLeaveError", info => {
+		const leaveResults = waiting[info.userId];
+		if (!leaveResults) return;
+
+		delete waiting[info.userId];
+		leaveResults.reject(new Error(info.error));
+	});
+}
 
 function createGame(hostId, gameType, settings) {
 	return new Promise(async (res, rej) => {
@@ -150,8 +164,17 @@ async function cancelGame(userId, gameId) {
 	});
 }
 
+async function deprecateServer(port) {
+	await redis.removeGameServer(port);
+
+	servers[port].send("deprecated", {
+		key: process.env.LOAD_BALANCER_KEY
+	});
+}
+
 module.exports = {
 	createGame,
 	leaveGame,
-	cancelGame
+	cancelGame,
+	deprecateServer
 };

@@ -171,6 +171,7 @@ module.exports = {
 		"giveCoins",
 		"changeUsersName",
 		"scheduleRestart",
+		"breakPortGames",
 	],
 	// The list of all enabled perms
 	allPerms: {
@@ -235,6 +236,8 @@ module.exports = {
 		"whitelist": true,
 		"scheduleRestart": true,
 		"disableAllCensors": true,
+		"breakPortGames": true,
+		"kick": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -265,6 +268,7 @@ module.exports = {
 				"whitelist",
 				"scheduleRestart",
 				"disableAllCensors",
+				"kick",
 			]
 		},
 		"Admin": {
@@ -312,6 +316,7 @@ module.exports = {
 				"clearAllUserContent",
 				"whitelist",
 				"disableAllCensors",
+				"kick",
 			]
 		},
 		"Mod": {
@@ -348,6 +353,7 @@ module.exports = {
 				"featureSetup",
 				"whitelist",
 				"disableAllCensors",
+				"kick",
 			]
 		}
 	},

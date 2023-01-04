@@ -31,7 +31,7 @@ router.get("/", async function (req, res) {
 
 		for (let i in comments) {
 			let comment = comments[i].toJSON();
-			comment.author = await redis.getBasicUserInfo(comment.author.id);
+			comment.author = await redis.getBasicUserInfo(comment.author.id, true);
 			comments[i] = comment;
 		}
 

@@ -260,8 +260,9 @@ const roleData = {
         "Janitor": {
             alignment: "Mafia",
             description: [
-                "Can choose a person to clean each night.",
+                "Can choose a person to clean once.",
                 "If that person dies their role will not be revealed.",
+                "Learns the cleaned player's role.",
             ],
         },
         "Telepath": {

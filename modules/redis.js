@@ -186,11 +186,21 @@ async function getUserInfo(userId) {
 	return info;
 }
 
-async function getBasicUserInfo(userId) {
+async function getBasicUserInfo(userId, delTemplate) {
 	var exists = await cacheUserInfo(userId);
 
-	if (!exists)
+	if (!exists && !delTemplate)
 		return;
+	else if (!exists && delTemplate) {
+		return {
+			id: userId,
+			name: "[deleted]",
+			avatar: false,
+			status: "offline",
+			groups: [],
+			settings: {}
+		};
+	}
 
 	var info = {};
 	info.id = await client.getAsync(`user:${userId}:info:id`);
@@ -633,7 +643,7 @@ async function registerGameServer(port) {
 }
 
 async function removeGameServer(port) {
-	await client.sremAsync("gameServers", port)
+	await client.sremAsync("gameServers", port);
 }
 
 async function getNextGameServerPort() {

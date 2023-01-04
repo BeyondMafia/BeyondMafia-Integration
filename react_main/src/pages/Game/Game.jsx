@@ -1058,12 +1058,12 @@ function Message(props) {
 		var state = history.states[message.fromState];
 
 		if (!state)
-			return;
+			return <></>;
 
 		var meeting = state.meetings[message.fromMeetingId];
 
 		if (!meeting)
-			return;
+			return <></>;
 
 		for (let msg of meeting.messages) {
 			if (msg.id == message.messageId) {
@@ -1206,7 +1206,7 @@ function SpeechInput(props) {
 
 	useEffect(() => {
 		if (!selTab)
-			return;
+			return <></>;
 
 		const speechAbilities = meetings[selTab].speechAbilities;
 		const newDropdownOptions = [{ label: "Say", id: "Say", placeholder: "to everyone" }];
@@ -1259,8 +1259,13 @@ function SpeechInput(props) {
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
 
-		if (e.target.value.length > 0 && (e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me "))
+		if (
+			e.target.value.length > 0 &&
+			(e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me ") &&
+			!meetings[selTab].anonymous
+		) {
 			setLastTyped(Date.now());
+		}
 	}
 
 	function onSpeechSubmit(e) {
