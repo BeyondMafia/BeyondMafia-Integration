@@ -76,7 +76,7 @@ const channelMembers = {};
 
 						for (let i in messages) {
 							let message = messages[i].toJSON();
-							message.sender = await redis.getBasicUserInfo(message.sender.id);
+							message.sender = await redis.getBasicUserInfo(message.sender.id, true);
 							messages[i] = message;
 						}
 
@@ -124,7 +124,7 @@ const channelMembers = {};
 
 						for (let i in messages) {
 							let message = messages[i].toJSON();
-							message.sender = await redis.getBasicUserInfo(message.sender.id);
+							message.sender = await redis.getBasicUserInfo(message.sender.id, true);
 							messages[i] = message;
 						}
 
