@@ -103,7 +103,7 @@ router.get("/list", async function (req, res) {
                 constants.lobbyPageSize - games.length,
                 ["setup", "id gameType name roles closed count total -_id"]
             );
-            finishedGames = finishedGames.map(game => ({ ...game.toObject(), status: "Finished" }));
+            finishedGames = finishedGames.map(game => ({ ...game.toJSON(), status: "Finished" }));
             games = games.concat(finishedGames);
         }
 

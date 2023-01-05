@@ -50,7 +50,9 @@
 	opacity: 0.6;
 }
 
-.md-content a {}
+.md-content a {
+	color: var(--theme-color-light);
+}
 
 .md-content a:hover {
 	opacity: 0.8;
