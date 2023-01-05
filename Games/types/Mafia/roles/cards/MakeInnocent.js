@@ -9,7 +9,7 @@ module.exports = class MakeInnocent extends Card {
 			"Make Innocent": {
 				states: ["Night"],
 				flags: ["voting"],
-				targets: { include: ["Mafia"], exclude: ["dead"] },
+				targets: { include: ["Mafia"], exclude: ["dead", "self"] },
 				action: {
 					priority: -50,
 					run: function () {
