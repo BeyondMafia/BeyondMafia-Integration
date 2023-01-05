@@ -6,14 +6,15 @@ module.exports = class Handcuffs extends Item {
         super("Handcuffs");
 
         this.reveal = reveal;
+        this.lifespan = 1;
         this.meetings = {
-			"Jail": {
-				actionName: "Execute Prisoner",
-				states: ["Night"],
-				flags: ["group", "speech", "voting", "anonymous"],
-				inputType: "boolean",
+            "Jail": {
+                actionName: "Execute Prisoner",
+                states: ["Night"],
+                flags: ["group", "speech", "voting", "anonymous"],
+                inputType: "boolean",
                 canVote: false
-			}
+            }
         };
     }
 

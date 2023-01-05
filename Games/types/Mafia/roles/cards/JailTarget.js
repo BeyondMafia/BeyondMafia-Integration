@@ -43,8 +43,6 @@ module.exports = class JailTarget extends Card {
 
 						if (this.target == "Yes")
 							prisoner.kill("basic", this.actor);
-
-						prisoner.dropItem("Handcuffs");
 					}
 				}
 			}
