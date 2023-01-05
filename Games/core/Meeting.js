@@ -30,6 +30,7 @@ module.exports = class Meeting {
 		this.votesInvisible = game.setup.votesInvisible;
 		this.mustAct = game.isMustAct();
 		this.noAct = game.isNoAct();
+		this.noVeg = false;
 		/***/
 
 		this.inputType = "player";
@@ -144,6 +145,7 @@ module.exports = class Meeting {
 			this.game.removeMeeting(this);
 
 		player.leftMeeting(this);
+		this.updateReady();
 	}
 
 	init() {
@@ -489,16 +491,7 @@ module.exports = class Meeting {
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeVote(vote);
 
-		if (!this.multi)
-			this.ready = Object.keys(this.votes).length == this.totalVoters;
-		else
-			this.ready = this.votes[voter.id].length >= this.multiMin;
-
-		if (!this.instant && !this.repeatable)
-			this.game.checkAllMeetingsReady();
-		else if (this.ready)
-			this.finish(true);
-
+		this.updateReady();
 		return true;
 	}
 
@@ -594,7 +587,7 @@ module.exports = class Meeting {
 					highest.targets.push(target);
 			}
 
-			if (highest.targets.length == 1)
+			if (highest.targets.length == 1) {
 				//Winning vote
 				if (this.inputType == "boolean" && this.mustAct && this.includeNo) {
 					if (highest.votes > this.totalVoters / 2)
@@ -604,19 +597,10 @@ module.exports = class Meeting {
 				}
 				else
 					finalTarget = highest.targets[0];
-
-			else if (highest.targets.length > 1) {
-				//Tie vote
-				if (this.inputType == "boolean")
-					finalTarget = "No";
-				else
-					finalTarget = Random.randArrayVal(highest.targets);
 			}
 			else {
-				//No votes
-				if (this.mustAct && !this.includeNo)
-					finalTarget = Random.randArrayVal(this.targets);
-				else if (this.inputType == "boolean")
+				//Tie vote
+				if (this.inputType == "boolean")
 					finalTarget = "No";
 				else
 					finalTarget = "*";
@@ -626,21 +610,30 @@ module.exports = class Meeting {
 			var selections = Object.values(this.votes)[0] || [];
 			finalTarget = selections;
 
-			if (selections.length < this.multiMin) {
-				if (!this.mustAct)
-					finalTarget = "*";
-				else {
-					var unselectedTargets = this.targets.filter(t => selections.indexOf(t) == -1);
+			if (selections.length < this.multiMin)
+				finalTarget = "*";
+		}
 
-					while (selections.length < this.multiMin)
-						selections.push(Random.randArrayVal(unselectedTargets, true));
+		// Veg players who didn't vote
+		if (!this.noVeg) {
+			for (let member of this.members) {
+				if (!member.canVote)
+					continue;
+
+				if (
+					(!this.multi && this.votes[member.id] == null) ||
+					(this.multi && selections.length < this.multiMin)
+				) {
+					this.game.vegPlayer(member.player);
 				}
 			}
 		}
 
+		// Return if no action to take
 		if (!finalTarget || finalTarget == "*")
 			return;
 
+		// Get player targeted
 		if (this.inputType == "player") {
 			if (!this.multi)
 				finalTarget = this.game.players[finalTarget];
@@ -648,6 +641,7 @@ module.exports = class Meeting {
 				finalTarget = finalTarget.map(target => this.game.players[target]);
 		}
 
+		// Do the action
 		voterIds = Object.keys(this.votes);
 
 		if (!actor && voterIds.length > 0)
@@ -767,6 +761,18 @@ module.exports = class Meeting {
 
 	checkReady() {
 		return this.ready || !this.voting;
+	}
+
+	updateReady() {
+		if (!this.multi)
+			this.ready = Object.keys(this.votes).length == this.totalVoters;
+		else
+			this.ready = this.votes[voter.id].length >= this.multiMin;
+
+		if (!this.instant && !this.repeatable)
+			this.game.checkAllMeetingsReady();
+		else if (this.ready)
+			this.finish(true);
 	}
 
 }
