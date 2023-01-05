@@ -166,7 +166,7 @@ export function GameRow(props) {
             }
             break;
         case "Finished":
-            linkPath = `/game/${props.game.id}/review`;
+            linkPath = `/game/${props.game.id}`;
             buttonClass += "btn-review ";
             buttonText = "Review";
             break;

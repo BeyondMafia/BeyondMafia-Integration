@@ -482,8 +482,14 @@ function GameWrapper(props) {
 				setToken(res.data.token || false);
 			})
 			.catch(e => {
-				setLeave(true);
-				errorAlert(e);
+				var msg = e && e.response && e.response.data;
+
+				if (msg == "Game not found.")
+					setLeave("review");
+				else {
+					setLeave(true);
+					errorAlert(e);
+				}
 			});
 	}
 
@@ -550,7 +556,9 @@ function GameWrapper(props) {
 		await agoraClient.current.leave();
 	}
 
-	if (leave)
+	if (leave == "review")
+		return <Redirect to={`/game/${gameId}/review`} />;
+	else if (leave)
 		return <Redirect to="/play" />;
 	else if (rehostId)
 		return <Redirect to={`/game/${rehostId}`} />;
@@ -2560,7 +2568,6 @@ export function useActivity(agoraClient, localAudioTrack) {
 
 				if (localAudioTrack.current && localAudioTrack.current.getVolumeLevel() > volumeThreshold) {
 					speaking.push(agoraClient.current.uid);
-					console.log(localAudioTrack.current.getVolumeLevel());
 				}
 
 				agoraClient.current.remoteUsers.forEach(user => {
