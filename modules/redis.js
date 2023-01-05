@@ -536,12 +536,12 @@ async function joinGame(userId, gameId) {
 async function leaveGame(userId) {
 	const gameId = await client.getAsync(`user:${userId}:game`);
 
-	if (!gameId)
-		return;
+	if (gameId) {
+		await client.delAsync(`user:${userId}:game`);
+		await client.sremAsync(`game:${gameId}:players`, userId);
+	}
 
-	await client.sremAsync(`game:${gameId}:players`, userId);
-	await client.delAsync(`user:${userId}:game`);
-	await models.Ban.deleteOne({ userId, type: "gameAuto" }).exec();
+	await models.Ban.deleteMany({ userId, type: "gameAuto" }).exec();
 	await cacheUserPermissions(userId);
 }
 
