@@ -347,6 +347,7 @@ module.exports = {
 				"clearBio",
 				"clearAvi",
 				"clearAccountDisplay",
+				"clearName",
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",

@@ -268,6 +268,7 @@ module.exports = class Game {
 			}
 
 			// Join the game as a new player if possible
+			await this.joinMutexLock();
 			if (
 				!player &&
 				this.currentState == -1 &&
@@ -285,6 +286,7 @@ module.exports = class Game {
 				}
 
 				this.players.push(player);
+				this.joinMutexUnlock();
 				this.sendPlayerJoin(player);
 				this.pregame.join(player);
 				this.sendAllGameInfo(player);
@@ -292,6 +294,8 @@ module.exports = class Game {
 				this.checkGameStart();
 				return;
 			}
+			else
+				this.joinMutexUnlock();
 
 			const canSpectateAny = await routeUtils.verifyPermission(user.id, "canSpectateAny");
 
@@ -338,6 +342,34 @@ module.exports = class Game {
 		catch (e) {
 			logger.error(e);
 		}
+	}
+
+	joinMutexLock() {
+		return new Promise((res, rej) => {
+			if (!this.joinMutex) {
+				this.joinMutex = true;
+				res();
+			} else {
+				var count = 0;
+				var lockInt = setInterval(() => {
+					if (!this.joinMutex) {
+						this.joinMutex = true;
+						clearInterval(lockInt);
+						res();
+					}
+					else {
+						count++;
+
+						if (count == 100)
+							rej();
+					}
+				}, 100);
+			}
+		});
+	}
+
+	joinMutexUnlock() {
+		this.joinMutex = false;
 	}
 
 	async userLeave(userId) {

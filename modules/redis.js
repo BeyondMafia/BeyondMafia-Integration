@@ -626,7 +626,11 @@ async function breakGame(gameId) {
 		startTime: game.startTime,
 		endTime: Date.now(),
 		ranked: game.settings.ranked,
+		private: game.settings.private,
+		guests: game.settings.guests,
 		spectating: game.settings.spectating,
+		voiceChat: game.settings.voiceChat,
+		readyCheck: game.settings.readyCheck,
 		stateLengths: game.settings.stateLengths,
 		gameTypeOptions: JSON.stringify(game.settings.gameTypeOptions),
 		broken: true

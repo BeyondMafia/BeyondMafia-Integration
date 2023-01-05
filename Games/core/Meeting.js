@@ -124,7 +124,7 @@ module.exports = class Meeting {
 		if (this.finished)
 			return;
 
-		if (this.members[player.id].canVote) {
+		if (this.voting && this.members[player.id].canVote) {
 			delete this.votes[player.id];
 
 			for (let memberId in this.voteVersions)
