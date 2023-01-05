@@ -783,8 +783,13 @@ module.exports = class Player {
 			else {
 				let member = meeting.members[this.id];
 
-				if (member.canVote)
+				if (member.canVote) {
+					delete meeting.votes[this.id];
 					meeting.totalVoters--;
+
+					for (let memberId in meeting.voteVersions)
+						delete meeting.voteVersions[memberId].votes[this.id];
+				}
 
 				member.canVote = false;
 				member.canUnvote = false;
