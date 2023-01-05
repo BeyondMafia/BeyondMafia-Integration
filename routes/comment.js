@@ -126,6 +126,9 @@ router.post("/delete", async function (req, res) {
 			{ $set: { deleted: true } }
 		).exec();
 
+		if (comment.author.id != userId)
+			routeUtils.createModAction(userId, "Delete Comment", [commentId]);
+
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -158,6 +161,7 @@ router.post("/restore", async function (req, res) {
 			{ $set: { deleted: false } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Restore Comment", [commentId]);
 		res.sendStatus(200);
 	}
 	catch (e) {

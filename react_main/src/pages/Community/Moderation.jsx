@@ -1122,11 +1122,19 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Restore Forum Reply": {
+		"Delete Comment": {
 			hidden: true,
 			args: [
 				{
-					label: "Reply ID",
+					label: "Comment ID",
+				},
+			],
+		},
+		"Restore Comment": {
+			hidden: true,
+			args: [
+				{
+					label: "Comment ID",
 				},
 			],
 		},
