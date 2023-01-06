@@ -986,7 +986,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Whitelist User": {
+		"Whitelist": {
 			perm: "whitelist",
 			args: [
 				{
