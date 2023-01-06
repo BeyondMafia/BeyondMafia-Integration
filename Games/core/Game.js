@@ -737,8 +737,11 @@ module.exports = class Game {
 		// Take snapshot of dead players
 		this.history.recordAllDead();
 
+		// Check if states will be skipped
+		var [_, skipped] = this.getNextStateIndex();
+
 		// Do actions
-		if (!stateInfo.delayActions)
+		if (!stateInfo.delayActions || skipped > 0)
 			this.processActionQueue();
 
 		// Set next state
@@ -802,11 +805,15 @@ module.exports = class Game {
 
 	incrementState() {
 		this.currentState++;
-		this.stateIndexRecord.push(this.getNextStateIndex());
+
+		var [index, skipped] = this.getNextStateIndex();
+		this.stateIndexRecord.push(index);
+		return skipped;
 	}
 
 	getNextStateIndex() {
 		var lastStateIndex = this.stateIndexRecord[this.stateIndexRecord.length - 1];
+		var skipped = -1;
 		var nextStateIndex, shouldSkip;
 
 		if (lastStateIndex == null)
@@ -815,7 +822,8 @@ module.exports = class Game {
 			nextStateIndex = lastStateIndex;
 
 		do {
-			nextStateIndex += 1;
+			nextStateIndex++;
+			skipped++;
 
 			if (nextStateIndex == this.states.length)
 				nextStateIndex = 2;
@@ -832,7 +840,7 @@ module.exports = class Game {
 				shouldSkip = false;
 		} while (shouldSkip);
 
-		return nextStateIndex;
+		return [nextStateIndex, skipped];
 	}
 
 	getStateInfo(state) {

@@ -368,6 +368,7 @@ router.post("/removeFromGroup", async function (req, res) {
 		}
 
 		await models.InGroup.deleteOne({ user: userToRemove._id, group: group._id }).exec();
+		await redis.cacheUserInfo(userIdToRemove, true);
 		await redis.cacheUserPermissions(userIdToRemove);
 
 		routeUtils.createModAction(userId, "Remove User from Group", [userIdToRemove, groupName]);
