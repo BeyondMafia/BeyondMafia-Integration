@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_NIGHT_KILLER } = require("../../const/Priority");
 
 module.exports = class NightKiller extends Card {
 
@@ -12,7 +13,7 @@ module.exports = class NightKiller extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["kill"],
-					priority: 0,
+					priority: PRIORITY_NIGHT_KILLER,
 					run: function () {
 						if (this.dominates())
 							this.target.kill("basic", this.actor);
