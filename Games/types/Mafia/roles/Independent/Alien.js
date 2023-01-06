@@ -6,6 +6,7 @@ module.exports = class Alien extends Role {
 		super("Alien", player, data);
 
 		this.alignment = "Independent";
+		this.winCount = "Village";
 		this.cards = [
 			"VillageCore",
 			"WinAllProbed",
