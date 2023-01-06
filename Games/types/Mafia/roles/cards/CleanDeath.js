@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_CLEAN_DEATH } = require("../../const/Priority");
 
 module.exports = class CleanDeath extends Card {
 
@@ -12,7 +11,7 @@ module.exports = class CleanDeath extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["clean"],
-					priority: PRIORITY_CLEAN_DEATH,
+					priority: -2,
 					run: function () {
 						var targetRole = this.target.role;
 						var actorRole = this.actor.role;

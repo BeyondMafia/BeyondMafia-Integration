@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_POISONER } = require("../../const/Priority");
 
 module.exports = class Poisoner extends Card {
 
@@ -13,7 +12,7 @@ module.exports = class Poisoner extends Card {
 				targets: { include: ["alive"], exclude: ["Mafia"] },
 				action: {
 					labels: ["effect", "poison"],
-					priority: PRIORITY_POISONER,
+					priority: 0,
 					run: function () {
 						this.target.giveEffect("Poison", this.actor);
 						this.target.queueAlert("You have been poisoned!", 0);
