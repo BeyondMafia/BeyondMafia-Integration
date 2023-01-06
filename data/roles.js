@@ -334,6 +334,13 @@ const roleData = {
                 "Wins if survives until the end of the game."
             ],
         },
+		"Alien": {
+			alignment: "Independent",
+			description: [
+				"Can choose one player to probe each night.",
+				"Wins if all players left alive have been probed."
+			],
+		},
     },
     "Split Decision": {
         //Blue
