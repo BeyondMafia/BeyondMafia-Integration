@@ -59,6 +59,13 @@ export default function Join(props) {
             .catch(errorAlert);
     }
 
+    function lobbyNav(_lobby) {
+        setLobby(_lobby);
+
+        if (lobby == _lobby)
+            getGameList(listType, page);
+    }
+
     if (lobby != "All" && Lobbies.indexOf(lobby) == -1)
         setLobby(defaultLobby);
 
@@ -79,23 +86,23 @@ export default function Join(props) {
                         <TopBarLink
                             text="All"
                             sel={lobby}
-                            onClick={() => setLobby("All")} />
+                            onClick={() => lobbyNav("All")} />
                         <TopBarLink
                             text="Main"
                             sel={lobby}
-                            onClick={() => setLobby("Main")} />
+                            onClick={() => lobbyNav("Main")} />
                         <TopBarLink
                             text="Sandbox"
                             sel={lobby}
-                            onClick={() => setLobby("Sandbox")} />
+                            onClick={() => lobbyNav("Sandbox")} />
                         <TopBarLink
                             text="Competitive"
                             sel={lobby}
-                            onClick={() => setLobby("Competitive")} />
+                            onClick={() => lobbyNav("Competitive")} />
                         <TopBarLink
                             text="Games"
                             sel={lobby}
-                            onClick={() => setLobby("Games")} />
+                            onClick={() => lobbyNav("Games")} />
                     </div>
                     <ItemList
                         className="games"
