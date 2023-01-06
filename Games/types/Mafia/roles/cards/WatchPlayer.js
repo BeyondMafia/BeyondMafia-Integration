@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_WATCH } = require("../../const/Priority");
 
 module.exports = class WatchPlayer extends Card {
 
@@ -10,7 +11,7 @@ module.exports = class WatchPlayer extends Card {
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
-					priority: 100,
+					priority: PRIORITY_WATCH,
 					run: function () {
 						var visits = [];
 

@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_ALIGNMENT_LEARNER } = require("../../const/Priority");
 
 module.exports = class AlignmentLearner extends Card {
 
@@ -11,7 +12,7 @@ module.exports = class AlignmentLearner extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["investigate", "alignment"],
-					priority: -10,
+					priority: PRIORITY_ALIGNMENT_LEARNER,
 					run: function () {
 						var role = this.target.getAppearance("investigate", true);
 						var alignment = this.game.getRoleAlignment(role);
