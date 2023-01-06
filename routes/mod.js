@@ -1274,4 +1274,63 @@ router.get("/actions", async function (req, res) {
 	}
 });
 
+router.get("/announcements", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var last = Number(req.query.last);
+		var first = Number(req.query.first);
+
+		var announcements = await routeUtils.modelPageQuery(
+			models.Announcement,
+			{},
+			"date",
+			last,
+			first,
+			"id modId mod content date -_id",
+			constants.announcementsPageSize,
+			["mod", "id name avatar -_id"]
+		);
+
+		res.send(announcements);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
+	}
+});
+
+router.post("/announcement", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var content = String(req.body.content);
+		var perm = "announce";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		if (content.length > constants.maxAnnouncementLength) {
+			res.status(500);
+			res.send("Announcement is too long.");
+			return;
+		}
+
+		var announcement = new models.Announcement({
+			id: shortid.generate(),
+			modId: userId,
+			content,
+			date: Date.now(),
+		});
+		await announcement.save();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
+	}
+});
+
 module.exports = router;

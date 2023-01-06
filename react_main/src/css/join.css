@@ -126,6 +126,78 @@
 	cursor: pointer;
 }
 
+.bottom-wrapper {
+	flex-grow: 1;
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.announcements {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+
+	width: 350px;
+	margin-top: 94px;
+
+	background-color: var(--theme-color) !important;
+}
+
+.announcements .heading {
+	color: white;
+}
+
+.announcements .page-nav {
+	margin-top: 0px;
+	color: white;
+}
+
+.announcements .announcement {
+	align-self: stretch;
+
+	margin-bottom: 10px;
+	padding: 5px;
+
+	background-color: white;
+}
+
+.announcements .announcement .top-row {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	margin-bottom: 10px;
+}
+
+.announcements .announcement .date {
+	margin-left: 10px;
+
+	opacity: 0.6;
+}
+
+.announcements .announcement .content {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	box-sizing: border-box;
+	padding: 5px;
+
+	overflow-x: hidden;
+	word-break: break-word;
+	white-space: pre-wrap;
+}
+
+.announcements .announcement .content a {
+	color: var(--theme-color-light);
+}
+
 @media (max-width: 800px) {
 	.join .row .btn {
 		width: 65px;
@@ -147,5 +219,18 @@
 
 	.join .row .btns-wrapper {
 		width: 80px;
+	}
+
+	.bottom-wrapper {
+		flex-flow: column-reverse;
+	}
+
+	.announcements {
+		align-self: stretch;
+
+		margin: 0px;
+		margin-top: 10px;
+
+		width: auto;
 	}
 }

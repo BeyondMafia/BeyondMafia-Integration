@@ -275,7 +275,7 @@
 }
 
 .chat-wrapper .message.self .content {
-	background-color: var(--theme-color-text);
+	background-color: #e2f1ff;
 	color: black;
 }
 
