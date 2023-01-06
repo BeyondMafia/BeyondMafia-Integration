@@ -10,7 +10,6 @@ module.exports = class CanProbe extends Card {
 				actionName: "Probe",
 				states: ["Night"],
 				flags: ["voting"],
-				targets: { include: ["alive"]},
 				action: {
 					labels: ["effect", "probe"],
 					priority: 0,
@@ -21,6 +20,4 @@ module.exports = class CanProbe extends Card {
 			}
 		}
 	}
-	
-	
 }

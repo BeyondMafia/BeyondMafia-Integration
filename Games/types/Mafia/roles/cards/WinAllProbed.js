@@ -9,13 +9,21 @@ module.exports = class WinAllProbed extends Card {
 			priority: 0,
 			check: function(counts, winners, aliveCount){
 				var probeCount = 0;
+
 				for (let player of this.game.players){
-					if (player.alive && player.effects.indexOf('Probe')){
+					const isProbed = player.effects.find( ( curEffect ) => {
+						return curEffect.name === "Probe";
+					} );
+
+					if (player.alive && ( isProbed || player.role.name === "Alien" ) ) {
 						probeCount++;
+					} else {
+						console.log( player.effects.length, player.role.name )
 					}
-					if (probeCount == aliveCount){
-						winners.addPlayer(this.player, this.name);
-					}
+				}
+
+				if (probeCount === aliveCount){
+					winners.addPlayer(this.player, this.name);
 				}
 			}
 		};
