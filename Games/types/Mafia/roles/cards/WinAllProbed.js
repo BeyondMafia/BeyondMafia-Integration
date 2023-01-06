@@ -17,8 +17,6 @@ module.exports = class WinAllProbed extends Card {
 
 					if (player.alive && ( isProbed || player.role.name === "Alien" ) ) {
 						probeCount++;
-					} else {
-						console.log( player.effects.length, player.role.name )
 					}
 				}
 
