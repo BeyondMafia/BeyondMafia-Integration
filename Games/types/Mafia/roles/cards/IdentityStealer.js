@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_IDENTITY_STEALER } = require("../../const/Priority");
 
 module.exports = class IdentityStealer extends Card {
 
@@ -13,7 +12,7 @@ module.exports = class IdentityStealer extends Card {
 				flags: ["voting"],
 				inputType: "boolean",
 				action: {
-					priority: PRIORITY_IDENTITY_STEALER,
+					priority: -2,
 					run: function () {
 						if (this.target == "No")
 							return;

@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_SWAP_VISITORS_A, PRIORITY_SWAP_VISITORS_B_AND_SWAP } = require("../../const/Priority");
 
 module.exports = class SwapVisitors extends Card {
 
@@ -12,7 +11,7 @@ module.exports = class SwapVisitors extends Card {
 				flags: ["voting"],
 				targets: { include: ["alive"], exclude: [""] },
 				action: {
-					priority: PRIORITY_SWAP_VISITORS_A,
+					priority: -98,
 					run: function () {
 						this.actor.role.data.destinationA = this.target;
 					}
@@ -23,7 +22,7 @@ module.exports = class SwapVisitors extends Card {
 				flags: ["voting"],
 				targets: { include: ["alive"], exclude: [""] },
 				action: {
-					priority: PRIORITY_SWAP_VISITORS_B_AND_SWAP,
+					priority: -97,
 					run: function () {
 						var destinationA = this.actor.role.data.destinationA;
 						var destinationB = this.target;

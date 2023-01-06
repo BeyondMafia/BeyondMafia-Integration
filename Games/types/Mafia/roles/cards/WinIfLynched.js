@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_WIN_IF_LYNCHED } = require("../../const/Priority");
 
 module.exports = class WinIfLynched extends Card {
 
@@ -7,7 +6,7 @@ module.exports = class WinIfLynched extends Card {
 		super(role);
 
 		this.winCheck = {
-			priority: PRIORITY_WIN_IF_LYNCHED,
+			priority: -10,
 			check: function (counts, winners, aliveCount) {
 				if (this.data.lynched) {
 					winners.addPlayer(this.player, this.name);

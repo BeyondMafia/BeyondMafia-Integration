@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_CLEANSE_WEREWOLF_VISITORS } = require("../../const/Priority");
 
 module.exports = class CleanseWerewolfVisitors extends Card {
 
@@ -8,7 +7,7 @@ module.exports = class CleanseWerewolfVisitors extends Card {
 
 		this.actions = [
 			{
-				priority: PRIORITY_CLEANSE_WEREWOLF_VISITORS,
+				priority: -95,
 				labels: ["cleanse", "werewolf", "hidden"],
 				run: function () {
 					if (this.game.getStateName() != "Night")

@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_BECOME_DEAD_ROLE } = require("../../const/Priority");
 
 module.exports = class BecomeDeadRole extends Card {
 
@@ -12,7 +11,7 @@ module.exports = class BecomeDeadRole extends Card {
 				flags: ["voting"],
 				targets: { include: ["dead"], exclude: [""]},
 				action: {
-					priority: PRIORITY_BECOME_DEAD_ROLE,
+					priority: 50,
 					run: function () {
 						this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`);
 					}

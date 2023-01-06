@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_NIGHT_ROLE_BLOCKER } = require("../../const/Priority");
 
 module.exports = class NightRoleBlocker extends Card {
 
@@ -12,7 +11,7 @@ module.exports = class NightRoleBlocker extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["block"],
-					priority: PRIORITY_NIGHT_ROLE_BLOCKER,
+					priority: -96,
 					run: function () {
 						for (let action of this.game.actions[0]) {
 							if (

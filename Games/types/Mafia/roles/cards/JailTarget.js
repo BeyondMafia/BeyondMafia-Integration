@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_JAIL_EXECUTE, PRIORITY_JAIL_MEETING } = require("../../const/Priority");
 
 module.exports = class JailTarget extends Card {
 
@@ -12,7 +11,7 @@ module.exports = class JailTarget extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["jail"],
-					priority: PRIORITY_JAIL_MEETING,
+					priority: -10,
 					run: function () {
 						if (this.dominates()) {
 							this.target.holdItem("Handcuffs");
@@ -35,7 +34,7 @@ module.exports = class JailTarget extends Card {
 					return false;
 				},
 				action: {
-					priority: PRIORITY_JAIL_EXECUTE,
+					priority: 0,
 					run: function () {
 						var prisoner = this.actor.role.data.prisoner;
 
