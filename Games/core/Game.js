@@ -1245,7 +1245,7 @@ module.exports = class Game {
 					{ id: player.user.id },
 					{
 						$push: { games: game._id },
-						$set: { stats: player.user.stats, playedGame: true },
+						$set: { stats: player.user.stats || {}, playedGame: true },
 						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
 							// coins: this.ranked ? 1 : 0
