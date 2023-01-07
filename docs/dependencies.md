@@ -3,6 +3,7 @@
 This project relies on a few external APIs. This section walksthrough how to set up projects and get the API keys for:
 
 - Firebase
+- reCAPTCHA
 - Agora
 - ipqs
 
@@ -30,7 +31,7 @@ REACT_APP_FIREBASE_APP_ID=
 REACT_APP_FIREBASE_MEASUREMENT_ID=
 ```
 
-1. Go to [firebase](https://console.firebase.google.com) and create a project.
+1. Go to [firebase](https://console.firebase.google.com) and create a project. Enable google analytics.
 
 2. Go to the project settings to get the project ID.
 
@@ -49,6 +50,30 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 <img src="https://user-images.githubusercontent.com/24848927/209988300-bee979fd-3750-40c1-80bf-d7e428b2a6ff.png" alt="service account" width="700"/>
 
 6. Copy the contents of the downloaded file into `xx/BeyondMafia-Integration/firebase.json`. You can use other file names, but update the `FIREBASE_JSON_FILE` env accordingly.
+
+7. Enable email authentication in Firebase. Console > Authentication > Get Started > Native providers/Email/Password > Enable Email/Password.
+
+<img src="https://user-images.githubusercontent.com/24848927/211154338-0cd5aa25-c389-4753-a1f6-1b6c898e0ccc.png" alt="authentication" width="700"/>
+
+## reCAPTCHA
+
+Required API keys:
+
+```
+# frontend
+REACT_APP_RECAPTCHA_KEY=
+```
+
+1. Go to [reCAPTCHA](https://www.google.com/recaptcha/admin/create) and register an application with reCAPTCHA v3.
+
+<img src="https://user-images.githubusercontent.com/24848927/211154568-29783da2-8091-4f8a-be99-cc4e6543b2a7.png" alt="recaptcha-register" width="700"/>
+
+2. Use the client-side key (upper one). 
+
+<img src="https://user-images.githubusercontent.com/24848927/211154725-60217bac-c058-4e7f-bdd3-fa81acece6f0.png
+" alt="recaptcha-get" width="700"/>
+
+The server side key can also be used in the backend under the env `RECAPTCHA_KEY`, but it's only required for production mode.
 
 ## Agora
 
