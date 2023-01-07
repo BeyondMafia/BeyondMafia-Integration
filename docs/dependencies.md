@@ -53,7 +53,7 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 7. Enable email authentication in Firebase. Console > Authentication > Get Started > Native providers/Email/Password > Enable Email/Password.
 
-<img src="https://user-images.githubusercontent.com/24848927/211154338-0cd5aa25-c389-4753-a1f6-1b6c898e0ccc.png" alt="authentication" width="700"/>
+<img src="https://user-images.githubusercontent.com/24848927/211158412-26f48ef0-c260-4178-8539-d870a447dbd6.png" alt="authentication" width="700"/>
 
 ## reCAPTCHA
 
