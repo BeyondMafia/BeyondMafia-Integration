@@ -187,6 +187,12 @@ const roleData = {
                 "Can anonymously contact any non-Village role.",
             ],
         },
+        "Towncrier": {
+            alignment: "Village",
+            description: [
+                "Can anonymously broadcast messages during the day",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
