@@ -34,7 +34,7 @@ const roleData = {
                 "Multiple insane cops meet in a group."
             ],
         },
-        "Naïve Cop": {
+        "Naive Cop": {
             alignment: "Village",
             description: [
                 "Investigates one person each night and learns their alignment (alignments will always appear innocent).",

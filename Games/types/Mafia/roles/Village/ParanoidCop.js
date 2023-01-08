@@ -7,12 +7,6 @@ module.exports = class ParanoidCop extends Role {
 
 		this.alignment = "Village";
 		this.cards = ["VillageCore", "WinWithVillage", "AlignmentLearnerParanoid", "AppearAsCop"];
-		this.meetingMods = {
-			"Learn Alignment": {
-				flags: ["voting", "group"],
-				targets: { include: ["alive"], exclude: ["members"] },
-			}
-		};
 	}
 
 }
