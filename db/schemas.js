@@ -280,6 +280,15 @@ var schemas = {
         toObject: { virtuals: true },
         toJSON: { virtuals: true }
     }),
+    "Announcement": new mongoose.Schema({
+        id: { type: String, index: true },
+        modId: { type: String, index: true },
+        content: String,
+        date: { type: Number, index: true },
+    }, {
+        toObject: { virtuals: true },
+        toJSON: { virtuals: true }
+    }),
     "Ban": new mongoose.Schema({
         id: { type: String, index: true },
         userId: { type: String, index: true },
@@ -365,6 +374,13 @@ schemas.FriendRequest.virtual("target", {
 });
 
 schemas.ModAction.virtual("mod", {
+    ref: "User",
+    localField: "modId",
+    foreignField: "id",
+    justOne: true
+});
+
+schemas.Announcement.virtual("mod", {
     ref: "User",
     localField: "modId",
     foreignField: "id",

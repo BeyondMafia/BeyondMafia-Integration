@@ -1058,6 +1058,24 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Make Announcement": {
+			perm: "announce",
+			args: [
+				{
+					label: "Content",
+					name: "content",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/announcement", argValues)
+					.then(() => {
+						siteInfo.showAlert("Announcement created.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Delete Forum Board": {
 			hidden: true,
 			args: [

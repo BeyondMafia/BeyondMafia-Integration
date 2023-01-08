@@ -119,13 +119,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Village")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Mafioso"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Village") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -142,13 +147,18 @@ describe("Games/Mafia", function () {
             const game = await makeGame(setup);
 
             addListenerToRoles(game, ["Mafioso"], "meeting", function (meeting) {
-                if (meeting.name != "Mafia")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: meeting.targets[0],
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: meeting.targets[0],
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -219,6 +229,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -244,6 +260,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -263,13 +285,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Village")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Jester"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Village") {
+                    this.sendToServer("vote", {
+                        selection: roles["Jester"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -290,13 +317,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Wolf Bite")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Villager"][0].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Wolf Bite") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"][0].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -326,6 +358,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -346,13 +384,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Mafia")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Bomb"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Bomb"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -409,13 +452,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Guess Adversary")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Spy"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Guess Adversary") {
+                    this.sendToServer("vote", {
+                        selection: roles["Spy"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -433,13 +481,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Guess Adversary")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Agent"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name != "Guess Adversary") {
+                    this.sendToServer("vote", {
+                        selection: roles["Agent"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -547,6 +600,12 @@ describe("Games/Mafia", function () {
                         });
                     }
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -582,6 +641,12 @@ describe("Games/Mafia", function () {
                 else if (meeting.name == "Redirect to Target") {
                     this.sendToServer("vote", {
                         selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
                         meetingId: meeting.id
                     });
                 }
@@ -624,6 +689,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -652,6 +723,12 @@ describe("Games/Mafia", function () {
                 else if (meeting.name == "Steal Actions") {
                     this.sendToServer("vote", {
                         selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
                         meetingId: meeting.id
                     });
                 }
@@ -706,6 +783,12 @@ describe("Games/Mafia", function () {
                 if (meeting.name == "Mafia") {
                     this.sendToServer("vote", {
                         selection: roles["Knight"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
                         meetingId: meeting.id
                     });
                 }
@@ -768,6 +851,12 @@ describe("Games/Mafia", function () {
                 if (meeting.name == "Mafia") {
                     this.sendToServer("vote", {
                         selection: roles["Babushka"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
                         meetingId: meeting.id
                     });
                 }
@@ -838,6 +927,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -857,13 +952,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Mafia")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Villager"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -894,6 +994,12 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -912,13 +1018,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Mafia")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Survivor"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Survivor"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -938,13 +1049,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Wolf Bite")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Priest"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Wolf Bite") {
+                    this.sendToServer("vote", {
+                        selection: roles["Priest"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -963,13 +1079,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Masons")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Serial Killer"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Masons") {
+                    this.sendToServer("vote", {
+                        selection: roles["Serial Killer"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -986,13 +1107,18 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Masons")
-                    return;
-
-                this.sendToServer("vote", {
-                    selection: roles["Mafioso"].id,
-                    meetingId: meeting.id
-                });
+                if (meeting.name == "Masons") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
             });
 
             await waitForGameEnd(game);
@@ -1041,13 +1167,7 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name == "Village") {
-                    this.sendToServer("vote", {
-                        selection: "*",
-                        meetingId: meeting.id
-                    });
-                }
-                else if (meeting.name == "Jail Target") {
+                if (meeting.name == "Jail Target") {
                     this.sendToServer("vote", {
                         selection: roles["Mafioso"].id,
                         meetingId: meeting.id
@@ -1056,6 +1176,12 @@ describe("Games/Mafia", function () {
                 else if (meeting.name == "Jail") {
                     this.sendToServer("vote", {
                         selection: "Yes",
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
                         meetingId: meeting.id
                     });
                 }

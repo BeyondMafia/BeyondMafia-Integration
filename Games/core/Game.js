@@ -19,6 +19,7 @@ const roleData = require("../..//data/roles");
 const logger = require("../../modules/logging")("games");
 const constants = require("../../data/constants");
 const routeUtils = require("../../routes/utils");
+const PostgameMeeting = require("./PostgameMeeting");
 
 module.exports = class Game {
 
@@ -52,6 +53,7 @@ module.exports = class Game {
 		this.readyCheck = options.settings.readyCheck;
 		this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
 		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 5000;
+		this.postgameLength = 1000 * 60 * 2;
 		this.players = new ArrayHash();
 		this.playersGone = {};
 		this.spectators = [];
@@ -404,6 +406,7 @@ module.exports = class Game {
 	async playerLeave(player) {
 		player.send("left");
 		player.left = true;
+		player.user.disconnect();
 
 		if (!this.started && this.players[player.id]) {
 			this.cancelReadyCheck();
@@ -418,7 +421,7 @@ module.exports = class Game {
 				return;
 			}
 		}
-		else if (this.players[player.id]) {
+		else if (!this.postgameOver && this.players[player.id]) {
 			var remainingPlayer = false;
 
 			for (let player of this.players) {
@@ -438,7 +441,10 @@ module.exports = class Game {
 	}
 
 	async onAllPlayersLeft() {
-		this.immediateEnd();
+		if (!this.finished)
+			this.immediateEnd();
+		else if (!this.postgameOver)
+			this.endPostgame();
 	}
 
 	async vegPlayer(player) {
@@ -737,8 +743,11 @@ module.exports = class Game {
 		// Take snapshot of dead players
 		this.history.recordAllDead();
 
+		// Check if states will be skipped
+		var [_, skipped] = this.getNextStateIndex();
+
 		// Do actions
-		if (!stateInfo.delayActions)
+		if (!stateInfo.delayActions || skipped > 0)
 			this.processActionQueue();
 
 		// Set next state
@@ -802,11 +811,15 @@ module.exports = class Game {
 
 	incrementState() {
 		this.currentState++;
-		this.stateIndexRecord.push(this.getNextStateIndex());
+
+		var [index, skipped] = this.getNextStateIndex();
+		this.stateIndexRecord.push(index);
+		return skipped;
 	}
 
 	getNextStateIndex() {
 		var lastStateIndex = this.stateIndexRecord[this.stateIndexRecord.length - 1];
+		var skipped = -1;
 		var nextStateIndex, shouldSkip;
 
 		if (lastStateIndex == null)
@@ -815,7 +828,8 @@ module.exports = class Game {
 			nextStateIndex = lastStateIndex;
 
 		do {
-			nextStateIndex += 1;
+			nextStateIndex++;
+			skipped++;
 
 			if (nextStateIndex == this.states.length)
 				nextStateIndex = 2;
@@ -832,7 +846,7 @@ module.exports = class Game {
 				shouldSkip = false;
 		} while (shouldSkip);
 
-		return nextStateIndex;
+		return [nextStateIndex, skipped];
 	}
 
 	getStateInfo(state) {
@@ -1182,11 +1196,46 @@ module.exports = class Game {
 				this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
 
 			this.broadcast("winners", winners.getWinnersInfo());
+
+			if (this.isTest) {
+				this.broadcast("finished");
+				await redis.deleteGame(this.id);
+				return;
+			}
+
+			// Start postgame meeting
+			this.postgame = this.createMeeting(PostgameMeeting);
+
+			for (let player of this.players)
+				if (!player.left)
+					this.postgame.join(player);
+
+			this.postgame.init();
+
+			for (let player of this.players)
+				if (!player.left)
+					player.sendMeeting(this.postgame);
+
+			this.createTimer("postgame", this.postgameLength, () => this.endPostgame());
+		}
+		catch (e) {
+			logger.error(e);
+		}
+	}
+
+	async endPostgame() {
+		try {
+			if (this.postgameOver)
+				return;
+
+			this.postgameOver = true;
+			this.clearTimers();
 			this.broadcast("finished");
 			await redis.deleteGame(this.id);
 
-			if (this.isTest)
-				return;
+			for (let player of this.players)
+				if (!player.left)
+					player.user.disconnect();
 
 			var setup = await models.Setup.findOne({ id: this.setup.id })
 				.select("id alignmentPlays alignmentWins");
@@ -1237,7 +1286,7 @@ module.exports = class Game {
 					{ id: player.user.id },
 					{
 						$push: { games: game._id },
-						$set: { stats: player.user.stats, playedGame: true },
+						$set: { stats: player.user.stats || {}, playedGame: true },
 						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
 							// coins: this.ranked ? 1 : 0

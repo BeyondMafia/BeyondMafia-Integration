@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_VILLAGE_MEETING } = require("../../const/Priority");
 
 module.exports = class VillageCore extends Card {
 
@@ -13,7 +14,7 @@ module.exports = class VillageCore extends Card {
 				passiveDead: true,
 				action: {
 					labels: ["kill", "lynch", "hidden"],
-					priority: 0,
+					priority: PRIORITY_VILLAGE_MEETING,
 					power: 3,
 					run: function () {
 						if (this.dominates())

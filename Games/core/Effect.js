@@ -83,4 +83,6 @@ module.exports = class Effect {
 
 	seeUnvote(info) { }
 
+	seeTyping(info) { }
+
 }

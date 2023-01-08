@@ -58,6 +58,10 @@ export const Emotes = {
 		name: "EZ",
 		type: "png"
 	},
+	"doge": {
+		name: "doge",
+		type: "png"
+	},
 	"feelsdankman": {
 		name: "FeelsDankMan",
 		type: "png"

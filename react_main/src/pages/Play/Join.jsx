@@ -5,7 +5,7 @@ import axios from "axios";
 import { UserContext, PopoverContext, SiteInfoContext } from "../../Contexts"
 import Setup from "../../components/Setup"
 import { ButtonGroup, getPageNavFilterArg, PageNav, SubNav } from "../../components/Nav"
-import { ItemList } from "../../components/Basic"
+import { ItemList, Time, UserText } from "../../components/Basic"
 import { useErrorAlert } from "../../components/Alerts";
 import { camelCase } from "../../utils"
 import LoadingPage from "../Loading";
@@ -15,6 +15,7 @@ import { Lobbies } from "../../Constants";
 
 import "../../css/join.css";
 import { TopBarLink } from "./Play";
+import { NameWithAvatar } from "../User/User";
 
 export default function Join(props) {
     const defaultLobby = "All";
@@ -58,6 +59,13 @@ export default function Join(props) {
             .catch(errorAlert);
     }
 
+    function lobbyNav(_lobby) {
+        setLobby(_lobby);
+
+        if (lobby == _lobby)
+            getGameList(listType, page);
+    }
+
     if (lobby != "All" && Lobbies.indexOf(lobby) == -1)
         setLobby(defaultLobby);
 
@@ -78,23 +86,23 @@ export default function Join(props) {
                         <TopBarLink
                             text="All"
                             sel={lobby}
-                            onClick={() => setLobby("All")} />
+                            onClick={() => lobbyNav("All")} />
                         <TopBarLink
                             text="Main"
                             sel={lobby}
-                            onClick={() => setLobby("Main")} />
+                            onClick={() => lobbyNav("Main")} />
                         <TopBarLink
                             text="Sandbox"
                             sel={lobby}
-                            onClick={() => setLobby("Sandbox")} />
+                            onClick={() => lobbyNav("Sandbox")} />
                         <TopBarLink
                             text="Competitive"
                             sel={lobby}
-                            onClick={() => setLobby("Competitive")} />
+                            onClick={() => lobbyNav("Competitive")} />
                         <TopBarLink
                             text="Games"
                             sel={lobby}
-                            onClick={() => setLobby("Games")} />
+                            onClick={() => lobbyNav("Games")} />
                     </div>
                     <ItemList
                         className="games"
@@ -113,8 +121,11 @@ export default function Join(props) {
                         onNav={(page) => getGameList(listType, page)} />
                 </div>
             </div>
-            <Comments
-                location={lobby == "Main" || lobby == "All" ? "lobby" : `lobby-${lobby}`} />
+            <div className="bottom-wrapper">
+                <Comments
+                    location={lobby == "Main" || lobby == "All" ? "lobby" : `lobby-${lobby}`} />
+                <Announcements />
+            </div>
         </>
     );
 }
@@ -330,3 +341,71 @@ function PlayerCount(props) {
         </div>
     );
 }
+
+function Announcements() {
+    const [page, setPage] = useState(1);
+    const [announcements, setAnnouncements] = useState([]);
+
+    const errorAlert = useErrorAlert();
+    const user = useContext(UserContext);
+
+    useEffect(() => {
+        onPageNav(1);
+    }, []);
+
+    function onPageNav(_page) {
+        var filterArg = getPageNavFilterArg(_page, page, announcements, "date");
+
+        if (filterArg == null)
+            return;
+
+        axios.get(`/mod/announcements?${filterArg}`)
+            .then(res => {
+                if (res.data.length > 0) {
+                    setAnnouncements(res.data);
+                    setPage(_page);
+                }
+            })
+            .catch(errorAlert);
+    }
+
+    const announcementRows = announcements.map(announcement => (
+        <div className="announcement" key={announcement.id}>
+            <div className="top-row">
+                <NameWithAvatar
+                    id={announcement.mod.id}
+                    name={announcement.mod.name}
+                    avatar={announcement.mod.avatar} />
+                <div className="date">
+                    <Time
+                        minSec
+                        millisec={Date.now() - announcement.date}
+                        suffix=" ago" />
+                </div>
+            </div>
+            <div className="content">
+                <UserText
+                    text={announcement.content}
+                    settings={user.settings}
+                    filterProfanity
+                    linkify
+                    emotify />
+            </div>
+        </div>
+    ));
+
+    return (
+        <div className="announcements box-panel">
+            <div className="heading">
+                Announcements
+            </div>
+            <PageNav
+                page={page}
+                onNav={onPageNav} />
+            {announcementRows}
+            <PageNav
+                page={page}
+                onNav={onPageNav} />
+        </div>
+    );
+} 

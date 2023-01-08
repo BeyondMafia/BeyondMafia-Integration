@@ -119,6 +119,7 @@ module.exports = {
 	recentReplyAmt: 3,
 	newestThreadAmt: 1,
 	boardRecentReplyAmt: 3,
+	maxAnnouncementLength: 300,
 
 	maxChatMessageLength: 240,
 	chatMessagesPerLoad: 20,
@@ -131,6 +132,7 @@ module.exports = {
 	lobbyPageSize: 7,
 	modActionPageSize: 7,
 	newestUsersPageSize: 7,
+	announcementsPageSize: 7,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,
@@ -238,6 +240,7 @@ module.exports = {
 		"disableAllCensors": true,
 		"breakPortGames": true,
 		"kick": true,
+		"announce": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -317,6 +320,47 @@ module.exports = {
 				"whitelist",
 				"disableAllCensors",
 				"kick",
+				"announce",
+			]
+		},
+		"Head Mod": {
+			rank: 6,
+			visible: true,
+			perms: [
+				"deleteAnyPost",
+				"lockThreads",
+				"pinThreads",
+				"postInLocked",
+				"moveThread",
+				"viewPerms",
+				"viewDeleted",
+				"restoreDeleted",
+				"viewModActions",
+				"deleteChatMessage",
+				"forumBan",
+				"chatBan",
+				"gameBan",
+				"hostRankedBan",
+				"siteBan",
+				"forumUnban",
+				"chatUnban",
+				"gameUnban",
+				"siteUnban",
+				"forceSignOut",
+				"viewAlts",
+				"clearSetupName",
+				"clearBio",
+				"clearAvi",
+				"clearAccountDisplay",
+				"clearName",
+				"viewBans",
+				"canSpectateAny",
+				"breakGame",
+				"featureSetup",
+				"whitelist",
+				"disableAllCensors",
+				"kick",
+				"announce",
 			]
 		},
 		"Mod": {
@@ -355,8 +399,9 @@ module.exports = {
 				"whitelist",
 				"disableAllCensors",
 				"kick",
+				"announce",
 			]
-		}
+		},
 	},
 
 	rateLimits: {

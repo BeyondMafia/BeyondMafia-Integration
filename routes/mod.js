@@ -368,6 +368,7 @@ router.post("/removeFromGroup", async function (req, res) {
 		}
 
 		await models.InGroup.deleteOne({ user: userToRemove._id, group: group._id }).exec();
+		await redis.cacheUserInfo(userIdToRemove, true);
 		await redis.cacheUserPermissions(userIdToRemove);
 
 		routeUtils.createModAction(userId, "Remove User from Group", [userIdToRemove, groupName]);
@@ -833,7 +834,7 @@ router.get("/alts", async (req, res) => {
 		var users = await models.User.find({ ip: { $elemMatch: { $in: ips } } })
 			.select("id name -_id");
 
-		routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
+		// routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
 		res.send(users);
 	}
 	catch (e) {
@@ -1271,6 +1272,65 @@ router.get("/actions", async function (req, res) {
 		logger.error(e);
 		res.status(500);
 		res.send("Error loading mod actions.");
+	}
+});
+
+router.get("/announcements", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var last = Number(req.query.last);
+		var first = Number(req.query.first);
+
+		var announcements = await routeUtils.modelPageQuery(
+			models.Announcement,
+			{},
+			"date",
+			last,
+			first,
+			"id modId mod content date -_id",
+			constants.announcementsPageSize,
+			["mod", "id name avatar -_id"]
+		);
+
+		res.send(announcements);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
+	}
+});
+
+router.post("/announcement", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var content = String(req.body.content);
+		var perm = "announce";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		if (content.length > constants.maxAnnouncementLength) {
+			res.status(500);
+			res.send("Announcement is too long.");
+			return;
+		}
+
+		var announcement = new models.Announcement({
+			id: shortid.generate(),
+			modId: userId,
+			content,
+			date: Date.now(),
+		});
+		await announcement.save();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
 	}
 });
 

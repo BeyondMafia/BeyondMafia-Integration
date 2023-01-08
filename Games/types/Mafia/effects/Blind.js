@@ -28,4 +28,9 @@ module.exports = class Blind extends Effect {
 		if (info.voter != this.player)
 			info.cancel = true;
 	}
+
+	seeTyping(info) {
+		if (info.playerId != this.player.id)
+			info.cancel = true;
+	}
 };
