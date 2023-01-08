@@ -1,28 +1,25 @@
 const Card = require("../../Card");
+const { PRIORITY_WIN_ALL_PROBED } = require("../../const/Priority");
 
 module.exports = class WinAllProbed extends Card {
-	
+
 	constructor(role) {
 		super(role);
-		
+
 		this.winCheck = {
-			priority: 0,
-			check: function(counts, winners, aliveCount){
+			priority: PRIORITY_WIN_ALL_PROBED,
+			check: function (counts, winners, aliveCount) {
 				var probeCount = 0;
 
-				for (let player of this.game.players){
-					const isProbed = player.effects.find( ( curEffect ) => {
-						return curEffect.name === "Probe";
-					} );
+				for (let player of this.game.players) {
+					let isProbed = player.hasEffect("Probe");
 
-					if (player.alive && ( isProbed || player.role.name === "Alien" ) ) {
+					if (player.alive && (isProbed || player.role.name === "Alien"))
 						probeCount++;
-					}
 				}
 
-				if (probeCount === aliveCount){
+				if (probeCount === aliveCount)
 					winners.addPlayer(this.player, this.name);
-				}
 			}
 		};
 	}
