@@ -3,7 +3,7 @@ const Role = require("../../Role");
 module.exports = class Towncrier extends Role {
 
 	constructor(player, data) {
-		super("Towncrier", player, data);
+		super("Town Crier", player, data);
 
 		this.alignment = "Village";
 		this.cards = ["VillageCore", "WinWithVillage", "BroadcastMessage"];
@@ -11,7 +11,7 @@ module.exports = class Towncrier extends Role {
 			"Village": {
 				speechAbilities: [{
 					name: "Cry",
-					targets: [ "out" ],
+					targets: ["out"],
 					targetType: "out",
 					verb: ""
 				}]

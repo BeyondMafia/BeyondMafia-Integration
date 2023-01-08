@@ -187,7 +187,7 @@ const roleData = {
                 "Can anonymously contact any non-Village role.",
             ],
         },
-        "Towncrier": {
+        "Town Crier": {
             alignment: "Village",
             description: [
                 "Can anonymously broadcast messages during the day",
