@@ -1,6 +1,6 @@
 const Card = require("../../Card");
 
-module.exports = class ContactByRole extends Card {
+module.exports = class BroadcastMessage extends Card {
 
 	constructor(role) {
 		super(role);
