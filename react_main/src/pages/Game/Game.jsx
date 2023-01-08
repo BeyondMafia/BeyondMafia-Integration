@@ -1759,6 +1759,8 @@ export function Timer(props) {
 
 	if (props.history.currentState == -1)
 		timerName = "pregameCountdown";
+	else if (props.history.currentState == -2)
+		timerName = "postgame";
 	else if (props.timers["secondary"])
 		timerName = "secondary";
 	else
