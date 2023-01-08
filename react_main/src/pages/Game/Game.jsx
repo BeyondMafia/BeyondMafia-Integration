@@ -1266,11 +1266,13 @@ function SpeechInput(props) {
 
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
+		console.log(meetings[selTab]);
 
 		if (
 			e.target.value.length > 0 &&
 			(e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me ") &&
-			!meetings[selTab].anonymous
+			!meetings[selTab].anonymous &&
+			speechDropdownValue == "Say"
 		) {
 			setLastTyped(Date.now());
 		}
