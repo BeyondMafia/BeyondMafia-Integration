@@ -27,7 +27,7 @@ module.exports = class MafiaPlayer extends Player {
 
 		switch (cmd.name) {
 			case "extend":
-				if (this.game.getStateName() != "Day" || this.votedForExtension)
+				if (this.game.getStateName() != "Day" || this.votedForExtension || !this.alive)
 					return;
 
 				this.votedForExtension = true;
