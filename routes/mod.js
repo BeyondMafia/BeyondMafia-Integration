@@ -834,7 +834,7 @@ router.get("/alts", async (req, res) => {
 		var users = await models.User.find({ ip: { $elemMatch: { $in: ips } } })
 			.select("id name -_id");
 
-		routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
+		// routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
 		res.send(users);
 	}
 	catch (e) {

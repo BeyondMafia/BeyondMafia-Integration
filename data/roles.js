@@ -214,8 +214,21 @@ const roleData = {
         "Funsmith": {
             alignment: "Village",
             description: [
-                "Hands out a gun each night."
-				"Hands out guns to all visitors at night."
+                "Hands out a gun each night.",
+                "Hands out guns to all visitors at night.",
+            ],
+        },
+        "Town Crier": {
+            alignment: "Village",
+            description: [
+                "Can anonymously broadcast messages during the day",
+            ],
+        },
+        "Capybara": {
+            alignment: "Village",
+            description: [
+                "Chooses another player to give a Yuzu OrangeZ to invite them to join a hot springs relaxation.",
+                "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
             ],
         },
 

@@ -20,4 +20,8 @@ module.exports = class User {
 		this.socket.send(eventName, data);
 	}
 
+	disconnect() {
+		this.socket.terminate();
+	}
+
 }

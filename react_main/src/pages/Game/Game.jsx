@@ -1270,7 +1270,8 @@ function SpeechInput(props) {
 		if (
 			e.target.value.length > 0 &&
 			(e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me ") &&
-			!meetings[selTab].anonymous
+			!meetings[selTab].anonymous &&
+			speechDropdownValue == "Say"
 		) {
 			setLastTyped(Date.now());
 		}
@@ -1758,6 +1759,8 @@ export function Timer(props) {
 
 	if (props.history.currentState == -1)
 		timerName = "pregameCountdown";
+	else if (props.history.currentState == -2)
+		timerName = "postgame";
 	else if (props.timers["secondary"])
 		timerName = "secondary";
 	else

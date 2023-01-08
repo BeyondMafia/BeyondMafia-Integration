@@ -13,7 +13,7 @@ module.exports = class Action {
 		this.effect = options.effect;
 		this.item = options.item;
 
-		this.priority += this.actor.role.priorityOffset;
+		this.priority += this.actor.role ? this.actor.role.priorityOffset : 0;
 	}
 
 	do() {
