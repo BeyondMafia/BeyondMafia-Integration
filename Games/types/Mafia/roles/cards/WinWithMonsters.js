@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_WIN_WITH_MONSTERS } = require("../../const/Priority");
 
 module.exports = class WinWithMonsters extends Card {
 
@@ -6,7 +7,7 @@ module.exports = class WinWithMonsters extends Card {
 		super(role);
 
 		this.winCheck = {
-			priority: 0,
+			priority: PRIORITY_WIN_WITH_MONSTERS,
 			check: function (counts, winners, aliveCount) {
 				if (counts["Monsters"] >= aliveCount / 2 && aliveCount > 0)
 					winners.addPlayer(this.player, "Monsters");

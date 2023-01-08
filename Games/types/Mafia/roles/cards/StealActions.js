@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_STEAL_ACTIONS } = require("../../const/Priority");
 
 module.exports = class StealActions extends Card {
 
@@ -10,7 +11,7 @@ module.exports = class StealActions extends Card {
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
-					priority: -99,
+					priority: PRIORITY_STEAL_ACTIONS,
 					run: function () {
 						for (let action of this.game.actions[0]) {
 							if (action.priority > this.priority && action.actor == this.target) {

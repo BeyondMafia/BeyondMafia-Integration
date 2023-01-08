@@ -19,7 +19,9 @@ module.exports = class Handcuffs extends Item {
     }
 
     shouldDisableMeeting(name, options) {
-        if (name != "Jail")
+        var stateInfo = this.game.getStateInfo();
+
+        if (stateInfo.name.match(/Night/) && name != "Jail")
             return true;
     }
 

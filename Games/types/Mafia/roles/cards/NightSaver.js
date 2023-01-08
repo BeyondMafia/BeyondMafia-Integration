@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_NIGHT_SAVER } = require("../../const/Priority");
 
 module.exports = class NightSaver extends Card {
 
@@ -11,7 +12,7 @@ module.exports = class NightSaver extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["save"],
-					priority: -94,
+					priority: PRIORITY_NIGHT_SAVER,
 					run: function () {
 						this.target.setTempImmunity("kill", 1);
 					}

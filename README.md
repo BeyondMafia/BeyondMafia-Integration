@@ -75,7 +75,6 @@ RESERVED_NAMES={}
 
 Example file:
 ```
-Example file:
 PORT=3001
 REACT_APP_URL=http://localhost:3000
 REACT_APP_SOCKET_URI=localhost
@@ -91,6 +90,8 @@ REACT_APP_FIREBASE_STORAGE_BUCKET=x.appspot.com
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=x
 REACT_APP_FIREBASE_APP_ID=x
 REACT_APP_FIREBASE_MEASUREMENT_ID=x
+
+REACT_APP_RECAPTCHA_KEY=x
 ```
 7. Start the server processes and the React dev server
 ```

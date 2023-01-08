@@ -260,7 +260,7 @@
 
 .chat-wrapper .message .content {
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	align-items: center;
 	justify-content: flex-start;
 
@@ -275,7 +275,7 @@
 }
 
 .chat-wrapper .message.self .content {
-	background-color: var(--theme-color-text);
+	background-color: #e2f1ff;
 	color: black;
 }
 
