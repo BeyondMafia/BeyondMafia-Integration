@@ -498,6 +498,23 @@ module.exports = class Player {
 		return info;
 	}
 
+	seeTyping(info) {
+		if (this.role)
+			this.role.seeTyping(info);
+
+		if (info.cancel)
+			return;
+
+		for (let effect of this.effects) {
+			effect.seeTyping(info);
+
+			if (info.cancel)
+				return;
+		}
+
+		this.send("typing", info);
+	}
+
 	sendAlert(message) {
 		this.game.sendAlert(message, [this]);
 	}

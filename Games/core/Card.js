@@ -2,7 +2,7 @@ module.exports = class Card {
 
 	constructor(role) {
 		this.role = role;
-		
+
 		this.appearance = {};
 		this.hideModifier = {};
 		this.actions = [];
@@ -33,18 +33,18 @@ module.exports = class Card {
 
 	init() {
 		var attributes = [
-			"winCount", 
-			"winCheck", 
-			"appearance", 
-			"hideModifier", 
-			"actions", 
-			"startItems", 
-			"startEffects", 
-			"immunity", 
-			"cancelImmunity", 
-			"visit", 
-			"meetings", 
-			"listeners", 
+			"winCount",
+			"winCheck",
+			"appearance",
+			"hideModifier",
+			"actions",
+			"startItems",
+			"startEffects",
+			"immunity",
+			"cancelImmunity",
+			"visit",
+			"meetings",
+			"listeners",
 			"stealableListeners",
 			"stateMods",
 			"meetingMods",
@@ -79,14 +79,14 @@ module.exports = class Card {
 			}
 		}
 
-        /*
-            Overwrites
-            ---------
-            Array: Replace on overwrite, concat otherwise
-            Object, Replace on overwrite, set individual properties otherwise
+		/*
+			Overwrites
+			---------
+			Array: Replace on overwrite, concat otherwise
+			Object, Replace on overwrite, set individual properties otherwise
 			Listeners: No overwrite option
 			Properties: Always overwrite
-        */
+		*/
 	}
 
 	speak(message) { }
@@ -94,11 +94,13 @@ module.exports = class Card {
 	speakQuote(quote) { }
 
 	hear(message) { }
-	
+
 	hearQuote(quote) { }
 
 	seeVote(vote) { }
 
 	seeUnvote(info) { }
+
+	seeTyping(info) { }
 
 }

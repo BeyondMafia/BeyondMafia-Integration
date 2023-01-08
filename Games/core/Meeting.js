@@ -739,7 +739,7 @@ module.exports = class Meeting {
 
 		if (member && this.speech && !this.anonymous && member.canTalk) {
 			for (let _playerId in this.members) {
-				this.members[_playerId].player.send("typing", {
+				this.members[_playerId].player.seeTyping({
 					playerId,
 					meetingId: isTyping ? this.id : null
 				});

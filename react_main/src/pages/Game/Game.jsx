@@ -1266,7 +1266,6 @@ function SpeechInput(props) {
 
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
-		console.log(meetings[selTab]);
 
 		if (
 			e.target.value.length > 0 &&

@@ -358,4 +358,11 @@ module.exports = class Role {
 		}
 	}
 
+	seeTyping(info) {
+		for (let card of this.cards) {
+			card.seeTyping(info);
+			if (info.cancel) return;
+		}
+	}
+
 }
