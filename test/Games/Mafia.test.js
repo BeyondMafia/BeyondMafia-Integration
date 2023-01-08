@@ -1192,4 +1192,36 @@ describe("Games/Mafia", function () {
             should.not.exist(game.winners.groups["Mafia"]);
         });
     });
+
+    describe("Alien", function () {
+        it("should save the villager from dying", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Alien": 1, "Mafioso": 1 }] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Probe") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Alien"]);
+            should.exist(game.winners.groups["Mafia"]);
+            should.not.exist(game.winners.groups["Town"]);
+            game.winners.players.should.have.lengthOf(2);
+        });
+    });
 });
