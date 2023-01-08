@@ -32,15 +32,25 @@ module.exports = class Orange extends Item {
             }
         };
         this.listeners = {
-            "state": function (stateInfo) {
-                if (stateInfo.name.match(/Day/) && this.holder.role.data.visitHotSprings)
+            "actionsNext": function (stateInfo) {
+                var stateInfo = this.game.getStateInfo();
+
+                if (stateInfo.name.match(/Night/) && this.holder.role.data.visitHotSprings) {
                     this.drop();
+                    this.holder.role.data.visitHotSprings = false;
+                }
             }
         };
     }
 
     shouldDisableMeeting(name, options) {
-        if (name != "Hot Springs")
+        var stateInfo = this.game.getStateInfo();
+
+        if (
+            stateInfo.name.match(/Night/) &&
+            this.holder.role.data.visitHotSprings &&
+            name != "Hot Springs"
+        )
             return true;
     }
 
