@@ -223,6 +223,22 @@
     background-position: -300px -80px;
 }
 
+.role-Mafia-Funsmith {
+    background-position: -330px -80px;
+}
+
+.role-Mafia-InsaneCop {
+    background-position: -360px -80px;
+}
+
+.role-Mafia-NaiveCop {
+    background-position: -390px -80px;
+}
+
+.role-Mafia-ParanoidCop {
+    background-position: -420px -80px;
+}
+
 .role-Mafia-Mayor {
     background-position: -60px -40px;
 }

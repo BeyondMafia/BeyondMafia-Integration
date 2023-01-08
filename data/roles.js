@@ -26,6 +26,30 @@ const roleData = {
                 "Multiple cops meet in a group."
             ],
         },
+        "Insane Cop": {
+            alignment: "Village",
+            description: [
+                "Investigates one person each night and learns their alignment (alignments will be reversed).",
+                "Appears as normal cop upon death.",
+                "Multiple insane cops meet in a group."
+            ],
+        },
+        "Naive Cop": {
+            alignment: "Village",
+            description: [
+                "Investigates one person each night and learns their alignment (alignments will always appear innocent).",
+                "Appears as normal cop upon death.",
+                "Multiple naïve cops meet in a group."
+            ],
+        },
+        "Paranoid Cop": {
+            alignment: "Village",
+            description: [
+                "Investigates one person each night and learns their alignment (alignments will always appear guilty).",
+                "Appears as normal cop upon death.",
+                "Multiple paranoid cops meet in a group."
+            ],
+        },
         "Oracle": {
             alignment: "Village",
             description: [
@@ -185,6 +209,13 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Can anonymously contact any non-Village role.",
+            ],
+        },
+        "Funsmith": {
+            alignment: "Village",
+            description: [
+                "Hands out a gun each night.",
+                "Hands out guns to all visitors at night.",
             ],
         },
         "Town Crier": {
