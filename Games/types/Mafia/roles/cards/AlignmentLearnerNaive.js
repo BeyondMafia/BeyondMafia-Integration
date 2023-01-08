@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_ALIGNMENT_LEARNER } = require("../../const/Priority");
 
 module.exports = class AlignmentLearnerNaive extends Card {
 
@@ -11,7 +12,7 @@ module.exports = class AlignmentLearnerNaive extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["investigate", "alignment"],
-					priority: -10,
+					priority: PRIORITY_ALIGNMENT_LEARNER,
 					run: function () {
 						var alert = `You learn that ${this.target.name} is sided with the Village.`;
 						this.game.queueAlert(alert, 0, this.meeting.getPlayers());
