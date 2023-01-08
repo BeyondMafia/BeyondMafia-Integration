@@ -4,6 +4,7 @@ const constants = require("../data/constants");
 const models = require("../db/models");
 const routeUtils = require("./utils");
 const redis = require("../modules/redis");
+const gameLoadBalancer = require("../modules/gameLoadBalancer");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router.get("/groups", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
 		var visibleGroups = await models.Group.find({ visible: true })
-			.select("name rank");
+			.select("name rank badge badgeColor");
 		visibleGroups = visibleGroups.map(group => group.toJSON());
 
 		for (let group of visibleGroups) {
@@ -98,6 +99,8 @@ router.post("/group", async function (req, res) {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var name = routeUtils.capitalizeWords(String(req.body.name));
 		var rank = Number(req.body.rank);
+		var badge = String(req.body.badge || "");
+		var badgeColor = String(req.body.badgeColor || "");
 		var perm = "createGroup";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm, rank + 1)))
@@ -140,6 +143,8 @@ router.post("/group", async function (req, res) {
 			id: shortid.generate(),
 			name,
 			rank,
+			badge,
+			badgeColor,
 			permissions
 		});
 		await group.save();
@@ -321,6 +326,7 @@ router.post("/addToGroup", async function (req, res) {
 			group: group._id
 		});
 		await inGroup.save();
+		await redis.cacheUserInfo(userIdToAdd, true);
 		await redis.cacheUserPermissions(userIdToAdd);
 
 		routeUtils.createModAction(userId, "Add User to Group", [userIdToAdd, groupName]);
@@ -362,6 +368,7 @@ router.post("/removeFromGroup", async function (req, res) {
 		}
 
 		await models.InGroup.deleteOne({ user: userToRemove._id, group: group._id }).exec();
+		await redis.cacheUserInfo(userIdToRemove, true);
 		await redis.cacheUserPermissions(userIdToRemove);
 
 		routeUtils.createModAction(userId, "Remove User from Group", [userIdToRemove, groupName]);
@@ -768,6 +775,7 @@ router.post("/siteUnban", async (req, res) => {
 			return;
 
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "site", auto: false }).exec();
+		await models.User.updateOne({ id: userIdToBan }, { $set: { banned: true } }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
 		routeUtils.createModAction(userId, "Site Unban", [userIdToActOn]);
@@ -826,7 +834,7 @@ router.get("/alts", async (req, res) => {
 		var users = await models.User.find({ ip: { $elemMatch: { $in: ips } } })
 			.select("id name -_id");
 
-		routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
+		// routeUtils.createModAction(userId, "Get Alt Accounts", [userIdToActOn]);
 		res.send(users);
 	}
 	catch (e) {
@@ -1092,6 +1100,58 @@ router.post("/breakGame", async (req, res) => {
 	}
 });
 
+router.post("/breakPortGames", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var port = String(req.body.port);
+		var perm = "breakPortGames";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		var games = await redis.getAllGames();
+
+		for (let game of games) {
+			if (game.port != port)
+				continue;
+
+			if (game.status == "Open")
+				await redis.deleteGame(game.id);
+			else
+				await redis.breakGame(game.id);
+		}
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing username.");
+	}
+});
+
+router.post("/kick", async (req, res) => {
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var userIdToKick = String(req.body.userId);
+		var perm = "kick";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		await gameLoadBalancer.leaveGame(userIdToKick);
+		await redis.leaveGame(userIdToKick);
+
+		routeUtils.createModAction(userId, "Kick Player", [userIdToKick]);
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error clearing username.");
+	}
+});
+
 router.post("/clearAllIPs", async (req, res) => {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
@@ -1212,6 +1272,65 @@ router.get("/actions", async function (req, res) {
 		logger.error(e);
 		res.status(500);
 		res.send("Error loading mod actions.");
+	}
+});
+
+router.get("/announcements", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var last = Number(req.query.last);
+		var first = Number(req.query.first);
+
+		var announcements = await routeUtils.modelPageQuery(
+			models.Announcement,
+			{},
+			"date",
+			last,
+			first,
+			"id modId mod content date -_id",
+			constants.announcementsPageSize,
+			["mod", "id name avatar -_id"]
+		);
+
+		res.send(announcements);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
+	}
+});
+
+router.post("/announcement", async function (req, res) {
+	res.setHeader("Content-Type", "application/json");
+	try {
+		var userId = await routeUtils.verifyLoggedIn(req);
+		var content = String(req.body.content);
+		var perm = "announce";
+
+		if (!(await routeUtils.verifyPermission(res, userId, perm)))
+			return;
+
+		if (content.length > constants.maxAnnouncementLength) {
+			res.status(500);
+			res.send("Announcement is too long.");
+			return;
+		}
+
+		var announcement = new models.Announcement({
+			id: shortid.generate(),
+			modId: userId,
+			content,
+			date: Date.now(),
+		});
+		await announcement.save();
+
+		res.sendStatus(200);
+	}
+	catch (e) {
+		logger.error(e);
+		res.status(500);
+		res.send("Error loading announcements.");
 	}
 });
 

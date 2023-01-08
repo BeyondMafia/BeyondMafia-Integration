@@ -32,12 +32,12 @@ router.get("/list", async function (req, res) {
         var userId = await routeUtils.verifyLoggedIn(req, true);
         var start = ((Number(req.query.page) || 1) - 1) * constants.lobbyPageSize;
         var listName = String(req.query.list).toLowerCase();
-        var lobby = String(req.query.lobby || "Main");
-        var last = Number(req.query.last);
+        var lobby = String(req.query.lobby || "All");
+        var last = Number(req.query.last) || Infinity;
         var first = Number(req.query.first);
         var games = [];
 
-        if (!routeUtils.validProp(lobby) || constants.lobbies.indexOf(lobby) == -1) {
+        if (!routeUtils.validProp(lobby) || (constants.lobbies.indexOf(lobby) == -1 && lobby != "All")) {
             logger.error("Invalid lobby.");
             res.send([]);
             return;
@@ -59,7 +59,10 @@ router.get("/list", async function (req, res) {
             games = games.concat(inProgressGames);
         }
 
-        games = games.filter(game => game.lobby == lobby).slice(start, end);
+        if (lobby != "All")
+            games = games.filter(game => game.lobby == lobby)
+
+        games = games.slice(start, end);
 
         for (let i in games) {
             let game = games[i];
@@ -89,9 +92,10 @@ router.get("/list", async function (req, res) {
         }
 
         if ((listName == "all" || listName == "finished") && games.length < constants.lobbyPageSize) {
+            var gameFilter = lobby != "All" ? { lobby } : {};
             var finishedGames = await routeUtils.modelPageQuery(
                 models.Game,
-                { lobby },
+                gameFilter,
                 "endTime",
                 last,
                 first,
@@ -99,7 +103,7 @@ router.get("/list", async function (req, res) {
                 constants.lobbyPageSize - games.length,
                 ["setup", "id gameType name roles closed count total -_id"]
             );
-            finishedGames = finishedGames.map(game => ({ ...game.toObject(), status: "Finished" }));
+            finishedGames = finishedGames.map(game => ({ ...game.toJSON(), status: "Finished" }));
             games = games.concat(finishedGames);
         }
 
@@ -364,6 +368,14 @@ router.post("/host", async function (req, res) {
             return;
         }
 
+        var lobbyCheck = lobbyChecks[lobby](gameType, req.body, setup);
+
+        if (typeof lobbyCheck == "string") {
+            res.status(500);
+            res.send(lobbyCheck);
+            return;
+        }
+
         setup = setup.toJSON();
         setup.roles = JSON.parse(setup.roles);
 
@@ -546,6 +558,34 @@ router.post("/cancel", async function (req, res) {
         res.send("Error cancelling scheduled game.");
     }
 });
+
+const lobbyChecks = {
+    "Main": (gameType, setup, settings) => {
+        if (gameType != "Mafia")
+            return "Only Mafia is allowed in Main lobby.";
+
+        if (setup.comp)
+            return "Competitive games are not allowed in Main lobby.";
+    },
+    "Sandbox": (gameType, setup, settings) => {
+        if (setup.ranked)
+            return "Ranked games are not allowed in Sandbox lobby.";
+
+        if (setup.comp)
+            return "Competitive games are not allowed in Sandbox lobby.";
+    },
+    "Competitive": (gameType, setup, settings) => {
+        if (gameType != "Mafia")
+            return "Only Mafia is allowed in Competitive lobby.";
+
+        if (!setup.comp)
+            return "Only comp games are allowed in Competitive lobby";
+    },
+    "Games": (gameType, setup, settings) => {
+        if (gameType == "Mafia")
+            return "Only games other than Mafia are allowed in Games lobby.";
+    },
+};
 
 const settingsChecks = {
     "Mafia": (settings, setup) => {

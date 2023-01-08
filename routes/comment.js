@@ -13,17 +13,27 @@ router.get("/", async function (req, res) {
 		var location = String(req.query.location);
 		var last = Number(req.query.last);
 		var first = Number(req.query.first);
+		var commentFilter = { location };
+
+		if (!(await routeUtils.verifyPermission(userId, "viewDeleted")))
+			commentFilter.deleted = false;
 
 		var comments = await routeUtils.modelPageQuery(
 			models.Comment,
-			{ location },
+			commentFilter,
 			"date",
 			last,
 			first,
 			"id author content date voteCount deleted -_id",
 			constants.commentsPerPage,
-			["author", "id name avatar -_id"]
+			["author", "id -_id"]
 		);
+
+		for (let i in comments) {
+			let comment = comments[i].toJSON();
+			comment.author = await redis.getBasicUserInfo(comment.author.id, true);
+			comments[i] = comment;
+		}
 
 		var votes = {};
 		var commentIds = comments.map(comment => comment.id);
@@ -39,7 +49,6 @@ router.get("/", async function (req, res) {
 				votes[vote.item] = vote.direction;
 
 			comments = comments.map(comment => {
-				comment = comment.toJSON();
 				comment.vote = votes[comment.id] || 0;
 				return comment;
 			});
@@ -117,6 +126,9 @@ router.post("/delete", async function (req, res) {
 			{ $set: { deleted: true } }
 		).exec();
 
+		if (comment.author.id != userId)
+			routeUtils.createModAction(userId, "Delete Comment", [commentId]);
+
 		res.sendStatus(200);
 	}
 	catch (e) {
@@ -149,6 +161,7 @@ router.post("/restore", async function (req, res) {
 			{ $set: { deleted: false } }
 		).exec();
 
+		routeUtils.createModAction(userId, "Restore Comment", [commentId]);
 		res.sendStatus(200);
 	}
 	catch (e) {

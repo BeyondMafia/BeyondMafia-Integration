@@ -482,8 +482,14 @@ function GameWrapper(props) {
 				setToken(res.data.token || false);
 			})
 			.catch(e => {
-				setLeave(true);
-				errorAlert(e);
+				var msg = e && e.response && e.response.data;
+
+				if (msg == "Game not found.")
+					setLeave("review");
+				else {
+					setLeave(true);
+					errorAlert(e);
+				}
 			});
 	}
 
@@ -550,7 +556,9 @@ function GameWrapper(props) {
 		await agoraClient.current.leave();
 	}
 
-	if (leave)
+	if (leave == "review")
+		return <Redirect to={`/game/${gameId}/review`} />;
+	else if (leave)
 		return <Redirect to="/play" />;
 	else if (rehostId)
 		return <Redirect to={`/game/${rehostId}`} />;
@@ -1058,12 +1066,12 @@ function Message(props) {
 		var state = history.states[message.fromState];
 
 		if (!state)
-			return;
+			return <></>;
 
 		var meeting = state.meetings[message.fromMeetingId];
 
 		if (!meeting)
-			return;
+			return <></>;
 
 		for (let msg of meeting.messages) {
 			if (msg.id == message.messageId) {
@@ -1206,7 +1214,7 @@ function SpeechInput(props) {
 
 	useEffect(() => {
 		if (!selTab)
-			return;
+			return <></>;
 
 		const speechAbilities = meetings[selTab].speechAbilities;
 		const newDropdownOptions = [{ label: "Say", id: "Say", placeholder: "to everyone" }];
@@ -1258,7 +1266,14 @@ function SpeechInput(props) {
 
 	function onSpeechType(e) {
 		setSpeechInput(e.target.value);
-		setLastTyped(Date.now());
+
+		if (
+			e.target.value.length > 0 &&
+			(e.target.value[0] != "/" || e.target.value.slice(0, 4) == "/me ") &&
+			!meetings[selTab].anonymous
+		) {
+			setLastTyped(Date.now());
+		}
 	}
 
 	function onSpeechSubmit(e) {
@@ -1416,7 +1431,7 @@ export function PlayerRows(props) {
 				<ReactLoading
 					className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
 					type="bubbles"
-					color="white"
+					color="black"
 					width="20"
 					height="20" />
 			}
@@ -2553,7 +2568,6 @@ export function useActivity(agoraClient, localAudioTrack) {
 
 				if (localAudioTrack.current && localAudioTrack.current.getVolumeLevel() > volumeThreshold) {
 					speaking.push(agoraClient.current.uid);
-					console.log(localAudioTrack.current.getVolumeLevel());
 				}
 
 				agoraClient.current.remoteUsers.forEach(user => {

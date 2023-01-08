@@ -295,6 +295,10 @@ router.post("/favorite", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var setupId = String(req.body.id);
+
+		if (!(await routeUtils.rateLimit(userId, "favSetup", res)))
+			return;
+
 		var result = await redis.updateFavSetup(userId, setupId);
 
 		if (result != "-2")
@@ -395,6 +399,12 @@ router.post("/create", async function (req, res) {
 
 			res.status(500);
 			res.send(result);
+			return;
+		}
+
+		if (setup.gameType == "Mafia" && newTotal < constants.minMafiaSetupTotal) {
+			res.status(500);
+			res.send(`Mafia setups must have at least ${constants.minMafiaSetupTotal} players.`);
 			return;
 		}
 

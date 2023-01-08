@@ -15,6 +15,9 @@ export default function HostMafia() {
     const [selSetup, setSelSetup] = useState({});
     const [redirect, setRedirect] = useState(false);
     const siteInfo = useContext(SiteInfoContext);
+
+    const defaults = JSON.parse(localStorage.getItem("mafiaHostOptions") || null) ||
+        { private: false, guests: false, ranked: false, spectating: false, voiceChat: false, scheduled: false, readyCheck: false, dayLength: 10, nightLength: 2, extendLength: 3 };
     const errorAlert = useErrorAlert();
     const [formFields, updateFormFields] = useForm([
         {
@@ -34,35 +37,41 @@ export default function HostMafia() {
             label: "Private",
             ref: "private",
             type: "boolean",
+            value: defaults.private,
             showIf: "!ranked"
         },
         {
             label: "Allow Guests",
             ref: "guests",
             type: "boolean",
+            value: defaults.guests,
             showIf: "!ranked"
         },
         {
             label: "Ranked",
             ref: "ranked",
             type: "boolean",
+            value: defaults.ranked,
             showIf: ["!private", "!spectating", "!voiceChat", "!guests"]
         },
         {
             label: "Spectating",
             ref: "spectating",
             type: "boolean",
+            value: defaults.spectating,
             showIf: "!ranked"
         },
-        {
-            label: "Voice Chat",
-            ref: "voiceChat",
-            type: "boolean",
-            showIf: "!ranked"
-        },
+        // {
+        //     label: "Voice Chat",
+        //     ref: "voiceChat",
+        //     type: "boolean",
+        //     value: defaults.voiceChat,
+        //     showIf: "!ranked"
+        // },
         {
             label: "Scheduled",
             ref: "scheduled",
+            value: defaults.scheduled,
             type: "boolean"
         },
         {
@@ -77,13 +86,14 @@ export default function HostMafia() {
         {
             label: "Ready Check",
             ref: "readyCheck",
+            value: defaults.readyCheck,
             type: "boolean"
         },
         {
             label: "Day Length (minutes)",
             ref: "dayLength",
             type: "number",
-            value: 10,
+            value: defaults.dayLength,
             min: 1,
             max: 30
         },
@@ -91,7 +101,7 @@ export default function HostMafia() {
             label: "Night Length (minutes)",
             ref: "nightLength",
             type: "number",
-            value: 2,
+            value: defaults.nightLength,
             min: 1,
             max: 10
         },
@@ -99,7 +109,7 @@ export default function HostMafia() {
             label: "Extension Length (minutes)",
             ref: "extendLength",
             type: "number",
-            value: 3,
+            value: defaults.extendLength,
             min: 1,
             max: 5
         }
@@ -111,17 +121,21 @@ export default function HostMafia() {
 
     function onHostGame() {
         var scheduled = getFormFieldValue("scheduled");
+        var lobby = getFormFieldValue("lobby");
 
-        if (selSetup.id)
+        if (lobby == "All")
+            lobby = "Main";
+
+        if (selSetup.id) {
             axios.post("/game/host", {
-                gameType: gameType,
+                gameType,
+                lobby,
                 setup: selSetup.id,
-                lobby: getFormFieldValue("lobby"),
                 private: getFormFieldValue("private"),
                 guests: getFormFieldValue("guests"),
                 ranked: getFormFieldValue("ranked"),
                 spectating: getFormFieldValue("spectating"),
-                voiceChat: getFormFieldValue("voiceChat"),
+                // voiceChat: getFormFieldValue("voiceChat"),
                 scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
                 readyCheck: getFormFieldValue("readyCheck"),
                 stateLengths: {
@@ -139,6 +153,19 @@ export default function HostMafia() {
                         setRedirect(`/game/${res.data}`);
                 })
                 .catch(errorAlert);
+
+            defaults.private = getFormFieldValue("private");
+            defaults.guests = getFormFieldValue("guests");
+            defaults.ranked = getFormFieldValue("ranked");
+            defaults.spectating = getFormFieldValue("spectating");
+            // defaults.voiceChat = getFormFieldValue("voiceChat");
+            defaults.scheduled = getFormFieldValue("scheduled");
+            defaults.readyCheck = getFormFieldValue("readyCheck");
+            defaults.dayLength = getFormFieldValue("dayLength");
+            defaults.nightLength = getFormFieldValue("nightLength");
+            defaults.extendLength = getFormFieldValue("extendLength");
+            localStorage.setItem("mafiaHostOptions", JSON.stringify(defaults));
+        }
         else
             errorAlert("You must choose a setup");
     }

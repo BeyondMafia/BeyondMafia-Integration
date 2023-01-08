@@ -10,7 +10,9 @@ const router = express.Router();
 router.get("/categories", async function (req, res) {
 	res.setHeader("Content-Type", "application/json");
 	try {
-		var categories = await models.ForumCategory.find({})
+		var userId = await routeUtils.verifyLoggedIn(req, true);
+		var rank = userId ? await redis.getUserRank(userId) : 0;
+		var categories = await models.ForumCategory.find({ rank: { $lte: rank } })
 			.select("id name position boards -_id")
 			.populate({
 				path: "boards",
@@ -64,6 +66,7 @@ router.get("/board/:id", async function (req, res) {
 		const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
 
 		var userId = await routeUtils.verifyLoggedIn(req, true);
+		var rank = userId ? await redis.getUserRank(userId) : 0;
 		var boardId = String(req.params.id);
 		var sortType = String(req.query.sortType);
 		var last = Number(req.query.last);
@@ -71,9 +74,9 @@ router.get("/board/:id", async function (req, res) {
 
 		var board = await models.ForumBoard.findOne({ id: boardId })
 			.select("id name icon category")
-			.populate("category", "id name -_id");
+			.populate("category", "id name rank -_id");
 
-		if (!board) {
+		if (!board || board.category.rank > rank) {
 			res.status(500);
 			res.end("Board not found");
 			return;
@@ -95,7 +98,7 @@ router.get("/board/:id", async function (req, res) {
 			first,
 			"id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id",
 			constants.threadsPerPage,
-			["author", "id name avatar -_id"],
+			["author", "id -_id"],
 			{
 				path: "recentReplies",
 				select: "id author postDate -_id",
@@ -108,7 +111,7 @@ router.get("/board/:id", async function (req, res) {
 
 		var pinnedThreads = await models.ForumThread.find({ board: board._id, pinned: true })
 			.select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
-			.populate("author", "id name avatar -_id")
+			.populate("author", "id -_id")
 			.populate({
 				path: "recentReplies",
 				select: "id author postDate -_id",
@@ -118,6 +121,18 @@ router.get("/board/:id", async function (req, res) {
 				}
 			})
 			.sort("-bumpDate");
+
+		for (let i in threads) {
+			let thread = threads[i].toJSON();
+			thread.author = await redis.getBasicUserInfo(thread.author.id, true);
+			threads[i] = thread;
+		}
+
+		for (let i in pinnedThreads) {
+			let thread = pinnedThreads[i].toJSON();
+			thread.author = await redis.getBasicUserInfo(thread.author.id, true);
+			pinnedThreads[i] = thread;
+		}
 
 		var votes = {};
 		var threadIds = threads.map(thread => thread.id);
@@ -131,16 +146,12 @@ router.get("/board/:id", async function (req, res) {
 
 			for (let vote of voteList)
 				votes[vote.item] = vote.direction;
-		}
 
-		threads = threads.map(thread => {
-			thread = thread.toJSON();
-
-			if (userId)
+			threads = threads.map(thread => {
 				thread.vote = votes[thread.id] || 0;
-
-			return thread;
-		});
+				return thread;
+			});
+		}
 
 		board = board.toJSON();
 		board.threads = threads;
@@ -174,7 +185,7 @@ router.get("/thread/:id", async function (req, res) {
 
 		var thread = await models.ForumThread.findOne({ id: threadId })
 			.populate("board", "id name -_id")
-			.populate("author", "id name avatar -_id");
+			.populate("author", "id -_id");
 
 		var canViewDeleted = await routeUtils.verifyPermission(userId, "viewDeleted");
 
@@ -198,12 +209,18 @@ router.get("/thread/:id", async function (req, res) {
 
 		var replies = await models.ForumReply.find(replyFilter)
 			.select("id author content page postDate voteCount deleted -_id")
-			.populate("author", "id name avatar -_id")
+			.populate("author", "id -_id")
 			.sort("postDate");
 
+		for (let i in replies) {
+			let reply = replies[i].toJSON();
+			reply.author = await redis.getBasicUserInfo(reply.author.id, true);
+			replies[i] = reply;
+		}
+
 		thread = thread.toJSON();
+		thread.author = await redis.getBasicUserInfo(thread.author.id, true);
 		thread.vote = (vote && vote.direction) || 0;
-		replies = replies.map(reply => reply.toJSON());
 		thread.replies = replies;
 		thread.pageCount = Math.ceil(thread.replyCount / constants.repliesPerPage) || 1;
 		thread.page = page;
@@ -245,6 +262,7 @@ router.post("/category", async function (req, res) {
 			return;
 
 		var name = String(req.body.name).slice(0, constants.maxCategoryNameLength);
+		var rank = Number(req.body.rank) || 0;
 		var position = Number(req.body.position) || 0;
 
 		var category = await models.ForumCategory.findOne({ name: new RegExp(name, "i") })
@@ -259,6 +277,7 @@ router.post("/category", async function (req, res) {
 		category = new models.ForumCategory({
 			id: shortid.generate(),
 			name,
+			rank,
 			position
 		});
 		await category.save();
@@ -326,13 +345,14 @@ router.post("/board", async function (req, res) {
 router.post("/board/delete", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
+		var rank = await redis.getUserRank(userId);
 		var perm = "deleteBoard";
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
 		var name = String(req.body.name);
-		await models.ForumBoard.deleteOne({ name: name }).exec();
+		await models.ForumBoard.deleteOne({ name, rank: { $lte: rank } }).exec();
 
 		routeUtils.createModAction(userId, "Delete Forum Board", [name]);
 		res.sendStatus(200);

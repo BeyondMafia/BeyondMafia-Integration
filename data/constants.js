@@ -112,13 +112,14 @@ module.exports = {
 	maxBoardNameLength: 20,
 	maxBoardDescLength: 60,
 	maxThreadTitleLength: 50,
-	maxThreadContentLength: 5000,
-	maxReplyLength: 1000,
+	maxThreadContentLength: 20000,
+	maxReplyLength: 20000,
 	threadsPerPage: 10,
 	repliesPerPage: 20,
 	recentReplyAmt: 3,
 	newestThreadAmt: 1,
 	boardRecentReplyAmt: 3,
+	maxAnnouncementLength: 300,
 
 	maxChatMessageLength: 240,
 	chatMessagesPerLoad: 20,
@@ -127,8 +128,11 @@ module.exports = {
 	maxCommentLength: 500,
 	maxCommentLocationLength: 20,
 	commentsPerPage: 10,
+
 	lobbyPageSize: 7,
 	modActionPageSize: 7,
+	newestUsersPageSize: 7,
+	announcementsPageSize: 7,
 
 	userOnlineTTL: 1000 * 60,
 	chatUserSearchAmt: 20,
@@ -139,6 +143,9 @@ module.exports = {
 	friendsPerPage: 10,
 	referralGames: 5,
 	referralCoins: 50,
+
+	minMafiaSetupTotal: 5,
+	captchaThreshold: 0.5,
 
 	// Perms given to all users
 	defaultPerms: [
@@ -166,6 +173,7 @@ module.exports = {
 		"giveCoins",
 		"changeUsersName",
 		"scheduleRestart",
+		"breakPortGames",
 	],
 	// The list of all enabled perms
 	allPerms: {
@@ -230,6 +238,9 @@ module.exports = {
 		"whitelist": true,
 		"scheduleRestart": true,
 		"disableAllCensors": true,
+		"breakPortGames": true,
+		"kick": true,
+		"announce": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -260,6 +271,7 @@ module.exports = {
 				"whitelist",
 				"scheduleRestart",
 				"disableAllCensors",
+				"kick",
 			]
 		},
 		"Admin": {
@@ -307,6 +319,48 @@ module.exports = {
 				"clearAllUserContent",
 				"whitelist",
 				"disableAllCensors",
+				"kick",
+				"announce",
+			]
+		},
+		"Head Mod": {
+			rank: 6,
+			visible: true,
+			perms: [
+				"deleteAnyPost",
+				"lockThreads",
+				"pinThreads",
+				"postInLocked",
+				"moveThread",
+				"viewPerms",
+				"viewDeleted",
+				"restoreDeleted",
+				"viewModActions",
+				"deleteChatMessage",
+				"forumBan",
+				"chatBan",
+				"gameBan",
+				"hostRankedBan",
+				"siteBan",
+				"forumUnban",
+				"chatUnban",
+				"gameUnban",
+				"siteUnban",
+				"forceSignOut",
+				"viewAlts",
+				"clearSetupName",
+				"clearBio",
+				"clearAvi",
+				"clearAccountDisplay",
+				"clearName",
+				"viewBans",
+				"canSpectateAny",
+				"breakGame",
+				"featureSetup",
+				"whitelist",
+				"disableAllCensors",
+				"kick",
+				"announce",
 			]
 		},
 		"Mod": {
@@ -337,14 +391,17 @@ module.exports = {
 				"clearBio",
 				"clearAvi",
 				"clearAccountDisplay",
+				"clearName",
 				"viewBans",
 				"canSpectateAny",
 				"breakGame",
 				"featureSetup",
 				"whitelist",
 				"disableAllCensors",
+				"kick",
+				"announce",
 			]
-		}
+		},
 	},
 
 	rateLimits: {
@@ -355,6 +412,7 @@ module.exports = {
 		"vote": 500,
 		"sendChatMessage": 500,
 		"deleteAccount": 24 * 60 * 60 * 1000,
-		"postComment": 30 * 1000
+		"postComment": 30 * 1000,
+		"favSetup": 500,
 	},
 };

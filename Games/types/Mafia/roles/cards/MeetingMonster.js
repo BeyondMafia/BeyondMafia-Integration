@@ -8,7 +8,8 @@ module.exports = class MeetingMonster extends Card {
 		this.meetings = {
 			"Monsters": {
 				states: ["Night"],
-				flags: ["group", "speech"]
+				flags: ["group", "speech"],
+				canVote: false
 			}
 		};
 	}

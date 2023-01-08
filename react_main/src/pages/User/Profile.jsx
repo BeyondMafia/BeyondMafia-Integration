@@ -4,14 +4,14 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
-import { Avatar, NameWithAvatar } from "./User";
+import { Avatar, Badges, NameWithAvatar } from "./User";
 import { HiddenUpload, TextEditor } from "../../components/Form";
 import LoadingPage from "../Loading";
 import Setup from "../../components/Setup";
 import { GameRow } from "../Play/Join";
 import { Time, filterProfanity } from "../../components/Basic";
 import { useErrorAlert } from "../../components/Alerts";
-import { PageNav } from "../../components/Nav";
+import { getPageNavFilterArg, PageNav } from "../../components/Nav";
 import { RatingThresholds, RequiredTotalForStats } from "../../Constants";
 import { capitalize } from "../../utils";
 import Comments from "../Community/Comments";
@@ -37,6 +37,7 @@ export default function Profile() {
 	const [friends, setFriends] = useState([]);
 	const [friendRequests, setFriendRequests] = useState([]);
 	const [stats, setStats] = useState({ Mafia: {} });
+	const [groups, setGroups] = useState([]);
 
 	const user = useContext(UserContext);
 	const siteInfo = useContext(SiteInfoContext);
@@ -70,7 +71,9 @@ export default function Profile() {
 					setCreatedSetups(res.data.setups);
 					setMaxFriendsPage(res.data.maxFriendsPage);
 					setFriendRequests(res.data.friendRequests);
+					setFriendsPage(1);
 					setStats(res.data.stats);
+					setGroups(res.data.groups);
 
 					document.title = `${res.data.name}'s Profile | BeyondMafia`;
 				})
@@ -117,7 +120,12 @@ export default function Profile() {
 							break;
 					}
 				})
-				.catch(errorAlert);
+				.catch((e) => {
+					if (e.response == null || e.response.status == 413)
+						errorAlert("File too large, must be less than 2 MB.");
+					else
+						errorAlert(e);
+				});
 		}
 	}
 
@@ -196,32 +204,26 @@ export default function Profile() {
 	}
 
 	function onFriendsPageNav(page) {
-		var filterArg;
+		var filterArg = getPageNavFilterArg(page, friendsPage, friends, "lastActive");
 
-		if (page == 1)
-			filterArg = "last=Infinity";
-		else if (page == maxFriendsPage)
-			filterArg = "first=-1";
-		if (page < friendsPage)
-			filterArg = `first=${friends[0].lastActive}`;
-		else if (page > friendsPage)
-			filterArg = `last=${friends[friends.length - 1].lastActive}`;
-		else
+		if (filterArg == null)
 			return;
 
 		axios.get(`/user/${userId}/friends?${filterArg}`)
 			.then(res => {
-				setFriends(res.data);
-				setFriendsPage(page);
+				if (res.data.length) {
+					setFriends(res.data);
+					setFriendsPage(page);
+				}
 			})
 			.catch(errorAlert);
 	}
 
-	const mainPanelStyle = {};
+	const panelStyle = {};
 	const bannerStyle = {};
 
 	if (settings.backgroundColor)
-		mainPanelStyle.backgroundColor = settings.backgroundColor;
+		panelStyle.backgroundColor = settings.backgroundColor;
 
 	if (banner)
 		bannerStyle.backgroundImage = `url(/uploads/${userId}_banner.jpg?t=${siteInfo.cacheVal})`;
@@ -268,7 +270,7 @@ export default function Profile() {
 			game={game}
 			type={game.status || "Finished"}
 			key={game.id}
-			smallSetup />
+			small />
 	));
 
 	const createdSetupRows = createdSetups.map(setup => (
@@ -319,7 +321,7 @@ export default function Profile() {
 	return (
 		<>
 			<div className="profile">
-				<div className="main-panel" style={mainPanelStyle}>
+				<div className="main-panel" style={panelStyle}>
 					<div className="banner" style={bannerStyle}>
 						{isSelf &&
 							<HiddenUpload
@@ -349,6 +351,7 @@ export default function Profile() {
 								</div>
 							</div>
 						</div>
+						<Badges groups={groups} />
 						{!isSelf && user.loggedIn &&
 							<div className="options">
 								<i
@@ -416,7 +419,7 @@ export default function Profile() {
 				</div>
 				<div className="side column">
 					{ratings.length > 0 &&
-						<div className="box-panel ratings">
+						<div className="box-panel ratings" style={panelStyle}>
 							<div className="heading">
 								Mafia Ratings
 							</div>
@@ -425,7 +428,7 @@ export default function Profile() {
 							</div>
 						</div>
 					}
-					<div className="box-panel recent-games">
+					<div className="box-panel recent-games" style={panelStyle}>
 						<div className="heading">
 							Recent Games
 						</div>
@@ -437,7 +440,7 @@ export default function Profile() {
 						</div>
 					</div>
 					{friendRequests.length > 0 &&
-						<div className="box-panel friend-requests">
+						<div className="box-panel friend-requests" style={panelStyle}>
 							<div className="heading">
 								Friend Requests
 							</div>
@@ -446,7 +449,7 @@ export default function Profile() {
 							</div>
 						</div>
 					}
-					<div className="box-panel friends">
+					<div className="box-panel friends" style={panelStyle}>
 						<div className="heading">
 							Friends
 						</div>
@@ -454,7 +457,6 @@ export default function Profile() {
 							<PageNav
 								inverted
 								page={friendsPage}
-								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />
 							{friendRows}
 							{friends.length == 0 &&
@@ -463,11 +465,10 @@ export default function Profile() {
 							<PageNav
 								inverted
 								page={friendsPage}
-								maxPage={maxFriendsPage}
 								onNav={onFriendsPageNav} />
 						</div>
 					</div>
-					<div className="box-panel created-setups">
+					<div className="box-panel created-setups" style={panelStyle}>
 						<div className="heading">
 							Setups Created
 						</div>

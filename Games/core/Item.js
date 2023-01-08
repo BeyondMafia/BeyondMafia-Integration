@@ -11,6 +11,8 @@ module.exports = class Item {
 		this.actions = [];
 		this.meetings = {};
 		this.listeners = {};
+		this.lifespan = Infinity;
+		this.ageListener;
 
 		if (data)
 			for (let key in data)
@@ -24,6 +26,9 @@ module.exports = class Item {
 
 		this.applyEffects();
 
+		this.ageListener = this.age.bind(this);
+		this.game.events.on("state", this.ageListener);
+
 		for (let eventName in this.listeners) {
 			this.listeners[eventName] = this.listeners[eventName].bind(this);
 			this.game.events.on(eventName, this.listeners[eventName]);
@@ -35,6 +40,8 @@ module.exports = class Item {
 	drop() {
 		let itemArr = this.holder.items;
 		itemArr.splice(itemArr.indexOf(this), 1);
+
+		this.game.events.removeListener("state", this.ageListener);
 
 		for (let eventName in this.listeners)
 			this.holder.events.removeListener(eventName, this.listeners[eventName]);
@@ -75,6 +82,13 @@ module.exports = class Item {
 	dequeueActions() {
 		for (let action of this.actions)
 			this.game.dequeueAction(action);
+	}
+
+	age() {
+		this.lifespan--;
+
+		if (this.lifespan < 0)
+			this.drop();
 	}
 
 	speak(message) { }

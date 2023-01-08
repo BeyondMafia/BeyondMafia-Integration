@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { PRIORITY_CULT_MEETING } = require("../../const/Priority");
 
 module.exports = class MeetWithCultists extends Card {
 
@@ -9,11 +10,11 @@ module.exports = class MeetWithCultists extends Card {
 			"Cultists": {
 				actionName: "Convert",
 				states: ["Night"],
-				flags: ["group", "speech", "voting"],
-				targets: { include: ["alive"], exclude: ["Cultist"] },
+				flags: ["group", "voting"],
+				targets: { include: ["alive"], exclude: ["Monsters"] },
 				action: {
 					labels: ["convert", "cultist"],
-					priority: -2,
+					priority: PRIORITY_CULT_MEETING,
 					run: function () {
 						if (this.dominates())
 							this.target.setRole("Cultist");

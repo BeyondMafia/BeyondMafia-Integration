@@ -121,7 +121,7 @@ async function cacheUserInfo(userId, reset) {
 
 	if (!exists || reset) {
 		var user = await models.User.findOne({ id: userId, deleted: false })
-			.select("id name avatar blockedUsers settings itemsOwned nameChanged -_id");
+			.select("id name avatar blockedUsers settings itemsOwned nameChanged");
 
 		if (!user)
 			return false;
@@ -135,6 +135,11 @@ async function cacheUserInfo(userId, reset) {
 		await client.setAsync(`user:${userId}:info:blockedUsers`, JSON.stringify(user.blockedUsers || []));
 		await client.setAsync(`user:${userId}:info:settings`, JSON.stringify(user.settings));
 		await client.setAsync(`user:${userId}:info:itemsOwned`, JSON.stringify(user.itemsOwned));
+
+		var inGroups = await models.InGroup.find({ user: user._id })
+			.populate("group", "id name rank badge badgeColor -_id");
+		var groups = inGroups.map(inGroup => inGroup.toJSON().group);
+		await client.setAsync(`user:${userId}:info:groups`, JSON.stringify(groups));
 	}
 
 	client.expire(`user:${userId}:info:id`, 3600);
@@ -144,6 +149,7 @@ async function cacheUserInfo(userId, reset) {
 	client.expire(`user:${userId}:info:blockedUsers`, 3600);
 	client.expire(`user:${userId}:info:settings`, 3600);
 	client.expire(`user:${userId}:info:itemsOwned`, 3600);
+	client.expire(`user:${userId}:info:groups`, 3600);
 
 	return true;
 }
@@ -157,6 +163,7 @@ async function deleteUserInfo(userId) {
 	await client.delAsync(`user:${userId}:info:blockedUsers`);
 	await client.delAsync(`user:${userId}:info:settings`);
 	await client.delAsync(`user:${userId}:info:itemsOwned`);
+	await client.delAsync(`user:${userId}:info:groups`);
 }
 
 async function getUserInfo(userId) {
@@ -174,21 +181,39 @@ async function getUserInfo(userId) {
 	info.blockedUsers = JSON.parse(await client.getAsync(`user:${userId}:info:blockedUsers`));
 	info.settings = JSON.parse(await client.getAsync(`user:${userId}:info:settings`));
 	info.itemsOwned = JSON.parse(await client.getAsync(`user:${userId}:info:itemsOwned`));
+	info.groups = JSON.parse(await client.getAsync(`user:${userId}:info:groups`));
 
 	return info;
 }
 
-async function getBasicUserInfo(userId) {
+async function getBasicUserInfo(userId, delTemplate) {
 	var exists = await cacheUserInfo(userId);
 
-	if (!exists)
+	if (!exists && !delTemplate)
 		return;
+	else if (!exists && delTemplate) {
+		return {
+			id: userId,
+			name: "[deleted]",
+			avatar: false,
+			status: "offline",
+			groups: [],
+			settings: {}
+		};
+	}
 
 	var info = {};
 	info.id = await client.getAsync(`user:${userId}:info:id`);
 	info.name = await client.getAsync(`user:${userId}:info:name`);
 	info.avatar = await client.getAsync(`user:${userId}:info:avatar`) == "true";
 	info.status = await client.getAsync(`user:${userId}:info:status`);
+	info.groups = JSON.parse(await client.getAsync(`user:${userId}:info:groups`));
+
+	var settings = JSON.parse(await client.getAsync(`user:${userId}:info:settings`));
+	info.settings = {
+		nameColor: settings.nameColor,
+		textColor: settings.textColor,
+	};
 
 	return info;
 }
@@ -495,28 +520,28 @@ async function joinGame(userId, gameId) {
 	await client.saddAsync(`game:${gameId}:players`, userId);
 	await client.setAsync(`user:${userId}:game`, gameId);
 
-	// var ban = new models.Ban({
-	// 	id: shortid.generate(),
-	// 	userId,
-	// 	modId: null,
-	// 	expires: 0,
-	// 	permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
-	// 	type: "gameAuto",
-	// 	auto: true
-	// });
-	// await ban.save();
-	// await cacheUserPermissions(userId);
+	var ban = new models.Ban({
+		id: shortid.generate(),
+		userId,
+		modId: null,
+		expires: 0,
+		permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
+		type: "gameAuto",
+		auto: true
+	});
+	await ban.save();
+	await cacheUserPermissions(userId);
 }
 
 async function leaveGame(userId) {
 	const gameId = await client.getAsync(`user:${userId}:game`);
 
-	if (!gameId)
-		return;
+	if (gameId) {
+		await client.delAsync(`user:${userId}:game`);
+		await client.sremAsync(`game:${gameId}:players`, userId);
+	}
 
-	await client.sremAsync(`game:${gameId}:players`, userId);
-	await client.delAsync(`user:${userId}:game`);
-	await models.Ban.deleteOne({ userId, type: "gameAuto" }).exec();
+	await models.Ban.deleteMany({ userId, type: "gameAuto" }).exec();
 	await cacheUserPermissions(userId);
 }
 
@@ -601,7 +626,11 @@ async function breakGame(gameId) {
 		startTime: game.startTime,
 		endTime: Date.now(),
 		ranked: game.settings.ranked,
+		private: game.settings.private,
+		guests: game.settings.guests,
 		spectating: game.settings.spectating,
+		voiceChat: game.settings.voiceChat,
+		readyCheck: game.settings.readyCheck,
 		stateLengths: game.settings.stateLengths,
 		gameTypeOptions: JSON.stringify(game.settings.gameTypeOptions),
 		broken: true
@@ -618,7 +647,7 @@ async function registerGameServer(port) {
 }
 
 async function removeGameServer(port) {
-	await client.sremAsync("gameServers", port)
+	await client.sremAsync("gameServers", port);
 }
 
 async function getNextGameServerPort() {
@@ -688,7 +717,7 @@ async function cacheUserPermissions(userId) {
 
 	var inGroups = await models.InGroup.find({ user: user._id })
 		.populate("group", "rank permissions");
-	var groups = inGroups.map(group => group.toJSON().group);
+	var groups = inGroups.map(inGroup => inGroup.toJSON().group);
 
 	var bans = await models.Ban.find({ userId: userId })
 		.select("permissions");
@@ -759,7 +788,7 @@ async function hasPermissions(userId, perms, rank) {
 		return false;
 
 	for (let perm of perms)
-		if (!permInfo.perms[perm])
+		if (perm != null && permInfo.perms[perm] == null)
 			return false;
 
 	return true;

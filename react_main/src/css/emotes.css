@@ -1,11 +1,10 @@
-
 .emote {
 	display: inline-block;
 
-    width: 28px;
-	height: 28px;
+	width: 25px;
+	height: 25px;
 	margin-right: 5px;
-	
+
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;

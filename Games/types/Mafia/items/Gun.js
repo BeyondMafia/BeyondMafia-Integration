@@ -11,7 +11,7 @@ module.exports = class Gun extends Item {
             "Shoot Gun": {
                 actionName: "Shoot",
                 states: ["Day"],
-                flags: ["voting", "instant"],
+                flags: ["voting", "instant", "noVeg"],
                 action: {
                     labels: ["kill", "gun"],
                     item: this,

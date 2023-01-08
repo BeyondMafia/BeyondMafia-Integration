@@ -33,7 +33,7 @@
 }
 
 .setup .fa-question {
-    font-size: 40px;
+    font-size: 30px;
     margin-right: 5px;
     text-shadow: 0 0.04rem 0rem black;
 }
@@ -59,25 +59,25 @@
 .i-Village,
 .i-Blue,
 .i-Resistance {
-    color: #66adff;
+    color: #66adff !important;
 }
 
 .i-Mafia,
 .i-Spies {
-    color: #505d66;
+    color: #505d66 !important;
 }
 
 .i-Monsters,
 .i-Werewolves {
-    color: #b161d3;
+    color: #b161d3 !important;
 }
 
 .i-Independent {
-    color: #c7ce48;
+    color: #c7ce48 !important;
 }
 
 .i-Red {
-    color: #ce4848;
+    color: #ce4848 !important;
 }
 
 .small-role-list {

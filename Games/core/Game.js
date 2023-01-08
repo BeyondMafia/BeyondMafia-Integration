@@ -9,7 +9,9 @@ const Timer = require("./Timer");
 const Random = require("../../lib/Random");
 const Utils = require("./Utils");
 const ArrayHash = require("./ArrayHash");
-const games = require("../games");
+const Action = require("./Action");
+const Winners = require("./Winners");
+const { games, deprecationCheck } = require("../games");
 const events = require("events");
 const models = require("../../db/models");
 const redis = require("../../modules/redis");
@@ -266,6 +268,7 @@ module.exports = class Game {
 			}
 
 			// Join the game as a new player if possible
+			await this.joinMutexLock();
 			if (
 				!player &&
 				this.currentState == -1 &&
@@ -283,6 +286,7 @@ module.exports = class Game {
 				}
 
 				this.players.push(player);
+				this.joinMutexUnlock();
 				this.sendPlayerJoin(player);
 				this.pregame.join(player);
 				this.sendAllGameInfo(player);
@@ -290,6 +294,8 @@ module.exports = class Game {
 				this.checkGameStart();
 				return;
 			}
+			else
+				this.joinMutexUnlock();
 
 			const canSpectateAny = await routeUtils.verifyPermission(user.id, "canSpectateAny");
 
@@ -336,6 +342,34 @@ module.exports = class Game {
 		catch (e) {
 			logger.error(e);
 		}
+	}
+
+	joinMutexLock() {
+		return new Promise((res, rej) => {
+			if (!this.joinMutex) {
+				this.joinMutex = true;
+				res();
+			} else {
+				var count = 0;
+				var lockInt = setInterval(() => {
+					if (!this.joinMutex) {
+						this.joinMutex = true;
+						clearInterval(lockInt);
+						res();
+					}
+					else {
+						count++;
+
+						if (count == 100)
+							rej();
+					}
+				}, 100);
+			}
+		});
+	}
+
+	joinMutexUnlock() {
+		this.joinMutex = false;
 	}
 
 	async userLeave(userId) {
@@ -395,12 +429,30 @@ module.exports = class Game {
 			}
 
 			if (!remainingPlayer) {
-				await this.cancel();
+				await this.onAllPlayersLeft();
 				return;
 			}
 		}
 
 		await redis.leaveGame(player.user.id);
+	}
+
+	async onAllPlayersLeft() {
+		this.immediateEnd();
+	}
+
+	async vegPlayer(player) {
+		if (player.left)
+			return;
+
+		this.queueAction(new Action({
+			actor: player,
+			target: player,
+			run: function () {
+				this.target.kill("veg", this.actor);
+			}
+		}));
+		await this.playerLeave(player);
 	}
 
 	createPlayerGoneObj(player) {
@@ -685,8 +737,11 @@ module.exports = class Game {
 		// Take snapshot of dead players
 		this.history.recordAllDead();
 
+		// Check if states will be skipped
+		var [_, skipped] = this.getNextStateIndex();
+
 		// Do actions
-		if (!stateInfo.delayActions)
+		if (!stateInfo.delayActions || skipped > 0)
 			this.processActionQueue();
 
 		// Set next state
@@ -750,11 +805,15 @@ module.exports = class Game {
 
 	incrementState() {
 		this.currentState++;
-		this.stateIndexRecord.push(this.getNextStateIndex());
+
+		var [index, skipped] = this.getNextStateIndex();
+		this.stateIndexRecord.push(index);
+		return skipped;
 	}
 
 	getNextStateIndex() {
 		var lastStateIndex = this.stateIndexRecord[this.stateIndexRecord.length - 1];
+		var skipped = -1;
 		var nextStateIndex, shouldSkip;
 
 		if (lastStateIndex == null)
@@ -763,7 +822,8 @@ module.exports = class Game {
 			nextStateIndex = lastStateIndex;
 
 		do {
-			nextStateIndex += 1;
+			nextStateIndex++;
+			skipped++;
 
 			if (nextStateIndex == this.states.length)
 				nextStateIndex = 2;
@@ -780,7 +840,7 @@ module.exports = class Game {
 				shouldSkip = false;
 		} while (shouldSkip);
 
-		return nextStateIndex;
+		return [nextStateIndex, skipped];
 	}
 
 	getStateInfo(state) {
@@ -1081,6 +1141,26 @@ module.exports = class Game {
 		return {};
 	}
 
+	immediateEnd() {
+		this.endNow = true;
+
+		// Clear current timers
+		this.clearTimers();
+
+		// Finish all meetings and take actions
+		this.finishMeetings();
+
+		// Take snapshot of roles
+		this.history.recordAllRoles();
+
+		// Take snapshot of dead players
+		this.history.recordAllDead();
+
+		var winners = new Winners(this);
+		winners.addGroup("No one");
+		this.endGame(winners);
+	}
+
 	async endGame(winners) {
 		try {
 			if (this.finished)
@@ -1165,20 +1245,20 @@ module.exports = class Game {
 					{ id: player.user.id },
 					{
 						$push: { games: game._id },
-						$set: { stats: player.user.stats, playedGame: true },
+						$set: { stats: player.user.stats || {}, playedGame: true },
 						$inc: {
 							rankedCount: this.ranked ? 1 : 0,
-							coins: this.ranked ? 1 : 0
+							// coins: this.ranked ? 1 : 0
 						}
 					}
 				).exec();
 
-				if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
-					await models.User.updateOne(
-						{ id: player.user.referrer },
-						{ $inc: { coins: constants.referralCoins } }
-					);
-				}
+				// if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
+				// 	await models.User.updateOne(
+				// 		{ id: player.user.referrer },
+				// 		{ $inc: { coins: constants.referralCoins } }
+				// 	);
+				// }
 			}
 
 			var rolePlays = setup.rolePlays || {};
@@ -1209,6 +1289,9 @@ module.exports = class Game {
 					$set: { rolePlays, roleWins }
 				}
 			).exec();
+
+			delete games[this.id];
+			deprecationCheck();
 		}
 		catch (e) {
 			logger.error(e);

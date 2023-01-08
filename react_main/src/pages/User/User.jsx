@@ -117,6 +117,7 @@ export function NameWithAvatar(props) {
 	const newTab = props.newTab;
 	const small = props.small;
 	const active = props.active;
+	const groups = props.groups;
 
 	const popover = useContext(PopoverContext);
 
@@ -138,6 +139,9 @@ export function NameWithAvatar(props) {
 				small={small}
 				active={active} />
 			<div className="user-name" style={color ? { color: color } : {}}>{name}</div>
+			{groups &&
+				<Badges groups={groups} small={small} />
+			}
 		</Link>
 	);
 }
@@ -145,6 +149,36 @@ export function NameWithAvatar(props) {
 export function StatusIcon(props) {
 	return (
 		<div className={`status-icon ${props.status}`} />
+	);
+}
+
+export function Badges(props) {
+	const badges = props.groups
+		.filter(g => g.badge)
+		.sort((a, b) => a.rank - b.rank)
+		.map(g => (
+			<Badge
+				icon={g.badge}
+				color={g.badgeColor || "black"}
+				name={g.name}
+				key={g.name} />
+		));
+
+	return (
+		<div className={`badge-list ${props.small ? "small" : ""}`}>
+			{badges}
+		</div>
+	);
+}
+
+export function Badge(props) {
+	return (
+		<div className="badge">
+			<i
+				className={`fas fa-${props.icon}`}
+				style={{ color: props.color }}
+				title={props.name} />
+		</div>
 	);
 }
 

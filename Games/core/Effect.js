@@ -80,7 +80,7 @@ module.exports = class Effect {
 	hearQuote(quote) { }
 
 	seeVote(vote) { }
-	
+
 	seeUnvote(info) { }
 
 }

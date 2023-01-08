@@ -8,6 +8,7 @@ module.exports = class PregameReadyMeeting extends Meeting {
 		this.group = true;
 		this.voting = true;
 		this.noRecord = true;
+		this.noVeg = true;
 
 		this.inputType = "button";
 		this.targets = ["Ready"];
@@ -64,5 +65,7 @@ module.exports = class PregameReadyMeeting extends Meeting {
 		this.game.startPregameCountdown();
 		this.game.sendAlert("Everyone is ready, starting the game!");
 	}
+
+	updateReady() { }
 
 }

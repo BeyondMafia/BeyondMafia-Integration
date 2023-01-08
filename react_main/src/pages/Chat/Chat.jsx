@@ -45,7 +45,7 @@ export default function Chat() {
 		var socketURL;
 
 		if (process.env.REACT_APP_USE_PORT == "true")
-			socketURL = `${process.env.REACT_APP_SOCKET_PROTOCOL}://${process.env.REACT_APP_SOCKET_URI}:2999`;
+			socketURL = `${process.env.REACT_APP_SOCKET_PROTOCOL}://${process.env.REACT_APP_SOCKET_URI}:${process.env.REACT_APP_CHAT_PORT}`;
 		else
 			socketURL = `${process.env.REACT_APP_SOCKET_PROTOCOL}://${process.env.REACT_APP_SOCKET_URI}/chatSocket`;
 
@@ -484,7 +484,8 @@ function Message(props) {
 						id={message.sender.id}
 						name={message.sender.name}
 						avatar={message.sender.avatar}
-						color={message.sender.settings && message.sender.settings.nameColor} />
+						color={message.sender.settings && message.sender.settings.nameColor}
+						groups={message.sender.groups} />
 				}
 				{age > 1000 * 60 &&
 					<div className="timestamp">

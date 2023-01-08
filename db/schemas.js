@@ -88,7 +88,7 @@ var schemas = {
         hash: { type: String, index: true },
         name: { type: String, index: true },
         gameType: { type: String, index: true },
-        creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
         closed: Boolean,
         unique: Boolean,
         roles: String,
@@ -141,6 +141,7 @@ var schemas = {
     "ForumCategory": new mongoose.Schema({
         id: { type: String, index: true },
         name: String,
+        rank: { type: Number, default: 0 },
         position: { type: Number, default: 0 },
         boards: [{ type: mongoose.Schema.Types.ObjectId, ref: "ForumBoard" }]
     }),
@@ -260,6 +261,8 @@ var schemas = {
         name: { type: String, index: true },
         rank: { type: Number, default: 0 },
         permissions: [String],
+        badge: String,
+        badgeColor: String,
         visible: { type: Boolean, index: true }
     }),
     "InGroup": new mongoose.Schema({
@@ -268,10 +271,19 @@ var schemas = {
     }),
     "ModAction": new mongoose.Schema({
         id: { type: String, index: true },
-        modId: String,
-        name: String,
+        modId: { type: String, index: true },
+        name: { type: String, index: true },
         args: [String],
         reason: String,
+        date: { type: Number, index: true },
+    }, {
+        toObject: { virtuals: true },
+        toJSON: { virtuals: true }
+    }),
+    "Announcement": new mongoose.Schema({
+        id: { type: String, index: true },
+        modId: { type: String, index: true },
+        content: String,
         date: { type: Number, index: true },
     }, {
         toObject: { virtuals: true },
@@ -362,6 +374,13 @@ schemas.FriendRequest.virtual("target", {
 });
 
 schemas.ModAction.virtual("mod", {
+    ref: "User",
+    localField: "modId",
+    foreignField: "id",
+    justOne: true
+});
+
+schemas.Announcement.virtual("mod", {
     ref: "User",
     localField: "modId",
     foreignField: "id",

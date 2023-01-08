@@ -5,7 +5,7 @@ import axios from "axios";
 import { UserContext, PopoverContext, SiteInfoContext } from "../../Contexts"
 import Setup from "../../components/Setup"
 import { ButtonGroup, getPageNavFilterArg, PageNav, SubNav } from "../../components/Nav"
-import { ItemList } from "../../components/Basic"
+import { ItemList, Time, UserText } from "../../components/Basic"
 import { useErrorAlert } from "../../components/Alerts";
 import { camelCase } from "../../utils"
 import LoadingPage from "../Loading";
@@ -15,10 +15,10 @@ import { Lobbies } from "../../Constants";
 
 import "../../css/join.css";
 import { TopBarLink } from "./Play";
+import { NameWithAvatar } from "../User/User";
 
 export default function Join(props) {
-    const defaultLobby = "Main";
-    const gameListButtons = ["All", "Open", "In Progress", "Finished"];
+    const defaultLobby = "All";
 
     const [listType, setListType] = useState("All");
     const [page, setPage] = useState(1);
@@ -59,7 +59,14 @@ export default function Join(props) {
             .catch(errorAlert);
     }
 
-    if (Lobbies.indexOf(lobby) == -1)
+    function lobbyNav(_lobby) {
+        setLobby(_lobby);
+
+        if (lobby == _lobby)
+            getGameList(listType, page);
+    }
+
+    if (lobby != "All" && Lobbies.indexOf(lobby) == -1)
         setLobby(defaultLobby);
 
     if (!user.loaded)
@@ -77,21 +84,25 @@ export default function Join(props) {
                 <div className="right-panel">
                     <div className="top-bar lobby-list">
                         <TopBarLink
+                            text="All"
+                            sel={lobby}
+                            onClick={() => lobbyNav("All")} />
+                        <TopBarLink
                             text="Main"
                             sel={lobby}
-                            onClick={() => setLobby("Main")} />
+                            onClick={() => lobbyNav("Main")} />
                         <TopBarLink
                             text="Sandbox"
                             sel={lobby}
-                            onClick={() => setLobby("Sandbox")} />
+                            onClick={() => lobbyNav("Sandbox")} />
                         <TopBarLink
                             text="Competitive"
                             sel={lobby}
-                            onClick={() => setLobby("Competitive")} />
+                            onClick={() => lobbyNav("Competitive")} />
                         <TopBarLink
                             text="Games"
                             sel={lobby}
-                            onClick={() => setLobby("Games")} />
+                            onClick={() => lobbyNav("Games")} />
                     </div>
                     <ItemList
                         className="games"
@@ -110,7 +121,11 @@ export default function Join(props) {
                         onNav={(page) => getGameList(listType, page)} />
                 </div>
             </div>
-            <Comments location={lobby == "Main" ? "lobby" : `lobby-${lobby}`} />
+            <div className="bottom-wrapper">
+                <Comments
+                    location={lobby == "Main" || lobby == "All" ? "lobby" : `lobby-${lobby}`} />
+                <Announcements />
+            </div>
         </>
     );
 }
@@ -138,10 +153,13 @@ export function GameRow(props) {
     var linkPath, buttonText;
     var buttonClass = "btn ";
 
+    if (props.small)
+        buttonClass += "btn-small ";
+
     switch (props.game.status) {
         case "Open":
             linkPath = `/game/${props.game.id}`;
-            buttonClass += "btn-join";
+            buttonClass += "btn-join ";
 
             if (props.game.scheduled <= Date.now())
                 buttonText = "Join";
@@ -149,18 +167,18 @@ export function GameRow(props) {
         case "In Progress":
             if (props.game.spectating || user.perms.canSpectateAny) {
                 linkPath = `/game/${props.game.id}`;
-                buttonClass += "btn-spectate";
+                buttonClass += "btn-spectate ";
                 buttonText = "Spectate";
             }
             else {
                 linkPath = "/play";
-                buttonClass += "btn-in-progress";
+                buttonClass += "btn-in-progress ";
                 buttonText = "In Progress";
             }
             break;
         case "Finished":
-            linkPath = `/game/${props.game.id}/review`;
-            buttonClass += "btn-review";
+            linkPath = `/game/${props.game.id}`;
+            buttonClass += "btn-review ";
             buttonText = "Review";
             break;
     }
@@ -171,10 +189,15 @@ export function GameRow(props) {
         for (let stateName in props.game.stateLengths)
             stateLengths[stateName] = props.game.stateLengths[stateName] / 60000;
 
+        var lobby = props.lobby;
+
+        if (lobby = "All")
+            lobby = "Main";
+
         axios.post("/game/host", {
             gameType: props.game.type,
             setup: props.game.setup.id,
-            lobby: props.lobby,
+            lobby: lobby,
             guests: props.game.guests,
             private: false,
             ranked: props.game.ranked,
@@ -221,13 +244,14 @@ export function GameRow(props) {
         return <></>;
 
     return (
-        <div className={`row ${props.odd ? "odd" : ""}`}>
+        <div className={`row ${props.odd ? "odd" : ""} game-row`}>
+            {/* {!props.small && */}
             <div className="btns-wrapper">
-                {(user.loggedIn || props.type == "Finished") && !props.game.broken && !props.game.private && buttonText &&
+                {(user.loggedIn || props.status == "Finished") && !props.game.broken && !props.game.private &&
                     <Link
                         to={linkPath}
                         className={buttonClass}
-                        disabled={props.type == "In Progress" && !props.game.spectating}>
+                        disabled={props.status == "In Progress" && !props.game.spectating}>
                         {buttonText}
                     </Link>
                 }
@@ -259,24 +283,16 @@ export function GameRow(props) {
                     <i className="fas fa-lock review-icon" title="Private" />
                 }
             </div>
+            {/* } */}
             <div className="player-count-wrapper">
-                {props.type != "Finished" &&
-                    <PlayerCount game={props.game} />
-                }
-                {props.type == "Finished" && user.loggedIn && !props.smallSetup &&
-                    <div
-                        className="btn btn-rehost"
-                        onClick={onRehostClick}>
-                        Rehost
-                    </div>
-                }
+                <PlayerCount game={props.game} />
             </div>
             <div className="setup-wrapper">
                 <Setup
                     setup={props.game.setup}
-                    maxRolesCount={props.smallSetup ? 3 : 5} />
+                    maxRolesCount={props.small ? 3 : 5} />
             </div>
-            {!props.smallSetup &&
+            {!props.small &&
                 <div className="setup-name">
                     {props.game.setup.name}
                 </div>
@@ -292,7 +308,7 @@ export function GameRow(props) {
                         className="voice-chat fas fa-microphone"
                         title="Voice chat game" />
                 }
-                {props.game.status == "Finished" && user.loggedIn && !props.smallSetup &&
+                {props.game.status == "Finished" && user.loggedIn && !props.small &&
                     <i
                         className="rehost fas fa-redo"
                         title="Rehost"
@@ -325,3 +341,71 @@ function PlayerCount(props) {
         </div>
     );
 }
+
+function Announcements() {
+    const [page, setPage] = useState(1);
+    const [announcements, setAnnouncements] = useState([]);
+
+    const errorAlert = useErrorAlert();
+    const user = useContext(UserContext);
+
+    useEffect(() => {
+        onPageNav(1);
+    }, []);
+
+    function onPageNav(_page) {
+        var filterArg = getPageNavFilterArg(_page, page, announcements, "date");
+
+        if (filterArg == null)
+            return;
+
+        axios.get(`/mod/announcements?${filterArg}`)
+            .then(res => {
+                if (res.data.length > 0) {
+                    setAnnouncements(res.data);
+                    setPage(_page);
+                }
+            })
+            .catch(errorAlert);
+    }
+
+    const announcementRows = announcements.map(announcement => (
+        <div className="announcement" key={announcement.id}>
+            <div className="top-row">
+                <NameWithAvatar
+                    id={announcement.mod.id}
+                    name={announcement.mod.name}
+                    avatar={announcement.mod.avatar} />
+                <div className="date">
+                    <Time
+                        minSec
+                        millisec={Date.now() - announcement.date}
+                        suffix=" ago" />
+                </div>
+            </div>
+            <div className="content">
+                <UserText
+                    text={announcement.content}
+                    settings={user.settings}
+                    filterProfanity
+                    linkify
+                    emotify />
+            </div>
+        </div>
+    ));
+
+    return (
+        <div className="announcements box-panel">
+            <div className="heading">
+                Announcements
+            </div>
+            <PageNav
+                page={page}
+                onNav={onPageNav} />
+            {announcementRows}
+            <PageNav
+                page={page}
+                onNav={onPageNav} />
+        </div>
+    );
+} 

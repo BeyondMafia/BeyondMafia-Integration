@@ -267,8 +267,9 @@ const roleData = {
         "Janitor": {
             alignment: "Mafia",
             description: [
-                "Can choose a person to clean each night.",
+                "Can choose a person to clean once.",
                 "If that person dies their role will not be revealed.",
+                "Learns the cleaned player's role.",
             ],
         },
         "Telepath": {
@@ -295,6 +296,14 @@ const roleData = {
                 "Redirection cannot be role blocked.",
                 "Causes an eclipse during the day following her death.",
                 "All votes and speech are anonymous during an eclipse."
+            ],
+        },
+        "Cultist": {
+            alignment: "Monsters",
+            description: [
+                "Meets with other Cultists and Monsters during the night.",
+                "The Cultists convert one player into a Cultist each night.",
+                "All Cultists die if a leader (original Cultist) dies.",
             ],
         },
         "Cthulhu": {
@@ -330,14 +339,6 @@ const roleData = {
             alignment: "Independent",
             description: [
                 "Wins if survives until the end of the game."
-            ],
-        },
-        "Cultist": {
-            alignment: "Independent",
-            description: [
-                "Meets with other Cultists during the night.",
-                "The group converts one player into a Cultist each night.",
-                "All Cultists die if a leader (original Cultist) dies.",
             ],
         },
     },
@@ -397,7 +398,7 @@ const roleData = {
         "Villager": {
             alignment: "Village",
             description: [
-                "Wins if at least one Werewolf dies or if no one dies if no Werewovles are present."
+                "Wins if at least one Werewolf dies or if no one dies if no Werewolves are present."
             ]
         },
         "Hunter": {
@@ -409,7 +410,7 @@ const roleData = {
         "Mason": {
             alignment: "Village",
             description: [
-                "Learns who the other Masons are at the beginning of the night."
+                "Learns who the other Masons were at the beginning of the night."
             ]
         },
         "Seer": {
@@ -442,16 +443,16 @@ const roleData = {
         "Werewolf": {
             alignment: "Werewolves",
             description: [
-                "Learns who the other Werewolves are at the beginning of the night.",
+                "Learns who the other Werewolves were at the beginning of the night.",
                 "If there are no other Werewolves, learns one excess role.",
-                "Wins if Werewovles are present but no Werewolves die.",
+                "Wins if Werewolves are present but no Werewolves die.",
             ]
         },
         "Minion": {
             alignment: "Werewolves",
             description: [
                 "Learns who the Werewolves are at the beginning of the night.",
-                "Wins with the Werewovles, and wins if a non-minion player dies when no Werewolves are present.",
+                "Wins with the Werewolves, and wins if a non-minion player dies when no Werewolves are present.",
             ]
         },
         //Independent

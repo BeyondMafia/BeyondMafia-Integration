@@ -5,7 +5,7 @@ import update from "immutability-helper";
 import { useErrorAlert } from "../../components/Alerts";
 import { SearchSelect, UserSearchSelect } from "../../components/Form";
 import { SiteInfoContext, UserContext } from "../../Contexts";
-import { NameWithAvatar, StatusIcon } from "../User/User";
+import { Badge, NameWithAvatar, StatusIcon } from "../User/User";
 import LoadingPage from "../Loading";
 import { MaxBoardNameLength, MaxCategoryNameLength, MaxGroupNameLength, MaxBoardDescLength } from "../../Constants";
 
@@ -49,6 +49,12 @@ export default function Moderation() {
 		return (
 			<div className="span-panel group-panel" key={group.name}>
 				<div className="title">
+					{group.badge &&
+						<Badge
+							icon={group.badge}
+							color={group.badgeColor || "black"}
+							name={group.name} />
+					}
 					{group.name + "s"}
 				</div>
 				<div className="members">
@@ -201,6 +207,18 @@ function useModCommands(argValues, commandRan) {
 					default: 0
 				},
 				{
+					label: "Badge",
+					name: "badge",
+					type: "text",
+					optional: true
+				},
+				{
+					label: "Badge Color",
+					name: "badgeColor",
+					type: "text",
+					optional: true
+				},
+				{
 					label: "Permissions",
 					name: "permissions",
 					type: "text",
@@ -236,7 +254,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Create Category": {
+		"Create Forum Category": {
 			perm: "createCategory",
 			args: [
 				{
@@ -244,6 +262,12 @@ function useModCommands(argValues, commandRan) {
 					name: "name",
 					type: "text",
 					maxlength: MaxCategoryNameLength
+				},
+				{
+					label: "Rank",
+					name: "rank",
+					type: "number",
+					default: 0
 				},
 				{
 					label: "Position",
@@ -261,7 +285,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Create Board": {
+		"Create Forum Board": {
 			perm: "createBoard",
 			args: [
 				{
@@ -428,7 +452,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Delete Board": {
+		"Delete Forum Board": {
 			perm: "deleteBoard",
 			args: [
 				{
@@ -962,7 +986,7 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
-		"Whitelist User": {
+		"Whitelist": {
 			perm: "whitelist",
 			args: [
 				{
@@ -998,6 +1022,60 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Kick Player": {
+			perm: "kick",
+			args: [
+				{
+					label: "User",
+					name: "userId",
+					type: "user_search"
+				},
+			],
+			run: function () {
+				axios.post("/mod/kick", argValues)
+					.then(() => {
+						siteInfo.showAlert("Kicked player.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Break Port Games": {
+			perm: "breakPortGames",
+			args: [
+				{
+					label: "Port",
+					name: "port",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/breakPortGames", argValues)
+					.then(() => {
+						siteInfo.showAlert("Games broken.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
+		"Make Announcement": {
+			perm: "announce",
+			args: [
+				{
+					label: "Content",
+					name: "content",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/announcement", argValues)
+					.then(() => {
+						siteInfo.showAlert("Announcement created.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Delete Forum Board": {
 			hidden: true,
 			args: [
@@ -1014,7 +1092,7 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Delete Thread": {
+		"Delete Forum Thread": {
 			hidden: true,
 			args: [
 				{
@@ -1022,7 +1100,7 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Restore Thread": {
+		"Restore Forum Thread": {
 			hidden: true,
 			args: [
 				{
@@ -1062,11 +1140,19 @@ function useModCommands(argValues, commandRan) {
 				},
 			],
 		},
-		"Restore Forum Reply": {
+		"Delete Comment": {
 			hidden: true,
 			args: [
 				{
-					label: "Reply ID",
+					label: "Comment ID",
+				},
+			],
+		},
+		"Restore Comment": {
+			hidden: true,
+			args: [
+				{
+					label: "Comment ID",
 				},
 			],
 		},

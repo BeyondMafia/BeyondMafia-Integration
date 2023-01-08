@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function hyphenDelimit(roleName) {
 	roleName = roleName.slice();
 
@@ -63,7 +65,7 @@ export function dateToHTMLString(date) {
 
 	var day = date.toLocaleDateString();
 	var time = date.toTimeString();
-	
+
 	day = day.split("/");
 	day = pad(day[2], 2, "0") + "-" + pad(day[0], 2, "0") + "-" + pad(day[1], 2, "0");
 
@@ -72,4 +74,26 @@ export function dateToHTMLString(date) {
 
 	date = day + "T" + time;
 	return date;
+}
+
+export async function verifyRecaptcha(action) {
+	return new Promise((res, rej) => {
+		window.grecaptcha.ready(async () => {
+			try {
+				const token = await window.grecaptcha.execute(process.env.REACT_APP_RECAPTCHA_KEY, { action });
+				await axios.post("/auth/verifyCaptcha", { token });
+				res(token);
+			} catch (e) {
+				console.log(e);
+				rej(e);
+			}
+		});
+	});
+}
+
+export function setCaptchaVisible(visible) {
+	var el = document.getElementsByClassName("grecaptcha-badge")[0];
+
+	if (el)
+		el.style.visibility = visible ? "visible" : "hidden";
 }

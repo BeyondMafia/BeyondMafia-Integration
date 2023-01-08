@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2 start ./Games/games.js -i 1 && pm2 start ./bin/www -i 1 && pm2 start ./modules/chat.js",
+    "start": "pm2 start pm2.config.js",
     "test": "mocha --recursive --timeout 12000 || true"
   },
   "dependencies": {

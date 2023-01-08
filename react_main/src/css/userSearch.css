@@ -1,5 +1,14 @@
 .user-search-page {
 	display: flex;
+	flex-flow: row nowrap;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.user-search-page .main {
+	flex-grow: 1;
+
+	display: flex;
 	flex-flow: column;
 	align-items: flex-start;
 	justify-content: flex-start;
@@ -33,4 +42,44 @@
 
 .user-search-page .user-cell .status-icon {
 	margin-left: 5px;
+}
+
+.user-search-page .newest-users {
+	flex-shrink: 0;
+
+	margin-left: 10px;
+	width: 250px;
+
+	background-color: var(--theme-color);
+	color: white;
+}
+
+.user-search-page .newest-users-list {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+
+	padding: 5px;
+
+	background-color: white;
+}
+
+.user-search-page .newest-users-list .page-nav {
+	margin: 0px;
+}
+
+.user-search-page .newest-users-list .page-nav:first-child {
+	margin-bottom: 10px;
+}
+
+.user-search-page .newest-users-list .page-nav:last-child {
+	margin-top: 10px;
+}
+
+.user-search-page .newest-users .joined {
+	margin-left: 45px;
+
+	color: black;
+	opacity: 0.6;
 }

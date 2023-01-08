@@ -44,9 +44,7 @@ module.exports = class MafiaGame extends Game {
 
 	}
 
-	playerLeave(player) {
-		super.playerLeave(player);
-
+	async playerLeave(player) {
 		if (this.started) {
 			this.queueAction(new Action({
 				actor: player,
@@ -58,6 +56,8 @@ module.exports = class MafiaGame extends Game {
 
 			player.recordStat("survival", false);
 		}
+
+		await super.playerLeave(player);
 	}
 
 	incrementState() {
@@ -96,8 +96,12 @@ module.exports = class MafiaGame extends Game {
 		) {
 			this.statesSinceLastDeath++;
 
-			if (this.statesSinceLastDeath >= this.noDeathLimit)
-				this.queueAlert("No one has died for a while, you must act.")
+			if (this.statesSinceLastDeath >= this.noDeathLimit) {
+				if (stateName != "Day")
+					this.queueAlert("No one has died for a while, you must act.")
+				else
+					this.queueAlert("A giant meteor will destroy the town and no one will win if no one dies today.")
+			}
 		}
 		else if (this.resetLastDeath) {
 			this.statesSinceLastDeath = 0;
@@ -106,7 +110,9 @@ module.exports = class MafiaGame extends Game {
 	}
 
 	gotoNextState() {
-		if ((!this.timers["secondary"] || !this.timers["secondary"].done) && this.getStateName() == "Day") {
+		var prevStateName = this.getStateName();
+
+		if ((!this.timers["secondary"] || !this.timers["secondary"].done) && prevStateName == "Day") {
 			for (let meeting of this.meetings) {
 				if (meeting.name != "Village")
 					continue;
@@ -139,6 +145,9 @@ module.exports = class MafiaGame extends Game {
 		for (let player of this.players)
 			player.votedForExtension = false;
 
+		if (this.statesSinceLastDeath >= this.noDeathLimit && prevStateName == "Day")
+			this.meteorImminent = true;
+
 		super.gotoNextState();
 	}
 
@@ -146,6 +155,23 @@ module.exports = class MafiaGame extends Game {
 		return this.setup.dawn &&
 			this.getStateName() == "Night" &&
 			(this.dayCount == 0 || (this.dayCount == 1 && this.setup.startState == "Day"));
+	}
+
+	checkGameEnd() {
+		var finished = super.checkGameEnd();
+
+		if (finished)
+			return finished;
+
+		if (this.meteorImminent && !this.resetLastDeath) {
+			this.queueAlert("A giant meteor obliterates the town!");
+
+			var winners = new Winners(this);
+			winners.addGroup("No one");
+			this.endGame(winners);
+
+			return true;
+		}
 	}
 
 	checkWinConditions() {
@@ -175,7 +201,7 @@ module.exports = class MafiaGame extends Game {
 		if (winners.groupAmt() > 0)
 			finished = true;
 		else if (aliveCount == 0) {
-			winners.addGroup("no one");
+			winners.addGroup("No one");
 			finished = true;
 		}
 

@@ -111,12 +111,15 @@ module.exports = function () {
         gamesWebhook: {
             run: async function () {
                 try {
+                    if (process.env.WEBHOOK_URL == null)
+                        return;
+
                     var games = await redis.getOpenPublicGames();
 
                     for (let game of games) {
                         if (!game.webhookPublished) {
                             await redis.gameWebhookPublished(game.id);
-                            await axios.post("https://discord.com/api/webhooks/840041267399229480/qHJ93xbByPbi3YTrhUo60qhSHH5AVZoQleHFOikU9rHcf2CkUrt1LcGUpyGwdvn5OazQ", {
+                            await axios.post(process.env.WEBHOOK_URL, {
                                 username: "EpicMafia",
                                 content: `New ${game.type} game created: https://epicmafia.org/game/${game.id}`
                             });

@@ -18,6 +18,7 @@ import Chat from "./pages/Chat/Chat";
 
 import "./css/main.css";
 import { useReducer } from "react";
+import { setCaptchaVisible } from "./utils";
 
 function Main() {
     var cacheVal = window.localStorage.getItem("cacheVal");
@@ -49,6 +50,8 @@ function Main() {
                 var res = await axios.get("/user/info");
 
                 if (res.data.id) {
+                    setCaptchaVisible(false);
+
                     axios.defaults.headers.common['x-csrf'] = res.data.csrf;
                     axios.post("/user/online");
 
@@ -64,8 +67,10 @@ function Main() {
                         window.localStorage.removeItem("referrer");
                     }
                 }
-                else
+                else {
                     user.clear();
+                    setCaptchaVisible(true);
+                }
 
                 if (res.data.nameChanged == false) {
                     siteInfo.showAlert(() => (
