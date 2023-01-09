@@ -14,12 +14,13 @@ module.exports = class TrackPlayer extends Card {
 					priority: PRIORITY_TRACK,
 					run: function () {
 						var visits = [];
-						
+
 						for (let action of this.game.actions[0]) {
 							if (
 								action.actor == this.target &&
 								!action.hasLabel("hidden") &&
-								action.priority < this.priority
+								action.priority < this.priority &&
+								action.target
 							) {
 								visits.push(action.target.name);
 							}

@@ -16,6 +16,7 @@ module.exports = class DieIfMasonsConvertMafia extends Card {
 					for (let action of this.game.actions[0]) {
 						if (
 							action.hasLabels(["convert", "mason"]) &&
+							action.target &&
 							action.target.role.alignment == "Mafia"
 						) {
 							this.actor.kill("basic");
