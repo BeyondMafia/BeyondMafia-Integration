@@ -11,7 +11,7 @@ module.exports = class ConfirmSelf extends Card {
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
-					labels: ["confirmSelf"],
+					labels: ["investigate", "role"],
 					priority: PRIORITY_CONFIRM_SELF,
 					run: function () {
 						var role = this.target.getAppearance("investigate", true);
