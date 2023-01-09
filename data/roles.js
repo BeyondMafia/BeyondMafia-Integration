@@ -241,6 +241,12 @@ const roleData = {
                 "Save one person, except herself, each night from dying but blocking them from performing any actions."
             ],
         },
+	"Commuter": {
+            alignment: "Village",
+            description: [
+                "Blocks all who visit him during the night from performing any actions.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
