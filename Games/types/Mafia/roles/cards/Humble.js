@@ -12,6 +12,16 @@ module.exports = class Humble extends Card {
 			self: true
 		};
 		this.meetings = {};
+		this.meetingMods = {
+			"Mafia": {
+				disabled: true
+			},
+			"Monsters": {
+				disabled: true
+			},
+			"Illuminati Meeting": {
+				disabled: true
+			}
 	}
 
 }
