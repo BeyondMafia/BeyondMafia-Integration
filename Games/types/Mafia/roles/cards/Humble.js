@@ -21,7 +21,10 @@ module.exports = class Humble extends Card {
 			},
 			"Illuminati Meeting": {
 				disabled: true
-			}
+			},
+			"Learn Alignment": {
+				disabled: true
+			},
 	}
 
 }
