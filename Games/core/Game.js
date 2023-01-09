@@ -320,7 +320,7 @@ module.exports = class Game {
 			// Reconnect if already a spectator
 			if (spectator) {
 				spectator.setUser(user);
-				spectator.sendAllGameInfo(spectator);
+				this.sendAllGameInfo(spectator);
 				spectator.send("loaded");
 				return;
 			}
