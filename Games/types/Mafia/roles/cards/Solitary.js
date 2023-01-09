@@ -6,12 +6,6 @@ module.exports = class Solitary extends Card {
 		super(role);
 
 		this.meetingMods = {
-			"Mafia": {
-				disabled: true
-			},
-			"Monsters": {
-				disabled: true
-			},
 			"Illuminati Meeting": {
 				disabled: true
 			},
