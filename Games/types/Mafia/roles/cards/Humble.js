@@ -11,6 +11,7 @@ module.exports = class Humble extends Card {
 		this.hideModifier = {
 			self: true
 		};
+		this.meetings = {};
 	}
 
 }
