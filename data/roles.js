@@ -230,6 +230,12 @@ const roleData = {
                 "Chooses another player to give a Yuzu OrangeZ to invite them to join a hot springs relaxation.",
                 "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
             ],
+	"Neighbor": {
+            alignment: "Village",
+            description: [
+                "Visits one person at night.",
+                "That person learns the identity of whoever is the Neighbor.",
+            ],
         },
 
         //Mafia
