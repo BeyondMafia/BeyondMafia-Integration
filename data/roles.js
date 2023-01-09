@@ -320,6 +320,12 @@ const roleData = {
             description: [
                 "Can anonymously contact any role.",
             ],
+	"Gramps": {
+            alignment: "Village",
+            description: [
+                "Learns role of any player who visits him.",
+                "Cannot be killed normally."
+            ],
         },
 
         //Monsters
