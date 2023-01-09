@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_BLOCK_VISITORS_ENQUEUE, PRIORITY_LEARN_VISITORS } = require("../../const/Priority");
 
-module.exports = class KillVisitors extends Card {
+module.exports = class BlockVisitors extends Card {
 
 	constructor(role) {
 		super(role);
