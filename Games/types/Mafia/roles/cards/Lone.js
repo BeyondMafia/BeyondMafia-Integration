@@ -12,6 +12,9 @@ module.exports = class Lone extends Card {
 			"Monsters": {
 				disabled: true
 			},
+			"Illuminati Meeting": {
+				disabled: true
+			},
 			"Learn Alignment": {
 				disabled: true
 			},
