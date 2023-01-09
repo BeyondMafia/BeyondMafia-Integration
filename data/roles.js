@@ -331,11 +331,23 @@ const roleData = {
                 "Can anonymously contact any role.",
             ],
 	"Gramps": {
-            alignment: "Village",
+            alignment: "Mafia",
             description: [
                 "Learns role of any player who visits him.",
                 "Cannot be killed normally."
             ],
+	"Lookout": {
+            alignment: "Mafia",
+            description: [
+                "Watches someone each night and learns who visits them."
+            ],
+        },
+        "Scout": {
+            alignment: "Mafia",
+            description: [
+                "Tracks someone each night and learns who they visit."
+            ],
+        },
         },
 
         //Monsters
@@ -399,14 +411,14 @@ const roleData = {
             description: [
                 "Wins if survives until the end of the game."
             ],
-        },
-		"Alien": {
-			alignment: "Independent",
-			description: [
-				"Can choose one player to probe each night.",
-				"Wins if all players left alive have been probed."
-			],
-		},
+	},
+	"Alien": {
+		alignment: "Independent",
+		description: [
+			"Can choose one player to probe each night.",
+			"Wins if all players left alive have been probed."
+		],
+	},
     },
     "Split Decision": {
         //Blue
