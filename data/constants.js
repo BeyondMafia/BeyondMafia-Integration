@@ -78,6 +78,7 @@ module.exports = {
 			"Armored": ["StartWithArmor"],
 			"Exposed": ["PublicReveal"],
 			"Lizard": ["VillagerToInvestigative"],
+			"Chameleon": ["VillagerToInvestigative"],
 			"Humble": ["Humble"],
 			"Lone": ["Lone"],
 			"Delayed": ["Delayed"],

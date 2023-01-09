@@ -224,19 +224,19 @@
 }
 
 .role-Mafia-Funsmith {
-    background-position: -330px -80px;
+    background-position: 0px -120px;
 }
 
 .role-Mafia-Insane-Cop {
-    background-position: -360px -80px;
+    background-position: -180px -80px;
 }
 
 .role-Mafia-Naive-Cop {
-    background-position: -390px -80px;
+    background-position: -210px -80px;
 }
 
 .role-Mafia-Paranoid-Cop {
-    background-position: -420px -80px;
+    background-position: -240px -80px;
 }
 
 .role-Mafia-Mayor {
@@ -257,6 +257,14 @@
 
 .role-Mafia-Priest {
     background-position: -150px -80px;
+}
+
+.role-Mafia-Town-Crier {
+    background-position: -30px -120px;
+}
+
+.role-Mafia-Capybara {
+    background-position: -60px -120px;
 }
 
 /* 
