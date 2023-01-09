@@ -233,8 +233,12 @@ const roleData = {
 	"Neighbor": {
             alignment: "Village",
             description: [
-                "Visits one person at night.",
-                "That person learns the identity of whoever is the Neighbor.",
+                "Visits one person at night to confirm themselves as a Neighbor.",
+            ],
+	"Nurse": {
+            alignment: "Village",
+            description: [
+                "Save one person, except herself, each night from dying but blocking them from performing any actions."
             ],
         },
 
