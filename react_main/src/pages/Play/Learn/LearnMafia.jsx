@@ -95,6 +95,10 @@ export default function LearnMafia(props) {
 			text: "Does not attend the Mafia or Monsters meeting.",
 			icon: <div className="icon modifier modifier-Mafia-Lone" />
 		},
+			name: "Solitary",
+			text: "Does not attend non-factional meetings.",
+			icon: <div className="icon modifier modifier-Mafia-Solitary" />
+		},
 		{
 			name: "Delayed",
 			text: "Cannot attend secondary meetings for the first day and night.",
