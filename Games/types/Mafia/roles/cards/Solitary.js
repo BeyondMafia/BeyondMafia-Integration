@@ -10,7 +10,7 @@ module.exports = class Solitary extends Card {
 				disabled: true
 			},
 			"Learn Alignment": {
-				disabled: true
+				flags: ["voting"],
 			},
 		};
 	}
