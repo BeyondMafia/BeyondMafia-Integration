@@ -6,7 +6,6 @@ module.exports = class Executioner extends Role {
 		super("Executioner", player, data);
 
 		this.alignment = "Independent";
-		this.winCount = "Village";
 		this.cards = ["VillageCore", "WinByLynching"];
 	}
 
