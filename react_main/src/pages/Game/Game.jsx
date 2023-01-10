@@ -689,6 +689,9 @@ export function TopBar(props) {
 	}
 
 	function onRehostGameClick() {
+		if (props.socket.on)
+			props.socket.send("leave");
+
 		var stateLengths = {};
 
 		for (let stateName in props.options.stateLengths)
