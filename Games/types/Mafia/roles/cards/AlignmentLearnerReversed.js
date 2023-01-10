@@ -7,7 +7,8 @@ module.exports = class AlignmentLearnerReversed extends Card {
 		super(role);
 
 		this.meetings = {
-			"Learn Alignment": {
+			"Learn Reversed Alignment": {
+				actionName: "Learn Alignment",
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
