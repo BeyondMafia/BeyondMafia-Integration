@@ -668,6 +668,10 @@ export function TopBar(props) {
 		);
 	}
 
+	function onLogoClick() {
+		window.open("https://beyondmafia.com/", "_blank");
+    }
+
 	function onSettingsClick() {
 		props.setShowSettingsModal(true);
 	}
@@ -726,7 +730,7 @@ export function TopBar(props) {
 
 	return (
 		<div className="top">
-			<div className="game-name-wrapper">
+			<div className="game-name-wrapper" onClick={onLogoClick}>
 				{props.gameName}
 			</div>
 			<div className="state-wrapper">
