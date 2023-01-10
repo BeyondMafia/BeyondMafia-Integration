@@ -315,6 +315,13 @@ const roleData = {
                 "Can anonymously contact any role.",
             ],
         },
+        "Associate": {
+            alignment: "Mafia",
+            description: [
+                "Hands out a gun each night.",
+                "The gun will only kill if the target is not aligned with Mafia."
+            ],
+        },
 
         //Monsters
         "Lycan": {

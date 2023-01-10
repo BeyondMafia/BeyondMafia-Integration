@@ -207,6 +207,43 @@ describe("Games/Mafia", function () {
         });
     });
 
+    describe("Associate", function () {
+        it("should make the Mafia win when the Village is shot", async function () {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = { total: 3, roles: [{ "Villager": 1, "Archer": 1, "Associate": 1}] };
+            const game = await makeGame(setup);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function (meeting) {
+                if (meeting.name == "Give Gun") {
+                    this.sendToServer("vote", {
+                        selection: roles["Archer"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else if (meeting.name == "Shoot Gun") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Mafia"]);
+            should.not.exist(game.winners.groups["Village"]);
+            game.winners.groups["Mafia"].should.have.lengthOf(1);
+        });
+    });
+
     describe("Arms Dealer", function () {
         it("should make the village win when the mafia is shot", async function () {
             await db.promise;
