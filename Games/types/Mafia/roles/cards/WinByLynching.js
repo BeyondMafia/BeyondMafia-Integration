@@ -33,7 +33,7 @@ module.exports = class WinByLynching extends Card {
 				}
 			},			
 			"death": function (player, killer, deathType) {
-				if (player == this.target && deathType == "lynch") {
+				if (player == this.target && deathType == "lynch" && this.player.alive) {
 					this.data.targetLynched = true;
 
 
