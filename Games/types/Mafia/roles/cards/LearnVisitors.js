@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_LEARN_VISITORS_ENQUEUE, PRIORITY_LEARN_VISITORS } = require("../../const/Priority");
+const { PRIORITY_LEARN_VISITORS } = require("../../const/Priority");
 
 module.exports = class LearnVisitors extends Card {
 
@@ -8,45 +8,25 @@ module.exports = class LearnVisitors extends Card {
 
 		this.actions = [
 			{
-				priority: PRIORITY_LEARN_VISITORS_ENQUEUE,
+				priority: PRIORITY_LEARN_VISITORS,
+				labels: ["investigate", "role", "hidden", "absolute"],
 				run: function () {
 					if (this.game.getStateName() != "Night")
 						return;
 
-					for (let action of this.game.actions[0])
+					for (let action of this.game.actions[0]) {
 						if (
-							action.target == this.actor && 
-							action.priority > this.priority &&
+							action.target == this.actor &&
 							!action.hasLabel("hidden")
 						) {
-							if (!this.actor.role.data.visitors)
-								this.actor.role.data.visitors = [];
-
-							this.actor.role.data.visitors.push(action.actor);
+							var role = action.actor.getAppearance("investigate", true);
+							var alert = `You learn that ${action.actor.name}'s role is ${role}.`;
+							this.actor.queueAlert(alert);
 						}
-				}
-			},
-			{
-				priority: PRIORITY_LEARN_VISITORS,
-				labels: ["investigate", "role", "hidden"],
-				run: function () {
-					if (this.game.getStateName() != "Night")
-						return;
-
-					var visitors = this.actor.role.data.visitors;
-
-					if (visitors) {
-						for (let visitor of visitors)
-							var role = this.target.getAppearance("investigate", true);
-              var alert = `You learn that ${this.target.name}'s role is ${role}.`;
-              this.actor.queueAlert(alert);
-
-						this.actor.role.data.visitors = [];
 					}
-
 				}
 			}
-		];		
+		];
 	}
 
 }

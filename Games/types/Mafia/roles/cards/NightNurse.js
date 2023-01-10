@@ -23,6 +23,7 @@ module.exports = class NightNurse extends Card {
 								action.cancel(true);
 							}
 						}
+
 						this.target.setTempImmunity("kill", 1);
 					}
 				}

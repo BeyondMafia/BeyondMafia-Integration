@@ -230,18 +230,20 @@ const roleData = {
                 "Chooses another player to give a Yuzu OrangeZ to invite them to join a hot springs relaxation.",
                 "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
             ],
-	"Neighbor": {
+        },
+        "Neighbor": {
             alignment: "Village",
             description: [
-                "Visits one person at night to confirm themselves as a Neighbor.",
-            ],
-	"Nurse": {
-            alignment: "Village",
-            description: [
-                "Save one person, except herself, each night from dying but blocking them from performing any actions."
+                "Visits one person each night to communicate their role.",
             ],
         },
-	"Commuter": {
+        "Nurse": {
+            alignment: "Village",
+            description: [
+                "Saves one person, except herself, each night from dying but blocks them from performing any actions."
+            ],
+        },
+        "Commuter": {
             alignment: "Village",
             description: [
                 "Blocks all who visit him during the night from performing any actions.",
@@ -330,13 +332,15 @@ const roleData = {
             description: [
                 "Can anonymously contact any role.",
             ],
-	"Gramps": {
+        },
+        "Gramps": {
             alignment: "Mafia",
             description: [
                 "Learns role of any player who visits him.",
                 "Cannot be killed normally."
             ],
-	"Lookout": {
+        },
+        "Lookout": {
             alignment: "Mafia",
             description: [
                 "Watches someone each night and learns who visits them."
@@ -347,7 +351,6 @@ const roleData = {
             description: [
                 "Tracks someone each night and learns who they visit."
             ],
-        },
         },
 
         //Monsters
@@ -411,14 +414,14 @@ const roleData = {
             description: [
                 "Wins if survives until the end of the game."
             ],
-	},
-	"Alien": {
-		alignment: "Independent",
-		description: [
-			"Can choose one player to probe each night.",
-			"Wins if all players left alive have been probed."
-		],
-	},
+        },
+        "Alien": {
+            alignment: "Independent",
+            description: [
+                "Can choose one player to probe each night.",
+                "Wins if all players left alive have been probed."
+            ],
+        },
     },
     "Split Decision": {
         //Blue
