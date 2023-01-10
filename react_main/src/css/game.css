@@ -27,6 +27,7 @@
 .game .game-name-wrapper {
 	display: flex;
 	justify-content: center;
+	cursor: pointer;
 }
 
 .game .game-name {

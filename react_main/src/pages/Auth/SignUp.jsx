@@ -46,6 +46,9 @@ export default function SignUp() {
 		} catch (e) {
 			setLoading(false);
 
+			if (!e || !e.message)
+				return;
+
 			if (e.message.indexOf("(auth/invalid-email)") != -1)
 				errorAlert("Invalid email.");
 			else if (e.message.indexOf("(auth/weak-password)") != -1)

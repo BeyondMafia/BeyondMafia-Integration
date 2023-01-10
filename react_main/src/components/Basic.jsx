@@ -131,7 +131,7 @@ export function UserText(props) {
 			text = emotify(text);
 
 		setContent(text);
-	}, [props.content]);
+	}, [props.text]);
 
 	return content;
 }

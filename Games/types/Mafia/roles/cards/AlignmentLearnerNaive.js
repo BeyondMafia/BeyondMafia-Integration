@@ -7,9 +7,10 @@ module.exports = class AlignmentLearnerNaive extends Card {
 		super(role);
 
 		this.meetings = {
-			"Learn Alignment": {
+			"Learn Naive Alignment": {
+				actionName: "Learn Alignment",
 				states: ["Night"],
-				flags: ["voting"],
+				flags: ["group", "voting"],
 				action: {
 					labels: ["investigate", "alignment"],
 					priority: PRIORITY_ALIGNMENT_LEARNER,
