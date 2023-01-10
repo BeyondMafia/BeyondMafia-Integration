@@ -396,6 +396,13 @@ const roleData = {
                 "No one else wins if the Jester wins.",
             ],
         },
+        "Executioner": {
+            alignment: "Independent",
+            description: [
+                "Randomly targets a Villager/Independent.",
+                "Wins by successfully executing their target."
+            ],
+        },  
         "Serial Killer": {
             alignment: "Independent",
             description: [
