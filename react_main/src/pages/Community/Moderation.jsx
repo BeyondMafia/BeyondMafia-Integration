@@ -784,6 +784,28 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Check Flagged": {
+			perm: "viewFlagged",
+			args: [
+				{
+					label: "User",
+					name: "userId",
+					type: "user_search"
+				},
+			],
+			run: function () {
+				axios.get(`/mod/flagged?userId=${argValues.userId}`)
+					.then(res => {
+						if (res.data)
+							alert("Flagged!")
+						else
+							alert("Not flagged")
+
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Clear Setup Name": {
 			perm: "clearSetupName",
 			args: [

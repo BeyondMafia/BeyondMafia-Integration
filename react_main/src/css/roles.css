@@ -267,6 +267,10 @@
     background-position: -60px -120px;
 }
 
+.role-Mafia-Alien {
+    background-position: -630px -40px;
+}
+
 /* 
 * Mafia 
 */
@@ -396,6 +400,10 @@
 }
 
 .modifier-Mafia-Lone {
+    background-position: -96px 0;
+}
+
+.modifier-Mafia-Solitary {
     background-position: -96px 0;
 }
 

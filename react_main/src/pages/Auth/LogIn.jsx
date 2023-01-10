@@ -55,6 +55,9 @@ export default function LogIn() {
 		} catch (e) {
 			setLoading(false);
 
+			if (!e || !e.message)
+				return;
+
 			if (e.message.indexOf("(auth/wrong-password)") != -1)
 				errorAlert("Incorrect password.");
 			else if (e.message.indexOf("(auth/invalid-email)") != -1)
