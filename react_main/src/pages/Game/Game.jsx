@@ -670,7 +670,7 @@ export function TopBar(props) {
 
 	function onLogoClick() {
 		window.open("https://beyondmafia.com/", "_blank");
-    }
+	}
 
 	function onSettingsClick() {
 		props.setShowSettingsModal(true);
@@ -1317,8 +1317,13 @@ function SpeechInput(props) {
 		} else if (e.key === "Tab") {
 			e.preventDefault();
 			const words = speechInput.split(" ");
-			const seedString = words.pop().toLowerCase();
-			if (!seedString.length) return;
+			const word = words.pop().toLowerCase();
+			const seedString = word.replace(/^@/, "");
+			const prefix = word.match(/^@/) ? "@" : "";
+
+			if (!seedString.length)
+				return;
+
 			const playerNames = Object.values(players).map(player => player.name);
 			const playerSeeds = playerNames.map(playerName => playerName.toLowerCase().substring(0, seedString.length));
 			const matchedPlayers = [];
@@ -1329,14 +1334,14 @@ function SpeechInput(props) {
 			}
 			if (matchedPlayers.length) {
 				if (matchedPlayers.length === 1) { // If one matching player, autocomplete entire name.
-					words.push(matchedPlayers[0]);
+					words.push(prefix + matchedPlayers[0]);
 				} else { // If multiple matching players, autocomplete until player names diverge.
 					let autocompleted = "";
 					let i = 1;
 					while (matchedPlayers.every(playerName => playerName[i] === matchedPlayers[0][i])) {
 						i += 1;
 					}
-					words.push(matchedPlayers[0].substring(0,i));
+					words.push(prefix + matchedPlayers[0].substring(0, i));
 				}
 				setSpeechInput(words.join(" "));
 			}
