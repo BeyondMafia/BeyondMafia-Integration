@@ -7,7 +7,7 @@ module.exports = class WinByLynching extends Card {
 	constructor(role) {
 		super(role);
 		this.target = "";
-		const deathReasons = ["putting pineapple on pizza", "shopping at five or six stores instead of one", "keeping you awake at night", "backing up into your mailbox", "forgetting to water your plants", "trolling you online", "Rickrolling you", "looking at you funny", "being wrong in Mafia once"];
+		const deathReasons = ["putting pineapple on pizza", "shopping at five or six stores instead of one", "leaving their lights on at night", "backing up into your mailbox", "forgetting to water your plants", "unfriending you on BeyondMafia", "Rickrolling you", "looking at you funny", "being wrong in Mafia once", "making you look bad", "chewing open-mouthed", "borrowing your lawnmower and never bringing it back"];
 
 
 		this.winCheck = {
