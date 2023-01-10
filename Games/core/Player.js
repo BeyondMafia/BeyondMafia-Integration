@@ -197,7 +197,7 @@ module.exports = class Player {
 				if (!this.game.setup.lastWill)
 					return;
 
-				will = String(will).slice(0, constants.maxWillLength);
+				will = String(will).replace(/[\r\n]/gm, "").slice(0, constants.maxWillLength);
 				this.lastWill = will;
 			}
 			catch (e) {
