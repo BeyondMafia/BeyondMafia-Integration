@@ -68,6 +68,7 @@ function GameWrapper(props) {
 	const selfRef = useRef();
 	const agoraClient = useRef();
 	const localAudioTrack = useRef();
+	const noLeaveRef = useRef();
 
 	const [activity, updateActivity] = useActivity(agoraClient, localAudioTrack);
 	const [playAudio, loadAudioFiles, stopAudio, stopAudios, setVolume] = useAudio(settings);
@@ -456,8 +457,10 @@ function GameWrapper(props) {
 		});
 
 		socket.on("left", () => {
-			setLeave(true);
-			siteInfo.hideAllAlerts();
+			if (!noLeaveRef.current) {
+				setLeave(true);
+				siteInfo.hideAllAlerts();
+			}
 		});
 
 		socket.on("finished", () => {
@@ -606,6 +609,7 @@ function GameWrapper(props) {
 			setMuted: setMuted,
 			deafened: deafened,
 			setDeafened: setDeafened,
+			noLeaveRef,
 			dev: dev,
 		};
 
@@ -664,6 +668,10 @@ export function TopBar(props) {
 		);
 	}
 
+	function onLogoClick() {
+		window.open("https://beyondmafia.com/", "_blank");
+	}
+
 	function onSettingsClick() {
 		props.setShowSettingsModal(true);
 	}
@@ -689,33 +697,40 @@ export function TopBar(props) {
 	}
 
 	function onRehostGameClick() {
+		props.noLeaveRef.current = true;
+
 		if (props.socket.on)
 			props.socket.send("leave");
 
-		var stateLengths = {};
+		setTimeout(() => {
+			var stateLengths = {};
 
-		for (let stateName in props.options.stateLengths)
-			stateLengths[stateName] = props.options.stateLengths[stateName] / 60000;
+			for (let stateName in props.options.stateLengths)
+				stateLengths[stateName] = props.options.stateLengths[stateName] / 60000;
 
-		axios.post("/game/host", {
-			rehost: gameId,
-			gameType: props.gameType,
-			setup: props.setup.id,
-			lobby: props.options.lobby,
-			private: props.options.private,
-			spectating: props.options.spectating,
-			guests: props.options.guests,
-			ranked: props.options.ranked,
-			stateLengths: stateLengths,
-			...props.options.gameTypeOptions
-		})
-			.then(res => props.setRehostId(res.data))
-			.catch(errorAlert);
+			axios.post("/game/host", {
+				rehost: gameId,
+				gameType: props.gameType,
+				setup: props.setup.id,
+				lobby: props.options.lobby,
+				private: props.options.private,
+				spectating: props.options.spectating,
+				guests: props.options.guests,
+				ranked: props.options.ranked,
+				stateLengths: stateLengths,
+				...props.options.gameTypeOptions
+			})
+				.then(res => props.setRehostId(res.data))
+				.catch((e) => {
+					props.noLeaveRef.current = false;
+					errorAlert(e);
+				});
+		}, 500);
 	}
 
 	return (
 		<div className="top">
-			<div className="game-name-wrapper">
+			<div className="game-name-wrapper" onClick={onLogoClick}>
 				{props.gameName}
 			</div>
 			<div className="state-wrapper">
@@ -1281,7 +1296,7 @@ function SpeechInput(props) {
 	}
 
 	function onSpeechSubmit(e) {
-		if (e.key == "Enter" && selTab && speechInput.length) {
+		if (e.key === "Enter" && selTab && speechInput.length) {
 			const abilityInfo = speechDropdownValue.split(":");
 			var abilityName = abilityInfo[0];
 			var abilityTarget = abilityInfo[1];
@@ -1298,6 +1313,38 @@ function SpeechInput(props) {
 
 			setSpeechInput("");
 			props.setAutoScroll(true);
+
+		} else if (e.key === "Tab") {
+			e.preventDefault();
+			const words = speechInput.split(" ");
+			const word = words.pop().toLowerCase();
+			const seedString = word.replace(/^@/, "");
+			const prefix = word.match(/^@/) ? "@" : "";
+
+			if (!seedString.length)
+				return;
+
+			const playerNames = Object.values(players).map(player => player.name);
+			const playerSeeds = playerNames.map(playerName => playerName.toLowerCase().substring(0, seedString.length));
+			const matchedPlayers = [];
+			for (const i in playerSeeds) { // Checking seed string against characters in player names.
+				if (playerSeeds[i] === seedString) {
+					matchedPlayers.push(playerNames[i]);
+				}
+			}
+			if (matchedPlayers.length) {
+				if (matchedPlayers.length === 1) { // If one matching player, autocomplete entire name.
+					words.push(prefix + matchedPlayers[0]);
+				} else { // If multiple matching players, autocomplete until player names diverge.
+					let autocompleted = "";
+					let i = 1;
+					while (matchedPlayers.every(playerName => playerName[i] === matchedPlayers[0][i])) {
+						i += 1;
+					}
+					words.push(prefix + matchedPlayers[0].substring(0, i));
+				}
+				setSpeechInput(words.join(" "));
+			}
 		}
 	}
 
@@ -1339,7 +1386,7 @@ function SpeechInput(props) {
 					placeholder={placeholder}
 					maxLength={MaxGameMessageLength}
 					onChange={onSpeechType}
-					onKeyPress={onSpeechSubmit} />
+					onKeyDown={onSpeechSubmit} />
 			</div>
 			{options.voiceChat &&
 				<>

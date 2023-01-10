@@ -18,7 +18,7 @@ npm i -g pm2
 ```
 4. Clone the repository
 ```bash
-git clone https://github.com/Giga1396/BeyondMafia-Integration.gitt
+git clone https://github.com/r3ndd/BeyondMafia-Integration.git
 ```
 5. Install the node modules
 ```bash
@@ -80,6 +80,7 @@ REACT_APP_URL=http://localhost:3000
 REACT_APP_SOCKET_URI=localhost
 REACT_APP_SOCKET_PROTOCOL=ws
 REACT_APP_USE_PORT=true
+REACT_APP_CHAT_PORT=2999
 
 REACT_APP_AGORA_ID=x
 

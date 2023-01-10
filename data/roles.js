@@ -39,7 +39,7 @@ const roleData = {
             description: [
                 "Investigates one person each night and learns their alignment (alignments will always appear innocent).",
                 "Appears as normal cop upon death.",
-                "Multiple naïve cops meet in a group."
+                "Multiple naive cops meet in a group."
             ],
         },
         "Paranoid Cop": {

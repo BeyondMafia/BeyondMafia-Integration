@@ -53,6 +53,7 @@ router.post("/verifyCaptcha", async function (req, res) {
 		) {
 			res.sendStatus(200);
 		} else {
+			logger.warn(`reCAPTCHA score: ${capRes.data.score}`);
 			res.status(403);
 			res.send("reCAPTCHA v3 thinks you're a bot. Please try again later.");
 		}
@@ -86,8 +87,14 @@ async function authSuccess(req, uid, email) {
 		var bannedUser = await models.User.findOne({ email, banned: true }).select("id");
 
 		if (!user && !bannedUser) { //Create new account (5) (6)
-			id = shortid.generate();
+			var bannedSameIP = await models.User.find({ ip: ip, banned: true })
+				.select("_id");
 
+			if (bannedSameIP.length > 0) {
+				return;
+			}
+
+			id = shortid.generate();
 			user = new models.User({
 				id: id,
 				name: routeUtils.nameGen().slice(0, constants.maxUserNameLength),
@@ -102,34 +109,35 @@ async function authSuccess(req, uid, email) {
 			if (req.session.ref)
 				await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
 
-			var bannedSameIP = await models.User.find({ ip: ip, $or: [{ banned: true }, { flagged: true }] })
+			var flaggedSameIP = await models.User.find({ ip: ip, flagged: true })
 				.select("_id");
-			var suspicious = bannedSameIP.length > 0;
+			var suspicious = flaggedSameIP.length > 0;
 
 			if (!suspicious) {
-				var flaggedSameAccount = await models.User.find({ email, flagged: true })
+				var flaggedSameEmail = await models.User.find({ email, flagged: true })
 					.select("_id");
-				suspicious = flaggedSameAccount.length > 0;
+				suspicious = flaggedSameEmail.length > 0;
 			}
 
 			if (!suspicious && process.env.IP_API_IGNORE != "true") {
+				logger.warn(`Checking IP: ${ip}`);
 				var res = await axios.get(`${process.env.IP_API_URL}/${process.env.IP_API_KEY}/${ip}?${process.env.IP_API_PARAMS}`);
-				suspicious = res.data.fraud_score >= Number(process.env.IP_API_THRESH);
+				suspicious = res.data && res.data.fraud_score >= Number(process.env.IP_API_THRESH);
 			}
 
 			if (suspicious) { //(6)
 				await models.User.updateOne({ id }, { $set: { flagged: true } }).exec();
-				await routeUtils.banUser(
-					id,
-					0,
-					["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
-					"ipFlag"
-				);
-				await routeUtils.createNotification({
-					content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
-					icon: "flag",
-					link: "/community/moderation"
-				}, [id]);
+				// await routeUtils.banUser(
+				// 	id,
+				// 	0,
+				// 	["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
+				// 	"ipFlag"
+				// );
+				// await routeUtils.createNotification({
+				// 	content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
+				// 	icon: "flag",
+				// 	link: "/community/moderation"
+				// }, [id]);
 			}
 		}
 		else if (!id && bannedUser) { //(8) (9)
