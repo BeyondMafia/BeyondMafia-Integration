@@ -147,7 +147,7 @@ module.exports = {
 	referralCoins: 50,
 
 	minMafiaSetupTotal: 5,
-	captchaThreshold: 0.5,
+	captchaThreshold: 0.25,
 
 	// Perms given to all users
 	defaultPerms: [
@@ -223,6 +223,7 @@ module.exports = {
 		"siteUnban": true,
 		"forceSignOut": true,
 		"viewAlts": true,
+		"viewFlagged": true,
 		"clearSetupName": true,
 		"clearBio": true,
 		"clearAvi": true,
@@ -323,6 +324,7 @@ module.exports = {
 				"disableAllCensors",
 				"kick",
 				"announce",
+				"viewFlagged",
 			]
 		},
 		"Head Mod": {
@@ -363,6 +365,7 @@ module.exports = {
 				"disableAllCensors",
 				"kick",
 				"announce",
+				"viewFlagged",
 			]
 		},
 		"Mod": {
@@ -402,6 +405,7 @@ module.exports = {
 				"disableAllCensors",
 				"kick",
 				"announce",
+				"viewFlagged",
 			]
 		},
 	},

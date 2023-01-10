@@ -11,21 +11,6 @@ module.exports = class Humble extends Card {
 		this.hideModifier = {
 			self: true
 		};
-		// Meetings
-		this.meetings = {};
-		this.meetingMods = {
-			"Mafia": {
-				disabled: true
-			},
-			"Monsters": {
-				disabled: true
-			},
-			"Illuminati Meeting": {
-				disabled: true
-			},
-			"Learn Alignment": {
-				disabled: true
-			},
 	}
 
 }

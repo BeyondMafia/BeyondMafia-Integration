@@ -106,6 +106,7 @@ module.exports = class MafiaGame extends Game {
 		else if (this.resetLastDeath) {
 			this.statesSinceLastDeath = 0;
 			this.resetLastDeath = false;
+			this.meteorImminent = false;
 		}
 	}
 
