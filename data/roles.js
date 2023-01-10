@@ -338,7 +338,6 @@ const roleData = {
             description: [
                 "Hands out a gun each night.",
                 "The gun will only kill if the target is not aligned with Mafia.",
-                "The gun always reveals the shot.",
             ],
         },
         "Gramps": {
