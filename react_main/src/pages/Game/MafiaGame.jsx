@@ -42,7 +42,7 @@ export default function MafiaGame() {
 	useSocketListeners(socket => {
 		socket.on("state", state => {
 			if (playBellRef.current)
-			game.playAudio("bell");
+				game.playAudio("bell");
 
 			playBellRef.current = true;
 
@@ -83,6 +83,7 @@ export default function MafiaGame() {
 				review={game.review}
 				setShowSettingsModal={game.setShowSettingsModal}
 				setRehostId={game.setRehostId}
+				noLeaveRef={game.noLeaveRef}
 				dev={game.dev}
 				gameName={
 					<div className="game-name">
