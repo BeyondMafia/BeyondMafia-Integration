@@ -558,7 +558,7 @@ module.exports = class Player {
 
 			let joined = false;
 
-			if (!options.unique) {
+			if (options.flags && options.flags.indexOf("group") != -1 && !options.unique) {
 				for (let meeting of this.game.meetings) {
 					if (meeting.name != meetingName)
 						continue;

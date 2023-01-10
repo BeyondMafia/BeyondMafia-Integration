@@ -10,7 +10,7 @@ module.exports = class AlignmentLearnerReversed extends Card {
 			"Learn Reversed Alignment": {
 				actionName: "Learn Alignment",
 				states: ["Night"],
-				flags: ["voting"],
+				flags: ["group", "voting"],
 				action: {
 					labels: ["investigate", "alignment"],
 					priority: PRIORITY_ALIGNMENT_LEARNER,
