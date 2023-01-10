@@ -1281,7 +1281,7 @@ function SpeechInput(props) {
 	}
 
 	function onSpeechSubmit(e) {
-		if (e.key == "Enter" && selTab && speechInput.length) {
+		if (e.key === "Enter" && selTab && speechInput.length) {
 			const abilityInfo = speechDropdownValue.split(":");
 			var abilityName = abilityInfo[0];
 			var abilityTarget = abilityInfo[1];
@@ -1298,6 +1298,33 @@ function SpeechInput(props) {
 
 			setSpeechInput("");
 			props.setAutoScroll(true);
+
+		} else if (e.key === "Tab") {
+			e.preventDefault();
+			const words = speechInput.split(" ");
+			const seedString = words.pop().toLowerCase();
+			if (!seedString.length) return;
+			const playerNames = Object.values(players).map(player => player.name);
+			const playerSeeds = playerNames.map(playerName => playerName.toLowerCase().substring(0, seedString.length));
+			const matchedPlayers = [];
+			for (const i in playerSeeds) { // Checking seed string against characters in player names.
+				if (playerSeeds[i] === seedString) {
+					matchedPlayers.push(playerNames[i]);
+				}
+			}
+			if (matchedPlayers.length) {
+				if (matchedPlayers.length === 1) { // If one matching player, autocomplete entire name.
+					words.push(matchedPlayers[0]);
+				} else { // If multiple matching players, autocomplete until player names diverge.
+					let autocompleted = "";
+					let i = 1;
+					while (matchedPlayers.every(playerName => playerName[i] === matchedPlayers[0][i])) {
+						i += 1;
+					}
+					words.push(matchedPlayers[0].substring(0,i));
+				}
+				setSpeechInput(words.join(" "));
+			}
 		}
 	}
 
@@ -1339,7 +1366,7 @@ function SpeechInput(props) {
 					placeholder={placeholder}
 					maxLength={MaxGameMessageLength}
 					onChange={onSpeechType}
-					onKeyPress={onSpeechSubmit} />
+					onKeyDown={onSpeechSubmit} />
 			</div>
 			{options.voiceChat &&
 				<>
