@@ -96,6 +96,11 @@ export default function LearnMafia(props) {
 			icon: <div className="icon modifier modifier-Mafia-Lone" />
 		},
 		{
+			name: "Solitary",
+			text: "Does not attend Cop or Illuminati meetings.",
+			icon: <div className="icon modifier modifier-Mafia-Solitary" />
+		},
+		{
 			name: "Delayed",
 			text: "Cannot attend secondary meetings for the first day and night.",
 			icon: <div className="icon modifier modifier-Mafia-Delayed" />

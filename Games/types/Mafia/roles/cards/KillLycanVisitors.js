@@ -6,6 +6,7 @@ module.exports = class KillLycanVisitors extends Card {
 	constructor(role) {
 		super(role);
 
+		// Store visitors before triggering kills since killing modifies visitor behavior
 		this.actions = [
 			{
 				priority: PRIORITY_KILL_LYCAN_VISITORS_ENQUEUE,

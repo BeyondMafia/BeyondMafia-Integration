@@ -231,6 +231,24 @@ const roleData = {
                 "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
             ],
         },
+        "Neighbor": {
+            alignment: "Village",
+            description: [
+                "Visits one person each night to communicate their role.",
+            ],
+        },
+        "Nurse": {
+            alignment: "Village",
+            description: [
+                "Saves one person, except herself, each night from dying but blocks them from performing any actions."
+            ],
+        },
+        "Commuter": {
+            alignment: "Village",
+            description: [
+                "Blocks all who visit him during the night from performing any actions.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -315,6 +333,25 @@ const roleData = {
                 "Can anonymously contact any role.",
             ],
         },
+        "Gramps": {
+            alignment: "Mafia",
+            description: [
+                "Learns role of any player who visits him.",
+                "Cannot be killed normally."
+            ],
+        },
+        "Lookout": {
+            alignment: "Mafia",
+            description: [
+                "Watches someone each night and learns who visits them."
+            ],
+        },
+        "Scout": {
+            alignment: "Mafia",
+            description: [
+                "Tracks someone each night and learns who they visit."
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -378,13 +415,13 @@ const roleData = {
                 "Wins if survives until the end of the game."
             ],
         },
-		"Alien": {
-			alignment: "Independent",
-			description: [
-				"Can choose one player to probe each night.",
-				"Wins if all players left alive have been probed."
-			],
-		},
+        "Alien": {
+            alignment: "Independent",
+            description: [
+                "Can choose one player to probe each night.",
+                "Wins if all players left alive have been probed."
+            ],
+        },
     },
     "Split Decision": {
         //Blue
