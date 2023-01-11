@@ -1317,10 +1317,9 @@ function SpeechInput(props) {
 		} else if (e.key === "Tab") {
 			e.preventDefault();
 			const words = speechInput.split(" ");
-			const word = words.pop().toLowerCase();
-			const seedString = word.replace(/^@/, "");
-			const prefix = word.match(/^@/) ? "@" : "";
-
+			const word = words.pop();
+			const seedString = word.match(/[^\w-]?([\w-]*)$/)[1].toLowerCase();
+			const prefix = word.substring(0, word.length - seedString.length);
 			if (!seedString.length)
 				return;
 
