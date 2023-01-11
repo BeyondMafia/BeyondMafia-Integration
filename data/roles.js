@@ -359,7 +359,7 @@ const roleData = {
                 "Tracks someone each night and learns who they visit."
             ],
         },
-        "Arsonist: {
+        "Arsonist": {
             alignment: "Mafia",
             description: [
                 "Douses one villager with Gasoline each night.",
