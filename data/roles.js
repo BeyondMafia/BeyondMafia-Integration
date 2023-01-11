@@ -359,6 +359,13 @@ const roleData = {
                 "Tracks someone each night and learns who they visit."
             ],
         },
+        "Arsonist: {
+            alignment: "Mafia",
+            description: [
+                "Douses one villager with Gasoline each night.",
+                "Can light one match during the day to burn doused villagers.",
+            ],
+        },        
 
         //Monsters
         "Lycan": {
