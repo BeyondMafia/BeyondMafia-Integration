@@ -669,7 +669,7 @@ export function TopBar(props) {
 	}
 
 	function onLogoClick() {
-		window.open("https://beyondmafia.com/", "_blank");
+		window.open(process.env.BASE_URL, "_blank");
 	}
 
 	function onSettingsClick() {
