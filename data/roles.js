@@ -358,6 +358,11 @@ const roleData = {
             description: [
                 "Tracks someone each night and learns who they visit."
             ],
+        "Exploder": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, can rush at another person with a bomb and kill both them and the exploder."
+            ],
         },
 
         //Monsters
