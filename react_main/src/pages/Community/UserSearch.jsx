@@ -13,6 +13,8 @@ export default function UserSearch(props) {
 	const [userList, setUserList] = useState([]);
 	const [searchVal, setSearchVal] = useState("");
 
+	const user = useContext(UserContext);
+
 	useEffect(() => {
 		document.title = "Users | BeyondMafia";
 	}, []);
@@ -58,7 +60,12 @@ export default function UserSearch(props) {
 					{users}
 				</div>
 			</div>
-			<NewestUsers />
+			<div className="user-lists">
+				<NewestUsers />
+				{user.perms.viewFlagged &&
+					<FlaggedUsers />
+				}
+			</div>
 		</div>
 	);
 }
@@ -109,7 +116,68 @@ function NewestUsers(props) {
 			<div className="heading">
 				Newest Users
 			</div>
-			<div className="newest-users-list">
+			<div className="users-list">
+				<PageNav
+					page={page}
+					onNav={onPageNav}
+					inverted />
+				{userRows}
+				<PageNav
+					page={page}
+					onNav={onPageNav}
+					inverted />
+			</div>
+		</div>
+	);
+}
+
+function FlaggedUsers(props) {
+	const [page, setPage] = useState(1);
+	const [users, setUsers] = useState([]);
+
+	const errorAlert = useErrorAlert();
+
+	useEffect(() => {
+		onPageNav(1);
+	}, []);
+
+	function onPageNav(_page) {
+		var filterArg = getPageNavFilterArg(_page, page, users, "joined");
+
+		if (filterArg == null)
+			return;
+
+		axios.get(`/user/flagged?${filterArg}`)
+			.then(res => {
+				if (res.data.length > 0) {
+					setUsers(res.data);
+					setPage(_page);
+				}
+			})
+			.catch(errorAlert);
+	}
+
+	const userRows = users.map(user => (
+		<div className="user-row" key={user.id}>
+			<NameWithAvatar
+				id={user.id}
+				name={user.name}
+				avatar={user.avatar} />
+			<div className="joined">
+				<Time
+					minSec
+					millisec={Date.now() - user.joined}
+					suffix=" ago" />
+			</div>
+		</div>
+	));
+
+	return (
+		<div className="flagged-users box-panel">
+			<div className="heading">
+				Flagged Users
+			</div>
+			<div className="users-list">
 				<PageNav
 					page={page}
 					onNav={onPageNav}

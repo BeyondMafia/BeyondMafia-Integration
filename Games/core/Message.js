@@ -69,7 +69,7 @@ module.exports = class Message {
 			playerId = "spectator";
 			version = this.versions["*"];
 
-			if (!version.meeting && version.recipients && !version.globalAlert)
+			if (version && !version.meeting && version.recipients && !version.globalAlert)
 				return;
 		}
 		else if (player) {
@@ -89,8 +89,10 @@ module.exports = class Message {
 			senderId = "server";
 		else if (version.anonymous)
 			senderId = "anonymous";
-		else
+		else if (version.sender)
 			senderId = version.sender.id;
+		else
+			return;
 
 		return this.parseMessageInfoObj(version, senderId);
 	}

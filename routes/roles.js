@@ -17,8 +17,9 @@ for (let gameType in roleData) {
     }
 }
 
-for (let alignment in constants.modifiers)
-    condensedRoleData["Modifiers"][alignment] = Object.keys(constants.modifiers[alignment]);
+for (let game in constants.modifiers)
+    condensedRoleData["Modifiers"][game] = Object.keys(constants.modifiers[game]);
+delete condensedRoleData["Modifiers"]["Mafia"]["Lizard"];
 
 router.get("/all", async function (req, res, next) {
     res.setHeader("Content-Type", "application/json");

@@ -224,19 +224,19 @@
 }
 
 .role-Mafia-Funsmith {
-    background-position: -330px -80px;
+    background-position: 0px -120px;
 }
 
 .role-Mafia-Insane-Cop {
-    background-position: -360px -80px;
+    background-position: -180px -80px;
 }
 
 .role-Mafia-Naive-Cop {
-    background-position: -390px -80px;
+    background-position: -210px -80px;
 }
 
 .role-Mafia-Paranoid-Cop {
-    background-position: -420px -80px;
+    background-position: -240px -80px;
 }
 
 .role-Mafia-Mayor {
@@ -257,6 +257,22 @@
 
 .role-Mafia-Priest {
     background-position: -150px -80px;
+}
+
+.role-Mafia-Town-Crier {
+    background-position: -30px -120px;
+}
+
+.role-Mafia-Capybara {
+    background-position: -60px -120px;
+}
+
+.role-Mafia-Commuter {
+    background-position: -90px -120px;
+}
+
+.role-Mafia-Neighbor {
+    background-position: -120px -120px;
 }
 
 /* 
@@ -319,6 +335,10 @@
     background-position: -420px -40px;
 }
 
+.role-Mafia-Lookout {
+    background-position: -510px 0px;
+}
+
 /* 
 * Independent 
 */
@@ -341,6 +361,14 @@
 
 .role-Mafia-Survivor {
     background-position: -750px 0;
+}
+
+.role-Mafia-Alien {
+    background-position: -630px -40px;
+}
+
+.role-Mafia-Executioner {
+    background-position: -660px -40px;
 }
 
 /* 
@@ -388,6 +416,10 @@
 }
 
 .modifier-Mafia-Lone {
+    background-position: -96px 0;
+}
+
+.modifier-Mafia-Solitary {
     background-position: -96px 0;
 }
 

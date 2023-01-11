@@ -81,7 +81,7 @@ export default function LearnMafia(props) {
 			icon: <div className="icon modifier modifier-Mafia-Exposed" />
 		},
 		{
-			name: "Lizard",
+			name: "Chameleon",
 			text: "Appears as a Villager to investigative roles.",
 			icon: <div className="icon modifier modifier-Mafia-Lizard" />
 		},
@@ -94,6 +94,11 @@ export default function LearnMafia(props) {
 			name: "Lone",
 			text: "Does not attend the Mafia or Monsters meeting.",
 			icon: <div className="icon modifier modifier-Mafia-Lone" />
+		},
+		{
+			name: "Solitary",
+			text: "Does not attend Cop or Illuminati meetings.",
+			icon: <div className="icon modifier modifier-Mafia-Solitary" />
 		},
 		{
 			name: "Delayed",
