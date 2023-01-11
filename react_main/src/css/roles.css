@@ -267,8 +267,12 @@
     background-position: -60px -120px;
 }
 
-.role-Mafia-Alien {
-    background-position: -630px -40px;
+.role-Mafia-Commuter {
+    background-position: -90px -120px;
+}
+
+.role-Mafia-Neighbor {
+    background-position: -120px -120px;
 }
 
 /* 
@@ -331,6 +335,10 @@
     background-position: -420px -40px;
 }
 
+.role-Mafia-Lookout {
+    background-position: -510px 0px;
+}
+
 /* 
 * Independent 
 */
@@ -353,6 +361,14 @@
 
 .role-Mafia-Survivor {
     background-position: -750px 0;
+}
+
+.role-Mafia-Alien {
+    background-position: -630px -40px;
+}
+
+.role-Mafia-Executioner {
+    background-position: -660px -40px;
 }
 
 /* 

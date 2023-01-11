@@ -44,7 +44,15 @@
 	margin-left: 5px;
 }
 
-.user-search-page .newest-users {
+.user-search-page .user-lists {
+	display: flex;
+	flex-flow: column;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.user-search-page .newest-users,
+.user-search-page .flagged-users {
 	flex-shrink: 0;
 
 	margin-left: 10px;
@@ -54,7 +62,7 @@
 	color: white;
 }
 
-.user-search-page .newest-users-list {
+.user-search-page .users-list {
 	display: flex;
 	flex-flow: column;
 	align-items: flex-start;
@@ -65,21 +73,25 @@
 	background-color: white;
 }
 
-.user-search-page .newest-users-list .page-nav {
+.user-search-page .users-list .page-nav {
 	margin: 0px;
 }
 
-.user-search-page .newest-users-list .page-nav:first-child {
+.user-search-page .users-list .page-nav:first-child {
 	margin-bottom: 10px;
 }
 
-.user-search-page .newest-users-list .page-nav:last-child {
+.user-search-page .users-list .page-nav:last-child {
 	margin-top: 10px;
 }
 
-.user-search-page .newest-users .joined {
+.user-search-page .joined {
 	margin-left: 45px;
 
 	color: black;
 	opacity: 0.6;
+}
+
+.user-search-page .flagged-users {
+	margin-top: 10px;
 }

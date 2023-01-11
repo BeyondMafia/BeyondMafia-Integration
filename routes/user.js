@@ -102,6 +102,35 @@ router.get("/newest", async function (req, res) {
     }
 });
 
+router.get("/flagged", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var last = Number(req.query.last);
+        var first = Number(req.query.first);
+        var perm = "viewFlagged";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
+
+        var users = await routeUtils.modelPageQuery(
+            models.User,
+            { flagged: true },
+            "joined",
+            last,
+            first,
+            "id name avatar joined -_id",
+            constants.newestUsersPageSize,
+        );
+
+        res.send(users);
+    }
+    catch (e) {
+        logger.error(e);
+        res.send([]);
+    }
+});
+
 router.post("/online", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req, true);
