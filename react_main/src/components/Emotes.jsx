@@ -198,6 +198,146 @@ export const Emotes = {
 		name: "kekm",
 		type: "png"
 	},
+	"bats": {
+		name: "bats",
+		type: "png"
+	},
+	"boar": {
+		name: "boar",
+		type: "png"
+	},
+	"bump": {
+		name: "bump",
+		type: "png"
+	},
+	"bunny": {
+		name: "bunny",
+		type: "png"
+	},
+	"cake": {
+		name: "cake",
+		type: "png"
+	},
+	"candycane": {
+		name: "candycane",
+		type: "png"
+	},
+	"cat": {
+		name: "cat",
+		type: "png"
+	},
+	"christmas": {
+		name: "christmas",
+		type: "png"
+	},
+	"clock": {
+		name: "clock",
+		type: "png"
+	},
+	"cookie": {
+		name: "cookie",
+		type: "png"
+	},
+	"cupcake": {
+		name: "cupcake",
+		type: "png"
+	},
+	"fox": {
+		name: "fox",
+		type: "png"
+	},
+	"ghost": {
+		name: "ghost",
+		type: "png"
+	},
+	"hammer": {
+		name: "hammer",
+		type: "png"
+	},
+	"horse": {
+		name: "horse",
+		type: "png"
+	},
+	"knife": {
+		name: "knife",
+		type: "png"
+	},
+	"lion": {
+		name: "lion",
+		type: "png"
+	},
+	"mermaid": {
+		name: "mermaid",
+		type: "png"
+	},
+	"panda": {
+		name: "panda",
+		type: "png"
+	},
+	"penguin": {
+		name: "penguin",
+		type: "png"
+	},
+	"pizza": {
+		name: "pizza",
+		type: "png"
+	},
+	"rainbow": {
+		name: "rainbow",
+		type: "png"
+	},
+	"rip": {
+		name: "rip",
+		type: "png"
+	},
+	"rose": {
+		name: "rose",
+		type: "png"
+	},
+	"santa": {
+		name: "santa",
+		type: "png"
+	},
+	"sheep": {
+		name: "sheep",
+		type: "png"
+	},
+	"shotgun": {
+		name: "shotgun",
+		type: "png"
+	},
+	"snake": {
+		name: "snake",
+		type: "png"
+	},
+	"snowman": {
+		name: "snowman",
+		type: "png"
+	},
+	"star": {
+		name: "star",
+		type: "png"
+	},
+	"tiger": {
+		name: "tiger",
+		type: "png"
+	},
+	"turkey": {
+		name: "turkey",
+		type: "png"
+	},
+	"unicorn": {
+		name: "unicorn",
+		type: "png"
+	},
+	"werewolf": {
+		name: "werewolf",
+		type: "png"
+	},
+	"wolf": {
+		name: "wolf",
+		type: "png"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
