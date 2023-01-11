@@ -35,7 +35,7 @@ export function emotify(text) {
 
 			for (let k in EmoteKeys) {
 				let key = EmoteKeys[k];
-				let regex = new RegExp(`^${key}$`, "i");
+				let regex = new RegExp(`^:${key}:$`, "i");
 
 				if (word.match(regex)) {
 					words[j] = <Emote emote={key} />;
