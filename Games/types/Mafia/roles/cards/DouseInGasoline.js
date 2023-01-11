@@ -10,7 +10,6 @@ module.exports = class DouseInGasoline extends Card {
 			"Douse Villager": {
 				states: ["Night"],
 				flags: ["voting"],
-				targets: { include: ["alive"], exclude: ["Mafia"] },
 				action: {
 					labels: ["giveItem", "gasoline"],
 					priority: PRIORITY_ARSONIST,
