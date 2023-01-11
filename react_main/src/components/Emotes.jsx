@@ -194,6 +194,10 @@ export const Emotes = {
 		name: "thonk",
 		type: "png"
 	},
+	"kekm": {
+		name: "kekm",
+		type: "png"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
