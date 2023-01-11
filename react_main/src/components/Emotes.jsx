@@ -146,6 +146,54 @@ export const Emotes = {
 		name: "PepePls",
 		type: "gif"
 	},
+	"birb": {
+		name: "birb",
+		type: "gif"
+	},
+	"bob": {
+		name: "bob",
+		type: "gif"
+	},
+	"bub": {
+		name: "bub",
+		type: "gif"
+	},
+	"catjam": {
+		name: "catjam",
+		type: "gif"
+	},
+	"ditto": {
+		name: "ditto",
+		type: "gif"
+	},
+	"fufu": {
+		name: "fufu",
+		type: "png"
+	},
+	"gay": {
+		name: "gay",
+		type: "gif"
+	},
+	"hamster": {
+		name: "hamster",
+		type: "gif"
+	},
+	"quiggle": {
+		name: "quiggle",
+		type: "png"
+	},
+	"sandbox": {
+		name: "sandbox",
+		type: "png"
+	},
+	"swag": {
+		name: "swag",
+		type: "gif"
+	},
+	"thonk": {
+		name: "thonk",
+		type: "png"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
