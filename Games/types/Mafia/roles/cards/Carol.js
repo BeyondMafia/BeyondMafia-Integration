@@ -14,12 +14,15 @@ module.exports = class Carol extends Card {
 					labels: ["carol"],
 					priority: PRIORITY_CAROL,
 					run: function () {
-            // Code borrowed from Executioner and Neighbor
-            const mafia = this.game.players.filter(p => ((p.role.alignment == "Mafia" || p.role.winCount == "Mafia") && p.alive));
-            const players = [Random.randArrayVal(this.game.players), Random.randArrayVal(this.game.players), Random.randArrayVal(Mafia)];
-            const randomised = [Random.randArrayVal(players), Random.randArrayVal(players), Random.randArrayVal(players)];
+						// Code borrowed from Executioner and Neighbor
+						const alive = this.game.players.filter(p => (p.alive));
+						const mafia = alive.filter(p => ((p.role.alignment == "Mafia" || p.role.winCount == "Mafia")));
+						const players = [Random.randArrayVal(this.game.players), Random.randArrayVal(this.game.players), Random.randArrayVal(Mafia)];
+						const randomised = [Random.randArrayVal(players), Random.randArrayVal(players), Random.randArrayVal(players)];
 						var carol = `You see a merry Caroler outside your house! They sing you a Carol about ${randomised[0]}, ${randomised[1]}, ${randomised[2]}. At least one of which is the Mafia!`;
-						this.target.queueAlert(carol);
+						if (this.target.meetings == {}) {
+							this.target.queueAlert(carol);
+						}
 					}
 				}
 			}
