@@ -28,6 +28,7 @@ module.exports = class Role {
 			reveal: "real"
 		};
 		this.hideModifier = {};
+		this.oblivious = {};
 		this.actions = [];
 		this.startItems = [];
 		this.startEffects = [];

@@ -5,6 +5,7 @@ module.exports = class Card {
 
 		this.appearance = {};
 		this.hideModifier = {};
+		this.oblivious = {};
 		this.actions = [];
 		this.startItems = [];
 		this.startEffects = [];
@@ -19,7 +20,8 @@ module.exports = class Card {
 			winCount, 
 			winCheck, 
 			appearance, 
-			hideModifier, 
+			hideModifier,
+			oblivious, 
 			actions, 
 			startItems, 
 			startEffects, 
@@ -37,6 +39,7 @@ module.exports = class Card {
 			"winCheck",
 			"appearance",
 			"hideModifier",
+			"oblivious",
 			"actions",
 			"startItems",
 			"startEffects",

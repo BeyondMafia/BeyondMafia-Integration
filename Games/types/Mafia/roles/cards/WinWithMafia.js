@@ -16,7 +16,7 @@ module.exports = class WinWithMafia extends Card {
 		this.listeners = {
 			"start": function () {
 				for (let player of this.game.players)
-					if (player.role.alignment == "Mafia" && player != this.player)
+					if (player.role.alignment == "Mafia" && player != this.player && !player.role.oblivious["self"])
 						this.revealToPlayer(player);
 			}
 		};
