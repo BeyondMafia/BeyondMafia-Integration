@@ -389,11 +389,11 @@ export const Emotes = {
 		name: "sad",
 		type: "png"
 	},
-	":O": {
+	":o": {
 		name: "surprised",
 		type: "png"
 	},
-	":P": {
+	":p": {
 		name: "tongue",
 		type: "png"
 	},
