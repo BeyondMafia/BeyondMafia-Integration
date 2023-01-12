@@ -252,7 +252,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Sings a carol, to somebody, of 3 people, at least one of which is mafia.",
-                "Cannot choose same person consecutively or to somebody who can visit.",
+                //"Cannot choose same person consecutively or to somebody who can visit.",
             ],
         },
 
