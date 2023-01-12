@@ -197,7 +197,8 @@ module.exports = class Player {
 				if (!this.game.setup.lastWill)
 					return;
 
-				will = String(will).replace(/[\r\n]/gm, "").slice(0, constants.maxWillLength);
+				will = String(will).slice(0, constants.maxWillLength);
+				will = this.processWill(will);
 				this.lastWill = will;
 			}
 			catch (e) {
@@ -237,6 +238,23 @@ module.exports = class Player {
 			}
 		});
 	}
+
+	processWill(inputString) {
+		//Purpose is to process and allow only 2 new line characters (\n) maximum.
+		let newLineCount = 0;
+		let outputString = "";
+
+		for (let i = 0; i < inputString.length; i++) {
+			if (inputString[i] === '\n')
+				newLineCount++;
+		}
+
+		if (newLineCount > 2) {
+			let newLineArr = inputString.split('\n');
+			outputString = newLineArr.slice(0, 3).join('\n') + newLineArr.slice(3).join(' ');
+		}
+		return outputString;
+}
 
 	parseCommand(message) {
 		var split = message.content.replace("/", "").split(" ");
