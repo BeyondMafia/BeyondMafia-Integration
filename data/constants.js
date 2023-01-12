@@ -99,6 +99,7 @@ module.exports = {
 	maxGameMessageLength: 240,
 	maxGameTextInputLength: 100,
 	maxWillLength: 100,
+	maxWillNewLines: 4,
 	maxSetupNameLength: 25,
 	gameReserveTime: 5 * 60 * 1000,
 

@@ -289,6 +289,8 @@ const channelMembers = {};
 						if (!user)
 							return;
 
+						query = utils.strParseAlphaNum(query);
+
 						if (query == null || query.length == 0) {
 							socket.send("users", await redis.getOnlineUsersInfo(constants.chatUserOnlineAmt));
 							return;
