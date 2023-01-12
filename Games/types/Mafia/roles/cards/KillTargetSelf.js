@@ -1,12 +1,13 @@
 const Card = require("../../Card");
 
-module.exports = class Explode extends Card {
+module.exports = class KillTargetSelf extends Card {
 
 	constructor(role) {
 		super(role);
 
 		this.meetings = {
-			"Explode": {
+			"Kill Target and Self": {
+				actionName: "Sting"
 				states: ["Day"],
 				flags: ["voting"],
 				action: {
