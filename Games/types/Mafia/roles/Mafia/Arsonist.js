@@ -5,7 +5,7 @@ module.exports = class Arsonist extends Role {
 	constructor(player, data) {
 		super("Arsonist", player, data);
 		this.alignment = "Mafia";
-		this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "DouseInGasoline"];
+		this.cards = ["VillageCore", "WinWithMafia", "Oblivious", "DouseInGasoline"];
 		this.startItems = [
 		{
 			type: "Match",
