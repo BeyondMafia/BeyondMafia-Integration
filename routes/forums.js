@@ -261,7 +261,7 @@ router.post("/category", async function (req, res) {
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		var name = String(req.body.name).slice(0, constants.maxCategoryNameLength);
+		var name = routeUtils.strParseAlphaNum(req.body.name).slice(0, constants.maxCategoryNameLength);
 		var rank = Number(req.body.rank) || 0;
 		var position = Number(req.body.position) || 0;
 
@@ -301,7 +301,7 @@ router.post("/board", async function (req, res) {
 			return;
 
 		var name = String(req.body.name).slice(0, constants.maxBoardNameLength);
-		var categoryName = String(req.body.category);
+		var categoryName = routeUtils.strParseAlphaNum(req.body.category);
 		var description = String(req.body.description).slice(0, constants.maxBoardDescLength);
 		var icon = String(req.body.icon || "").slice(0, 50);
 		var rank = Number(req.body.rank) || 0;
@@ -675,7 +675,7 @@ router.post("/thread/move", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
 		var threadId = String(req.body.thread);
-		var boardName = String(req.body.board);
+		var boardName = routeUtils.strParseAlphaNum(req.body.board);
 		var perm = "moveThread";
 
 		var thread = await models.ForumThread.findOne({ id: threadId })

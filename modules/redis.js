@@ -463,6 +463,7 @@ async function getInProgressPublicGames(gameType) {
 		let game = await getGameInfo(gameId);
 
 		if (
+			game &&
 			(!gameType || game.type == gameType) &&
 			game.status == "In Progress" &&
 			!game.settings.private
