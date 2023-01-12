@@ -730,6 +730,7 @@ router.post("/reply", async function (req, res) {
 		if (!thread) {
 			res.status(500);
 			res.send("Thread does not exist.");
+			return;
 		}
 
 		if (!(await routeUtils.verifyPermission(res, userId, perm, thread.board.rank)))
