@@ -202,6 +202,10 @@ export const Emotes = {
 		name: "omg",
 		type: "png"
 	},
+	":pingu:": {
+		name: "pingu",
+		type: "gif"
+	},
 	":bats:": {
 		name: "bats",
 		type: "png"
