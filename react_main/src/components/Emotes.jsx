@@ -198,6 +198,10 @@ export const Emotes = {
 		name: "kekm",
 		type: "png"
 	},
+	":omg:": {
+		name: "omg",
+		type: "png"
+	},
 	":bats:": {
 		name: "bats",
 		type: "png"
