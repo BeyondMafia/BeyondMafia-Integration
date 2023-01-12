@@ -22,10 +22,14 @@ module.exports = class Carol extends Card {
 						var carol = `You see a merry Caroler outside your house! They sing you a Carol about ${randomised[0]}, ${randomised[1]}, ${randomised[2]}. At least one of which is the Mafia!`;
 						if (this.target.meetings == {} && this.actor.role.data.oldTarget != this.target) {
 							this.target.queueAlert(carol);
-							this.actor.role.data.oldTarget = this.target;
 						}
 					}
 				}
+			}
+		};
+		this.listeners = {
+			"afterActions": function () {
+				this.actor.role.data.oldTarget = this.target;
 			}
 		};
 	}
