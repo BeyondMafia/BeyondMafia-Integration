@@ -239,22 +239,12 @@ module.exports = class Player {
 		});
 	}
 
-	processWill(inputString) {
-		//Purpose is to process and allow only 2 new line characters (\n) maximum.
-		let newLineCount = 0;
-		let outputString = "";
-
-		for (let i = 0; i < inputString.length; i++) {
-			if (inputString[i] === '\n')
-				newLineCount++;
-		}
-
-		if (newLineCount > 2) {
-			let newLineArr = inputString.split('\n');
-			outputString = newLineArr.slice(0, 3).join('\n') + newLineArr.slice(3).join(' ');
-		}
-		return outputString;
-}
+	processWill(will) {
+		var newLineArr = will.split('\n');
+		will = newLineArr.slice(0, constants.maxWillNewLines).join('\n') +
+			newLineArr.slice(constants.maxWillNewLines).join(' ');
+		return will;
+	}
 
 	parseCommand(message) {
 		var split = message.content.replace("/", "").split(" ");
