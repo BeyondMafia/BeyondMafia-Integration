@@ -10,7 +10,7 @@ export function Emote(props) {
 		<div
 			className="emote"
 			title={emote.name}
-			style={{ backgroundImage: `url('/images/emotes/${emoteKey}.${emote.type}')` }} />
+			style={{ backgroundImage: `url('/images/emotes/${emote.name.toLowerCase()}.${emote.type}')` }} />
 	);
 }
 
@@ -35,9 +35,8 @@ export function emotify(text) {
 
 			for (let k in EmoteKeys) {
 				let key = EmoteKeys[k];
-				let regex = new RegExp(`^${key}$`, "i");
 
-				if (word.match(regex)) {
+				if (word.toLowerCase() == key.toLowerCase()) {
 					words[j] = <Emote emote={key} />;
 					break;
 				}
