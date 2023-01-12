@@ -83,7 +83,7 @@ export default function LearnMafia(props) {
 		{
 			name: "Chameleon",
 			text: "Appears as a Villager to investigative roles.",
-			icon: <div className="icon modifier modifier-Mafia-Lizard" />
+			icon: <div className="icon modifier modifier-Mafia-Chameleon" />
 		},
 		{
 			name: "Humble",

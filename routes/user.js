@@ -48,7 +48,7 @@ router.get("/info", async function (req, res) {
 router.get("/searchName", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-        var query = String(req.query.query);
+        var query = routeUtils.strParseAlphaNum(req.query.query);
         var users = await models.User.find({ name: new RegExp(query, "i"), deleted: false })
             .select("id name avatar -_id")
             .limit(constants.mainUserSearchAmt)
@@ -519,7 +519,6 @@ router.post("/name", async function (req, res) {
         var itemsOwned = await redis.getUserItemsOwned(userId);
         var name = String(req.body.name);
         var code = String(req.body.code);
-        var regex = /^(?!.*[-_]{2})[\w-]*$/;
         var perm = "changeName";
 
         if (!(await routeUtils.verifyPermission(res, userId, perm)))
@@ -549,7 +548,7 @@ router.post("/name", async function (req, res) {
             return;
         }
 
-        if (!name.match(regex)) {
+        if (!name.match(routeUtils.usernameRegex)) {
             res.status(500);
             res.send("Names can only contain letters, numbers, and nonconsecutive undescores/hyphens.");
             return;

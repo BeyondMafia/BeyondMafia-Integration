@@ -775,7 +775,7 @@ router.post("/siteUnban", async (req, res) => {
 			return;
 
 		await models.Ban.deleteMany({ userId: userIdToActOn, type: "site", auto: false }).exec();
-		await models.User.updateOne({ id: userIdToBan }, { $set: { banned: true } }).exec();
+		await models.User.updateOne({ id: userIdToActOn }, { $set: { banned: false } }).exec();
 		await redis.cacheUserPermissions(userIdToActOn);
 
 		routeUtils.createModAction(userId, "Site Unban", [userIdToActOn]);

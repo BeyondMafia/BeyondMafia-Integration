@@ -5,6 +5,10 @@ const Random = require("../lib/Random");
 const constants = require("../data/constants");
 const names = require("../json/names");
 
+const alphaNumRegex = /[\w\s]/g;
+const nonAlphaNumRegex = /[^\w\s]/g;
+const usernameRegex = /^(?!.*[-_]{2})[\w-]*$/;
+
 function getIP(req) {
 	return req.headers["x-forwarded-for"] || req.headers["cf-connecting-ip"] || req.connection.remoteAddress;
 }
@@ -81,6 +85,10 @@ function capitalizeWords(string) {
 	var words = string.split(" ");
 	words = words.map(word => capitalize(word));
 	return words.join(" ");
+}
+
+function strParseAlphaNum(string) {
+	return String(string).replace(nonAlphaNumRegex, "");
 }
 
 function timeDisplay(value, minSec, suffix) {
@@ -338,6 +346,9 @@ async function createModAction(modId, name, args) {
 }
 
 module.exports = {
+	alphaNumRegex,
+	nonAlphaNumRegex,
+	usernameRegex,
 	getIP,
 	getUserId,
 	verifyLoggedIn,
@@ -347,6 +358,7 @@ module.exports = {
 	validProp,
 	capitalize,
 	capitalizeWords,
+	strParseAlphaNum,
 	timeDisplay,
 	parseTime,
 	verifyGameType,

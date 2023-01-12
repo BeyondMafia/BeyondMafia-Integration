@@ -34,7 +34,7 @@ router.post("/room", async function (req, res) {
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		var name = String(req.body.name).slice(0, constants.maxChannelNameLength);
+		var name = routeUtils.strParseAlphaNum(req.body.name).slice(0, constants.maxChannelNameLength);
 		var position = Number(req.body.position) || 0;
 		var rank = Number(req.body.rank) || 0;
 
@@ -69,7 +69,7 @@ router.post("/room", async function (req, res) {
 router.post("/room/delete", async function (req, res) {
 	try {
 		var userId = await routeUtils.verifyLoggedIn(req);
-		var name = String(req.body.name);
+		var name = routeUtils.strParseAlphaNum(req.body.name);
 		var perm = "deleteRoom";
 
 		var channel = await models.ChatChannel.findOne({ name: new RegExp(`^${name}$`, "i"), public: true })
