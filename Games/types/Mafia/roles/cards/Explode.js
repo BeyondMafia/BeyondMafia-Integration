@@ -1,5 +1,4 @@
 const Card = require("../../Card");
-const { PRIORITY_EXPLODE } = require("../../const/Priority");
 
 module.exports = class Explode extends Card {
 
@@ -12,7 +11,6 @@ module.exports = class Explode extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["kill"],
-					priority: PRIORITY_EXPLODE,
 					run: function () {
 						this.game.queueAlert(`${this.actor.name} rushes at ${this.target.name} and reveals a bomb!`);
 						if (this.dominates())
