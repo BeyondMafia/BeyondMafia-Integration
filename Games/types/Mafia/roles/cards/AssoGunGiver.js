@@ -10,6 +10,7 @@ module.exports = class AssoGunGiver extends Card {
 			"Give Gun": {
 				states: ["Night"],
 				flags: ["voting"],
+				targets: { include: ["alive"], exclude: ["Mafia"] },
 				action: {
 					labels: ["giveItem", "gun"],
 					priority: PRIORITY_ASSOGUN_GIVER,
