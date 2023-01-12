@@ -179,7 +179,7 @@ var deprecated = false;
 					}
 				});
 
-				// The main server cancelling a game
+				// The main server canceling a game
 				socket.on("cancelGame", async data => {
 					try {
 						if (!socket.isServer)

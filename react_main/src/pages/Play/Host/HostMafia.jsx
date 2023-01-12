@@ -68,21 +68,21 @@ export default function HostMafia() {
         //     value: defaults.voiceChat,
         //     showIf: "!ranked"
         // },
-        {
-            label: "Scheduled",
-            ref: "scheduled",
-            value: defaults.scheduled,
-            type: "boolean"
-        },
-        {
-            label: "Start Date",
-            ref: "startDate",
-            type: "datetime-local",
-            showIf: "scheduled",
-            value: Date.now() + (6 * 60 * 1000),
-            min: Date.now() + (6 * 60 * 1000),
-            max: Date.now() + (4 * 7 * 24 * 60 * 60 * 1000)
-        },
+        // {
+        //     label: "Scheduled",
+        //     ref: "scheduled",
+        //     value: defaults.scheduled,
+        //     type: "boolean"
+        // },
+        // {
+        //     label: "Start Date",
+        //     ref: "startDate",
+        //     type: "datetime-local",
+        //     showIf: "scheduled",
+        //     value: Date.now() + (6 * 60 * 1000),
+        //     min: Date.now() + (6 * 60 * 1000),
+        //     max: Date.now() + (4 * 7 * 24 * 60 * 60 * 1000)
+        // },
         {
             label: "Ready Check",
             ref: "readyCheck",
@@ -120,7 +120,7 @@ export default function HostMafia() {
     }, []);
 
     function onHostGame() {
-        var scheduled = getFormFieldValue("scheduled");
+        // var scheduled = getFormFieldValue("scheduled");
         var lobby = getFormFieldValue("lobby");
 
         if (lobby == "All")
@@ -136,7 +136,7 @@ export default function HostMafia() {
                 ranked: getFormFieldValue("ranked"),
                 spectating: getFormFieldValue("spectating"),
                 // voiceChat: getFormFieldValue("voiceChat"),
-                scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
+                // scheduled: scheduled && (new Date(getFormFieldValue("startDate"))).getTime(),
                 readyCheck: getFormFieldValue("readyCheck"),
                 stateLengths: {
                     "Day": getFormFieldValue("dayLength"),
@@ -145,12 +145,12 @@ export default function HostMafia() {
                 extendLength: getFormFieldValue("extendLength"),
             })
                 .then(res => {
-                    if (scheduled) {
-                        siteInfo.showAlert(`Game scheduled.`, "success");
-                        setRedirect("/");
-                    }
-                    else
-                        setRedirect(`/game/${res.data}`);
+                    // if (scheduled) {
+                    //     siteInfo.showAlert(`Game scheduled.`, "success");
+                    //     setRedirect("/");
+                    // }
+                    // else
+                    setRedirect(`/game/${res.data}`);
                 })
                 .catch(errorAlert);
 
@@ -159,7 +159,7 @@ export default function HostMafia() {
             defaults.ranked = getFormFieldValue("ranked");
             defaults.spectating = getFormFieldValue("spectating");
             // defaults.voiceChat = getFormFieldValue("voiceChat");
-            defaults.scheduled = getFormFieldValue("scheduled");
+            // defaults.scheduled = getFormFieldValue("scheduled");
             defaults.readyCheck = getFormFieldValue("readyCheck");
             defaults.dayLength = getFormFieldValue("dayLength");
             defaults.nightLength = getFormFieldValue("nightLength");

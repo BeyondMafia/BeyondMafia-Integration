@@ -16,7 +16,12 @@ router.post("/leave", async function (req, res) {
         else
             userId = await routeUtils.verifyLoggedIn(req);
 
-        await gameLoadBalancer.leaveGame(userId);
+        try {
+            await gameLoadBalancer.leaveGame(userId);
+        } catch (e) {
+            await redis.leaveGame(userId);
+        }
+
         res.sendStatus(200);
     }
     catch (e) {

@@ -419,7 +419,6 @@ const roleData = {
             description: [
                 "Is randomly assigned a Village/Independent player as a target.",
                 "Wins if their target is executed in Village meeting while alive.",
-                "The Village cannot win while the Executioner is alive and does not win if he wins.",
             ],
         },
         "Serial Killer": {
