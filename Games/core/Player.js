@@ -198,6 +198,7 @@ module.exports = class Player {
 					return;
 
 				will = String(will).slice(0, constants.maxWillLength);
+				will = this.processWill(will);
 				this.lastWill = will;
 			}
 			catch (e) {
@@ -236,6 +237,13 @@ module.exports = class Player {
 				logger.error(e);
 			}
 		});
+	}
+
+	processWill(will) {
+		var newLineArr = will.split('\n');
+		will = newLineArr.slice(0, constants.maxWillNewLines).join('\n') +
+			newLineArr.slice(constants.maxWillNewLines).join(' ');
+		return will;
 	}
 
 	parseCommand(message) {
