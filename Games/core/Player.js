@@ -737,6 +737,12 @@ module.exports = class Player {
 		}
 	}
 
+	dropAllItems() {
+		for (let item of this.items) {
+			item.drop()
+		}
+	}
+
 	removeEffect(effectName, all) {
 		for (let effect of this.effects) {
 			if (effect.name == effectName) {
@@ -745,6 +751,12 @@ module.exports = class Player {
 				if (!all)
 					break;
 			}
+		}
+	}
+
+	removeAllEffects() {
+		for (let effect of this.effects) {
+			effect.remove()
 		}
 	}
 
@@ -787,6 +799,9 @@ module.exports = class Player {
 		this.game.resetLastDeath = true;
 		this.game.queueDeath(this);
 
+		this.dropAllItems();
+		this.removeAllEffects();
+		
 		if (killType != "silent")
 			this.queueDeathMessage(killType, instant);
 
@@ -794,18 +809,6 @@ module.exports = class Player {
 			this.role.revealToAll(false, this.getRevealType(killType));
 
 		this.queueLastWill();
-
-		// drop all items
-		for (let item of this.items) {
-			this.queueAlert('Your item dropped!')
-			item.drop()
-		}
-
-		// remove all effects
-		for (let effect of this.effects) {
-			this.queueAlert('Your effect dropped!')
-			effect.remove()
-		}
 
 		this.game.events.emit("death", this, killer, killType, instant);
 

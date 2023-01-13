@@ -1192,8 +1192,10 @@ module.exports = class Game {
 			this.processRevealQueue();
 			this.processAlertQueue();
 
-			for (let player of this.players)
+			for (let player of this.players) {
 				this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
+				player.removeAllEffects();
+			}
 
 			this.broadcast("winners", winners.getWinnersInfo());
 
