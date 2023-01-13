@@ -528,7 +528,7 @@ module.exports = class Game {
 		player.send("setup", this.getSetupInfo());
 		player.send("emojis", this.emojis);
 
-		if (!player.user.playedGame)
+		if (!player.user.playedGame && !player.isBot)
 			player.send("firstGame");
 
 		if (player.user.dev && !player.isBot)
