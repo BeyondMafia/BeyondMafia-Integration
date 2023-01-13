@@ -275,6 +275,14 @@
     background-position: -120px -120px;
 }
 
+.role-Mafia-Nurse {
+    background-position: -150px -120px;
+}
+
+.role-Mafia-Caroler {
+    background-position: -180px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -311,6 +319,10 @@
     background-position: -570px 0;
 }
 
+.role-Mafia-Killer-Bee {
+    background-position: -600px 0;
+}
+
 .role-Mafia-Driver {
     background-position: -330px -40px;
 }
@@ -337,6 +349,14 @@
 
 .role-Mafia-Lookout {
     background-position: -510px 0px;
+}
+
+.role-Mafia-Gramps {
+    background-position: -540px 0px;
+}
+
+.role-Mafia-Associate {
+    background-position: -480px -40px;
 }
 
 /* 
