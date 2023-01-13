@@ -11,16 +11,15 @@ module.exports = class Carol extends Card {
 			"Sing Carol": {
 				states: ["Night"],
 				flags: ["voting"],
-				targets: { exclude: ["this.actor.role.data.oldTarget"] },
+				targets: { include: ["alive"], exclude: ["self", isPrevTarget] },
 				action: {
 					labels: ["carol"],
 					priority: PRIORITY_CAROL,
 					run: function () {
-						var prevTarget = this.actor.role.data.prevTarget;
-						this.actor.role.data.prevTarget = this.target;
-
-						if (this.target == prevTarget)
+						if (this.game.players.length < 3)
 							return;
+
+						this.actor.role.data.prevTarget = this.target;
 
 						for (let action of this.game.actions[0])
 							if (action.actor == this.target && !action.hasLabel("hidden"))
@@ -35,9 +34,8 @@ module.exports = class Carol extends Card {
 							Random.randArrayVal(alive, true)
 						];
 
-						if (mafia.length == 0) {
+						if (mafia.length == 0)
 							carol = `You see a merry Caroler outside your house! They sing you a happy song about all of the Mafia being dead!`;
-						}
 						else {
 							if (chosenThree.filter(p => p.role.alignment == "Mafia").length == 0) {
 								chosenThree[0] = Random.randArrayVal(mafia);
@@ -52,11 +50,10 @@ module.exports = class Carol extends Card {
 				}
 			}
 		};
-		this.listeners = {
-			"afterActions": function () {
-				this.actor.role.data.oldTarget = this.target;
-			}
-		};
 	}
 
+}
+
+function isPrevTarget(player) {
+	return this.role && player == this.role.data.prevTarget;
 }
