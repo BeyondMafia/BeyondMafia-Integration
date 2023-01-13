@@ -286,7 +286,8 @@ module.exports = class Meeting {
 				this.targets = this.parseTargetDefinitions(
 					this.targetsDescription,
 					this.inputType,
-					this.game.players.array()
+					this.game.players.array(),
+					this.members.length == 1 ? this.members.at(0).player : null
 				);
 			}
 
@@ -359,7 +360,13 @@ module.exports = class Meeting {
 								includePlayer[player.id] = include;
 							break;
 						default:
-							if (player.id == tag)
+							if (typeof tag == "function") {
+								var matched = tag.bind(self)(player);
+
+								if (matched)
+									includePlayer[player.id] = include;
+							}
+							else if (player.id == tag)
 								includePlayer[player.id] = include;
 							else if (player.role && player.role.name == tag)
 								includePlayer[player.id] = include;

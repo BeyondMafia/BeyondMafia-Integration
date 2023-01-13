@@ -249,6 +249,14 @@ const roleData = {
                 "Blocks all who visit him during the night from performing any actions.",
             ],
         },
+        "Caroler": {
+            alignment: "Village",
+            description: [
+                "Sings a carol to somebody about 3 people, at least one of whom is Mafia aligned.",
+                "The carol is not heard if the target visits at night.",
+                "Cannot choose same the person consecutively.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -366,14 +374,12 @@ const roleData = {
                 "Can light one match during the day to burn doused villagers.",
             ],
         },        
-
-        "Arsonist": {
+        "Killer Bee": {
             alignment: "Mafia",
             description: [
-                "Douses one villager with Gasoline each night.",
-                "Can light one match during the day to burn doused villagers.",
+                "Once per game, can fatally sting another player during the day, killing them both."
             ],
-        },        
+        },
 
         //Monsters
         "Lycan": {
@@ -423,7 +429,6 @@ const roleData = {
             description: [
                 "Is randomly assigned a Village/Independent player as a target.",
                 "Wins if their target is executed in Village meeting while alive.",
-                "The Village cannot win while the Executioner is alive and does not win if he wins.",
             ],
         },
         "Serial Killer": {

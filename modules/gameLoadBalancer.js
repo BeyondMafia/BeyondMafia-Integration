@@ -129,10 +129,14 @@ async function leaveGame(userId) {
 				reject: rej
 			};
 
-			servers[port].send("leaveGame", {
-				userId: userId,
-				key: process.env.LOAD_BALANCER_KEY
-			});
+			try {
+				servers[port].send("leaveGame", {
+					userId: userId,
+					key: process.env.LOAD_BALANCER_KEY
+				});
+			} catch (e) {
+				rej(e);
+			}
 		}
 		catch (e) {
 			logger.error(e);
