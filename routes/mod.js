@@ -1167,7 +1167,7 @@ router.post("/kick", async (req, res) => {
 		if (!(await routeUtils.verifyPermission(res, userId, perm)))
 			return;
 
-		await gameLoadBalancer.leaveGame(userIdToKick);
+		gameLoadBalancer.leaveGame(userIdToKick);
 		await redis.leaveGame(userIdToKick);
 
 		routeUtils.createModAction(userId, "Kick Player", [userIdToKick]);
@@ -1176,7 +1176,7 @@ router.post("/kick", async (req, res) => {
 	catch (e) {
 		logger.error(e);
 		res.status(500);
-		res.send("Error clearing username.");
+		res.send("Error kicking user.");
 	}
 });
 
