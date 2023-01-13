@@ -12,6 +12,8 @@ module.exports = class Dream extends Card {
 					labels: ["dream"],
 					priority: PRIORITY_CAROL,
 					run: function () {
+					if (this.game.getStateName() != "Night")
+						return;						
 						if (this.game.players.length < 3)
 							return;
 
@@ -29,12 +31,12 @@ module.exports = class Dream extends Card {
 							Random.randArrayVal(alive, true),
 							Random.randArrayVal(alive, true)
 						];
-						var messageProb = Random.randInt(0, 4);
+						var messageProb = Random.randInt(0, 2);
 						if (village.length == 0)
 							dream = `You had a dream that you can trust no one but yourself...`;
-						else if (mafia.length == 0 || messageProb == 3) {
-							chosenOne = Random.randArrayVal(village);
-							dream = `You had a dream that you can trust ${chosenOne}...`;
+						else if (mafia.length == 0 || messageProb == 0) {
+							var chosenOne = Random.randArrayVal(village);
+							dream = `You had a dream that you can trust ${chosenOne.name}...`;
 						}
 						else {
 							if (chosenThree.filter(p => p.role.alignment == "Mafia").length == 0) {
