@@ -22,7 +22,7 @@ docker exec -it mongo mongosh
 test> use admin
 switched to db admin
 
-admin> db.auth("admin", passwordPrompt())
+admin> db.auth('admin', passwordPrompt())
 Enter password
 ********{ ok: 1 }
 
@@ -57,5 +57,5 @@ docker volume rm local-mongo
 ## Redis
 
 ```
-docker run -d -p 6379:6379 --name redis redis
+docker run -d -p 6379:6379 --name redis --restart=always redis
 ```

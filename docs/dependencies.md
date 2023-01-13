@@ -70,8 +70,7 @@ REACT_APP_RECAPTCHA_KEY=
 
 2. Use the client-side key (upper one). 
 
-<img src="https://user-images.githubusercontent.com/24848927/211154725-60217bac-c058-4e7f-bdd3-fa81acece6f0.png
-" alt="recaptcha-get" width="700"/>
+<img src="https://user-images.githubusercontent.com/24848927/211154725-60217bac-c058-4e7f-bdd3-fa81acece6f0.png" alt="recaptcha-get" width="700"/>
 
 The server side key can also be used in the backend under the env `RECAPTCHA_KEY`, but it's only required for production mode.
 
