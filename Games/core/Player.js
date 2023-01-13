@@ -794,6 +794,19 @@ module.exports = class Player {
 			this.role.revealToAll(false, this.getRevealType(killType));
 
 		this.queueLastWill();
+
+		// drop all items
+		for (let item of this.items) {
+			this.queueAlert('Your item dropped!')
+			item.drop()
+		}
+
+		// remove all effects
+		for (let effect of this.effects) {
+			this.queueAlert('Your effect dropped!')
+			effect.remove()
+		}
+
 		this.game.events.emit("death", this, killer, killType, instant);
 
 		if (!instant)
