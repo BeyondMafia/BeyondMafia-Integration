@@ -380,6 +380,13 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Arsonist": {
+            alignment: "Mafia",
+            description: [
+                "Douses one villager with Gasoline each night.",
+                "Can light one match during the day to burn doused villagers.",
+            ],
+        },        
 
         //Monsters
         "Lycan": {
