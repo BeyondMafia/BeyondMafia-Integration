@@ -6,8 +6,18 @@
     "configurations": [
         {
             "type": "node",
+            "name": "game",
             "request": "launch",
-            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "enableContentValidation": false,
+            "program": "${workspaceFolder}/Games/games.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "www",
             "skipFiles": [
                 "<node_internals>/**"
             ],
