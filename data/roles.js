@@ -263,7 +263,7 @@ const roleData = {
                 "Dreams about 3 people, (at least one of whom is Mafia aligned), or about 1 Villager to trust.",
                 "Does not dream if visited.",
             ],
-        },        
+        },
 
         //Mafia
         "Mafioso": {
@@ -380,7 +380,7 @@ const roleData = {
                 "Douses one villager with Gasoline each night.",
                 "Can light one match during the day to burn doused villagers.",
             ],
-        },        
+        },
         "Killer Bee": {
             alignment: "Mafia",
             description: [
@@ -462,6 +462,15 @@ const roleData = {
             description: [
                 "Can choose one player to probe each night.",
                 "Wins if all players left alive have been probed."
+            ],
+        },
+        "Old Maid": {
+            alignment: "Independent",
+            description: [
+                "Can choose one player to swap roles with each night.",
+                "Cannot win the game.",
+                "Appears as Villager/innocent to investigative roles.",
+                "Swap does show visit and cannot be role blocked."
             ],
         },
     },
