@@ -9,7 +9,7 @@ module.exports = class MakeVisitorsInsane extends Card {
 		this.actions = [
 			{
 				priority: PRIORITY_MAKE_VISITORS_INSANE,
-				labels: ["absolute"],
+				labels: ["hidden", "absolute"],
 				run: function () {
 					if (this.game.getStateName() == "Night") {
 						for (let action of this.game.actions[0]) {
