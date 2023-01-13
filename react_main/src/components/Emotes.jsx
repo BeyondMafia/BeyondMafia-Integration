@@ -10,7 +10,7 @@ export function Emote(props) {
 		<div
 			className="emote"
 			title={emote.name}
-			style={{ backgroundImage: `url('/images/emotes/${emote.name.toLowerCase()}.${emote.type}')` }} />
+			style={{ backgroundImage: `url('/images/emotes/${emoteKey}.${emote.type}')` }} />
 	);
 }
 
@@ -35,8 +35,9 @@ export function emotify(text) {
 
 			for (let k in EmoteKeys) {
 				let key = EmoteKeys[k];
+				let regex = new RegExp(`^:${key}:$`, "i");
 
-				if (word.toLowerCase() == key.toLowerCase()) {
+				if (word.match(regex)) {
 					words[j] = <Emote emote={key} />;
 					break;
 				}
@@ -53,356 +54,148 @@ export function emotify(text) {
 }
 
 export const Emotes = {
-	":ez:": {
+	"ez": {
 		name: "EZ",
 		type: "png"
 	},
-	":doge:": {
+	"doge": {
 		name: "doge",
 		type: "png"
 	},
-	":feelsdankman:": {
+	"feelsdankman": {
 		name: "FeelsDankMan",
 		type: "png"
 	},
-	":feelsokayman:": {
+	"feelsokayman": {
 		name: "FeelsOkayMan",
 		type: "png"
 	},
-	":kapp:": {
+	"kapp": {
 		name: "Kapp",
 		type: "png"
 	},
-	":monkagun:": {
+	"monkagun": {
 		name: "MonkaGun",
 		type: "png"
 	},
-	":monkahmm:": {
+	"monkahmm": {
 		name: "MonkaHmm",
 		type: "png"
 	},
-	":monkas:": {
+	"monkas": {
 		name: "MonkaS",
 		type: "png"
 	},
-	":nodders:": {
+	"nodders": {
 		name: "Nodders",
 		type: "gif"
 	},
-	":nopers:": {
+	"nopers": {
 		name: "Nopers",
 		type: "gif"
 	},
-	":omegalul:": {
+	"omegalul": {
 		name: "Omegalul",
 		type: "png"
 	},
-	":peepohappy:": {
+	"peepohappy": {
 		name: "PeepoHappy",
 		type: "png"
 	},
-	":peeposad:": {
+	"peeposad": {
 		name: "PeepoSad",
 		type: "png"
 	},
-	":peepowtf:": {
+	"peepowtf": {
 		name: "PeepoWtf",
 		type: "png"
 	},
-	":pepega:": {
+	"pepega": {
 		name: "Pepega",
 		type: "png"
 	},
-	":pepegaaim:": {
+	"pepegaaim": {
 		name: "PepegaAim",
 		type: "gif"
 	},
-	":pepehands:": {
+	"pepehands": {
 		name: "PepeHands",
 		type: "png"
 	},
-	":pepelaugh:": {
+	"pepelaugh": {
 		name: "PepeLaugh",
 		type: "png"
 	},
-	":pepemeltdown:": {
+	"pepemeltdown": {
 		name: "PepeMeltdown",
 		type: "gif"
 	},
-	":pepepains:": {
+	"pepepains": {
 		name: "PepePains",
 		type: "png"
 	},
-	":pepog:": {
+	"pepog": {
 		name: "PepoG",
 		type: "png"
 	},
-	":sadge:": {
+	"sadge": {
 		name: "Sadge",
 		type: "png"
 	},
-	":pepepls:": {
+	"pepepls": {
 		name: "PepePls",
 		type: "gif"
 	},
-	":birb:": {
+	"birb": {
 		name: "birb",
 		type: "gif"
 	},
-	":bob:": {
+	"bob": {
 		name: "bob",
 		type: "gif"
 	},
-	":bub:": {
+	"bub": {
 		name: "bub",
 		type: "gif"
 	},
-	":catjam:": {
+	"catjam": {
 		name: "catjam",
 		type: "gif"
 	},
-	":ditto:": {
+	"ditto": {
 		name: "ditto",
 		type: "gif"
 	},
-	":fufu:": {
+	"fufu": {
 		name: "fufu",
 		type: "png"
 	},
-	":gay:": {
+	"gay": {
 		name: "gay",
 		type: "gif"
 	},
-	":hamster:": {
+	"hamster": {
 		name: "hamster",
 		type: "gif"
 	},
-	":quiggle:": {
+	"quiggle": {
 		name: "quiggle",
 		type: "png"
 	},
-	":sandbox:": {
+	"sandbox": {
 		name: "sandbox",
 		type: "png"
 	},
-	":swag:": {
+	"swag": {
 		name: "swag",
 		type: "gif"
 	},
-	":thonk:": {
+	"thonk": {
 		name: "thonk",
 		type: "png"
 	},
-	":kekm:": {
+	"kekm": {
 		name: "kekm",
-		type: "png"
-	},
-	":omg:": {
-		name: "omg",
-		type: "png"
-	},
-	":pingu:": {
-		name: "pingu",
-		type: "gif"
-	},
-	":bats:": {
-		name: "bats",
-		type: "png"
-	},
-	":boar:": {
-		name: "boar",
-		type: "png"
-	},
-	":bump:": {
-		name: "bump",
-		type: "png"
-	},
-	":bunny:": {
-		name: "bunny",
-		type: "png"
-	},
-	":cake:": {
-		name: "cake",
-		type: "png"
-	},
-	":candycane:": {
-		name: "candycane",
-		type: "png"
-	},
-	":cat:": {
-		name: "cat",
-		type: "png"
-	},
-	":christmas:": {
-		name: "christmas",
-		type: "png"
-	},
-	":clock:": {
-		name: "clock",
-		type: "png"
-	},
-	":cookie:": {
-		name: "cookie",
-		type: "png"
-	},
-	":cupcake:": {
-		name: "cupcake",
-		type: "png"
-	},
-	":fox:": {
-		name: "fox",
-		type: "png"
-	},
-	":ghost:": {
-		name: "ghost",
-		type: "png"
-	},
-	":hammer:": {
-		name: "hammer",
-		type: "png"
-	},
-	":horse:": {
-		name: "horse",
-		type: "png"
-	},
-	":knife:": {
-		name: "knife",
-		type: "png"
-	},
-	":lion:": {
-		name: "lion",
-		type: "png"
-	},
-	":mermaid:": {
-		name: "mermaid",
-		type: "png"
-	},
-	":panda:": {
-		name: "panda",
-		type: "png"
-	},
-	":penguin:": {
-		name: "penguin",
-		type: "png"
-	},
-	":pizza:": {
-		name: "pizza",
-		type: "png"
-	},
-	":rainbow:": {
-		name: "rainbow",
-		type: "png"
-	},
-	":rip:": {
-		name: "rip",
-		type: "png"
-	},
-	":rose:": {
-		name: "rose",
-		type: "png"
-	},
-	":santa:": {
-		name: "santa",
-		type: "png"
-	},
-	":sheep:": {
-		name: "sheep",
-		type: "png"
-	},
-	":shotgun:": {
-		name: "shotgun",
-		type: "png"
-	},
-	":snake:": {
-		name: "snake",
-		type: "png"
-	},
-	":snowman:": {
-		name: "snowman",
-		type: "png"
-	},
-	":star:": {
-		name: "star",
-		type: "png"
-	},
-	":tiger:": {
-		name: "tiger",
-		type: "png"
-	},
-	":turkey:": {
-		name: "turkey",
-		type: "png"
-	},
-	":unicorn:": {
-		name: "unicorn",
-		type: "png"
-	},
-	":werewolf:": {
-		name: "werewolf",
-		type: "png"
-	},
-	":wolf:": {
-		name: "wolf",
-		type: "png"
-	},
-	":3": {
-		name: "candy",
-		type: "png"
-	},
-	"o_o": {
-		name: "confused",
-		type: "png"
-	},
-	";_;": {
-		name: "cry",
-		type: "png"
-	},
-	":@": {
-		name: "cthulhu",
-		type: "png"
-	},
-	"-_-": {
-		name: "expressionless",
-		type: "png"
-	},
-	">:(": {
-		name: "frown",
-		type: "png"
-	},
-	":)": {
-		name: "happy",
-		type: "png"
-	},
-	"<3": {
-		name: "heart",
-		type: "png"
-	},
-	"-@": {
-		name: "jack",
-		type: "png"
-	},
-	":|": {
-		name: "neutral",
-		type: "png"
-	},
-	":(": {
-		name: "sad",
-		type: "png"
-	},
-	":o": {
-		name: "surprised",
-		type: "png"
-	},
-	":p": {
-		name: "tongue",
-		type: "png"
-	},
-	";)": {
-		name: "wink",
-		type: "png"
-	},
-	"zzz": {
-		name: "zzz",
 		type: "png"
 	},
 };
