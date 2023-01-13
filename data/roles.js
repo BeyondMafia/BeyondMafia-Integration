@@ -257,6 +257,13 @@ const roleData = {
                 "Cannot choose same the person consecutively.",
             ],
         },
+        "Caroler": {
+            alignment: "Village",
+            description: [
+                "Dreams about 3 people, (at least one of whom is Mafia aligned), or about 1 Villager to trust.",
+                "Does not dream if visited.",
+            ],
+        },        
 
         //Mafia
         "Mafioso": {
