@@ -249,6 +249,14 @@ const roleData = {
                 "Blocks all who visit him during the night from performing any actions.",
             ],
         },
+        "Caroler": {
+            alignment: "Village",
+            description: [
+                "Sings a carol to somebody about 3 people, at least one of whom is Mafia aligned.",
+                "The carol is not heard if the target visits at night.",
+                "Cannot choose same the person consecutively.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -357,6 +365,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Tracks someone each night and learns who they visit."
+            ],
+        },
+        "Killer Bee": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
 
