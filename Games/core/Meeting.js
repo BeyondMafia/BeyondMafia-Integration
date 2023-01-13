@@ -23,7 +23,6 @@ module.exports = class Meeting {
 		this.noUnvote = false;
 		this.multi = false;
 		this.repeatable = false;
-		this.ready = false;
 		this.includeNo = false;
 		this.noRecord = false;
 		this.liveJoin = false;
@@ -120,7 +119,7 @@ module.exports = class Meeting {
 		return member;
 	}
 
-	leave(player) {
+	leave(player, instant) {
 		if (this.finished)
 			return;
 
@@ -145,7 +144,9 @@ module.exports = class Meeting {
 			this.game.removeMeeting(this);
 
 		player.leftMeeting(this);
-		this.updateReady();
+
+		if (!instant)
+			this.checkReady();
 	}
 
 	init() {
@@ -498,7 +499,7 @@ module.exports = class Meeting {
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeVote(vote);
 
-		this.updateReady();
+		this.checkReady();
 		return true;
 	}
 
@@ -552,11 +553,7 @@ module.exports = class Meeting {
 		if (this.game.isSpectatorMeeting(this))
 			this.game.spectatorsSeeUnvote(info);
 
-		if (!this.multi)
-			this.ready = Object.keys(this.votes).length == this.totalVoters;
-		else
-			this.ready = this.votes[voter.id].length >= this.multiMin;
-
+		this.checkReady();
 		return true;
 	}
 
@@ -637,8 +634,12 @@ module.exports = class Meeting {
 		}
 
 		// Return if no action to take
-		if (!finalTarget || finalTarget == "*")
+		if (!finalTarget || finalTarget == "*") {
+			if (this.instant)
+				this.game.checkAllMeetingsReady();
+
 			return;
+		}
 
 		// Get player targeted
 		if (this.inputType == "player") {
@@ -767,19 +768,19 @@ module.exports = class Meeting {
 	}
 
 	checkReady() {
-		return this.ready || !this.voting;
-	}
-
-	updateReady() {
-		if (!this.multi)
-			this.ready = Object.keys(this.votes).length == this.totalVoters;
-		else
-			this.ready = this.votes[voter.id].length >= this.multiMin;
-
 		if (!this.instant && !this.repeatable)
 			this.game.checkAllMeetingsReady();
 		else if (this.ready)
 			this.finish(true);
+	}
+
+	get ready() {
+		if (this.finished || !this.voting)
+			return true;
+		else if (!this.multi)
+			return Object.keys(this.votes).length == this.totalVoters;
+		else
+			return this.votes[voter.id].length >= this.multiMin;
 	}
 
 }

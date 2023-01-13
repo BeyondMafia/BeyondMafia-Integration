@@ -998,9 +998,16 @@ module.exports = class Game {
 		for (let player of this.players)
 			player.meet();
 
+		this.initMeetings();
+		this.sendMeetings();
+	}
+
+	initMeetings() {
 		for (let meeting of this.meetings)
 			meeting.init();
+	}
 
+	sendMeetings() {
 		for (let player of this.players)
 			player.sendMeetings();
 
@@ -1015,7 +1022,7 @@ module.exports = class Game {
 		var allReady = true;
 
 		for (let meeting of this.meetings) {
-			if (!meeting.checkReady()) {
+			if (!meeting.ready) {
 				allReady = false;
 				break;
 			}
@@ -1104,22 +1111,17 @@ module.exports = class Game {
 		this.processingActionQueue = false;
 	}
 
-	async instantAction(action, meeting) {
-		try {
-			this.events.emit("instantAction", action);
-			action.do();
+	instantAction(action, meeting) {
+		this.events.emit("instantAction", action);
+		action.do();
 
-			if (this.checkGameEnd())
-				return;
+		if (this.checkGameEnd())
+			return;
 
-			this.checkAllMeetingsReady();
-			this.processDeathQueue();
-			this.processRevealQueue();
-			this.processAlertQueue();
-		}
-		catch (e) {
-			logger.error(e);
-		}
+		this.checkAllMeetingsReady();
+		this.processDeathQueue();
+		this.processRevealQueue();
+		this.processAlertQueue();
 	}
 
 	isMustAct() {

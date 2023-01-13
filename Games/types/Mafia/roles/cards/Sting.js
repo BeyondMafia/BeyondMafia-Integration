@@ -10,14 +10,14 @@ module.exports = class Sting extends Card {
 				states: ["Day"],
 				flags: ["voting", "instant", "noVeg"],
 				action: {
-					labels: ["kill"],
+					labels: ["kill", "sting"],
 					run: function () {
 						this.game.queueAlert(`${this.actor.name} rushes at ${this.target.name} and delivers a fatal sting!`);
 
 						if (this.dominates())
-							this.target.kill("basic", this.target);
+							this.target.kill("basic", this.target, true);
 
-						this.actor.kill("basic", this.actor);
+						this.actor.kill("basic", this.actor, true);
 					}
 				}
 			}

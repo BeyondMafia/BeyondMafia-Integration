@@ -799,36 +799,16 @@ module.exports = class Player {
 		if (!instant)
 			return;
 
+		for (let meeting of this.getMeetings())
+			meeting.leave(this, true);
+
 		this.meet();
-		this.sendMeetings();
 
-		for (let meeting of this.getMeetings()) {
-			if (!meeting.members[this.id].whileDead)
-				meeting.leave(this);
-			else {
-				let member = meeting.members[this.id];
+		for (let meeting of this.game.meetings)
+			meeting.generateTargets();
 
-				if (member.canVote) {
-					delete meeting.votes[this.id];
-					meeting.totalVoters--;
-
-					for (let memberId in meeting.voteVersions)
-						delete meeting.voteVersions[memberId].votes[this.id];
-				}
-
-				member.canVote = false;
-				member.canUnvote = false;
-				member.canTalk = false;
-				member.visible = false;
-
-				meeting.generateTargets();
-
-				for (let member of meeting.members)
-					member.player.sendMeeting(meeting);
-
-				meeting.updateReady();
-			}
-		}
+		this.game.sendMeetings();
+		this.game.checkAllMeetingsReady();
 	}
 
 	revive(revivalType, reviver, instant) {
@@ -839,28 +819,17 @@ module.exports = class Player {
 		if (!instant)
 			return;
 
+
 		for (let meeting of this.getMeetings())
-			if (meeting.members[this.id].whileAlive == false)
-				meeting.leave(this);
-			else {
-				let member = meeting.members[this.id];
-
-				if (member.originalOptions.canVote)
-					meeting.totalVoters++;
-
-				member.canVote = member.originalOptions.canvote;
-				member.canUnvote = member.originalOptions.canUnvote;
-				member.canTalk = member.originalOptions.canTalk;
-				member.visible = member.originalOptions.visible;
-
-				meeting.generateTargets();
-
-				for (let member of meeting.members)
-					member.player.sendMeeting(meeting);
-			}
+			meeting.leave(this, true);
 
 		this.meet();
-		this.sendMeetings();
+
+		for (let meeting of this.game.meetings)
+			meeting.generateTargets();
+
+		this.game.sendMeetings();
+		this.game.checkAllMeetingsReady();
 	}
 
 	getRevealType(deathType) {
