@@ -19,7 +19,8 @@ module.exports = class EclipseOnDeath extends Card {
 			"stateEvents": function (stateEvents) {
 				if (stateEvents["Eclipse"])
 					for (let player of this.game.players)
-						player.giveEffect("Blind", 1);
+						if (player.alive)
+							player.giveEffect("Blind", 1);
 			}
 		};
 	}
