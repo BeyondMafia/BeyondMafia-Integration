@@ -4,6 +4,5 @@ module.exports = class Gasoline extends Item {
 
     constructor() {
         super("Gasoline");
-
     }
 };

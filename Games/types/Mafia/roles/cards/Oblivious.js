@@ -6,7 +6,9 @@ module.exports = class Oblivious extends Card {
 		super(role);
 
 		this.oblivious = {
-			self: true
+			"self": true,
+			"Mafia": true,
+			"Monsters": true,
 		};
 
 	}

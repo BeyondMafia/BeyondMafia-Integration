@@ -15,9 +15,18 @@ module.exports = class WinWithMonsters extends Card {
 		};
 		this.listeners = {
 			"start": function () {
-				for (let player of this.game.players)
-					if (player.role.alignment == "Monsters" && player != this.player)
+				if (this.oblivious["Monsters"])
+					return;
+
+				for (let player of this.game.players) {
+					if (
+						player.role.alignment == "Monsters" &&
+						player != this.player &&
+						!player.role.oblivious["self"]
+					) {
 						this.revealToPlayer(player);
+					}
+				}
 			}
 		};
 	}

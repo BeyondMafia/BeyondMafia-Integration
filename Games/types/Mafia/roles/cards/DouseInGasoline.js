@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_ARSONIST } = require("../../const/Priority");
+const { PRIORITY_DOUSE } = require("../../const/Priority");
 
 module.exports = class DouseInGasoline extends Card {
 
@@ -7,12 +7,12 @@ module.exports = class DouseInGasoline extends Card {
 		super(role);
 
 		this.meetings = {
-			"Douse Villager": {
+			"Douse Player": {
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
 					labels: ["giveItem", "gasoline"],
-					priority: PRIORITY_ARSONIST,
+					priority: PRIORITY_DOUSE,
 					run: function () {
 						this.target.holdItem("Gasoline");
 					}
