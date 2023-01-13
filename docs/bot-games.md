@@ -1,8 +1,6 @@
-# Setting up the Development Environment: Developer Mode
+# Setting up Bot Games
 
-There are special [permission modes](https://github.com/r3ndd/BeyondMafia-Integration/blob/master/data/constants.js#L248) you can assign yourself. This guide goes through how to let your account enter dev mode.
-
-## Add dev property to your user
+## Add `dev` property to your user
 
 1. Enter the mongo shell via `mongosh`.
 
@@ -65,6 +63,6 @@ If you're interested, the property is checked [here](https://github.com/r3ndd/Be
 
 2. A test tube icon appears in the top bar.
 
-![test tube](https://user-images.githubusercontent.com/24848927/212347042-d729e153-5d9c-427c-9732-e1f60e4123d0.png)
+![test tube](https://user-images.githubusercontent.com/24848927/212348802-56db2540-5b3d-4c72-8182-3ab883eed99c.png)
 
 3. Click the test tube icon and bot accounts will spawn in new windows.
