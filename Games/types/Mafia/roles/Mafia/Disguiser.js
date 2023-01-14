@@ -7,6 +7,11 @@ module.exports = class Disguiser extends Role {
 
 		this.alignment = "Mafia";
 		this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "IdentityStealer"];
+		this.meetingMods = {
+			"Mafia": {
+				leader: true,
+			}
+		};
 	}
 
 }

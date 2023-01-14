@@ -9,16 +9,15 @@ module.exports = class SwapRoles extends Card {
         this.meetings = {
             "Swap Roles": {
                 states: ["Night"],
-                flags: ["voting"],
-                labels: ["hidden", "absolute"],
+                flags: ["voting", "hidden", "absolute"],
                 action: {
                     priority: PRIORITY_SWAP_ROLES,
-                    run: function() {
+                    run: function () {
                         var currRoleName = this.actor.role.name;
                         var currRoleModifier = this.actor.role.modifier;
-                        this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`);
-                        this.target.setRole(`${currRoleName}:${currRoleModifier}`);
-
+                        var currRoleData = this.actor.role.data;
+                        this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`, this.target.role.data);
+                        this.target.setRole(`${currRoleName}:${currRoleModifier}`, currRoleData);
                     }
                 }
             }

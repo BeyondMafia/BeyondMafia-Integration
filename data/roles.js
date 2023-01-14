@@ -323,7 +323,8 @@ const roleData = {
         "Disguiser": {
             alignment: "Mafia",
             description: [
-                "Can steal the identity of the person killed by the Mafia each night."
+                "Can steal the identity of the person killed by the Mafia each night.",
+                "Cannot be targeted while disguising.",
             ],
         },
         "Sniper": {
@@ -469,8 +470,6 @@ const roleData = {
             description: [
                 "Can choose one player to swap roles with each night.",
                 "Cannot win the game.",
-                "Appears as Villager/innocent to investigative roles.",
-                "Swap does show visit and cannot be role blocked."
             ],
         },
     },
