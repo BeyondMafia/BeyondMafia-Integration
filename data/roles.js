@@ -379,13 +379,20 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Douses one player with Gasoline each night.",
-                "Can light one match during the day to burn doused players.",
+                "Can light one match during the day to burn doused players."
             ],
         },
         "Killer Bee": {
             alignment: "Mafia",
             description: [
                 "Once per game, can fatally sting another player during the day, killing them both."
+            ],
+        "Illusionist": {
+            alignment: "Mafia",
+            description: [
+                "Starts off with one gun.",
+                "Chooses one person at night, when Illusionist shoots gun, chosen player will be framed as shooter.",
+                "Can only do this once a game."
             ],
         },
 
