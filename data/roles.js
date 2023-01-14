@@ -390,9 +390,8 @@ const roleData = {
         "Illusionist": {
             alignment: "Mafia",
             description: [
-                "Starts off with one gun.",
-                "Chooses one person at night, when Illusionist shoots gun, chosen player will be framed as shooter.",
-                "Can only do this once a game."
+                "Starts off with a gun.",
+                "Frame one person at night as the shooter when the Illusionist shoots the gun.",
             ],
         },
 
