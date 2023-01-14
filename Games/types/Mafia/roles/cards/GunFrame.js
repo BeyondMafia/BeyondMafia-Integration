@@ -16,7 +16,7 @@ module.exports = class GunFrame extends Card {
 				action: {
 					priority: PRIORITY_GUN_FRAME,
 					run: function () {
-						//…
+						this.role.data.framed = this.target.name;
 					}
 				}
 			}
