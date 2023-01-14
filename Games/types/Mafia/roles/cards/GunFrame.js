@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_GUN_FRAME } = require("../../const/Priority");
 
-module.exports = class IlluGunFrame extends Card {
+module.exports = class GunFrame extends Card {
 
 	constructor(role) {
 		super(role);
