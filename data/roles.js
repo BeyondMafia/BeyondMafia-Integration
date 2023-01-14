@@ -480,6 +480,13 @@ const roleData = {
                 "Wins if both players survive until the end of the game.",
             ],
         },
+        "Matchmaker": {
+            alignment: "Independent",
+            description: [
+                "Each night chooses too people to go on a date. If those two are the same role, they will fall in love.",
+                "Wins if all players left alive are in love.",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
