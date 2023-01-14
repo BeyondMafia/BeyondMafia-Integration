@@ -11,3 +11,4 @@ module.exports = class Lover extends Role {
     }
 
 }
+}
