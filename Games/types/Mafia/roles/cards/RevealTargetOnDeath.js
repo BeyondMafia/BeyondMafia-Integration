@@ -9,8 +9,9 @@ module.exports = class RevealTargetOnDeath extends Card {
 		this.meetings = {
 			"Reveal on Death": {
 				states: ["Night"],
-				flags: ["voting", "hidden", "absolute"],
+				flags: ["voting"],
 				action: {
+					labels: ["hidden", "absolute"],
 					priority: PRIORITY_REVEAL_TARGET_ON_DEATH,
 					run: function () {
 						this.actor.role.data.playerToReveal = this.target;
