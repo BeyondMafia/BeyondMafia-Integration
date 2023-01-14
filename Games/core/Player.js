@@ -748,6 +748,11 @@ module.exports = class Player {
 		}
 	}
 
+	removeAllEffects() {
+		for (let effect of this.effects)
+			effect.remove()
+	}
+
 	hasItem(itemName) {
 		for (let item of this.items)
 			if (item.name == itemName)
