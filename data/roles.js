@@ -391,7 +391,7 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Starts off with a gun.",
-                "Frame one person at night as the shooter when the Illusionist shoots the gun.",
+                "Frame one person at night as the shooter when the Illusionist shoots this gun."
             ],
         },
 
