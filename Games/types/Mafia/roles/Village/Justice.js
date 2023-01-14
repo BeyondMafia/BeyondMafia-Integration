@@ -7,12 +7,6 @@ module.exports = class Justice extends Role {
 
 		this.alignment = "Village";
 		this.cards = ["VillageCore", "WinWithVillage", "CompareAlignments"];
-		this.meetingMods = {
-			"Investigate players": {
-				flags: ["voting"],
-				targets: { include: ["alive"], exclude: ["self"] },
-			}
-		};
 	}
 
 }
