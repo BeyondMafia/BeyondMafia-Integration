@@ -323,7 +323,8 @@ const roleData = {
         "Disguiser": {
             alignment: "Mafia",
             description: [
-                "Can steal the identity of the person killed by the Mafia each night."
+                "Can steal the identity of the person killed by the Mafia each night.",
+                "Cannot be targeted while disguising.",
             ],
         },
         "Sniper": {
@@ -462,6 +463,13 @@ const roleData = {
             description: [
                 "Can choose one player to probe each night.",
                 "Wins if all players left alive have been probed."
+            ],
+        },
+        "Old Maid": {
+            alignment: "Independent",
+            description: [
+                "Can choose one player to swap roles with each night.",
+                "Cannot win the game.",
             ],
         },
     },
