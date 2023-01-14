@@ -22,7 +22,7 @@ module.exports = class IlluGun extends Item {
                             reveal = Random.randArrayVal([true, false]);
 
                         if (reveal)
-                            this.game.queueAlert(`${this.item.data.prevTarget.name} pulls a gun and shoots at ${this.target.name}!`);
+                            this.game.queueAlert(`${this.role.data.framed} pulls a gun and shoots at ${this.target.name}!`);
                         else
                             this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
 
