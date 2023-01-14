@@ -21,16 +21,17 @@ module.exports = class IlluGun extends Item {
                         if (reveal == null)
                             reveal = Random.randArrayVal([true, false]);
 
-                        if (reveal)
-                            this.game.queueAlert(`${this.role.data.framed} pulls a gun and shoots at ${this.target.name}!`);
-                        else
-                            this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
+                        if (this.role.data.framed != "")
+                            if (reveal)
+                                this.game.queueAlert(`${this.role.data.framed} pulls a gun and shoots at ${this.target.name}!`);
+                            else
+                                this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
+                        
+                            if (this.dominates())
+                                this.target.kill("gun", this.actor, true);
 
-                        if (this.dominates())
-                            this.target.kill("gun", this.actor, true);
-
-                        this.item.drop();
-                        this.game.broadcast("gunshot");
+                            this.item.drop();
+                            this.game.broadcast("gunshot");
                     }
                 }
             }
