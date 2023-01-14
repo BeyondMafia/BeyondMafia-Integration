@@ -7,23 +7,33 @@ module.exports = class CleanDeath extends Card {
 		super(role);
 
 		this.meetings = {
-			"Clean": {
+			"Clean Death": {
 				states: ["Night"],
 				flags: ["voting"],
+				inputType: "boolean",
 				action: {
 					labels: ["clean"],
 					priority: PRIORITY_CLEAN_DEATH,
 					run: function () {
-						var targetRole = this.target.role;
-						var actorRole = this.actor.role;
+						if (this.target == "No")
+							return;
 
-						if (!targetRole.data.lastCleanedAppearance) {
-							var role = this.target.getAppearance("death", true);
-							this.actor.queueAlert(`You discover ${this.target.name}'s role is ${role}.`);
+						for (let action of this.game.actions[0]) {
+							if (action.hasLabels(["kill", "mafia"]) && action.dominates()) {
+								var targetRole = action.target.role;
+								var actorRole = this.actor.role;
 
-							actorRole.data.cleanedPlayer = this.target;
-							targetRole.data.lastCleanedAppearance = targetRole.appearance.death;
-							targetRole.appearance.death = null;
+								if (!targetRole.data.lastCleanedAppearance) {
+									var roleName = action.target.getAppearance("death", true);
+									this.actor.queueAlert(`You discover ${action.target.name}'s role is ${roleName}.`);
+
+									actorRole.data.cleanedPlayer = action.target;
+									targetRole.data.lastCleanedAppearance = targetRole.appearance.death;
+									targetRole.appearance.death = null;
+								}
+
+								break;
+							}
 						}
 					}
 				},

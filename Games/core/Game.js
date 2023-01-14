@@ -1035,7 +1035,7 @@ module.exports = class Game {
 	finishMeetings() {
 		for (let meeting of this.meetings)
 			if (!meeting.finished)
-				meeting.finish(true);
+				meeting.finish();
 	}
 
 	isSpectatorMeeting(meeting) {

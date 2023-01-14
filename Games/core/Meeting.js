@@ -635,7 +635,7 @@ module.exports = class Meeting {
 
 		// Return if no action to take
 		if (!finalTarget || finalTarget == "*") {
-			if (this.instant)
+			if (this.instant && isVote)
 				this.game.checkAllMeetingsReady();
 
 			return;
@@ -780,7 +780,7 @@ module.exports = class Meeting {
 		else if (!this.multi)
 			return Object.keys(this.votes).length == this.totalVoters;
 		else
-			return this.votes[voter.id].length >= this.multiMin;
+			return this.votes[this.members.at(0).player.id].length >= this.multiMin;
 	}
 
 }
