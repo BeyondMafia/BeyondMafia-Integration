@@ -150,7 +150,11 @@
 	background-color: white;
 }
 
-.form .chrome-picker>div:last-child .flexbox-fix:last-child {
+.form .chrome-picker>div:last-child .flexbox-fix:last-child label {
+	display: none !important;
+}
+
+.form .chrome-picker>div:last-child .flexbox-fix:last-child>div:last-child {
 	display: none !important;
 }
 

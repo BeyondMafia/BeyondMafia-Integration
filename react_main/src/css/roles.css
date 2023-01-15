@@ -283,6 +283,10 @@
     background-position: -180px -120px;
 }
 
+.role-Mafia-Dreamer {
+    background-position: -210px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -363,6 +367,10 @@
     background-position: -510px -40px;
 }
 
+.role-Mafia-Arsonist {
+    background-position: -540px -40px;
+}
+
 /* 
 * Independent 
 */
@@ -393,6 +401,10 @@
 
 .role-Mafia-Executioner {
     background-position: -660px -40px;
+}
+
+.role-Mafia-Old-Maid {
+    background-position: -690px -40px;
 }
 
 /* 
