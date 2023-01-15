@@ -24,8 +24,10 @@ module.exports = class Carol extends Card {
 						for (let action of this.game.actions[0])
 							if (action.actor == this.target && !action.hasLabel("hidden"))
 								return;
+							else
+								break;
 
-						var carol;
+						var announcement;
 						var alive = this.game.players.filter(p => p.alive);
 						var mafia = alive.filter(p => p.role.alignment == "Mafia");
 						var chosenThree = [
@@ -35,17 +37,22 @@ module.exports = class Carol extends Card {
 						];
 
 						if (mafia.length == 0)
-							carol = `You see a merry Caroler outside your house! They sing you a happy song about all of the Mafia being dead!`;
+							announcement = `You see a merry Caroler outside your house! They sing you a happy song about all of the Mafia being dead!`;
 						else {
 							if (chosenThree.filter(p => p.role.alignment == "Mafia").length == 0) {
 								chosenThree[0] = Random.randArrayVal(mafia);
 								chosenThree = Random.randomizeArray(chosenThree);
 							}
 
-							carol = `You see a merry Caroler outside your house! They sing you a Carol about ${chosenThree[0].name}, ${chosenThree[1].name}, ${chosenThree[2].name}, at least one of whom is the Mafia!`;
+							announcement = `You see a merry Caroler outside your house! They sing you a Carol about ${chosenThree[0].name}, ${chosenThree[1].name}, ${chosenThree[2].name}, at least one of whom is the Mafia!`;
 						}
-
-						this.target.queueAlert(carol);
+						
+						if (this.target == isPrevTarget)
+							announcement = `You can not target the same player consecutively.`
+							this.actor.queueAlert(announcement);
+						else
+							this.target.queueAlert(announcement);
+						
 					}
 				}
 			}
