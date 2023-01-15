@@ -91,3 +91,9 @@ git push origin add-journalist
 - [] Add the card priority in `Games/core/types/Mafia/const/Priority.js`
 - [] (optional) Add role test in test/Games/Game.test.js
 - [] Tested the role mechanics
+
+## References
+
+- [Capybara PR](https://github.com/r3ndd/BeyondMafia-Integration/pull/2)
+- [Alien PR](https://github.com/r3ndd/BeyondMafia-Integration/pull/11)
+- [Associate PR](https://github.com/r3ndd/BeyondMafia-Integration/pull/29)
