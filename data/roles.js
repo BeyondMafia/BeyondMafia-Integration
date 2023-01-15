@@ -264,6 +264,13 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Chef": {
+            alignment: "Village",
+            description: [
+                "Chooses up to two players to invite to a banquet.",
+                "At night, guests will all anonymously meet and see the roles of all guests.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
