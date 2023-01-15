@@ -400,7 +400,7 @@ router.post("/settings/update", async function (req, res) {
             const yiq = (rgb[0] * 2126 + rgb[1] * 7152 + rgb[2] * 722) / 10000;
             const isLight = yiq >= contrastTolerance * 256;
 
-            if ((prop == "textColor" || prop == "nameColor") && c.isLight()) {
+            if ((prop == "textColor" || prop == "nameColor") && isLight) {
                 res.status(500);
                 res.send("Color is too light.");
                 return;
