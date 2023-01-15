@@ -394,7 +394,7 @@ router.post("/settings/update", async function (req, res) {
             // YIQ equation from http://24ways.org/2010/calculating-color-contrast
 
             // original value was 0.5
-            const contrastTolerance = 0.6
+            const contrastTolerance = 0.6;
 
 		    const rgb = c.rgb().color;
 		    const yiq = (rgb[0] * 2126 + rgb[1] * 7152 + rgb[2] * 722) / 10000;
