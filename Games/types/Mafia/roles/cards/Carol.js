@@ -45,13 +45,13 @@ module.exports = class Carol extends Card {
 							announcement = `You see a merry Caroler outside your house! They sing you a Carol about ${chosenThree[0].name}, ${chosenThree[1].name}, ${chosenThree[2].name}, at least one of whom is the Mafia!`;
 						}
 						
-						if (this.target == isPrevTarget)
+						if (this.target == isPrevTarget) {
 							announcement = `You can not target the same player consecutively.`
 							this.actor.queueAlert(announcement);
-						else {
-							if (this.target == this.actor) {
-								announcement = `You can not target yourself.`
-								this.actor.queueAlert(announcement);
+						}
+						else if (this.target == this.actor) {
+							announcement = `You can not target yourself.`
+							this.actor.queueAlert(announcement);
 							}
 						else {
 							this.target.queueAlert(announcement);
