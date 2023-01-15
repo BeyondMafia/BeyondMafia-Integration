@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_SNOOP } = require("../../const/Priority");
 
-module.exports = class TrackPlayer extends Card {
+module.exports = class SnoopItems extends Card {
 
     constructor(role) {
         super(role);
