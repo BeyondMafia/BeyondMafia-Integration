@@ -23,7 +23,7 @@ module.exports = class Dream extends Card {
 							return;
 
 					var dream;
-					var alive = this.game.players.filter(p => p.alive);
+					var alive = this.game.players.filter(p => p.alive && p != this.player);
 					var mafia = alive.filter(p => p.role.alignment == "Mafia");
 					var village = alive.filter(p => p.role.alignment == "Village");
 					var chosenThree = [
