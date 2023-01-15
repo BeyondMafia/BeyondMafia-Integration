@@ -487,6 +487,13 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Traitor": {
+            alignment: "Independent",
+            description: [
+                "Wins when mafia wins.",
+                "Does not count towards mafia win count.",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
