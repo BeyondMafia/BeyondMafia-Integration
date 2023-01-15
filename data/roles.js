@@ -388,6 +388,12 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Ninja": {
+            alignment: "Mafia",
+            description: [
+                "Does not appear to visit when performing actions."
+            ],
+        },
 
         //Monsters
         "Lycan": {
