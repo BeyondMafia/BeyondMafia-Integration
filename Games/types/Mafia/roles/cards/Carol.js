@@ -49,10 +49,6 @@ module.exports = class Carol extends Card {
 							announcement = `You can not target the same player consecutively.`
 							this.actor.queueAlert(announcement);
 						}
-						else if (this.target == this.actor) {
-							announcement = `You can not target yourself.`
-							this.actor.queueAlert(announcement);
-							}
 						else {
 							this.target.queueAlert(announcement);
 						}
