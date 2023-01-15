@@ -22,21 +22,7 @@ For now, just append the role at the bottom of the list.
 
 #### 2. Add role class in `Games/core/types/Mafia/roles/<Alignment>`. 
 
-You can refer to other role classes like [Arms Dealer](/Games/types/Mafia/roles/Village/ArmsDealer.js) for the template. Generally, it would be like this:
-
-```
-const Role = require("../../Role");
-
-module.exports = class ArmsDealer extends Role {
-
-	constructor(player, data) {
-		super("Arms Dealer", player, data);
-		this.alignment = "Village";
-		this.cards = ["VillageCore", "WinWithVillage", "GunGiver"];
-	}
-
-}
-```
+You can refer to other role classes like Arms Dealer in `Games/types/Mafia/roles/Village/ArmsDealer.js` for the template.
 
 #### 3. Add the role card(s) in `Games/core/types/Mafia/roles/cards`.
 

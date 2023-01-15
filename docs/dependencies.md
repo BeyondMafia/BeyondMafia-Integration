@@ -99,7 +99,7 @@ REACT_APP_AGORA_ID=
 
 <img src="https://user-images.githubusercontent.com/24848927/209990518-3573f596-ced0-4f24-97c7-9e50ef820e1e.png" alt="agora" width="400"/>
 
-## ipqs
+## ipqs (OPTIONAL)
 
 > Setting up ipqs is not required to get the site running locally.
 

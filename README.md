@@ -5,7 +5,7 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 1. Fork the repository
 2. Make your changes to your forked repository
 3. Open a pull request on the dev branch of this repository
-4. If approved and merged, test your changes on https://test.beyondmafia.com 
+4. If approved and merged, test your changes on https://test.beyondmafia.com
 5. Dev will be merged into master after changes are tested
 6. Perform a final test on the main site after merge into master
 
