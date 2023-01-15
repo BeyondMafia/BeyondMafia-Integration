@@ -264,6 +264,12 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Snoop": {
+            alignment: "Village",
+            description: [
+                "Snoops someone each night and learns what items they are carrying.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
