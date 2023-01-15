@@ -1,4 +1,5 @@
 const Effect = require("../Effect");
+const Action = require("../Action");
 
 module.exports = class Cursed extends Effect {
 
@@ -11,8 +12,17 @@ module.exports = class Cursed extends Effect {
 
 	speak(message) {
 		if (message.content.includes(this.word)) {
-			this.game.queueAlert(`${this.target.name} suddenly feels a chill and falls to the ground!`);
-			this.target.kill("curse", this.actor, true);
+			var action = new Action({
+				actor: this.actor,
+				target: this.player,
+				labels: ["kill", "curse"],
+				run: function () {
+					if (this.dominates())
+						this.target.kill("curse", this.actor, true);
+				}
+			});
+			
+			action.do();
 		}
 	}
 };
