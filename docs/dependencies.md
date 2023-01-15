@@ -4,8 +4,8 @@ This project relies on a few external APIs. This section walksthrough how to set
 
 - Firebase
 - reCAPTCHA
-- Agora
-- ipqs
+- Agora (OPTIONAL)
+- ipqs (OPTIONAL)
 
 ## Firebase
 
@@ -74,7 +74,9 @@ REACT_APP_RECAPTCHA_KEY=
 
 The server side key can also be used in the backend under the env `RECAPTCHA_KEY`, but it's only required for production mode.
 
-## Agora
+## Agora (OPTIONAL)
+
+> Setting up Agora is not required to get the site running locally.
 
 Use the same values for both the backend and frontend. Required API keys:
 
@@ -97,7 +99,9 @@ REACT_APP_AGORA_ID=
 
 <img src="https://user-images.githubusercontent.com/24848927/209990518-3573f596-ced0-4f24-97c7-9e50ef820e1e.png" alt="agora" width="400"/>
 
-## ipqs
+## ipqs (OPTIONAL)
+
+> Setting up ipqs is not required to get the site running locally.
 
 Required API keys:
 
