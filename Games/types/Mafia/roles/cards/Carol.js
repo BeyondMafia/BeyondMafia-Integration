@@ -24,9 +24,6 @@ module.exports = class Carol extends Card {
 						for (let action of this.game.actions[0])
 							if (action.actor == this.target && !action.hasLabel("hidden"))
 								return;
-								continue;
-							else
-								break;
 
 						var announcement;
 						var alive = this.game.players.filter(p => p.alive);
