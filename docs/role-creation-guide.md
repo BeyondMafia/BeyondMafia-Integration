@@ -6,9 +6,7 @@ Firstly, thank you so much for taking the time to contribute to BeyondMafia. Thi
 
 #### Choose a role to implement.
 
-Refer to [this issue](https://github.com/r3ndd/BeyondMafia-Integration/issues/16) for a full list of roles that require implementation. There are also links to mechanic description and system messages
-
-Drop a comment stating which role you want to work on.
+Refer to [this issue](https://github.com/r3ndd/BeyondMafia-Integration/issues/16) for a full list of roles that require implementation. There are also links to mechanic description and system messages. Drop a comment stating which role you want to work on.
 
 Locally, checkout a branch for the role you want to make.
 
