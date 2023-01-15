@@ -1,14 +1,14 @@
 # Role Creation Guide
 
-Firstly, thank you so much for taking the time to contribute to BeyondMafia. This guide aims to bring you from zero to hero. You would first need to get your site running by following the project's README.
+Firstly, thank you so much for taking the time to contribute to BeyondMafia. You would first need to get your site running by following the project's [README](/README.md).
 
 ## Setup
 
-#### Choose a role to implement.
+#### 1. Choose a role to implement.
 
 Refer to [this issue](https://github.com/r3ndd/BeyondMafia-Integration/issues/16) for a full list of roles that require implementation. There are also links to mechanic description and system messages. Drop a comment stating which role you want to work on.
 
-Locally, checkout a branch for the role you want to make.
+#### 2. Locally, checkout a branch for the role you want to make.
 
 `git checkout -b add-journalist`
 
@@ -16,7 +16,7 @@ Locally, checkout a branch for the role you want to make.
 
 #### 1. Add role description in `data/roles.js`. 
 
-For now, just append the role at the bottom of the list.
+Append to the bottom of the respective alignment.
 
 #### 2. Add role class in `Games/core/types/Mafia/roles/<Alignment>`. 
 
@@ -76,7 +76,9 @@ git push origin add-journalist
 - [] (optional) Add role test in test/Games/Game.test.js
 - [] Tested the role mechanics
 
-## References
+## Final Notes
+
+You may refer to roles that other people have created:
 
 - [Capybara PR](https://github.com/r3ndd/BeyondMafia-Integration/pull/2)
 - [Alien PR](https://github.com/r3ndd/BeyondMafia-Integration/pull/11)
