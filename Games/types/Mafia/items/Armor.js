@@ -11,12 +11,12 @@ module.exports = class Armor extends Item {
             "immune": function (action) {
                 if (
                     action.target == this.holder &&
-                    action.hasLabel("kill") &&
-                    !this.holder.role.immunity["kill"] &&
-                    !this.holder.tempImmunity["kill"]
+                    action.hasLabel(LABEL_KILL) &&
+                    !this.holder.role.immunity[LABEL_KILL] &&
+                    !this.holder.tempImmunity[LABEL_KILL]
                 ) {
                     for (let effect of this.holder.effects)
-                        if (effect.immunity["kill"] && effect.name != "Kill Immune")
+                        if (effect.immunity[LABEL_KILL] && effect.name != "Kill Immune")
                             return;
 
                     this.uses--;
