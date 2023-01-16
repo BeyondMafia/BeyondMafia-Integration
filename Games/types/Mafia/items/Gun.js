@@ -10,10 +10,10 @@ module.exports = class Gun extends Item {
         this.meetings = {
             "Shoot Gun": {
                 actionName: "Shoot",
-                states: ["Day"],
-                flags: ["voting", "instant", "noVeg"],
+                states: [STATE_DAY],
+                flags: [FLAG_VOTING, FLAG_INSTANT, FLAG_NO_VEG],
                 action: {
-                    labels: ["kill", "gun"],
+                    labels: [LABEL_KILL, LABEL_GUN],
                     item: this,
                     run: function () {
                         var reveal = this.item.reveal;
@@ -27,7 +27,7 @@ module.exports = class Gun extends Item {
                             this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
 
                         if (this.dominates())
-                            this.target.kill("gun", this.actor, true);
+                            this.target.kill(DEATH_TYPE_GUN, this.actor, true);
 
                         this.item.drop();
                         this.game.broadcast("gunshot");
