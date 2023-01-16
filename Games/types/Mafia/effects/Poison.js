@@ -15,12 +15,12 @@ module.exports = class Poison extends Effect {
             actor: this.poisoner,
             target: player,
             game: this.poisoner.game,
-            labels: ["kill", "poison", "hidden"],
+            labels: [LABEL_KILL, LABEL_POISON, LABEL_HIDDEN],
             delay: 1,
             effect: this,
             run: function () {
                 if (this.dominates())
-                    this.target.kill("poison", this.actor);
+                    this.target.kill(DEATH_TYPE_POISON, this.actor);
 
                 this.effect.remove();
             }
