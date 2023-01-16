@@ -33,6 +33,7 @@ module.exports = class KillVoteOnLynch extends Card {
 				this.game.queueAction(new Action({
 					actor: this.player,
 					target: target,
+					game: this.game,
 					labels: ["kill"],
 					run: function () {
 						if (this.dominates())

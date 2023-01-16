@@ -20,7 +20,7 @@ module.exports = class BlockVisitors extends Card {
 							action.priority > this.priority &&
 							!action.hasLabel("hidden")
 						) {
-							action.cancel(true);
+							action.cancel();
 						}
 					}
 				}

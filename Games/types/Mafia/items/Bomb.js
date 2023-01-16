@@ -12,13 +12,14 @@ module.exports = class Bomb extends Item {
 					var action = new Action({
 						actor: this.holder,
 						target: killer,
+						game: this.holder.game,
 						labels: ["kill", "bomb"],
 						run: function () {
 							if (this.dominates())
 								this.target.kill("bomb", this.actor, instant);
 						}
 					});
-					
+
 					action.do();
 				}
 			}
