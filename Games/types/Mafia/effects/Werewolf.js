@@ -24,17 +24,17 @@ module.exports = class Werewolf extends Effect {
 				if (!stateInfo.name.match(/Night/) || stateInfo.dayCount % 2 != 1)
 					return;
 
-				const nonMosters = this.game.players.filter(p => p.role.alignment != "Monsters" && p.alive && p != this.player);
+				const nonMosters = this.game.players.filter(p => p.role.alignment != ALIGNMENT_MONSTERS && p.alive && p != this.player);
 				const target = Random.randArrayVal(nonMosters);
 
 				this.game.queueAction(new Action({
 					actor: this.player,
 					target: target,
 					game: this.player.game,
-					labels: ["kill", "werewolf"],
+					labels: [LABEL_KILL, LABEL_WEREWOLF],
 					run: function () {
 						if (this.dominates())
-							this.target.kill("basic", this.actor);
+							this.target.kill(DEATH_TYPE_BASIC, this.actor);
 					}
 				}));
 			}
