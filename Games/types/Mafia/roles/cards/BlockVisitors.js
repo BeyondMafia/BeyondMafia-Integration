@@ -17,10 +17,16 @@ module.exports = class BlockVisitors extends Card {
 					for (let action of this.game.actions[0]) {
 						if (
 							action.target == this.actor &&
-							action.priority > this.priority &&
 							!action.hasLabel("hidden")
 						) {
-							action.cancel();
+							for (let _action of this.game.actions[0]) {
+								if (
+									_action.priority > this.priority &&
+									!_action.hasLabel("absolute")
+								) {
+									_action.cancelActor(action.actor);
+								}
+							}
 						}
 					}
 				}
