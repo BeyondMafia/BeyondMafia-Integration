@@ -10,8 +10,8 @@ module.exports = class Handcuffs extends Item {
         this.meetings = {
             "Jail": {
                 actionName: "Execute Prisoner",
-                states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous"],
+                states: [STATE_NIGHT],
+                flags: [FLAG_GROUP, FLAG_SPEECH, FLAG_VOTING, FLAG_ANONYMOUS],
                 inputType: "boolean",
                 canVote: false
             }
