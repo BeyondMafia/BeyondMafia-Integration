@@ -388,6 +388,12 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Fabricator": {
+            alignment: "Mafia",
+            description: [
+                "Once per night can give out an ill-fated version of many items."
+            ],
+        },
 
         //Monsters
         "Lycan": {
