@@ -9,11 +9,11 @@ module.exports = class Orange extends Item {
         this.meetings = {
             "Visit Hot Springs": {
                 actionName: "Visit the hot springs tonight?",
-                states: ["Day"],
-                flags: ["voting"],
+                states: [STATE_DAY],
+                flags: [FLAG_VOTING],
                 inputType: "boolean",
                 action: {
-                    labels: ["springs", "orange"],
+                    labels: ["springs", LABEL_ORANGE],
                     priority: 10,
                     item: this,
                     run: function () {
@@ -24,8 +24,8 @@ module.exports = class Orange extends Item {
                 }
             },
             "Hot Springs": {
-                states: ["Night"],
-                flags: ["group", "speech", "anonymous"],
+                states: [STATE_NIGHT],
+                flags: [FLAG_GROUP, FLAG_SPEECH, FLAG_ANONYMOUS],
                 shouldMeet: function () {
                     return this.data.visitHotSprings;
                 }
