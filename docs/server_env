@@ -1,0 +1,47 @@
+NODE_ENV=development
+PORT=3000
+UPLOAD_PATH=uploads
+BASE_URL=http://localhost:3001
+
+GAME_PORTS=[3010]
+CHAT_PORT=2999
+SOCKET_PING_INTERVAL=10000
+SERVER_SOCKET_PING_INTERVAL=2000
+GAME_CREATION_TIMEOUT=5000
+
+# any string to replace x
+SESSION_SECRET=x
+LOAD_BALANCER_KEY=x
+BOT_KEY=x
+
+# follow your mongo setup
+MONGO_URL=localhost
+MONGO_DB=dbname
+MONGO_USER=admin
+MONGO_PW=x
+
+# any number from 0 to 15
+REDIS_DB=0
+
+# get your firebase API key
+FIREBASE_API_KEY=x
+FIREBASE_AUTH_DOMAIN=x.firebaseapp.com
+FIREBASE_PROJECT_ID=x
+FIREBASE_MESSAGING_SENDER_ID=x
+FIREBASE_APP_ID=x
+FIREBASE_MEASUREMENT_ID=x
+FIREBASE_JSON_FILE=x
+
+# optional
+AGORA_ID=x
+AGORA_CERT=x
+
+# optional
+IP_API_URL=https://ipqualityscore.com/api/json/ip
+IP_API_KEY=x
+IP_API_PARAMS=strictness=0&allow_public_access_points=true&fast=true&lighter_penalties=true&mobile=true
+
+# optional
+RECAPTCHA_KEY=x
+
+RESERVED_NAMES={}

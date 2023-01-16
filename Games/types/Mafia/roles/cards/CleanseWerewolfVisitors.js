@@ -34,10 +34,10 @@ module.exports = class CleanseWerewolfVisitors extends Card {
 					for (let action of this.game.actions[0]) {
 						if (
 							action.actor &&
-							cleansedWolves[action.actor.id] && 
+							cleansedWolves[action.actor.id] &&
 							action.hasLabels(["kill", "werewolf"])
 						) {
-							action.cancel(true);
+							action.cancel();
 						}
 					}
 				}

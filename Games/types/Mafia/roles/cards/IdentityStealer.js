@@ -13,8 +13,8 @@ module.exports = class IdentityStealer extends Card {
 				flags: ["voting"],
 				inputType: "boolean",
 				action: {
-					priority: PRIORITY_IDENTITY_STEALER,
 					labels: ["stealIdentity"],
+					priority: PRIORITY_IDENTITY_STEALER,
 					run: function () {
 						if (this.target == "No")
 							return;

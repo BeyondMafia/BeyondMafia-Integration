@@ -52,7 +52,7 @@ module.exports = class Game {
 		this.voiceChat = options.settings.voiceChat;
 		this.readyCheck = options.settings.readyCheck;
 		this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
-		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 5000;
+		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 10000;
 		this.postgameLength = 1000 * 60 * 2;
 		this.players = new ArrayHash();
 		this.playersGone = {};
@@ -454,6 +454,7 @@ module.exports = class Game {
 		this.queueAction(new Action({
 			actor: player,
 			target: player,
+			game: this,
 			run: function () {
 				this.target.kill("veg", this.actor);
 			}
@@ -998,9 +999,16 @@ module.exports = class Game {
 		for (let player of this.players)
 			player.meet();
 
+		this.initMeetings();
+		this.sendMeetings();
+	}
+
+	initMeetings() {
 		for (let meeting of this.meetings)
 			meeting.init();
+	}
 
+	sendMeetings() {
 		for (let player of this.players)
 			player.sendMeetings();
 
@@ -1015,7 +1023,7 @@ module.exports = class Game {
 		var allReady = true;
 
 		for (let meeting of this.meetings) {
-			if (!meeting.checkReady()) {
+			if (!meeting.ready) {
 				allReady = false;
 				break;
 			}
@@ -1028,7 +1036,7 @@ module.exports = class Game {
 	finishMeetings() {
 		for (let meeting of this.meetings)
 			if (!meeting.finished)
-				meeting.finish(true);
+				meeting.finish();
 	}
 
 	isSpectatorMeeting(meeting) {
@@ -1104,22 +1112,17 @@ module.exports = class Game {
 		this.processingActionQueue = false;
 	}
 
-	async instantAction(action, meeting) {
-		try {
-			this.events.emit("instantAction", action);
-			action.do();
+	instantAction(action, meeting) {
+		this.events.emit("instantAction", action);
+		action.do();
 
-			if (this.checkGameEnd())
-				return;
+		if (this.checkGameEnd())
+			return;
 
-			this.checkAllMeetingsReady();
-			this.processDeathQueue();
-			this.processRevealQueue();
-			this.processAlertQueue();
-		}
-		catch (e) {
-			logger.error(e);
-		}
+		this.checkAllMeetingsReady();
+		this.processDeathQueue();
+		this.processRevealQueue();
+		this.processAlertQueue();
 	}
 
 	isMustAct() {
@@ -1192,8 +1195,10 @@ module.exports = class Game {
 			this.processRevealQueue();
 			this.processAlertQueue();
 
-			for (let player of this.players)
+			for (let player of this.players) {
 				this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
+				player.removeAllEffects();
+			}
 
 			this.broadcast("winners", winners.getWinnersInfo());
 

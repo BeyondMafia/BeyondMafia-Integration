@@ -378,8 +378,8 @@ const roleData = {
         "Arsonist": {
             alignment: "Mafia",
             description: [
-                "Douses one villager with Gasoline each night.",
-                "Can light one match during the day to burn doused villagers.",
+                "Douses one player with Gasoline each night.",
+                "Can light one match during the day to burn doused players.",
             ],
         },
         "Killer Bee": {

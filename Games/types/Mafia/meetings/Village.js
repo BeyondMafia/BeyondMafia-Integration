@@ -32,8 +32,8 @@ module.exports = class VillageMeeting extends Meeting {
             this.game.clearTimer("secondary");
     }
 
-    finish() {
-        super.finish();
+    finish(isVote) {
+        super.finish(isVote);
 
         for (let member of this.members) {
             if (member.player.role.alignment == "Village" && this.votes[member.id] && this.votes[member.id] != "*") {
