@@ -66,6 +66,8 @@ module.exports = class PregameReadyMeeting extends Meeting {
 		this.game.sendAlert("Everyone is ready, starting the game!");
 	}
 
-	updateReady() { }
+	checkReady() { }
+
+	finish() { }
 
 }
