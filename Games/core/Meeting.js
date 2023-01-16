@@ -631,7 +631,11 @@ module.exports = class Meeting {
 		}
 
 		// Return if no action to take
-		if (!finalTarget || finalTarget == "*") {
+		if (
+			!finalTarget ||
+			finalTarget == "*" ||
+			(this.inputType == "boolean" && this.instant && !isVote)
+		) {
 			if (this.instant && isVote)
 				this.game.checkAllMeetingsReady();
 
