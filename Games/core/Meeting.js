@@ -37,6 +37,7 @@ module.exports = class Meeting {
 		this.messages = [];
 		this.members = new ArrayHash();
 		this.leader = null;
+		this.leaderMax = 0;
 		this.votes = {};
 		this.voteRecord = [];
 		this.voteVersions = {};
@@ -74,8 +75,10 @@ module.exports = class Meeting {
 
 		this.members.push(member);
 
-		if (options.leader)
+		if (options.leader && options.leader > this.leaderMax) {
 			this.leader = player;
+			this.leaderMax = options.leader;
+		}
 
 		if (member.canVote)
 			this.totalVoters++;

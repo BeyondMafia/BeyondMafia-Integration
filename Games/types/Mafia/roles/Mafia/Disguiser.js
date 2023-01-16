@@ -9,7 +9,7 @@ module.exports = class Disguiser extends Role {
 		this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "IdentityStealer"];
 		this.meetingMods = {
 			"Mafia": {
-				leader: true,
+				leader: 1,
 			}
 		};
 	}
