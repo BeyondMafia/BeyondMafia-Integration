@@ -1,26 +1,34 @@
 const Effect = require("../Effect");
 const Action = require("../Action");
+const { PRIORITY_NIGHT_ROLE_BLOCKER } = require("../const/Priority");
 
 module.exports = class Stun extends Effect {
 
-    constructor(poisoner) {
-        super("Poison");
-        this.poisoner = poisoner;
+    constructor(stunner) {
+        super("stunner");
+        this.stunner = stunner;
     }
 
     apply(player) {
         super.apply(player);
 
         this.action = new Action({
-            actor: this.poisoner,
+            actor: this.stunner,
             target: player,
-            labels: ["kill", "poison", "hidden"],
+            labels: ["block"],
+            priority: PRIORITY_NIGHT_ROLE_BLOCKER,
             delay: 1,
             effect: this,
-            run: function () {
-                if (this.dominates())
-                    this.target.kill("poison", this.actor);
-
+            run: function() {
+                for (let action of this.game.actions[0]) {
+                    if (
+                        action.actor == this.target &&
+                        action.priority > this.priority &&
+                        !action.hasLabel("absolute")
+                    ) {
+                        action.cancel(true);
+                    }
+                }
                 this.effect.remove();
             }
         });

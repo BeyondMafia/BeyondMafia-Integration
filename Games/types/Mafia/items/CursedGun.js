@@ -15,7 +15,7 @@ module.exports = class CursedGun extends Item {
                 action: {
                     labels: ["kill", "gun"],
                     item: this,
-                    run: function () {
+                    run: function() {
                         this.target = this.actor;
                         var reveal = this.item.reveal;
 

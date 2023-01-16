@@ -10,9 +10,9 @@ module.exports = class CursedArmor extends Item {
     }
 
     hold(player) {
-        for (let effect of player.effects) {
-            if (effect.name == "Armor") {
-                effect.uses = 0;
+        for (let item of player.items) {
+            if (item.name == "Armor") {
+                item.drop();
                 return;
             }
         }

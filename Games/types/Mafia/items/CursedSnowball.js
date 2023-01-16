@@ -1,19 +1,21 @@
 const Item = require("../Item");
+const Random = require("../../../../lib/Random");
 
 module.exports = class CursedSnowball extends Item {
 
-    constructor() {
+    constructor(reveal) {
         super("Snowball (Cursed)");
 
+        this.reveal = reveal;
         this.meetings = {
             "Throw Snowball": {
                 actionName: "Throw",
                 states: ["Day"],
                 flags: ["voting", "instant", "noVeg"],
                 action: {
-                    labels: ["block"],
+                    labels: ["throw"],
                     item: this,
-                    run: function () {
+                    run: function() {
                         this.target = this.actor;
                         var reveal = this.item.reveal;
 
@@ -25,8 +27,7 @@ module.exports = class CursedSnowball extends Item {
                         else
                             this.game.queueAlert(`Someone throws a snowball at ${this.target.name}!`);
 
-                        if (this.dominates())
-                            this.target.giveEffect("Stun", actor);
+                        this.target.giveEffect("Stun", this.actor);
 
                         this.item.drop();
                     }
