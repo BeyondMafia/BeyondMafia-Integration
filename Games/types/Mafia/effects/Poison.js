@@ -31,7 +31,7 @@ module.exports = class Poison extends Effect {
 
     remove() {
         super.remove();
-        this.action.cancel();
+        this.action.cancel(true);
     }
 
 }

@@ -59,6 +59,20 @@ module.exports = class Action {
 		}
 	}
 
+	cancelActor(actor) {
+		var actorIndex = this.actors.indexOf(actor);
+		if (actorIndex == -1)
+			return;
+
+		this.actors.splice(actorIndex, 1);
+
+		if (this.actors.length == 0) {
+			this.do = () => { };
+			this.actors = [];
+			delete this.target;
+		}
+	}
+
 	get actor() {
 		return this.actors[0];
 	}
