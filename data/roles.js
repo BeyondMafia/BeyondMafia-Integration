@@ -264,6 +264,12 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -386,6 +392,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Once per game, can fatally sting another player during the day, killing them both."
+            ],
+        },
+        "Prosecutor": {
+            alignment: "Mafia",
+            description: [
+                "Votes weight is 2."
             ],
         },
 
