@@ -8,11 +8,11 @@ module.exports = class Match extends Item {
         this.meetings = {
             "Light Match": {
                 actionName: "Light your match?",
-                states: ["Day"],
-                flags: ["voting", "instant", "noVeg"],
+                states: [STATE_DAY],
+                flags: [FLAG_VOTING, FLAG_INSTANT, FLAG_NO_VEG],
                 inputType: "boolean",
                 action: {
-                    labels: ["ignite", "match"],
+                    labels: ["ignite", LABEL_MATCH],
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {
@@ -21,7 +21,7 @@ module.exports = class Match extends Item {
                             for (let player of this.game.players) {
                                 if (player.hasItem("Gasoline")) {
                                     if (player.alive && this.dominates(player))
-                                        player.kill("burn", this.actor, true);
+                                        player.kill(DEATH_TYPE_BURN, this.actor, true);
 
                                     player.dropItem("Gasoline", true);
                                 }
