@@ -264,6 +264,12 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },
         "Snoop": {
             alignment: "Village",
             description: [
