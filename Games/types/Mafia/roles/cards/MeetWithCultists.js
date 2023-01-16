@@ -10,7 +10,7 @@ module.exports = class MeetWithCultists extends Card {
 			"Cultists": {
 				actionName: "Convert",
 				states: ["Night"],
-				flags: ["group", "voting"],
+				flags: ["group", "voting", "multiActor"],
 				targets: { include: ["alive"], exclude: ["Monsters"] },
 				action: {
 					labels: ["convert", "cultist"],

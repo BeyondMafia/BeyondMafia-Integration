@@ -17,7 +17,7 @@ module.exports = class TrackPlayer extends Card {
 
 						for (let action of this.game.actions[0]) {
 							if (
-								action.actor == this.target &&
+								action.actors.indexOf(this.target) != -1 &&
 								!action.hasLabel("hidden") &&
 								action.priority < this.priority &&
 								action.target

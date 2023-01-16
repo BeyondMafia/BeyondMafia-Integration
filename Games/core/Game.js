@@ -454,6 +454,7 @@ module.exports = class Game {
 		this.queueAction(new Action({
 			actor: player,
 			target: player,
+			game: this,
 			run: function () {
 				this.target.kill("veg", this.actor);
 			}

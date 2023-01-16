@@ -14,6 +14,7 @@ module.exports = class Poison extends Effect {
         this.action = new Action({
             actor: this.poisoner,
             target: player,
+            game: this.poisoner.game,
             labels: ["kill", "poison", "hidden"],
             delay: 1,
             effect: this,

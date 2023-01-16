@@ -1,9 +1,9 @@
 module.exports = class Action {
 
 	constructor(options) {
-		this.actor = options.actor;
-		this.game = options.actor.game;
+		this.actors = options.actor ? [options.actor] : (options.actors || []);
 		this.target = options.target;
+		this.game = options.game;
 		this.meeting = options.meeting;
 		this.run = options.run.bind(this);
 		this.labels = options.labels || [];
@@ -49,13 +49,22 @@ module.exports = class Action {
 		return true;
 	}
 
-	cancel(clearInfo) {
-		this.do = () => { };
+	cancel(stopAll) {
+		this.actors.shift();
 
-		if (clearInfo) {
-			delete this.actor;
+		if (this.actors.length == 0 || stopAll) {
+			this.do = () => { };
+			this.actors = [];
 			delete this.target;
 		}
+	}
+
+	get actor() {
+		return this.actors[0];
+	}
+
+	set actor(_actor) {
+		this.actors.unshift(_actor);
 	}
 
 }
