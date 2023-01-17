@@ -1,62 +1,44 @@
-		const Card = require("../../Card");
-		const { PRIORITY_ALIGNMENT_TARGET_A, PRIORITY_ALIGNMENT_TARGET_B } = require("../../const/Priority");
+const Card = require("../../Card");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
-		module.exports = class CompareAlignments extends Card {
+module.exports = class CompareAlignments extends Card {
 
-			constructor(role) {
-				super(role);
+    constructor(role) {
+        super(role);
 
-				this.meetings = {
-					"Alignment Target A": {
-						states: ["Night"],
-						flags: ["voting"],
-						targets: { include: ["alive"], exclude: ["self", ""] },
-						action: {
-							labels: ["investigate", "alignment"],
-							priority: PRIORITY_ALIGNMENT_TARGET_A,
-							run: function () {
-								this.actor.role.data.targetA = this.target;
+        this.meetings = {
+            "Compare Alignments": {
+                actionName: "Compare Alignments (2)",
+                states: ["Night"],
+                flags: ["voting", "multi"],
+                targets: { include: ["alive"], exclude: ["", "self"] },
+                multiMin: 2,
+                multiMax: 2,
+                action: {
+                    labels: ["investigate", "alignment"],
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
+                    run: function () {
+                        var targetA = this.target[0];
+                        var roleA = targetA.getAppearance("investigate", true);
+                        var alignmentA = this.game.getRoleAlignment(roleA);
 
-							}
-						}
-					},
-					"Alignment Target B": {
-						states: ["Night"],
-						flags: ["voting"],
-						targets: { include: ["alive"], exclude: ["", "self"] },
-						action: {
-							labels: ["investigate", "alignment"],
-							priority: PRIORITY_ALIGNMENT_TARGET_B,
-							run: function () {
+                        var targetB = this.target[1];
+                        var roleB = targetB.getAppearance("investigate", true);
+                        var alignmentB = this.game.getRoleAlignment(roleB);
 
-								var targetA = this.actor.role.data.targetA;
-								var targetB = this.target;
-								var alert;
+                        var comparison;
 
-								if (targetA && targetB) {
-									if (targetA == targetB) 
-										alert = `You cannot compare ${targetA.name} twice...`;
-									else {
-										var roleA = targetA.getAppearance("investigate", true);
-										var alignmentA = this.game.getRoleAlignment(roleA);
-										var roleB = targetB.getAppearance("investigate", true);
-										var alignmentB = this.game.getRoleAlignment(roleB);
+                        if (alignmentA == alignmentB)
+                            comparison = "the same alignment";
+                        else
+                            comparison = "different alignments";
 
-										var comparison;
+                        var alert = `You learn that ${targetA.name} and ${targetB.name} have ${comparison}!`;
+                        this.actor.queueAlert(alert);
+                    }
+                }
+            }
+        };
+    }
 
-										if (alignmentA == alignmentB)
-											comparison = "the same alignment";
-										else
-											comparison = "different alignments";
-
-										var alert = `You learn that ${targetA.name} and ${targetB.name} have ${comparison}!`;
-									}
-									this.game.queueAlert(alert, 0, this.meeting.getPlayers());
-								}
-							}
-						}
-					}
-				};
-			}
-
-		}
+}
