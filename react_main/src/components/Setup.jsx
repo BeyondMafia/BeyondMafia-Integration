@@ -31,6 +31,7 @@ export default function Setup(props) {
 					alignment={alignment}
 					count={props.setup.count[alignment]}
 					gameType={props.setup.gameType}
+					showPopover
 					key={alignment} />
 			);
 		}
@@ -45,6 +46,7 @@ export default function Setup(props) {
 				role={role}
 				count={props.setup.roles[0][role]}
 				gameType={props.setup.gameType}
+				showPopover
 				key={role} />
 		));
 
@@ -54,7 +56,19 @@ export default function Setup(props) {
 		}
 	}
 
-	function onClick() {
+	function onClickMainDiv() {
+		if( props.setup.closed ) {
+			popover.onClick(
+				`/setup/${props.setup.id}`,
+				"setup",
+				setupRef.current,
+				filterProfanity(props.setup.name, user.settings),
+				data => data.roles = JSON.parse(data.roles)
+			);
+		}
+	}
+
+	function onGameIconClick() {
 		popover.onClick(
 			`/setup/${props.setup.id}`,
 			"setup",
@@ -65,8 +79,10 @@ export default function Setup(props) {
 	}
 
 	return (
-		<div className="setup" ref={setupRef} onClick={onClick}>
-			<GameIcon gameType={props.setup.gameType} />
+		<div className="setup" ref={setupRef} onClick={onClickMainDiv}>
+			<div onClick={onGameIconClick}>
+				<GameIcon gameType={props.setup.gameType} />
+			</div>
 			{multi &&
 				<i className="multi-setup-icon fas fa-list-alt" />
 			}
