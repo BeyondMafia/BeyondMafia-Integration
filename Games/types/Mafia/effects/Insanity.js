@@ -8,26 +8,36 @@ module.exports = class Insanity extends Effect {
     }
 
     speak(message) {
-        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        var originalLength = message.content.length;
-
-        message.content = "";
+        message.content = this.makeStrInsane(message.content);
         message.parseForReview = this.parseForReview;
         message.modified = true;
+    }
 
-        for (let i = 0; i < originalLength; i++) {
-            let isSpace = Random.randFloat();
-
-            if (isSpace < 0.2)
-                message.content += " ";
-            else
-                message.content += chars[Random.randInt(0, chars.length - 1)];
-        }
+    speakQuote(quote) {
+        quote.cancel = true;
     }
 
     parseForReview(message) {
         message.content = message.versions["*"].content;
         return message;
+    }
+
+    makeStrInsane(str) {
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var originalLength = str.length;
+
+        str = "";
+
+        for (let i = 0; i < originalLength; i++) {
+            let isSpace = Random.randFloat();
+
+            if (isSpace < 0.2)
+                str += " ";
+            else
+                str += chars[Random.randInt(0, chars.length - 1)];
+        }
+
+        return str;
     }
 
 };
