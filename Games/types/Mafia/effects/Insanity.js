@@ -27,19 +27,19 @@ module.exports = class Insanity extends Effect {
 	
 	speakQuote(quote) {
 		var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		var originalLength = message.content.length;
+		var originalLength = quote.content.length;
 
-		message.content = "";
-		message.parseForReview = this.parseForReview;
-		message.modified = true;
+		quote.content = "";
+		quote.parseForReview = this.parseForReview;
+		quote.modified = true;
 
 		for (let i = 0; i < originalLength; i++) {
 			let isSpace = Random.randFloat();
 
 			if (isSpace < 0.2)
-				message.content += " ";
+				quote.content += " ";
 			else
-				message.content += chars[Random.randInt(0, chars.length - 1)];
+				quote.content += chars[Random.randInt(0, chars.length - 1)];
 		}
 	}
 
