@@ -7,7 +7,6 @@ import { filterProfanity } from "./Basic";
 import { hyphenDelimit } from "../utils";
 
 import "../css/setup.css"
-import "../css/roles.css"
 
 export default function Setup(props) {
 	const user = useContext(UserContext);
