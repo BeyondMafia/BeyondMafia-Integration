@@ -12,7 +12,7 @@ module.exports = class Invitation extends Item {
             "Banquet": {
                 actionName: "End Meeting?",
                 states: ["Night"],
-                flags: ["group", "speech", "anonymous", "voting", "mustAct"],
+                flags: ["group", "speech", "anonymous", "voting", "mustAct", "noVeg"],
                 inputType: "boolean",
             }
         };
