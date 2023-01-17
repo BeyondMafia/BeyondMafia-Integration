@@ -10,7 +10,7 @@ module.exports = class MeetingMafia extends Card {
 			"Mafia": {
 				actionName: "Mafia Kill",
 				states: ["Night"],
-				flags: ["group", "speech", "voting"],
+				flags: ["group", "speech", "voting", "multiActor"],
 				targets: { include: ["alive"], exclude: ["Mafia"] },
 				action: {
 					labels: ["kill", "mafia"],

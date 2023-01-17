@@ -30,6 +30,7 @@ module.exports = class Werewolf extends Effect {
 				this.game.queueAction(new Action({
 					actor: this.player,
 					target: target,
+					game: this.player.game,
 					labels: ["kill", "werewolf"],
 					run: function () {
 						if (this.dominates())
