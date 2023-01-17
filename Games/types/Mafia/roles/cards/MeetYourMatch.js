@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_DATE_A, PRIORITY_DATE_B_AND_CHECK } = require("../../const/Priority");
+const { PRIORITY_DATE } = require("../../const/Priority");
 
 module.exports = class MeetYourMatch extends Card {
 
@@ -7,29 +7,20 @@ module.exports = class MeetYourMatch extends Card {
         super(role);
 
         this.meetings = {
-            "Lovebird A": {
+            "Setup a Date": {
                 states: ["Night"],
-                flags: ["voting"],
-                action: {
-                    priority: PRIORITY_DATE_A,
-                    run: function() {
-                        this.actor.role.data.lovebirdA = this.target;
-                    }
-                },
-            },
-            "Lovebird B": {
-                states: ["Night"],
-                flags: ["voting"],
+                flags: ["voting", "multi"],
+                multiMin: 2,
+                multiMax: 2,
                 action: {
                     labels: ["effect", "love"],
-                    priority: PRIORITY_DATE_B_AND_CHECK,
+                    priority: PRIORITY_DATE,
                     run: function() {
-                        var lovebirdA = this.actor.role.data.lovebirdA;
-                        var lovebirdB = this.target;
-                        var roleA = lovebirdA.getAppearance("investigate", true);
-                        var alignmentA = this.game.getRoleAlignment(roleA);
-                        var roleB = lovebirdB.getAppearance("investigate", true);
-                        var alignmentB = this.game.getRoleAlignment(roleB);
+                        var lovebirdA = this.target[0];
+                        var lovebirdB = this.target[1];
+
+                        var alignmentA = lovebirdA.role.alignment;
+                        var alignmentB = lovebirdB.role.alignment;
                         var alert;
                         if (alignmentA == alignmentB) {
                             lovebirdA.giveEffect("Love", this.actor);

@@ -477,6 +477,8 @@ const roleData = {
             description: [
                 "Each night chooses too people to go on a date. If those two are the same role, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
         "Traitor": {
             alignment: "Independent",
             description: [
