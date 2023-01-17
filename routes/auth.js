@@ -10,6 +10,8 @@ const fbServiceAccount = require("../" + process.env.FIREBASE_JSON_FILE);
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 
+const allowedEmailDomans = JSON.parse(process.env.EMAIL_DOMAINS);
+
 fbAdmin.initializeApp({
     credential: fbAdmin.credential.cert(fbServiceAccount)
 });
@@ -90,9 +92,13 @@ async function authSuccess(req, uid, email) {
             var bannedSameIP = await models.User.find({ ip: ip, banned: true })
                 .select("_id");
 
-            if (bannedSameIP.length > 0) {
+            if (bannedSameIP.length > 0)
                 return;
-            }
+
+            var emailDomain = email.split("@")[1] || "";
+
+            if (allowedEmailDomans.indexOf(emailDomain) == -1)
+                return;
 
             id = shortid.generate();
             user = new models.User({
