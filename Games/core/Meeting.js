@@ -30,14 +30,13 @@ module.exports = class Meeting {
 		this.mustAct = game.isMustAct();
 		this.noAct = game.isNoAct();
 		this.noVeg = false;
+		this.multiActor = false;
 		/***/
 
 		this.inputType = "player";
 		this.targets = { include: ["alive"], exclude: ["members"] };
 		this.messages = [];
 		this.members = new ArrayHash();
-		this.leader = null;
-		this.leaderMax = 0;
 		this.votes = {};
 		this.voteRecord = [];
 		this.voteVersions = {};
@@ -59,6 +58,7 @@ module.exports = class Meeting {
 		const member = {
 			id: player.id,
 			player: player,
+			leader: options.leader,
 			voteWeight: options.voteWeight || 1,
 			canVote: options.canVote != false && (player.alive || !options.passiveDead),
 			canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
@@ -74,11 +74,6 @@ module.exports = class Meeting {
 		};
 
 		this.members.push(member);
-
-		if (options.leader && options.leader > this.leaderMax) {
-			this.leader = player;
-			this.leaderMax = options.leader;
-		}
 
 		if (member.canVote)
 			this.totalVoters++;
@@ -571,8 +566,7 @@ module.exports = class Meeting {
 
 		var count = {};
 		var highest = { targets: [], votes: 1 };
-		var actor = this.leader;
-		var finalTarget, voterIds;
+		var finalTarget;
 
 		if (!this.multi) {
 			// Count all votes
@@ -637,7 +631,11 @@ module.exports = class Meeting {
 		}
 
 		// Return if no action to take
-		if (!finalTarget || finalTarget == "*") {
+		if (
+			!finalTarget ||
+			finalTarget == "*" ||
+			(this.inputType == "boolean" && this.instant && !isVote)
+		) {
 			if (this.instant && isVote)
 				this.game.checkAllMeetingsReady();
 
@@ -653,20 +651,31 @@ module.exports = class Meeting {
 		}
 
 		// Do the action
-		voterIds = Object.keys(this.votes);
+		var actor, actors;
 
-		if (!actor && voterIds.length > 0)
-			// First player to vote is the actor
-			actor = this.game.getPlayer(voterIds[0], true);
-		else if (!actor && this.members.length > 0)
-			// Must act and no votes, a random player acts
-			actor = this.randomMember().player;
+		if (!this.multiActor)
+			actor = this.leader;
+		else {
+			actors = this.actors;
+			actor = actors[0];
+		}
+
+		if (!actor) {
+			var voterIds = Object.keys(this.votes);
+
+			if (voterIds.length > 0)
+				// First player to vote is the actor
+				actor = this.game.getPlayer(voterIds[0], true);
+			else if (this.members.length > 0)
+				// Must act and no votes, a random player acts
+				actor = this.randomMember().player;
+		}
 
 		if (!actor)
 			return;
 
 		this.finalTarget = finalTarget;
-		actor.act(finalTarget, this);
+		actor.act(finalTarget, this, actors);
 	}
 
 	speak(message) {
@@ -784,6 +793,18 @@ module.exports = class Meeting {
 			return Object.keys(this.votes).length == this.totalVoters;
 		else
 			return this.votes[this.members.at(0).player.id].length >= this.multiMin;
+	}
+
+	get leader() {
+		return this.actors[0];
+	}
+
+	get actors() {
+		var actors = Object.keys(this.votes)
+			.filter(pId => this.votes[pId] != "*")
+			.sort((a, b) => this.members[b].leader - this.members[a].leader)
+			.map(pId => this.game.getPlayer(pId));
+		return actors;
 	}
 
 }

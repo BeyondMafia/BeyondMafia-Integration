@@ -601,9 +601,9 @@ module.exports = class Player {
 		}
 	}
 
-	act(target, meeting) {
+	act(target, meeting, actors) {
 		if (this.role)
-			this.role.act(target, meeting);
+			this.role.act(target, meeting, actors);
 	}
 
 	getImmunity(type) {
