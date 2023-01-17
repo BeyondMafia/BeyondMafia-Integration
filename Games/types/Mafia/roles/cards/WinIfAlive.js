@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_WIN_IF_ALIVE } = require("../../const/Priority");
+const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
 module.exports = class WinIfAlive extends Card {
 
@@ -8,7 +8,7 @@ module.exports = class WinIfAlive extends Card {
 
 		this.winCount = "Village";
 		this.winCheck = {
-			priority: PRIORITY_WIN_IF_ALIVE,
+			priority: PRIORITY_WIN_CHECK_DEFAULT,
 			againOnFinished: true,
 			check: function (counts, winners, aliveCount, confirmedFinished) {
 				if (

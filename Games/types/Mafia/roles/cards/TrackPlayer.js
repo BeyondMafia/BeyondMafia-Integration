@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_TRACK } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class TrackPlayer extends Card {
 
@@ -11,7 +11,7 @@ module.exports = class TrackPlayer extends Card {
 				states: ["Night"],
 				flags: ["voting"],
 				action: {
-					priority: PRIORITY_TRACK,
+					priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
 					run: function () {
 						var visits = [];
 
