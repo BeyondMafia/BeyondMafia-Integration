@@ -4,58 +4,58 @@ const revivalMessages = require("./templates/revival");
 
 module.exports = class MafiaPlayer extends Player {
 
-	constructor(user, game, isBot) {
-		super(user, game, isBot);
-		
-		this.deathMessages = deathMessages;
-		this.revivalMessages = revivalMessages;
-		this.votedForExtension = false;
-	}
+    constructor(user, game, isBot) {
+        super(user, game, isBot);
 
-	getRevealType(deathType) {
-		if (deathType == "lynch")
-			return "lynch";
-		else
-			return "death";
-	}
+        this.deathMessages = deathMessages;
+        this.revivalMessages = revivalMessages;
+        this.votedForExtension = false;
+    }
 
-	parseCommand(message) {
-		var cmd = super.parseCommand(message);
+    getRevealType(deathType) {
+        if (deathType == "lynch")
+            return "lynch";
+        else
+            return "death";
+    }
 
-		if (!cmd)
-			return;
+    parseCommand(message) {
+        var cmd = super.parseCommand(message);
 
-		switch (cmd.name) {
-			case "extend":
-				if (this.game.getStateName() != "Day" || this.votedForExtension || !this.alive)
-					return;
+        if (!cmd)
+            return;
 
-				this.votedForExtension = true;
-				this.game.extensionVotes++;
+        switch (cmd.name) {
+            case "extend":
+                if (this.game.getStateName() != "Day" || this.votedForExtension || !this.alive)
+                    return;
 
-				var aliveCount = this.game.alivePlayers().length;
-				var votesNeeded = Math.ceil(aliveCount / 2) + this.game.extensions;
+                this.votedForExtension = true;
+                this.game.extensionVotes++;
 
-				if (votesNeeded > aliveCount) {
-					this.sendAlert("Unable to extend the Day further.");
-					return;
-				}
+                var aliveCount = this.game.alivePlayers().length;
+                var votesNeeded = Math.ceil(aliveCount / 2) + this.game.extensions;
 
-				this.game.sendAlert(`${this.name} voted for an extension of the Day using /extend. ${this.game.extensionVotes}/${votesNeeded} votes.`);
+                if (votesNeeded > aliveCount) {
+                    this.sendAlert("Unable to extend the Day further.");
+                    return;
+                }
 
-				if (this.game.extensionVotes < votesNeeded)
-					return;
+                this.game.sendAlert(`${this.name} voted for an extension of the Day using /extend. ${this.game.extensionVotes}/${votesNeeded} votes.`);
 
-				this.game.timers["main"].extend(3 * 60 * 1000);
-				this.game.extensions++;
-				this.game.extensionVotes = 0;
+                if (this.game.extensionVotes < votesNeeded)
+                    return;
 
-				for (let player of this.game.players)
-					player.votedForExtension = false;
+                this.game.timers["main"].extend(3 * 60 * 1000);
+                this.game.extensions++;
+                this.game.extensionVotes = 0;
 
-				this.game.sendAlert("Day extended.");
-				return;
-		}
-	}
-	
+                for (let player of this.game.players)
+                    player.votedForExtension = false;
+
+                this.game.sendAlert("Day extended.");
+                return;
+        }
+    }
+
 }

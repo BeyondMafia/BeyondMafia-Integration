@@ -3,22 +3,22 @@ const { PRIORITY_MODIFY_INVESTIGATIVE_RESULT_DEFAULT } = require("../../const/Pr
 
 module.exports = class MakeInnocent extends Card {
 
-	constructor(role) {
-		super(role);
+    constructor(role) {
+        super(role);
 
-		this.meetings = {
-			"Make Innocent": {
-				states: ["Night"],
-				flags: ["voting"],
-				targets: { include: ["Mafia"], exclude: ["dead", "self"] },
-				action: {
-					priority: PRIORITY_MODIFY_INVESTIGATIVE_RESULT_DEFAULT,
-					run: function () {
-						this.target.setTempAppearance("investigate", "Villager");
-					}
-				}
-			}
-		};
-	}
+        this.meetings = {
+            "Make Innocent": {
+                states: ["Night"],
+                flags: ["voting"],
+                targets: { include: ["Mafia"], exclude: ["dead", "self"] },
+                action: {
+                    priority: PRIORITY_MODIFY_INVESTIGATIVE_RESULT_DEFAULT,
+                    run: function () {
+                        this.target.setTempAppearance("investigate", "Villager");
+                    }
+                }
+            }
+        };
+    }
 
 }
