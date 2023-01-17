@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_MASON_MEETING } = require("../../const/Priority");
+const { PRIORITY_MASON_CONVERT } = require("../../const/Priority");
 
 module.exports = class MeetWithMasons extends Card {
 
@@ -14,7 +14,7 @@ module.exports = class MeetWithMasons extends Card {
 				targets: { include: ["alive"], exclude: ["Mason"] },
 				action: {
 					labels: ["convert", "mason"],
-					priority: PRIORITY_MASON_MEETING,
+					priority: PRIORITY_MASON_CONVERT,
 					run: function () {
 						if (this.target.role.alignment != "Mafia" && this.dominates())
 							this.target.setRole("Mason");
