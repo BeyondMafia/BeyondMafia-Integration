@@ -674,8 +674,12 @@ async function getOnlineUsersInfo(limit) {
     var userIds = await getOnlineUsers(limit);
     var users = [];
 
-    for (let userId of userIds)
-        users.push(await getBasicUserInfo(userId));
+    for (let userId of userIds) {
+        let user = await getBasicUserInfo(userId);
+
+        if (user != null)
+            users.push(user);
+    }
 
     return users;
 }
