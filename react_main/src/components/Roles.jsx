@@ -43,9 +43,10 @@ export function RoleCount(props) {
 		if (props.onMouseEnter)
 			props.onMouseEnter();
 
-		if (!roleName || !props.showMouseEnter)
+		if (!roleName || !props.showSecondaryHover)
 			return;
 
+		// assumes that this is attached to a child in a popover
 		popover.onHover(
 			`/roles/${props.gameType}/${roleName}`,
 			"role",
