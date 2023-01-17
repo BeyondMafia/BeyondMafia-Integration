@@ -21,9 +21,15 @@ module.exports = class Carol extends Card {
 
 						this.actor.role.data.prevTarget = this.target;
 
-						for (let action of this.game.actions[0])
-							if (action.actor == this.target && !action.hasLabel("hidden"))
+						for (let action of this.game.actions[0]) {
+							if (
+								action.actors.indexOf(this.target) != -1 &&
+								action.priority < this.priority &&
+								!action.hasLabel("hidden")
+							) {
 								return;
+							}
+						}
 
 						var carol;
 						var alive = this.game.players.filter(p => p.alive);

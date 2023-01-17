@@ -1,0 +1,88 @@
+LABEL_KILL = "kill"
+LABEL_SAVE = "save"
+
+LABEL_LYNCH = "lynch"
+LABEL_HIDDEN = "hidden"
+LABEL_BLOCK = "block"
+
+// ITEMS
+LABEL_GIVE_ITEM = "giveItem"
+
+LABEL_GUN = "gun"
+LABEL_ARMOR = "armor"
+LABEL_BOMB = "bomb"
+LABEL_ORANGE = "orange"
+LABEL_MATCH = "match"
+LABEL_GASOLINE = "gasoline"
+
+// EFFECTS
+LABEL_EFFECT = "effect"
+
+LABEL_PROBE = "probe"
+
+// INVESTIGATIVE
+LABEL_INVESTIGATE = "investigate"
+LABEL_ALIGNMENT = "alignment"
+LABEL_ROLE = "role"
+
+LABEL_CAROL = "carol"
+LABEL_DREAM = "dream"
+
+// CONVERSION
+LABEL_CONVERT = "convert"
+LABEL_CULTIST = "cultist"
+LABEL_MASON = "mason"
+
+// OTHERS
+LABEL_WEREWOLF = "werewolf"
+LABEL_WOLF_BITE = "wolfBite"
+LABEL_CLEANSE = "cleanse"
+
+LABEL_POISON = "poison"
+LABEL_CLEAN = "clean"
+LABEL_STING = "sting"
+
+module.exports = {
+    LABEL_KILL,
+    LABEL_SAVE,
+    LABEL_LYNCH,
+    LABEL_HIDDEN,
+    LABEL_BLOCK,
+
+    // ITEMS
+    LABEL_GIVE_ITEM,
+
+    LABEL_GUN,
+    LABEL_ARMOR,
+    LABEL_BOMB,
+    LABEL_ORANGE,
+    LABEL_MATCH,
+    LABEL_GASOLINE,
+
+    // EFFECTS
+    LABEL_EFFECT,
+    
+    LABEL_PROBE,
+
+    // INVESTIGATIVE
+    LABEL_INVESTIGATE,
+    LABEL_ALIGNMENT,
+    LABEL_ROLE,
+
+    LABEL_CAROL,
+    LABEL_DREAM,
+
+    // CONVERSION
+    LABEL_CONVERT,
+    LABEL_CULTIST,
+    LABEL_MASON,
+
+    // OTHERS
+    LABEL_WEREWOLF,
+    LABEL_WOLF_BITE,
+    LABEL_CLEANSE,
+    
+    LABEL_POISON,
+    LABEL_CLEAN,
+    LABEL_STING,
+}

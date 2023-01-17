@@ -52,7 +52,7 @@ module.exports = class Game {
 		this.voiceChat = options.settings.voiceChat;
 		this.readyCheck = options.settings.readyCheck;
 		this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
-		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 5000;
+		this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 10000;
 		this.postgameLength = 1000 * 60 * 2;
 		this.players = new ArrayHash();
 		this.playersGone = {};
@@ -454,6 +454,7 @@ module.exports = class Game {
 		this.queueAction(new Action({
 			actor: player,
 			target: player,
+			game: this,
 			run: function () {
 				this.target.kill("veg", this.actor);
 			}
@@ -1194,8 +1195,10 @@ module.exports = class Game {
 			this.processRevealQueue();
 			this.processAlertQueue();
 
-			for (let player of this.players)
+			for (let player of this.players) {
 				this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
+				player.removeAllEffects();
+			}
 
 			this.broadcast("winners", winners.getWinnersInfo());
 

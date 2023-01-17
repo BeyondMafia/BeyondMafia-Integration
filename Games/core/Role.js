@@ -273,6 +273,7 @@ module.exports = class Role {
 	queueActions() {
 		for (let options of this.actions) {
 			options.actor = this.player;
+			options.game = this.game;
 			this.game.queueAction(new Action(options));
 		}
 	}
@@ -289,7 +290,7 @@ module.exports = class Role {
 		this.removeListeners();
 	}
 
-	act(target, meeting) {
+	act(target, meeting, actors) {
 		var options = this.meetings[meeting.name];
 
 		if (!options) {
@@ -305,8 +306,9 @@ module.exports = class Role {
 			return;
 
 		options = options.action;
-		options.actor = this.player;
+		options.actors = actors || [this.player];
 		options.target = target;
+		options.game = this.game;
 		options.meeting = meeting;
 
 		var action = new Action(options);

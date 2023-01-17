@@ -1,4 +1,5 @@
 const Role = require("../../Role");
+const { PRIORITY_LEADER_DISGUISER } = require("../../const/Priority");
 
 module.exports = class Disguiser extends Role {
 
@@ -9,7 +10,7 @@ module.exports = class Disguiser extends Role {
 		this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "IdentityStealer"];
 		this.meetingMods = {
 			"Mafia": {
-				leader: true,
+				leader: PRIORITY_LEADER_DISGUISER,
 			}
 		};
 	}

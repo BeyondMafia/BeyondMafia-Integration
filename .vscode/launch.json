@@ -7,7 +7,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "game",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "enableContentValidation": false,
+            "program": "${workspaceFolder}/Games/games.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "www",
             "skipFiles": [
                 "<node_internals>/**"
             ],

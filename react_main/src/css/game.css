@@ -434,6 +434,9 @@
 	box-shadow: 0px 0px 1px black;
 
 	visibility: hidden;
+
+	max-height: 70vh;
+	overflow: auto;
 }
 
 .game .dropdown-menu-option {
