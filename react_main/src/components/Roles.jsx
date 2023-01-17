@@ -9,6 +9,9 @@ import { Alignments } from "../Constants";
 import LoadingPage from "../pages/Loading";
 import { TopBarLink } from "../pages/Play/Play";
 
+import "../css/roles.css"
+import "../css/tooltip.css"
+
 export function RoleCount(props) {
 	const roleRef = useRef();
 	const popover = useContext(PopoverContext);
