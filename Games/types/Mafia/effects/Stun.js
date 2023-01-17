@@ -5,7 +5,7 @@ const { PRIORITY_NIGHT_ROLE_BLOCKER } = require("../const/Priority");
 module.exports = class Stun extends Effect {
 
     constructor(stunner) {
-        super("stunner");
+        super("Stun");
         this.stunner = stunner;
     }
 
