@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_JAIL_EXECUTE, PRIORITY_JAIL_MEETING } = require("../../const/Priority");
+const { PRIORITY_JAIL_MEETING, PRIORITY_KILL_DEFAULT } = require("../../const/Priority");
 
 module.exports = class JailTarget extends Card {
 
@@ -35,7 +35,7 @@ module.exports = class JailTarget extends Card {
 					return false;
 				},
 				action: {
-					priority: PRIORITY_JAIL_EXECUTE,
+					priority: PRIORITY_KILL_DEFAULT,
 					run: function () {
 						var prisoner = this.actor.role.data.prisoner;
 

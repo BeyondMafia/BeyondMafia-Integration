@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_CONFIRM_SELF } = require("../../const/Priority");
+const { PRIORITY_MESSAGE_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class ConfirmSelf extends Card {
 
@@ -12,7 +12,7 @@ module.exports = class ConfirmSelf extends Card {
 				flags: ["voting"],
 				action: {
 					labels: ["investigate", "role"],
-					priority: PRIORITY_CONFIRM_SELF,
+					priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
 					run: function () {
 						var role = this.actor.getAppearance("investigate", true);
 						var alert = `You learn that ${this.actor.name}'s role is ${role}.`;

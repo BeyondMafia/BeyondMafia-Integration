@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_KILL_VISITORS_ENQUEUE, PRIORITY_KILL_VISITORS } = require("../../const/Priority");
+const { PRIORITY_KILL_VISITORS_ENQUEUE, PRIORITY_KILL_DEFAULT } = require("../../const/Priority");
 
 module.exports = class KillVisitors extends Card {
 
@@ -27,7 +27,7 @@ module.exports = class KillVisitors extends Card {
 				}
 			},
 			{
-				priority: PRIORITY_KILL_VISITORS,
+				priority: PRIORITY_KILL_DEFAULT,
 				labels: ["kill", "hidden"],
 				run: function () {
 					if (this.game.getStateName() != "Night")

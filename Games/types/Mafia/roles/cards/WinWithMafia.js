@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_WIN_WITH_MAFIA } = require("../../const/Priority");
+const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
 module.exports = class WinWithMafia extends Card {
 
@@ -7,7 +7,7 @@ module.exports = class WinWithMafia extends Card {
 		super(role);
 
 		this.winCheck = {
-			priority: PRIORITY_WIN_WITH_MAFIA,
+			priority: PRIORITY_WIN_CHECK_DEFAULT,
 			check: function (counts, winners, aliveCount) {
 				if (counts["Mafia"] >= aliveCount / 2 && aliveCount > 0)
 					winners.addPlayer(this.player, this.player.role.alignment == "Mafia" ? "Mafia" : this.player.role.name);
