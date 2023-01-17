@@ -244,6 +244,7 @@ module.exports = {
 		"breakPortGames": true,
 		"kick": true,
 		"announce": true,
+		"blockName": true,
 	},
 	defaultGroups: {
 		"Owner": {
@@ -325,6 +326,7 @@ module.exports = {
 				"kick",
 				"announce",
 				"viewFlagged",
+				"blockName",
 			]
 		},
 		"Head Mod": {
@@ -366,6 +368,7 @@ module.exports = {
 				"kick",
 				"announce",
 				"viewFlagged",
+				"blockName",
 			]
 		},
 		"Mod": {
