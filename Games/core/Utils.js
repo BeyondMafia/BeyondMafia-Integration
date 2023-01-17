@@ -2,69 +2,69 @@ const path = require("path");
 
 module.exports = class Utils {
 
-	static importGameClass(gameType, classType, pathName) {
-		if (classType == "core")
-			classType = "";
+    static importGameClass(gameType, classType, pathName) {
+        if (classType == "core")
+            classType = "";
 
-		pathName = this.pascalCase(pathName);
-		return require(path.join(__dirname, "../types", gameType, classType, pathName));
-	}
+        pathName = this.pascalCase(pathName);
+        return require(path.join(__dirname, "../types", gameType, classType, pathName));
+    }
 
-	static removeSpaces(string) {
-		return string.split(" ").join("");
-	}
+    static removeSpaces(string) {
+        return string.split(" ").join("");
+    }
 
-	static snakeCase(string) {
-		return string.split(" ").join("_");
-	}
+    static snakeCase(string) {
+        return string.split(" ").join("_");
+    }
 
-	static camelCase(string) {
-		var parts = string.split(" ");
-		var res = parts[0];
+    static camelCase(string) {
+        var parts = string.split(" ");
+        var res = parts[0];
 
-		for (let i = 1; i < parts.length; i++) {
-			let part = parts[i];
-			res += (part[0].toUpperCase() + part.slice(1, part.length));
-		}
+        for (let i = 1; i < parts.length; i++) {
+            let part = parts[i];
+            res += (part[0].toUpperCase() + part.slice(1, part.length));
+        }
 
-		return res;
-	}
+        return res;
+    }
 
-	static pascalCase(string) {
-		var parts = string.split(" ");
-		var res = "";
+    static pascalCase(string) {
+        var parts = string.split(" ");
+        var res = "";
 
-		for (let i = 0; i < parts.length; i++) {
-			let part = parts[i];
-			res += (part[0].toUpperCase() + part.slice(1, part.length));
-		}
+        for (let i = 0; i < parts.length; i++) {
+            let part = parts[i];
+            res += (part[0].toUpperCase() + part.slice(1, part.length));
+        }
 
-		return res;
-	}
+        return res;
+    }
 
-	static validProp(prop) {
-		return ({})[prop] == null;
-	}
+    static validProp(prop) {
+        return ({})[prop] == null;
+    }
 
-	static numToPos(n) {
-		n = String(n);
+    static numToPos(n) {
+        n = String(n);
 
-		var lastDigit = n[n.length - 1];
-		var secLastDigit = n.length > 1 ? n[n.length - 2] : "";
+        var lastDigit = n[n.length - 1];
+        var secLastDigit = n.length > 1 ? n[n.length - 2] : "";
 
-		if (secLastDigit == "1")
-			return `${n}th`;
+        if (secLastDigit == "1")
+            return `${n}th`;
 
-		if (lastDigit == "1")
-			return `${n}st`;
+        if (lastDigit == "1")
+            return `${n}st`;
 
-		if (lastDigit == "2")
-			return `${n}nd`;
+        if (lastDigit == "2")
+            return `${n}nd`;
 
-		if (lastDigit == "3")
-			return `${n}rd`;
+        if (lastDigit == "3")
+            return `${n}rd`;
 
-		return `${n}th`;
-	}
+        return `${n}th`;
+    }
 
 }
