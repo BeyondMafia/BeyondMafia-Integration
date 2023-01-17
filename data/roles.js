@@ -478,6 +478,13 @@ const roleData = {
                 "Cannot win the game.",
             ],
         },
+        "Traitor": {
+            alignment: "Independent",
+            description: [
+                "Wins when mafia wins.",
+                "Does not count towards mafia win count.",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
