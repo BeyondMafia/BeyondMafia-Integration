@@ -669,7 +669,7 @@ export function TopBar(props) {
 	}
 
 	function onLogoClick() {
-		window.open(process.env.BASE_URL, "_blank");
+		window.open(window.location.origin, "_blank");
 	}
 
 	function onSettingsClick() {
