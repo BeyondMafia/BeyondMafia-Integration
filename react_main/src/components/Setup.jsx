@@ -103,6 +103,7 @@ export function SmallRoleList(props) {
 				small
 				role={role}
 				key={role}
+				showMouseEnter
 				gameType={props.gameType} />
 		));
 	else
@@ -112,6 +113,7 @@ export function SmallRoleList(props) {
 				count={props.roles[role]}
 				small={true}
 				gameType={props.gameType}
+				showMouseEnter
 				key={role} />
 		));
 
