@@ -6,7 +6,7 @@ module.exports = class Leader extends Item {
 		super("Leader");
 
 		this.listeners = {
-			"state": function(stateInfo) {
+			"state": function (stateInfo) {
 				if (stateInfo.name.match(/Team Selection/)) {
 					this.game.queueAlert(`${this.game.currentLeader.name} is the leader.`);
 					this.game.queueAlert(`Team size: ${this.game.currentTeamSize}`);
@@ -21,7 +21,7 @@ module.exports = class Leader extends Item {
 				multiMin: game.currentTeamSize,
 				multiMax: game.currentTeamSize,
 				action: {
-					run: function() {
+					run: function () {
 						for (let player of this.game.players) {
 							player.role.meetings["Mission Success"].disabled = true;
 							player.role.meetings["Approve Team"].disabled = false;
