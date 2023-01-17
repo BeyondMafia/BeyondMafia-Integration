@@ -611,7 +611,7 @@ module.exports = class Meeting {
             var selections = Object.values(this.votes)[0] || [];
             finalTarget = selections;
 
-            if (selections.length < this.multiMin)
+            if (selections.length < this.multiMin || selections.indexOf("*") != -1)
                 finalTarget = "*";
         }
 
@@ -623,7 +623,7 @@ module.exports = class Meeting {
 
                 if (
                     (!this.multi && this.votes[member.id] == null) ||
-                    (this.multi && selections.length < this.multiMin)
+                    (this.multi && selections.length < this.multiMin && selections.indexOf("*") == -1)
                 ) {
                     this.game.vegPlayer(member.player);
                 }
@@ -791,8 +791,10 @@ module.exports = class Meeting {
             return true;
         else if (!this.multi)
             return Object.keys(this.votes).length == this.totalVoters;
-        else
-            return this.votes[this.members.at(0).player.id].length >= this.multiMin;
+        else {
+            var selections = Object.values(this.votes)[0] || [];
+            return selections.length >= this.multiMin || selections.indexOf("*") != -1;
+        }
     }
 
     get leader() {
