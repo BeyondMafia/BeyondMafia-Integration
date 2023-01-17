@@ -22,9 +22,9 @@ module.exports = class Knife extends Item {
                             reveal = Random.randArrayVal([true, false]);
 
                         if (reveal)
-                            this.game.queueAlert(`${this.actor.name} stabs ${this.target.name} with a posioned knife!`);
+                            this.game.queueAlert(`${this.actor.name} stabs ${this.target.name} with a poisoned knife!`);
                         else
-                            this.game.queueAlert(`Someone stabs ${this.target.name} with a posioned knife!`);
+                            this.game.queueAlert(`Someone stabs ${this.target.name} with a poisoned knife!`);
 
                         this.target.giveEffect("Poison", this.actor);
 
