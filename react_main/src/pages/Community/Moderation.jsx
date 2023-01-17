@@ -1098,6 +1098,24 @@ function useModCommands(argValues, commandRan) {
 					.catch(errorAlert);
 			}
 		},
+		"Block Name": {
+			perm: "blockName",
+			args: [
+				{
+					label: "Name",
+					name: "name",
+					type: "text"
+				},
+			],
+			run: function () {
+				axios.post("/mod/blockName", argValues)
+					.then(() => {
+						siteInfo.showAlert("Name blocked.", "success");
+						commandRan();
+					})
+					.catch(errorAlert);
+			}
+		},
 		"Delete Forum Board": {
 			hidden: true,
 			args: [

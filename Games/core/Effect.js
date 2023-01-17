@@ -2,87 +2,87 @@ const shortid = require("shortid");
 
 module.exports = class Effect {
 
-	constructor(name) {
-		this.id = shortid.generate();
-		this.name = name;
-		this.immunity = {};
-		this.cancelImmunity = [];
-		this.actions = [];
-		this.listeners = {};
-		this.disabledMeetings = [];
-		this.lifespan = Infinity;
-		this.ageListener;
-	}
+    constructor(name) {
+        this.id = shortid.generate();
+        this.name = name;
+        this.immunity = {};
+        this.cancelImmunity = [];
+        this.actions = [];
+        this.listeners = {};
+        this.disabledMeetings = [];
+        this.lifespan = Infinity;
+        this.ageListener;
+    }
 
-	apply(player) {
-		this.game = player.game;
-		this.player = player;
-		this.player.effects.push(this);
+    apply(player) {
+        this.game = player.game;
+        this.player = player;
+        this.player.effects.push(this);
 
-		this.ageListener = this.age.bind(this);
-		this.game.events.on("state", this.ageListener);
+        this.ageListener = this.age.bind(this);
+        this.game.events.on("state", this.ageListener);
 
-		for (let eventName in this.listeners) {
-			this.listeners[eventName] = this.listeners[eventName].bind(this);
-			this.game.events.on(eventName, this.listeners[eventName]);
-		}
+        for (let eventName in this.listeners) {
+            this.listeners[eventName] = this.listeners[eventName].bind(this);
+            this.game.events.on(eventName, this.listeners[eventName]);
+        }
 
-		this.game.events.emit("applyEffect", this, player);
-	}
+        this.game.events.emit("applyEffect", this, player);
+    }
 
-	remove() {
-		var index = this.player.effects.indexOf(this);
+    remove() {
+        var index = this.player.effects.indexOf(this);
 
-		if (index != -1)
-			this.player.effects.splice(index, 1);
+        if (index != -1)
+            this.player.effects.splice(index, 1);
 
-		for (let meeting of this.disabledMeetings)
-			meeting.disabled = false;
+        for (let meeting of this.disabledMeetings)
+            meeting.disabled = false;
 
-		this.game.events.removeListener("state", this.ageListener);
+        this.game.events.removeListener("state", this.ageListener);
 
-		for (let eventName in this.listeners)
-			this.player.events.removeListener(eventName, this.listeners[eventName]);
-	}
+        for (let eventName in this.listeners)
+            this.player.events.removeListener(eventName, this.listeners[eventName]);
+    }
 
-	shouldDisableMeeting(meeting) { return false }
+    shouldDisableMeeting(meeting) { return false }
 
-	queueActions() {
-		for (let action of this.actions)
-			this.game.queueAction(action);
-	}
+    queueActions() {
+        for (let action of this.actions)
+            this.game.queueAction(action);
+    }
 
-	dequeueActions() {
-		for (let action of this.actions)
-			this.game.dequeueAction(action);
-	}
+    dequeueActions() {
+        for (let action of this.actions)
+            this.game.dequeueAction(action);
+    }
 
-	getImmunity(type) {
-		var immunity = this.immunity[type];
-		if (immunity == null)
-			immunity = 0;
-		return immunity;
-	}
+    getImmunity(type) {
+        var immunity = this.immunity[type];
+        if (immunity == null)
+            immunity = 0;
+        return immunity;
+    }
 
-	age() {
-		this.lifespan--;
+    age() {
+        this.lifespan--;
 
-		if (this.lifespan < 0)
-			this.remove();
-	}
+        if (this.lifespan < 0)
+            this.remove();
+    }
 
-	speak(message) { }
+    speak(message) { }
 
-	speakQuote(quote) { }
+    speakQuote(quote) { }
 
-	hear(message) { }
+    hear(message) { }
 
-	hearQuote(quote) { }
+    hearQuote(quote) { }
 
-	seeVote(vote) { }
+    seeVote(vote) { }
 
-	seeUnvote(info) { }
+    seeUnvote(info) { }
 
-	seeTyping(info) { }
+    seeTyping(info) { }
 
 }
