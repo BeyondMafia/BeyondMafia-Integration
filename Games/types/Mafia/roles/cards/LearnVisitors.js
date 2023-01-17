@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_LEARN_VISITORS } = require("../../const/Priority");
 
 module.exports = class LearnVisitors extends Card {
 
@@ -8,7 +8,7 @@ module.exports = class LearnVisitors extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
+                priority: PRIORITY_LEARN_VISITORS,
                 labels: ["investigate", "role", "hidden", "absolute"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
