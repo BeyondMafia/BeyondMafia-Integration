@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_SNOOP } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class SnoopItems extends Card {
 
@@ -11,10 +11,10 @@ module.exports = class SnoopItems extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    priority: PRIORITY_SNOOP,
+                    priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
                     run: function() {
-                        var items = this.target.items.map(a => a.name);
-                        var alert = `You snoop on ${this.target.name}during the night and find they are carrying`
+                        let items = this.target.items.map(a => a.name);
+                        let alert = `You snoop on ${this.target.name}during the night and find they are carrying`
                         if (items.length) {
                             alert += `: ${items.join(", ")}.`
                         } else {
