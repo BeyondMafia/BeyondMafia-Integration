@@ -264,6 +264,13 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Justice": {
+            alignment: "Village",
+            description: [
+                "Investigates two people at night.",
+                "Learns if they share an alignment.",
+            ],
+        },        
         "Judge": {
             alignment: "Village",
             description: [
@@ -482,6 +489,13 @@ const roleData = {
             description: [
                 "Can choose one player to swap roles with each night.",
                 "Cannot win the game.",
+            ],
+        },
+        "Traitor": {
+            alignment: "Independent",
+            description: [
+                "Wins when mafia wins.",
+                "Does not count towards mafia win count.",
             ],
         },
     },

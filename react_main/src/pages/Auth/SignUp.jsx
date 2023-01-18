@@ -9,99 +9,108 @@ import { SiteInfoContext } from "../../Contexts";
 import { verifyRecaptcha } from "../../utils";
 
 export default function SignUp() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [passwordConf, setPasswordConf] = useState("");
-	const [submitDisabled, setSubmitDisabled] = useState(true);
-	const [loading, setLoading] = useState(false);
-	const [signedUp, setSignedUp] = useState(false);
-	const siteInfo = useContext(SiteInfoContext);
-	const errorAlert = useErrorAlert();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConf, setPasswordConf] = useState("");
+    const [submitDisabled, setSubmitDisabled] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [signedUp, setSignedUp] = useState(false);
+    const siteInfo = useContext(SiteInfoContext);
+    const errorAlert = useErrorAlert();
 
-	useEffect(() => {
-		document.title = "Sign Up | BeyondMafia";
-	}, []);
+    const allowedEmailDomans = JSON.parse(process.env.REACT_APP_EMAIL_DOMAINS);
 
-	useEffect(() => {
-		setSubmitDisabled(email.length == 0 || password.length == 0 || password != passwordConf);
-	}, [email, password, passwordConf]);
+    useEffect(() => {
+        document.title = "Sign Up | BeyondMafia";
+    }, []);
 
-	async function onSubmit(e) {
-		try {
-			e.preventDefault();
+    useEffect(() => {
+        setSubmitDisabled(email.length == 0 || password.length == 0 || password != passwordConf);
+    }, [email, password, passwordConf]);
 
-			if (submitDisabled)
-				return;
+    async function onSubmit(e) {
+        try {
+            e.preventDefault();
 
-			setLoading(true);
-			await verifyRecaptcha("auth");
+            if (submitDisabled)
+                return;
 
-			const auth = getAuth();
-			const userCred = await createUserWithEmailAndPassword(auth, email, password);
-			await sendEmailVerification(userCred.user);
+            var emailDomain = email.split("@")[1] || "";
 
-			siteInfo.showAlert("Account created. Please click the verification link in your email before logging in. Be sure to check your spam folder.", "success", true);
-			setSignedUp(true);
-			setLoading(false);
-		} catch (e) {
-			setLoading(false);
+            if (allowedEmailDomans.indexOf(emailDomain) == -1) {
+                errorAlert("Email domain must be one of the following: " + allowedEmailDomans.join(", "));
+                return;
+            }
 
-			if (!e || !e.message)
-				return;
+            setLoading(true);
+            await verifyRecaptcha("auth");
 
-			if (e.message.indexOf("(auth/invalid-email)") != -1)
-				errorAlert("Invalid email.");
-			else if (e.message.indexOf("(auth/weak-password)") != -1)
-				errorAlert("Password should be at least 6 characters.");
-			else if (e.message.indexOf("(auth/email-already-in-use)") != -1)
-				errorAlert("Email already in use.");
-			else
-				errorAlert(e);
-		}
-	}
+            const auth = getAuth();
+            const userCred = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(userCred.user);
 
-	if (loading)
-		return <LoadingPage />;
+            siteInfo.showAlert("Account created. Please click the verification link in your email before logging in. Be sure to check your spam folder.", "success", true);
+            setSignedUp(true);
+            setLoading(false);
+        } catch (e) {
+            setLoading(false);
 
-	if (signedUp)
-		return <Redirect to="/auth/login" />;
+            if (!e || !e.message)
+                return;
 
-	return (
-		<div className="span-panel main login">
-			<form className="form" onSubmit={onSubmit}>
-				<div className="field-wrapper">
-					<div className="label">
-						Email
-					</div>
-					<input
-						type="text"
-						value={email}
-						onChange={e => setEmail(e.target.value)} />
-				</div>
-				<div className="field-wrapper">
-					<div className="label">
-						Password
-					</div>
-					<input
-						type="password"
-						value={password}
-						onChange={e => setPassword(e.target.value)} />
-				</div>
-				<div className="field-wrapper">
-					<div className="label">
-						Confirm Password
-					</div>
-					<input
-						type="password"
-						value={passwordConf}
-						onChange={e => setPasswordConf(e.target.value)} />
-				</div>
-				<input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Sign Up" />
-			</form>
-			<div className="legal">
-				By signing up you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
-				and accept our <Link to="/legal/privacy">Privacy Policy</Link>, and that you are at least 13 years of age.
-			</div>
-		</div>
-	);
+            if (e.message.indexOf("(auth/invalid-email)") != -1)
+                errorAlert("Invalid email.");
+            else if (e.message.indexOf("(auth/weak-password)") != -1)
+                errorAlert("Password should be at least 6 characters.");
+            else if (e.message.indexOf("(auth/email-already-in-use)") != -1)
+                errorAlert("Email already in use.");
+            else
+                errorAlert(e);
+        }
+    }
+
+    if (loading)
+        return <LoadingPage />;
+
+    if (signedUp)
+        return <Redirect to="/auth/login" />;
+
+    return (
+        <div className="span-panel main login">
+            <form className="form" onSubmit={onSubmit}>
+                <div className="field-wrapper">
+                    <div className="label">
+                        Email
+                    </div>
+                    <input
+                        type="text"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)} />
+                </div>
+                <div className="field-wrapper">
+                    <div className="label">
+                        Password
+                    </div>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)} />
+                </div>
+                <div className="field-wrapper">
+                    <div className="label">
+                        Confirm Password
+                    </div>
+                    <input
+                        type="password"
+                        value={passwordConf}
+                        onChange={e => setPasswordConf(e.target.value)} />
+                </div>
+                <input className={`auth-btn ${submitDisabled ? "disabled" : ""}`} type="submit" value="Sign Up" />
+            </form>
+            <div className="legal">
+                By signing up you agree to follow our <Link to="/legal/tos">Terms of Service </Link>
+                and accept our <Link to="/legal/privacy">Privacy Policy</Link>, and that you are at least 13 years of age.
+            </div>
+        </div>
+    );
 }

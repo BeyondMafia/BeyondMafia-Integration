@@ -213,6 +213,10 @@ export const Emotes = {
 		name: "boar",
 		type: "png"
 	},
+	":bum:": {
+		name: "bum",
+		type: "gif"
+	},
 	":bump:": {
 		name: "bump",
 		type: "png"
@@ -325,6 +329,10 @@ export const Emotes = {
 		name: "star",
 		type: "png"
 	},
+	":tmnt:": {
+		name: "tmnt",
+		type: "gif"
+	},
 	":tiger:": {
 		name: "tiger",
 		type: "png"
@@ -344,6 +352,10 @@ export const Emotes = {
 	":wolf:": {
 		name: "wolf",
 		type: "png"
+	},
+	":yum:": {
+		name: "yum",
+		type: "gif"
 	},
 	":3": {
 		name: "candy",

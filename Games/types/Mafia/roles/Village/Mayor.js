@@ -2,11 +2,11 @@ const Role = require("../../Role");
 
 module.exports = class Mayor extends Role {
 
-	constructor(player, data) {
-		super("Mayor", player, data);
+    constructor(player, data) {
+        super("Mayor", player, data);
 
-		this.alignment = "Village";
-		this.cards = ["VillageCore", "WinWithVillage", "PublicReveal"];
-	}
+        this.alignment = "Village";
+        this.cards = ["VillageCore", "WinWithVillage", "PublicReveal"];
+    }
 
 }

@@ -9,8 +9,9 @@ module.exports = class SwapRoles extends Card {
         this.meetings = {
             "Swap Roles": {
                 states: ["Night"],
-                flags: ["voting", "hidden", "absolute"],
+                flags: ["voting"],
                 action: {
+                    labels: ["hidden", "absolute"],
                     priority: PRIORITY_SWAP_ROLES,
                     run: function () {
                         var currRoleName = this.actor.role.name;
