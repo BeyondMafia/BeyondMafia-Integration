@@ -541,6 +541,7 @@ module.exports = class Player {
 
     joinMeetings(meetings) {
         var currentStateName = this.game.getStateName();
+        var [inExclusive, maxPriority] = this.getMeetingsExclusivity();
 
         for (let meetingName in meetings) {
             let options = meetings[meetingName];
@@ -559,7 +560,8 @@ module.exports = class Player {
                 (options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName, options)) ||
                 (this.alive && options.whileAlive == false) ||
                 (!this.alive && !options.whileDead) ||
-                (options.unique && options.whileDead && options.whileAlive)
+                (options.unique && options.whileDead && options.whileAlive) ||
+                (inExclusive && maxPriority > options.priority)
             ) {
                 continue;
             }
@@ -578,12 +580,22 @@ module.exports = class Player {
 
                             if (options.times <= 0)
                                 delete meetings[meetingName];
+
+                            inExclusive |= meeting.exclusive;
+
+                            if (meeting.exclusive && meeting.priority > maxPriority)
+                                maxPriority = meeting.priority;
                         }
 
                         joined = true;
                         break;
                     }
                     else if (!meeting.group && meeting.hasJoined(this)) {
+                        inExclusive |= meeting.exclusive;
+
+                        if (meeting.exclusive && meeting.priority > maxPriority)
+                            maxPriority = meeting.priority;
+
                         joined = true;
                         break;
                     }
@@ -597,8 +609,26 @@ module.exports = class Player {
 
                 if (options.times <= 0)
                     delete meetings[meetingName];
+
+                inExclusive |= meeting.exclusive;
+
+                if (meeting.exclusive && meeting.priority > maxPriority)
+                    maxPriority = meeting.priority;
             }
+
+            if (inExclusive)
+                for (let meeting of this.getMeetings())
+                    if (meeting.priority < maxPriority)
+                        meeting.leave(this, true);
         }
+    }
+
+    getMeetingsExclusivity() {
+        for (let meeting of this.getMeetings())
+            if (meeting.exclusive)
+                return [true, meeting.priority];
+
+        return [false, 0];
     }
 
     act(target, meeting, actors) {
