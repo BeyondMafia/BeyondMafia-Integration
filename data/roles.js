@@ -395,6 +395,18 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Tailor": {
+            alignment: "Mafia",
+            description: [
+                "Gives out suits that make the wearer appear to be a different role."
+            ],
+        },
+        "Actress": {
+            alignment: "Mafia",
+            description: [
+                "Learns a targets role and appears to be that role."
+            ],
+        },
 
         //Monsters
         "Lycan": {
