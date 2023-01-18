@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_WIN_ALL_IN_LOVE } = require("../../const/Priority");
+const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
 module.exports = class LoveConquersAll extends Card {
 
@@ -7,7 +7,7 @@ module.exports = class LoveConquersAll extends Card {
         super(role);
 
         this.winCheck = {
-            priority: PRIORITY_WIN_ALL_IN_LOVE,
+            priority: PRIORITY_WIN_CHECK_DEFAULT,
             check: function(counts, winners, aliveCount) {
                 var loveCount = 0;
 
