@@ -27,7 +27,8 @@ module.exports = class CursedSnowball extends Item {
                         else
                             this.game.queueAlert(`Someone throws a snowball at ${this.target.name}!`);
 
-                        this.target.giveEffect("Stun", this.actor);
+                        if (this.dominates())
+                            this.target.giveEffect("Stun", this.actor);
 
                         this.item.drop();
                     }

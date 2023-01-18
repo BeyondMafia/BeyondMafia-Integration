@@ -264,6 +264,19 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Cutler": {
+            alignment: "Village",
+            description: [
+                "Hands out a knife each night."
+            ],
+        },
+        "Snowman": {
+            alignment: "Village",
+            description: [
+                "Hands out a snowball each night.",
+                "Immune to snowballs"
+            ],
+        },
 
         //Mafia
         "Mafioso": {

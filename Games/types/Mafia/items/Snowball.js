@@ -22,11 +22,12 @@ module.exports = class Snowball extends Item {
                             reveal = Random.randArrayVal([true, false]);
 
                         if (reveal)
-                            this.game.queueAlert(`${this.actor.name} pulls out a snowball, it hits in ${this.target} the face!`);
+                            this.game.queueAlert(`${this.actor.name} pulls out a snowball, it hits ${this.target.name} in the face!`);
                         else
                             this.game.queueAlert(`Someone throws a snowball at ${this.target.name}!`);
 
-                        this.target.giveEffect("Stun", this.actor);
+                        if (this.dominates())
+                            this.target.giveEffect("Stun", this.actor);
 
                         this.item.drop();
                     }
