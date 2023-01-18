@@ -395,7 +395,7 @@ router.post("/settings/update", async function (req, res) {
 
             // original value was 0.5
             const contrastTolerance = 0.6;
-            
+
             const rgb = c.rgb().color;
             const yiq = (rgb[0] * 2126 + rgb[1] * 7152 + rgb[2] * 722) / 10000;
             const isLight = yiq >= contrastTolerance * 256;
@@ -577,6 +577,15 @@ router.post("/name", async function (req, res) {
             .select("_id");
 
         if (existingUser) {
+            res.status(500);
+            res.send("There is already a user with this name.");
+            return;
+        }
+
+        var blockedName = await models.BlockedName.findOne({ name: new RegExp(`^${name}$`, "i") })
+            .select("_id");
+
+        if (blockedName) {
             res.status(500);
             res.send("There is already a user with this name.");
             return;
