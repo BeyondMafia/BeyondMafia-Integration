@@ -2,7 +2,7 @@ const Role = require("../../core/Role");
 
 module.exports = class ResistanceRole extends Role {
 
-	constructor(name, player, data) {
-		super(name, player, data);
-	}
+    constructor(name, player, data) {
+        super(name, player, data);
+    }
 }

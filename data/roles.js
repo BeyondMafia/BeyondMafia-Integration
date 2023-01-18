@@ -270,6 +270,13 @@ const roleData = {
                 "Snoops someone each night and learns what items they are carrying.",
             ],
         },
+        "Justice": {
+            alignment: "Village",
+            description: [
+                "Investigates two people at night.",
+                "Learns if they share an alignment.",
+            ],
+        },        
 
         //Mafia
         "Mafioso": {
