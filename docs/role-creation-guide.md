@@ -36,7 +36,7 @@ Some example cards that you can refer to
 
 #### Card
 
-A `Card` is a modular ability that can be easily assigned to players and roles. For instance, the `RoleLearner` card gives its holder the "Learn Role" ability, and we assign the `RoleLearner` card to a `Seer`. `Card`s are useful because we can consolidate the same ability logic in town-mafia counterparts.
+A `Card` is a modular ability that can be easily assigned to roles. For instance, the `RoleLearner` card gives its holder the "Learn Role" ability, and we assign the `RoleLearner` card to a `Seer`. `Card`s are useful because we can consolidate the same ability logic in town-mafia counterparts.
 
 Most roles will bind a `Meeting`s to a card. However, you can also set other properties like:
 - `appearance`: How the role appears to yourself or others, e.g. `Humble`.
@@ -64,10 +64,11 @@ Most of the actions are tagged to `Meeting`s, where players vote on the action's
 
 **Priority**
 
-Most actions will only be resolved at the end of a state, most notably at the end of the night. 
+Most actions will only be resolved at the end of a state, e.g. at the end of the night. 
 
 - Actions are queued based on their priority value, which you can refer to in `Games/types/Mafia/const/Priority.js`.
-- As much as possible, use a default priority already available, UNLESS the role has complex interactions with other roles, e.g. roleblock, disguise, swap roles.
+- As much as possible, use a default priority already available, UNLESS the role has complex interactions with other roles, e.g. roleblock, disguise, swap roles. Complex roles should be unique priority values so the resolution is definite.
+- All actions are first enqueued, and once the queue is filled the actions are executed sequentially.
 
 **Instant Action**
 
