@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_FALL_IN_LOVE } = require("../../const/Priority");
+const { PRIORITY_MESSAGE_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class BondedForLife extends Card {
 
@@ -11,10 +11,10 @@ module.exports = class BondedForLife extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    priority: PRIORITY_FALL_IN_LOVE,
+                    priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
                     run: function() {
                         this.actor.role.data.loves = this.target;
-                        var alert = `You fall deathly in love with ${this.actor.name}.`;
+                        let alert = `You fall deathly in love with ${this.actor.name}.`;
                         this.target.queueAlert(alert);
                     }
                 },
