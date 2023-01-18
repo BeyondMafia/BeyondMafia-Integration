@@ -271,6 +271,19 @@ const roleData = {
                 "At night, guests will all anonymously meet and see the roles of all guests.",
             ],
         },
+        "Snoop": {
+            alignment: "Village",
+            description: [
+                "Snoops someone each night and learns what items they are carrying.",
+            ],
+        },
+        "Justice": {
+            alignment: "Village",
+            description: [
+                "Investigates two people at night.",
+                "Learns if they share an alignment.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
