@@ -264,6 +264,13 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Justice": {
+            alignment: "Village",
+            description: [
+                "Investigates two people at night.",
+                "Learns if they share an alignment.",
+            ],
+        },        
         "Party Host": {
             alignment: "Village",
             description: [

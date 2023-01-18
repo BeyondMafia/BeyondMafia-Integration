@@ -19,9 +19,6 @@ FLAG_ANONYMOUS = "anonymous"
 
 FLAG_MUST_ACT = "mustAct"
 
-FLAG_HIDDEN = "hidden"
-FLAG_ABSOLUTE = "absolute"
-
 module.exports = {
     FLAG_LIVE_JOIN,
     FLAG_VOTING,
@@ -33,6 +30,4 @@ module.exports = {
     FLAG_ANONYMOUS,
     
     FLAG_MUST_ACT,
-    FLAG_HIDDEN,
-    FLAG_ABSOLUTE,
 }
