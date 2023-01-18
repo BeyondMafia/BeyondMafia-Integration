@@ -275,6 +275,9 @@ module.exports = class Meeting {
     }
 
     generateTargets() {
+        if (this.finished)
+            return;
+
         if (this.noAct)
             this.targets = ["*"];
         else if (this.inputType == "player" || this.inputType == "role") {
@@ -615,6 +618,8 @@ module.exports = class Meeting {
                 finalTarget = "*";
         }
 
+        this.finalTarget = finalTarget;
+
         // Veg players who didn't vote
         if (!this.noVeg) {
             for (let member of this.members) {
@@ -648,6 +653,8 @@ module.exports = class Meeting {
                 finalTarget = this.game.players[finalTarget];
             else
                 finalTarget = finalTarget.map(target => this.game.players[target]);
+
+            this.finalTarget = finalTarget;
         }
 
         // Do the action
@@ -674,7 +681,6 @@ module.exports = class Meeting {
         if (!actor)
             return;
 
-        this.finalTarget = finalTarget;
         actor.act(finalTarget, this, actors);
     }
 

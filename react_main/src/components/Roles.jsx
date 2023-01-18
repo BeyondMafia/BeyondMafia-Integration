@@ -39,6 +39,24 @@ export function RoleCount(props) {
 		);
 	}
 
+	function onRoleMouseEnter( event ) {
+		if (props.onMouseEnter)
+			props.onMouseEnter();
+
+		if (!roleName || !props.showSecondaryHover)
+			return;
+
+		// assumes that this is attached to a child in a popover
+		popover.onHover(
+			`/roles/${props.gameType}/${roleName}`,
+			"role",
+			roleRef.current,
+			roleName,
+			null,
+			event.clientY,
+		);
+	}
+
 	if (!props.closed) {
 		const roleClass = roleName ? `${hyphenDelimit(props.gameType)}-${hyphenDelimit(roleName)}` : "null";
 
@@ -48,6 +66,7 @@ export function RoleCount(props) {
 					className={`role role-${roleClass} ${props.small ? "small" : ""} ${props.bg ? "bg" : ""}`}
 					title={`${roleName || ""} ${modifier ? `(${modifier})` : ""}`}
 					onClick={onRoleClick}
+					onMouseEnter={onRoleMouseEnter}
 					ref={roleRef}>
 					{modifier &&
 						<div className={`modifier modifier-${props.gameType}-${hyphenDelimit(modifier)}`} />

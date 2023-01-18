@@ -15,6 +15,7 @@ export default function Popover() {
 	const popover = useContext(PopoverContext);
 	const popoverRef = useRef();
 	const triangleRef = useRef();
+	const sideContentRef = useRef();
 
 	useOnOutsideClick(
 		[
@@ -24,6 +25,7 @@ export default function Popover() {
 		() => {
 			if (!popover.loadingRef.current) {
 				popover.setVisible(false);
+				popover.setSideContentVisible(false);
 				popover.setBoundingEl(null);
 			}
 		}
@@ -63,6 +65,18 @@ export default function Popover() {
 		popoverRef.current.style.top = popoverTop + "px";
 		popoverRef.current.style.left = popoverLeft + "px";
 		popoverRef.current.style.visibility = "visible";
+
+		if( popover.sideContentVisible ) {
+			sideContentRef.current.style.width = popoverRect.width + "px"; // Gives consistent styling + just makes loading not funky
+
+			const useLeft = popoverRect.x > window.innerWidth - (popoverRect.x + popoverRect.width)
+				? (popoverRect.x - popoverRect.width)
+				: popoverRect.x + popoverRect.width
+
+			sideContentRef.current.style.top = popover.sideContentMouseY + "px";
+			sideContentRef.current.style.left = useLeft + "px";
+			sideContentRef.current.style.visibility = "visible";
+		}
 	});
 
 	return (
@@ -83,6 +97,18 @@ export default function Popover() {
 					</div>
 				}
 			</div>
+			{ popover.sideContentVisible && <div
+				className={`popover-window`}
+				ref={sideContentRef}>
+				<div className="popover-title">
+					{popover.sideContentTitle}
+				</div>
+				{!popover.sideContentLoading &&
+					<div className="popover-content">
+						{popover.sideContent}
+					</div>
+				}
+			</div> }
 		</>
 	);
 }
@@ -93,6 +119,11 @@ export function usePopover(siteInfo) {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [sideContent, setSideContent] = useState("");
+	const [sideContentTitle, setSideContentTitle] = useState("");
+	const [sideContentVisible, setSideContentVisible] = useState("");
+	const [sideContentLoading, setSideContentLoading] = useState(false);
+	const [sideContentMouseY, setSideContentMouseY] = useState(0);
 
 	const loadingRef = useRef();
 	const errorAlert = useErrorAlert(siteInfo);
@@ -100,22 +131,38 @@ export function usePopover(siteInfo) {
 	function onClick(path, type, _boundingEl, title, dataMod) {
 		if (_boundingEl == boundingEl) {
 			setVisible(false);
+			setSideContentVisible(false);
 			setBoundingEl(null);
 		}
 		else
 			load(path, type, _boundingEl, title, dataMod);
 	}
 
-	function open(boundingEl, title) {
-		setBoundingEl(boundingEl);
-		setTitle(title);
-		setLoading(true);
-		setVisible(true);
-
-		loadingRef.current = true;
+	function onHover(path, type, _boundingEl, title, dataMod, mouseY) {
+		if( !sideContentLoading && title !== sideContentTitle) { // using this just so requests aren't massive
+			setSideContentMouseY( mouseY );
+			load(path, type, _boundingEl, title, dataMod, true);
+		}
 	}
 
-	function ready(content, type) {
+	function open(boundingEl, title, sideload) {
+		if( sideload ) {
+			setSideContentTitle(title);
+			setSideContentLoading(true);
+			setSideContentVisible(true);
+		} else {
+			setBoundingEl(boundingEl);
+
+			setTitle(title);
+			setSideContentVisible(false);
+			setLoading(true);
+			setVisible(true);
+
+			loadingRef.current = true;
+		}
+	}
+
+	function ready(content, type, title, sideload) {
 		switch (type) {
 			case "setup":
 				content = parseSetupPopover(content, siteInfo.roles);
@@ -128,12 +175,18 @@ export function usePopover(siteInfo) {
 				break;
 		}
 
-		setContent(content);
-		setLoading(false);
+		if( sideload ) {
+			setSideContent(content);
+			setSideContentTitle(title); // doing this here guarentees the content + title are synced if multiple hovers are firing at once
+			setSideContentLoading(false);
+		} else {
+			setContent(content);
+			setLoading(false);
+		}
 	}
 
-	function load(path, type, boundingEl, title, dataMod) {
-		open(boundingEl, title);
+	function load(path, type, boundingEl, title, dataMod, sideload) {
+		open(boundingEl, title, sideload);
 
 		axios.get(path)
 			.then(res => {
@@ -141,7 +194,7 @@ export function usePopover(siteInfo) {
 					dataMod(res.data);
 
 				loadingRef.current = false;
-				ready(res.data, type)
+				ready(res.data, type, title, sideload)
 			})
 			.catch(errorAlert);
 	}
@@ -158,10 +211,17 @@ export function usePopover(siteInfo) {
 		loading,
 		setLoading,
 		onClick,
+		onHover,
 		open,
 		ready,
 		load,
-		loadingRef
+		loadingRef,
+		sideContent,
+		sideContentVisible,
+		setSideContentVisible,
+		sideContentTitle,
+		sideContentLoading,
+		sideContentMouseY,
 	};
 }
 

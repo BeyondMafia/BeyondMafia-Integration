@@ -245,6 +245,7 @@ module.exports = {
         "kick": true,
         "announce": true,
         "blockName": true,
+        "approvePending": true,
     },
     defaultGroups: {
         "Owner": {
@@ -327,6 +328,7 @@ module.exports = {
                 "announce",
                 "viewFlagged",
                 "blockName",
+                "approvePending",
             ]
         },
         "Head Mod": {
@@ -369,6 +371,7 @@ module.exports = {
                 "announce",
                 "viewFlagged",
                 "blockName",
+                "approvePending",
             ]
         },
         "Mod": {
@@ -409,6 +412,7 @@ module.exports = {
                 "kick",
                 "announce",
                 "viewFlagged",
+                "approvePending",
             ]
         },
     },
