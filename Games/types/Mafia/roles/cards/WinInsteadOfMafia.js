@@ -9,7 +9,7 @@ module.exports = class WinWithMafia extends Card {
         this.winCheck = {
             priority: PRIORITY_WIN_NO_MAF,
             check: function (counts, winners, aliveCount) {
-                if (counts["Mafia"] >= aliveCount / 2 && aliveCount > 0)
+                if (this.player.alive && counts["Mafia"] >= aliveCount / 2 && aliveCount > 0)
                     {
                         winners.addPlayer(this.player, this.player.role.name);
                         winners.removeGroup("Mafia");
