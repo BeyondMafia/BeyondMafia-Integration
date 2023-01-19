@@ -418,6 +418,11 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Once per night can give out an ill-fated version of many items."
+        "Heartbreaker": {
+            alignment: "Mafia",
+            description: [
+                "Once per game can fall in love with another player.",
+                "If Heartbreaker dies, both players will die.",
             ],
         },
 
@@ -509,6 +514,21 @@ const roleData = {
             description: [
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
+            ],
+        },
+        "Lover": {
+            alignment: "Independent",
+            description: [
+                "Once per game can fall in love with another player.",
+                "Both players die if either dies.",
+                "Wins if both players survive until the end of the game.",
+            ],
+        },
+        "Matchmaker": {
+            alignment: "Independent",
+            description: [
+                "Each night chooses too people to go on a date. If those two are the same role, they will fall in love.",
+                "Wins if all players left alive are in love.",
             ],
         },
     },
