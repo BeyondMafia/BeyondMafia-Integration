@@ -1,5 +1,7 @@
 const Effect = require("../Effect");
 const Action = require("../Action");
+const { LABEL_KILL, LABEL_CURSE } = require("../const/ActionLabel");
+const { DEATH_TYPE_CURSE } = require("../const/DeathType").default
 
 module.exports = class Cursed extends Effect {
 
@@ -15,14 +17,14 @@ module.exports = class Cursed extends Effect {
 			var action = new Action({
 				actor: this.actor,
 				target: this.player,
-				labels: ["kill", "curse"],
+				labels: [LABEL_KILL, LABEL_CURSE],
 				run: function () {
 					if (this.dominates())
-						this.target.kill("curse", this.actor, true);
+						this.target.kill(DEATH_TYPE_CURSE, this.actor, true);
 				}
 			});
 			
-			action.do();
+			this.game.instantAction(action)
 		}
 	}
 };

@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_CURSE } = require("../../const/Priority");
+const { PRIORITY_EFFECT_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class CurseWithWord extends Card {
 
@@ -12,14 +12,14 @@ module.exports = class CurseWithWord extends Card {
 				flags: ["voting"],
 				targets: { include: ["alive"], exclude: ["Mafia"] },
 				action: {
-					labels: ["effect", "cursed"],
-					priority: PRIORITY_CURSE,
+					labels: ["effect"],
+					priority: PRIORITY_EFFECT_GIVER_DEFAULT,
 					run: function () {
-						this.target.giveEffect("Cursed", this.actor, "word", 1);
+						if (this.dominates() && this.role.data.cursedWord != "") 
+							this.target.giveEffect("Cursed", this.actor, "why", 1);		
 					}
 				}
 			}
 		};
 	}
-
 }
