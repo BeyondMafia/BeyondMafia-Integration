@@ -264,18 +264,6 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
-        "Judge": {
-            alignment: "Village",
-            description: [
-                "Votes weight is 2."
-            ],
-        },
-        "Party Host": {
-            alignment: "Village",
-            description: [
-                "Can choose to host a party for everyone to attend once per game.",
-            ],
-        },
         "Snoop": {
             alignment: "Village",
             description: [
@@ -288,7 +276,19 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },      
 
         //Mafia
         "Mafioso": {
