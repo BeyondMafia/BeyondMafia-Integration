@@ -1,4 +1,5 @@
 const Item = require("../Item");
+const {JAIL_MEETING_PRIORITY} = require("../const/MeetingPriority");
 
 module.exports = class Handcuffs extends Item {
 
@@ -13,16 +14,10 @@ module.exports = class Handcuffs extends Item {
                 states: ["Night"],
                 flags: ["group", "speech", "voting", "anonymous"],
                 inputType: "boolean",
-                canVote: false
+                canVote: false,
+                exclusive: true,
+                priority: JAIL_MEETING_PRIORITY,
             }
         };
     }
-
-    shouldDisableMeeting(name, options) {
-        var stateInfo = this.game.getStateInfo();
-
-        if (stateInfo.name.match(/Night/) && name != "Jail")
-            return true;
-    }
-
 }

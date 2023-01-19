@@ -1,5 +1,6 @@
 const { PRIORITY_HOT_SPRING } = require("../const/Priority");
 const Item = require("../Item");
+const {HOT_SPRINGS_MEETING_PRIORITY} = require("../const/MeetingPriority");
 
 module.exports = class Orange extends Item {
 
@@ -27,6 +28,8 @@ module.exports = class Orange extends Item {
             "Hot Springs": {
                 states: ["Night"],
                 flags: ["group", "speech", "anonymous"],
+                exclusive: true,
+                priority: HOT_SPRINGS_MEETING_PRIORITY,
                 shouldMeet: function () {
                     return this.data.visitHotSprings;
                 }
@@ -43,16 +46,4 @@ module.exports = class Orange extends Item {
             }
         };
     }
-
-    shouldDisableMeeting(name, options) {
-        var stateInfo = this.game.getStateInfo();
-
-        if (
-            stateInfo.name.match(/Night/) &&
-            this.holder.role.data.visitHotSprings &&
-            name != "Hot Springs"
-        )
-            return true;
-    }
-
 }

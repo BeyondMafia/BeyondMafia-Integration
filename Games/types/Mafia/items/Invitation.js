@@ -1,4 +1,5 @@
 const Item = require("../Item");
+const {BANQUET_MEETING_PRIORITY} = require("../const/MeetingPriority");
 
 module.exports = class Invitation extends Item {
 
@@ -14,29 +15,20 @@ module.exports = class Invitation extends Item {
                 states: ["Night"],
                 flags: ["group", "speech", "anonymous", "voting", "mustAct", "noVeg"],
                 inputType: "boolean",
+                exclusive: true,
+                priority: BANQUET_MEETING_PRIORITY,
             }
         };
 
         this.listeners = {
             "meeting": function(meeting) {
-                if (meeting.name == "Banquet") {
-                    var players = meeting.members.map(a => a.player);
+                if (meeting.name === "Banquet") {
+                    let players = meeting.members.map(a => a.player);
                     let roles = players.map(a => a.role.name);
-                    var alert = "You look around the dinner table and see: " + roles.toString();
+                    let alert = "You look around the dinner table and see: " + roles.toString();
                     this.game.sendAlert(alert, players);
                 }
             }
         };
     }
-
-    shouldDisableMeeting(name, options) {
-        var stateInfo = this.game.getStateInfo();
-
-        if (
-            stateInfo.name.match(/Night/) &&
-            name != "Banquet"
-        )
-            return true;
-    }
-
 }
