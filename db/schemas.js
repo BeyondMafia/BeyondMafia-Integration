@@ -172,7 +172,8 @@ var schemas = {
         pinned: { type: Boolean, default: false, index: true },
         locked: { type: Boolean, default: false },
         replyNotify: { type: Boolean, default: true },
-        deleted: { type: Boolean, default: false }
+        deleted: { type: Boolean, default: false },
+        pending: { type: Boolean, default: false },
     }),
     "ForumReply": new mongoose.Schema({
         id: { type: String, index: true },
@@ -182,7 +183,8 @@ var schemas = {
         content: String,
         postDate: { type: Number, index: true },
         voteCount: { type: Number, default: 0 },
-        deleted: { type: Boolean, default: false }
+        deleted: { type: Boolean, default: false },
+        pending: { type: Boolean, default: false },
     }),
     "ForumVote": new mongoose.Schema({
         voter: { type: String, index: true },
@@ -229,6 +231,7 @@ var schemas = {
         date: { type: Number, index: true },
         voteCount: { type: Number, default: 0 },
         deleted: { type: Boolean, default: false },
+        pending: { type: Boolean, default: false },
     }),
     "Notification": new mongoose.Schema({
         id: { type: String, index: true },
