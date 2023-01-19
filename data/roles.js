@@ -401,6 +401,13 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Heartbreaker": {
+            alignment: "Mafia",
+            description: [
+                "Once per game can fall in love with another player.",
+                "If Heartbreaker dies, both players will die.",
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -483,6 +490,14 @@ const roleData = {
             description: [
                 "Can choose one player to swap roles with each night.",
                 "Cannot win the game.",
+            ],
+        },
+        "Lover": {
+            alignment: "Independent",
+            description: [
+                "Once per game can fall in love with another player.",
+                "Both players die if either dies.",
+                "Wins if both players survive until the end of the game.",
             ],
         },
         "Traitor": {
