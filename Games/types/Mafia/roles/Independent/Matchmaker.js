@@ -6,7 +6,7 @@ module.exports = class Matchmaker extends Role {
         super("Matchmaker", player, data);
 
         this.alignment = "Independent";
-        this.cards = ["VillageCore", "MeetYourMatch", "LoveConquersAll"];
+        this.cards = ["VillageCore", "MeetYourMatch", "WinIfLoveConquersAll"];
     }
 
 }
