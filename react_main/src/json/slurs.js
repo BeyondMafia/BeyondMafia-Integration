@@ -1,10 +1,10 @@
 export default [
-	"chink",
-	"faggot",
-	"fag",
-	"nazi",
-	"nigga",
-	"nigger",
-	"retard",
-	"wetback",
+    "chink",
+    "faggot",
+    "fag",
+    "nazi",
+    "nigga",
+    "nigger",
+    "retard",
+    "wetback",
 ]

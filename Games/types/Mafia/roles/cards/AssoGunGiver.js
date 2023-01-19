@@ -1,26 +1,26 @@
 const Card = require("../../Card");
-const { PRIORITY_ASSOGUN_GIVER } = require("../../const/Priority");
+const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class AssoGunGiver extends Card {
 
-	constructor(role) {
-		super(role);
+    constructor(role) {
+        super(role);
 
-		this.meetings = {
-			"Give Gun": {
-				states: ["Night"],
-				flags: ["voting"],
-				targets: { include: ["alive"], exclude: ["Mafia"] },
-				action: {
-					labels: ["giveItem", "gun"],
-					priority: PRIORITY_ASSOGUN_GIVER,
-					run: function () {
-						this.target.holdItem("AssoGun");
-						this.target.queueAlert("You have received a gun!");
-					}
-				}
-			}
-		};
-	}
+        this.meetings = {
+            "Give Gun": {
+                states: ["Night"],
+                flags: ["voting"],
+                targets: { include: ["alive"], exclude: ["Mafia"] },
+                action: {
+                    labels: ["giveItem", "gun"],
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT,
+                    run: function () {
+                        this.target.holdItem("AssoGun");
+                        this.target.queueAlert("You have received a gun!");
+                    }
+                }
+            }
+        };
+    }
 
 }

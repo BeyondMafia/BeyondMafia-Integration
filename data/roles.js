@@ -277,6 +277,19 @@ const roleData = {
                 "Immune to snowballs"
             ],
         },
+        "Snoop": {
+            alignment: "Village",
+            description: [
+                "Snoops someone each night and learns what items they are carrying.",
+            ],
+        },
+        "Justice": {
+            alignment: "Village",
+            description: [
+                "Investigates two people at night.",
+                "Learns if they share an alignment.",
+            ],
+        },        
 
         //Mafia
         "Mafioso": {
@@ -489,6 +502,13 @@ const roleData = {
             description: [
                 "Can choose one player to swap roles with each night.",
                 "Cannot win the game.",
+            ],
+        },
+        "Traitor": {
+            alignment: "Independent",
+            description: [
+                "Wins when mafia wins.",
+                "Does not count towards mafia win count.",
             ],
         },
     },
