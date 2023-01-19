@@ -430,6 +430,13 @@ const roleData = {
                 "Insane players speak gibberish."
             ],
         },
+        "The Thing": {
+            alignment: "Monsters",
+            description: [
+                "Can hunt prey at night by choosing a target and guessing their role.",
+                "If guessed correctly, becomes immortal for the next day, if incorrect will be revealed to all."
+            ],
+        },
 
         //Independent
         "Jester": {
