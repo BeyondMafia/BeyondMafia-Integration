@@ -13,7 +13,7 @@ module.exports = class HuntPrey extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    labels: ["kill"],
+                    labels: ["kill", "consume"],
                     priority: PRIORITY_KILL_DEFAULT,
                     run: function () {
                         if (this.actor.role.data.prey){
