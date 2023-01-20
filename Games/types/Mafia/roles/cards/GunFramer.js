@@ -19,7 +19,7 @@ module.exports = class GunFramer extends Card {
 						var items = this.actor.items;
 						while (items.include("Gun") == true) {
 							items.splice(items.indexOf("Gun"), 1);
-							this.actor.holdItem("Gun", {reveal:true, shooter: this.target})
+							this.actor.holdItem("Gun", {reveal:true, shooter: this.target});
 						}
 					}
 				}
