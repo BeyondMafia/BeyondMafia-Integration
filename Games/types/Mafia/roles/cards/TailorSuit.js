@@ -36,10 +36,10 @@ module.exports = class TailorSuit extends Card {
         };
         this.listeners = {
             "rolesAssigned": function () {
-                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name)));
+                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
             },
             "afterActions": function () {
-                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name)));
+                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
             }
         };
     }
