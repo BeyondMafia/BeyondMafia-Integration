@@ -276,7 +276,14 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Mimic": {
+            alignment: "Village",
+            description: [
+                "Can choose to mimic another player at night and will change based on their alignment.",
+                "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
