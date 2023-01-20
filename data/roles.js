@@ -276,7 +276,14 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Sapling": {
+            alignment: "Village",
+            description: [
+                "Once per game can choose to turn into a tree at night.",
+                "While a tree, cannot vote and immune to most ways of dying.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
