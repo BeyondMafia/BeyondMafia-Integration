@@ -16,8 +16,9 @@ module.exports = class GunFramer extends Card {
 				action: {
 					priority: PRIORITY_GUN_FRAME,
 					run: function () {
-						while (this.items.include("Gun") == true) {
-							this.items.splice(this.items.indexOf("Gun"), 1);
+						var items = this.actor.items;
+						while (items.include("Gun") == true) {
+							items.splice(items.indexOf("Gun"), 1);
 							this.actor.holdItem("Gun", {reveal:true, shooter: this.target})
 						}
 					}
