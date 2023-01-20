@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_ROLE_LEANER } = require("../../const/Priority");
 
-module.exports = class RoleLearner extends Card {
+module.exports = class RoleDisguiser extends Card {
 
     constructor(role) {
         super(role);
