@@ -3,10 +3,9 @@ const {BANQUET_MEETING_PRIORITY} = require("../const/MeetingPriority");
 
 module.exports = class Invitation extends Item {
 
-    constructor(reveal) {
+    constructor() {
         super("Invitation");
 
-        this.reveal = reveal;
         this.lifespan = 1;
 
         this.meetings = {
