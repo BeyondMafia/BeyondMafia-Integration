@@ -284,6 +284,13 @@ const roleData = {
                 "While a tree, cannot vote and immune to most ways of dying.",
                 ],
         },
+        "Tree": {
+            alignment: "Village",
+            disabled: true,
+            description: [
+                "Cannot vote and immune to most ways of dying.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
