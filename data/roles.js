@@ -276,7 +276,16 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Baker": {
+            alignment: "Village",
+            description: [
+                "When in the game, everyone starts with two bread.",
+                "Gives out up to two bread each night.",
+                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+                ],
+        },
+
 
         //Mafia
         "Mafioso": {
