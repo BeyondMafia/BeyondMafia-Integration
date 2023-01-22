@@ -18,6 +18,7 @@ module.exports = class VillageCore extends Card {
                     priority: PRIORITY_VILLAGE,
                     power: 3,
                     run: function () {
+                        this.game.events.emit("lynch", this.meeting);
                         if (this.dominates())
                             this.target.kill("lynch", this.actor);
                     }
