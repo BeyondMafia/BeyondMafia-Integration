@@ -29,7 +29,7 @@ module.exports = class Famished extends Effect {
                         actor: this.player,
                         target: this.player,
                         game: this.player.game,
-                        power: 2,
+                        power: 5,
                         labels: ["kill", "famine"],
                         run: function () {
                             if (this.dominates())
