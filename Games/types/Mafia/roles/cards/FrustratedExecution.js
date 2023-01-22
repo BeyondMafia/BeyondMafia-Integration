@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const Action = require("../../../../core/Action");
 
-module.exports = class WinIfLynched extends Card {
+module.exports = class FrustratedExecution extends Card {
 
     constructor(role) {
         super(role);
