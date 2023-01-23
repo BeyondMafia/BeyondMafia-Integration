@@ -5,7 +5,6 @@ module.exports = class TakeMeWithYou extends Card {
     constructor(role) {
         super(role);
 
-
         this.listeners = {
 
             "death": function(player, killer, deathType, instant) {
@@ -14,7 +13,7 @@ module.exports = class TakeMeWithYou extends Card {
                     player == this.data.loves &&
                     this.player.alive
                 ) {
-                    this.player.kill("basic", killer, instant);
+                    this.player.kill(deathType, killer, instant);
                 }
             }
         };
