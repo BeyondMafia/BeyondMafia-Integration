@@ -10,7 +10,7 @@ module.exports = class Sheriff extends Role {
         this.startItems = [
             {
                 type: "Gun",
-                args: [false]
+                args: [{reveal: false}]
             }
         ];
     }
