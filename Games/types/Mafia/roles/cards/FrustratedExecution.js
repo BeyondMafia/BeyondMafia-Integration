@@ -9,38 +9,29 @@ module.exports = class FrustratedExecution extends Card {
         this.listeners = {
             "lynch": function (meeting) {
                 const votes = meeting.votes;
-                let count = {}
+                let targeted = false;
                 for (let key in votes){
                     let target = votes[key];
-                    if (target in count)
-                        count[target]++;
-                    else
-                        count[target] = 1;
+                    if (target === this.player.id){
+                        targeted = true;
+                        break;
+                    }
                 }
-                if (this.player.id in count){
-                    let playerVotes = count[this.player.id];
-                    let max = true;
-                    for (let playerId in count){
-                        let numVotes = count[playerId];
-                        if (numVotes > playerVotes)
-                            max = false;
-                    }
-                    if(!max){
-                        let action = new Action({
-                            actor: this.player,
-                            target: this.player,
-                            game: this.game,
-                            labels: ["kill", "frustration", "hidden"],
-                            power: 3,
-                            run: function(){
-                                this.game.sendAlert(`${this.target.name} feels immensely frustrated!`);
-                                if (this.dominates())
-                                    this.target.kill("basic", this.actor);
-                            }
+                if(targeted && meeting.finalTarget !== this.player){
+                    let action = new Action({
+                        actor: this.player,
+                        target: this.player,
+                        game: this.game,
+                        labels: ["kill", "frustration", "hidden"],
+                        power: 3,
+                        run: function(){
+                            this.game.sendAlert(`${this.target.name} feels immensely frustrated!`);
+                            if (this.dominates())
+                                this.target.kill("basic", this.actor);
+                        }
 
-                        });
-                        action.do();
-                    }
+                    });
+                    action.do();
                 }
             }
         };
