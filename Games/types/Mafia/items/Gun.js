@@ -3,10 +3,10 @@ const Random = require("../../../../lib/Random");
 
 module.exports = class Gun extends Item {
 
-    constructor(options) {
+    constructor(reveal) {
         super("Gun");
 
-        this.options = options || {}
+        this.reveal = reveal;
         this.meetings = {
             "Shoot Gun": {
                 actionName: "Shoot",
@@ -16,30 +16,19 @@ module.exports = class Gun extends Item {
                     labels: ["kill", "gun"],
                     item: this,
                     run: function () {
-                        var reveal = this.item.options.reveal ||  Random.randArrayVal([true, false]);
-                        var shooterMask = this.actor.name;
-                        var mafiaImmune = this.item.options.mafiaImmune || false;
-                        var cursed = this.item.options.cursed || false;
+                        var reveal = this.item.reveal;
 
-                        if (cursed) {
-                            this.target = this.actor;
-                        }
+                        if (reveal == null)
+                            reveal = Random.randArrayVal([true, false]);
 
-                        if (reveal && cursed)
-                            this.game.queueAlert(`${shooterMask} pulls a gun, it backfires!`);
-                        else if (reveal && !cursed)
-                            this.game.queueAlert(`${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
+                        if (reveal)
+                            this.game.queueAlert(`${this.actor.name} pulls a gun and shoots at ${this.target.name}!`);
                         else
                             this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
 
-                        // kill
-                        var toKill = this.dominates();
-                        if (mafiaImmune && this.target.role.alignment == "Mafia")
-                            toKill = false
-
-                        if (toKill)
+                        if (this.dominates())
                             this.target.kill("gun", this.actor, true);
-                            
+
                         this.item.drop();
                         this.game.broadcast("gunshot");
                     }
