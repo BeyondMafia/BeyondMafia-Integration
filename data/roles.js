@@ -276,7 +276,13 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Butterfly": {
+            alignment: "Village",
+            description: [
+                "When they die all players are reset to the role they had at the start of the game.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
