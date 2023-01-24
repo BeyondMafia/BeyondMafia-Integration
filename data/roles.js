@@ -276,7 +276,14 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Gallis": {
+            alignment: "Village",
+            description: [
+                "Immune to being executed.",
+                "Will die if they have a minority vote during execution.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
