@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { Avatar } from "../pages/User/User"
 import { emotify } from "./Emotes";
 import badWords from "../json/badWords";
 import slurs from "../json/slurs";
@@ -127,6 +128,9 @@ export function UserText(props) {
 		if (props.linkify)
 			text = linkify(text);
 
+		if (props.avify)
+			text = avify(text, props.players);
+
 		if (props.emotify)
 			text = emotify(text);
 
@@ -165,6 +169,28 @@ export function linkify(text) {
 
 	text = text.flat();
 	return text.length == 1 ? text[0] : text;
+}
+
+export function avify(text, players) {
+	// Creating RegExp to match %User calls.
+	const playerNames = Object.values(players).map(player => player.name);
+	const playerNamesRegex = new RegExp(`^%(${playerNames.join("|")})$`);
+
+	// Checking text against %User calls.
+	const words = text.split(" ");
+	for (const i in words) {
+		if (playerNamesRegex.test(words[i])) {
+			const user = Object.values(players).find(player => player.name === words[i].substring(1));
+			words[i] = <Avatar
+				name={user.name}
+				id={user.userId}
+				hasImage={user.avatar}
+				small={true}
+				/>;
+		}
+	}
+	text = words.flat();
+	return text;
 }
 
 export function filterProfanity(text, settings, char) {
