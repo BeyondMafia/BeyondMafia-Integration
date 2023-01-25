@@ -289,7 +289,7 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
 
         //Mafia
         "Mafioso": {
@@ -418,6 +418,8 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Once per night can give out an ill-fated version of many items."
+            ],
+        },
         "Heartbreaker": {
             alignment: "Mafia",
             description: [
