@@ -264,6 +264,19 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Cutler": {
+            alignment: "Village",
+            description: [
+                "Hands out a knife each night."
+            ],
+        },
+        "Snowman": {
+            alignment: "Village",
+            description: [
+                "Hands out a snowball each night.",
+                "Immune to snowballs"
+            ],
+        },
         "Snoop": {
             alignment: "Village",
             description: [
@@ -276,7 +289,7 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
 
         //Mafia
         "Mafioso": {
@@ -399,6 +412,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Once per game, can fatally sting another player during the day, killing them both."
+            ],
+        },
+        "Fabricator": {
+            alignment: "Mafia",
+            description: [
+                "Once per night can give out an ill-fated version of many items."
             ],
         },
         "Heartbreaker": {
