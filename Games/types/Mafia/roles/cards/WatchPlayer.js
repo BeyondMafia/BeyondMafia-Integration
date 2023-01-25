@@ -10,6 +10,7 @@ module.exports = class WatchPlayer extends Card {
             "Watch": {
                 states: ["Night"],
                 flags: ["voting"],
+                targets: { include: ["alive"], exclude: [] },
                 action: {
                     priority: PRIORITY_WATCH,
                     run: function () {

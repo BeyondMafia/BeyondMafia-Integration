@@ -287,6 +287,18 @@
     background-position: -210px -120px;
 }
 
+.role-Mafia-Matchmaker {
+    background-position: -240px -120px;
+}
+
+.role-Mafia-Judge {
+    background-position: -270px -120px;
+}
+
+.role-Mafia-Snoop {
+    background-position: -300px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -371,6 +383,10 @@
     background-position: -540px -40px;
 }
 
+.role-Mafia-Heartbreaker {
+    background-position: -570px -40px;
+}
+
 /* 
 * Independent 
 */
@@ -405,6 +421,14 @@
 
 .role-Mafia-Old-Maid {
     background-position: -690px -40px;
+}
+
+.role-Mafia-Lover {
+    background-position: -720px -40px;
+}
+
+.role-Mafia-Traitor {
+    background-position: -750px -40px;
 }
 
 /* 
