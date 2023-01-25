@@ -290,6 +290,18 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },      
 
         //Mafia
         "Mafioso": {
@@ -412,6 +424,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Once per game, can fatally sting another player during the day, killing them both."
+            ],
+        },
+        "Prosecutor": {
+            alignment: "Mafia",
+            description: [
+                "Votes weight is 2."
             ],
         },
         "Fabricator": {
