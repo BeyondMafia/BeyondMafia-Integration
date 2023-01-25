@@ -751,14 +751,14 @@ module.exports = class Game {
         if (!stateInfo.delayActions || skipped > 0)
             this.processActionQueue();
 
+        // Check win conditions
+        if (this.checkGameEnd())
+            return;
+
         // Set next state
         this.incrementState();
         this.stateEvents = {};
         stateInfo = this.getStateInfo();
-
-        // Check win conditions
-        if (this.checkGameEnd())
-            return;
 
         // Tell clients the new state
         this.addStateToHistories(stateInfo.name);

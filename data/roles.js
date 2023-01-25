@@ -514,6 +514,13 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Prophet": {
+            alignment: "Independent",
+            description: [
+                "Once per game can predict when the game will end.",
+                "Wins if they guess correctly.",
+                ],
+        },
     },
     "Split Decision": {
         //Blue
