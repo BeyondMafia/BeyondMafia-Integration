@@ -172,15 +172,18 @@ export function linkify(text) {
 }
 
 export function avify(text, players) {
+	// Creating players array.
+	const playersArray = Object.values(players);
+
 	// Creating RegExp to match %User calls.
-	const playerNames = Object.values(players).map(player => player.name);
+	const playerNames = playersArray.map(player => player.name);
 	const playerNamesRegex = new RegExp(`^%(${playerNames.join("|")})$`);
 
 	// Checking text against %User calls.
 	const words = text.split(" ");
 	for (const i in words) {
 		if (playerNamesRegex.test(words[i])) {
-			const user = Object.values(players).find(player => player.name === words[i].substring(1));
+			const user = playersArray.find(player => player.name === words[i].substring(1));
 			words[i] = <Avatar
 				name={user.name}
 				id={user.userId}
