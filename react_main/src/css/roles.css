@@ -299,6 +299,10 @@
     background-position: -300px -120px;
 }
 
+.role-Mafia-Party-Host {
+    background-position: -930px -0px;
+}
+
 /* 
 * Mafia 
 */
@@ -385,6 +389,10 @@
 
 .role-Mafia-Heartbreaker {
     background-position: -570px -40px;
+}
+
+.role-Mafia-Prosecutor {
+    background-position: -600px -40px;
 }
 
 /* 
