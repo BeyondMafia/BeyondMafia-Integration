@@ -16,7 +16,7 @@ module.exports = class Cat extends Item {
                     item: this,
                     run: function () {
                       if (this.target == "Yes") {
-                          this.actor.giveEffect("Daze", this.actor);
+                          this.holder.giveEffect("Daze", this.actor);
                       }
                       else  {
                         var role = this.holder.getAppearance("investigate", true);
