@@ -19,6 +19,7 @@ module.exports = class Stun extends Effect {
             priority: PRIORITY_NIGHT_ROLE_BLOCKER,
             delay: 1,
             effect: this,
+            game: this.game,
             run: function() {
                 for (let action of this.game.actions[0]) {
                     if (
