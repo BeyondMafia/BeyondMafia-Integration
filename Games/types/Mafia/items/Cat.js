@@ -16,15 +16,7 @@ module.exports = class Cat extends Item {
                     item: this,
                     run: function () {
                       if (this.target == "Yes") {
-                        for (let action of this.game.actions[0]) {
-                          if (
-                            action.actor == this.holder &&
-                            action.priority > this.priority &&
-                            !action.hasLabel("absolute")
-                          ) {
-                            action.cancel(true);
-                          }  
-                        }
+                          this.target.giveEffect("Daze", this.actor);
                       }
                       else  {
                         var role = this.holder.getAppearance("investigate", true);
