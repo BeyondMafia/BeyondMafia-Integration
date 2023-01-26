@@ -12,7 +12,7 @@ module.exports = class Cat extends Item {
                 flags: ["voting"],
                 inputType: "boolean",
                 action: {
-                    labels: ["investigate", "role", "block"],
+                    labels: ["investigate", "role"],
                     item: this,
                     run: function () {
                       if (this.target == "Yes") {
