@@ -32,8 +32,8 @@
 	margin: 10px 10px 0px 0px;
 	padding: 8px;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .shop .shop-item .name {
@@ -139,9 +139,9 @@
 }
 
 .shop .braintree-sheet__header .braintree-sheet__text {
-	color: white;
+	color: var(--scheme-color-text);
 }
 
 .shop .braintree-sheet__content--form .braintree-form__field-group .braintree-form__label {
-	color: white;
+	color: var(--scheme-color-text);
 }

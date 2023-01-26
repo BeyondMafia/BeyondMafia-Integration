@@ -27,8 +27,8 @@
 	padding: 10px;
 	width: 485px;
 
-	color: black;
-	background-color: #f3f3f3;
+	color: var(--scheme-color-text);
+	background-color: var(--scheme-color);
 }
 
 .comments-page .post:nth-child(2) {
@@ -37,6 +37,7 @@
 
 .comments-page .post .md-content {
 	background-color: transparent;
+	color: var(--scheme-color-text);
 }
 
 .comments-page .post .md-content a {

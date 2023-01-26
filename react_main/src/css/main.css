@@ -7,6 +7,37 @@
     --scroll-color: #8b8b8b;
 }
 
+.light-mode{
+    --scheme-color: #fff;
+    --scheme-color-sec: #f3f3f3;
+    --scheme-color-text: black;
+    --scheme-color-border: #c7c7c7;
+}
+
+.dark-mode{
+    --scheme-color: #181a1b;
+    --scheme-color-sec: #1f2123ff;
+    --scheme-color-text: #ffffff;
+    --scheme-color-border: #404548ff;
+}
+
+/*@media screen and (prefers-color-scheme: light){*/
+/*    :root{*/
+/*        --scheme-color: #fff;*/
+/*        --scheme-color-sec: #f3f3f3;*/
+/*        --scheme-color-text: black;*/
+/*        --scheme-color-border: #c7c7c7;*/
+/*    }*/
+/*}*/
+/*@media screen and (prefers-color-scheme: dark){*/
+/*    :root{*/
+/*        --scheme-color: #181a1b;*/
+/*        --scheme-color-sec: #1f2123ff;*/
+/*        --scheme-color-text: #ffffff;*/
+/*        --scheme-color-border: #404548ff;*/
+/*    }*/
+/*}*/
+
 html,
 body {
     width: 100%;
@@ -130,8 +161,8 @@ a {
 
     padding: 8px;
 
-    background-color: white;
-    color: black;
+    background-color: var(--scheme-color);
+    color: var(--scheme-color-text);
 }
 
 .box-panel .heading {
@@ -173,8 +204,8 @@ div.center {
     padding: 3px 5px;
     border-left: 3px solid #62a0db;
 
-    background-color: white;
-    color: black;
+    background-color: var(--scheme-color);
+    color: var(--scheme-color-text);
 }
 
 .paragraph:last-child {
@@ -213,8 +244,8 @@ div.center {
     min-width: 100px;
     padding: 5px 0px;
 
-    background-color: white;
-    color: black;
+    background-color: var(--scheme-color);
+    color: var(--scheme-color-text);
     box-shadow: 0px 0px 3px black;
     z-index: 5;
 
@@ -232,7 +263,7 @@ div.center {
 }
 
 .popover {
-    color: black;
+    color: var(--scheme-color-text);
 }
 
 .popover .role-desc {
@@ -434,8 +465,8 @@ input:focus {
     padding: 10px;
 
     z-index: 10;
-    background-color: white;
-    color: black;
+    background-color: var(--scheme-color);
+    color: var(--scheme-color-text);
     box-shadow: 0px 0px 5px black;
     overflow: auto;
     visibility: hidden;
@@ -457,7 +488,7 @@ input:focus {
         "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
         sans-serif;
     font-size: 16px;
-    color: black;
+    color: var(--scheme-color-text);
 }
 
 .nav .notif-list .notif:hover {

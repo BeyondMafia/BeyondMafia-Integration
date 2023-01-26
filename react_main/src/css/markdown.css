@@ -4,10 +4,20 @@
 
 .react-mde .mde-header {
 	border-radius: 0px;
+	background-color: var(--scheme-color-sec);
 }
 
 .react-mde button {
 	outline: none;
+	color: var(--scheme-color-text);
+}
+
+.mde-header .svg-icon{
+	color: var(--scheme-color-text);
+}
+
+.mde-text{
+	background-color: var(--scheme-color);
 }
 
 .react-mde button.selected {
@@ -19,7 +29,7 @@
 }
 
 .react-mde .grip {
-	border-top: 1px solid #c7c7c7;
+	border-top: 1px solid var(--scheme-color-border);
 
 	color: white;
 }
@@ -27,8 +37,8 @@
 .mde-preview.md-content {
 	padding: 5px;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .md-content p {

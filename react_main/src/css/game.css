@@ -181,8 +181,8 @@
 	margin: 0px;
 	padding: 0px;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .game .left-panel,
@@ -229,7 +229,7 @@
 
 	margin-top: 10px;
 
-	color: black;
+	color: var(--scheme-color-text);
 }
 
 .game .message:last-child {
@@ -347,7 +347,7 @@
 	flex-grow: 1;
 	flex-basis: 0px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -379,8 +379,8 @@
 	padding: 5px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 	font-size: 16px;
 }
 
@@ -638,8 +638,8 @@
 	border: none;
 	padding: 5px;
 
-	background-color: #f3f3f3;
-	color: black;
+	background-color: var(--scheme-color-sec);
+	color: var(--scheme-color-text);
 	outline: none;
 	resize: none;
 }
@@ -698,7 +698,7 @@
 	padding: 5px;
 	border: none;
 
-	background-color: #f3f3f3;
+	background-color: var(--scheme-color-sec);
 	color: black;
 }
 
