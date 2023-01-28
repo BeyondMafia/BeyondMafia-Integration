@@ -264,6 +264,19 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Cutler": {
+            alignment: "Village",
+            description: [
+                "Hands out a knife each night."
+            ],
+        },
+        "Snowman": {
+            alignment: "Village",
+            description: [
+                "Hands out a snowball each night.",
+                "Immune to snowballs"
+            ],
+        },
         "Snoop": {
             alignment: "Village",
             description: [
@@ -276,7 +289,19 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },      
 
         //Mafia
         "Mafioso": {
@@ -410,7 +435,20 @@ const roleData = {
         "Actress": {
             alignment: "Mafia",
             description: [
-                "Learns a targets role and appears to be that role."]
+                "Learns a targets role and appears to be that role."
+            ],
+        },
+        "Prosecutor": {
+            alignment: "Mafia",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Fabricator": {
+            alignment: "Mafia",
+            description: [
+                "Once per night can give out an ill-fated version of many items."
+            ],
         },
         "Heartbreaker": {
             alignment: "Mafia",
