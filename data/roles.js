@@ -458,6 +458,12 @@ const roleData = {
                 "If Heartbreaker dies, both players will die.",
             ],
         },
+        "Yakuza": {
+            alignment: "Mafia",
+            description: [
+                "Can choose to sacrifice themself to convert one player to Mafioso.",
+                ],
+        },
 
         //Monsters
         "Lycan": {
