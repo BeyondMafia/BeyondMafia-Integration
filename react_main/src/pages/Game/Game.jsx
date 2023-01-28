@@ -2543,7 +2543,7 @@ export function usePlayersReducer() {
 
 export function useSettingsReducer() {
     const defaultSettings = {
-        votingLog: false,
+        votingLog: true,
         timestamps: true,
         sounds: true,
         volume: 1,
