@@ -16,10 +16,11 @@ module.exports = class Gun extends Item {
                     labels: ["kill", "gun"],
                     item: this,
                     run: function () {
-                        var reveal = this.item.options.reveal
+                        var reveal = this.item.options.reveal;
                         if (reveal == null) {
                             reveal = Random.randArrayVal([true, false]);
                         }
+                        var shooterMask = this.actor.name;
                         var mafiaImmune = this.item.options.mafiaImmune;
                         var cursed = this.item.options.cursed;
 
@@ -34,16 +35,14 @@ module.exports = class Gun extends Item {
                         else
                             this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
 
-                        if (this.dominates())
-                            this.target.kill("gun", this.actor, true);
-
                         // kill
                         var toKill = this.dominates();
                         if (mafiaImmune && this.target.role.alignment == "Mafia")
                             toKill = false
 
-                        if (toKill)
+                        if (toKill) {
                             this.target.kill("gun", this.actor, true);
+                        }
 
                         this.item.drop();
                         this.game.broadcast("gunshot");
