@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_ROLE_LEANER } = require("../../const/Priority");
+const { PRIORITY_ROLE_LEARNER } = require("../../const/Priority");
 
 module.exports = class RoleDisguiser extends Card {
 
@@ -12,7 +12,7 @@ module.exports = class RoleDisguiser extends Card {
                 flags: ["voting"],
                 action: {
                     labels: ["investigate", "role"],
-                    priority: PRIORITY_ROLE_LEANER,
+                    priority: PRIORITY_ROLE_LEARNER,
                     run: function () {
                         let role = this.target.getAppearance("investigate", true);
                         let alert = `After studying ${this.target.name}, you learn to act like a ${role}.`;

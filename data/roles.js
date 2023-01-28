@@ -410,7 +410,8 @@ const roleData = {
         "Actress": {
             alignment: "Mafia",
             description: [
-                "Learns a targets role and appears to be that role."
+                "Learns a targets role and appears to be that role."]
+        },
         "Heartbreaker": {
             alignment: "Mafia",
             description: [
