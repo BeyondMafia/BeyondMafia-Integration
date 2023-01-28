@@ -1,6 +1,6 @@
 const Role = require("../../Role");
 
-module.exports = class Sheriff extends Role {
+module.exports = class Deputy extends Role {
 
     constructor(player, data) {
         super("Deputy", player, data);
@@ -10,7 +10,7 @@ module.exports = class Sheriff extends Role {
         this.startItems = [
             {
                 type: "Gun",
-                args: [false]
+                args: [{reveal: false}]
             }
         ];
     }
