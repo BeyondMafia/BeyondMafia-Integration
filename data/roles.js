@@ -290,6 +290,12 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Virgin": {
+            alignment: "Village",
+            description: [
+                "If executed by the village vote, no one will die the following night.",
+                ],
+        },
         "Mimic": {
             alignment: "Village",
             description: [
