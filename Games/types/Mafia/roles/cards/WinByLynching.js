@@ -12,6 +12,7 @@ module.exports = class WinByLynching extends Card {
 
         this.winCheck = {
             priority: PRIORITY_WIN_BY_LYNCHING,
+            againOnFinished: true,
             check: function (counts, winners, aliveCount) {
                 if (this.data.targetLynched) {
                     winners.addPlayer(this.player, this.name);
