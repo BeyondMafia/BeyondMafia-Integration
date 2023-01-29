@@ -290,6 +290,19 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Virgin": {
+            alignment: "Village",
+            description: [
+                "If executed by the village vote, no one will die the following night.",
+                ],
+        },
+        "Mimic": {
+            alignment: "Village",
+            description: [
+                "Can choose to mimic another player at night and will change based on their alignment.",
+                "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
+                ],
+        },
         "Judge": {
             alignment: "Village",
             description: [
@@ -426,6 +439,18 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Tailor": {
+            alignment: "Mafia",
+            description: [
+                "Gives out suits that make the wearer appear to be a different role."
+            ],
+        },
+        "Actress": {
+            alignment: "Mafia",
+            description: [
+                "Learns a targets role and appears to be that role."
+            ],
+        },
         "Prosecutor": {
             alignment: "Mafia",
             description: [
@@ -445,6 +470,11 @@ const roleData = {
                 "If Heartbreaker dies, both players will die.",
             ],
         },
+        "Yakuza": {
+            alignment: "Mafia",
+            description: [
+                "Can choose to sacrifice themself to convert one player to Mafioso.",
+                ],
         "Illusionist": {
             alignment: "Mafia",
             description: [
@@ -562,7 +592,7 @@ const roleData = {
         "Matchmaker": {
             alignment: "Independent",
             description: [
-                "Each night chooses too people to go on a date. If those two are the same role, they will fall in love.",
+                "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
             ],
         },
