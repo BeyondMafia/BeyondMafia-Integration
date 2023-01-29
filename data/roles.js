@@ -314,7 +314,14 @@ const roleData = {
             description: [
                 "Can choose to host a party for everyone to attend once per game.",
             ],
-        },      
+        },
+        "Resurrectionist": {
+            alignment: "Village",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -474,6 +481,13 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can choose to sacrifice themself to convert one player to Mafioso.",
+                ],
+        },
+        "Necromancer": {
+            alignment: "Mafia",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
                 ],
         },
 
