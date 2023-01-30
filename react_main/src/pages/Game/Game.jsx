@@ -1160,8 +1160,10 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
+                            avify
                             emotify />
                     </>
                 }
