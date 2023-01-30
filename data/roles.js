@@ -322,6 +322,13 @@ const roleData = {
             description: [
                 "Can choose to host a party for everyone to attend once per game.",
             ],
+        },      
+        "Ghost": {
+            alignment: "Village",
+            description: [
+                "Appears as villager until death.",
+                "Once dead, may visit one person a night and roleblock them.",
+            ],
         },
         "Lightkeeper": {
             alignment: "Village",
