@@ -323,6 +323,13 @@ const roleData = {
                 "Can choose to host a party for everyone to attend once per game.",
             ],
         },
+        "Lightkeeper": {
+            alignment: "Village",
+            description: [
+                "Causes an eclipse during the day following their death.",
+                "All votes and speech are anonymous during an eclipse."
+            ],
+        },
         "Resurrectionist": {
             alignment: "Village",
             description: [
