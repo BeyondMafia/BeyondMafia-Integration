@@ -290,6 +290,14 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Baker": {
+            alignment: "Village",
+            description: [
+                "When in the game, everyone starts with two bread.",
+                "Gives out up to two bread each night.",
+                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+                ],
+        },
         "Virgin": {
             alignment: "Village",
             description: [
@@ -321,7 +329,21 @@ const roleData = {
                 "Appears as villager until death.",
                 "Once dead, may visit one person a night and roleblock them.",
             ],
-        },    
+        },
+        "Lightkeeper": {
+            alignment: "Village",
+            description: [
+                "Causes an eclipse during the day following their death.",
+                "All votes and speech are anonymous during an eclipse."
+            ],
+        },
+        "Resurrectionist": {
+            alignment: "Village",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -481,6 +503,13 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can choose to sacrifice themself to convert one player to Mafioso.",
+                ],
+        },
+        "Necromancer": {
+            alignment: "Mafia",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
                 ],
         },
 
