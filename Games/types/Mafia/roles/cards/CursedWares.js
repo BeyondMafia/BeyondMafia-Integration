@@ -17,7 +17,9 @@ module.exports = class CursedWares extends Card {
                         var itemType = this.actor.role.data.itemType;
                         switch (itemType) {
                             case "Gun":
-                                this.target.holdItem("CursedGun");
+                                this.target.holdItem("Gun", {
+                                    cursed: true
+                                });           
                                 this.target.queueAlert("You have received a gun!");
                                 break;
                             case "Armor":
