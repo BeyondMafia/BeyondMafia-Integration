@@ -340,7 +340,7 @@ const roleData = {
         "Resurrectionist": {
             alignment: "Village",
             description: [
-                "Visits one dead person every night.",
+                "Once a game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
         },
@@ -508,7 +508,7 @@ const roleData = {
         "Necromancer": {
             alignment: "Mafia",
             description: [
-                "Visits one dead person every night.",
+                "Once a game, visits one dead person during the night.",
                 "That person will be resurrected.",
                 ],
         },
