@@ -582,6 +582,12 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Phantom": {
+            alignment: "Independent",
+            description: [
+                "Wins if in the graveyard when the game ends",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
