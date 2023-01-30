@@ -1160,8 +1160,10 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
+                            avify
                             emotify />
                     </>
                 }
@@ -2543,7 +2545,7 @@ export function usePlayersReducer() {
 
 export function useSettingsReducer() {
     const defaultSettings = {
-        votingLog: false,
+        votingLog: true,
         timestamps: true,
         sounds: true,
         volume: 1,
