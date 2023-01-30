@@ -180,19 +180,31 @@ export function avify(text, players) {
 	const playerNamesRegex = new RegExp(`^%(${playerNames.join("|")})$`);
 
 	// Checking text against %User calls.
-	const words = text.split(" ");
-	for (const i in words) {
-		if (playerNamesRegex.test(words[i])) {
-			const user = playersArray.find(player => player.name === words[i].substring(1));
-			words[i] = <Avatar
-				name={user.name}
-				id={user.userId}
-				hasImage={user.avatar}
-				small={true}
-				/>;
-		}
-	}
-	text = words.flat();
+    if (!Array.isArray(text))
+        text = [text];
+
+    for (let i in text){
+        let segment = text[i]
+
+        if (typeof segment != "string")
+            continue;
+
+        const words = segment.split(" ");
+
+        for (const i in words) {
+            if (playerNamesRegex.test(words[i])) {
+                const user = playersArray.find(player => player.name === words[i].substring(1));
+                words[i] = <Avatar
+                    name={user.name}
+                    id={user.userId}
+                    hasImage={user.avatar}
+                    small={true}
+                />;
+            }
+        }
+        text[i] = words;
+    }
+	text = text.flat();
 	return text;
 }
 
