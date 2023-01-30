@@ -13,8 +13,8 @@ module.exports = class Revive extends Card {
 				flags: ["voting"],
 				targets: { include: ["dead"], exclude: ["alive", "self"] },
 				shouldMeet: function() {
-                    return !this.data.revived;
-                },
+                    			return !this.data.revived;
+                			},
 				action: {
 					labels: ["revive"],
 					priority: PRIORITY_NIGHT_REVIVER,
