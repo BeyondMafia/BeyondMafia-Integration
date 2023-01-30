@@ -14,9 +14,8 @@ module.exports = class CryOutVisitors extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    debugger;
                     let visitors = this.actor.role.data.visitors;
-                    let names = visitors.map(visitor => visitor.name);
+                    let names = visitors?.map(visitor => visitor.name);
 
                     if (visitors) {
                         this.game.queueAlert(`Someone shouts during the night: `
