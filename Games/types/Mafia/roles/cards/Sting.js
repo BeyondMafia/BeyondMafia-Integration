@@ -14,10 +14,10 @@ module.exports = class Sting extends Card {
                     run: function () {
                         this.game.queueAlert(`${this.actor.name} rushes at ${this.target.name} and delivers a fatal sting!`);
 
+                        this.actor.kill("basic", this.actor, true);
+
                         if (this.dominates())
                             this.target.kill("basic", this.target, true);
-
-                        this.actor.kill("basic", this.actor, true);
                     }
                 }
             }

@@ -264,6 +264,19 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Cutler": {
+            alignment: "Village",
+            description: [
+                "Hands out a knife each night."
+            ],
+        },
+        "Snowman": {
+            alignment: "Village",
+            description: [
+                "Hands out a snowball each night.",
+                "Immune to snowballs"
+            ],
+        },
         "Snoop": {
             alignment: "Village",
             description: [
@@ -290,6 +303,60 @@ const roleData = {
             description: [
                 "Cannot vote and immune to most ways of dying.",
                 ],
+        },
+        "Baker": {
+            alignment: "Village",
+            description: [
+                "When in the game, everyone starts with two bread.",
+                "Gives out up to two bread each night.",
+                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+                ],
+        },
+        "Virgin": {
+            alignment: "Village",
+            description: [
+                "If executed by the village vote, no one will die the following night.",
+                ],
+        },
+        "Mimic": {
+            alignment: "Village",
+            description: [
+                "Can choose to mimic another player at night and will change based on their alignment.",
+                "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
+                ],
+        },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },      
+        "Ghost": {
+            alignment: "Village",
+            description: [
+                "Appears as villager until death.",
+                "Once dead, may visit one person a night and roleblock them.",
+            ],
+        },
+        "Lightkeeper": {
+            alignment: "Village",
+            description: [
+                "Causes an eclipse during the day following their death.",
+                "All votes and speech are anonymous during an eclipse."
+            ],
+        },
+        "Resurrectionist": {
+            alignment: "Village",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
+            ],
         },
 
         //Mafia
@@ -415,6 +482,50 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Tailor": {
+            alignment: "Mafia",
+            description: [
+                "Gives out suits that make the wearer appear to be a different role."
+            ],
+        },
+        "Actress": {
+            alignment: "Mafia",
+            description: [
+                "Learns a targets role and appears to be that role."
+            ],
+        },
+        "Prosecutor": {
+            alignment: "Mafia",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Fabricator": {
+            alignment: "Mafia",
+            description: [
+                "Once per night can give out an ill-fated version of many items."
+            ],
+        },
+        "Heartbreaker": {
+            alignment: "Mafia",
+            description: [
+                "Once per game can fall in love with another player.",
+                "If Heartbreaker dies, both players will die.",
+            ],
+        },
+        "Yakuza": {
+            alignment: "Mafia",
+            description: [
+                "Can choose to sacrifice themself to convert one player to Mafioso.",
+                ],
+        },
+        "Necromancer": {
+            alignment: "Mafia",
+            description: [
+                "Visits one dead person every night.",
+                "That person will be resurrected.",
+                ],
+        },
 
         //Monsters
         "Lycan": {
@@ -504,6 +615,21 @@ const roleData = {
             description: [
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
+            ],
+        },
+        "Lover": {
+            alignment: "Independent",
+            description: [
+                "Once per game can fall in love with another player.",
+                "Both players die if either dies.",
+                "Wins if both players survive until the end of the game.",
+            ],
+        },
+        "Matchmaker": {
+            alignment: "Independent",
+            description: [
+                "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
+                "Wins if all players left alive are in love.",
             ],
         },
     },
