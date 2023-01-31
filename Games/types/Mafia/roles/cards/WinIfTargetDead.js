@@ -13,14 +13,14 @@ module.exports = class WinIfTargetDead extends Card {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             againOnFinished: true,
             check: function (counts, winners, aliveCount) {
-                if (!this.actor.role.data.killer.alive) { // if var is true spirit wins
+                if (!this.actor.role.data.killer.alive) {
                     winners.addPlayer(this.player, this.name);
                 }
             }
         };
         this.listeners = {
             "death": function (player, killer, deathType) {
-                if (player == this.player && deathType != "lynch") { // if not lynched, stores the killer
+                if (player == this.player && deathType != "lynch") {
                     this.actor.role.data.killer = killer;
                 }
 
