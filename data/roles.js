@@ -277,6 +277,15 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },        
+        "Cyclist": {
+            alignment: "Village",
+            description: [
+                "Each night, chooses two targets, A and B.",
+                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
+                "Does not visit.",
+                "Redirection cannot be role blocked."
+            ],
+        },
 
         //Mafia
         "Mafioso": {
