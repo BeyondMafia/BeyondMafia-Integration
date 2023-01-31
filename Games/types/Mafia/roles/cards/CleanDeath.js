@@ -30,6 +30,7 @@ module.exports = class CleanDeath extends Card {
                                     actorRole.data.cleanedPlayer = action.target;
                                     targetRole.data.lastCleanedAppearance = targetRole.appearance.death;
                                     targetRole.appearance.death = null;
+                                    action.target.lastWill = null;
                                 }
 
                                 break;

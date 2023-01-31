@@ -299,6 +299,26 @@
     background-position: -300px -120px;
 }
 
+.role-Mafia-Party-Host {
+    background-position: -930px -0px;
+}
+
+.role-Mafia-Cutler {
+    background-position: -960px -0px;
+}
+
+.role-Mafia-Snowman {
+    background-position: -990px -0px;
+}
+
+.role-Mafia-Virgin {
+    background-position: -930px -40px;
+}
+
+.role-Mafia-Mimic {
+    background-position: -960px -40px;
+}
+
 /* 
 * Mafia 
 */
@@ -385,6 +405,26 @@
 
 .role-Mafia-Heartbreaker {
     background-position: -570px -40px;
+}
+
+.role-Mafia-Prosecutor {
+    background-position: -600px -40px;
+}
+
+.role-Mafia-Tailor {
+    background-position: -330px -80px;
+}
+
+.role-Mafia-Actress {
+    background-position: -360px -80px;
+}
+
+.role-Mafia-Fabricator {
+    background-position: -390px -80px;
+}
+
+.role-Mafia-Yakuza {
+    background-position: -420px -80px;
 }
 
 /* 
