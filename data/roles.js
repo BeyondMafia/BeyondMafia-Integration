@@ -299,6 +299,20 @@ const roleData = {
                 "Redirection cannot be role blocked."
             ],
         },
+        "Sapling": {
+            alignment: "Village",
+            description: [
+                "Once per game can choose to turn into a tree at night.",
+                "While a tree, cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Tree": {
+            alignment: "Village",
+            disabled: true,
+            description: [
+                "Cannot vote and immune to most ways of dying.",
+                ],
+        },
         "Baker": {
             alignment: "Village",
             description: [
