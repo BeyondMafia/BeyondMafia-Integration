@@ -1,9 +1,11 @@
 const Item = require("../Item");
+const { PRIORITY_NIGHT_ROLE_BLOCKER } = require("../const/Priority");
 
 module.exports = class Cat extends Item {
 
-    constructor() {
+    constructor(owner) {
         super("Cat");
+        this.owner = owner;
 
         this.meetings = {
             "Permit Cat": {
@@ -12,25 +14,28 @@ module.exports = class Cat extends Item {
                 flags: ["voting"],
                 inputType: "boolean",
                 action: {
-                    labels: ["investigate", "role"],
+                    labels: ["investigate", "role", "block"],
+                    priority: PRIORITY_NIGHT_ROLE_BLOCKER,
                     item: this,
                     run: function () {
-                      if (this.target == "Yes") {
-                          this.holder.giveEffect("Daze", this.actor);
-                      }
-                      else  {
-                        var role = this.holder.getAppearance("investigate", true);
-                        var alert = `You learn that ${this.holder.name}'s role is ${role}.`;
-                        var catLady = this.holder.role.data.catLady;
-                        this.holder.role.data.catLady = null;
-                        catLady.queueAlert(alert);
-                      }
-                      this.item.drop();
+                        if (this.target == "Yes") {
+                            // replace with riskit's library in future
+                            for (let action of this.game.actions[0]) {
+                                if (
+                                    action.priority > this.priority &&
+                                    !action.hasLabel("absolute")
+                                ) {
+                                    action.cancelActor(this.actor);
+                                }
+                            }                  
+                        } else {
+                            var role = this.actor.getAppearance("investigate", true);
+                            this.item.owner.queueAlert(`You learn that ${this.actor.name}'s role is ${role}.`);
                         }
+                        this.item.drop();
                     }
                 }
             }
-        };
-
-    }
+        }
+    };
 }

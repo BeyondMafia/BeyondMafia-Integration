@@ -515,16 +515,17 @@ const roleData = {
         "Illusionist": {
             alignment: "Mafia",
             description: [
-                "Starts off with a gun.",
-                "Frame one person at night as the shooter when the Illusionist shoots this gun."
+                "Starts with a gun.",
+                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
             ],
         },
         "Cat Lady": {
             alignment: "Mafia",
             description: [
                 "Every day, chooses a person to send a cat to.",
-                "The person is given the option to let the cat in or not, the following night.",
-                "If the cat is let in, the player is roleblocked but if the cat is sent out, the Cat Lady earns of the person’s role."
+                "At night, the target and choose to let the cat in or chase it out.",
+                "If the cat is let in, the target is roleblocked.",
+                "If chased out, the Cat Lady will learn the role of the target."
             ],
         },
 
