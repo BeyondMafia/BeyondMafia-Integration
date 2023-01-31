@@ -340,7 +340,7 @@ const roleData = {
         "Resurrectionist": {
             alignment: "Village",
             description: [
-                "Once a game, visits one dead person during the night.",
+                "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
         },
@@ -503,14 +503,14 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can choose to sacrifice themself to convert one player to Mafioso.",
-                ],
+            ],
         },
         "Necromancer": {
             alignment: "Mafia",
             description: [
-                "Once a game, visits one dead person during the night.",
+                "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
-                ],
+            ],
         },
 
         //Monsters
