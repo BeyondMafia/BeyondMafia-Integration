@@ -1,6 +1,6 @@
-STATE_DAY = "Day"
-STATE_NIGHT = "Night"
-STATE_ANY = "*"
+const STATE_DAY = "Day"
+const STATE_NIGHT = "Night"
+const STATE_ANY = "*"
 
 module.exports = {
     STATE_DAY,
