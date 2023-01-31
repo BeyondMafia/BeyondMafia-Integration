@@ -1,11 +1,12 @@
 const Role = require("../../Role");
 
-module.exports = class Ghost extends Role {
+module.exports = class VengefulSpirit extends Role {
 
     constructor(player, data) {
-        super("Ghost", player, data);
-        this.alignment = "Village";
-        this.cards = ["VillageCore", "NightKiller","WinIfTargetDead"];
+        super("Vengeful Spirit", player, data);
+        
+        this.alignment = "Independent";
+        this.cards = ["VillageCore", "NightKiller", "WinIfTargetDead"];
         this.meetingMods = {
             "Solo Kill": {
                 whileDead: true,
