@@ -659,6 +659,7 @@ function sortRoles(gameType) {
 
 function hasOpenRole(roles, roleName) {
     roles = Object.keys(roles);
+    roleName = utils.strParseAlphaNum(roleName);
     var regex = new RegExp(`${roleName}:`);
 
     for (let role of roles)
