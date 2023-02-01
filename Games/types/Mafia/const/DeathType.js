@@ -1,16 +1,16 @@
 // night kill
-DEATH_TYPE_BASIC = "basic"
+const DEATH_TYPE_BASIC = "basic"
 
-DEATH_TYPE_LYNCH = "lynch"
-DEATH_TYPE_LEAVE = "leave"
-DEATH_TYPE_VEG = "veg"
+const DEATH_TYPE_LYNCH = "lynch"
+const DEATH_TYPE_LEAVE = "leave"
+const DEATH_TYPE_VEG = "veg"
 
-DEATH_TYPE_GUN = "gun"
-DEATH_TYPE_BOMB = "bomb"
+const DEATH_TYPE_GUN = "gun"
+const DEATH_TYPE_BOMB = "bomb"
 
-DEATH_TYPE_LYNCH_REVENGE = "lynchRevenge"
-DEATH_TYPE_BURN = "burn"
-DEATH_TYPE_POISON = "poison"
+const DEATH_TYPE_LYNCH_REVENGE = "lynchRevenge"
+const DEATH_TYPE_BURN = "burn"
+const DEATH_TYPE_POISON = "poison"
 
 module.exports = {
     DEATH_TYPE_BASIC,
