@@ -818,6 +818,9 @@ module.exports = class Player {
     }
 
     revive(revivalType, reviver, instant) {
+        if (this.alive)
+            return;
+
         this.game.queueRevival(this);
         this.queueRevivalMessage(revivalType, instant)
         this.game.events.emit("revival", this, reviver, revivalType);

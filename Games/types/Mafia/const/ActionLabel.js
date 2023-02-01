@@ -1,46 +1,46 @@
-LABEL_KILL = "kill"
-LABEL_SAVE = "save"
+const LABEL_KILL = "kill"
+const LABEL_SAVE = "save"
 
-LABEL_LYNCH = "lynch"
-LABEL_HIDDEN = "hidden"
-LABEL_BLOCK = "block"
+const LABEL_LYNCH = "lynch"
+const LABEL_HIDDEN = "hidden"
+const LABEL_BLOCK = "block"
 
 // ITEMS
-LABEL_GIVE_ITEM = "giveItem"
+const LABEL_GIVE_ITEM = "giveItem"
 
-LABEL_GUN = "gun"
-LABEL_ARMOR = "armor"
-LABEL_BOMB = "bomb"
-LABEL_ORANGE = "orange"
-LABEL_MATCH = "match"
-LABEL_GASOLINE = "gasoline"
+const LABEL_GUN = "gun"
+const LABEL_ARMOR = "armor"
+const LABEL_BOMB = "bomb"
+const LABEL_ORANGE = "orange"
+const LABEL_MATCH = "match"
+const LABEL_GASOLINE = "gasoline"
 
 // EFFECTS
-LABEL_EFFECT = "effect"
+const LABEL_EFFECT = "effect"
 
-LABEL_PROBE = "probe"
+const LABEL_PROBE = "probe"
+const LABEL_POISON = "poison"
 
 // INVESTIGATIVE
-LABEL_INVESTIGATE = "investigate"
-LABEL_ALIGNMENT = "alignment"
-LABEL_ROLE = "role"
+const LABEL_INVESTIGATE = "investigate"
+const LABEL_ALIGNMENT = "alignment"
+const LABEL_ROLE = "role"
 
-LABEL_CAROL = "carol"
-LABEL_DREAM = "dream"
+const LABEL_CAROL = "carol"
+const LABEL_DREAM = "dream"
 
 // CONVERSION
-LABEL_CONVERT = "convert"
-LABEL_CULTIST = "cultist"
-LABEL_MASON = "mason"
+const LABEL_CONVERT = "convert"
+const LABEL_CULTIST = "cultist"
+const LABEL_MASON = "mason"
 
 // OTHERS
-LABEL_WEREWOLF = "werewolf"
-LABEL_WOLF_BITE = "wolfBite"
-LABEL_CLEANSE = "cleanse"
+const LABEL_WEREWOLF = "werewolf"
+const LABEL_WOLF_BITE = "wolfBite"
+const LABEL_CLEANSE = "cleanse"
 
-LABEL_POISON = "poison"
-LABEL_CLEAN = "clean"
-LABEL_STING = "sting"
+const LABEL_CLEAN = "clean"
+const LABEL_STING = "sting"
 
 module.exports = {
     LABEL_KILL,
@@ -63,6 +63,7 @@ module.exports = {
     LABEL_EFFECT,
     
     LABEL_PROBE,
+    LABEL_POISON,
 
     // INVESTIGATIVE
     LABEL_INVESTIGATE,
@@ -82,7 +83,6 @@ module.exports = {
     LABEL_WOLF_BITE,
     LABEL_CLEANSE,
     
-    LABEL_POISON,
     LABEL_CLEAN,
     LABEL_STING,
 }

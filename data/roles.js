@@ -289,19 +289,50 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
+        },        
+        "Cyclist": {
+            alignment: "Village",
+            description: [
+                "Each night, chooses two targets, A and B.",
+                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
+                "Does not visit.",
+                "Redirection cannot be role blocked."
+            ],
+        },
+        "Sapling": {
+            alignment: "Village",
+            description: [
+                "Once per game can choose to turn into a tree at night.",
+                "While a tree, cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Tree": {
+            alignment: "Village",
+            disabled: true,
+            description: [
+                "Cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Baker": {
+            alignment: "Village",
+            description: [
+                "When in the game, everyone starts with two bread.",
+                "Gives out up to two bread each night.",
+                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+            ],
         },
         "Virgin": {
             alignment: "Village",
             description: [
                 "If executed by the village vote, no one will die the following night.",
-                ],
+            ],
         },
         "Mimic": {
             alignment: "Village",
             description: [
                 "Can choose to mimic another player at night and will change based on their alignment.",
                 "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
-                ],
+            ],
         },
         "Judge": {
             alignment: "Village",
@@ -315,6 +346,27 @@ const roleData = {
                 "Can choose to host a party for everyone to attend once per game.",
             ],
         },      
+        "Ghost": {
+            alignment: "Village",
+            description: [
+                "Appears as villager until death.",
+                "Once dead, may visit one person a night and roleblock them.",
+            ],
+        },
+        "Lightkeeper": {
+            alignment: "Village",
+            description: [
+                "Causes an eclipse during the day following their death.",
+                "All votes and speech are anonymous during an eclipse."
+            ],
+        },
+        "Resurrectionist": {
+            alignment: "Village",
+            description: [
+                "Once per game, visits one dead person during the night.",
+                "That person will be resurrected.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -474,7 +526,14 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can choose to sacrifice themself to convert one player to Mafioso.",
-                ],
+            ],
+        },
+        "Necromancer": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, visits one dead person during the night.",
+                "That person will be resurrected.",
+            ],
         },
 
         //Monsters
