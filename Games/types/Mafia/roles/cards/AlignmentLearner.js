@@ -1,5 +1,8 @@
 const Card = require("../../Card");
+const { LABEL_INVESTIGATE, LABEL_ALIGNMENT } = require("../../const/ActionLabel");
+const { FLAG_VOTING } = require("../../const/MeetingFlag");
 const { PRIORITY_ALIGNMENT_LEARNER } = require("../../const/Priority");
+const { STATE_NIGHT } = require("../../const/States");
 
 module.exports = class AlignmentLearner extends Card {
 
@@ -8,10 +11,10 @@ module.exports = class AlignmentLearner extends Card {
 
         this.meetings = {
             "Learn Alignment": {
-                states: ["Night"],
-                flags: ["voting"],
+                states: [ STATE_NIGHT ],
+                flags: [ FLAG_VOTING ],
                 action: {
-                    labels: ["investigate", "alignment"],
+                    labels: [ LABEL_INVESTIGATE, LABEL_ALIGNMENT ],
                     priority: PRIORITY_ALIGNMENT_LEARNER,
                     run: function () {
                         var role = this.target.getAppearance("investigate", true);
