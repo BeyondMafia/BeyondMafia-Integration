@@ -1699,36 +1699,54 @@ function ActionButton(props) {
 }
 
 function ActionText(props) {
-    const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
-    const [inputValue, setInputValue] = useState("");
-    const votes = { ...meeting.votes };
+    const meeting = props.meeting;
+    const textOptions = meeting.textOptions || {
+        minLength: 0,
+    };
 
-    if (inputValue.length == 0 && votes[props.self])
-        setInputValue(votes[props.self]);
+    const [data, setTextData] = useState({ currentInput: "", finalInput: "" });
 
-    const buttons = meeting.targets.map(target => {
-        var targetDisplay = getTargetDisplay(target, meeting, props.players);
+    function setCurrentInput(e) {
+        setTextData({
+            ...data,
+            currentInput: e.target.value.replace(/[^a-z]/gi, '').toLowerCase()
+        });
+    }
 
-        return (
-            <div
-                className={`btn btn-theme ${votes[props.self] == targetDisplay ? "sel" : ""}`}
-                key={target}
-                onClick={() => onVote(target)}>
-                {targetDisplay}
-            </div>
-        );
-    });
+    function setFinalInput(e) {
+        if (data.currentInput.length < textOptions.minLength) {
+            return;
+        }
 
-    function onInputChange(e) {
-        onVote(e.target.value);
-        setInputValue(e.target.value);
+        setTextData({
+            ...data,
+            finalInput: data.currentInput
+        })
+
+        props.socket.send("vote", {
+            meetingId: meeting.id,
+            selection: data.currentInput
+        });
     }
 
     return (
         <div className="action">
-            <input
-                value={inputValue}
-                onChange={onInputChange} />
+            <div className="action-name">
+                {meeting.actionName}
+            </div>
+            <div className="action-text">
+                <textarea
+                    value={data.currentInput}
+                    onChange={setCurrentInput} />
+                <div
+                    className="btn btn-theme"
+                    onClick={setFinalInput}>
+                    {textOptions.submit || "Submit"}
+                </div>
+                <div className="action-text final-display">
+                    {data.finalInput}
+                </div>
+            </div>      
         </div>
     );
 }

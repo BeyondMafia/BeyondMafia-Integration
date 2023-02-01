@@ -7,6 +7,22 @@ module.exports = class CurseWithWord extends Card {
 		super(role);
 
 		this.meetings = {
+			"Write on Talisman": {
+				states: ["Night"],
+				flags: ["voting"],
+				inputType: "text",
+				textOptions: {
+					minLength: 4,
+					submit: "Chant"
+				},
+				action: {
+					priority: PRIORITY_EFFECT_GIVER_DEFAULT - 1,
+					run: function () {
+						this.actor.role.data.cursedWord = this.target;
+					}
+				}
+			},
+
 			"Curse": {
 				states: ["Night"],
 				flags: ["voting"],
@@ -15,8 +31,8 @@ module.exports = class CurseWithWord extends Card {
 					labels: ["effect"],
 					priority: PRIORITY_EFFECT_GIVER_DEFAULT,
 					run: function () {
-						if (this.dominates() && this.role.data.cursedWord != "") 
-							this.target.giveEffect("Cursed", this.actor, "why", 1);		
+						if (this.dominates()) 
+							this.target.giveEffect("Cursed", this.actor, this.actor.role.data.cursedWord, 1);		
 					}
 				}
 			}
