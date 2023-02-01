@@ -20,7 +20,7 @@ import { RoleCount } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
-import { MaxGameMessageLength, MaxWillLength } from "../../Constants";
+import { MaxGameMessageLength, MaxWillLength, MaxTextInputLength } from "../../Constants";
 
 import "../../css/game.css";
 
@@ -1702,6 +1702,7 @@ function ActionText(props) {
     const meeting = props.meeting;
     const textOptions = meeting.textOptions || {
         minLength: 0,
+        maxLength: MaxTextInputLength
     };
 
     const [data, setTextData] = useState({ currentInput: "", finalInput: "" });

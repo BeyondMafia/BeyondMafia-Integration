@@ -13,6 +13,7 @@ module.exports = class CurseWithWord extends Card {
 				inputType: "text",
 				textOptions: {
 					minLength: 4,
+					maxLength: 10,
 					submit: "Chant"
 				},
 				action: {
