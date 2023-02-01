@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_WATCH } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class WatchPlayer extends Card {
 
@@ -12,15 +12,14 @@ module.exports = class WatchPlayer extends Card {
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: [] },
                 action: {
-                    priority: PRIORITY_WATCH,
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
                         var visits = [];
 
                         for (let action of this.game.actions[0]) {
                             if (
                                 action.target == this.target &&
-                                !action.hasLabel("hidden") &&
-                                action.priority < this.priority
+                                !action.hasLabel("hidden")
                             ) {
                                 visits.push(action.actor.name);
                             }

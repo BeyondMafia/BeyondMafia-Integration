@@ -1,6 +1,6 @@
 const Card = require("../../Card");
 const Random = require("../../../../../lib/Random");
-const { PRIORITY_CAROL } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class Carol extends Card {
 
@@ -14,7 +14,7 @@ module.exports = class Carol extends Card {
                 targets: { include: ["alive"], exclude: ["self", isPrevTarget] },
                 action: {
                     labels: ["carol"],
-                    priority: PRIORITY_CAROL,
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
                         if (this.game.players.length < 3)
                             return;
@@ -24,7 +24,6 @@ module.exports = class Carol extends Card {
                         for (let action of this.game.actions[0]) {
                             if (
                                 action.actors.indexOf(this.target) != -1 &&
-                                action.priority < this.priority &&
                                 !action.hasLabel("hidden")
                             ) {
                                 return;
