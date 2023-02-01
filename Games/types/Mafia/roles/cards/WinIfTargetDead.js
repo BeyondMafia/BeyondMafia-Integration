@@ -6,14 +6,18 @@ module.exports = class WinIfTargetDead extends Card {
     constructor(role) {
         super(role);
 
-        this.actor.role.data.killer = null;
-        this.actor.role.data.target_killed = false;
+        this.killer = null;
 
         this.winCheck = {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             againOnFinished: true,
-            check: function (counts, winners, aliveCount) {
-                if (!this.actor.role.data.killer.alive) {
+            check: function (counts, winners, aliveCount, confirmedFinished) {
+                if (!confirmedFinished && counts["Village"] != aliveCount) {
+                    // game not ended
+                    return;
+                }
+
+                if (this.killer && !this.killer.alive) {
                     winners.addPlayer(this.player, this.name);
                 }
             }
@@ -21,9 +25,8 @@ module.exports = class WinIfTargetDead extends Card {
         this.listeners = {
             "death": function (player, killer, deathType) {
                 if (player == this.player && deathType != "lynch") {
-                    this.actor.role.data.killer = killer;
+                    this.killer = killer;
                 }
-
             } 
         };
     }
