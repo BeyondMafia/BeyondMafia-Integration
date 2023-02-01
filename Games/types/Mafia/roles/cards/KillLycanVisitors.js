@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_KILL_LYCAN_VISITORS_ENQUEUE, PRIORITY_KILL_LYCAN_VISITORS } = require("../../const/Priority");
+const { PRIORITY_KILL_LYCAN_VISITORS_ENQUEUE, PRIORITY_KILL_DEFAULT } = require("../../const/Priority");
 
 module.exports = class KillLycanVisitors extends Card {
 
@@ -29,7 +29,7 @@ module.exports = class KillLycanVisitors extends Card {
                 }
             },
             {
-                priority: PRIORITY_KILL_LYCAN_VISITORS,
+                priority: PRIORITY_KILL_DEFAULT,
                 power: 2,
                 labels: ["kill", "hidden"],
                 run: function () {

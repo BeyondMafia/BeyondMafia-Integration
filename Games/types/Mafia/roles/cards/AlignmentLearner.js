@@ -1,8 +1,9 @@
 const Card = require("../../Card");
 const { LABEL_INVESTIGATE, LABEL_ALIGNMENT } = require("../../const/ActionLabel");
 const { FLAG_VOTING } = require("../../const/MeetingFlag");
-const { PRIORITY_ALIGNMENT_LEARNER } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 const { STATE_NIGHT } = require("../../const/States");
+
 
 module.exports = class AlignmentLearner extends Card {
 
@@ -15,7 +16,7 @@ module.exports = class AlignmentLearner extends Card {
                 flags: [ FLAG_VOTING ],
                 action: {
                     labels: [ LABEL_INVESTIGATE, LABEL_ALIGNMENT ],
-                    priority: PRIORITY_ALIGNMENT_LEARNER,
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
                         var role = this.target.getAppearance("investigate", true);
                         var alignment = this.game.getRoleAlignment(role);
