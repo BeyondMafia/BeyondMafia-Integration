@@ -1,5 +1,3 @@
-const { DEATH_TYPE_CURSE } = require("../const/DeathType");
-
 module.exports = function (type, name) {
     const templates = {
         "basic": `${name} was killed.`,
@@ -11,7 +9,7 @@ module.exports = function (type, name) {
         "poison": `${name} finally succumbs to poison.`,
         "lynchRevenge": `${name} was killed in an act of revenge.`,
         "bomb": `${name} explodes into a thousand pieces.`,
-        DEATH_TYPE_CURSE: `${name} suddenly feels a chill and falls to the ground!`,
+        "curse": `${name} suddenly feels a chill and falls to the ground!`,
     };
 
     return templates[type];
