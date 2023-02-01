@@ -31,7 +31,7 @@ module.exports = class Meeting {
         this.noAct = game.isNoAct();
         this.noVeg = false;
         this.multiActor = false;
-        this.exlcusive = false;
+        this.exclusive = false;
         /***/
 
         this.inputType = "player";
