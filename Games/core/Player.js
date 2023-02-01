@@ -12,948 +12,952 @@ const logger = require("../../modules/logging")("games");
 
 module.exports = class Player {
 
-	constructor(user, game, isBot) {
-		this.id = shortid.generate();
-		this.user = user;
-		this.user.player = this;
-		this.socket = user.socket;
-		this.name = user.name || nameGen();
-		this.game = game;
-		this.isBot = isBot;
-		this.events = game.events;
-		this.role = null;
-		this.alive = true;
-		this.items = [];
-		this.effects = [];
-		this.tempImmunity = {};
-		this.tempAppearance = {};
-		this.history = new History(this.game, this);
-		this.ready = false;
-		this.deathMessages = deathMessages;
-		this.revivalMessages = revivalMessages;
-	}
-
-	init() {
-		this.socketListeners();
-
-		// Configure temporary immunity reset
-		this.game.events.on("afterActions", () => {
-			this.tempImmunity = {};
-			this.tempAppearance = {};
-		});
-	}
-
-	socketListeners() {
-		const socket = this.socket;
-		var speechPast = [];
-		var votePast = [];
-
-		socket.on("speak", message => {
-			try {
-				if (typeof message != "object") return;
-
-				message.content = String(message.content);
-				message.meetingId = String(message.meetingId) || "";
-				message.abilityName = String(message.abilityName || "");
-				message.abilityTarget = String(message.abilityTarget || "");
-
-				if (!Utils.validProp(message.meetingId))
-					return;
-
-				if (!Utils.validProp(message.abilityName))
-					return;
-
-				if (!Utils.validProp(message.abilityTarget))
-					return;
-
-				if (message.content.length == 0)
-					return;
-
-				if (!message.abilityName)
-					delete message.abilityName;
-
-				if (!message.abilityTarget)
-					delete message.abilityTarget;
-
-				message.content = message.content.slice(0, constants.maxGameMessageLength);
-
-				if (message.content[0] == "/" && message.content.slice(0, 4) != "/me ") {
-					this.parseCommand(message);
-					return;
-				}
-
-				if (Spam.rateLimit(speechPast, constants.msgSpamSumLimit, constants.msgSpamRateLimit)) {
-					this.sendAlert("You are speaking too quickly!");
-					return;
-				}
-
-				speechPast.push(Date.now());
-
-				var meeting = this.game.getMeeting(message.meetingId);
-				if (!meeting) return;
-
-				meeting.speak({
-					sender: this,
-					content: message.content,
-					abilityName: message.abilityName,
-					abilityTarget: message.abilityTarget
-				});
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("quote", quote => {
-			try {
-				if (typeof quote != "object") return;
-
-				quote.messageId = String(quote.messageId);
-				quote.toMeetingId = String(quote.toMeetingId);
-				quote.fromMeetingId = String(quote.fromMeetingId);
-				quote.fromState = String(quote.fromState);
-
-				if (!Utils.validProp(quote.messageId))
-					return;
+    constructor(user, game, isBot) {
+        this.id = shortid.generate();
+        this.user = user;
+        this.user.player = this;
+        this.socket = user.socket;
+        this.name = user.name || nameGen();
+        this.game = game;
+        this.isBot = isBot;
+        this.events = game.events;
+        this.role = null;
+        this.alive = true;
+        this.items = [];
+        this.effects = [];
+        this.tempImmunity = {};
+        this.tempAppearance = {};
+        this.history = new History(this.game, this);
+        this.ready = false;
+        this.deathMessages = deathMessages;
+        this.revivalMessages = revivalMessages;
+    }
+
+    init() {
+        this.socketListeners();
+
+        // Configure temporary immunity reset
+        this.game.events.on("afterActions", () => {
+            this.tempImmunity = {};
+            this.tempAppearance = {};
+        });
+    }
+
+    socketListeners() {
+        const socket = this.socket;
+        var speechPast = [];
+        var votePast = [];
+
+        socket.on("speak", message => {
+            try {
+                if (typeof message != "object") return;
+
+                message.content = String(message.content);
+                message.meetingId = String(message.meetingId) || "";
+                message.abilityName = String(message.abilityName || "");
+                message.abilityTarget = String(message.abilityTarget || "");
+
+                if (!Utils.validProp(message.meetingId))
+                    return;
+
+                if (!Utils.validProp(message.abilityName))
+                    return;
+
+                if (!Utils.validProp(message.abilityTarget))
+                    return;
+
+                if (message.content.length == 0)
+                    return;
+
+                if (!message.abilityName)
+                    delete message.abilityName;
+
+                if (!message.abilityTarget)
+                    delete message.abilityTarget;
+
+                message.content = message.content.slice(0, constants.maxGameMessageLength);
+
+                if (message.content[0] == "/" && message.content.slice(0, 4) != "/me ") {
+                    this.parseCommand(message);
+                    return;
+                }
+
+                if (Spam.rateLimit(speechPast, constants.msgSpamSumLimit, constants.msgSpamRateLimit)) {
+                    this.sendAlert("You are speaking too quickly!");
+                    return;
+                }
+
+                speechPast.push(Date.now());
+
+                var meeting = this.game.getMeeting(message.meetingId);
+                if (!meeting) return;
+
+                meeting.speak({
+                    sender: this,
+                    content: message.content,
+                    abilityName: message.abilityName,
+                    abilityTarget: message.abilityTarget
+                });
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("quote", quote => {
+            try {
+                if (typeof quote != "object") return;
+
+                quote.messageId = String(quote.messageId);
+                quote.toMeetingId = String(quote.toMeetingId);
+                quote.fromMeetingId = String(quote.fromMeetingId);
+                quote.fromState = String(quote.fromState);
+
+                if (!Utils.validProp(quote.messageId))
+                    return;
 
-				if (!Utils.validProp(quote.toMeetingId))
-					return;
+                if (!Utils.validProp(quote.toMeetingId))
+                    return;
 
-				if (!Utils.validProp(quote.fromMeetingId))
-					return;
+                if (!Utils.validProp(quote.fromMeetingId))
+                    return;
 
-				if (!Utils.validProp(quote.fromState))
-					return;
+                if (!Utils.validProp(quote.fromState))
+                    return;
 
-				if (Spam.rateLimit(speechPast, constants.msgSpamSumLimit, constants.msgSpamRateLimit)) {
-					this.sendAlert("You are speaking too quickly!");
-					return;
-				}
-
-				speechPast.push(Date.now());
+                if (Spam.rateLimit(speechPast, constants.msgSpamSumLimit, constants.msgSpamRateLimit)) {
+                    this.sendAlert("You are speaking too quickly!");
+                    return;
+                }
+
+                speechPast.push(Date.now());
 
-				var meeting = this.game.getMeeting(quote.toMeetingId);
-				if (!meeting) return;
-
-				meeting.quote(this, quote);
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("vote", vote => {
-			try {
-				if (typeof vote != "object") return;
-
-				vote.selection = String(vote.selection);
-				vote.meetingId = String(vote.meetingId);
-
-				if (!Utils.validProp(vote.selection))
-					return;
-
-				if (!Utils.validProp(vote.meetingId))
-					return;
-
-				if (!this.user.isTest && Spam.rateLimit(votePast, constants.voteSpamSumLimit, constants.voteSpamRateLimit)) {
-					this.sendAlert("You are voting too quickly!");
-					return;
-				}
-
-				votePast.push(Date.now());
-
-				var meeting = this.game.getMeeting(vote.meetingId);
-				if (!meeting) return;
-
-				meeting.vote(this, vote.selection);
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("unvote", (info) => {
-			try {
-				if (typeof info != "object") return;
-
-				const meetingId = String(info.meetingId);
-				const target = String(info.selection);
-
-				if (!Utils.validProp(meetingId))
-					return;
-
-				var meeting = this.game.getMeeting(meetingId);
-				if (!meeting) return;
-
-				meeting.unvote(this, target);
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("lastWill", will => {
-			try {
-				if (!this.game.setup.lastWill)
-					return;
-
-				will = String(will).slice(0, constants.maxWillLength);
-				will = this.processWill(will);
-				this.lastWill = will;
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("typing", info => {
-			try {
-				if (typeof info != "object") return;
-
-				const meetingId = String(info.meetingId);
-				const isTyping = Boolean(info.isTyping);
-
-				if (!Utils.validProp(meetingId))
-					return;
-
-				var meeting = this.game.getMeeting(meetingId);
-				if (!meeting) return;
-
-				meeting.typing(this.id, isTyping);
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-
-		socket.on("leave", () => {
-			try {
-				this.game.playerLeave(this);
-
-				if (this.alive)
-					this.game.sendAlert(`${this.name} left the game.`);
-			}
-			catch (e) {
-				logger.error(e);
-			}
-		});
-	}
-
-	processWill(will) {
-		var newLineArr = will.split('\n');
-		will = newLineArr.slice(0, constants.maxWillNewLines).join('\n') +
-			newLineArr.slice(constants.maxWillNewLines).join(' ');
-		return will;
-	}
-
-	parseCommand(message) {
-		var split = message.content.replace("/", "").split(" ");
-		var cmd = {
-			raw: message,
-			name: split[0],
-			args: split.slice(1, split.length),
-			text: split.slice(1, split.length).join(" ")
-		};
-
-		switch (cmd.name) {
-			case "kick":
-				if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
-					return;
-
-				for (let player of this.game.players) {
-					if (player.name.toLowerCase() == cmd.args[0].toLowerCase()) {
-						this.game.kickPlayer(player, true);
-						this.game.sendAlert(`${player.name} was kicked and banned from the game.`);
-						return;
-					}
-				}
-				return;
-		}
-
-		return cmd;
-	}
-
-	send(eventName, data) {
-		this.socket.send(eventName, data);
-	}
-
-	setUser(user, ignoreSwap) {
-		if (!this.user.swapped || ignoreSwap) {
-			this.socket.send("left");
-			this.socket.terminate();
-
-			if (this.user)
-				this.user.socket = user.socket;
-			else
-				this.user = user;
-
-			this.socket = user.socket;
-
-			this.socketListeners();
-			return this;
-		}
-		else
-			return this.user.swapped.player.setUser(user, true);
-	}
-
-	getPlayerInfo(recipient) {
-		if (recipient && recipient.id == null)
-			recipient = null;
-
-		var info = {
-			id: this.id,
-			name: this.name,
-			userId: this.user.id,
-			avatar: this.user.avatar,
-			textColor: this.user.textColor,
-			nameColor: this.user.nameColor
-		};
-
-		return info;
-	}
-
-	setRole(roleName, roleData, noReveal, noAlert) {
-		const modifier = roleName.split(":")[1];
-		roleName = roleName.split(":")[0];
-
-		const role = this.game.getRoleClass(roleName);
-
-		this.removeRole();
-		this.role = new role(this, roleData);
-		this.role.init(modifier);
-
-		if (!noReveal)
-			this.role.revealToSelf(noAlert);
-	}
-
-	removeRole() {
-		if (this.role)
-			this.role.remove();
-	}
-
-	sendSelf() {
-		this.send("self", this.id);
-	}
-
-	sendSelfWill() {
-		if (this.lastWill)
-			this.send("lastWill", this.lastWill);
-	}
-
-	sendStateInfo() {
-		this.send("state", this.game.getStateInfo());
-	}
-
-	addStateToHistory(name, state) {
-		this.history.addState(name, state);
-	}
-
-	addStateEventsToHistory(events, state) {
-		this.history.addStateEvents(events, state);
-	}
-
-	speak(message) {
-		const originalMessage = message;
-		message = new Message(message);
-
-		if (this.role)
-			this.role.speak(message);
-
-		if (message.cancel) return;
-
-		for (let effect of this.effects) {
-			effect.speak(message);
-			if (message.cancel) return;
-		}
-
-		if (!message.modified)
-			message = originalMessage;
-
-		return message;
-	}
-
-	speakQuote(quote) {
-		const originalQuote = quote;
-		quote = new Message(quote);
-
-		if (this.role)
-			this.role.speakQuote(quote);
-
-		if (quote.cancel) return;
-
-		for (let effect of this.effects) {
-			effect.speakQuote(quote);
-			if (quote.cancel) return;
-		}
-
-		if (!quote.modified)
-			quote = originalQuote;
-
-		return quote;
-	}
-
-	hear(message, master) {
-		const originalMessage = message;
-		message = new Message(message);
+                var meeting = this.game.getMeeting(quote.toMeetingId);
+                if (!meeting) return;
+
+                meeting.quote(this, quote);
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("vote", vote => {
+            try {
+                if (typeof vote != "object") return;
+
+                vote.selection = String(vote.selection);
+                vote.meetingId = String(vote.meetingId);
+
+                if (!Utils.validProp(vote.selection))
+                    return;
+
+                if (!Utils.validProp(vote.meetingId))
+                    return;
+
+                if (!this.user.isTest && Spam.rateLimit(votePast, constants.voteSpamSumLimit, constants.voteSpamRateLimit)) {
+                    this.sendAlert("You are voting too quickly!");
+                    return;
+                }
+
+                votePast.push(Date.now());
+
+                var meeting = this.game.getMeeting(vote.meetingId);
+                if (!meeting) return;
+
+                meeting.vote(this, vote.selection);
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("unvote", (info) => {
+            try {
+                if (typeof info != "object") return;
+
+                const meetingId = String(info.meetingId);
+                const target = String(info.selection);
+
+                if (!Utils.validProp(meetingId))
+                    return;
+
+                var meeting = this.game.getMeeting(meetingId);
+                if (!meeting) return;
+
+                meeting.unvote(this, target);
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("lastWill", will => {
+            try {
+                if (!this.game.setup.lastWill)
+                    return;
+
+                will = String(will).slice(0, constants.maxWillLength);
+                will = this.processWill(will);
+                this.lastWill = will;
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("typing", info => {
+            try {
+                if (typeof info != "object") return;
+
+                const meetingId = String(info.meetingId);
+                const isTyping = Boolean(info.isTyping);
+
+                if (!Utils.validProp(meetingId))
+                    return;
+
+                var meeting = this.game.getMeeting(meetingId);
+                if (!meeting) return;
+
+                meeting.typing(this.id, isTyping);
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+
+        socket.on("leave", () => {
+            try {
+                this.game.playerLeave(this);
+
+                if (this.alive)
+                    this.game.sendAlert(`${this.name} left the game.`);
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        });
+    }
+
+    processWill(will) {
+        var newLineArr = will.split('\n');
+        will = newLineArr.slice(0, constants.maxWillNewLines).join('\n') +
+            newLineArr.slice(constants.maxWillNewLines).join(' ');
+        return will;
+    }
+
+    parseCommand(message) {
+        var split = message.content.replace("/", "").split(" ");
+        var cmd = {
+            raw: message,
+            name: split[0],
+            args: split.slice(1, split.length),
+            text: split.slice(1, split.length).join(" ")
+        };
+
+        switch (cmd.name) {
+            case "kick":
+                if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
+                    return;
+
+                for (let player of this.game.players) {
+                    if (player.name.toLowerCase() == cmd.args[0].toLowerCase()) {
+                        this.game.kickPlayer(player, true);
+                        this.game.sendAlert(`${player.name} was kicked and banned from the game.`);
+                        return;
+                    }
+                }
+                return;
+        }
+
+        return cmd;
+    }
+
+    send(eventName, data) {
+        this.socket.send(eventName, data);
+    }
+
+    setUser(user, ignoreSwap) {
+        if (!this.user.swapped || ignoreSwap) {
+            this.socket.send("left");
+            this.socket.terminate();
+
+            if (this.user)
+                this.user.socket = user.socket;
+            else
+                this.user = user;
+
+            this.socket = user.socket;
+
+            this.socketListeners();
+            return this;
+        }
+        else
+            return this.user.swapped.player.setUser(user, true);
+    }
+
+    getPlayerInfo(recipient) {
+        if (recipient && recipient.id == null)
+            recipient = null;
+
+        var info = {
+            id: this.id,
+            name: this.name,
+            userId: this.user.id,
+            avatar: this.user.avatar,
+            textColor: this.user.textColor,
+            nameColor: this.user.nameColor
+        };
+
+        return info;
+    }
+
+    setRole(roleName, roleData, noReveal, noAlert) {
+        const modifier = roleName.split(":")[1];
+        roleName = roleName.split(":")[0];
+
+        const role = this.game.getRoleClass(roleName);
+
+        let oldAppearanceSelf = this.role?.appearance.self;
+        this.removeRole();
+        this.role = new role(this, roleData);
+        this.role.init(modifier);
+
+        if (!(noReveal || (oldAppearanceSelf && oldAppearanceSelf === this.role.appearance.self)))
+            this.role.revealToSelf(noAlert);
+    }
+
+    removeRole() {
+        if (this.role)
+            this.role.remove();
+    }
+
+    sendSelf() {
+        this.send("self", this.id);
+    }
+
+    sendSelfWill() {
+        if (this.lastWill)
+            this.send("lastWill", this.lastWill);
+    }
+
+    sendStateInfo() {
+        this.send("state", this.game.getStateInfo());
+    }
+
+    addStateToHistory(name, state) {
+        this.history.addState(name, state);
+    }
+
+    addStateEventsToHistory(events, state) {
+        this.history.addStateEvents(events, state);
+    }
+
+    speak(message) {
+        const originalMessage = message;
+        message = new Message(message);
+
+        if (this.role)
+            this.role.speak(message);
+
+        if (message.cancel) return;
+
+        for (let effect of this.effects) {
+            effect.speak(message);
+            if (message.cancel) return;
+        }
+
+        if (!message.modified)
+            message = originalMessage;
+
+        return message;
+    }
+
+    speakQuote(quote) {
+        const originalQuote = quote;
+        quote = new Message(quote);
+
+        if (this.role)
+            this.role.speakQuote(quote);
+
+        if (quote.cancel) return;
+
+        for (let effect of this.effects) {
+            effect.speakQuote(quote);
+            if (quote.cancel) return;
+        }
+
+        if (!quote.modified)
+            quote = originalQuote;
+
+        return quote;
+    }
+
+    hear(message, master) {
+        const originalMessage = message;
+        message = new Message(message);
 
-		if (this.role)
-			this.role.hear(message);
+        if (this.role)
+            this.role.hear(message);
 
-		if (message.cancel) return;
+        if (message.cancel) return;
+
+        for (let effect of this.effects) {
+            effect.hear(message);
+            if (message.cancel) return;
+        }
+
+        if (!message.modified)
+            message = originalMessage;
+
+        if (!message.meeting)
+            this.history.addAlert(message);
 
-		for (let effect of this.effects) {
-			effect.hear(message);
-			if (message.cancel) return;
-		}
-
-		if (!message.modified)
-			message = originalMessage;
+        master.versions[this.id] = message;
+        message = master.getMessageInfo(this);
 
-		if (!message.meeting)
-			this.history.addAlert(message);
+        if (message)
+            this.send("message", message);
+    }
 
-		master.versions[this.id] = message;
-		message = master.getMessageInfo(this);
+    hearQuote(quote, master) {
+        const originalQuote = quote;
+        quote = new Quote(quote);
 
-		if (message)
-			this.send("message", message);
-	}
+        if (this.role)
+            this.role.hearQuote(quote);
 
-	hearQuote(quote, master) {
-		const originalQuote = quote;
-		quote = new Quote(quote);
+        if (quote.cancel) return;
 
-		if (this.role)
-			this.role.hearQuote(quote);
+        for (let effect of this.effects) {
+            effect.hear(quote);
+            if (quote.cancel) return;
+        }
 
-		if (quote.cancel) return;
+        if (!quote.modified)
+            quote = originalQuote;
 
-		for (let effect of this.effects) {
-			effect.hear(quote);
-			if (quote.cancel) return;
-		}
+        master.versions[this.id] = quote;
+        quote = master.getMessageInfo(this);
 
-		if (!quote.modified)
-			quote = originalQuote;
+        if (quote)
+            this.send("quote", quote);
+    }
 
-		master.versions[this.id] = quote;
-		quote = master.getMessageInfo(this);
+    seeVote(vote, noLog) {
+        const originalVote = vote;
+        vote = { ...vote };
 
-		if (quote)
-			this.send("quote", quote);
-	}
+        if (this.role)
+            this.role.seeVote(vote);
 
-	seeVote(vote, noLog) {
-		const originalVote = vote;
-		vote = { ...vote };
+        if (vote.cancel) return;
 
-		if (this.role)
-			this.role.seeVote(vote);
+        for (let effect of this.effects) {
+            effect.seeVote(vote);
+            if (vote.cancel) return;
+        }
 
-		if (vote.cancel) return;
+        if (!vote.modified)
+            vote = originalVote;
 
-		for (let effect of this.effects) {
-			effect.seeVote(vote);
-			if (vote.cancel) return;
-		}
+        var voterId = vote.voter.id;
+
+        if (vote.meeting.anonymous)
+            voterId = vote.meeting.members[voterId].anonId;
+
+        this.send("vote", {
+            voterId: voterId,
+            target: vote.target,
+            meetingId: vote.meeting.id,
+            noLog
+        });
 
-		if (!vote.modified)
-			vote = originalVote;
+        return vote;
+    }
+
+    seeUnvote(info) {
+        const originalInfo = info;
+        info = { ...info };
+
+        if (this.role)
+            this.role.seeUnvote(info);
+
+        if (info.cancel) return;
+
+        for (let effect of this.effects) {
+            effect.seeUnvote(info);
+            if (info.cancel) return;
+        }
+
+        if (!info.modified)
+            info = originalInfo;
+
+        var voterId = info.voter.id;
+
+        if (info.meeting.anonymous)
+            voterId = info.meeting.members[voterId].anonId;
+
+        this.send("unvote", {
+            voterId: info.voter.id,
+            meetingId: info.meeting.id,
+            target: info.target
+        });
+
+        return info;
+    }
+
+    seeTyping(info) {
+        if (this.role)
+            this.role.seeTyping(info);
+
+        if (info.cancel)
+            return;
+
+        for (let effect of this.effects) {
+            effect.seeTyping(info);
+
+            if (info.cancel)
+                return;
+        }
+
+        this.send("typing", info);
+    }
+
+    sendAlert(message) {
+        this.game.sendAlert(message, [this]);
+    }
+
+    queueAlert(message, priority) {
+        this.game.queueAlert(message, priority, [this]);
+    }
+
+    meet() {
+        if (this.role)
+            this.joinMeetings(this.role.meetings);
+
+        for (let item of this.items)
+            this.joinMeetings(item.meetings);
+    }
+
+    joinMeetings(meetings) {
+        var currentStateName = this.game.getStateName();
+
+        for (let meetingName in meetings) {
+            let options = meetings[meetingName];
+            let disabled = false;
+
+            for (let item of this.items)
+                disabled = disabled || item.shouldDisableMeeting(meetingName, options);
+
+            for (let effect of this.effects)
+                disabled = disabled || effect.shouldDisableMeeting(meetingName, options);
+
+            if (
+                disabled ||
+                (options.states.indexOf(currentStateName) == -1 && options.states.indexOf("*") == -1) ||
+                options.disabled ||
+                (options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName, options)) ||
+                (this.alive && options.whileAlive == false) ||
+                (!this.alive && !options.whileDead) ||
+                (options.unique && options.whileDead && options.whileAlive)
+            ) {
+                continue;
+            }
+
+            let joined = false;
+
+            if (options.flags && options.flags.indexOf("group") != -1 && !options.unique) {
+                for (let meeting of this.game.meetings) {
+                    if (meeting.name != meetingName)
+                        continue;
+
+                    if (meeting.group && !options.noGroup) {
+                        if (!meeting.hasJoined(this)) {
+                            meeting.join(this, options);
+                            options.times--;
+
+                            if (options.times <= 0)
+                                delete meetings[meetingName];
+                        }
+
+                        joined = true;
+                        break;
+                    }
+                    else if (!meeting.group && meeting.hasJoined(this)) {
+                        joined = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!joined) {
+                let meeting = this.game.createMeeting(options.type, meetingName);
+                meeting.join(this, options);
+                options.times--;
+
+                if (options.times <= 0)
+                    delete meetings[meetingName];
+            }
+        }
+    }
+
+    act(target, meeting, actors) {
+        if (this.role)
+            this.role.act(target, meeting, actors);
+    }
+
+    getImmunity(type) {
+        var immunity;
+
+        if (this.tempImmunity[type] != null)
+            return this.tempImmunity[type];
+
+        if (this.role)
+            immunity = this.role.getImmunity(type);
+        else
+            immunity = 0;
+
+        for (let effect of this.effects) {
+            let effectImmunity = effect.getImmunity(type);
+
+            if (effectImmunity > immunity)
+                immunity = effectImmunity;
+        }
+
+        return immunity;
+    }
+
+    getCancelImmunity(type) {
+        if (this.role.cancelImmunity.indexOf(type) != -1)
+            return true;
+
+        for (let effect of this.effects)
+            if (effect.cancelImmunity.indexOf(type) != -1)
+                return true;
+    }
+
+    setTempImmunity(type, power, overwrite) {
+        if (this.getImmunity(type) < power || overwrite)
+            this.tempImmunity[type] = power;
+    }
+
+    getAppearance(type, noModifier) {
+        noModifier = noModifier || this.role.hideModifier[type];
+
+        if (this.tempAppearance[type] != null)
+            return `${this.tempAppearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
+
+        return `${this.role.appearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
+    }
+
+    getRevealText(type) {
+        var appearance = this.getAppearance(type);
+        var roleName = appearance.split(":")[0];
+        var modifier = appearance.split(":")[1];
+
+        return `${roleName}${modifier ? ` (${modifier})` : ""}`;
+    }
+
+    setTempAppearance(type, appearance) {
+        if (appearance == "real")
+            appearance = this.role.name;
+
+        this.tempAppearance[type] = appearance;
+    }
+
+    sendMeeting(meeting) {
+        this.send("meeting", meeting.getMeetingInfo(this));
+    }
+
+    joinedMeeting(meeting) {
+        this.history.addMeeting(meeting);
+    }
+
+    leftMeeting(meeting) {
+        this.history.removeMeeting(meeting);
+        this.send("leftMeeting", meeting.id);
+    }
+
+    sendMeetingMembers(meeting) {
+        this.send("members", { meetingId: meeting.id, members: meeting.getMembers() });
+    }
+
+    getMeetings(state) {
+        return this.history.getMeetings(state);
+    }
+
+    sendMeetings(meetings) {
+        meetings = meetings || this.getMeetings();
+
+        for (let meeting of meetings)
+            this.sendMeeting(meeting);
+    }
+
+    getHistory(targetState) {
+        return this.history.getHistoryInfo(targetState);
+    }
+
+    sendHistory() {
+        this.send("history", this.getHistory());
+    }
+
+    queueNonmeetActions() {
+        if (this.role)
+            this.role.queueActions();
+
+        for (let item of this.items)
+            item.queueActions();
+
+        for (let effect of this.effects)
+            effect.queueActions();
+    }
+
+    holdItem(itemName, ...args) {
+        const itemClass = Utils.importGameClass(this.game.type, "items", itemName);
+        const item = new itemClass(...args);
+        item.hold(this);
+        return item;
+    }
+
+    giveEffect(effectName, ...args) {
+        const effectClass = Utils.importGameClass(this.game.type, "effects", effectName);
+        const effect = new effectClass(...args);
+        effect.apply(this);
+        return effect;
+    }
+
+    dropItem(itemName, all) {
+        for (let item of this.items) {
+            if (item.name == itemName) {
+                item.drop();
+
+                if (!all)
+                    break;
+            }
+        }
+    }
+
+    removeEffect(effectName, all) {
+        for (let effect of this.effects) {
+            if (effect.name == effectName) {
+                effect.remove();
+
+                if (!all)
+                    break;
+            }
+        }
+    }
+
+    removeAllEffects() {
+        for (let effect of this.effects)
+            effect.remove()
+    }
+
+    hasItem(itemName) {
+        for (let item of this.items)
+            if (item.name == itemName)
+                return true;
+
+        return false;
+    }
+
+    hasEffect(effectName) {
+        for (let effect of this.effects)
+            if (effect.name == effectName)
+                return true;
+
+        return false;
+    }
+
+    hasItemProp(itemName, prop, value) {
+        for (let item of this.items)
+            if (item.name == itemName && String(item[prop]) == value)
+                return true;
+
+        return false;
+    }
+
+    hasEffectProp(effectName, prop, value) {
+        for (let effect of this.effects)
+            if (effect.name == effectName && String(effect[prop]) == value)
+                return true;
 
-		var voterId = vote.voter.id;
-
-		if (vote.meeting.anonymous)
-			voterId = vote.meeting.members[voterId].anonId;
+        return false;
+    }
 
-		this.send("vote", {
-			voterId: voterId,
-			target: vote.target,
-			meetingId: vote.meeting.id,
-			noLog
-		});
+    kill(killType, killer, instant) {
+        if (!this.alive)
+            return;
 
-		return vote;
-	}
-
-	seeUnvote(info) {
-		const originalInfo = info;
-		info = { ...info };
-
-		if (this.role)
-			this.role.seeUnvote(info);
-
-		if (info.cancel) return;
-
-		for (let effect of this.effects) {
-			effect.seeUnvote(info);
-			if (info.cancel) return;
-		}
-
-		if (!info.modified)
-			info = originalInfo;
-
-		var voterId = info.voter.id;
-
-		if (info.meeting.anonymous)
-			voterId = info.meeting.members[voterId].anonId;
-
-		this.send("unvote", {
-			voterId: info.voter.id,
-			meetingId: info.meeting.id,
-			target: info.target
-		});
-
-		return info;
-	}
-
-	seeTyping(info) {
-		if (this.role)
-			this.role.seeTyping(info);
-
-		if (info.cancel)
-			return;
-
-		for (let effect of this.effects) {
-			effect.seeTyping(info);
-
-			if (info.cancel)
-				return;
-		}
-
-		this.send("typing", info);
-	}
-
-	sendAlert(message) {
-		this.game.sendAlert(message, [this]);
-	}
-
-	queueAlert(message, priority) {
-		this.game.queueAlert(message, priority, [this]);
-	}
-
-	meet() {
-		if (this.role)
-			this.joinMeetings(this.role.meetings);
-
-		for (let item of this.items)
-			this.joinMeetings(item.meetings);
-	}
-
-	joinMeetings(meetings) {
-		var currentStateName = this.game.getStateName();
-
-		for (let meetingName in meetings) {
-			let options = meetings[meetingName];
-			let disabled = false;
-
-			for (let item of this.items)
-				disabled = disabled || item.shouldDisableMeeting(meetingName, options);
-
-			for (let effect of this.effects)
-				disabled = disabled || effect.shouldDisableMeeting(meetingName, options);
-
-			if (
-				disabled ||
-				(options.states.indexOf(currentStateName) == -1 && options.states.indexOf("*") == -1) ||
-				options.disabled ||
-				(options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName, options)) ||
-				(this.alive && options.whileAlive == false) ||
-				(!this.alive && !options.whileDead) ||
-				(options.unique && options.whileDead && options.whileAlive)
-			) {
-				continue;
-			}
-
-			let joined = false;
-
-			if (options.flags && options.flags.indexOf("group") != -1 && !options.unique) {
-				for (let meeting of this.game.meetings) {
-					if (meeting.name != meetingName)
-						continue;
-
-					if (meeting.group && !options.noGroup) {
-						if (!meeting.hasJoined(this)) {
-							meeting.join(this, options);
-							options.times--;
-
-							if (options.times <= 0)
-								delete meetings[meetingName];
-						}
-
-						joined = true;
-						break;
-					}
-					else if (!meeting.group && meeting.hasJoined(this)) {
-						joined = true;
-						break;
-					}
-				}
-			}
-
-			if (!joined) {
-				let meeting = this.game.createMeeting(options.type, meetingName);
-				meeting.join(this, options);
-				options.times--;
-
-				if (options.times <= 0)
-					delete meetings[meetingName];
-			}
-		}
-	}
-
-	act(target, meeting) {
-		if (this.role)
-			this.role.act(target, meeting);
-	}
-
-	getImmunity(type) {
-		var immunity;
-
-		if (this.tempImmunity[type] != null)
-			return this.tempImmunity[type];
-
-		if (this.role)
-			immunity = this.role.getImmunity(type);
-		else
-			immunity = 0;
-
-		for (let effect of this.effects) {
-			let effectImmunity = effect.getImmunity(type);
-
-			if (effectImmunity > immunity)
-				immunity = effectImmunity;
-		}
-
-		return immunity;
-	}
-
-	getCancelImmunity(type) {
-		if (this.role.cancelImmunity.indexOf(type) != -1)
-			return true;
-
-		for (let effect of this.effects)
-			if (effect.cancelImmunity.indexOf(type) != -1)
-				return true;
-	}
-
-	setTempImmunity(type, power, overwrite) {
-		if (this.getImmunity(type) < power || overwrite)
-			this.tempImmunity[type] = power;
-	}
-
-	getAppearance(type, noModifier) {
-		noModifier = noModifier || this.role.hideModifier[type];
-
-		if (this.tempAppearance[type] != null)
-			return `${this.tempAppearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
-
-		return `${this.role.appearance[type]}${noModifier ? "" : ":" + this.role.modifier}`;
-	}
-
-	getRevealText(type) {
-		var appearance = this.getAppearance(type);
-		var roleName = appearance.split(":")[0];
-		var modifier = appearance.split(":")[1];
-
-		return `${roleName}${modifier ? ` (${modifier})` : ""}`;
-	}
-
-	setTempAppearance(type, appearance) {
-		if (appearance == "real")
-			appearance = this.role.name;
-
-		this.tempAppearance[type] = appearance;
-	}
-
-	sendMeeting(meeting) {
-		this.send("meeting", meeting.getMeetingInfo(this));
-	}
-
-	joinedMeeting(meeting) {
-		this.history.addMeeting(meeting);
-	}
-
-	leftMeeting(meeting) {
-		this.history.removeMeeting(meeting);
-		this.send("leftMeeting", meeting.id);
-	}
-
-	sendMeetingMembers(meeting) {
-		this.send("members", { meetingId: meeting.id, members: meeting.getMembers() });
-	}
-
-	getMeetings(state) {
-		return this.history.getMeetings(state);
-	}
-
-	sendMeetings(meetings) {
-		meetings = meetings || this.getMeetings();
-
-		for (let meeting of meetings)
-			this.sendMeeting(meeting);
-	}
-
-	getHistory(targetState) {
-		return this.history.getHistoryInfo(targetState);
-	}
-
-	sendHistory() {
-		this.send("history", this.getHistory());
-	}
-
-	queueNonmeetActions() {
-		if (this.role)
-			this.role.queueActions();
-
-		for (let item of this.items)
-			item.queueActions();
-
-		for (let effect of this.effects)
-			effect.queueActions();
-	}
-
-	holdItem(itemName, ...args) {
-		const itemClass = Utils.importGameClass(this.game.type, "items", itemName);
-		const item = new itemClass(...args);
-		item.hold(this);
-		return item;
-	}
-
-	giveEffect(effectName, ...args) {
-		const effectClass = Utils.importGameClass(this.game.type, "effects", effectName);
-		const effect = new effectClass(...args);
-		effect.apply(this);
-		return effect;
-	}
-
-	dropItem(itemName, all) {
-		for (let item of this.items) {
-			if (item.name == itemName) {
-				item.drop();
-
-				if (!all)
-					break;
-			}
-		}
-	}
-
-	removeEffect(effectName, all) {
-		for (let effect of this.effects) {
-			if (effect.name == effectName) {
-				effect.remove();
-
-				if (!all)
-					break;
-			}
-		}
-	}
-
-	removeAllEffects() {
-		for (let effect of this.effects)
-			effect.remove()
-	}
-
-	hasItem(itemName) {
-		for (let item of this.items)
-			if (item.name == itemName)
-				return true;
-
-		return false;
-	}
-
-	hasEffect(effectName) {
-		for (let effect of this.effects)
-			if (effect.name == effectName)
-				return true;
-
-		return false;
-	}
-
-	hasItemProp(itemName, prop, value) {
-		for (let item of this.items)
-			if (item.name == itemName && String(item[prop]) == value)
-				return true;
-
-		return false;
-	}
+        this.game.resetLastDeath = true;
+        this.game.queueDeath(this);
 
-	hasEffectProp(effectName, prop, value) {
-		for (let effect of this.effects)
-			if (effect.name == effectName && String(effect[prop]) == value)
-				return true;
+        if (killType != "silent")
+            this.queueDeathMessage(killType, instant);
 
-		return false;
-	}
+        if (!this.game.setup.noReveal)
+            this.role.revealToAll(false, this.getRevealType(killType));
 
-	kill(killType, killer, instant) {
-		if (!this.alive)
-			return;
+        this.queueLastWill();
+        this.game.events.emit("death", this, killer, killType, instant);
 
-		this.game.resetLastDeath = true;
-		this.game.queueDeath(this);
+        if (!instant)
+            return;
 
-		if (killType != "silent")
-			this.queueDeathMessage(killType, instant);
+        for (let meeting of this.getMeetings())
+            meeting.leave(this, true);
 
-		if (!this.game.setup.noReveal)
-			this.role.revealToAll(false, this.getRevealType(killType));
+        this.meet();
 
-		this.queueLastWill();
-		this.game.events.emit("death", this, killer, killType, instant);
+        for (let meeting of this.game.meetings)
+            meeting.generateTargets();
 
-		if (!instant)
-			return;
+        this.game.sendMeetings();
+        this.game.checkAllMeetingsReady();
+    }
 
-		for (let meeting of this.getMeetings())
-			meeting.leave(this, true);
+    revive(revivalType, reviver, instant) {
+        if (this.alive)
+            return;
 
-		this.meet();
+        this.game.queueRevival(this);
+        this.queueRevivalMessage(revivalType, instant)
+        this.game.events.emit("revival", this, reviver, revivalType);
 
-		for (let meeting of this.game.meetings)
-			meeting.generateTargets();
+        if (!instant)
+            return;
 
-		this.game.sendMeetings();
-		this.game.checkAllMeetingsReady();
-	}
 
-	revive(revivalType, reviver, instant) {
-		this.game.queueRevival(this);
-		this.queueRevivalMessage(revivalType, instant)
-		this.game.events.emit("revival", this, reviver, revivalType);
+        for (let meeting of this.getMeetings())
+            meeting.leave(this, true);
 
-		if (!instant)
-			return;
+        this.meet();
 
+        for (let meeting of this.game.meetings)
+            meeting.generateTargets();
 
-		for (let meeting of this.getMeetings())
-			meeting.leave(this, true);
+        this.game.sendMeetings();
+        this.game.checkAllMeetingsReady();
+    }
 
-		this.meet();
+    getRevealType(deathType) {
+        return "reveal";
+    }
 
-		for (let meeting of this.game.meetings)
-			meeting.generateTargets();
+    queueDeathMessage(type) {
+        const deathMessage = this.deathMessages(type || "basic", this.name);
+        this.game.queueAlert(deathMessage);
+    }
 
-		this.game.sendMeetings();
-		this.game.checkAllMeetingsReady();
-	}
+    queueRevivalMessage(type) {
+        const revivalMessage = this.revivalMessages(type || "basic", this.name);
+        this.game.queueAlert(revivalMessage);
+    }
 
-	getRevealType(deathType) {
-		return "reveal";
-	}
+    queueLastWill() {
+        if (!this.game.setup.lastWill)
+            return;
 
-	queueDeathMessage(type) {
-		const deathMessage = this.deathMessages(type || "basic", this.name);
-		this.game.queueAlert(deathMessage);
-	}
+        var will;
 
-	queueRevivalMessage(type) {
-		const revivalMessage = this.revivalMessages(type || "basic", this.name);
-		this.game.queueAlert(revivalMessage);
-	}
+        if (this.lastWill)
+            will = `As read from ${this.name}'s last will: ${this.lastWill}`;
+        else
+            will = `${this.name} did not leave a will.`;
 
-	queueLastWill() {
-		if (!this.game.setup.lastWill)
-			return;
+        this.game.queueAlert(will);
+    }
 
-		var will;
+    recordStat(stat, inc) {
+        if (!this.game.ranked)
+            return;
 
-		if (this.lastWill)
-			will = `As read from ${this.name}'s last will: ${this.lastWill}`;
-		else
-			will = `${this.name} did not leave a will.`;
+        const stats = this.user.stats[this.game.type];
 
-		this.game.queueAlert(will);
-	}
+        if (stats == null || stats[stat] == null)
+            return;
 
-	recordStat(stat, inc) {
-		if (!this.game.ranked)
-			return;
+        stats[stat].total++;
 
-		const stats = this.user.stats[this.game.type];
+        if (inc)
+            stats[stat].count++;
+    }
 
-		if (stats == null || stats[stat] == null)
-			return;
+    swapIdentity(player) {
+        // Swap sockets
+        this.socket.clearListeners();
+        player.socket.clearListeners();
 
-		stats[stat].total++;
+        var tempSocket = this.user.socket;
 
-		if (inc)
-			stats[stat].count++;
-	}
+        this.user.socket = player.user.socket;
+        this.socket = player.user.socket;
+        player.user.socket = tempSocket;
+        player.socket = tempSocket;
 
-	swapIdentity(player) {
-		// Swap sockets
-		this.socket.clearListeners();
-		player.socket.clearListeners();
+        player.user.swapped = this.user;
 
-		var tempSocket = this.user.socket;
+        this.socketListeners();
+        player.socketListeners();
 
-		this.user.socket = player.user.socket;
-		this.socket = player.user.socket;
-		player.user.socket = tempSocket;
-		player.socket = tempSocket;
+        this.sendSelf();
+        this.sendSelfWill();
+        player.sendSelf();
+        player.sendSelfWill();
 
-		player.user.swapped = this.user;
+        // Swap stats
+        var tempStats = this.user.stats;
+        this.user.stats = player.stats;
+        player.stats = tempStats;
 
-		this.socketListeners();
-		player.socketListeners();
+        // Swap alive/dead
+        var tempAlive = this.alive;
 
-		this.sendSelf();
-		this.sendSelfWill();
-		player.sendSelf();
-		player.sendSelfWill();
+        if (player.alive && !this.alive)
+            this.game.queueRevival(this);
+        else if (!player.alive && this.alive)
+            this.game.queueDeath(this);
 
-		// Swap stats
-		var tempStats = this.user.stats;
-		this.user.stats = player.stats;
-		player.stats = tempStats;
+        if (tempAlive && !player.alive)
+            this.game.queueRevival(player);
+        else if (!tempAlive && player.alive)
+            this.game.queueDeath(player);
 
-		// Swap alive/dead
-		var tempAlive = this.alive;
+        // Swap roles
+        var tempRole = this.role;
 
-		if (player.alive && !this.alive)
-			this.game.queueRevival(this);
-		else if (!player.alive && this.alive)
-			this.game.queueDeath(this);
+        this.role = player.role;
+        this.role.player = this;
+        this.role.revealToSelf(true);
 
-		if (tempAlive && !player.alive)
-			this.game.queueRevival(player);
-		else if (!tempAlive && player.alive)
-			this.game.queueDeath(player);
+        player.role = tempRole;
+        tempRole.player = player;
+        tempRole.revealToSelf(true);
 
-		// Swap roles
-		var tempRole = this.role;
+        // Swap items and effects
+        var tempItems = this.items;
+        this.items = player.items;
+        player.items = tempItems;
 
-		this.role = player.role;
-		this.role.player = this;
-		this.role.revealToSelf(true);
+        for (let item of this.items)
+            item.holder = this;
 
-		player.role = tempRole;
-		tempRole.player = player;
-		tempRole.revealToSelf(true);
+        for (let item of player.items)
+            item.holder = player;
 
-		// Swap items and effects
-		var tempItems = this.items;
-		this.items = player.items;
-		player.items = tempItems;
+        var tempEffects = this.effects;
+        this.effects = player.effects;
+        player.effects = tempEffects;
 
-		for (let item of this.items)
-			item.holder = this;
+        for (let effect of this.effects)
+            effect.player = this;
 
-		for (let item of player.items)
-			item.holder = player;
+        for (let effect of player.effects)
+            effect.player = player;
 
-		var tempEffects = this.effects;
-		this.effects = player.effects;
-		player.effects = tempEffects;
-
-		for (let effect of this.effects)
-			effect.player = this;
-
-		for (let effect of player.effects)
-			effect.player = player;
-
-		// Reveal disguiser to disguised player
-		player.role.revealToPlayer(this, true);
-	}
+        // Reveal disguiser to disguised player
+        player.role.revealToPlayer(this, true);
+    }
 
 }
