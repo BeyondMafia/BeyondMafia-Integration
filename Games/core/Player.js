@@ -318,11 +318,12 @@ module.exports = class Player {
 
         const role = this.game.getRoleClass(roleName);
 
+        let oldAppearanceSelf = this.role?.appearance.self;
         this.removeRole();
         this.role = new role(this, roleData);
         this.role.init(modifier);
 
-        if (!noReveal)
+        if (!(noReveal || (oldAppearanceSelf && oldAppearanceSelf === this.role.appearance.self)))
             this.role.revealToSelf(noAlert);
     }
 
@@ -817,6 +818,9 @@ module.exports = class Player {
     }
 
     revive(revivalType, reviver, instant) {
+        if (this.alive)
+            return;
+
         this.game.queueRevival(this);
         this.queueRevivalMessage(revivalType, instant)
         this.game.events.emit("revival", this, reviver, revivalType);
