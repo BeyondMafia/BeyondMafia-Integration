@@ -20,7 +20,7 @@ import { RoleCount } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
-import { MaxGameMessageLength, MaxWillLength, MaxTextInputLength } from "../../Constants";
+import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
 
 import "../../css/game.css";
 
