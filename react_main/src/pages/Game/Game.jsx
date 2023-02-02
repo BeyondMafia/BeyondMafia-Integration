@@ -1700,17 +1700,21 @@ function ActionButton(props) {
 
 function ActionText(props) {
     const meeting = props.meeting;
-    const textOptions = meeting.textOptions || {
-        minLength: 0,
-        maxLength: MaxTextInputLength
-    };
+    const self = props.self;
+
+    // text settings
+    const textOptions = meeting.textOptions || {}
+    const minLength = textOptions.minLength || 0;
+    const maxLength = textOptions.maxLength || MaxTextInputLength
 
     const [data, setTextData] = useState({ currentInput: "", finalInput: "" });
 
     function setCurrentInput(e) {
+        var alpha = e.target.value.replace(/[^a-z]/gi, '').toLowerCase();
+
         setTextData({
             ...data,
-            currentInput: e.target.value.replace(/[^a-z]/gi, '').toLowerCase()
+            currentInput: alpha.substring(0, maxLength)
         });
     }
 
@@ -1724,6 +1728,7 @@ function ActionText(props) {
             finalInput: data.currentInput
         })
 
+        meeting.votes[self] = data.currentInput;
         props.socket.send("vote", {
             meetingId: meeting.id,
             selection: data.currentInput
@@ -1735,19 +1740,15 @@ function ActionText(props) {
             <div className="action-name">
                 {meeting.actionName}
             </div>
-            <div className="action-text">
-                <textarea
-                    value={data.currentInput}
-                    onChange={setCurrentInput} />
-                <div
-                    className="btn btn-theme"
-                    onClick={setFinalInput}>
-                    {textOptions.submit || "Submit"}
-                </div>
-                <div className="action-text final-display">
-                    {data.finalInput}
-                </div>
-            </div>      
+            <textarea
+                value={data.currentInput}
+                onChange={setCurrentInput} />
+            <div
+                className="btn btn-theme"
+                onClick={setFinalInput}>
+                {textOptions.submit || "Submit"}
+            </div>
+            {meeting.votes[self]}
         </div>
     );
 }
