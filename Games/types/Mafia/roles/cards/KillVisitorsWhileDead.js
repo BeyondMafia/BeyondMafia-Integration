@@ -10,7 +10,7 @@ module.exports = class KillVisitorsWhileDead extends Card {
             {
                 priority: PRIORITY_KILL_VISITORS_ENQUEUE,
                 run: function () {
-                    if (!this.actor.role.data.dead)
+                    if (!this.actor.alive)
                         return;
 
                     for (let action of this.game.actions[0])
@@ -47,12 +47,6 @@ module.exports = class KillVisitorsWhileDead extends Card {
             }
         ];
 
-        this.listeners = {
-            "death": function (player, killer, deathType) {
-                if (player == this.player && this.data.playerToReveal)
-                    this.actor.role.data.dead = true;
-            }
-        };
     }
 
 }
