@@ -1710,11 +1710,17 @@ function ActionText(props) {
     const [data, setTextData] = useState({ currentInput: "", finalInput: "" });
 
     function setCurrentInput(e) {
-        var alpha = e.target.value.replace(/[^a-z]/gi, '').toLowerCase();
+        var textInput = e.target.value;
+        if (textOptions.alphaOnly) {
+            textInput = textInput.replace(/[^a-z]/gi, '');
+        }
+        if (textOptions.toLowerCase) {
+            textInput = textInput.toLowerCase();
+        }
 
         setTextData({
             ...data,
-            currentInput: alpha.substring(0, maxLength)
+            currentInput: textInput.substring(0, maxLength)
         });
     }
 

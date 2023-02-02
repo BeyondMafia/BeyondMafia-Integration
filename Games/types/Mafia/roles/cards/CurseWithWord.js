@@ -14,6 +14,8 @@ module.exports = class CurseWithWord extends Card {
 				textOptions: {
 					minLength: 4,
 					maxLength: 10,
+					alphaOnly: true,
+					toLowerCase: true,
 					submit: "Chant"
 				},
 				action: {
