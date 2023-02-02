@@ -22,13 +22,13 @@ module.exports = class CursedVote extends Effect {
                         effect: this,
                         power: 2,
                         run: function () {
-                            this.game.sendAlert(`${this.target.name} feels a cold chill run down their spine!`)
                             if (this.dominates())
                                 this.target.kill("curse", this.actor, true);
                             this.effect.remove();
                         }
                     });
-                    action.do();
+                    
+                    this.game.instantAction(action);
                 }
             }
         };

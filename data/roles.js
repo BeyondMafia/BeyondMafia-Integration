@@ -406,6 +406,8 @@ const roleData = {
             description: [
                 "Can choose a victim and a target each night.",
                 "If the victim votes for the target, the victim will die."
+            ]
+        },
         "Heartbreaker": {
             alignment: "Mafia",
             description: [
