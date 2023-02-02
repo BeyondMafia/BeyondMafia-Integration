@@ -1707,9 +1707,9 @@ function ActionText(props) {
     const minLength = textOptions.minLength || 0;
     const maxLength = textOptions.maxLength || MaxTextInputLength
 
-    const [data, setTextData] = useState({ currentInput: "", finalInput: "" });
+    const [textData, setTextData] = useState("");
 
-    function setCurrentInput(e) {
+    function handleOnChange(e) {
         var textInput = e.target.value;
         if (textOptions.alphaOnly) {
             textInput = textInput.replace(/[^a-z]/gi, '');
@@ -1718,26 +1718,18 @@ function ActionText(props) {
             textInput = textInput.toLowerCase();
         }
 
-        setTextData({
-            ...data,
-            currentInput: textInput.substring(0, maxLength)
-        });
+        setTextData(textInput);
     }
 
-    function setFinalInput(e) {
-        if (data.currentInput.length < textOptions.minLength) {
+    function handleOnSubmit(e) {
+        if (textData.length < textOptions.minLength) {
             return;
         }
 
-        setTextData({
-            ...data,
-            finalInput: data.currentInput
-        })
-
-        meeting.votes[self] = data.currentInput;
+        meeting.votes[self] = textData;
         props.socket.send("vote", {
             meetingId: meeting.id,
-            selection: data.currentInput
+            selection: textData
         });
     }
 
@@ -1747,11 +1739,11 @@ function ActionText(props) {
                 {meeting.actionName}
             </div>
             <textarea
-                value={data.currentInput}
-                onChange={setCurrentInput} />
+                value={textData}
+                onChange={handleOnChange} />
             <div
                 className="btn btn-theme"
-                onClick={setFinalInput}>
+                onClick={handleOnSubmit}>
                 {textOptions.submit || "Submit"}
             </div>
             {meeting.votes[self]}
