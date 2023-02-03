@@ -167,6 +167,43 @@ export function linkify(text) {
 	return text.length == 1 ? text[0] : text;
 }
 
+export function avify(text, players) {
+	// Creating players array.
+	const playersArray = Object.values(players);
+
+	// Creating RegExp to match %User calls.
+	const playerNames = playersArray.map(player => player.name);
+	const playerNamesRegex = new RegExp(`^%(${playerNames.join("|")})$`);
+
+	// Checking text against %User calls.
+    if (!Array.isArray(text))
+        text = [text];
+
+    for (let i in text){
+        let segment = text[i]
+
+        if (typeof segment != "string")
+            continue;
+
+        const words = segment.split(" ");
+
+        for (const i in words) {
+            if (playerNamesRegex.test(words[i])) {
+                const user = playersArray.find(player => player.name === words[i].substring(1));
+                words[i] = <Avatar
+                    name={user.name}
+                    id={user.userId}
+                    hasImage={user.avatar}
+                    small={true}
+                />;
+            }
+        }
+        text[i] = words;
+    }
+	text = text.flat();
+	return text;
+}
+
 export function filterProfanity(text, settings, char) {
 	if (text == null)
 		return;
