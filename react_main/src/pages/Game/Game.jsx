@@ -1180,6 +1180,7 @@ function Message(props) {
                                 settings={user.settings}
                                 filterProfanity
                                 linkify
+                                avify
                                 emotify />
                         </div>
                         <i className="fas fa-quote-right" />
