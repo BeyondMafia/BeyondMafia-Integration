@@ -30,6 +30,8 @@ module.exports = class KillVisitorsWhileDead extends Card {
                 priority: PRIORITY_KILL_VISITORS,
                 labels: ["kill", "hidden"],
                 run: function () {
+                    if (this.actor.alive)
+                        return;
 
                     var visitors = this.actor.role.data.visitors;
 

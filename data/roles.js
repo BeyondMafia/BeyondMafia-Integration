@@ -540,7 +540,7 @@ const roleData = {
             description: [
                 "Once dead, may visit one person a night and roleblock them.",
                 "Everyone who visits the mummy while they are dead dies.",
-                ],
+            ],
         },
 
         //Monsters
