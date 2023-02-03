@@ -367,6 +367,12 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Journalist": {
+            alignment: "Village",
+            description: [
+                "Each night, learns the system messages received by their target."
+            ]
+        },
 
         //Mafia
         "Mafioso": {
@@ -534,6 +540,12 @@ const roleData = {
                 "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
+        },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Each night, learns the system messages received by their target."
+            ]
         },
 
         //Monsters
