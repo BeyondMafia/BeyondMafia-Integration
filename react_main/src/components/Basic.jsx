@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { Avatar } from "../pages/User/User"
 import { emotify } from "./Emotes";
 import badWords from "../json/badWords";
 import slurs from "../json/slurs";
@@ -126,6 +127,9 @@ export function UserText(props) {
 
 		if (props.linkify)
 			text = linkify(text);
+
+		if (props.avify)
+			text = avify(text, props.players);
 
 		if (props.emotify)
 			text = emotify(text);
