@@ -10,7 +10,7 @@ module.exports = class KillVisitorsWhileDead extends Card {
             {
                 priority: PRIORITY_KILL_VISITORS_ENQUEUE,
                 run: function () {
-                    if (!this.actor.alive)
+                    if (this.actor.alive)
                         return;
 
                     for (let action of this.game.actions[0])
@@ -30,8 +30,6 @@ module.exports = class KillVisitorsWhileDead extends Card {
                 priority: PRIORITY_KILL_VISITORS,
                 labels: ["kill", "hidden"],
                 run: function () {
-                    if (this.game.getStateName() != "Night")
-                        return;
 
                     var visitors = this.actor.role.data.visitors;
 
