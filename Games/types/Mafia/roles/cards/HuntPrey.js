@@ -16,13 +16,13 @@ module.exports = class HuntPrey extends Card {
                     labels: ["kill", "consume"],
                     priority: PRIORITY_KILL_DEFAULT,
                     run: function () {
-                        if (this.actor.role.data.prey){
-                            if (this.target.role.name === this.actor.role.data.prey){
+                        if (this.actor.role.data.prey) {
+                            if (this.target.role.name === this.actor.role.data.prey) {
                                 if (this.dominates())
                                     this.target.kill("basic", this.actor);
                                 this.actor.role.data.immunity = true;
                                 this.actor.queueAlert("You succesfully consume your prey, you are immortal for the day.")
-                            }else{
+                            } else {
                                 this.actor.role.revealToAll();
                             }
                             delete this.actor.role.data.prey;
@@ -33,9 +33,9 @@ module.exports = class HuntPrey extends Card {
             },
             "Prey's form": {
                 states: ["Night"],
-                flags: ["voting"],
-                inputType: "alignment",
-                targets: [],
+                flags: ["voting", "mustAct", "noVeg"],
+                inputType: "role",
+                targets: { include: ["all"] },
                 action: {
                     priority: PRIORITY_KILL_DEFAULT - 1,
                     run: function () {
@@ -45,14 +45,8 @@ module.exports = class HuntPrey extends Card {
             }
         };
         this.listeners = {
-            "rolesAssigned": function () {
-                this.player.role.meetings["Prey's form"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
-                },
-            "afterActions": function () {
-                this.player.role.meetings["Prey's form"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
-            },
             "state": function (stateInfo) {
-                if (this.player.role.data.immunity){
+                if (this.player.role.data.immunity) {
                     this.player.setTempImmunity("kill", 3);
                     delete this.player.role.data.immunity;
                 }
