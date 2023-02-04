@@ -6,6 +6,7 @@ module.exports = class Cat extends Item {
     constructor(owner) {
         super("Cat");
         this.owner = owner;
+        this.lifespan = 1;
 
         this.meetings = {
             "Permit Cat": {

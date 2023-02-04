@@ -8,7 +8,7 @@ module.exports = class CatGiver extends Card {
         this.meetings = {
             "Give Cat": {
                 states: ["Day"],
-                flags: ["voting", "instant", "noVeg"],
+                flags: ["voting", "noVeg"],
                 action: {
                     labels: ["giveItem", "cat"],
                     run: function () {
