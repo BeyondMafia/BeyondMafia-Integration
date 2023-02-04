@@ -15,6 +15,3 @@ package-lock.json
 *.ai
 *.aseprite
 *.svg
-*.vsidx
-
-.vs

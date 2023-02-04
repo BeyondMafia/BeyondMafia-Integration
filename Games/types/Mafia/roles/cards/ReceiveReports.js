@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
 
-module.exports = class AlertLearner extends Card {
+module.exports = class ReceiveReports extends Card {
 
     constructor(role) {
         super(role);
@@ -18,6 +18,10 @@ module.exports = class AlertLearner extends Card {
                         var reports = []
 
                         for (let alert of this.game.alertQueue) {
+                            if (!alert.recipients) {
+                                continue
+                            }
+                            
                             for (let recipient of alert.recipients) {
                                 if (recipient == this.target) {
                                     reports.push(alert.message);
@@ -32,6 +36,5 @@ module.exports = class AlertLearner extends Card {
             }
         };
     }
-
 }
  

@@ -17,7 +17,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Hands out a gun each night."
-            
+            ],
         },
         "Cop": {
             alignment: "Village",
@@ -269,8 +269,6 @@ const roleData = {
             description: [
                 "Can pick a person every night",
                 "Any system messages that person may have got are given to the journalist as well"
-
-
             ],
         },
         "Cutler": {
@@ -433,8 +431,6 @@ const roleData = {
                  "Can kill bomb without getting killed."
          
             ],
-        },
-
         },
         "Lawyer": {
             alignment: "Mafia",
@@ -675,6 +671,7 @@ const roleData = {
             ],
         },
     },
+
     "Split Decision": {
         //Blue
         "Blue Member": {

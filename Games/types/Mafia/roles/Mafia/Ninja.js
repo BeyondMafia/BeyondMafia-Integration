@@ -1,4 +1,5 @@
 const Role = require("../../Role");
+const { PRIORITY_MAFIA_KILL } = require("../../const/Priority");
 
 module.exports = class Ninja extends Role {
 
@@ -9,8 +10,8 @@ module.exports = class Ninja extends Role {
         this.meetingMods = {
             "Mafia": {
                 action: {
-                    labels: ["kill", "mafia", "hidden"],
-                    priority: PRIORITY_MAFIA_MEETING,
+                    labels: ["kill", "mafia", "hidden", "absolute"],
+                    priority: PRIORITY_MAFIA_KILL,
                     run: function () {
                         if (this.dominates())
                             this.target.kill("basic", this.actor);
@@ -19,3 +20,4 @@ module.exports = class Ninja extends Role {
             }
         };
     }
+}
