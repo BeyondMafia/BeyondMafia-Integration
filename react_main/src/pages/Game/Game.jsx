@@ -1535,6 +1535,7 @@ export function ActionList(props) {
             switch (meeting.inputType) {
                 case "player":
                 case "boolean":
+                case "role":
                 case "alignment":
                 case "select":
                     action =
