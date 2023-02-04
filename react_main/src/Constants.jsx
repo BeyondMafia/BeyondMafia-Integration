@@ -45,6 +45,7 @@ export const RatingThresholds = {
 export const RequiredTotalForStats = 1;
 
 export const MaxGameMessageLength = 240;
+export const MaxTextInputLength = 100;
 export const MaxWillLength = 100;
 
 export const MaxGroupNameLength = 20;

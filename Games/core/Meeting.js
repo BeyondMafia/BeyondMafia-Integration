@@ -86,6 +86,7 @@ module.exports = class Meeting {
 
         if (options.inputType)
             this.inputType = options.inputType;
+            this.textOptions = options.textOptions;
 
         if (this.multi) {
             this.multiMin = options.multiMin;
@@ -238,6 +239,7 @@ module.exports = class Meeting {
             multi: this.multi,
             targets: this.targets,
             inputType: this.inputType,
+            textOptions: this.textOptions,
             votes: votes,
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),

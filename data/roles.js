@@ -535,7 +535,7 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
-        "Voodoo Lady": {
+        "Sorceror": {
             alignment: "Mafia",
             description: [
                 "Each night, curses a player with a word.",
