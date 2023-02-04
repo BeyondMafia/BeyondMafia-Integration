@@ -671,7 +671,6 @@ const roleData = {
             ],
         },
     },
-
     "Split Decision": {
         //Blue
         "Blue Member": {
