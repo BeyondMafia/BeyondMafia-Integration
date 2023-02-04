@@ -10,8 +10,10 @@ module.exports = class WinIfDead extends Card {
         this.winCheck = {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             againOnFinished: true,
-            check: function (counts, winners, aliveCount) {
-                if (!this.player.alive) {
+            check: function (counts, winners, aliveCount, confirmedFinished) {
+                if (!this.player.alive && (
+                    (confirmedFinished && !winners.groups[this.name]))
+                    ) {
                     winners.addPlayer(this.player, this.name);
                 }
             }
