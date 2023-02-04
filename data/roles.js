@@ -17,7 +17,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Hands out a gun each night."
-            ],
+            
         },
         "Cop": {
             alignment: "Village",
@@ -264,6 +264,15 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Journalist": {
+            alignment: "Village",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+
+
+            ],
+        },
         "Cutler": {
             alignment: "Village",
             description: [
@@ -416,6 +425,16 @@ const roleData = {
                 "Attempts to guess the identity of the Agent each night.",
                 "Kills the Agent if guess is correct."
             ],
+        },
+        "Ninja": {
+             alignment: "Mafia",
+             description: [
+                 "Does not get detected by watchers and trackers.",
+                 "Can kill bomb without getting killed."
+         
+            ],
+        },
+
         },
         "Lawyer": {
             alignment: "Mafia",
