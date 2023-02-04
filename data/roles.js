@@ -648,6 +648,13 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Vengeful Spirit": {
+            alignment: "Independent",
+            description: [
+                "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
+                "Wins if it kills all of its murderers.",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
