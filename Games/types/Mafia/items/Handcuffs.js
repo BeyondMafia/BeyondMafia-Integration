@@ -7,6 +7,8 @@ module.exports = class Handcuffs extends Item {
 
         this.reveal = reveal;
         this.lifespan = 1;
+        this.cannotBeStolen = true;
+        
         this.meetings = {
             "Jail": {
                 actionName: "Execute Prisoner",
