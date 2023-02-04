@@ -1718,11 +1718,12 @@ function ActionText(props) {
             textInput = textInput.toLowerCase();
         }
 
+        textInput = textInput.substring(0, maxLength);
         setTextData(textInput);
     }
 
     function handleOnSubmit(e) {
-        if (textData.length < textOptions.minLength) {
+        if (textData.length < minLength) {
             return;
         }
 
