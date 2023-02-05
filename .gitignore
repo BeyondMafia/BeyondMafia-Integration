@@ -1,17 +1,28 @@
+# Environment variables.
 .env
 .env_old
-
-node_modules/
-logs/
-testing/
-tmp/
-build_public/
-uploads/
-
-cmds.txt
-package-lock.json
+firebase.json
 *firebase-adminsdk*.json
 
+# Node modules.
+node_modules/
+
+# Testing.
+testing/
+tmp/
+*.log
+
+# Build.
+build_public/
+*build/
+
+# Uploaded data.
+uploads/
+
+# File formats.
 *.ai
 *.aseprite
 *.svg
+
+# Automation.
+cmds.txt
