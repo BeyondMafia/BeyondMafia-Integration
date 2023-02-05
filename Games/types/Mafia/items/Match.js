@@ -4,7 +4,6 @@ module.exports = class Match extends Item {
 
     constructor() {
         super("Match");
-
         this.cannotBeStolen = true;
         this.meetings = {
             "Light Match": {
