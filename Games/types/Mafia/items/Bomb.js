@@ -6,6 +6,7 @@ module.exports = class Bomb extends Item {
     constructor() {
         super("Bomb");
 
+        this.cannotBeStolen = true;
         this.listeners = {
             "death": function (player, killer, deathType, instant) {
                 if (player == this.holder && killer && deathType != "lynch") {
