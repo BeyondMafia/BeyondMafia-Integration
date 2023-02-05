@@ -24,7 +24,7 @@ module.exports = class SeancePlayer extends Card {
             "Seance": {
                 actionName: "End Seance",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous"],
+                flags: ["group", "speech", "voting", "anonymous", "mustAct"],
                 inputType: "boolean",
                 leader: true,
                 shouldMeet: function () {
