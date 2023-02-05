@@ -577,6 +577,13 @@ const roleData = {
                 "Insane players speak gibberish."
             ],
         },
+        "The Thing": {
+            alignment: "Monsters",
+            description: [
+                "Can hunt prey at night by choosing a target and guessing their role.",
+                "If guessed correctly, becomes immortal for the next day, if incorrect will be revealed to all."
+            ],
+        },
 
         //Independent
         "Jester": {
@@ -646,6 +653,13 @@ const roleData = {
             description: [
                 "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
+        "Vengeful Spirit": {
+            alignment: "Independent",
+            description: [
+                "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
+                "Wins if it kills all of its murderers.",
             ],
         },
     },
