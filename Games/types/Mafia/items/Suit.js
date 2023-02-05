@@ -5,6 +5,7 @@ module.exports = class Suit extends Item {
     constructor(type) {
         super("Suit");
         this.type = type;
+        this.cannotBeStolen = true;
     }
 
     hold(player) {

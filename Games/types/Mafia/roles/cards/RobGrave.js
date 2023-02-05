@@ -13,7 +13,7 @@ module.exports = class RobGrave extends Card {
                 targets: { include: ["dead"], exclude: ["alive", "self"] },
                 action: {
                     labels: ["giveItem"],
-                    priority: PRIORITY_ROLE_LEARNER,
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         // get role
                         var role = this.target.getAppearance("investigate", true);
@@ -27,12 +27,13 @@ module.exports = class RobGrave extends Card {
                             let count = {};
 
                             for (let item of items) {
-                                this.actor.holdItem(item);
-                                if (item in count) {
-                                    count[item] += 1;
+                                item.hold(this.actor);
+                                //this.target.dropItem(item, true);
+                                if (item.name in count) {
+                                    count[item.name] += 1;
                                 }
                                 else {
-                                    count[item] = 1;
+                                    count[item.name] = 1;
                                 }
                             }
 
