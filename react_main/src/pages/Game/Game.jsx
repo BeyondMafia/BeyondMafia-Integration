@@ -1619,7 +1619,9 @@ function ActionSelect(props) {
             <div
                 className={`vote ${meeting.multi ? "multi" : ""}`}
                 key={member.id}>
-                <div className="voter">
+                <div
+                    className="voter"
+                    onClick={() => onSelectVote(member.id)}>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
