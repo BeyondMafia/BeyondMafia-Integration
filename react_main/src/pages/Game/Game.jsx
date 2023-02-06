@@ -1160,10 +1160,8 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
-                            players={players}
                             filterProfanity
                             linkify
-                            avify
                             emotify />
                     </>
                 }
@@ -1537,6 +1535,7 @@ export function ActionList(props) {
             switch (meeting.inputType) {
                 case "player":
                 case "boolean":
+                case "role":
                 case "alignment":
                 case "select":
                     action =

@@ -276,7 +276,7 @@ describe("Games/Mafia", function () {
     });
 
     describe("Jester", function () {
-        it("should make ony the Jester win when he is lynched", async function () {
+        it("should be able to joint win when voted off", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
@@ -301,8 +301,8 @@ describe("Games/Mafia", function () {
 
             await waitForGameEnd(game);
             should.exist(game.winners.groups["Jester"]);
+            should.exist(game.winners.groups["Mafia"]);
             should.not.exist(game.winners.groups["Village"]);
-            should.not.exist(game.winners.groups["Mafia"]);
             game.winners.groups["Jester"].should.have.lengthOf(1);
         });
     });
@@ -1194,7 +1194,7 @@ describe("Games/Mafia", function () {
     });
 
     describe("Alien", function () {
-        it("should win when all other alive players are probed", async function () {
+        it("should win when everyone is probed", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
