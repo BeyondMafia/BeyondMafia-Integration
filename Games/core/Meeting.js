@@ -799,11 +799,30 @@ module.exports = class Meeting {
         if (this.finished || !this.voting)
             return true;
         else if (!this.multi)
-            return Object.keys(this.votes).length == this.totalVoters;
+            return Object.keys(this.votes).length == this.totalVoters && this.hasPlurality;
         else {
             var selections = Object.values(this.votes)[0] || [];
             return selections.length >= this.multiMin || selections.indexOf("*") != -1;
         }
+    }
+
+    // Checks whether the meeting has a plurality target.
+    get hasPlurality() {
+        // If 0 votes return false, if 1 vote return true.
+        const numVotes = Object.values(this.votes).length;
+        if (numVotes <=1)
+            return numVotes;
+        // Counting vote frequencies of targets.
+        let voteFrequencies = Object.values(this.votes).reduce((totalVotes, target) => {
+            totalVotes[target] = ++totalVotes[target] || 1;
+            return totalVotes;
+        }, {});
+        // Sorting targets by vote count.
+        voteFrequencies = Object.entries(voteFrequencies).sort((a,b) => {return b[1] - a[1]});
+        // Checking for plurality.
+        if (voteFrequencies.length === 1 || voteFrequencies[0][1] > voteFrequencies[1][1])
+            return true;
+        return false;
     }
 
     get leader() {
