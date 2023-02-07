@@ -44,17 +44,19 @@ function Main() {
             .catch(errorAlert);
     }
 
-    if(user.settings.siteColorScheme){
-        if(document.documentElement.classList.contains("light-mode")){
-            document.documentElement.classList.remove("light-mode");
-            }
-        document.documentElement.classList.add("dark-mode");
-    }
-    else{
-        if(document.documentElement.classList.contains("dark-mode")) {
-            document.documentElement.classList.remove("dark-mode");
+    if(user.settings != null){
+        if(user.settings.siteColorScheme){
+            if(document.documentElement.classList.contains("light-mode")){
+                document.documentElement.classList.remove("light-mode");
+                }
+            document.documentElement.classList.add("dark-mode");
         }
-        document.documentElement.classList.add("light-mode");
+        else{
+            if(document.documentElement.classList.contains("dark-mode")) {
+                document.documentElement.classList.remove("dark-mode");
+            }
+            document.documentElement.classList.add("light-mode");
+        }
     }
 
     useEffect(() => {
