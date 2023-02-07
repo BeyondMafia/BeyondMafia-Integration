@@ -16,27 +16,10 @@
 
 .dark-mode{
     --scheme-color: #181a1b;
-    --scheme-color-sec: #1f2123ff;
+    --scheme-color-sec: #1f2123;
     --scheme-color-text: #ffffff;
-    --scheme-color-border: #404548ff;
+    --scheme-color-border: #404548;
 }
-
-/*@media screen and (prefers-color-scheme: light){*/
-/*    :root{*/
-/*        --scheme-color: #fff;*/
-/*        --scheme-color-sec: #f3f3f3;*/
-/*        --scheme-color-text: black;*/
-/*        --scheme-color-border: #c7c7c7;*/
-/*    }*/
-/*}*/
-/*@media screen and (prefers-color-scheme: dark){*/
-/*    :root{*/
-/*        --scheme-color: #181a1b;*/
-/*        --scheme-color-sec: #1f2123ff;*/
-/*        --scheme-color-text: #ffffff;*/
-/*        --scheme-color-border: #404548ff;*/
-/*    }*/
-/*}*/
 
 html,
 body {

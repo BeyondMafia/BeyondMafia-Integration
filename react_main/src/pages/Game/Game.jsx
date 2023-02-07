@@ -23,6 +23,7 @@ import { useErrorAlert } from "../../components/Alerts";
 import { MaxGameMessageLength, MaxWillLength } from "../../Constants";
 
 import "../../css/game.css";
+import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
 
 export default function Game() {
     return (
@@ -1149,7 +1150,7 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: player.textColor } : {}}>
+            <div className={contentClass} style={player && player.textColor ? { color: flipTextColor(player.textColor) } : {}}>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
