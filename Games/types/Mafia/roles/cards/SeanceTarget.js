@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const {PRIORITY_JAIL_MEETING } = require("../../const/Priority");
 
-module.exports = class SeancePlayer extends Card {
+module.exports = class SeanceTarget extends Card {
 
     constructor(role) {
         super(role);

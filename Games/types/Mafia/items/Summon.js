@@ -11,11 +11,11 @@ module.exports = class Summon extends Item {
             "Seance": {
                 actionName: "End Seance",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "mustAct"],
+                flags: ["group", "speech", "voting"],
                 whileDead: true,
                 passiveDead: false,
                 inputType: "boolean",
-                canVote: true
+                canVote: false
             }
         };
     }
