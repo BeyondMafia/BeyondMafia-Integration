@@ -189,6 +189,7 @@
 
 	overflow-x: auto;
 	font-weight: 700;
+	color: var(--scheme-color-text);
 }
 
 .chat-wrapper .channel-top .name-with-avatar {
@@ -205,6 +206,7 @@
 	border-left: 1px solid #c7c7c7;
 
 	cursor: pointer;
+	color: var(--scheme-color-text);
 }
 
 .chat-wrapper .channel-messages {
@@ -276,8 +278,8 @@
 }
 
 .chat-wrapper .message.self .content {
-	background-color: #e2f1ff;
-	color: black;
+	background-color: var(--scheme-color-sec);
+	color: var(--scheme-color-text);
 }
 
 .chat-wrapper .message .content a {

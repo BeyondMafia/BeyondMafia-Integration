@@ -162,7 +162,7 @@
 	margin-bottom: 10px;
 	padding: 5px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .announcements .announcement .top-row {

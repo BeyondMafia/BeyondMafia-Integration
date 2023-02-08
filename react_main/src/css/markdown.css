@@ -18,6 +18,7 @@
 
 .mde-text{
 	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .react-mde button.selected {
@@ -31,7 +32,7 @@
 .react-mde .grip {
 	border-top: 1px solid var(--scheme-color-border);
 
-	color: white;
+	background-color: var(--scheme-color-sec);
 }
 
 .mde-preview.md-content {
