@@ -9,7 +9,7 @@ module.exports = class CryOutVisitors extends Card {
         this.actions = [
             {
                 priority: PRIORITY_CRY_VISITORS,
-                labels: ["hidden"],
+                labels: ["hidden", "absolute"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
