@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_JAIL_EXECUTE, PRIORITY_JAIL_MEETING } = require("../../const/Priority");
+const { PRIORITY_JAIL_EXECUTE, PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 
 module.exports = class JailTarget extends Card {
 
@@ -12,7 +12,7 @@ module.exports = class JailTarget extends Card {
                 flags: ["voting"],
                 action: {
                     labels: ["jail"],
-                    priority: PRIORITY_JAIL_MEETING,
+                    priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
                             this.target.holdItem("Handcuffs");

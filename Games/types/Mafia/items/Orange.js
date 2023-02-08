@@ -1,6 +1,6 @@
-const { PRIORITY_HOT_SPRING } = require("../const/Priority");
 const Item = require("../Item");
-const {HOT_SPRINGS_MEETING_PRIORITY} = require("../const/MeetingPriority");
+const { PRIORITY_HOT_SPRING } = require("../const/Priority");
+const { EXCLUSIVE_PRIORITY_HOT_SPRINGS } = require("../const/MeetingPriority");
 
 module.exports = class Orange extends Item {
 
@@ -27,9 +27,8 @@ module.exports = class Orange extends Item {
             },
             "Hot Springs": {
                 states: ["Night"],
-                flags: ["group", "speech", "anonymous"],
-                exclusive: true,
-                priority: HOT_SPRINGS_MEETING_PRIORITY,
+                flags: ["exclusive", "group", "speech", "anonymous"],
+                priority: EXCLUSIVE_PRIORITY_HOT_SPRINGS,
                 shouldMeet: function () {
                     return this.data.visitHotSprings;
                 }

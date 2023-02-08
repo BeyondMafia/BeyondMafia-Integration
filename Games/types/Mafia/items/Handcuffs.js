@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const {JAIL_MEETING_PRIORITY} = require("../const/MeetingPriority");
+const { EXCLUSIVE_PRIORITY_JAIL } = require("../const/MeetingPriority");
 
 module.exports = class Handcuffs extends Item {
 
@@ -12,11 +12,10 @@ module.exports = class Handcuffs extends Item {
             "Jail": {
                 actionName: "Execute Prisoner",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous"],
+                flags: ["exclusive", "group", "speech", "voting", "anonymous"],
                 inputType: "boolean",
                 canVote: false,
-                exclusive: true,
-                priority: JAIL_MEETING_PRIORITY,
+                priority: EXCLUSIVE_PRIORITY_JAIL,
             }
         };
     }
