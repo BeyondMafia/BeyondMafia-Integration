@@ -451,14 +451,21 @@ module.exports = class Game {
         if (player.left)
             return;
 
+        var ranked = this.ranked;
+        this.ranked = false;
+
         this.queueAction(new Action({
             actor: player,
             target: player,
             game: this,
             run: function () {
                 this.target.kill("veg", this.actor);
+
+                if (ranked)
+                    this.game.queueAlert("This game is now unranked");
             }
         }));
+
         await this.playerLeave(player);
     }
 
@@ -1291,10 +1298,10 @@ module.exports = class Game {
                     { id: player.user.id },
                     {
                         $push: { games: game._id },
-                        $set: { stats: player.user.stats || {}, playedGame: true },
+                        $set: { stats: player.user.stats || { "Mafia": {} }, playedGame: true },
                         $inc: {
                             rankedCount: this.ranked ? 1 : 0,
-                            // coins: this.ranked ? 1 : 0
+                            coins: this.ranked ? 1 : 0
                         }
                     }
                 ).exec();
