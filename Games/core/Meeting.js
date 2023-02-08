@@ -101,7 +101,10 @@ module.exports = class Meeting {
         if (this.voting)
             this.voteVersions[player.id] = { votes: {}, voteRecord: [] }
 
-        if (this.game.setup.whispers && this.name != "Pregame") {
+        if (this.game.setup.whispers && this.name != "Pregame" && 
+            // disable whispers for anonymous meetings that are not the village meeting
+            !(this.anonymous && this.name != "Village") 
+        ) {
             member.speechAbilities.unshift({
                 name: "Whisper",
                 targets: { include: ["members"], exclude: ["self"] },

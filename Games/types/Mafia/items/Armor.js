@@ -8,7 +8,7 @@ module.exports = class Armor extends Item {
         this.uses = 1;
         this.effects = ["Kill Immune"];
         this.listeners = {
-            "immune": function (action) {
+            "immune": function(action) {
                 if (
                     action.target == this.holder &&
                     action.hasLabel("kill") &&

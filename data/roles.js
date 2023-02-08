@@ -271,6 +271,26 @@ const roleData = {
                 "At night, guests will all anonymously meet and see the roles of all guests.",
             ],
         },
+        "Journalist": {
+            alignment: "Village",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+        },
+        "Cutler": {
+            alignment: "Village",
+            description: [
+                "Hands out a knife each night."
+            ],
+        },
+        "Snowman": {
+            alignment: "Village",
+            description: [
+                "Hands out a snowball each night.",
+                "Immune to snowballs"
+            ],
+        },
         "Snoop": {
             alignment: "Village",
             description: [
@@ -282,6 +302,83 @@ const roleData = {
             description: [
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
+            ],
+        },
+        "Cyclist": {
+            alignment: "Village",
+            description: [
+                "Each night, chooses two targets, A and B.",
+                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
+                "Does not visit.",
+                "Redirection cannot be role blocked."
+            ],
+        },
+        "Sapling": {
+            alignment: "Village",
+            description: [
+                "Once per game can choose to turn into a tree at night.",
+                "While a tree, cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Tree": {
+            alignment: "Village",
+            disabled: true,
+            description: [
+                "Cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Baker": {
+            alignment: "Village",
+            description: [
+                "When in the game, everyone starts with two bread.",
+                "Gives out up to two bread each night.",
+                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+            ],
+        },
+        "Virgin": {
+            alignment: "Village",
+            description: [
+                "If executed by the village vote, no one will die the following night.",
+            ],
+        },
+        "Mimic": {
+            alignment: "Village",
+            description: [
+                "Can choose to mimic another player at night and will change based on their alignment.",
+                "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
+            ],
+        },
+        "Judge": {
+            alignment: "Village",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Party Host": {
+            alignment: "Village",
+            description: [
+                "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },      
+        "Ghost": {
+            alignment: "Village",
+            description: [
+                "Appears as villager until death.",
+                "Once dead, may visit one person a night and roleblock them.",
+            ],
+        },
+        "Lightkeeper": {
+            alignment: "Village",
+            description: [
+                "Causes an eclipse during the day following their death.",
+                "All votes and speech are anonymous during an eclipse."
+            ],
+        },
+        "Resurrectionist": {
+            alignment: "Village",
+            description: [
+                "Once per game, visits one dead person during the night.",
+                "That person will be resurrected.",
             ],
         },
 
@@ -332,6 +429,14 @@ const roleData = {
             description: [
                 "Attempts to guess the identity of the Agent each night.",
                 "Kills the Agent if guess is correct."
+            ],
+        },
+        "Ninja": {
+             alignment: "Mafia",
+             description: [
+                 "Does not get detected by watchers and trackers.",
+                 "Can kill bomb without getting killed."
+         
             ],
         },
         "Lawyer": {
@@ -408,6 +513,50 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Tailor": {
+            alignment: "Mafia",
+            description: [
+                "Gives out suits that make the wearer appear to be a different role."
+            ],
+        },
+        "Actress": {
+            alignment: "Mafia",
+            description: [
+                "Learns a targets role and appears to be that role."
+            ],
+        },
+        "Prosecutor": {
+            alignment: "Mafia",
+            description: [
+                "Votes weight is 2."
+            ],
+        },
+        "Fabricator": {
+            alignment: "Mafia",
+            description: [
+                "Once per night can give out an ill-fated version of many items."
+            ],
+        },
+        "Heartbreaker": {
+            alignment: "Mafia",
+            description: [
+                "Once per game can fall in love with another player.",
+                "If Heartbreaker dies, both players will die.",
+            ],
+        },
+        "Yakuza": {
+            alignment: "Mafia",
+            description: [
+                "Can choose to sacrifice themself to convert one player to Mafioso.",
+            ],
+        },
+        "Necromancer": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, visits one dead person during the night.",
+                "That person will be resurrected.",
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -441,6 +590,13 @@ const roleData = {
             description: [
                 "All who visit the Cthulhu go insane.",
                 "Insane players speak gibberish."
+            ],
+        },
+        "The Thing": {
+            alignment: "Monsters",
+            description: [
+                "Can hunt prey at night by choosing a target and guessing their role.",
+                "If guessed correctly, becomes immortal for the next day, if incorrect will be revealed to all."
             ],
         },
 
@@ -497,6 +653,28 @@ const roleData = {
             description: [
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
+            ],
+        },
+        "Lover": {
+            alignment: "Independent",
+            description: [
+                "Once per game can fall in love with another player.",
+                "Both players die if either dies.",
+                "Wins if both players survive until the end of the game.",
+            ],
+        },
+        "Matchmaker": {
+            alignment: "Independent",
+            description: [
+                "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
+                "Wins if all players left alive are in love.",
+            ],
+        },
+        "Vengeful Spirit": {
+            alignment: "Independent",
+            description: [
+                "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
+                "Wins if it kills all of its murderers.",
             ],
         },
     },
