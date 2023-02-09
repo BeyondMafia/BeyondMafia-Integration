@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const { EXCLUSIVE_PRIORITY_BANQUET } = require("../const/MeetingExclusivePriority");
+const { MEETING_PRIORITY_BANQUET } = require("../const/MeetingPriority");
 
 module.exports = class Invitation extends Item {
 
@@ -14,7 +14,7 @@ module.exports = class Invitation extends Item {
                 states: ["Night"],
                 flags: ["exclusive", "group", "speech", "anonymous", "voting", "mustAct", "noVeg"],
                 inputType: "boolean",
-                priority: EXCLUSIVE_PRIORITY_BANQUET,
+                priority: MEETING_PRIORITY_BANQUET,
             }
         };
 
