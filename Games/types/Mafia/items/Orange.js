@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const { PRIORITY_HOT_SPRING } = require("../const/Priority");
+const { PRIORITY_DAY_DEFAULT } = require("../const/Priority");
 const { EXCLUSIVE_PRIORITY_HOT_SPRINGS } = require("../const/MeetingExclusivePriority");
 
 module.exports = class Orange extends Item {
@@ -16,7 +16,7 @@ module.exports = class Orange extends Item {
                 inputType: "boolean",
                 action: {
                     labels: ["springs", "orange"],
-                    priority: PRIORITY_HOT_SPRING,
+                    priority: PRIORITY_DAY_DEFAULT,
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {

@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_BANQUET_MEETING } = require("../../const/Priority");
+const { PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 
 module.exports = class BanquetInvite extends Card {
 
@@ -15,7 +15,7 @@ module.exports = class BanquetInvite extends Card {
                 targets: { include: ["alive"], exclude: [""] },
                 action: {
                     labels: ["giveItem", "Invitation"],
-                    priority: PRIORITY_BANQUET_MEETING,
+                    priority: PRIORITY_DAY_DEFAULT,
                     run: function() {
                         if (this.dominates(this.target[0])) {
                             this.target[0].holdItem("Invitation");
