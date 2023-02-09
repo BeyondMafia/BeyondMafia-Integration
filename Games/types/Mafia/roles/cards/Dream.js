@@ -22,8 +22,12 @@ module.exports = class Dream extends Card {
                         if (action.target == this.actor && !action.hasLabel("hidden"))
                             return;
 
-                    var dream;
                     var alive = this.game.players.filter(p => p.alive && p != this.player);
+
+                    if (alive.length < 3)
+                        return;
+
+                    var dream;
                     var mafia = alive.filter(p => p.role.alignment == "Mafia");
                     var village = alive.filter(p => p.role.alignment == "Village");
                     var chosenThree = [

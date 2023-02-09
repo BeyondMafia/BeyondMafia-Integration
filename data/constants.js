@@ -153,7 +153,6 @@ module.exports = {
     defaultPerms: [
         "signIn",
         "playGame",
-        "hostRanked",
         "createThread",
         "postReply",
         "vote",
@@ -215,7 +214,7 @@ module.exports = {
         "forumBan": true,
         "chatBan": true,
         "gameBan": true,
-        "hostRankedBan": true,
+        "rankedBan": true,
         "siteBan": true,
         "forumUnban": true,
         "chatUnban": true,
@@ -246,6 +245,9 @@ module.exports = {
         "announce": true,
         "blockName": true,
         "approvePending": true,
+        "reviewPrivate": true,
+        "approveRanked": true,
+        "playRanked": true,
     },
     defaultGroups: {
         "Owner": {
@@ -277,6 +279,7 @@ module.exports = {
                 "scheduleRestart",
                 "disableAllCensors",
                 "kick",
+                "reviewPrivate",
             ]
         },
         "Admin": {
@@ -308,7 +311,7 @@ module.exports = {
                 "forumUnban",
                 "chatUnban",
                 "gameUnban",
-                "hostRankedBan",
+                "rankedBan",
                 "siteUnban",
                 "forceSignOut",
                 "viewAlts",
@@ -329,6 +332,10 @@ module.exports = {
                 "viewFlagged",
                 "blockName",
                 "approvePending",
+                "changeUsersName",
+                "reviewPrivate",
+                "approveRanked",
+                "playRanked",
             ]
         },
         "Head Mod": {
@@ -348,7 +355,7 @@ module.exports = {
                 "forumBan",
                 "chatBan",
                 "gameBan",
-                "hostRankedBan",
+                "rankedBan",
                 "siteBan",
                 "forumUnban",
                 "chatUnban",
@@ -372,6 +379,9 @@ module.exports = {
                 "viewFlagged",
                 "blockName",
                 "approvePending",
+                "reviewPrivate",
+                "approveRanked",
+                "playRanked",
             ]
         },
         "Mod": {
@@ -391,7 +401,7 @@ module.exports = {
                 "forumBan",
                 "chatBan",
                 "gameBan",
-                "hostRankedBan",
+                "rankedBan",
                 "siteBan",
                 "forumUnban",
                 "chatUnban",
@@ -413,6 +423,16 @@ module.exports = {
                 "announce",
                 "viewFlagged",
                 "approvePending",
+                "reviewPrivate",
+                "approveRanked",
+                "playRanked",
+            ]
+        },
+        "Ranked Player": {
+            rank: 0,
+            visible: false,
+            perms: [
+                "playRanked",
             ]
         },
     },

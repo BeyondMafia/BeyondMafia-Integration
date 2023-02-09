@@ -31,8 +31,12 @@ module.exports = class Carol extends Card {
                             }
                         }
 
-                        var carol;
                         var alive = this.game.players.filter(p => p.alive);
+
+                        if (alive.length < 3)
+                            return;
+
+                        var carol;
                         var mafia = alive.filter(p => p.role.alignment == "Mafia");
                         var chosenThree = [
                             Random.randArrayVal(alive, true),
