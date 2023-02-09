@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const { EXCLUSIVE_PRIORITY_BANQUET } = require("../const/MeetingPriority");
+const { EXCLUSIVE_PRIORITY_BANQUET } = require("../const/MeetingExclusivePriority");
 
 module.exports = class Invitation extends Item {
 
@@ -23,8 +23,7 @@ module.exports = class Invitation extends Item {
                 if (meeting.name === "Banquet") {
                     let players = meeting.members.map(a => a.player);
                     let roles = players.map(a => a.role.name);
-                    let alert = "You look around the dinner table and see: " + roles.toString();
-                    this.game.sendAlert(alert, players);
+                    this.game.sendAlert(`You look around the dinner table and see: ${roles.join(", ")}`, [this.holder]);
                 }
             }
         };

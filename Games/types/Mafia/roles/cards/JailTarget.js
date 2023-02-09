@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const { EXCLUSIVE_PRIORITY_JAIL } = require("../../const/MeetingExclusivePriority");
 const { PRIORITY_JAIL_EXECUTE, PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 
 module.exports = class JailTarget extends Card {
@@ -24,9 +25,10 @@ module.exports = class JailTarget extends Card {
             "Jail": {
                 actionName: "Execute Prisoner",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous"],
+                flags: ["exclusive", "group", "speech", "voting", "anonymous"],
                 inputType: "boolean",
                 leader: true,
+                priority: EXCLUSIVE_PRIORITY_JAIL,
                 shouldMeet: function () {
                     for (let player of this.game.players)
                         if (player.hasItem("Handcuffs"))

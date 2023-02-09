@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const { EXCLUSIVE_PRIORITY_JAIL } = require("../const/MeetingPriority");
+const { EXCLUSIVE_PRIORITY_JAIL } = require("../const/MeetingExclusivePriority");
 
 module.exports = class Handcuffs extends Item {
 

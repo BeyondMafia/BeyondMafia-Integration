@@ -1,6 +1,6 @@
 const Item = require("../Item");
 const { PRIORITY_HOT_SPRING } = require("../const/Priority");
-const { EXCLUSIVE_PRIORITY_HOT_SPRINGS } = require("../const/MeetingPriority");
+const { EXCLUSIVE_PRIORITY_HOT_SPRINGS } = require("../const/MeetingExclusivePriority");
 
 module.exports = class Orange extends Item {
 
