@@ -1,8 +1,8 @@
 // for meetings that have the exclusive flag
 
 const EXCLUSIVE_PRIORITY_HOT_SPRINGS = 1
-const EXCLUSIVE_PRIORITY_BANQUET = 2
-const EXCLUSIVE_PRIORITY_JAIL = 3
+const EXCLUSIVE_PRIORITY_BANQUET = 5
+const EXCLUSIVE_PRIORITY_JAIL = 10
 
 module.exports = {
     EXCLUSIVE_PRIORITY_HOT_SPRINGS,
