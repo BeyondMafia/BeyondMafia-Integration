@@ -550,6 +550,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
 
         //Monsters
         "Lycan": {
