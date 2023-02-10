@@ -22,9 +22,9 @@ module.exports = class TailorSuit extends Card {
             },
             "Choose Suit": {
                 states: ["Night"],
-                flags: ["voting"],
-                inputType: "alignment",
-                targets: [],
+                flags: ["voting", "mustAct", "noVeg"],
+                inputType: "role",
+                targets: { include: ["all"] },
                 action: {
                     labels: ["giveItem", "suit"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 1,
@@ -32,14 +32,6 @@ module.exports = class TailorSuit extends Card {
                         this.actor.role.data.suit = this.target;
                     }
                 }
-            }
-        };
-        this.listeners = {
-            "rolesAssigned": function () {
-                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
-            },
-            "afterActions": function () {
-                this.player.role.meetings["Choose Suit"].targets = Array.from(new Set(this.game.players.map(a => a.role.name))).sort();
             }
         };
     }
