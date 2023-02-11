@@ -670,6 +670,16 @@ const roleData = {
                 "Wins if it kills all of its murderers.",
             ],
         },
+        "Clockmaker": {
+            alignment: "Independent",
+            description: [
+                "Can kill one player each night.",
+                "Has a clock that starts at 6.",
+                "Whenever they kill a player the clock changes based on that player's alignment.",
+                "Goes up by 1 for village, up by 2 for Mafia or Monster, down by 3 for independant.",
+                "Wins when if clock strikes 12, gains an extra life at 9, instantly dies at 3."
+                ],
+        },
     },
     "Split Decision": {
         //Blue
