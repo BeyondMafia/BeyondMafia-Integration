@@ -15,6 +15,7 @@ module.exports = class Cursed extends Effect {
             var action = new Action({
                 actor: this.actor,
                 target: this.player,
+                game: this.actor.game,
                 labels: ["kill", "curse"],
                 run: function () {
                     if (this.dominates())
