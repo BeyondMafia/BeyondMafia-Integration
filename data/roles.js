@@ -374,6 +374,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
