@@ -463,7 +463,7 @@ module.exports = class Player {
 
         var voterId = vote.voter.id;
 
-        if (vote.meeting.anonymous)
+        if (vote.meeting.anonymous || vote.meeting.anonymousVotes)
             voterId = vote.meeting.members[voterId].anonId;
 
         this.send("vote", {
@@ -495,7 +495,7 @@ module.exports = class Player {
 
         var voterId = info.voter.id;
 
-        if (info.meeting.anonymous)
+        if (info.meeting.anonymous || vote.meeting.anonymousVotes)
             voterId = info.meeting.members[voterId].anonId;
 
         this.send("unvote", {

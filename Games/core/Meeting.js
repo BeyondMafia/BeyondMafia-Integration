@@ -20,6 +20,7 @@ module.exports = class Meeting {
         this.voting = false;
         this.instant = false;
         this.anonymous = false;
+        this.anonymousVotes = false;
         this.noUnvote = false;
         this.multi = false;
         this.repeatable = false;
@@ -151,7 +152,7 @@ module.exports = class Meeting {
     }
 
     init() {
-        if (this.anonymous)
+        if (this.anonymous || this.anonymousVotes)
             for (let member of this.members)
                 member.anonId = shortid.generate();
 
@@ -207,7 +208,7 @@ module.exports = class Meeting {
                 voteRecord = this.voteRecord;
             }
 
-            if (this.anonymous) {
+            if (this.anonymous || this.anonymousVotes) {
                 votes = { ...votes };
                 voteRecord = [...voteRecord];
 
@@ -234,6 +235,7 @@ module.exports = class Meeting {
             voting: this.voting,
             instant: this.instant,
             anonymous: this.anonymous,
+            anonymousVotes: this.anonymousVotes,
             votesInvisible: this.votesInvisible,
             multi: this.multi,
             targets: this.targets,

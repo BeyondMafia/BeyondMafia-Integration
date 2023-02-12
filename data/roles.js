@@ -100,6 +100,12 @@ const roleData = {
                 "Tracks someone each night and learns who they visit."
             ],
         },
+        "Governor": {
+            alignment: "Village",
+            description: [
+                "Can override a lynch once per game. (including no-lynches)"
+            ],
+        },
         "Monkey": {
             alignment: "Village",
             description: [
