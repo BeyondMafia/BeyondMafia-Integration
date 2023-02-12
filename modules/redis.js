@@ -513,7 +513,7 @@ async function createGame(gameId, info) {
     }
 }
 
-async function joinGame(userId, gameId) {
+async function joinGame(userId, gameId, ranked) {
     const currentGame = await client.getAsync(`user:${userId}:game`);
 
     if (currentGame == gameId)
@@ -524,16 +524,18 @@ async function joinGame(userId, gameId) {
     await client.saddAsync(`game:${gameId}:players`, userId);
     await client.setAsync(`user:${userId}:game`, gameId);
 
-    var ban = new models.Ban({
-        id: shortid.generate(),
-        userId,
-        modId: null,
-        expires: 0,
-        permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
-        type: "gameAuto",
-        auto: true
-    });
-    await ban.save();
+    if (ranked){
+        var ban = new models.Ban({
+            id: shortid.generate(),
+            userId,
+            modId: null,
+            expires: 0,
+            permissions: ["createThread", "postReply", "editPost", "publicChat", "privateChat"],
+            type: "gameAuto",
+            auto: true
+        });
+        await ban.save();
+    }
     await cacheUserPermissions(userId);
 }
 
