@@ -1,9 +1,18 @@
 const Card = require("../../Card");
 
-module.exports = class KnowSpies extends Card {
+module.exports = class SpyCore extends Card {
 
     constructor(role) {
         super(role);
+
+        this.appearance = {
+            merlin: "Spy"
+        };
+        this.meetingMods = {
+            "Mission Success": {
+                flags: ["voting", "mustAct", "includeNo"]
+            }
+        };
 
         this.listeners = {
             "start": function() {
@@ -11,11 +20,10 @@ module.exports = class KnowSpies extends Card {
                     return;
 
                 for (let player of this.game.players) {
-                    if (
-                        player.role.alignment == "Spies" &&
-                        player != this.player &&
+                    if (player.role.alignment === "Spies" &&
+                        player !== this.player &&
                         !player.role.oblivious["self"]
-                    ) {
+                        ) {
                         this.revealToPlayer(player);
                     }
                 }
