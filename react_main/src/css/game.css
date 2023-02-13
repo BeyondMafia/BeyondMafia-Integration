@@ -629,6 +629,105 @@
 	color: var(--scheme-color-text);
 }
 
+/* resistance */
+
+.game .rst {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+
+	margin-bottom: 10px;
+	padding: 0px 5px;
+
+	color: #bd4c4c;
+}
+
+.game .rst-name {
+	margin-top: 10px;
+	padding-top: 0px;
+
+	font-weight: bold;
+}
+
+.game .rst-score {
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+
+	margin-bottom: 10px;
+	padding: 0px 5px;
+}
+
+.game .rst-score-box {
+	float: left;
+	margin: 10px 10px;
+}
+
+.game .rst-score-box-name {
+	margin: 10px auto;
+	text-align: center;
+
+	font-weight: bold;
+
+	color: #bd4c4c;
+}
+
+.game .rst-score-box-value {
+	width:100px;
+	height:100px;
+
+	text-align: center;
+
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 60px;
+
+	color: black;
+}
+
+.game .rst-score-box-rebels {
+	background-color: #66afef;
+}
+
+.game .rst-score-box-spies {
+	background-color: #ff4e4e;
+}
+
+.game .rst-mh-all-rows {
+	flex-flow: row wrap;
+}
+
+.game .rst-mh-row {
+	display: flex;
+	float: left;
+}
+
+.game .rst-mh-status {
+	width: 20px;
+	height: 20px;
+	-moz-border-radius: 10px; 
+	-webkit-border-radius: 10px; 
+	border-radius: 10px;
+	text-align: center;
+	color: black;
+}
+
+.game .rst-mh-success {
+	background: #66afef; 
+}
+
+.game .rst-mh-fail {
+	background: #ff4e4e;
+}
+
+.game .rst-mh-team {
+	padding: 0px 5px;
+
+	flex-flow: row wrap;
+	margin-left: 5px;
+	color: black;
+}
+
 .game .last-will-wrapper,
 .game .notes-wrapper {
 	display: flex;
