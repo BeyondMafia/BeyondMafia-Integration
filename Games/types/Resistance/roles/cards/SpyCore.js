@@ -6,9 +6,13 @@ module.exports = class SpyCore extends Card {
         super(role);
 
         this.appearance.merlin = "Spy";
+
         this.meetingMods = {
             "Mission Success": {
                 flags: ["voting", "mustAct", "includeNo"]
+            },
+            "Identify Merlin": {
+                canVote: true
             }
         };
 
