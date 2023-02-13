@@ -7,7 +7,7 @@ module.exports = class Mortician extends Role {
         this.alignment = "Village";
         this.cards = ["VillageCore", "WinWithVillage", "RoleLearner"];
         this.meetingMods = {
-            "Block": {
+            "Learn Role": {
                 targets: { include: ["dead"], exclude: ["alive", "self"] },
             }
         };
