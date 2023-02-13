@@ -8,8 +8,8 @@ module.exports = class Foresight extends Card {
         this.listeners = {
             "start": function() {
                 for (let player of this.game.players) {
-                    if (player.role.appearance["merlin"]) {
-                        this.revealToPlayer(player, false, "merlin");
+                    if (player.role.appearance.merlin) {
+                        player.role.revealToPlayer(this.player, false, "merlin");
                     }
                 }
             }

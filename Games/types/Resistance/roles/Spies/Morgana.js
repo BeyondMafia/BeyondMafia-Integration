@@ -6,9 +6,7 @@ module.exports = class Morgana extends Role {
         super("Morgana", player, data);
 
         this.alignment = "Spies";
-        this.appearance = {
-            percival : "Merlin"
-        };
+        this.appearance.percival = "Merlin";
         this.cards = ["TeamCore", "WinWithSpies", "SpyCore"];
     }
 }

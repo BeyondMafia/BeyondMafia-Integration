@@ -8,8 +8,8 @@ module.exports = class KnowMerlin extends Card {
         this.listeners = {
             "start": function() {
                 for (let player of this.game.players) {
-                    if (player.role.appearance["percival"]) {
-                        this.revealToPlayer(player, false, "percival");
+                    if (player.role.appearance.percival) {
+                        player.role.revealToPlayer(this.player, false, "percival");
                     }
                 }
             }

@@ -6,9 +6,7 @@ module.exports = class Merlin extends Role {
         super("Merlin", player, data);
 
         this.alignment = "Resistance";
-        this.appearance = {
-            percival : "Merlin"
-        };
+        this.appearance.percival = "Merlin";
         this.cards = ["TeamCore", "WinWithResistance", "Foresight"];
     }
 
