@@ -33,7 +33,7 @@ module.exports = class HuntPrey extends Card {
             },
             "Prey's form": {
                 states: ["Night"],
-                flags: ["voting", "mustAct", "noVeg"],
+                flags: ["voting", "mustAct", "noVeg", "shuffleInputOrder"],
                 inputType: "role",
                 targets: { include: ["all"] },
                 action: {

@@ -419,6 +419,10 @@ module.exports = class Meeting {
         else
             finalTargets = Object.keys(roleList);
 
+        if (this.shuffleInputOrder) {
+            finalTargets = Random.randomizeArray( finalTargets );
+        }
+
         return finalTargets;
     }
 
