@@ -714,7 +714,12 @@ module.exports = class Meeting {
             message.prefix = `whispers to ${recipientMember.player.name}`;
         }
 
-        if (!message.recipients)
+        let whisperChance = -1;
+        if(this.game.setup.leakPercentage > 0){
+            whisperChance = Random.randInt(0, 100);
+        }
+       
+        if (!message.recipients || ( whisperChance > 0 && whisperChance <= this.game.setup.leakPercentage))
             message.recipients = this.getPlayers();
 
         if (message.recipients.length == 0)
