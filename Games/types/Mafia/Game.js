@@ -56,9 +56,15 @@ module.exports = class MafiaGame extends Game {
             }));
 
             player.recordStat("survival", false);
+            player.recordStart("abandons", true);
         }
 
         await super.playerLeave(player);
+    }
+
+    async vegPlayer(player) {
+        player.recordStart("abandons", true);
+        super.vegPlayer(player);
     }
 
     incrementState() {

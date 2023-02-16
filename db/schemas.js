@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var stats = require("./stats");
 
 var schemas = {
     "User": new mongoose.Schema({
@@ -50,26 +51,7 @@ var schemas = {
             twoCharName: { type: Number, default: 0 },
             oneCharName: { type: Number, default: 0 },
         },
-        stats: {
-            "Mafia": {
-                reads: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                survival: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                participation: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                wins: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-            }
-        },
+        stats: stats.allStats,
         nameChanged: false,
         playedGame: false,
         referrer: String,
@@ -407,6 +389,5 @@ schemas.Ban.virtual("mod", {
     foreignField: "id",
     justOne: true
 });
-
 
 module.exports = schemas;

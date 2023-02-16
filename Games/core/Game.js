@@ -458,6 +458,7 @@ module.exports = class Game {
             actor: player,
             target: player,
             game: this,
+            labels: ["hidden", "absolute"],
             run: function () {
                 this.target.kill("veg", this.actor);
 
