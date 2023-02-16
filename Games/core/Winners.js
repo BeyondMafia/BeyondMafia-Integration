@@ -31,9 +31,12 @@ module.exports = class Winners {
     determinePlayers() {
         var players = {};
 
-        for (let group in this.groups)
-            for (let player of this.groups[group])
+        for (let group in this.groups) {
+            for (let player of this.groups[group]) {
                 players[player.id] = player;
+                player.won = true;
+            }
+        }
 
         this.players = Object.values(players);
     }

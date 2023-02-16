@@ -56,15 +56,22 @@ module.exports = class MafiaGame extends Game {
             }));
 
             player.recordStat("survival", false);
-            player.recordStart("abandons", true);
+            player.recordStat("abandons", true);
         }
 
         await super.playerLeave(player);
     }
 
     async vegPlayer(player) {
-        player.recordStart("abandons", true);
+        player.recordStat("abandons", true);
         super.vegPlayer(player);
+    }
+
+    start() {
+        for (let player of this.players)
+            player.recordStat("totalGames");
+
+        super.start();
     }
 
     incrementState() {
@@ -224,7 +231,7 @@ module.exports = class MafiaGame extends Game {
 
     async endGame(winners) {
         for (let player of this.players) {
-            if (winners.players.indexOf(player) != -1)
+            if (player.won)
                 player.recordStat("wins", true);
             else
                 player.recordStat("wins", false);

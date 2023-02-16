@@ -38,7 +38,6 @@ var schemas = {
         setups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         favSetups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }],
-        rankedCount: Number,
         globalNotifs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Notification" }],
         blockedUsers: [String],
         coins: { type: Number, default: 0 },
@@ -51,7 +50,8 @@ var schemas = {
             twoCharName: { type: Number, default: 0 },
             oneCharName: { type: Number, default: 0 },
         },
-        stats: stats.allStats,
+        stats: {},
+        rankedPoints: { type: Number, default: 0 },
         nameChanged: false,
         playedGame: false,
         referrer: String,
@@ -95,8 +95,8 @@ var schemas = {
         featured: { type: Boolean, index: true },
         ranked: { type: Boolean, default: false },
         played: { type: Number, index: true },
-        rolePlays: { type: Map, of: Number },
-        roleWins: { type: Map, of: Number }
+        rolePlays: {},
+        roleWins: {}
     }),
     "Game": new mongoose.Schema({
         id: { type: String, index: true },

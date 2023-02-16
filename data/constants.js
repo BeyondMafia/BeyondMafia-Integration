@@ -102,6 +102,7 @@ module.exports = {
     maxWillNewLines: 4,
     maxSetupNameLength: 25,
     gameReserveTime: 5 * 60 * 1000,
+    minRolePlaysForPoints: 20,
 
     msgSpamSumLimit: 15,
     msgSpamRateLimit: 10,

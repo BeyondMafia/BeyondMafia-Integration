@@ -1,45 +1,40 @@
 const mafiaStatsObj = {
-    totalGames: { type: Number, default: 0 },
+    totalGames: 0,
     reads: {
-        count: { type: Number, default: 0 },
-        total: { type: Number, default: 0 },
+        count: 0,
+        total: 0,
     },
     survival: {
-        count: { type: Number, default: 0 },
-        total: { type: Number, default: 0 },
+        count: 0,
+        total: 0,
     },
     participation: {
-        count: { type: Number, default: 0 },
-        total: { type: Number, default: 0 },
+        count: 0,
+        total: 0,
     },
     wins: {
-        count: { type: Number, default: 0 },
-        total: { type: Number, default: 0 },
+        count: 0,
+        total: 0,
     },
     abandons: {
-        count: { type: Number, default: 0 },
-        total: { type: Number, default: 0 },
+        count: 0,
+        total: 0,
     },
 };
 
 const mafiaStatsSet = {
     all: mafiaStatsObj,
-    bySetup: {
-        type: Map,
-        of: mafiaStatsObj
-    },
-    byRole: {
-        type: Map,
-        of: mafiaStatsObj
-    },
-    byAlignment: {
-        type: Map,
-        of: mafiaStatsObj
-    },
+    bySetup: {},
+    byRole: {},
+    byAlignment: {},
 };
 
 const allStats = {
     "Mafia": mafiaStatsSet,
 };
 
-module.exports = allStats; 
+module.exports = {
+    allStats: () => JSON.parse(JSON.stringify(allStats)),
+    statsSet: (gameType) => JSON.parse(JSON.stringify(allStats[gameType])),
+    statsObj: (gameType) => JSON.parse(JSON.stringify(allStats[gameType].all)),
+}; 

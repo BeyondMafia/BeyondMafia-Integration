@@ -30,6 +30,7 @@ module.exports = class Player {
         this.tempAppearance = {};
         this.history = new History(this.game, this);
         this.ready = false;
+        this.won = false;
         this.deathMessages = deathMessages;
         this.revivalMessages = revivalMessages;
     }
@@ -875,12 +876,12 @@ module.exports = class Player {
             return;
 
         if (!this.user.stats[this.game.type])
-            this.user.stats[this.game.type] = dbStats[this.game.type];
+            this.user.stats[this.game.type] = dbStats.statsSet(this.game.type);
 
         const stats = this.user.stats[this.game.type];
 
         if (!stats.all)
-            stats.all = dbStats[this.game.type].all;
+            stats.all = dbStats.statsObj(this.game.type);
 
         this.updateStatsObj(stats.all, stat, inc);
         this.updateStatsMap(stats, "bySetup", this.game.setup.id, stat, inc);
@@ -895,11 +896,11 @@ module.exports = class Player {
 
     updateStatsMap(stats, mapName, key, stat, inc) {
         if (!stats[mapName])
-            stats[mapName] = new Map();
+            stats[mapName] = {};
 
-        const statsObj = stats[mapName].get(key) || dbStats[this.game.type].all;
+        const statsObj = stats[mapName][key] || dbStats.statsObj(this.game.type);
         this.updateStatsObj(statsObj, stat, inc);
-        stats[mapName].set(key, statsObj);
+        stats[mapName][key] = statsObj;
     }
 
     updateStatsObj(stats, stat, inc) {
