@@ -55,8 +55,10 @@ module.exports = class MafiaGame extends Game {
                 }
             }));
 
-            player.recordStat("survival", false);
-            player.recordStat("abandons", true);
+            if (!this.finished) {
+                player.recordStat("survival", false);
+                player.recordStat("abandons", true);
+            }
         }
 
         await super.playerLeave(player);
@@ -68,10 +70,10 @@ module.exports = class MafiaGame extends Game {
     }
 
     start() {
+        super.start();
+
         for (let player of this.players)
             player.recordStat("totalGames");
-
-        super.start();
     }
 
     incrementState() {

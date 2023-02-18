@@ -1,22 +1,18 @@
 const mafiaStatsObj = {
     totalGames: 0,
-    reads: {
-        count: 0,
-        total: 0,
-    },
-    survival: {
-        count: 0,
-        total: 0,
-    },
-    participation: {
-        count: 0,
-        total: 0,
-    },
     wins: {
         count: 0,
         total: 0,
     },
     abandons: {
+        count: 0,
+        total: 0,
+    },
+    reads: {
+        count: 0,
+        total: 0,
+    },
+    survival: {
         count: 0,
         total: 0,
     },

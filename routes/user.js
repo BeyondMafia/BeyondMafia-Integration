@@ -188,13 +188,13 @@ router.get("/:id/profile", async function (req, res) {
         var allStats = dbStats.allStats();
         user.stats = user.stats || allStats;
 
-        for (let gameType of allStats) {
+        for (let gameType in allStats) {
             if (!user.stats[gameType])
                 user.stats[gameType] = dbStats.statsSet(gameType);
             else {
                 let statsSet = dbStats.statsSet(gameType);
 
-                for (let objName of statsSet)
+                for (let objName in statsSet)
                     if (!user.stats[gameType][objName])
                         user.stats[gameType][objName] = statsSet[objName];
             }
