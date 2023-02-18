@@ -367,6 +367,14 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Trickster": {
+            alignment: "Village",
+            description: [
+                "Every night, gives a random player an item which has a 50% chance to be cursed.",
+                "The item can be a Gun, a Knife, Armor, or a Snowball.",
+                "Appears as Villager to self.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
