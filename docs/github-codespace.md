@@ -10,21 +10,26 @@ Disclaimer: It is a billable service. You can monitor your usage and billing [he
 
 ## Create a Codespace
 
-Create a Codespace from your fork. The codespace will open in a new browser tab.
+1. Create a Codespace from your fork.
 
 ![create codespace](https://user-images.githubusercontent.com/24848927/219880024-8414b3e9-656a-4e50-abb6-0d042b5952e8.png)
 
-Configure Node. For consistency, this project uses `14.15.1`.
+The default codespace comes pre-configured with docker, which can be used when setting up Mongo and Redis.
+
+2. Configure Node. For consistency, this project uses `14.15.1`.
 
 ```
 nvm install 14.15.1
 nvm alias default 14.15.1
 ```
 
-The default codespace comes pre-configured with docker, which can be used when setting up Mongo and Redis.
+3. (optional) You can also connect to this codespace using a local VS Code. You will be prompted to install a Github Codespace extension.
+
+![image](https://user-images.githubusercontent.com/24848927/219895626-6e680e8c-49b3-4b67-83cf-5287b3b762c8.png)
+
 
 ## Important: Stopping Codespace
 
-This repository runs docker, redis and pm2 services in the background. It can cause your codespace usage to rack up overnight. Remember to shutdown your instance after each development session.
+This repository runs mongo, redis and pm2 services in the background. It can cause your codespace usage to rack up overnight. Remember to shutdown your instance after each development session.
 
 ![shutdown](https://user-images.githubusercontent.com/24848927/219884970-e323877b-aeb9-4dbf-bbaf-7c18304353ca.png)
