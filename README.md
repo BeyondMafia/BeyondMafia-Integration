@@ -12,41 +12,59 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 
 ## Running the site locally
 
-> If you're not able to run it locally, check out [this guide](/docs/github-codespace.md) for running the code remotely on Github Codespaces for free.
+> If you don't have a working dev environment, you can check out [this guide](/docs/github-codespace.md) for running the code remotely on Github Codespaces.
 
-1. Install node.js (the server uses node 14.15.1)
+#### Prerequisites
+
+1. Install node.js, and set the version to `v14.15.1`.
 
 2. Install MongoDB and Redis and run them as services. If using Windows, install Memurai instead of Redis. You can refer to [this guide](/docs/mongo-redis-docker.md) for setting up MongoDB and Redis via docker.
 
-3. Install pm2
-```bash
-npm i -g pm2
-```
-
-4. Clone your forked repository. Replace "r3ndd" with your github username.
+3. Clone your forked repository. Replace "r3ndd" with your github username.
 
 ```bash
 git clone https://github.com/r3ndd/BeyondMafia-Integration.git
 ```
 
-5. Install the node modules
+#### Install node modules
+
+1. Install pm2 globally.
+
+```bash
+npm i -g pm2
+```
+
+2. Install backend node modules.
+
 ```bash
 cd BeyondMafia-Integration 
 npm install
+```
+
+3. Install frontend node modules.
+```bash
 cd react_main
 npm install
 ```
 
-6. Create `.env` file for the server under `BeyondMafia-Integration/.env`, and copy this [example file](/docs/server_env)
+#### Setup environment variables
 
-7. Create a `.env` file for the React app under `BeyondMafia-Integration/react_main/.env` and copy this [example file](/docs/client_env)
+1. Create `.env` file for the server under `BeyondMafia-Integration/.env`, and copy this [example file](/docs/server_env)
 
-8. Refer to [this guide](/docs/dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
+2. Create a `.env` file for the React app under `BeyondMafia-Integration/react_main/.env` and copy this [example file](/docs/client_env)
 
-9. Start the server processes and the React dev server
+3. Refer to [this guide](/docs/dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
+
+#### Start the site
+
+1. Start the backend server
 ```
 cd BeyondMafia-Integration 
 npm start
+```
+
+2. Start the frontend React app
+```
 cd react_main
 npm start
 ```

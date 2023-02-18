@@ -8,13 +8,13 @@ Disclaimer: It is a billable service. You can monitor your usage and billing [he
 
 ![codespace billing](https://user-images.githubusercontent.com/24848927/219879748-0677911b-65bb-4d02-b8e0-873574adaa2e.png)
 
+By default, the spending limit is $0. The monthly quota should be sufficient for light testing of this repository.
+
 ## Create a Codespace
 
 1. Create a Codespace from your fork.
 
 ![create codespace](https://user-images.githubusercontent.com/24848927/219880024-8414b3e9-656a-4e50-abb6-0d042b5952e8.png)
-
-The default codespace comes pre-configured with docker, which can be used when setting up Mongo and Redis.
 
 2. Configure Node. For consistency, this project uses `14.15.1`.
 
@@ -27,6 +27,7 @@ nvm alias default 14.15.1
 
 ![image](https://user-images.githubusercontent.com/24848927/219895626-6e680e8c-49b3-4b67-83cf-5287b3b762c8.png)
 
+4. The rest of the setup is consistent with the `README`. The default codespace comes pre-configured with docker, which can be used when setting up Mongo and Redis.
 
 ## Important: Stopping Codespace
 
