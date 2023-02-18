@@ -11,6 +11,9 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 
 
 ## Running the site locally
+
+> If you're not able to run it locally, check out [this guide](/docs/github-codespace.md) for running the code remotely on Github Codespaces for free.
+
 1. Install node.js (the server uses node 14.15.1)
 
 2. Install MongoDB and Redis and run them as services. If using Windows, install Memurai instead of Redis. You can refer to [this guide](/docs/mongo-redis-docker.md) for setting up MongoDB and Redis via docker.

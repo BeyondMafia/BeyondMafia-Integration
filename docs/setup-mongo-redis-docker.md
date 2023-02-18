@@ -35,7 +35,7 @@ admin>
 admin> use beyondmafia
 switched to db beyondmafia
 
-beyondmafia> 
+beyondmafia> exit
 ```
 
 5. Fill in the `.env` for the backend.
