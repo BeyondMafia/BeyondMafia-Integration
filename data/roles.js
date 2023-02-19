@@ -645,6 +645,7 @@ const roleData = {
             alignment: "Independent",
             description: [
                 "The game begins with a famine, with each player starting with four bread.",
+                "Turkeys are immune to the famine",
                 "Whenever a turkey dies, the village turns it into food to survive the famine.",
                 "The turkeys win if they survive to the end of the game and everyone else dies of famine.",
             ],
