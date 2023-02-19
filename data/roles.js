@@ -318,7 +318,7 @@ const roleData = {
             description: [
                 "When in the game, everyone starts with two bread.",
                 "Gives out up to two bread each night.",
-                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+                "If all bakers die, a famine will start.",
             ],
         },
         "Virgin": {
@@ -644,7 +644,7 @@ const roleData = {
         "Turkey": {
             alignment: "Independent",
             description: [
-                "The game begins with a famine, with each player starting with 4 bread.",
+                "The game begins with a famine, with each player starting with four bread.",
                 "Whenever a turkey dies, the village turns it into food to survive the famine.",
                 "The turkeys win if they survive to the end of the game and everyone else dies of famine.",
             ],
