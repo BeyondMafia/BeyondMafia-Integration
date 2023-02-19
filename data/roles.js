@@ -641,6 +641,14 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Turkey": {
+            alignment: "Independent",
+            description: [
+                "The game begins with a famine, with each player starting with 4 bread.",
+                "Whenever a turkey dies, the village turns it into food to survive the famine.",
+                "The turkeys win if they survive to the end of the game and everyone else dies of famine.",
+            ],
+        }
     },
     "Split Decision": {
         //Blue

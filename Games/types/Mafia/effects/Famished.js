@@ -12,30 +12,36 @@ module.exports = class Famished extends Effect {
                     return;
 
                 let bakerAlive = false;
+                let turkeyInGame = false;
                 for (let player of this.game.players){
-                    if (player.alive && player.role.name === "Baker"){
+                    if (player.role.name === "Baker" && player.alive){
                         bakerAlive = true;
-                        break;
+                    }
+                    if (player.role.name === "Turkey"){
+                        turkeyInGame = true;
                     }
                 }
 
                 if(bakerAlive)
                     return;
 
-                if (this.player.hasItem("Bread")){
+                if (this.player.hasItem("Turkey")){
+                    this.player.dropItem("Turkey", false);
+                } else if (this.player.hasItem("Bread")){
                     this.player.dropItem("Bread", false);
                 }else{
-                    this.game.queueAction(new Action({
-                        actor: this.player,
-                        target: this.player,
-                        game: this.player.game,
-                        power: 5,
-                        labels: ["kill", "famine"],
-                        run: function () {
-                            if (this.dominates())
-                                this.target.kill("basic", this.actor);
-                        }
-                    }));
+                    if (this.player.role.name !== "Turkey")
+                        this.game.queueAction(new Action({
+                            actor: this.player,
+                            target: this.player,
+                            game: this.player.game,
+                            power: 5,
+                            labels: ["kill", "famine"],
+                            run: function () {
+                                if (this.dominates())
+                                    this.target.kill("basic", this.actor);
+                            }
+                        }));
                 }
             }
         };
