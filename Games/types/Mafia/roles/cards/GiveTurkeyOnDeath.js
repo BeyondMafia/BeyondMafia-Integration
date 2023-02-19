@@ -19,11 +19,11 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                         if (item == "Bread")
                             breadCount++;
                     }
-                    while (breadCount <= 4){
+                    while (breadCount < 4){
                         player.holdItem("Bread");
                         breadCount++;
                     }
-                    if(!player.hasEffect("Famished") && !player.role.name === "Turkey"){
+                    if(!player.hasEffect("Famished") && player.role.name !== "Turkey"){
                         player.giveEffect("Famished");
                     }
                 }

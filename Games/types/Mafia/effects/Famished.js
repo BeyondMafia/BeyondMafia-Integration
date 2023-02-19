@@ -22,7 +22,7 @@ module.exports = class Famished extends Effect {
                     }
                 }
 
-                if(bakerAlive)
+                if(bakerAlive && !turkeyInGame)
                     return;
 
                 if (this.player.hasItem("Turkey")){

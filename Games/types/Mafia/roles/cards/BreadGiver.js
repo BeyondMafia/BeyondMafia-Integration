@@ -41,11 +41,11 @@ module.exports = class BreadGiver extends Card {
                         if (item == "Bread")
                             breadCount++;
                     }
-                    while (breadCount <= 2){
+                    while (breadCount < 2){
                         player.holdItem("Bread");
                         breadCount++;
                     }
-                    if(!player.hasEffect("Famished"))
+                    if(!player.hasEffect("Famished") && player.role.name !== "Turkey")
                         player.giveEffect("Famished");
                 }
             },
