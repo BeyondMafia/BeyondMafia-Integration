@@ -19,7 +19,7 @@ module.exports = class TrickedWares extends Card {
                     const target = Random.randArrayVal(item_targets);
 
                     var cursed = Random.randArrayVal([true, false]);
-                    var items = ["Gun", "Armor", "Knife", "Snowball"];
+                    var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"];
                     var given_item = items[Math.floor(Math.random() * items.length)];
                     
                     switch (given_item) {
@@ -56,6 +56,14 @@ module.exports = class TrickedWares extends Card {
                                 target.holdItem("CursedSnowball");
                             }
                             target.queueAlert("You have received a snowball!");
+                            break;
+                        case "Crystal":
+                            if (cursed){
+                                target.holdItem("Crystal");
+                            } else {
+                                target.holdItem("CursedCrystal");
+                            }
+                            target.queueAlert("You have received a crystal ball!");
                             break;
                     }   
                 }
