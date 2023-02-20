@@ -18,7 +18,7 @@ module.exports = class ForageItem extends Card {
                         if (action.target == this.actor && !action.hasLabel("hidden"))
                             return;
 
-                    var items = ["Gun", "Armor", "Knife", "Snowball"]
+                    var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"]
                     var given_item = items[Math.floor(Math.random() * items.length)];
                     switch (given_item) {
                         case "Gun":
@@ -36,6 +36,10 @@ module.exports = class ForageItem extends Card {
                         case "Snowball":
                             this.actor.holdItem("Snowball");
                             this.actor.queueAlert("You have received a snowball!");
+                            break;
+                        case "Crystal":
+                            this.actor.holdItem("Crystal");
+                            this.actor.queueAlert("You have received a crystal!");
                             break;
                     }   
                 }
