@@ -1,6 +1,6 @@
 const Card = require("../../Card");
 
-module.exports = class CardName extends Card {
+module.exports = class OneShot extends Card {
 
     constructor(role) {
         super(role);
