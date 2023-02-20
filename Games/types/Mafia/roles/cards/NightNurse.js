@@ -14,8 +14,8 @@ module.exports = class NightNurse extends Card {
                     labels: ["save", "block"],
                     priority: PRIORITY_NIGHT_NURSE,
                     run: function () {
-                        this.blockActions();
-                        this.heal(1);
+                        this.roleblockTarget();
+                        this.healTarget(1);
                     }
                 }
             }

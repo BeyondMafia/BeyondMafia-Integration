@@ -14,7 +14,7 @@ module.exports = class NightRoleBlocker extends Card {
                     labels: ["block"],
                     priority: PRIORITY_NIGHT_ROLE_BLOCKER,
                     run: function () {
-                        this.blockActions();
+                        this.roleblockTarget();
                     }
                 }
             }

@@ -344,6 +344,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Trapper": {
+            alignment: "Village",
+            description: [
+                "Traps one person at night, killing one of their visitors at random",
+                ],
+        },
+        "Surgeon": {
+            alignment: "Village",
+            description: [
+                "Save one person each night from dying and kills one of their visitors.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -510,6 +522,12 @@ const roleData = {
             description: [
                 "Visits one dead person every night.",
                 "That person will be resurrected.",
+                ],
+        },
+        "Interceptor": {
+            alignment: "Mafia",
+            description: [
+                "Traps one person at night, killing one of their visitors at random",
                 ],
         },
 
