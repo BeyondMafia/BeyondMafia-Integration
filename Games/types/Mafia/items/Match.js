@@ -12,7 +12,7 @@ module.exports = class Match extends Item {
                 flags: ["voting", "instant", "noVeg"],
                 inputType: "boolean",
                 action: {
-                    labels: ["ignite", "match"],
+                    labels: ["kill", "ignite", "match"],
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {

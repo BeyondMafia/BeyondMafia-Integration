@@ -2,44 +2,37 @@ export const GameTypes = ["Mafia", "Split Decision", "Resistance", "One Night"];
 export const Lobbies = ["Main", "Sandbox", "Competitive", "Games"];
 
 export const Alignments = {
-	"Mafia": ["Village", "Mafia", "Monsters", "Independent"],
-	"Split Decision": ["Blue", "Red", "Independent"],
-	"Resistance": ["Resistance", "Spies"],
-	"One Night": ["Village", "Werewolves", "Independent"],
+    "Mafia": ["Village", "Mafia", "Monsters", "Independent"],
+    "Split Decision": ["Blue", "Red", "Independent"],
+    "Resistance": ["Resistance", "Spies"],
+    "One Night": ["Village", "Werewolves", "Independent"],
 };
 
 export const GameStates = {
-	"Mafia": ["Day", "Night"],
-	"Split Decision": ["Initial Round", "Hostage Swap"],
-	"Resistance": ["Team Selection", "Team Approval", "Mission"],
-	"One Night": ["Day", "Night"],
+    "Mafia": ["Day", "Night"],
+    "Split Decision": ["Initial Round", "Hostage Swap"],
+    "Resistance": ["Team Selection", "Team Approval", "Mission"],
+    "One Night": ["Day", "Night"],
 };
 
 export const RatingThresholds = {
-	"reads": {
-		"S": 0.95,
-		"A": 0.9,
-		"B": 0.8,
-		"C": 0.7,
-		"D": 0.6,
-		"E": 0.5,
-	},
-	"survival": {
-		"S": 0.95,
-		"A": 0.9,
-		"B": 0.8,
-		"C": 0.7,
-		"D": 0.6,
-		"E": 0.5,
-	},
-	"participation": {
-		"S": 0.95,
-		"A": 0.9,
-		"B": 0.8,
-		"C": 0.7,
-		"D": 0.6,
-		"E": 0.5,
-	},
+    "reads": {
+        "S": 0.95,
+        "A": 0.9,
+        "B": 0.8,
+        "C": 0.7,
+        "D": 0.6,
+        "E": 0.5,
+    },
+    "survival": {
+        "S": 0.95,
+        "A": 0.9,
+        "B": 0.8,
+        "C": 0.7,
+        "D": 0.6,
+        "E": 0.5,
+    },
+    "wins": {}
 };
 
 export const RequiredTotalForStats = 1;
