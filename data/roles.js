@@ -374,6 +374,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Enchantress": {
+            alignment: "Village",
+            description: [
+                "Once per game, can visit a player during the night and give them a crystal ball.",
+                "The holder can choose a person each night and if they die, their targets role will be revealed.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {

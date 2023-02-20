@@ -1,9 +1,9 @@
 const Item = require("../Item");
-const Random = require("../../../../lib/Random");
+const { PRIORITY_REVEAL_TARGET_ON_DEATH } = require("../const/Priority");
 
 module.exports = class Crystal extends Item {
 
-    constructor(options) {
+    constructor() {
         super("Crystal");
 
         this.meetings = {
@@ -15,14 +15,15 @@ module.exports = class Crystal extends Item {
                     priority: PRIORITY_REVEAL_TARGET_ON_DEATH,
                     run: function () {
                         this.actor.role.data.playerToReveal = this.target;
-                    }
+                    },
                 }
             }
         };
         this.listeners = {
             "death": function (player, killer, deathType) {
-                if (player == this.player && this.data.playerToReveal)
-                    this.data.playerToReveal.role.revealToAll();
+                if (player == this.holder && this.holder.role.data.playerToReveal)
+                    this.holder.role.data.playerToReveal.role.revealToAll();
+                    this.drop();
             }
         };
         this.stealableListeners = {
