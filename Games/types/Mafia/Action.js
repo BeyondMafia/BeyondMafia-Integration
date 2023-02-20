@@ -31,8 +31,9 @@ module.exports = class MafiaAction extends Action {
             }
         }
         if (visitors.length) {
-            if (this.dominates())
-                Random.randArrayVal(visitors).kill("basic", this.actor);
+            let victim = Random.randArrayVal(visitors);
+            if (this.dominates(victim))
+                victim.kill("basic", this.actor);
         }
     }
 }
