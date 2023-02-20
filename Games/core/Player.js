@@ -9,6 +9,7 @@ const deathMessages = require("./death");
 const revivalMessages = require("./revival");
 const constants = require("../../data/constants");
 const logger = require("../../modules/logging")("games");
+const dbStats = require("../../db/stats");
 
 module.exports = class Player {
 
@@ -29,6 +30,7 @@ module.exports = class Player {
         this.tempAppearance = {};
         this.history = new History(this.game, this);
         this.ready = false;
+        this.won = false;
         this.deathMessages = deathMessages;
         this.revivalMessages = revivalMessages;
     }
@@ -873,15 +875,43 @@ module.exports = class Player {
         if (!this.game.ranked)
             return;
 
+        if (!this.user.stats[this.game.type])
+            this.user.stats[this.game.type] = dbStats.statsSet(this.game.type);
+
         const stats = this.user.stats[this.game.type];
 
-        if (stats == null || stats[stat] == null)
+        if (!stats.all)
+            stats.all = dbStats.statsObj(this.game.type);
+
+        this.updateStatsObj(stats.all, stat, inc);
+        this.updateStatsMap(stats, "bySetup", this.game.setup.id, stat, inc);
+
+        if (!this.role)
             return;
 
-        stats[stat].total++;
+        var role = `${this.role.name}${this.role.modifier ? ":" + this.role.modifier : ""}`;
+        this.updateStatsMap(stats, "byRole", role, stat, inc);
+        this.updateStatsMap(stats, "byAlignment", this.role.alignment, stat, inc);
+    }
 
-        if (inc)
-            stats[stat].count++;
+    updateStatsMap(stats, mapName, key, stat, inc) {
+        if (!stats[mapName])
+            stats[mapName] = {};
+
+        const statsObj = stats[mapName][key] || dbStats.statsObj(this.game.type);
+        this.updateStatsObj(statsObj, stat, inc);
+        stats[mapName][key] = statsObj;
+    }
+
+    updateStatsObj(stats, stat, inc) {
+        if (stat != "totalGames") {
+            stats[stat].total++;
+
+            if (inc)
+                stats[stat].count++;
+        }
+        else
+            stats.totalGames++;
     }
 
     swapIdentity(player) {

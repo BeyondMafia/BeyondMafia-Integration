@@ -45,7 +45,7 @@ module.exports = class VillageMeeting extends Meeting {
                     member.player.recordStat("reads", false);
             }
 
-            if (member.id == this.finalTarget)
+            if (member.player == this.finalTarget)
                 member.player.recordStat("survival", false);
             else
                 member.player.recordStat("survival", true);
