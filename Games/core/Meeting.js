@@ -289,11 +289,11 @@ module.exports = class Meeting {
 
             if (!Array.isArray(this.targetsDescription)) {
                 this.targets = this.parseTargetDefinitions(
-                        this.targetsDescription,
-                        this.inputType,
-                        this.game.players.array(),
-                        this.members.length == 1 ? this.members.at(0).player : null
-                        );
+                    this.targetsDescription,
+                    this.inputType,
+                    this.game.players.array(),
+                    this.members.length == 1 ? this.members.at(0).player : null
+                );
             }
 
             if (!this.mustAct && !this.repeatable)
