@@ -10,14 +10,18 @@ module.exports = class GiveCrystal extends Card {
             "Give Crystal": {
                 states: ["Night"],
                 flags: ["voting"],
+                shouldMeet: function() {
+                    return !this.data.crystalGiven;
+                },
                 action: {
                     labels: ["giveItem", "crystal"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         this.target.holdItem("Crystal");
                         this.target.queueAlert("You have received a crystal ball!");
-                    }
-                }
+                        this.actor.role.data.crystalGiven = true;
+                    },
+                },
             }
         };
     }
