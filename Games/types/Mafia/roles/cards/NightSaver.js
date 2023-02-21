@@ -14,7 +14,7 @@ module.exports = class NightSaver extends Card {
                     labels: ["save"],
                     priority: PRIORITY_NIGHT_SAVER,
                     run: function () {
-                        this.target.setTempImmunity("kill", 1);
+                        this.heal(1);
                     }
                 }
             }
