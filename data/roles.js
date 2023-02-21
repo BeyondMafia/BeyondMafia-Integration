@@ -557,6 +557,14 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Graverobber": {
+            alignment: "Mafia",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player and takes all items they're holding.",
+            ],
+        },
+
 
         //Monsters
         "Lycan": {
