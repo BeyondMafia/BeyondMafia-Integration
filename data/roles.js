@@ -550,6 +550,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+        },
 
         //Monsters
         "Lycan": {
