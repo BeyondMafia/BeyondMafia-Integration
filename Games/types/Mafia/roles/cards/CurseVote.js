@@ -21,6 +21,7 @@ module.exports = class CurseVote extends Card {
             "Target": {
                 states: ["Night"],
                 flags: ["voting"],
+                targets: { include: ["alive"], exclude: ["self"] },
                 action: {
                     priority: PRIORITY_KILL_DEFAULT,
                     run: function () {
