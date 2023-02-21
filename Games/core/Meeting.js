@@ -288,12 +288,12 @@ module.exports = class Meeting {
                 this.targetsDescription = this.targets;
 
             if (!Array.isArray(this.targetsDescription)) {
-                this.targets = Random.randomizeArray(this.parseTargetDefinitions(
+                this.targets = this.parseTargetDefinitions(
                         this.targetsDescription,
                         this.inputType,
                         this.game.players.array(),
                         this.members.length == 1 ? this.members.at(0).player : null
-                        ));
+                        );
             }
 
             if (!this.mustAct && !this.repeatable)
@@ -417,7 +417,7 @@ module.exports = class Meeting {
         if (targetType == "player")
             finalTargets = playerList;
         else
-            finalTargets = Object.keys(roleList);
+            finalTargets = Random.randomizeArray(Object.keys(roleList));
 
         return finalTargets;
     }
