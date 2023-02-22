@@ -8,6 +8,7 @@ module.exports = class DieIfMasonsConvertMafia extends Card {
 
         this.actions = [
             {
+                labels: ["kill", "mismason"],
                 priority: PRIORITY_MISMASON_MAFIA,
                 run: function () {
                     if (this.game.getStateName() != "Night")
@@ -19,7 +20,10 @@ module.exports = class DieIfMasonsConvertMafia extends Card {
                             action.target &&
                             action.target.role.alignment == "Mafia"
                         ) {
-                            this.actor.kill("basic");
+                            if (this.dominates(this.actor)) {
+                                this.actor.kill("basic");
+                                return;
+                            }
                         }
                     }
                 }

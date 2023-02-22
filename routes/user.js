@@ -9,6 +9,7 @@ const models = require("../db/models");
 const routeUtils = require("./utils");
 const redis = require("../modules/redis");
 const constants = require("../data/constants");
+const dbStats = require("../db/stats");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 
@@ -183,6 +184,21 @@ router.get("/:id/profile", async function (req, res) {
         user = user.toJSON();
         user.groups = (await redis.getBasicUserInfo(userId)).groups;
         user.maxFriendsPage = Math.ceil(user.numFriends / constants.friendsPerPage) || 1;
+
+        var allStats = dbStats.allStats();
+        user.stats = user.stats || allStats;
+
+        for (let gameType in allStats) {
+            if (!user.stats[gameType])
+                user.stats[gameType] = dbStats.statsSet(gameType);
+            else {
+                let statsSet = dbStats.statsSet(gameType);
+
+                for (let objName in statsSet)
+                    if (!user.stats[gameType][objName])
+                        user.stats[gameType][objName] = statsSet[objName];
+            }
+        }
 
         if (isSelf) {
             var friendRequests = await models.FriendRequest.find({ targetId: userId })
