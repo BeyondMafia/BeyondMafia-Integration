@@ -388,6 +388,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Tinkerer": {
+            alignment: "Village",
+            description: [
+                "If not visited at night, will craft a gun.",
+                "If killed, the killer will find a gun that always reveals.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -577,6 +584,13 @@ const roleData = {
                 "Can visit a dead player every night.",
                 "Learns the role of that player and takes all items they're holding.",
             ],
+        },
+        "Slasher": {
+            alignment: "Mafia",
+            description: [
+                "If not visited during the night, will receive a knife.",
+                "Slasher knives do not reveal.",
+                ],
         },
 
 
