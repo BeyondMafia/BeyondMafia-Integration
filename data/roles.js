@@ -264,6 +264,13 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Chef": {
+            alignment: "Village",
+            description: [
+                "Chooses up to two players to invite to a banquet.",
+                "At night, guests will all anonymously meet and see the roles of all guests.",
+            ],
+        },
         "Journalist": {
             alignment: "Village",
             description: [
@@ -296,7 +303,7 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
         "Cyclist": {
             alignment: "Village",
             description: [
@@ -567,6 +574,13 @@ const roleData = {
             description: [
                 "Traps one person at night, killing one of their visitors at random",
                 ],
+        },
+        "Graverobber": {
+            alignment: "Mafia",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player and takes all items they're holding.",
+            ],
         },
 
         //Monsters

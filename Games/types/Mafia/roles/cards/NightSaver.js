@@ -20,5 +20,4 @@ module.exports = class NightSaver extends Card {
             }
         };
     }
-
 }

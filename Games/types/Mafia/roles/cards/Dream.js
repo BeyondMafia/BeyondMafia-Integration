@@ -22,7 +22,7 @@ module.exports = class Dream extends Card {
                         if (action.target == this.actor && !action.hasLabel("hidden"))
                             return;
 
-                    var alive = this.game.players.filter(p => p.alive && p != this.player);
+                    var alive = this.game.players.filter(p => p.alive && p != this.actor);
 
                     if (alive.length < 3)
                         return;

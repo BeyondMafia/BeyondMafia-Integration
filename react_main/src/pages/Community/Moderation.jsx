@@ -730,6 +730,24 @@ function useModCommands(argValues, commandRan) {
                     .catch(errorAlert);
             }
         },
+        "Ranked Unban": {
+            perm: "rankedUnban",
+            args: [
+                {
+                    label: "User",
+                    name: "userId",
+                    type: "user_search"
+                },
+            ],
+            run: function () {
+                axios.post("/mod/rankedUnban", argValues)
+                    .then(() => {
+                        siteInfo.showAlert("User ranked unbanned.", "success");
+                        commandRan();
+                    })
+                    .catch(errorAlert);
+            }
+        },
         "Site Unban": {
             perm: "siteUnban",
             args: [

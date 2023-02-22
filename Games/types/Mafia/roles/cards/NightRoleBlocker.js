@@ -20,5 +20,4 @@ module.exports = class NightRoleBlocker extends Card {
             }
         };
     }
-
 }
