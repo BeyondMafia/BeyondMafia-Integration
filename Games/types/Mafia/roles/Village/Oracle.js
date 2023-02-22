@@ -6,7 +6,12 @@ module.exports = class Oracle extends Role {
         super("Oracle", player, data);
 
         this.alignment = "Village";
-        this.cards = ["VillageCore", "WinWithVillage", "StartWithCrystal"];
+        this.cards = ["VillageCore", "WinWithVillage"];
+        this.startItems = [
+            {
+                type: "Crystal",
+            }
+        ];
     }
 
 }
