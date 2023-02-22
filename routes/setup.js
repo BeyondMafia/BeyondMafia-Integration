@@ -291,6 +291,34 @@ router.post("/feature", async function (req, res) {
     }
 });
 
+router.post("/ranked", async function (req, res) {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var setupId = String(req.body.setupId);
+
+        if (!(await routeUtils.verifyPermission(res, userId, "approveRanked")))
+            return;
+
+        var setup = await models.Setup.findOne({ id: setupId });
+
+        if (!setup) {
+            res.status(500);
+            res.send("Setup not found.");
+            return;
+        }
+
+        await models.Setup.updateOne({ id: setupId }, { ranked: !setup.ranked }).exec();
+
+        routeUtils.createModAction(userId, "Toggle Ranked Setup", [setupId]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error making setup ranked.");
+    }
+});
+
 router.post("/favorite", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
@@ -659,6 +687,7 @@ function sortRoles(gameType) {
 
 function hasOpenRole(roles, roleName) {
     roles = Object.keys(roles);
+    roleName = utils.strParseAlphaNum(roleName);
     var regex = new RegExp(`${roleName}:`);
 
     for (let role of roles)

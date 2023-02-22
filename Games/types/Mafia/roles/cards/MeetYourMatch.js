@@ -7,22 +7,32 @@ module.exports = class MeetYourMatch extends Card {
         super(role);
 
         this.meetings = {
-            "Setup a Date (2)": {
+            "Lovebird A": {
                 states: ["Night"],
-                flags: ["voting", "multi"],
-                multiMin: 2,
-                multiMax: 2,
+                flags: ["voting"],
+                action: {
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT - 1,
+                    run: function() {
+                        this.actor.role.data.lovebirdA = this.target;
+                    }
+                },
+            },
+            "Lovebird B": {
+                states: ["Night"],
+                flags: ["voting"],
                 action: {
                     labels: ["effect", "love"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function() {
-                        var lovebirdA = this.target[0];
-                        var lovebirdB = this.target[1];
+                        if (!this.actor.role.data.lovebirdA)
+                            return
+                        let lovebirdA = this.actor.role.data.lovebirdA;
+                        let lovebirdB = this.target;
 
-                        var alignmentA = lovebirdA.role.alignment;
-                        var alignmentB = lovebirdB.role.alignment;
-                        var alert;
-                        if (alignmentA == alignmentB) {
+                        let alignmentA = lovebirdA.role.winCount ? lovebirdA.role.winCount : lovebirdA.role.alignment;
+                        let alignmentB = lovebirdB.role.winCount ? lovebirdB.role.winCount : lovebirdB.role.alignment;
+                        let alert;
+                        if (alignmentA === alignmentB) {
                             lovebirdA.giveEffect("Love", this.actor);
                             lovebirdB.giveEffect("Love", this.actor);
                             alert = `${lovebirdA.name} and ${lovebirdB.name}'s date went well. They are now in love.`;
@@ -30,6 +40,7 @@ module.exports = class MeetYourMatch extends Card {
                             alert = `${lovebirdA.name} and ${lovebirdB.name}'s date went poorly. Better luck next time.`;
                         }
                         this.actor.queueAlert(alert)
+                        delete this.actor.role.data.lovebirdA;
                     }
                 },
             }

@@ -1,7 +1,7 @@
-ALIGNMENT_VILLAGE = "Village"
-ALIGNMENT_MAFIA = "Mafia"
-ALIGNMENT_INDEPENDENT = "Independent"
-ALIGNMENT_MONSTERS = "Monsters"
+const ALIGNMENT_VILLAGE = "Village"
+const ALIGNMENT_MAFIA = "Mafia"
+const ALIGNMENT_INDEPENDENT = "Independent"
+const ALIGNMENT_MONSTERS = "Monsters"
 
 module.exports = {
     ALIGNMENT_VILLAGE,

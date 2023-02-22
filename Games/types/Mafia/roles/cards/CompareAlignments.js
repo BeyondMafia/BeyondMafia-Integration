@@ -19,10 +19,14 @@ module.exports = class CompareAlignments extends Card {
                     priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
                         var targetA = this.target[0];
+                        var targetB = this.target[1];
+
+                        if (!targetA || !targetB)
+                            return;
+
                         var roleA = targetA.getAppearance("investigate", true);
                         var alignmentA = this.game.getRoleAlignment(roleA);
 
-                        var targetB = this.target[1];
                         var roleB = targetB.getAppearance("investigate", true);
                         var alignmentB = this.game.getRoleAlignment(roleB);
 

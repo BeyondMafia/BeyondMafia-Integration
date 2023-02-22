@@ -133,17 +133,17 @@ async function authSuccess(req, uid, email) {
 
             if (suspicious) { //(6)
                 await models.User.updateOne({ id }, { $set: { flagged: true } }).exec();
-                // await routeUtils.banUser(
-                //     id,
-                //     0,
-                //     ["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
-                //     "ipFlag"
-                // );
-                // await routeUtils.createNotification({
-                //     content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
-                //     icon: "flag",
-                //     link: "/community/moderation"
-                // }, [id]);
+                await routeUtils.banUser(
+                    id,
+                    0,
+                    ["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
+                    "ipFlag"
+                );
+                await routeUtils.createNotification({
+                    content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
+                    icon: "flag",
+                    link: "/community/moderation"
+                }, [id]);
             }
         }
         else if (!id && bannedUser) { //(8) (9)

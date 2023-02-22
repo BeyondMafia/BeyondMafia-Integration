@@ -55,10 +55,25 @@ module.exports = class MafiaGame extends Game {
                 }
             }));
 
-            player.recordStat("survival", false);
+            if (!this.finished) {
+                player.recordStat("survival", false);
+                player.recordStat("abandons", true);
+            }
         }
 
         await super.playerLeave(player);
+    }
+
+    async vegPlayer(player) {
+        player.recordStat("abandons", true);
+        super.vegPlayer(player);
+    }
+
+    start() {
+        super.start();
+
+        for (let player of this.players)
+            player.recordStat("totalGames");
     }
 
     incrementState() {
@@ -218,7 +233,7 @@ module.exports = class MafiaGame extends Game {
 
     async endGame(winners) {
         for (let player of this.players) {
-            if (winners.players.indexOf(player) != -1)
+            if (player.won)
                 player.recordStat("wins", true);
             else
                 player.recordStat("wins", false);
