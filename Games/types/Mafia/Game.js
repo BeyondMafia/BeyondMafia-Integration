@@ -236,7 +236,7 @@ module.exports = class MafiaGame extends Game {
             if (player.won)
                 player.recordStat("wins", true);
             else
-                player.recordStat("wins", false);
+                player.recordStat("loses", true);
         }
 
         await super.endGame(winners);
