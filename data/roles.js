@@ -578,6 +578,12 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
+        "Apprentice": {
+            alignment: "Mafia",
+            description: [
+                "Once per game can become the role of a dead Mafia-aligned player."
+            ],
+        },
 
 
         //Monsters
