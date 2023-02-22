@@ -1536,6 +1536,7 @@ export function ActionList(props) {
             switch (meeting.inputType) {
                 case "player":
                 case "boolean":
+                case "role":
                 case "alignment":
                 case "select":
                     action =
@@ -1619,7 +1620,9 @@ function ActionSelect(props) {
             <div
                 className={`vote ${meeting.multi ? "multi" : ""}`}
                 key={member.id}>
-                <div className="voter">
+                <div
+                    className="voter"
+                    /*onClick={() => onSelectVote(member.id)}*/>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
@@ -2544,7 +2547,7 @@ export function usePlayersReducer() {
 
 export function useSettingsReducer() {
     const defaultSettings = {
-        votingLog: false,
+        votingLog: true,
         timestamps: true,
         sounds: true,
         volume: 1,
