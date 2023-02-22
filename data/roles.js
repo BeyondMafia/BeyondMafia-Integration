@@ -513,6 +513,13 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Diabolist": {
+            alignment: "Mafia",
+            description: [
+                "Can choose a victim and a target each night.",
+                "If the victim votes for the target, the victim will die."
+            ]
+        },
         "Tailor": {
             alignment: "Mafia",
             description: [
