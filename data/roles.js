@@ -359,6 +359,13 @@ const roleData = {
             description: [
                 "Can choose to host a party for everyone to attend once per game.",
             ],
+        },
+        "Loudmouth": {
+            alignment: "Village",
+            description: [
+                "Will cry out and reveal who visited them.",
+                "Sees self as blue."
+            ],
         },      
         "Ghost": {
             alignment: "Village",
