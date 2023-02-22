@@ -705,6 +705,13 @@ const roleData = {
                 "Wins if it kills all of its murderers.",
             ],
         },
+        "Nomad": {
+            alignment: "Independent",
+            description: [
+                "Each night chooses another player to gain their alignment. ",
+                "Wins if they are alive and the last alignment chosen wins."
+            ],
+        },
     },
     "Split Decision": {
         //Blue
