@@ -89,7 +89,7 @@ git checkout -b add-mafioso-icon
 #### Role CSS
 
 - Navigate to `/react_main/src/css/roles.css`
-- Each role has its own css defined, such as the ones below:
+- Each role has its own css defined, such as the ones below.
 - The two numbers represent the role's offset on the spritesheet, \[`horizontal_offset`, `vertical offset`\].
 
 ```
