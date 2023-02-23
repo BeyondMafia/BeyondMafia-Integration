@@ -6,7 +6,12 @@ module.exports = class Apprentice extends Role {
         super("Apprentice", player, data);
 
         this.alignment = "Mafia";
-        this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "BecomeDeadMafia"];
+        this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "BecomeDeadRole"];
+        this.meetingMods = {
+            "Block": {
+                targets: { include: ["Mafia"], exclude: ["alive", "self"] },
+            }
+        };
     }
 
 }
