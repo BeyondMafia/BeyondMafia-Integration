@@ -64,9 +64,9 @@ module.exports = class MafiaGame extends Game {
         await super.playerLeave(player);
     }
 
-    async vegPlayer(player) {
+    async vegPlayer(player, playerIsKicklynched) {
         player.recordStat("abandons", true);
-        super.vegPlayer(player);
+        super.vegPlayer(player, playerIsKicklynched);
     }
 
     start() {

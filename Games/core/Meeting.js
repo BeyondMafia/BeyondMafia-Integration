@@ -638,7 +638,8 @@ module.exports = class Meeting {
                     (!this.multi && this.votes[member.id] == null) ||
                     (this.multi && selections.length < this.multiMin && selections.indexOf("*") == -1)
                 ) {
-                    this.game.vegPlayer(member.player);
+                    const playerIsKicklynched = this.finalTarget === member.id;
+                    this.game.vegPlayer(member.player, playerIsKicklynched);
                 }
             }
         }
