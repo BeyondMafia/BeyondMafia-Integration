@@ -20,15 +20,7 @@ module.exports = class Cat extends Item {
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {
-                            // replace with riskit's library in future
-                            for (let action of this.game.actions[0]) {
-                                if (
-                                    action.priority > this.priority &&
-                                    !action.hasLabel("absolute")
-                                ) {
-                                    action.cancelActor(this.actor);
-                                }
-                            }                  
+                            this.blockActions();                 
                         } else {
                             var role = this.actor.getAppearance("investigate", true);
                             this.item.owner.queueAlert(`You learn that ${this.actor.name}'s role is ${role}.`);
