@@ -323,6 +323,18 @@
     background-position: -990px -40px;
 }
 
+.role-Mafia-Sapling {
+    background-position: -930px -80px;
+}
+
+.role-Mafia-Baker {
+    background-position: -960px -80px;
+}
+
+.role-Mafia-Ghost {
+    background-position: -990px -80px;
+}
+
 /* 
 * Mafia 
 */
@@ -477,6 +489,10 @@
 
 .role-Mafia-Traitor {
     background-position: -750px -40px;
+}
+
+.role-Mafia-Vengeful-Spirit {
+    background-position: -630px -80px;
 }
 
 /* 
