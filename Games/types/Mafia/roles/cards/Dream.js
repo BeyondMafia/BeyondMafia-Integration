@@ -15,6 +15,9 @@ module.exports = class Dream extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
 
+                    if (!this.actor.alive)
+                        return;
+
                     if (this.game.players.length < 3)
                         return;
 
