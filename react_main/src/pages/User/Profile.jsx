@@ -238,7 +238,7 @@ export default function Profile() {
 
     if (stats && stats["Mafia"] && stats["Mafia"].all) {
         var mafiaStats = stats["Mafia"].all;
-        totalGames = mafiaStats.totalGames || 0;
+        totalGames = (mafiaStats?.wins?.total + mafiaStats?.abandons?.total) || 0;
 
         ratings = Object.keys(RatingThresholds).map(statName => {
             var stat = mafiaStats[statName];
@@ -547,6 +547,7 @@ function StatsModal(props) {
 
     const statsRows = stats.map((statsObj, i) => {
         let totalGames = statsObj.totalGames;
+        let totalGamesUnabandoned = statsObj.wins?.total + statsObj?.abandons?.total;
         let statsList = Object.keys(statsObj).map(statKey => {
             let statData = statsObj[statKey];
 
@@ -556,7 +557,7 @@ function StatsModal(props) {
                     break;
                 case "wins":
                 case "abandons":
-                    statData = <div className="stat-data">{statData.count}/{totalGames}</div>
+                    statData = <div className="stat-data">{statData.count}/{totalGamesUnabandoned}</div>
                     break;
                 case "reads":
                 case "survival":
