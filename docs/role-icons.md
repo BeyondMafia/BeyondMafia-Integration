@@ -25,7 +25,7 @@ Download the [role spritesheet](/react_main/public/images/roles.png).
 - Can be easier to add icons because it has gridlines.
 - `File` > `Open Image`
 - `View` > `Show Grid`
-- `Image` > `Configure Grid`. Disable aspect ratio (chains), then set horizontal 30px vertical 40x.
+- `Image` > `Configure Grid`. Disable aspect ratio (chain icon below sizing), then set horizontal 30px vertical 40px.
 - Scroll to 800% zoom (see the zoom value at the bottom dock)
 - Export the new spritesheet. `File` > `Overwrite roles.png`.
 
