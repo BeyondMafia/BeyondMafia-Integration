@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_DAY_MEETING_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 const Message = require("../../../../core/Message");
 module.exports = class Eavesdrop extends Card {
 
@@ -12,7 +12,7 @@ module.exports = class Eavesdrop extends Card {
                 flags: ["voting"],
                 action: {
                     labels: ["eavesdrop"],
-                    priority: PRIORITY_DAY_MEETING_DEFAULT,
+                    priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         this.actor.role.data.stalk = this.target;
                     }
@@ -21,14 +21,7 @@ module.exports = class Eavesdrop extends Card {
             "Eavesdropping": {
                 states: ["Night"],
                 flags: ["anonymous", "speech"],
-                inputType: "boolean",
-                leader: true,
                 canTalk: false,
-                action:{
-                    run: function(){
-                        delete this.actor.role.data.stalk;
-                    }
-                },
                 shouldMeet: function () {
                     return this.data.stalk;
                 },
@@ -40,7 +33,7 @@ module.exports = class Eavesdrop extends Card {
                 message.meeting &&
                 this.game.getMeetingByName("Eavesdropping") &&
                 message.meeting.hasJoined(this.data.stalk) &&
-                message.meeting.name !== "Eavesdropping"){
+                !message.meeting.hasJoined(this.player)){
                     let targetMeeting = this.game.getMeetingByName("Eavesdropping");
                     let newMessage = new Message({
                         meeting : targetMeeting,
