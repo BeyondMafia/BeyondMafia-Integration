@@ -7,7 +7,7 @@ module.exports = class CurseWithWord extends Card {
         super(role);
 
         this.meetings = {
-            "Write on Talisman": {
+            "Write on Talisman (4-10)": {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "text",
