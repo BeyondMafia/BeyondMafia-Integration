@@ -14,14 +14,7 @@ module.exports = class NightRoleBlocker extends Card {
                     labels: ["block"],
                     priority: PRIORITY_NIGHT_ROLE_BLOCKER,
                     run: function () {
-                        for (let action of this.game.actions[0]) {
-                            if (
-                                action.priority > this.priority &&
-                                !action.hasLabel("absolute")
-                            ) {
-                                action.cancelActor(this.target);
-                            }
-                        }
+                        this.blockActions();
                     }
                 }
             }

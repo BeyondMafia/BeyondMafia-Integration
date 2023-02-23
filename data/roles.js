@@ -264,6 +264,13 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Chef": {
+            alignment: "Village",
+            description: [
+                "Chooses up to two players to invite to a banquet.",
+                "At night, guests will all anonymously meet and see the roles of all guests.",
+            ],
+        },
         "Journalist": {
             alignment: "Village",
             description: [
@@ -296,7 +303,7 @@ const roleData = {
                 "Investigates two people at night.",
                 "Learns if they share an alignment.",
             ],
-        },        
+        },
         "Cyclist": {
             alignment: "Village",
             description: [
@@ -351,6 +358,13 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },
+        "Loudmouth": {
+            alignment: "Village",
+            description: [
+                "Will cry out and reveal who visited them.",
+                "Sees self as blue."
             ],
         },      
         "Ghost": {
@@ -506,6 +520,13 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Diabolist": {
+            alignment: "Mafia",
+            description: [
+                "Can choose a victim and a target each night.",
+                "If the victim votes for the target, the victim will die."
+            ]
+        },
         "Tailor": {
             alignment: "Mafia",
             description: [
@@ -557,7 +578,21 @@ const roleData = {
                 "Any system messages that person may have got are given to the journalist as well"
             ],
         },
-
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
+        "Graverobber": {
+            alignment: "Mafia",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player and takes all items they're holding.",
+            ],
+        },
+        
         //Monsters
         "Lycan": {
             alignment: "Monsters",
@@ -668,6 +703,13 @@ const roleData = {
             description: [
                 "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
+        "Prophet": {
+            alignment: "Independent",
+            description: [
+                "Once per game can predict when the game will end.",
+                "Wins if they guess correctly.",
             ],
         },
         "Vengeful Spirit": {
