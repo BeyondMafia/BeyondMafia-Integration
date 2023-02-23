@@ -578,6 +578,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
         "Graverobber": {
             alignment: "Mafia",
             description: [
@@ -592,7 +599,6 @@ const roleData = {
                 "Slasher knives do not reveal.",
                 ],
         },
-
 
         //Monsters
         "Lycan": {
@@ -704,6 +710,13 @@ const roleData = {
             description: [
                 "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
+        "Prophet": {
+            alignment: "Independent",
+            description: [
+                "Once per game can predict when the game will end.",
+                "Wins if they guess correctly.",
             ],
         },
         "Vengeful Spirit": {
