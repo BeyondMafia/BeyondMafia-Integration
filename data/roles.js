@@ -571,6 +571,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
         "Graverobber": {
             alignment: "Mafia",
             description: [
@@ -578,8 +585,7 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
-
-
+        
         //Monsters
         "Lycan": {
             alignment: "Monsters",
