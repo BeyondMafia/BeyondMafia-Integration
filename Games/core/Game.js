@@ -469,7 +469,7 @@ module.exports = class Game {
             }
         }));
 
-        await this.playerLeave(player);
+        await this.playerLeave(player, playerIsKicklynched);
     }
 
     createPlayerGoneObj(player) {
