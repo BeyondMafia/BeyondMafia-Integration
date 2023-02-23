@@ -20,6 +20,7 @@ module.exports = class Cat extends Item {
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {
+                            this.target = this.actor;
                             this.blockActions();                 
                         } else {
                             var role = this.actor.getAppearance("investigate", true);
