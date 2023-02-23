@@ -683,6 +683,13 @@ const roleData = {
                 "Does not count towards mafia win count.",
             ],
         },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
+        },
         "Lover": {
             alignment: "Independent",
             description: [
