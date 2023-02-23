@@ -31,6 +31,7 @@ module.exports = class Meeting {
         this.noAct = game.isNoAct();
         this.noVeg = false;
         this.multiActor = false;
+        this.exclusive = false;
         /***/
 
         this.inputType = "player";
@@ -44,6 +45,7 @@ module.exports = class Meeting {
         this.finished = false;
         this.multiMin = 0;
         this.multiMax = 0;
+        this.priority = 0;
     }
 
     join(player, options) {
@@ -92,11 +94,17 @@ module.exports = class Meeting {
             this.multiMax = options.multiMax;
         }
 
+        if (options.priority && options.priority > this.priority)
+            this.priority = options.priority;
+
         // Create vote version for member
         if (this.voting)
             this.voteVersions[player.id] = { votes: {}, voteRecord: [] }
 
-        if (this.game.setup.whispers && this.name != "Pregame") {
+        if (this.game.setup.whispers && this.name != "Pregame" && 
+            // disable whispers for anonymous meetings that are not the village meeting
+            !(this.anonymous && this.name != "Village") 
+        ) {
             member.speechAbilities.unshift({
                 name: "Whisper",
                 targets: { include: ["members"], exclude: ["self"] },
@@ -414,7 +422,7 @@ module.exports = class Meeting {
         if (targetType == "player")
             finalTargets = playerList;
         else
-            finalTargets = Object.keys(roleList);
+            finalTargets = Random.randomizeArray(Object.keys(roleList));
 
         return finalTargets;
     }

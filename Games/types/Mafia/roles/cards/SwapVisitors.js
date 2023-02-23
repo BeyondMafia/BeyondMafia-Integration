@@ -25,21 +25,22 @@ module.exports = class SwapVisitors extends Card {
                 action: {
                     priority: PRIORITY_SWAP_VISITORS_B_AND_SWAP,
                     run: function () {
-                        var destinationA = this.actor.role.data.destinationA;
-                        var destinationB = this.target;
+                        if (this.actor.role.data.destinationA){
+                            var destinationA = this.actor.role.data.destinationA;
+                            var destinationB = this.target;
 
-                        for (let action of this.game.actions[0]) {
-                            if (action.priority > this.priority) {
-                                if (action.target == destinationA)
-                                    action.target = destinationB;
-                                else if (action.target == destinationB)
-                                    action.target = destinationA;
+                            for (let action of this.game.actions[0]) {
+                                if (action.priority > this.priority) {
+                                    if (action.target == destinationA)
+                                        action.target = destinationB;
+                                    else if (action.target == destinationB)
+                                        action.target = destinationA;
+                                }
+
                             }
 
+                            delete this.actor.role.data.destinationA;
                         }
-
-                        delete this.actor.role.data.destinationA;
-                        delete this.actor.role.data.destinationB;
                     }
                 }
             }

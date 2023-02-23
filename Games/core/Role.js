@@ -49,6 +49,7 @@ module.exports = class Role {
         */};
         this.meetingMods = {};
         this.priorityOffset = 0;
+        this.Action = Action;
     }
 
     init(modifier) {
@@ -274,7 +275,7 @@ module.exports = class Role {
         for (let options of this.actions) {
             options.actor = this.player;
             options.game = this.game;
-            this.game.queueAction(new Action(options));
+            this.game.queueAction(new this.Action(options));
         }
     }
 
@@ -311,7 +312,7 @@ module.exports = class Role {
         options.game = this.game;
         options.meeting = meeting;
 
-        var action = new Action(options);
+        var action = new this.Action(options);
 
         if (meeting.instant || meeting.repeatable)
             this.game.instantAction(action, meeting);

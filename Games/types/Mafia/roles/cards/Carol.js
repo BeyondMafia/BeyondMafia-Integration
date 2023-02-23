@@ -1,6 +1,6 @@
 const Card = require("../../Card");
 const Random = require("../../../../../lib/Random");
-const { PRIORITY_CAROL } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class Carol extends Card {
 
@@ -14,7 +14,7 @@ module.exports = class Carol extends Card {
                 targets: { include: ["alive"], exclude: ["self", isPrevTarget] },
                 action: {
                     labels: ["carol"],
-                    priority: PRIORITY_CAROL,
+                    priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
                     run: function () {
                         if (this.game.players.length < 3)
                             return;
@@ -31,8 +31,12 @@ module.exports = class Carol extends Card {
                             }
                         }
 
-                        var carol;
                         var alive = this.game.players.filter(p => p.alive);
+
+                        if (alive.length < 3)
+                            return;
+
+                        var carol;
                         var mafia = alive.filter(p => p.role.alignment == "Mafia");
                         var chosenThree = [
                             Random.randArrayVal(alive, true),
