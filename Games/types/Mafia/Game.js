@@ -70,8 +70,7 @@ module.exports = class MafiaGame extends Game {
         }
         super.vegPlayer(player, playerIsKicklynched);
     }
-    C:\Users\Andrei\Desktop\bmaf\Games\core\Game.js
-    C:\Users\Andrei\Desktop\bmaf\Games\types\Mafia\Game.js
+    
     start() {
         super.start();
 
