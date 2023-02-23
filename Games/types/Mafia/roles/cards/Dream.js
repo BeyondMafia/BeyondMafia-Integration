@@ -1,6 +1,6 @@
 const Card = require("../../Card");
 const Random = require("../../../../../lib/Random");
-const { PRIORITY_DREAMER } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class Dream extends Card {
 
@@ -10,7 +10,7 @@ module.exports = class Dream extends Card {
         this.actions = [
             {
                 labels: ["dream"],
-                priority: PRIORITY_DREAMER,
+                priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
@@ -22,7 +22,7 @@ module.exports = class Dream extends Card {
                         if (action.target == this.actor && !action.hasLabel("hidden"))
                             return;
 
-                    var alive = this.game.players.filter(p => p.alive && p != this.player);
+                    var alive = this.game.players.filter(p => p.alive && p != this.actor);
 
                     if (alive.length < 3)
                         return;

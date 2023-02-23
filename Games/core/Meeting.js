@@ -31,6 +31,7 @@ module.exports = class Meeting {
         this.noAct = game.isNoAct();
         this.noVeg = false;
         this.multiActor = false;
+        this.exclusive = false;
         /***/
 
         this.inputType = "player";
@@ -44,6 +45,7 @@ module.exports = class Meeting {
         this.finished = false;
         this.multiMin = 0;
         this.multiMax = 0;
+        this.priority = 0;
     }
 
     join(player, options) {
@@ -91,6 +93,9 @@ module.exports = class Meeting {
             this.multiMin = options.multiMin;
             this.multiMax = options.multiMax;
         }
+
+        if (options.priority && options.priority > this.priority)
+            this.priority = options.priority;
 
         // Create vote version for member
         if (this.voting)
@@ -417,7 +422,7 @@ module.exports = class Meeting {
         if (targetType == "player")
             finalTargets = playerList;
         else
-            finalTargets = Object.keys(roleList);
+            finalTargets = Random.randomizeArray(Object.keys(roleList));
 
         return finalTargets;
     }
