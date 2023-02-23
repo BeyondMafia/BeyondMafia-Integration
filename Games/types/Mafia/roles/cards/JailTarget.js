@@ -37,6 +37,7 @@ module.exports = class JailTarget extends Card {
                     return false;
                 },
                 action: {
+                    labels: ["kill", "jail"],
                     priority: PRIORITY_JAIL_EXECUTE,
                     run: function () {
                         var prisoner = this.actor.role.data.prisoner;
@@ -44,7 +45,7 @@ module.exports = class JailTarget extends Card {
                         if (!prisoner)
                             return;
 
-                        if (this.target == "Yes")
+                        if (this.target == "Yes" && this.dominates(prisoner)) 
                             prisoner.kill("basic", this.actor);
                     }
                 }

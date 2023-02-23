@@ -422,7 +422,7 @@ module.exports = class Meeting {
         if (targetType == "player")
             finalTargets = playerList;
         else
-            finalTargets = Object.keys(roleList);
+            finalTargets = Random.randomizeArray(Object.keys(roleList));
 
         return finalTargets;
     }
