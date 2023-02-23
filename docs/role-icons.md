@@ -39,7 +39,7 @@ Download the [role spritesheet](/react_main/public/images/roles.png).
 
 4. Go to your fork's webpage, which should be `https://github.com/<your_username>/BeyondMafia-Integration`.
 
-5. Create codespace on your fork.
+5. Create a codespace on your fork.
 
 <img src="https://user-images.githubusercontent.com/24848927/219880024-8414b3e9-656a-4e50-abb6-0d042b5952e8.png" alt="create codespace" width="700"/>
 
@@ -47,7 +47,7 @@ How it works: you will make edits to your personal repository, and then make a r
 
 ### Step 4: Syncing your repository
 
-Sometimes, you might have made some previous changes. This step is important to prevent git conflicts.
+This step is important to prevent git conflicts.
 
 1. Open the terminal. `Navigation` > `View` > `Terminal`, or <kbd>Ctrl</kbd> + <kbd>`</kbd>.
 
@@ -65,7 +65,7 @@ git stash
 git checkout master
 ```
 
-4. Get the latest update from the `rend/BeyondMafia`'s master branch.
+4. Get the latest updates from `rend/BeyondMafia`'s master branch.
 
 ```
 git pull upstream master
@@ -103,16 +103,16 @@ git checkout -b add-mafioso-icon
 ```
 
 **Determining the offset of your role icon**
-- Horizontal offset: Starts at `0px`, then `-30px`, `-60px`... incrementing by `-30px` each time. Must be a multiple of 30.
-- Vertical offset: Starts at `0px`, then `-40px`, `-80px`... incrementing by `-40px` each time. Must be a multiple of 40.
-- Tip: If you are lazy to calculate, find another role on the same row (`horizontal_offset`) and column(`vertical_offset`) as your icon.
+- Horizontal offset: From Left to Right, it is `0px` for the first column, then `-30px`, `-60px`...
+- Vertical offset: From Top to Bottom, it is `0px` for the first row, then `-40px`, `-80px`...
+- Tip: If you are lazy to calculate, find another role on the same row (`horizontal_offset`) and column (`vertical_offset`) as your icon.
 
 Extra info: What do offsets mean? You can imagine a frame on the first `30px` by `40px` of the spritesheet. E.g. Mayor has offset \[`-60px`, `-40px` \]. This means you would move the image left by `60px`, i.e. two horizontal frames. You would also move the image up by `40px`, i.e. one vertical frame. These actions would position your icon in the reference frame.
  
 **Adding role css**
-- Within each alignment, rows are sorted by their vertical offset. All the `0px` ones are put first, then `-40px` and so on.
 - Create a new css class for your role.
-- Note the position of where you add the css. Roles are sorted by alignment, `Village` > `Mafia` > `Independent` > `Monsters`. Within each alignment, roles are sorted by the **row** in which they appear.
+- Note the position of where you add the css. 
+- Roles are sorted by alignment, `Village` > `Mafia` > `Independent` > `Monsters`. Within each alignment, roles are sorted by the **row** in which they appear.
 
 ```
 .role-Mafia-<RoleName> {
@@ -185,7 +185,7 @@ Disclaimer: Every Github user has an allocated amount of Codespace usage each mo
 
 Once you have submitted your pull request, go back to your fork's webpage, i.e. `https://github.com/<your_username>/BeyondMafia-Integration`.
 
-You can shutdown (can turn back on) or delete (need to recreate) the codespace.
+You can either shutdown (can turn back on) or delete (need to recreate) the codespace.
 
 <img src="https://user-images.githubusercontent.com/24848927/219884970-e323877b-aeb9-4dbf-bbaf-7c18304353ca.png" alt="shutdown" width="700"/>
 
