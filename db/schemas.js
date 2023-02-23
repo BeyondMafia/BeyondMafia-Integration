@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var stats = require("./stats");
 
 var schemas = {
     "User": new mongoose.Schema({
@@ -37,7 +38,6 @@ var schemas = {
         setups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         favSetups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }],
-        rankedCount: Number,
         globalNotifs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Notification" }],
         blockedUsers: [String],
         coins: { type: Number, default: 0 },
@@ -50,26 +50,8 @@ var schemas = {
             twoCharName: { type: Number, default: 0 },
             oneCharName: { type: Number, default: 0 },
         },
-        stats: {
-            "Mafia": {
-                reads: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                survival: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                participation: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                wins: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-            }
-        },
+        stats: {},
+        rankedPoints: { type: Number, default: 0 },
         nameChanged: false,
         playedGame: false,
         referrer: String,
@@ -111,9 +93,10 @@ var schemas = {
         excessRoles: Number,
         favorites: Number,
         featured: { type: Boolean, index: true },
+        ranked: { type: Boolean, default: false },
         played: { type: Number, index: true },
-        rolePlays: { type: Map, of: Number },
-        roleWins: { type: Map, of: Number }
+        rolePlays: {},
+        roleWins: {}
     }),
     "Game": new mongoose.Schema({
         id: { type: String, index: true },
@@ -406,6 +389,5 @@ schemas.Ban.virtual("mod", {
     foreignField: "id",
     justOne: true
 });
-
 
 module.exports = schemas;
