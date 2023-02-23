@@ -1,5 +1,6 @@
 const Card = require("../../Card");
-const { PRIORITY_ORANGE_GIVER } = require("../../const/Priority");
+const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
+const { MEETING_PRIORITY_HOT_SPRINGS } = require("../../const/MeetingPriority");
 
 module.exports = class OrangeGiver extends Card {
 
@@ -7,12 +8,19 @@ module.exports = class OrangeGiver extends Card {
         super(role);
 
         this.meetings = {
+            "Hot Springs": {
+                states: ["Night"],
+                flags: ["exclusive", "group", "speech", "anonymous"],
+                priority: MEETING_PRIORITY_HOT_SPRINGS,
+            },
+
             "Give Orange": {
                 states: ["Night"],
                 flags: ["voting"],
+                priority: MEETING_PRIORITY_HOT_SPRINGS + 1,
                 action: {
                     labels: ["giveItem", "orange"],
-                    priority: PRIORITY_ORANGE_GIVER,
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         this.target.holdItem("Orange");
                         this.target.queueAlert("You have received a yuzu orange!");
