@@ -21,7 +21,7 @@ module.exports = class Stun extends Effect {
             effect: this,
             game: this.game,
             run: function() {
-                this.blockActions();
+                this.roleblockTarget();
                 this.effect.remove();
             }
         });

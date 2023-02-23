@@ -388,6 +388,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Trapper": {
+            alignment: "Village",
+            description: [
+                "Traps one person at night, killing one of their visitors at random",
+                ],
+        },
+        "Surgeon": {
+            alignment: "Village",
+            description: [
+                "Save one person each night from dying and kills one of their visitors.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -571,12 +583,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Interceptor": {
+            alignment: "Mafia",
+            description: [
+                "Traps one person at night, killing one of their visitors at random",
+            ],
+        },
         "Clown": {
             alignment: "Mafia",
             description: [
                 "Appears as fool to self.",
                 "Will kill their visit target.",
-                ],
+            ],
         },
         "Graverobber": {
             alignment: "Mafia",
@@ -585,7 +603,7 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
-        
+
         //Monsters
         "Lycan": {
             alignment: "Monsters",

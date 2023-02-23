@@ -14,11 +14,10 @@ module.exports = class NightSaver extends Card {
                     labels: ["save"],
                     priority: PRIORITY_NIGHT_SAVER,
                     run: function () {
-                        this.heal(1);
+                        this.healTarget(1);
                     }
                 }
             }
         };
     }
-
 }
