@@ -335,16 +335,12 @@
     background-position: -990px -80px;
 }
 
-.role-Mafia-Chef {
-    background-position: -900px -0px;
-}
-
 .role-Mafia-Lightkeeper {
     background-position: -870px -0px;
 }
 
-.role-Mafia-Journalist {
-    background-position: -990px -120px;
+.role-Mafia-Chef {
+    background-position: -900px -0px;
 }
 
 .role-Mafia-Cyclist {
@@ -353,6 +349,10 @@
 
 .role-Mafia-Justice {
     background-position: -960px -120px;
+}
+
+.role-Mafia-Journalist {
+    background-position: -990px -120px;
 }
 
 /* 
@@ -539,7 +539,7 @@
     background-position: -840px 0;
 }
 
-.role-Mafia-The-Thing {
+.role-Mafia-TheThing {
     background-position: -780px -40px;
 }
 
