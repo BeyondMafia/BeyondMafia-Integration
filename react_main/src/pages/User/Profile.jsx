@@ -56,6 +56,8 @@ export default function Profile() {
     }, [bustCache]);
 
     useEffect(() => {
+        setEditingBio(false);
+
         if (userId) {
             setProfileLoaded(false);
 

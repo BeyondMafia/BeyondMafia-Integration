@@ -395,6 +395,27 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Santa": {
+            alignment: "Village",
+            description: [
+                "Gives out various items at night.",
+                "Can visit someone at night to know their alignment if not visited.",
+            ],
+        },
+        "Tinkerer": {
+            alignment: "Village",
+            description: [
+                "If not visited at night, will craft a gun.",
+                "If killed, the killer will find a gun that always reveals.",
+            ],
+        },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -578,6 +599,27 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+            ],
+        },
         "Graverobber": {
             alignment: "Mafia",
             description: [
@@ -585,7 +627,13 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
-
+        "Slasher": {
+            alignment: "Mafia",
+            description: [
+                "If not visited during the night, will receive a knife.",
+                "Slasher knives do not reveal.",
+                ],
+        },
 
         //Monsters
         "Lycan": {
@@ -683,6 +731,13 @@ const roleData = {
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
             ],
+        },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
         },
         "Lover": {
             alignment: "Independent",

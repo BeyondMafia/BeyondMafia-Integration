@@ -10,7 +10,7 @@
     border-radius: 3px;
     overflow-x: hidden;
 
-    color: black;
+    color: var(--scheme-color-text);
     cursor: pointer;
 
     -webkit-user-select: none;

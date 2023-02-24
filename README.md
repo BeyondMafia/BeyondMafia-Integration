@@ -51,5 +51,5 @@ npm start
 ## Role and game creation
 
 - [Role Creation Guide](/docs/role-creation-guide.md)
-
+- [Role Icon Guide](/docs/role-icons.md)
 Detailed documentation for role/game creation coming soon.
