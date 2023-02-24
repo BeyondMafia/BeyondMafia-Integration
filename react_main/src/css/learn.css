@@ -27,7 +27,7 @@
 .learn .panel {
 	margin-right: 10px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .learn .panel .heading {
@@ -70,8 +70,8 @@
 	padding: 4px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .learn .search-bar input::placeholder {

@@ -10,6 +10,7 @@ import { SubNav } from "../../components/Nav";
 import { HiddenUpload } from "../../components/Form";
 
 import "../../css/user.css"
+import { flipTextColor } from "../../utils";
 
 export default function User(props) {
 	const user = useContext(UserContext);
@@ -138,7 +139,7 @@ export function NameWithAvatar(props) {
 				name={name}
 				small={small}
 				active={active} />
-			<div className="user-name" style={color ? { color: color } : {}}>{name}</div>
+			<div className="user-name" style={color ? { color: flipTextColor(color) } : {}}>{name}</div>
 			{groups &&
 				<Badges groups={groups} small={small} />
 			}
