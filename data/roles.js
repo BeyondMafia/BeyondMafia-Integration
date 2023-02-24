@@ -592,7 +592,22 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
-
+        "Illusionist": {
+            alignment: "Mafia",
+            description: [
+                "Starts with a gun.",
+                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
+            ],
+        },
+        "Cat Lady": {
+            alignment: "Mafia",
+            description: [
+                "Every day, chooses a person to send a cat to.",
+                "At night, the target and choose to let the cat in or chase it out.",
+                "If the cat is let in, the target is roleblocked.",
+                "If chased out, the Cat Lady will learn the role of the target."
+            ],
+        },
 
         //Monsters
         "Lycan": {
