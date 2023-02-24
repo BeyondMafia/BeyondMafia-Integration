@@ -2,11 +2,15 @@ const Card = require("../../Card");
 const Random = require("../../../../../lib/Random");
 const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
-module.exports = class KnowMafia extends Card {
+module.exports = class KnowMafiaSecret extends Card {
 
     constructor(role) {
         super(role);
-
+        
+        this.appearance = {
+            death: "Villager",
+        };
+        
         this.actions = [
             {
                 labels: ["knowledge"],
