@@ -415,6 +415,12 @@ const roleData = {
                 "Anonymously sends message at night to any player of their choice.",
             ],
         },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Visits another player at night with no effect."
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -637,6 +643,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Anonymously sends message at night to any player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
             ],
         },
 
