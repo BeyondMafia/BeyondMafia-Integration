@@ -393,7 +393,14 @@ const roleData = {
             description: [
                 "If not visited at night, will craft a gun.",
                 "If killed, the killer will find a gun that always reveals.",
-                ],
+            ],
+        },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+            ],
         },
 
         //Mafia
@@ -578,12 +585,19 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
         "Clown": {
             alignment: "Mafia",
             description: [
                 "Appears as fool to self.",
                 "Will kill their visit target.",
-                ],
+            ],
         },
         "Graverobber": {
             alignment: "Mafia",
@@ -696,6 +710,13 @@ const roleData = {
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
             ],
+        },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
         },
         "Lover": {
             alignment: "Independent",

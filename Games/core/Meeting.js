@@ -88,6 +88,7 @@ module.exports = class Meeting {
 
         if (options.inputType)
             this.inputType = options.inputType;
+            this.textOptions = options.textOptions;
 
         if (this.multi) {
             this.multiMin = options.multiMin;
@@ -243,6 +244,7 @@ module.exports = class Meeting {
             multi: this.multi,
             targets: this.targets,
             inputType: this.inputType,
+            textOptions: this.textOptions,
             votes: votes,
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),
@@ -717,8 +719,16 @@ module.exports = class Meeting {
 
             message.recipients = [recipientMember.player, message.sender];
             message.prefix = `whispers to ${recipientMember.player.name}`;
-        }
 
+            let leakChance = -1;
+
+            if(this.game.setup.leakPercentage > 0)
+                leakChance = Random.randFloatRange(0, 100);
+            
+            if( leakChance > 0 && leakChance <= this.game.setup.leakPercentage)
+                message.recipients = this.getPlayers();
+        }
+       
         if (!message.recipients)
             message.recipients = this.getPlayers();
 
