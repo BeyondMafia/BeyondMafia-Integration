@@ -12,7 +12,7 @@ module.exports = class WinIfAliveWhenTargetWin extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    labels: ["block"],
+                    labels: ["visit"],
                     priority: PRIORITY_GAIN_ALIGNMENT,
                     run: function () {
                         this.data.targetName = this.target.name;
