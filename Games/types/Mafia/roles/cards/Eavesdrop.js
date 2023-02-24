@@ -27,6 +27,15 @@ module.exports = class Eavesdrop extends Card {
                 },
             }
         };
+        this.actions = [
+            {
+                labels: ["hidden", "absolute"],
+                run: function () {
+                    if (this.game.getStateName() === "Night")
+                        delete this.actor.role.data.stalk;
+                }
+            }
+        ];
         this.listeners = {
             "message": function (message) {
                 if (this.game.getStateName() === "Night" &&
