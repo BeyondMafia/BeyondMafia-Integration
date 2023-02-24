@@ -16,7 +16,7 @@ module.exports = class Guess extends Item {
                 flags: ["group", "voting"],
                 run: function () {
                   if this.target.role == "Merlin" {
-                    return this.holder.data.guessedMerlin == true;
+                    return this.holder.data.guessedMerlin = true;
                   }
                 }
             }
