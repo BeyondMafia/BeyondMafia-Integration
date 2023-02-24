@@ -388,6 +388,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -571,6 +578,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
         "Graverobber": {
             alignment: "Mafia",
             description: [
@@ -578,14 +592,7 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
-        "Apprentice": {
-            alignment: "Mafia",
-            description: [
-                "Once per game, can choose to take the role of a mafia partner upon their death in the village meeting."
-            ],
-        },
-
-
+        
         //Monsters
         "Lycan": {
             alignment: "Monsters",
@@ -683,6 +690,13 @@ const roleData = {
                 "Does not count towards mafia win count.",
             ],
         },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
+        },
         "Lover": {
             alignment: "Independent",
             description: [
@@ -710,13 +724,6 @@ const roleData = {
             description: [
                 "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
                 "Wins if it kills all of its murderers.",
-            ],
-        },
-        "Nomad": {
-            alignment: "Independent",
-            description: [
-                "Each night chooses another player to gain their alignment. ",
-                "Wins if they are alive and the last alignment chosen wins."
             ],
         },
     },
