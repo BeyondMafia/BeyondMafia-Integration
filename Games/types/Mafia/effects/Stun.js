@@ -21,15 +21,7 @@ module.exports = class Stun extends Effect {
             effect: this,
             game: this.game,
             run: function() {
-                for (let action of this.game.actions[0]) {
-                    if (
-                        action.actor == this.target &&
-                        action.priority > this.priority &&
-                        !action.hasLabel("absolute")
-                    ) {
-                        action.cancel(true);
-                    }
-                }
+                this.blockActions();
                 this.effect.remove();
             }
         });

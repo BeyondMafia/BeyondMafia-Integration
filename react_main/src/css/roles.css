@@ -323,6 +323,38 @@
     background-position: -990px -40px;
 }
 
+.role-Mafia-Sapling {
+    background-position: -930px -80px;
+}
+
+.role-Mafia-Baker {
+    background-position: -960px -80px;
+}
+
+.role-Mafia-Ghost {
+    background-position: -990px -80px;
+}
+
+.role-Mafia-Lightkeeper {
+    background-position: -870px -0px;
+}
+
+.role-Mafia-Chef {
+    background-position: -900px -0px;
+}
+
+.role-Mafia-Cyclist {
+    background-position: -930px -120px;
+}
+
+.role-Mafia-Justice {
+    background-position: -960px -120px;
+}
+
+.role-Mafia-Journalist {
+    background-position: -990px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -435,6 +467,14 @@
     background-position: -450px -80px;
 }
 
+.role-Mafia-Ninja {
+    background-position: -480px -80px;
+}
+
+.role-Mafia-Graverobber {
+    background-position: -510px -80px;
+}
+
 /* 
 * Independent 
 */
@@ -479,6 +519,10 @@
     background-position: -750px -40px;
 }
 
+.role-Mafia-Vengeful-Spirit {
+    background-position: -630px -80px;
+}
+
 /* 
 * Monsters 
 */
@@ -493,6 +537,10 @@
 
 .role-Mafia-Cthulhu {
     background-position: -840px 0;
+}
+
+.role-Mafia-TheThing {
+    background-position: -780px -40px;
 }
 
 /* 
