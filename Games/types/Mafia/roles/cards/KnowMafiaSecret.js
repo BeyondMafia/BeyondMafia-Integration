@@ -17,7 +17,7 @@ module.exports = class KnowMafiaSecret extends Card {
                 priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                 run: function () {
                   let mafia = this.game.players.filter(p => p.role.alignment == "Mafia");
-                  var alert = `You know that ${mafia.join(',\n')} are the Mafia.`;
+                  var alert = `You know that ${mafia.join(', ')} are the Mafia.`;
                   if (this.game.getStateInfo().dayCount == 0) {
                     this.actor.queueAlert(alert);
                   }
