@@ -4,7 +4,7 @@ module.exports = class Match extends Item {
 
     constructor() {
         super("Match");
-
+        this.cannotBeStolen = true;
         this.meetings = {
             "Light Match": {
                 actionName: "Light your match?",
@@ -12,7 +12,7 @@ module.exports = class Match extends Item {
                 flags: ["voting", "instant", "noVeg"],
                 inputType: "boolean",
                 action: {
-                    labels: ["ignite", "match"],
+                    labels: ["kill", "ignite", "match"],
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {

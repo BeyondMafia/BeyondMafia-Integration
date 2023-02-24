@@ -9,12 +9,12 @@ module.exports = class MafiaMeeting extends Meeting {
     finish(isVote) {
         super.finish(isVote);
 
-        for (let member of this.members) {
-            if (this.votes[member.id])
-                member.player.recordStat("participation", true);
-            else
-                member.player.recordStat("participation", false);
-        }
+        // for (let member of this.members) {
+        //     if (this.votes[member.id])
+        //         member.player.recordStat("participation", true);
+        //     else
+        //         member.player.recordStat("participation", false);
+        // }
     }
 
 }

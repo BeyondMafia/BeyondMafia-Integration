@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_GIVE_VISITORS_ITEM } = require("../../const/Priority");
+const { PRIORITY_EFFECT_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class GiveVisitorsGuns extends Card {
 
@@ -8,7 +8,7 @@ module.exports = class GiveVisitorsGuns extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_GIVE_VISITORS_ITEM,
+                priority: PRIORITY_EFFECT_GIVER_DEFAULT,
                 labels: ["giveItem", "gun"],
                 run: function () {
                     if (this.game.getStateName() == "Night") {

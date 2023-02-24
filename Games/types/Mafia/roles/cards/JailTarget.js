@@ -1,5 +1,6 @@
 const Card = require("../../Card");
-const { PRIORITY_JAIL_EXECUTE, PRIORITY_JAIL_MEETING } = require("../../const/Priority");
+const { PRIORITY_JAIL_EXECUTE, PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
+const { MEETING_PRIORITY_JAIL } = require("../../const/MeetingPriority");
 
 module.exports = class JailTarget extends Card {
 
@@ -12,7 +13,7 @@ module.exports = class JailTarget extends Card {
                 flags: ["voting"],
                 action: {
                     labels: ["jail"],
-                    priority: PRIORITY_JAIL_MEETING,
+                    priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
                             this.target.holdItem("Handcuffs");
@@ -24,9 +25,10 @@ module.exports = class JailTarget extends Card {
             "Jail": {
                 actionName: "Execute Prisoner",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous"],
+                flags: ["exclusive", "group", "speech", "voting", "anonymous"],
                 inputType: "boolean",
                 leader: true,
+                priority: MEETING_PRIORITY_JAIL,
                 shouldMeet: function () {
                     for (let player of this.game.players)
                         if (player.hasItem("Handcuffs"))
@@ -35,6 +37,7 @@ module.exports = class JailTarget extends Card {
                     return false;
                 },
                 action: {
+                    labels: ["kill", "jail"],
                     priority: PRIORITY_JAIL_EXECUTE,
                     run: function () {
                         var prisoner = this.actor.role.data.prisoner;
@@ -42,7 +45,7 @@ module.exports = class JailTarget extends Card {
                         if (!prisoner)
                             return;
 
-                        if (this.target == "Yes")
+                        if (this.target == "Yes" && this.dominates(prisoner)) 
                             prisoner.kill("basic", this.actor);
                     }
                 }
