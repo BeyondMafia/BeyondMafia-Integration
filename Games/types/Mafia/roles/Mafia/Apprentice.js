@@ -16,6 +16,6 @@ module.exports = class Apprentice extends Role {
 
 }
 
-function targetFilter(deathType) {
-    return !deathType == "lynch";
+function targetFilter(player) {
+    return !this.player.deathType == "lynch";
 }
