@@ -7,7 +7,12 @@ module.exports = class Jester extends Role {
 
         this.alignment = "Independent";
         this.winCount = "Village";
-        this.cards = ["VillageCore", "WinIfLynched", "FoolAround"];
+        this.cards = ["VillageCore", "WinIfLynched", "Visit"];
+         this.meetingMods = {
+            "Visit": {
+                actionName: "Fool Around",
+            }
+        };
     }
 
 }
