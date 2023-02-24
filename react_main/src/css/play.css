@@ -1,8 +1,9 @@
 .play .item-list {
     min-height: 300px;
 
-    background-color: white;
-    color: black;
+    background-color: var(--scheme-color);
+    color: var(--scheme-color-text);
+
 }
 
 .play .top-bar {
@@ -33,12 +34,11 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
-
+    background-color: var(--scheme-color);
     padding: 8px;
 }
-
 .row.odd {
-    background-color: #f3f3f3;
+    background-color: var(--scheme-color-sec);
 }
 
 .row .btn {
