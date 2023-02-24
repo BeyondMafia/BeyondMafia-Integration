@@ -388,6 +388,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -571,27 +578,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+                ],
+        },
         "Graverobber": {
             alignment: "Mafia",
             description: [
                 "Can visit a dead player every night.",
                 "Learns the role of that player and takes all items they're holding.",
-            ],
-        },
-        "Illusionist": {
-            alignment: "Mafia",
-            description: [
-                "Starts with a gun.",
-                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
-            ],
-        },
-        "Cat Lady": {
-            alignment: "Mafia",
-            description: [
-                "Every day, chooses a person to send a cat to.",
-                "At night, the target and choose to let the cat in or chase it out.",
-                "If the cat is let in, the target is roleblocked.",
-                "If chased out, the Cat Lady will learn the role of the target."
             ],
         },
 
@@ -692,6 +690,13 @@ const roleData = {
                 "Wins when mafia wins.",
                 "Does not count towards mafia win count.",
             ],
+        },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
         },
         "Lover": {
             alignment: "Independent",
