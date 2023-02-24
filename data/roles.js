@@ -409,6 +409,14 @@ const roleData = {
                 "Vote overrides others in village meeting.",
             ],
         },
+        "Merlin": {
+            alignment: "Village",
+            description: [
+                "Knows all of the mafia at the start of the game.",
+                "Appears as villager on death.",
+                "If executed, Mafia have the chance to guess who Merlin is, and if correct, will win.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
