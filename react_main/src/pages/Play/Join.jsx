@@ -191,7 +191,7 @@ export function GameRow(props) {
 
         var lobby = props.lobby;
 
-        if (lobby = "All")
+        if (lobby == "All")
             lobby = "Main";
 
         axios.post("/game/host", {

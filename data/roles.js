@@ -388,12 +388,19 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Tinkerer": {
+            alignment: "Village",
+            description: [
+                "If not visited at night, will craft a gun.",
+                "If killed, the killer will find a gun that always reveals.",
+            ],
+        },
         "King": {
             alignment: "Village",
             description: [
                 "Appears as villager to themself.",
                 "Vote overrides others in village meeting.",
-                ],
+            ],
         },
 
         //Mafia
@@ -578,12 +585,19 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
         "Clown": {
             alignment: "Mafia",
             description: [
                 "Appears as fool to self.",
                 "Will kill their visit target.",
-                ],
+            ],
         },
         "Graverobber": {
             alignment: "Mafia",
@@ -607,6 +621,12 @@ const roleData = {
                 "If the cat is let in, the target is roleblocked.",
                 "If chased out, the Cat Lady will learn the role of the target."
             ],
+        "Slasher": {
+            alignment: "Mafia",
+            description: [
+                "If not visited during the night, will receive a knife.",
+                "Slasher knives do not reveal.",
+                ],
         },
 
         //Monsters
