@@ -388,6 +388,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Santa": {
+            alignment: "Village",
+            description: [
+                "Gives out various items at night.",
+                "Can visit someone at night to know their alignment if not visited.",
+            ],
+        },
         "Tinkerer": {
             alignment: "Village",
             description: [
