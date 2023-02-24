@@ -16,11 +16,14 @@ module.exports = class KnowMafiaSecret extends Card {
                 labels: ["knowledge"],
                 priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                 run: function () {
-                  let mafia = this.game.players.filter(p => p.role.alignment == "Mafia");
-                  var alert = `You know that ${mafia.join(', ')} are the Mafia.`;
-                  if (this.game.getStateInfo().dayCount == 0) {
-                    this.actor.queueAlert(alert);
-                  }
+                    if (this.game.getStateInfo().dayCount == 0) {
+                        let mafia = this.game.players.filter(p => p.role.alignment == "Mafia");
+                        var alert = `You know that ${mafia.join(', ')} are the Mafia.`;
+                        this.actor.queueAlert(alert);
+                        for (let player of mafia) {
+                            player.holdItem("Guess");
+                        }
+                    }
                 }
             }
         ];
