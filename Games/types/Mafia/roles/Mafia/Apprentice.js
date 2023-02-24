@@ -9,13 +9,13 @@ module.exports = class Apprentice extends Role {
         this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "BecomeDeadRole"];
         this.meetingMods = {
             "Become Role": {
-                targets: { include: ["Mafia"], exclude: ["alive", "self", filter] },
+                targets: { include: ["Mafia"], exclude: ["alive", "self", targetFilter] },
             }
         };
     }
 
 }
 
-function filter(deathType) {
+function targetFilter(deathType) {
     return !deathType == "lynch";
 }
