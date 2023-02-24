@@ -578,12 +578,19 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
         "Clown": {
             alignment: "Mafia",
             description: [
                 "Appears as fool to self.",
                 "Will kill their visit target.",
-                ],
+            ],
         },
         "Graverobber": {
             alignment: "Mafia",
