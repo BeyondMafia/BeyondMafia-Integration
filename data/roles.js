@@ -592,6 +592,12 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
+        "Apprentice": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, can choose to take the role of a mafia partner upon their death in the village meeting."
+            ],
+        },
         
         //Monsters
         "Lycan": {
