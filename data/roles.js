@@ -388,12 +388,26 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Santa": {
+            alignment: "Village",
+            description: [
+                "Gives out various items at night.",
+                "Can visit someone at night to know their alignment if not visited.",
+            ],
+        },
+        "Tinkerer": {
+            alignment: "Village",
+            description: [
+                "If not visited at night, will craft a gun.",
+                "If killed, the killer will find a gun that always reveals.",
+            ],
+        },
         "King": {
             alignment: "Village",
             description: [
                 "Appears as villager to themself.",
                 "Vote overrides others in village meeting.",
-                ],
+            ],
         },
 
         //Mafia
@@ -578,12 +592,26 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
         "Clown": {
             alignment: "Mafia",
             description: [
                 "Appears as fool to self.",
                 "Will kill their visit target.",
-                ],
+            ],
         },
         "Graverobber": {
             alignment: "Mafia",
@@ -598,7 +626,13 @@ const roleData = {
                 "Once per game, can choose to take the role of a mafia partner upon their death in the village meeting."
             ],
         },
-        
+        "Slasher": {
+            alignment: "Mafia",
+            description: [
+                "If not visited during the night, will receive a knife.",
+                "Slasher knives do not reveal.",
+                ],
+        },
         //Monsters
         "Lycan": {
             alignment: "Monsters",
