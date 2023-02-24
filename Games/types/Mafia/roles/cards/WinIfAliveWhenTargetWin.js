@@ -15,7 +15,10 @@ module.exports = class WinIfAliveWhenTargetWin extends Card {
                     labels: ["visit"],
                     priority: PRIORITY_GAIN_ALIGNMENT,
                     run: function () {
-                        this.data.targetName = this.target.name;
+                        this.data.targetAlignment = this.target.alignment;
+                        if (this.data.targetAlignment = "Independent") {
+                            this.data.targetAlignment = this.target.name;
+                        }
                     }
                 }
             }
