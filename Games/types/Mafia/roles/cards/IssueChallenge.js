@@ -16,6 +16,7 @@ module.exports = class IssueChallenge extends Card {
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function() {
                         this.data.challenger = this.actor.name;
+                        this.data.challenged = this.target.name;
                         this.target.holdItem("Challenge");
                     }
                 }
