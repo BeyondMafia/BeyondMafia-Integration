@@ -82,7 +82,7 @@ const roleData = {
                 "Armor can block a single attack."
             ],
         },
-        "Archer": {
+        "Hunter": {
             alignment: "Village",
             description: [
                 "When executed, can choose someone to kill."
@@ -167,13 +167,13 @@ const roleData = {
                 "Meets with other Templars during the night."
             ],
         },
-        "Suspect": {
+        "Miller": {
             alignment: "Village",
             description: [
                 "Appears as Villager to self.",
                 "Appears as Mafioso to investigative roles.",
                 "Appears as Mafioso upon being executed.",
-                "Appears as Suspect upon being killed.",
+                "Appears as Miller upon being killed.",
             ],
         },
         "Mayor": {
