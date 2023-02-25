@@ -7,7 +7,7 @@ module.exports = class IssueChallenge extends Card {
         super(role);
 
         this.meetings = {
-            "Jail Target": {
+            "Issue Challenge": {
                 states: ["Day"],
                 flags: ["voting"],
                 action: {
@@ -17,17 +17,17 @@ module.exports = class IssueChallenge extends Card {
                         if (this.dominates()) {
                             this.target.holdItem("Challenge");
                             this.actor.holdItem("Challenge");
-                            this.data.chalenged = this.target;
-                            this.data.chalenger = this.actor;}
+                            this.actor.role.data.challenger = this.target;
+                            this.actor.role.data.gambler = this.actor;}
                     }
                 }
             },
             "RPS A": {
                 actionName: "Rock, Paper, Scissors",
                 states: ["Night"],
-                flags: ["exclusive", "voting"],
+                flags: ["exclusive", "voting", "group", "anonymous"],
                 inputType: "alignment",
-                targets: ['Rock', 'Paper', 'Scissors'],
+                targets: ["Rock", "Paper", "Scissors"],
                 shouldMeet: function () {
                     for (let player of this.game.players)
                         if (player.hasItem("Challenge"))
@@ -39,20 +39,20 @@ module.exports = class IssueChallenge extends Card {
                     labels: ["challenge"],
                     priority: PRIORITY_CHALLENGE,
                     run: function () {
-                        var challenged = this.data.chalenged;
+                        var challenger = this.actor.role.data.challenger;
 
-                        if (challenged)
+                        if (challenger)
                             return;
-                        this.data.rpsA = this.target;
+                        this.actor.role.data.rpsA = this.target;
                     }
                 }
             },
             "RPS B": {
                 actionName: "Rock, Paper, Scissors",
                 states: ["Night"],
-                flags: ["exclusive", "voting"],
+                flags: ["exclusive", "voting", "group", "anonymous"],
                 inputType: "alignment",
-                targets: ['Rock', 'Paper', 'Scissors'],
+                targets: ["Rock", "Paper", "Scissors"],
                 shouldMeet: function () {
                     for (let player of this.game.players)
                         if (player.hasItem("Challenge"))
@@ -64,23 +64,23 @@ module.exports = class IssueChallenge extends Card {
                     labels: ["challenge"],
                     priority: PRIORITY_CHALLENGE,
                     run: function () {
-                        var challenger = this.data.chalenger;
+                        var gambler = this.actor.role.data.gambler;
 
-                        if (challenger)
+                        if (gambler)
                             return;
-                        this.data.rpsB = this.target;
+                        this.actor.role.data.rpsB = this.target;
                     }
                 }
-            }
+            },
         };
         this.listeners = {
             "afterActions": function () {
                 if (
-                    this.data.rpsB == 'Rock' && this.data.rpsA == 'Scissor' ||
-                    this.data.rpsB == 'Scissor' && this.data.rpsA == 'Paper' ||
-                    this.data.rpsB == 'Paper' && this.data.rpsA == 'Rock'
+                    this.actor.role.data.rpsB == 'Rock' && this.actor.role.data.rpsA == 'Scissor' ||
+                    this.actor.role.data.rpsB == 'Scissor' && this.actor.role.data.rpsA == 'Paper' ||
+                    this.actor.role.data.rpsB == 'Paper' && this.actor.role.data.rpsA == 'Rock'
                    ) {
-                    return this.data.challengeWon + 1;
+                    return this.actor.role.data.challengeWon + 1;
                     }
             }
         };
