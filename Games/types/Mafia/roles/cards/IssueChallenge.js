@@ -43,7 +43,14 @@ module.exports = class IssueChallenge extends Card {
 
                         if (challenger)
                             return;
-                        this.actor.role.data.rpsA = this.target;
+                        
+                        if (this.target == "Rock") {
+                            this.actor.role.data.rpsA = 0;
+                        } else if (this.target == "Paper") {
+                            this.actor.role.data.rpsA = 1;
+                        } else if (this.target == "Scissors") {
+                            this.actor.role.data.rpsA = 2;
+                        }
                     }
                 }
             },
@@ -68,20 +75,25 @@ module.exports = class IssueChallenge extends Card {
 
                         if (gambler)
                             return;
-                        this.actor.role.data.rpsB = this.target;
+                        
+                        if (this.target == "Rock") {
+                            this.actor.role.data.rpsB = 0;
+                        } else if (this.target == "Paper") {
+                            this.actor.role.data.rpsB = 1;
+                        } else if (this.target == "Scissors") {
+                            this.actor.role.data.rpsB = 2;
+                        }
                     }
                 }
             },
         };
         this.listeners = {
             "afterActions": function () {
-                if (
-                    this.actor.role.data.rpsB == 'Rock' && this.actor.role.data.rpsA == 'Scissor' ||
-                    this.actor.role.data.rpsB == 'Scissor' && this.actor.role.data.rpsA == 'Paper' ||
-                    this.actor.role.data.rpsB == 'Paper' && this.actor.role.data.rpsA == 'Rock'
-                   ) {
-                    return this.actor.role.data.challengeWon + 1;
-                    }
+                var result = (this.actor.role.data.rpsB - this.actor.role.data.rpsA) % 3;
+                if (result == 0) {
+                } else if (result == 1) {
+                } if (result == 2) {
+                }
             }
         };
     }
