@@ -304,6 +304,13 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Invisible Man": {
+            alignment: "Village",
+            description: [
+                "Can choose one person during the day to stalk.",
+                "Will hear all messages from meetings that player is in that night.",
+                ],
+        },
         "Cyclist": {
             alignment: "Village",
             description: [
