@@ -15,10 +15,10 @@ module.exports = class Summon extends Item {
                 whileDead: true,
                 passiveDead: false,
                 inputType: "boolean",
-                canVote: false
+                canVote: true,
+                },
             }
         };
-    }
 
     shouldDisableMeeting(name, options) {
         var stateInfo = this.game.getStateInfo();

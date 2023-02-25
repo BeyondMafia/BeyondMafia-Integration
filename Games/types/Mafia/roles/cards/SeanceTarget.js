@@ -1,21 +1,24 @@
 const Card = require("../../Card");
-const {PRIORITY_JAIL_MEETING } = require("../../const/Priority");
+const {PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 
 module.exports = class SeanceTarget extends Card {
 
     constructor(role) {
         super(role);
 
+        this.actor.role.data.seancename = null;
         this.meetings = {
             "Seance Player": {
                 states: ["Day"],
-                flags: ["voting"],
+                flags: ["voting", "exclusive"],
                 targets: { include: ["dead"], exclude: ["alive", "self"] },
                 action: {
-                    labels: ["jail"],
-                    priority: PRIORITY_JAIL_MEETING,
+                    labels: ["seance"],
+                    priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
+                            this.actor.role.data.seanced = this.target.name;
+                            this.actor.role.data.meetingname = "Seance with " + this.target.name;
                             this.target.holdItem("Summon");
                         }
                     }
@@ -34,11 +37,6 @@ module.exports = class SeanceTarget extends Card {
 
                     return false;
                 },
-                action: {
-                    priority: PRIORITY_JAIL_MEETING,
-                    run: function () {
-                    }
-                }
             }
         };
     }
