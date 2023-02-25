@@ -412,7 +412,7 @@ const roleData = {
         "Messenger": {
             alignment: "Village",
             description: [
-                "Anonymously sends message at night to any player of their choice.",
+                "Anonymously sends message at night to another player of their choice.",
             ],
         },
         "Visitor": {
@@ -658,7 +658,7 @@ const roleData = {
         "Courier": {
             alignment: "Mafia",
             description: [
-                "Anonymously sends message at night to any player of their choice.",
+                "Anonymously sends message at night to another player of their choice.",
             ],
         },
         "Trespasser": {
