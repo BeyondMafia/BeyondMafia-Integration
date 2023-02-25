@@ -73,6 +73,19 @@ module.exports = class IssueChallenge extends Card {
                 }
             }
         };
+        this.listeners = {
+            "afterActions": function () {
+                if (
+                    this.data.rpsB == 'Rock' && this.data.rpsA == 'Scissor' ||
+                    this.data.rpsB == 'Scissor' && this.data.rpsA == 'Paper' ||
+                    this.data.rpsB == 'Paper' && this.data.rpsA == 'Rock'
+                   ) {
+                    return this.data.challengeWon + 1;
+                    }
+            }
+        };
+    }
+
     }
 
 }
