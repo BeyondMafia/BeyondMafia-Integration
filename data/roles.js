@@ -777,6 +777,14 @@ const roleData = {
                 "Wins if it kills all of its murderers.",
             ],
         },
+        "Gambler": {
+            alignment: "Independent",
+            description: [
+                "Chooses a player to play a game of rock, paper, scissors with at night.",
+                "If the gambler wins, they kill the player.",
+                "Wins after killing 3 players.",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
