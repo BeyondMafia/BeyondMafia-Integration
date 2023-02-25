@@ -161,10 +161,10 @@ const roleData = {
                 "Cannot be killed normally."
             ],
         },
-        "Illuminato": {
+        "Templar": {
             alignment: "Village",
             description: [
-                "Meets with other Illuminati members during the night."
+                "Meets with other Templars during the night."
             ],
         },
         "Suspect": {
