@@ -89,10 +89,26 @@ module.exports = class IssueChallenge extends Card {
         };
         this.listeners = {
             "afterActions": function () {
+                var challenger = this.actor.role.data.challenger;
+                var gambler = this.actor.role.data.gambler;
                 var result = (this.actor.role.data.rpsB - this.actor.role.data.rpsA) % 3;
                 if (result == 0) {
+                    var alert1 = `You flee the gambler alive.`
+                    challenger.queueAlert(alert1);
+                    var alert2 = `It was a tie, and the challenger flees.`
+                    gambler.queueAlert(alert2);
                 } else if (result == 1) {
+                    this.data.challengeWon = this.data.challengeWon + 1;
+                    var alert = `You have won. You will win in ${3 - this.data.challengeWon} challenges.`
+                    gambler.queueAlert(alert);
+                    if (this.dominates()) {
+                        this.target.kill("basic", this.actor);
+                    }
                 } if (result == 2) {
+                    var alert1 = `You flee the gambler alive.`
+                    challenger.queueAlert(alert1);
+                    var alert2 = `You lost, and the challenger flees.`
+                    gambler.queueAlert(alert2);
                 }
             }
         };
