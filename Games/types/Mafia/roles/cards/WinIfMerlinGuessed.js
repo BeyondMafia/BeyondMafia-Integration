@@ -10,7 +10,7 @@ module.exports = class WinIfMerlinGuessed extends Card {
       this.meetings = {
             "Guess Merlin": {
                 states: ["Night"],
-                flags: ["voting"],
+                flags: ["voting", "exclusive"],
                 shouldMeet: function () {
                     for (let player of this.game.players)
                         if (player.hasItem("Guess"))
