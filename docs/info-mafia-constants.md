@@ -48,35 +48,49 @@ Sunset is used for the Hunter interaction.
 |--------------|------------------------------------|
 | kill         | Action kills target.               |
 | save         | Action gives kill immunity.        |
+| revive       | Action revives a player.           |
 | lynch        | Village elimination.               |
 | hidden       | Action does not appear as a visit. |
 | block        | Action cancels other actions.      |
 | giveItem     | Action gives an item.              |
 | giveEffect   | Action gives an effect.            |
 | investigate  | Action gathers information.        |
+| alignment    | Sub-label for investigate.         |
+| role         | Sub-label for investigate.         |
 | convert      | Action changes roles.              |
 
 ### Role-specific Labels
 
-| Action Label | Description             |
-|--------------|-------------------------|
-| gun          | Item: Gun               |
-| armor        | Item: Armour            |
-| bomb         | Item: Bomb              |
-| orange       | Item: Orange            |
-| match        | Item: Match             |
-| gasoline     | Item: Gasoline          |
-| probe        | Effect: Probe           |
-| poison       | Effect: Poison          |
-| carol        | Caroler                 |
-| dream        | Dreamer                 |
-| cultist      | Cultist                 |
-| mason        | Mason                   |
-| werwolf      | Lycan, Priest           |
-| wolfBite     | Lycan, Werewolf         |
-| cleanse      | Lycan, Werewolf, Priest |
-| clean        | Janitor                 |
-| sting        | Killer Bee              |
+Labels are helpful to manage two or more roles interacting with each other.
+
+| Kill Power      | Power                   |
+|-----------------|-------------------------|
+| gun             | Item: Gun               |
+| armor           | Item: Armour            |
+| bomb            | Item: Bomb, Bomb        |
+| orange          | Item: Orange            |
+| match           | Item: Match             |
+| gasoline        | Item: Gasoline          |
+| knife           | Item: Knife             |
+| cat             | Item: Cat               |
+| probe           | Effect: Probe           |
+| poison          | Effect: Poison          |
+| seppuku         | Yakuza                  |
+| carol           | Caroler                 |
+| dream           | Dreamer                 |
+| cultist         | Cultist                 |
+| mason, mismason | Mason                   |
+| werwolf         | Lycan, Priest           |
+| wolfBite        | Lycan, Werewolf         |
+| cleanse         | Lycan, Werewolf, Priest |
+| clean           | Janitor                 |
+| sting           | Killer Bee              |
+| curse           | Diabolist, Sorceror     |
+| cursed          | Fabricator              |
+| stealIdentity   | Disguiser               |
+| famine          | Baker                   |
+| snowball, throw | Snowball                |
+| ignite, match   | Arsonist                |
 
 ## Immunity
 
