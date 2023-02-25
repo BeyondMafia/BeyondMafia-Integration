@@ -10,7 +10,7 @@ module.exports = class WinIfBeatThrice extends Card {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             againOnFinished: true,
             check: function (counts, winners, aliveCount, confirmedFinished) {
-                if (this.player.data.challengeWon == 3) {
+                if (this.data.challengeWon == 3) {
                     winners.addPlayer(this.player, this.name);
                 }
             }
