@@ -63,7 +63,7 @@ const roleData = {
                 "Kills one person each night."
             ],
         },
-        "Seer": {
+        "Detective": {
             alignment: "Village",
             description: [
                 "Learns the role of one person each night.",
