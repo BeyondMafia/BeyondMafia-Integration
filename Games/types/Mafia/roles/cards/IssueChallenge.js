@@ -15,12 +15,49 @@ module.exports = class IssueChallenge extends Card {
                     labels: ["giveItem", "Invitation"],
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function() {
-                      this.target.holdItem("Challenge");
-                      this.actor.holdItem("Challenge");
-                    }
+                        this.data.challenger = this.actor.name;
+                        this.data.challenged = this.target.name;
                     }
                 }
             },
+            "Challenger": {
+                actionName: "Challenge",
+                states: ["Night"],
+                flags: ["voting"],
+                inputType: "alignment",
+                targets: ["Rock", "Paper", "Scissors"],
+                shouldMeet: function () {
+                    if (this.actor.name == this.data.challenger)
+                        return true;
+                    
+                    return false;
+                },
+                action: {
+                    labels: ["challenge"],
+                    priority: PRIORITY_CHALLENGE,
+                    run: function () {
+                        this.data.rps1 = this.target;
+                    }
+                },
+            "Challenged": {
+                actionName: "Challenge",
+                states: ["Night"],
+                flags: ["voting"],
+                inputType: "alignment",
+                targets: ["Rock", "Paper", "Scissors"],
+                shouldMeet: function () {
+                    if (this.actor.name == this.data.challenged)
+                        return true;
+                    
+                    return false;
+                },
+                action: {
+                    labels: ["challenge"],
+                    priority: PRIORITY_CHALLENGE,
+                    run: function () {
+                        this.data.rps2 = this.target;
+                    }
+                },
         };
     }
 
