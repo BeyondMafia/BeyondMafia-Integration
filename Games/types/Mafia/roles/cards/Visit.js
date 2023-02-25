@@ -9,6 +9,7 @@ module.exports = class Visit extends Card {
             "Visit": {
                 states: ["Night"],
                 flags: ["voting", "noVeg"],
+                targets = { include: ["alive"], exclude: ["self"] };
                 action: {
                     run: function () {}
                 },
