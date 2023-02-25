@@ -154,7 +154,7 @@ const roleData = {
                 "Can save one person each night from dying, including herself."
             ],
         },
-        "Babushka": {
+        "Granny": {
             alignment: "Village",
             description: [
                 "Kills all who visit her during the night.",
