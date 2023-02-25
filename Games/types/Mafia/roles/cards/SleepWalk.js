@@ -8,33 +8,25 @@ module.exports = class SleepWalk extends Card {
     constructor(role) {
         super(role);
 
-        this.actions = {
-            priority: PRIORITY_SLEEPWALKER,
-            target: this.player;
-            run: function () {
-                if (this.game.getStateName() != "Night")
-                    return;
-                
-                const target_list = this.game.players.filter(p => p != this.player);
-                const target = Random.randArrayVal(target_list);
-                this.target = target;
-        }
-
-        /** this.listeners = {
+        this.listeners = {
             "state": function (stateInfo) {
-                const target_list = this.game.players.filter(p => p != this.player);
+                if (!stateInfo.name.match(/Night/)) {
+                    return
+                }
+
+                const target_list = this.game.players.filter(p => p.alive);
                 const target = Random.randArrayVal(target_list);
 
+                var action = new Action({
+                    actor: this.player,
+                    target: target,
+                    game: this.player.game,
+                    priority: PRIORITY_SLEEPWALKER,
+                    run: function() {}
+                })
 
-                if (stateInfo.name.match(/Night/)) {
-                    var action = new Action({
-                        actor: this.player,
-                        target: target,
-                        game: this.player.game,
-                        priority: PRIORITY_SLEEPWALKER,
-                    })
-                    }
-                } **/
+                this.game.queueAction(action);
             }
-        };
-    }
+        }
+    };
+}
