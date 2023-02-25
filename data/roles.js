@@ -641,7 +641,7 @@ const roleData = {
             description: [
                 "If not visited during the night, will receive a knife.",
                 "Slasher knives do not reveal.",
-                ],
+            ],
         },
 
         //Monsters
