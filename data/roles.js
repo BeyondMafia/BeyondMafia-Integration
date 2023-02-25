@@ -425,7 +425,7 @@ const roleData = {
         "Visitor": {
             alignment: "Village",
             description: [
-                "Visits another player at night with no effect."
+                "Pays a visit to another player at night, though annoying, with no effect."
             ],
         },
 
