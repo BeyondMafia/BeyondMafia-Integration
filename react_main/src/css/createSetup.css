@@ -12,8 +12,8 @@
 	padding: 4px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .create-setup .search-bar input::placeholder {
@@ -86,11 +86,11 @@
 	margin-bottom: 10px;
 	padding: 10px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .roleset.sel {
-	background-color: #f3f3f3;
+	background-color: var(--scheme-color-sec);
 }
 
 .roleset .role {
