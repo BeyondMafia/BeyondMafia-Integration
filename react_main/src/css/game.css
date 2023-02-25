@@ -725,7 +725,7 @@
 
 	flex-flow: row wrap;
 	margin-left: 5px;
-	color: black;
+	color: var(--scheme-color-text);;
 }
 
 .game .last-will-wrapper,
