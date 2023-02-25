@@ -9,15 +9,15 @@ module.exports = class IssueChallenge extends Card {
         this.meetings = {
             "Issue Challenge": {
                 states: ["Day"],
-                flags: ["voting", "noVeg"],
-                targets: { include: ["alive"], exclude: [""] },
+                flags: ["voting"],
                 action: {
-                    labels: ["giveItem", "Invitation"],
+                    labels: ["jail"],
                     priority: PRIORITY_DAY_DEFAULT,
-                    run: function() {
-                        this.data.challenger = this.actor.name;
-                        this.data.challenged = this.target.name;
-                        this.target.holdItem("Challenge");
+                    run: function () {
+                        if (this.dominates()) {
+                            this.target.holdItem("Challenge");
+                            this.actor.role.data.challenged = this.target;
+                        }
                     }
                 }
             },
