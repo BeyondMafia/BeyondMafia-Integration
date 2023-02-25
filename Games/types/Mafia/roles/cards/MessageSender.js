@@ -29,7 +29,7 @@ module.exports = class MessageSender extends Card {
             "Send Message": {
                 states: ["Night"],
                 flags: ["voting"],
-                targets: {include: ["alive"]},
+                targets = { include: ["alive"], exclude: ["self"] };
                 action: {
                     labels: ["message"],
                     priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
