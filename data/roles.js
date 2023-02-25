@@ -128,7 +128,7 @@ const roleData = {
                 "This gun will never reveal the deputy when shot."
             ],
         },
-        "Knight": {
+        "Bulletproof": {
             alignment: "Village",
             description: [
                 "Starts with armor.",
