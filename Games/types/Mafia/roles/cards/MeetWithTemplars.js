@@ -1,12 +1,12 @@
 const Card = require("../../Card");
 
-module.exports = class MeetWithIlluminati extends Card {
+module.exports = class MeetWithTemplar extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Illuminati Meeting": {
+            "Templar Meeting": {
                 states: ["Night"],
                 flags: ["group", "speech"]
             }
