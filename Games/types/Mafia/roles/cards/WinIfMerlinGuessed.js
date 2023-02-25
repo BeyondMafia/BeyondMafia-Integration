@@ -1,6 +1,5 @@
 const Card = require("../../Card");
 const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
-const { PRIORITY_GUESS_MERLIN } = require("../../const/Priority");
 
 module.exports = class WinIfMerlinGuessed extends Card {
 
@@ -20,7 +19,7 @@ module.exports = class WinIfMerlinGuessed extends Card {
                 },
                 action: {
                     labels: ["visit"],
-                    priority: PRIORITY_GUESS_MERLIN,
+                    priority: PRIORITY_WIN_CHECK_DEFAULT  - 1,
                     run: function () {
                         if (this.target.role = "Merlin") {
                             this.data.guessedMerlin = "true";
