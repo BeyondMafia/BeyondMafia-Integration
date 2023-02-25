@@ -797,7 +797,6 @@ const roleData = {
                 "Wins if it kills all of its murderers.",
             ],
         },
-    },
         "Nomad": {
             alignment: "Independent",
             description: [
@@ -805,6 +804,7 @@ const roleData = {
                 "Wins if they are alive and the last alignment chosen wins."
             ],
         },
+    },
 
     "Split Decision": {
         //Blue
