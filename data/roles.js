@@ -409,6 +409,13 @@ const roleData = {
                 "Vote overrides others in village meeting.",
             ],
         },
+        "Sleepwalker": {
+            alignment: "Village",
+            description: [
+                "Randomly visits one person every night.",
+                "Appears as villager to self.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
