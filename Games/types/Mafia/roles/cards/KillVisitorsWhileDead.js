@@ -8,25 +8,6 @@ module.exports = class KillVisitorsWhileDead extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_KILL_VISITORS_ENQUEUE_DEAD,
-                run: function () {
-                    if (this.actor.alive)
-                        return;
-
-                    for (let action of this.game.actions[0])
-                        if (
-                            action.target == this.actor &&
-                            action.priority > this.priority &&
-                            !action.hasLabel("hidden")
-                        ) {
-                            if (!this.actor.role.data.visitors)
-                                this.actor.role.data.visitors = [];
-
-                            this.actor.role.data.visitors.push(action.actor);
-                        }
-                }
-            },
-            {
                 priority: PRIORITY_KILL_VISITORS,
                 labels: ["kill", "hidden"],
                 run: function () {
