@@ -780,7 +780,7 @@ const roleData = {
         "Gambler": {
             alignment: "Independent",
             description: [
-                "Chooses a player to play a game of rock, paper, scissors with at night.",
+                "Chooses a player to challenge to a game of rock, paper, scissors at night.",
                 "If the gambler wins, they kill the player.",
                 "Wins after killing 3 players.",
             ],
