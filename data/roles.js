@@ -807,7 +807,7 @@ const roleData = {
         "Nomad": {
             alignment: "Independent",
             description: [
-                "Each night chooses another player to gain their alignment. ",
+                "Chooses another player at night to gain their alignment.",
                 "Wins if they are alive and the last alignment chosen wins."
             ],
         },
