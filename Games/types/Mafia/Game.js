@@ -68,7 +68,7 @@ module.exports = class MafiaGame extends Game {
         player.recordStat("abandons", true);
         super.vegPlayer(player);
     }
-    
+
     start() {
         super.start();
 
