@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_KILL_VISITORS_ENQUEUE_DEAD, PRIORITY_KILL_VISITORS } = require("../../const/Priority");
+const { PRIORITY_KILL_VISITORS } = require("../../const/Priority");
 
 module.exports = class KillVisitorsWhileDead extends Card {
 

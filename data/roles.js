@@ -595,7 +595,7 @@ const roleData = {
         "Mummy": {
             alignment: "Mafia",
             description: [
-                "Everyone who visits the mummy while they are dead dies.",
+                "Everyone who visits the mummy while the mummy is dead dies.",
             ],
         },
         "Poltergeist": {
