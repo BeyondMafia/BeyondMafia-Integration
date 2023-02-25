@@ -17,7 +17,7 @@ module.exports = class WinIfTargetDead extends Card {
                     return;
                 }
 
-                if (this.killer && !this.killer.alive) {
+                if (this.killer && !this.killer.alive && this.killer !== this.player) {
                     winners.addPlayer(this.player, this.name);
                 }
             }

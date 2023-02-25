@@ -543,12 +543,12 @@ router.post("/gameBan", async (req, res) => {
     }
 });
 
-router.post("/hostRankedBan", async (req, res) => {
+router.post("/rankedBan", async (req, res) => {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
         var userIdToBan = String(req.body.userId);
         var lengthStr = String(req.body.length);
-        var perm = "hostRankedBan";
+        var perm = "rankedBan";
         var banRank = await redis.getUserRank(userIdToBan);
 
         if (banRank == null) {
@@ -577,23 +577,23 @@ router.post("/hostRankedBan", async (req, res) => {
         await routeUtils.banUser(
             userIdToBan,
             length,
-            ["hostRanked"],
-            "hostRanked",
+            ["playRanked"],
+            "playRanked",
             userId
         );
 
         await routeUtils.createNotification({
-            content: `You have been banned from hosting ranked games for ${routeUtils.timeDisplay(length)}.`,
+            content: `You have been banned from playing ranked games for ${routeUtils.timeDisplay(length)}.`,
             icon: "ban"
         }, [userIdToBan]);
 
-        routeUtils.createModAction(userId, "Host Ranked Ban", [userIdToBan, lengthStr]);
+        routeUtils.createModAction(userId, "Ranked Ban", [userIdToBan, lengthStr]);
         res.sendStatus(200);
     }
     catch (e) {
         logger.error(e);
         res.status(500);
-        res.send("Error game banning user.");
+        res.send("Error ranked banning user.");
     }
 });
 
@@ -755,6 +755,35 @@ router.post("/gameUnban", async (req, res) => {
         logger.error(e);
         res.status(500);
         res.send("Error game unbanning user.");
+    }
+});
+
+router.post("/rankedUnban", async (req, res) => {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToActOn = String(req.body.userId);
+        var perm = "rankedUnban";
+        var rank = await redis.getUserRank(userIdToActOn);
+
+        if (rank == null) {
+            res.status(500);
+            res.send("User does not exist.");
+            return;
+        }
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm, rank + 1)))
+            return;
+
+        await models.Ban.deleteMany({ userId: userIdToActOn, type: "playRanked", auto: false }).exec();
+        await redis.cacheUserPermissions(userIdToActOn);
+
+        routeUtils.createModAction(userId, "Ranked Unban", [userIdToActOn]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error ranked unbanning user.");
     }
 });
 
@@ -1391,6 +1420,53 @@ router.post("/blockName", async function (req, res) {
         logger.error(e);
         res.status(500);
         res.send("Error blocking name.");
+    }
+});
+
+router.post("/rankedApprove", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToApprove = String(req.body.userId);
+        var perm = "approveRanked";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
+
+        var userToApprove = await models.User.findOne({ id: userIdToApprove, deleted: false })
+            .select("_id");
+
+        if (!userToApprove) {
+            res.status(500);
+            res.send("User does not exist.");
+            return;
+        }
+
+        var group = await models.Group.findOne({ name: "Ranked Player" })
+            .select("_id");
+        var inGroup = await models.InGroup.findOne({ user: userToApprove._id, group: group._id });
+
+        if (inGroup) {
+            res.status(500);
+            res.send("User is already approved for ranked.");
+            return;
+        }
+
+        inGroup = new models.InGroup({
+            user: userToApprove._id,
+            group: group._id
+        });
+        await inGroup.save();
+        await redis.cacheUserInfo(userIdToApprove, true);
+        await redis.cacheUserPermissions(userIdToApprove);
+
+        routeUtils.createModAction(userId, "Ranked Approve", [userIdToApprove]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error approving user.");
     }
 });
 
