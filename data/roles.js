@@ -388,6 +388,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Robin Hood": {
+            alignment: "Village",
+            description: [
+                "Every night can pick one person to steal from and another person to give their items to.",
+                "If the person chosen to give to is mafia, the steal will not go through.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
