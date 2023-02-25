@@ -44,7 +44,7 @@ module.exports = class MafiaGame extends Game {
 
     }
 
-    async playerLeave(player, playerIsKicklynched) {
+    async playerLeave(player) {
         if (this.started) {
             this.queueAction(new Action({
                 actor: player,
@@ -55,7 +55,7 @@ module.exports = class MafiaGame extends Game {
                 }
             }));
 
-            if (!this.finished && !playerIsKicklynched) {
+            if (!this.finished) {
                 player.recordStat("survival", false);
                 player.recordStat("abandons", true);
             }
@@ -64,11 +64,9 @@ module.exports = class MafiaGame extends Game {
         await super.playerLeave(player);
     }
 
-    async vegPlayer(player, playerIsKicklynched) {
-        if(!playerIsKicklynched) {
-            player.recordStat("abandons", true);
-        }
-        super.vegPlayer(player, playerIsKicklynched);
+    async vegPlayer(player) {
+        player.recordStat("abandons", true);
+        super.vegPlayer(player);
     }
     
     start() {

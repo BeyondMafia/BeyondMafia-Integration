@@ -447,14 +447,12 @@ module.exports = class Game {
             this.endPostgame();
     }
 
-    async vegPlayer(player, playerIsKicklynched = false) {
+    async vegPlayer(player) {
         if (player.left)
             return;
 
         var ranked = this.ranked;
-        if(!playerIsKicklynched) {
-            this.ranked = false;
-        }
+        this.ranked = false;
 
         this.queueAction(new Action({
             actor: player,
@@ -464,12 +462,12 @@ module.exports = class Game {
             run: function () {
                 this.target.kill("veg", this.actor);
 
-                if (ranked && !playerIsKicklynched)
+                if (ranked)
                     this.game.queueAlert("This game is now unranked");
             }
         }));
 
-        await this.playerLeave(player, playerIsKicklynched);
+        await this.playerLeave(player);
     }
 
     createPlayerGoneObj(player) {

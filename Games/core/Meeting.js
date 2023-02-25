@@ -639,7 +639,9 @@ module.exports = class Meeting {
                     (this.multi && selections.length < this.multiMin && selections.indexOf("*") == -1)
                 ) {
                     const playerIsKicklynched = this.actionName === "Village Vote" && this.finalTarget === member.id;
-                    this.game.vegPlayer(member.player, playerIsKicklynched);
+                    if(!playerIsKicklynched) {
+                        this.game.vegPlayer(member.player);
+                    }
                 }
             }
         }
