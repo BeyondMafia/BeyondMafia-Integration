@@ -635,6 +635,7 @@ const roleData = {
                 "If the cat is let in, the target is roleblocked.",
                 "If chased out, the Cat Lady will learn the role of the target."
             ],
+        },
         "Slasher": {
             alignment: "Mafia",
             description: [
