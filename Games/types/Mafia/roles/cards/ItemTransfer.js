@@ -1,13 +1,12 @@
-const { validateTestPhoneNumbers } = require("firebase-admin/lib/auth/auth-config");
 const Card = require("../../Card");
 const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_ITEM_TAKER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class ItemTransfer extends Card {
 
     constructor(role) {
         super(role);
 
-        this.actor.role.data.victim = null;
         this.meetings = {
             "Steal From": {
                 states: ["Night"],
@@ -15,7 +14,7 @@ module.exports = class ItemTransfer extends Card {
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
                 action: {
                     labels: ["stealItem"],
-                    priority: PRIORITY_ITEM_GIVER_DEFAULT,
+                    priority: PRIORITY_ITEM_TAKER_DEFAULT,
                     run: function () {
                         this.actor.role.data.victim = this.target;
                     }
@@ -29,13 +28,17 @@ module.exports = class ItemTransfer extends Card {
                     labels: ["stealItem"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
-                        if (this.target.alignment !== "Mafia"){
-                            for (let item of this.actor.role.data.victim.items) {
-                                var alert = `You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`
-                                this.target.queueAlert(alert)
-                                item.drop(this.data.victim);
-                                item.hold(this.target);
-                            }
+                        if (typeof this.data.victim !== 'undefined')
+                            if (this.target.alignment !== "Mafia"){
+                                for (let item of this.data.victim.items) {
+                                    if (item.cannotBeStolen) {
+                                        continue;
+                                    }
+
+                                    this.target.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+                                    item.drop();
+                                    item.hold(this.target);
+                            }  
                         }
                     }
                 }
