@@ -20,8 +20,19 @@ module.exports = class MafiaAction extends Action {
         }
     }
 
-    // Pre-condition: uses EnqueueVisitors
-    isVisited() {
-        return this.actor.role.data.visitors?.length
+    getVisitors(player) {
+        player = player || this.actor;
+
+        var visitors = [];
+        for (let action of this.game.actions[0]) {
+            if (
+                action.target == this.actor &&
+                !action.hasLabel("hidden")
+            ) {
+                visitors.push(action.actor);
+            }
+        }
+
+        return visitors;
     }
 }
