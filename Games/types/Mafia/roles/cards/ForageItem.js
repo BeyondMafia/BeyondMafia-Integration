@@ -9,16 +9,16 @@ module.exports = class ForageItem extends Card {
         this.actions = [
             {
                 labels: ["giveItem"],
-                priority: PRIORITY_ITEM_GIVER_DEFAULT - 1,
+                priority: PRIORITY_ITEM_GIVER_DEFAULT,
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    for (let action of this.game.actions[0])
-                        if (action.target == this.actor && !action.hasLabel("hidden"))
-                            return;
+                    if (isVisited()) {
+                        return;
+                    }
 
-                    var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"]
+                    var items = ["Gun", "Armor", "Knife", "Snowball"]
                     var given_item = items[Math.floor(Math.random() * items.length)];
                     switch (given_item) {
                         case "Gun":
@@ -36,10 +36,6 @@ module.exports = class ForageItem extends Card {
                         case "Snowball":
                             this.actor.holdItem("Snowball");
                             this.actor.queueAlert("You have received a snowball!");
-                            break;
-                        case "Crystal":
-                            this.actor.holdItem("Crystal");
-                            this.actor.queueAlert("You have received a crystal!");
                             break;
                     }   
                 }

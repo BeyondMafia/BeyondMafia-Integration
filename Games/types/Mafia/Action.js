@@ -19,4 +19,9 @@ module.exports = class MafiaAction extends Action {
             }
         }
     }
+
+    // Pre-condition: uses EnqueueVisitors
+    isVisited() {
+        return this.actor.role.data.visitors?.length
+    }
 }
