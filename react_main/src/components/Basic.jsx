@@ -127,6 +127,11 @@ export function UserText(props) {
 		if (props.linkify)
 			text = linkify(text);
 
+		// Any effects that inject elements need to be added after this point because the text property changes
+		// throughout this useEffect function
+		if (props.iconUsername)
+			text = iconUsername(text, props.players);
+
 		if (props.emotify)
 			text = emotify(text);
 
@@ -215,6 +220,62 @@ function filterProfanitySegment(profanity, segment, char) {
 	}
 
 	return segment;
+}
+
+export function iconUsername(text, players) {
+	if (text == null)
+		return;
+
+	if (!Array.isArray(text))
+		text = [text];
+
+	for (let i in text) {
+		const segment = text[i];
+
+		if (typeof segment != "string")
+			continue;
+
+		const words = segment.trim().split(" ");
+
+		for (let j in words) {
+			const word = words[j];
+			let replaced = false;
+
+			if( word.length > 1 && word.charAt(0) === "%" ) {
+				const checkName = word.substring(1);
+
+				const matchedPlayer = Object.values(players).find( (curPlayer) => {
+					return curPlayer.name === checkName;
+				} );
+
+				if( matchedPlayer && matchedPlayer.avatar ) {
+					replaced = true;
+
+					words[j] = <InlineAvatar
+						url={`url(/uploads/${matchedPlayer.userId}_avatar.jpg)`}
+						username={matchedPlayer.name} />
+				}
+			}
+
+			if( !replaced ) {
+				words[j] = words[j] + " ";
+			}
+		}
+
+		text[i] = words;
+	}
+
+	text = text.flat();
+	return text.length == 1 ? text[0] : text;
+}
+
+function InlineAvatar(props) {
+	return (
+		<div
+			className="avatar small inline"
+			title={props.username}
+			style={{ backgroundImage: props.url }} />
+	);
 }
 
 export function useOnOutsideClick(refs, action) {
