@@ -57,6 +57,32 @@ beyondmafia> db.users.find({}, {name:1, dev:1})
 
 If you're interested, the property is checked [here](https://github.com/r3ndd/BeyondMafia-Integration/blob/master/Games/core/Game.js#L534).
 
+#### (Optional) Set as Owner
+
+Owner permissions are not needed for testing roles but it will come in handy to test other site functions like forum and chat.
+
+1. Get your user ObjectId.
+
+```
+beyondmafia> db.users.find({}, {name:1})
+```
+
+2. Get the group ObjectId.
+
+```
+beyondmafia> db.groups.find({name:'Owner'}, {name:1})
+```
+
+3. Add the group mapping.
+
+```
+beyondmafia> db.ingroups.insert(
+  {
+    user: ObjectId("6XXXuserId"),
+    group: ObjectId("6YYYgroupId")
+  })
+```
+
 ## Testing games with bots
 
 1. Create and host a setup.
