@@ -51,6 +51,11 @@ export default function Settings(props) {
 			ref: "hideDeleted",
 			type: "boolean",
 			showIf: (deps) => deps.user.perms.viewDeleted
+		},
+		{
+			label: "Site Color Scheme",
+			ref: "siteColorScheme",
+			type: "boolean",
 		}
 	]);
 
