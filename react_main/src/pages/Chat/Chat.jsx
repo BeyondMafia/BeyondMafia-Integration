@@ -11,6 +11,7 @@ import { Time, UserText } from "../../components/Basic";
 import { NotificationHolder, filterProfanity, useOnOutsideClick } from "../../components/Basic";
 
 import "../../css/chat.css";
+import { flipTextColor } from "../../utils";
 
 export default function Chat() {
 	const [showWindow, setShowWindow] = useState(false);
@@ -484,7 +485,7 @@ function Message(props) {
 						id={message.sender.id}
 						name={message.sender.name}
 						avatar={message.sender.avatar}
-						color={message.sender.settings && message.sender.settings.nameColor}
+						color={message.sender.settings && flipTextColor(message.sender.settings.nameColor)}
 						groups={message.sender.groups} />
 				}
 				{age > 1000 * 60 &&
@@ -497,7 +498,7 @@ function Message(props) {
 			</div>
 			<div
 				className="content"
-				style={message.sender.settings && message.sender.settings.textColor ? { color: message.sender.settings.textColor } : {}}
+				style={message.sender.settings && message.sender.settings.textColor ? { color: flipTextColor(message.sender.settings.textColor) } : {}}
 				onContextMenu={onMessageClick}
 				ref={messageRef}>
 				{/* {linkify(message.content)} */}

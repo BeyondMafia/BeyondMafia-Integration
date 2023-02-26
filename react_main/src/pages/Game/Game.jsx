@@ -20,9 +20,10 @@ import { RoleCount } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
-import { MaxGameMessageLength, MaxWillLength } from "../../Constants";
+import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
 
 import "../../css/game.css";
+import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
 
 export default function Game() {
     return (
@@ -1149,7 +1150,7 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: player.textColor } : {}}>
+            <div className={contentClass} style={player && player.textColor ? { color: flipTextColor(player.textColor) } : {}}>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
@@ -1160,10 +1161,8 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
-                            players={players}
                             filterProfanity
                             linkify
-                            avify
                             emotify />
                     </>
                 }
@@ -1537,6 +1536,7 @@ export function ActionList(props) {
             switch (meeting.inputType) {
                 case "player":
                 case "boolean":
+                case "role":
                 case "alignment":
                 case "select":
                     action =
@@ -1620,7 +1620,9 @@ function ActionSelect(props) {
             <div
                 className={`vote ${meeting.multi ? "multi" : ""}`}
                 key={member.id}>
-                <div className="voter">
+                <div
+                    className="voter"
+                    /*onClick={() => onSelectVote(member.id)}*/>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
@@ -1701,36 +1703,55 @@ function ActionButton(props) {
 }
 
 function ActionText(props) {
-    const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
-    const [inputValue, setInputValue] = useState("");
-    const votes = { ...meeting.votes };
+    const meeting = props.meeting;
+    const self = props.self;
 
-    if (inputValue.length == 0 && votes[props.self])
-        setInputValue(votes[props.self]);
+    // text settings
+    const textOptions = meeting.textOptions || {}
+    const minLength = textOptions.minLength || 0;
+    const maxLength = textOptions.maxLength || MaxTextInputLength
 
-    const buttons = meeting.targets.map(target => {
-        var targetDisplay = getTargetDisplay(target, meeting, props.players);
+    const [textData, setTextData] = useState("");
 
-        return (
-            <div
-                className={`btn btn-theme ${votes[props.self] == targetDisplay ? "sel" : ""}`}
-                key={target}
-                onClick={() => onVote(target)}>
-                {targetDisplay}
-            </div>
-        );
-    });
+    function handleOnChange(e) {
+        var textInput = e.target.value;
+        if (textOptions.alphaOnly) {
+            textInput = textInput.replace(/[^a-z]/gi, '');
+        }
+        if (textOptions.toLowerCase) {
+            textInput = textInput.toLowerCase();
+        }
 
-    function onInputChange(e) {
-        onVote(e.target.value);
-        setInputValue(e.target.value);
+        textInput = textInput.substring(0, maxLength);
+        setTextData(textInput);
+    }
+
+    function handleOnSubmit(e) {
+        if (textData.length < minLength) {
+            return;
+        }
+
+        meeting.votes[self] = textData;
+        props.socket.send("vote", {
+            meetingId: meeting.id,
+            selection: textData
+        });
     }
 
     return (
         <div className="action">
-            <input
-                value={inputValue}
-                onChange={onInputChange} />
+            <div className="action-name">
+                {meeting.actionName}
+            </div>
+            <textarea
+                value={textData}
+                onChange={handleOnChange} />
+            <div
+                className="btn btn-theme"
+                onClick={handleOnSubmit}>
+                {textOptions.submit || "Submit"}
+            </div>
+            {meeting.votes[self]}
         </div>
     );
 }

@@ -7,12 +7,5 @@ module.exports = class Capybara extends Role {
 
         this.alignment = "Village";
         this.cards = ["VillageCore", "WinWithVillage", "OrangeGiver"];
-        this.meetings = {
-            "Hot Springs": {
-                states: ["Night"],
-                flags: ["group", "speech", "anonymous"],
-            }
-        };
     }
-
 }

@@ -264,6 +264,20 @@ const roleData = {
                 "Does not dream if visited.",
             ],
         },
+        "Chef": {
+            alignment: "Village",
+            description: [
+                "Chooses up to two players to invite to a banquet.",
+                "At night, guests will all anonymously meet and see the roles of all guests.",
+            ],
+        },
+        "Journalist": {
+            alignment: "Village",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+        },
         "Cutler": {
             alignment: "Village",
             description: [
@@ -290,26 +304,56 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Invisible Man": {
+            alignment: "Village",
+            description: [
+                "Can choose one person during the day to stalk.",
+                "Will hear all messages from meetings that player is in that night.",
+                ],
+        },
+        "Cyclist": {
+            alignment: "Village",
+            description: [
+                "Each night, chooses two targets, A and B.",
+                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
+                "Does not visit.",
+                "Redirection cannot be role blocked."
+            ],
+        },
+        "Sapling": {
+            alignment: "Village",
+            description: [
+                "Once per game can choose to turn into a tree at night.",
+                "While a tree, cannot vote and immune to most ways of dying.",
+                ],
+        },
+        "Tree": {
+            alignment: "Village",
+            disabled: true,
+            description: [
+                "Cannot vote and immune to most ways of dying.",
+                ],
+        },
         "Baker": {
             alignment: "Village",
             description: [
                 "When in the game, everyone starts with two bread.",
                 "Gives out up to two bread each night.",
                 "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
-                ],
+            ],
         },
         "Virgin": {
             alignment: "Village",
             description: [
                 "If executed by the village vote, no one will die the following night.",
-                ],
+            ],
         },
         "Mimic": {
             alignment: "Village",
             description: [
                 "Can choose to mimic another player at night and will change based on their alignment.",
                 "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
-                ],
+            ],
         },
         "Judge": {
             alignment: "Village",
@@ -321,6 +365,13 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Can choose to host a party for everyone to attend once per game.",
+            ],
+        },
+        "Loudmouth": {
+            alignment: "Village",
+            description: [
+                "Will cry out and reveal who visited them.",
+                "Sees self as blue."
             ],
         },      
         "Ghost": {
@@ -340,7 +391,7 @@ const roleData = {
         "Resurrectionist": {
             alignment: "Village",
             description: [
-                "Visits one dead person every night.",
+                "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
         },
@@ -350,6 +401,39 @@ const roleData = {
                 "Can ask players in the graveyard a question every night.",
                 "The players can answer with yes or no.",
                 "The mourner will receive the results of the vote.",
+            ],
+        },
+        "Santa": {
+            alignment: "Village",
+            description: [
+                "Gives out various items at night.",
+                "Can visit someone at night to know their alignment if not visited.",
+            ],
+        },
+        "Tinkerer": {
+            alignment: "Village",
+            description: [
+                "If not visited at night, will craft a gun.",
+                "If killed, the killer will find a gun that always reveals.",
+            ],
+        },
+        "King": {
+            alignment: "Village",
+            description: [
+                "Appears as villager to themself.",
+                "Vote overrides others in village meeting.",
+            ],
+        },
+        "Messenger": {
+            alignment: "Village",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Pays a visit to another player at night, though annoying, with no effect."
             ],
         },
 
@@ -400,6 +484,14 @@ const roleData = {
             description: [
                 "Attempts to guess the identity of the Agent each night.",
                 "Kills the Agent if guess is correct."
+            ],
+        },
+        "Ninja": {
+             alignment: "Mafia",
+             description: [
+                 "Does not get detected by watchers and trackers.",
+                 "Can kill bomb without getting killed."
+         
             ],
         },
         "Lawyer": {
@@ -476,6 +568,13 @@ const roleData = {
                 "Once per game, can fatally sting another player during the day, killing them both."
             ],
         },
+        "Diabolist": {
+            alignment: "Mafia",
+            description: [
+                "Can choose a victim and a target each night.",
+                "If the victim votes for the target, the victim will die."
+            ]
+        },
         "Tailor": {
             alignment: "Mafia",
             description: [
@@ -511,14 +610,77 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can choose to sacrifice themself to convert one player to Mafioso.",
-                ],
+            ],
         },
         "Necromancer": {
             alignment: "Mafia",
             description: [
-                "Visits one dead person every night.",
+                "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
-                ],
+            ],
+        },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+         },
+        "Sorceror": {
+            alignment: "Mafia",
+            description: [
+                "Each night, curses a player with a word.",
+                "If the person speaks the word the next day, they will die."
+            ],
+        },
+        "Clown": {
+            alignment: "Mafia",
+            description: [
+                "Appears as fool to self.",
+                "Will kill their visit target.",
+            ],
+        },
+        "Graverobber": {
+            alignment: "Mafia",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player and takes all items they're holding.",
+            ],
+        },
+        "Illusionist": {
+            alignment: "Mafia",
+            description: [
+                "Starts with a gun.",
+                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
+            ],
+        },
+        "Cat Lady": {
+            alignment: "Mafia",
+            description: [
+                "Every day, chooses a person to send a cat to.",
+                "At night, the target can choose to let the cat in or chase it out.",
+                "If the cat is let in, the target is roleblocked.",
+                "If chased out, the Cat Lady will learn the role of the target."
+            ],
+        },
+        "Slasher": {
+            alignment: "Mafia",
+            description: [
+                "If not visited during the night, will receive a knife.",
+                "Slasher knives do not reveal.",
+            ],
+        },
+        "Courier": {
+            alignment: "Mafia",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
+            ],
         },
 
         //Monsters
@@ -553,6 +715,13 @@ const roleData = {
             description: [
                 "All who visit the Cthulhu go insane.",
                 "Insane players speak gibberish."
+            ],
+        },
+        "The Thing": {
+            alignment: "Monsters",
+            description: [
+                "Can hunt prey at night by choosing a target and guessing their role.",
+                "If guessed correctly, becomes immortal for the next day, if incorrect will be revealed to all."
             ],
         },
 
@@ -611,6 +780,13 @@ const roleData = {
                 "Does not count towards mafia win count.",
             ],
         },
+        "Mastermind": {
+            alignment: "Independent",
+            description: [
+                "Mafia meeting is anonymous",
+                "Wins instead of mafia and counts toward their total",
+                ],
+        },
         "Lover": {
             alignment: "Independent",
             description: [
@@ -624,6 +800,20 @@ const roleData = {
             description: [
                 "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
+        "Prophet": {
+            alignment: "Independent",
+            description: [
+                "Once per game can predict when the game will end.",
+                "Wins if they guess correctly.",
+            ],
+        },
+        "Vengeful Spirit": {
+            alignment: "Independent",
+            description: [
+                "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
+                "Wins if it kills all of its murderers.",
             ],
         },
     },
