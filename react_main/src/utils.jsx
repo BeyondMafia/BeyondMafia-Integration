@@ -16,6 +16,12 @@ export function capitalize(string) {
 }
 
   export function hexToHSL(H) {
+	//CHECK IF UNDEFINED!!!!
+	//May break certain pages if this is not done.
+	if(H == undefined){
+		H = '#000000';
+	}
+
 	// Convert hex to RGB first
 	let r = 0, g = 0, b = 0;
 	if (H.length == 4) {
