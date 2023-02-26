@@ -1,6 +1,5 @@
 const Card = require("../../Card");
 const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
-const { PRIORITY_ITEM_TAKER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class ItemTransfer extends Card {
 
@@ -14,7 +13,7 @@ module.exports = class ItemTransfer extends Card {
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
                 action: {
                     labels: ["stealItem"],
-                    priority: PRIORITY_ITEM_TAKER_DEFAULT,
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT - 5,
                     run: function () {
                         this.actor.role.data.victim = this.target;
                     }
@@ -28,9 +27,9 @@ module.exports = class ItemTransfer extends Card {
                     labels: ["stealItem"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
-                        if (typeof this.data.victim !== 'undefined')
+                        if (typeof this.actor.role.data.victim !== 'undefined')
                             if (this.target.alignment !== "Mafia"){
-                                for (let item of this.data.victim.items) {
+                                for (let item of this.actor.role.data.victim.items) {
                                     if (item.cannotBeStolen) {
                                         continue;
                                     }
