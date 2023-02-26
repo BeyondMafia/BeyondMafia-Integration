@@ -6,14 +6,11 @@ module.exports = class King extends Role {
         super("King", player, data);
 
         this.alignment = "Village";
-        this.appearance = {
-            self: "Villager"
-        };
         this.meetingMods = {
             "Village": {
                 voteWeight: Infinity
             }
         }
-        this.cards = ["VillageCore", "WinWithVillage"];
+        this.cards = ["VillageCore", "WinWithVillage", "Humble"];
     }
 }
