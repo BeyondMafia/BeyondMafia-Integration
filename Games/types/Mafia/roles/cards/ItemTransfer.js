@@ -27,16 +27,17 @@ module.exports = class ItemTransfer extends Card {
                     labels: ["stealItem"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
-                        if (typeof this.actor.role.data.victim !== 'undefined')
-                            if (this.target.alignment !== "Mafia"){
-                                for (let item of this.actor.role.data.victim.items) {
-                                    if (item.cannotBeStolen) {
-                                        continue;
-                                    }
+                        if (typeof this.actor.role.data.victim === 'undefined' || this.target.role.alignment === "Mafia")
+                            return;
 
-                                    this.target.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
-                                    item.drop();
-                                    item.hold(this.target);
+                        for (let item of this.actor.role.data.victim.items) {
+                            if (item.cannotBeStolen) {
+                                continue;
+                            }
+
+                            this.target.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+                            item.drop();
+                            item.hold(this.target);
                             }  
                         }
                     }
@@ -44,5 +45,3 @@ module.exports = class ItemTransfer extends Card {
             }
         };
     }
-
-}
