@@ -53,8 +53,8 @@ const roleData = {
         "Oracle": {
             alignment: "Village",
             description: [
-                "Starts with a crystal.",
-            ],
+                "Chooses one player each night.",
+                "If she dies, that player's role will be revealed."            ],
         },
         "Vigilante": {
             alignment: "Village",
