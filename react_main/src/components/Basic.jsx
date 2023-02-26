@@ -129,11 +129,11 @@ export function UserText(props) {
 
 		// Any effects that inject elements need to be added after this point because the text property changes
 		// throughout this useEffect function
-		if (props.iconUsername)
-			text = iconUsername(text, props.players);
-
 		if (props.emotify)
 			text = emotify(text);
+
+		if (props.iconUsername)
+			text = iconUsername(text, props.players);
 
 		setContent(text);
 	}, [props.text]);
