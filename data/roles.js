@@ -54,7 +54,8 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Chooses one player each night.",
-                "If she dies, that player's role will be revealed."            ],
+                "If she dies, that player's role will be revealed."
+            ],
         },
         "Vigilante": {
             alignment: "Village",
