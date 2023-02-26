@@ -36,8 +36,8 @@
 	margin: 10px 10px 0px 0px;
 	padding: 10px;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .user-search-page .user-cell .status-icon {
@@ -70,7 +70,7 @@
 
 	padding: 5px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .user-search-page .users-list .page-nav {
@@ -88,7 +88,7 @@
 .user-search-page .joined {
 	margin-left: 45px;
 
-	color: black;
+	color: var(--scheme-color-text);
 	opacity: 0.6;
 }
 

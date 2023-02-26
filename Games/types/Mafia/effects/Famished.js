@@ -24,6 +24,8 @@ module.exports = class Famished extends Effect {
 
                 if (this.player.hasItem("Bread")){
                     this.player.dropItem("Bread", false);
+                } else if (this.player.hasItem("Orange")){
+                    this.player.dropItem("Orange", false);
                 }else{
                     this.game.queueAction(new Action({
                         actor: this.player,

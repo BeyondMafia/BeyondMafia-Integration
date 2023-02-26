@@ -7,6 +7,7 @@ module.exports = class Flier extends Item {
 
         this.reveal = reveal;
         this.lifespan = 1;
+        this.cannotBeStolen = true;
 
         this.meetings = {
             "Party!": {

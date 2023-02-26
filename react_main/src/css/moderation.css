@@ -47,6 +47,13 @@
 
 .moderation .mod-commands .search-select {
 	margin: 0px 10px 10px 0px;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
+}
+
+.search-select .option-list{
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .moderation .mod-commands .command {
@@ -60,14 +67,20 @@
 
 .moderation .mod-commands input {
 	padding: 5px;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
+}
+
+.moderation .mod-commands ::placeholder{
+	color: var(--scheme-color-text);
 }
 
 .moderation .mod-commands .arg {
 	border: none;
 	margin: 0px 10px 10px 0px;
 
-	background-color: whtie;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .moderation .group-panel {
@@ -107,7 +120,7 @@
 	margin: 10px 10px 0px 0px;
 	padding: 10px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 	color: black;
 }
 
@@ -145,7 +158,7 @@
 	margin-bottom: 10px;
 	padding: 5px;
 
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .moderation .action .top-row {

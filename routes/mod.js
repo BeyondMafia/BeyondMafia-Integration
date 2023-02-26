@@ -758,6 +758,35 @@ router.post("/gameUnban", async (req, res) => {
     }
 });
 
+router.post("/rankedUnban", async (req, res) => {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToActOn = String(req.body.userId);
+        var perm = "rankedUnban";
+        var rank = await redis.getUserRank(userIdToActOn);
+
+        if (rank == null) {
+            res.status(500);
+            res.send("User does not exist.");
+            return;
+        }
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm, rank + 1)))
+            return;
+
+        await models.Ban.deleteMany({ userId: userIdToActOn, type: "playRanked", auto: false }).exec();
+        await redis.cacheUserPermissions(userIdToActOn);
+
+        routeUtils.createModAction(userId, "Ranked Unban", [userIdToActOn]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error ranked unbanning user.");
+    }
+});
+
 router.post("/siteUnban", async (req, res) => {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
