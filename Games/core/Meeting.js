@@ -640,7 +640,10 @@ module.exports = class Meeting {
                     (!this.multi && this.votes[member.id] == null) ||
                     (this.multi && selections.length < this.multiMin && selections.indexOf("*") == -1)
                 ) {
-                    this.game.vegPlayer(member.player);
+                    const isKickEliminated = this.actionName === "Village Vote" && this.finalTarget === member.id;
+                    if (!isKickEliminated) {
+                        this.game.vegPlayer(member.player);
+                    }
                 }
             }
         }
