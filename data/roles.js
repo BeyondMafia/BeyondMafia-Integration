@@ -674,6 +674,14 @@ const roleData = {
                 "Trespasses on another player's property at night, though annoying, with no effect."
             ],
         },
+        "Thief": {
+            alignment: "Mafia",
+            description: [
+                "Chooses one person each night.",
+                "Steals an item from that player.",
+                "Does not attend Mafia meetings.",
+            ],
+        },
 
         //Monsters
         "Lycan": {
