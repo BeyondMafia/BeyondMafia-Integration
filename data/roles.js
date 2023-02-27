@@ -628,6 +628,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Mummy": {
+            alignment: "Mafia",
+            description: [
+                "Everyone who visits the mummy while the mummy is dead dies.",
+            ],
+        },
+        "Poltergeist": {
+            alignment: "Mafia",
+            description: [
+                "Once dead, may visit one person a night and roleblock them.",
+           ],
+        },
         "Informant": {
             alignment: "Mafia",
             description: [
