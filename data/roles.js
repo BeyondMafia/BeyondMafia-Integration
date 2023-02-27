@@ -395,6 +395,24 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Enchantress": {
+            alignment: "Village",
+            description: [
+                "Once per game, can visit a player during the night and give them a crystal."
+            ],
+        },
+        "Forager": {
+            alignment: "Village",
+            description: [
+                "If not visited by anyone during the night, forages for an item.",
+                "The item can be a Gun, a Knife, Armor, or a Snowball.",
+        "Mortician": {
+            alignment: "Village",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player.",
+            ],
+        },
         "Santa": {
             alignment: "Village",
             description: [
@@ -414,6 +432,23 @@ const roleData = {
             description: [
                 "Appears as villager to themself.",
                 "Vote overrides others in village meeting.",
+            ],
+        },
+        "Sleepwalker": {
+            alignment: "Village",
+            description: [
+                "Randomly visits one person every night.",
+                "Appears as villager to self.",
+        "Messenger": {
+            alignment: "Village",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Pays a visit to another player at night, though annoying, with no effect."
             ],
         },
 
@@ -599,6 +634,18 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Mummy": {
+            alignment: "Mafia",
+            description: [
+                "Everyone who visits the mummy while the mummy is dead dies.",
+            ],
+        },
+        "Poltergeist": {
+            alignment: "Mafia",
+            description: [
+                "Once dead, may visit one person a night and roleblock them.",
+           ],
+        },
         "Informant": {
             alignment: "Mafia",
             description: [
@@ -648,6 +695,18 @@ const roleData = {
             description: [
                 "If not visited during the night, will receive a knife.",
                 "Slasher knives do not reveal.",
+            ],
+        },
+        "Courier": {
+            alignment: "Mafia",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
             ],
         },
 
