@@ -416,6 +416,18 @@ const roleData = {
                 "Vote overrides others in village meeting.",
             ],
         },
+        "Messenger": {
+            alignment: "Village",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Pays a visit to another player at night, though annoying, with no effect."
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -648,6 +660,18 @@ const roleData = {
             description: [
                 "If not visited during the night, will receive a knife.",
                 "Slasher knives do not reveal.",
+            ],
+        },
+        "Courier": {
+            alignment: "Mafia",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
             ],
         },
 
