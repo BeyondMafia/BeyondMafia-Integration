@@ -395,6 +395,12 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Enchantress": {
+            alignment: "Village",
+            description: [
+                "Once per game, can visit a player during the night and give them a crystal."
+            ],
+        },
         "Forager": {
             alignment: "Village",
             description: [
