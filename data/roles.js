@@ -395,6 +395,12 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Enchantress": {
+            alignment: "Village",
+            description: [
+                "Once per game, can visit a player during the night and give them a crystal."
+            ],
+        },
         "Forager": {
             alignment: "Village",
             description: [
@@ -436,6 +442,11 @@ const roleData = {
                 "If executed, Mafia have the chance to guess who Merlin is, and if correct, will win.",
             ],
         },
+        "Sleepwalker": {
+            alignment: "Village",
+            description: [
+                "Randomly visits one person every night.",
+                "Appears as villager to self.",
         "Messenger": {
             alignment: "Village",
             description: [
@@ -630,6 +641,18 @@ const roleData = {
                 "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
+        },
+        "Mummy": {
+            alignment: "Mafia",
+            description: [
+                "Everyone who visits the mummy while the mummy is dead dies.",
+            ],
+        },
+        "Poltergeist": {
+            alignment: "Mafia",
+            description: [
+                "Once dead, may visit one person a night and roleblock them.",
+           ],
         },
         "Informant": {
             alignment: "Mafia",
