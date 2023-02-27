@@ -14,7 +14,7 @@ module.exports = class TakeItem extends Card {
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
                 action: {
                     labels: ["stealItem"],
-                    priority: PRIORITY_ITEM_GIVER_DEFAULT,
+                    priority: PRIORITY_ITEM_GIVER_DEFAULT + 1,
                     run: function(){
                         let items = Random.randomizeArray(this.target.items);
                         for (let item of items) {
