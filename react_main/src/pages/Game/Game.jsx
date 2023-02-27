@@ -1161,9 +1161,11 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
-                            emotify />
+                            emotify
+                            iconUsername />
                     </>
                 }
                 {message.isQuote &&
@@ -1177,9 +1179,11 @@ function Message(props) {
                             <UserText
                                 text={quotedMessage.content}
                                 settings={user.settings}
+                                players={players}
                                 filterProfanity
                                 linkify
-                                emotify />
+                                emotify
+                                iconUsername />
                         </div>
                         <i className="fas fa-quote-right" />
                     </>
