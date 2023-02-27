@@ -6,7 +6,7 @@ module.exports = class SeeRandomSpeakers extends Role {
         super("Village Idiot", player, data);
 
         this.alignment = "Village";
-        this.cards = ["VillageCore", "WinWithVillage", "SeeRandomSpeakers"];
+        this.cards = ["VillageCore", "WinWithVillage", "SeeRandomSpeakers", "Humble"];
     }
 
 }
