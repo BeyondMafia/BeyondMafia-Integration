@@ -424,6 +424,18 @@ const roleData = {
                 "If executed, Mafia have the chance to guess who Merlin is, and if correct, will win.",
             ],
         },
+        "Messenger": {
+            alignment: "Village",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Pays a visit to another player at night, though annoying, with no effect."
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -664,7 +676,18 @@ const roleData = {
                 "Once per game, can choose to take the role of a mafia partner upon their death in the village meeting."
             ],
         },
-        
+        "Courier": {
+            alignment: "Mafia",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
+            ],
+        },
         //Monsters
         "Lycan": {
             alignment: "Monsters",
