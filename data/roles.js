@@ -395,6 +395,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Mortician": {
+            alignment: "Village",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player.",
+            ],
+        },
         "Santa": {
             alignment: "Village",
             description: [
