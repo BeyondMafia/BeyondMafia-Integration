@@ -395,6 +395,11 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Forager": {
+            alignment: "Village",
+            description: [
+                "If not visited by anyone during the night, forages for an item.",
+                "The item can be a Gun, a Knife, Armor, or a Snowball.",
         "Mortician": {
             alignment: "Village",
             description: [
