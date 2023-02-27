@@ -1,14 +1,15 @@
 const Card = require("../../Card");
 
-module.exports = class FoolAround extends Card {
+module.exports = class Visit extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Fool Around": {
+            "Visit": {
                 states: ["Night"],
                 flags: ["voting", "noVeg"],
+                targets = { include: ["alive"], exclude: ["self"] };
                 action: {
                     run: function () {}
                 },
