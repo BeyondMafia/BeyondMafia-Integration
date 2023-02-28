@@ -15,9 +15,11 @@ module.exports = class GivePresents extends Card {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function() {
                         let itemType = this.actor.role.data.itemType;
-                        let alert = `You have recieved ${(itemType === "Armor" ? itemType : "a " + itemType).toLowerCase()}!`
-                        this.target.holdItem(itemType);
-                        this.target.queueAlert(alert);
+                        if (itemType){
+                            let alert = `You have recieved ${(itemType === "Armor" ? itemType : "a " + itemType).toLowerCase()}!`
+                            this.target.holdItem(itemType);
+                            this.target.queueAlert(alert);
+                        }
                         delete this.actor.role.data.itemType;
 
                     }
