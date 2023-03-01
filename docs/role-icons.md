@@ -139,7 +139,7 @@ git diff react_main/src/css/roles.css
 2. Confirm your changes by committing.
 
 ```
-git commit -a -m "added sorceror icon"
+git commit -a -m "added mafioso icon"
 ```
 
 The confirmatory message will be like this:
