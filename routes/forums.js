@@ -398,7 +398,7 @@ router.post("/thread", async function (req, res) {
         var perm = "createThread";
 
         var board = await models.ForumBoard.findOne({ id: boardId })
-            .select("rank name");
+            .select("rank name id");
 
         if (!board) {
             res.status(500);
@@ -451,20 +451,25 @@ router.post("/thread", async function (req, res) {
             }
         ).exec();
 
-        // TODO: need to filter following by boards once info is known
-
         try {
-            await axios( {
-                "method" : "post",
-                "url"    : process.env.REPORT_DISCORD_WEBHOOK,
-                "data"   : {
-                    "content" : "New thread in " + board.name,
-                    "embeds"  : [ {
-                        "url"   : process.env.BASE_URL + "/community/forums/thread/" + thread.id,
-                        "title" : title,
-                    } ],
-                },
+            const alertSettings = JSON.parse(process.env.FORUM_DISCORD_WEBHOOOKS);
+            const useWebook     = alertSettings.find( (curWebook) => {
+                return curWebook.boards.indexOf(board.id) !== -1;
             } );
+
+            if (useWebook) {
+                await axios( {
+                    "method" : "post",
+                    "url"    : useWebook.hook,
+                    "data"   : {
+                        "content" : "New thread in " + board.name,
+                        "embeds"  : [ {
+                            "url"   : process.env.BASE_URL + "/community/forums/thread/" + thread.id,
+                            "title" : title,
+                        } ],
+                    },
+                } );
+            }
         } catch (e) {
             // error stack is pretty untracable with the error, and i didn't want to modify the error object itself,
             // so I'm just posting 2 warnings to the logger

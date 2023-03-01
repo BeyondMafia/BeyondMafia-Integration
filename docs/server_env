@@ -49,4 +49,4 @@ RECAPTCHA_KEY=x
 RESERVED_NAMES={}
 
 #optional
-REPORT_DISCORD_WEBHOOK=x
+REPORT_DISCORD_WEBHOOK=[{"boards": ["boardShortId"], "hook": "discordWebhookUrl"}]
