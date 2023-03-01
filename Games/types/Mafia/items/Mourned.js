@@ -1,28 +1,27 @@
 const Item = require("../Item");
+const { PRIORITY_ASK_QUESTION } = require("../const/MeetingPriority");
 
 module.exports = class Mourned extends Item {
 
-    constructor(reveal) {
+    constructor(options) {
         super("Mourned");
 
+        this.options = options || {};
         this.lifespan = 1;
-
+        this.cannotBeStolen = true;
         this.meetings = {
-            "Mourn": {
+            "Graveyard": {
 				actionName: "Answer Mourner",
                 states: ["Night"],
 				flags: ["voting"],
                 inputType: "boolean",
-                canVote: false
+                priority: PRIORITY_ASK_QUESTION,
+                whileDead: true,
+                whileAlive: false,
+                run: function () {
+                    this.game.events.emit("mournerAnswer", this.target, this.item.options.mourner);
+                }
             }
         };
     }
-
-    shouldDisableMeeting(name, options) {
-        var stateInfo = this.game.getStateInfo();
-
-        if (stateInfo.name.match(/Night/) && name != "Graveyard")
-            return true;
-    }
-
 }
