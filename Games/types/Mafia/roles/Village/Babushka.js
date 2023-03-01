@@ -10,6 +10,7 @@ module.exports = class Babushka extends Role {
             "VillageCore",
             "WinWithVillage",
             "KillImmune",
+            "ConvertImmune",
             "EnqueueVisitors",
             "KillVisitors"
         ];

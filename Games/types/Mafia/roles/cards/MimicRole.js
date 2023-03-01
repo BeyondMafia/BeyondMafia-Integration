@@ -11,12 +11,16 @@ module.exports = class MimicRole extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
+                    labels: ["convert"],
                     priority: PRIORITY_MIMIC_ROLE,
                     run: function () {
                         let targetRole = this.target.role;
-                        if (targetRole.alignment === "Village" || targetRole.winCount === "Village"){
-                            this.actor.setRole(`${targetRole.name}:${targetRole.modifier}`);
-                            this.target.setRole("Villager");
+                        if (targetRole.alignment === "Village" || targetRole.winCount === "Village") {
+                            // only check conversion immunity for village roles
+                            if (this.dominates()) {
+                                this.actor.setRole(`${targetRole.name}:${targetRole.modifier}`);
+                                this.target.setRole("Villager");
+                            }
                         } else if (targetRole.alignment === "Mafia" || targetRole.winCount === "Mafia"){
                             this.actor.setRole("Villager");
                         }
