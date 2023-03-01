@@ -760,7 +760,7 @@ const roleData = {
         "Fool": {
             alignment: "Independent",
             description: [
-                "Visits another player at night with no effect.",
+                "Fools around at night, visiting another player with no effect.",
                 "Wins if executed by the town.",
                 "No one else wins if the Fool wins.",
             ],
