@@ -667,7 +667,7 @@ const roleData = {
         "Clown": {
             alignment: "Mafia",
             description: [
-                "Appears as fool to self.",
+                "Appears as Fool to self.",
                 "Will kill their visit target.",
             ],
         },
@@ -757,11 +757,12 @@ const roleData = {
         },
 
         //Independent
-        "Jester": {
+        "Fool": {
             alignment: "Independent",
             description: [
+                "Visits another player at night with no effect.",
                 "Wins if executed by the town.",
-                "No one else wins if the Jester wins.",
+                "No one else wins if the Fool wins.",
             ],
         },
         "Executioner": {
