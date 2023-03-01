@@ -275,19 +275,19 @@ describe("Games/Mafia", function () {
         });
     });
 
-    describe("Jester", function () {
+    describe("Fool", function () {
         it("should be able to joint win when voted off", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
-            const setup = { total: 3, roles: [{ "Villager": 1, "Jester": 1, "Mafioso": 1 }] };
+            const setup = { total: 3, roles: [{ "Villager": 1, "Fool": 1, "Mafioso": 1 }] };
             const game = await makeGame(setup);
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
                 if (meeting.name == "Village") {
                     this.sendToServer("vote", {
-                        selection: roles["Jester"].id,
+                        selection: roles["Fool"].id,
                         meetingId: meeting.id
                     });
                 }
@@ -300,10 +300,10 @@ describe("Games/Mafia", function () {
             });
 
             await waitForGameEnd(game);
-            should.exist(game.winners.groups["Jester"]);
+            should.exist(game.winners.groups["Fool"]);
             should.exist(game.winners.groups["Mafia"]);
             should.not.exist(game.winners.groups["Village"]);
-            game.winners.groups["Jester"].should.have.lengthOf(1);
+            game.winners.groups["Fool"].should.have.lengthOf(1);
         });
     });
 
