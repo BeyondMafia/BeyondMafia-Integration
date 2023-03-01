@@ -1,7 +1,7 @@
 const Card = require("../../Card");
-const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_NIGHT_WAITRESS } = require("../../const/Priority");
 
-module.exports = class StealItems extends Card {
+module.exports = class StealItemsBlock extends Card {
 
     constructor(role) {
         super(role);
@@ -13,8 +13,9 @@ module.exports = class StealItems extends Card {
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
                 action: {
                     labels: ["stealItem"],
-                    priority: PRIORITY_ITEM_GIVER_DEFAULT - 50,
+                    priority: PRIORITY_NIGHT_WAITRESS,
                     run: function () {
+                        this.blockActions();
                         for (let item of this.target.items) {
                             if (item.cannotBeStolen) {
                                 continue;

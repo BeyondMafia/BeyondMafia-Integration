@@ -5,7 +5,7 @@ module.exports = class Waitress extends Role {
     constructor(player, data) {
         super("Waitress", player, data);
         this.alignment = "Village";
-        this.cards = ["VillageCore", "WinWithVillage", "EnqueueVisiting", "StealItems", "Friendly"];
+        this.cards = ["VillageCore", "WinWithVillage", "StealItemsBlock"];
     }
 
 }
