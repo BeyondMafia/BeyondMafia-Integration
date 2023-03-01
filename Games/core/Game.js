@@ -120,7 +120,7 @@ module.exports = class Game {
             });
 
             if (!this.scheduled)
-                await redis.joinGame(this.hostId, this.id);
+                await redis.joinGame(this.hostId, this.id, this.ranked);
             else {
                 await redis.setHostingScheduled(this.hostId, this.id);
                 this.queueScheduleNotifications();
@@ -277,7 +277,7 @@ module.exports = class Game {
                 this.players.length < this.setup.total &&
                 !this.banned[user.id]
             ) {
-                await redis.joinGame(user.id, this.id);
+                await redis.joinGame(user.id, this.id, this.ranked);
 
                 player = new this.Player(user, this, isBot);
                 player.init();
