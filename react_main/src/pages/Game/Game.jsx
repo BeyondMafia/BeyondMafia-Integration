@@ -996,7 +996,7 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
             var content = m.content || "";
             var matches = content.toLowerCase().indexOf(filters.contains.toLowerCase()) != -1;
 
-            var playerName = players[m.senderId].name;
+            var playerName = players[m.senderId]?.name || "";
             matches = matches && playerName.toLowerCase().indexOf(filters.from.toLowerCase()) != -1;
 
             return matches;
