@@ -865,22 +865,22 @@ describe("Games/Mafia", function () {
             await waitForGameEnd(game);
             should.exist(game.winners.groups["Village"]);
             should.not.exist(game.winners.groups["Mafia"]);
-            roles["Babushka"].alive.should.be.true;
+            roles["Granny"].alive.should.be.true;
             game.winners.groups["Village"].should.have.lengthOf(2);
         });
 
-        it("should save the Mafioso from dying and lynch the Babushka", async function () {
+        it("should save the Mafioso from dying and lynch the Granny", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
-            const setup = { total: 3, roles: [{ "Doctor": 1, "Babushka": 1, "Mafioso": 1 }] };
+            const setup = { total: 3, roles: [{ "Doctor": 1, "Granny": 1, "Mafioso": 1 }] };
             const game = await makeGame(setup);
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
                 if (meeting.name == "Mafia") {
                     this.sendToServer("vote", {
-                        selection: roles["Babushka"].id,
+                        selection: roles["Granny"].id,
                         meetingId: meeting.id
                     });
                 }
@@ -892,7 +892,7 @@ describe("Games/Mafia", function () {
                 }
                 else if (meeting.name == "Village") {
                     this.sendToServer("vote", {
-                        selection: roles["Babushka"].id,
+                        selection: roles["Granny"].id,
                         meetingId: meeting.id
                     });
                 }
