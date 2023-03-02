@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
-import { Avatar, Badges, NameWithAvatar } from "./User";
+import { Avatar, Badges, NameWithAvatar, YouTubeEmbed} from "./User";
 import { HiddenUpload, TextEditor } from "../../components/Form";
 import LoadingPage from "../Loading";
 import Setup from "../../components/Setup";
@@ -40,6 +40,8 @@ export default function Profile() {
     const [stats, setStats] = useState();
     const [groups, setGroups] = useState([]);
     const [showStatsModal, setShowStatsModal] = useState(false);
+    const [embedId, setEmbedId] = useState("");
+    const [autoplay, setAutoplay] = useState(false);
 
     const user = useContext(UserContext);
     const siteInfo = useContext(SiteInfoContext);
@@ -78,6 +80,14 @@ export default function Profile() {
                     setFriendsPage(1);
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
+                    var videoMatches =  res.data.settings.youtube.match('v=([a-zA-Z0-9_-]+)&?');
+                    if (videoMatches && videoMatches.length >= 2) {
+                        setEmbedId(videoMatches[1]);
+                    }
+                    else {
+                        setEmbedId("");
+                    }
+                    setAutoplay(res.data.settings.autoplay);
 
                     document.title = `${res.data.name}'s Profile | BeyondMafia`;
                 })
@@ -446,6 +456,9 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className="side column">
+                { <YouTubeEmbed
+                            embedId={embedId}
+                            autoplay={autoplay}></YouTubeEmbed> }
                     {totalGames >= RequiredTotalForStats &&
                         <div className="box-panel ratings" style={panelStyle}>
                             <div className="heading">

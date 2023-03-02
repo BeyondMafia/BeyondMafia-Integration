@@ -374,6 +374,24 @@ router.get("/accounts", async function (req, res) {
     }
 });
 
+router.post("/youtube", async function (req, res){
+    res.setHeader("Content-Type", "application/json");
+    try{
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var prop = String(req.body.prop);
+        var value = String(req.body.link);
+
+        await models.User.updateOne({ id: userId }, { $set: { [`settings.youtube`]: value } });
+        await redis.cacheUserInfo(userId, true);
+        res.send("Video updated successfully.");
+    }
+    catch(e){
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating video.")
+    }
+});
+
 router.post("/settings/update", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
