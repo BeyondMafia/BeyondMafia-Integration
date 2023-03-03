@@ -657,7 +657,7 @@ const roleData = {
                 "Any system messages that person may have got are given to the journalist as well"
             ],
          },
-        "Sorceror": {
+        "Jinx": {
             alignment: "Mafia",
             description: [
                 "Each night, curses a player with a word.",
