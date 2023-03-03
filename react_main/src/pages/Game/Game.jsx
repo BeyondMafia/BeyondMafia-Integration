@@ -2017,10 +2017,10 @@ function FirstGameModal(props) {
                 Breaking game conduct may result in necessary action being taken against your account.
             </div>
             <div className="paragraph">
-                A full description of these rules as well as site and community rules is found <a>here</a>.
+                A full description of these rules as well as site and community rules is found <a href="/community/forums/board/-2z5mOHaYp">here</a>.
             </div>
             <div className="paragraph">
-                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/SLsDA_SI2">here</a>. Good luck, and have fun!
+                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/ht4TEuL6lG">here</a>. Good luck, and have fun!
             </div>
         </>
     );
