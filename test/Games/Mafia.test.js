@@ -276,7 +276,7 @@ describe("Games/Mafia", function () {
     });
 
     describe("Jester", function () {
-        it("should be able to joint win when voted off", async function () {
+        it("should make only the Jester win when he is voted off", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
@@ -301,7 +301,7 @@ describe("Games/Mafia", function () {
 
             await waitForGameEnd(game);
             should.exist(game.winners.groups["Jester"]);
-            should.exist(game.winners.groups["Mafia"]);
+            should.not.exist(game.winners.groups["Mafia"]);
             should.not.exist(game.winners.groups["Village"]);
             game.winners.groups["Jester"].should.have.lengthOf(1);
         });
