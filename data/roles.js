@@ -725,6 +725,14 @@ const roleData = {
             description: [
                 "Once per game, visit a player.",
                 "Steals this person's items and clears their will."
+            ]
+        },
+        "Thief": {
+            alignment: "Mafia",
+            description: [
+                "Chooses one person each night.",
+                "Steals an item from that player.",
+                "Does not attend Mafia meetings.",
             ],
         },
 
