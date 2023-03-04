@@ -36,35 +36,39 @@ module.exports = class MafiaAction extends Action {
         return visitors;
     }
 
-    stealItem(givenPlayer, takenPlayer, item) {
-        givenPlayer.holdItem(item);
-        takenPlayer.dropItem(item);
-        givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+    stealItem(item, toGive) {
+        toGive = toGive || this.actor;
+
+        if (item.cannotBeStolen) {
+            return false;
+        }
+
+        item.drop()
+        item.hold(toGive);
+        toGive.queueAlert(`You have received ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+        return true;
     }
 
-    stealRandomItem(givenPlayer, takenPlayer) {
-        let items = Random.randomizeArray(takenPlayer.items);
-        for (let item of items) {
-            if (item.cannotBeStolen) {
-                continue;
-            }
+    stealRandomItem(victim, toGive) {
+        victim = victim || this.target;
+        toGive = toGive || this.actor;
 
-            item.drop();
-            item.hold(givenPlayer);
-            givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
-            return;
+        let items = Random.randomizeArray(victim.items);
+        for (let item of items) {
+            if (this.stealItem(item, toGive)) {
+                return;
+            }
         }
     }
 
-    stealAllItems(givenPlayer, takenPlayer) {
-        for (let item of takenPlayer.items) {
-            if (item.cannotBeStolen) {
+    stealAllItems(victim, toGive) {
+        victim = victim || this.target;
+        toGive = toGive || this.actor;
+
+        for (let item of victim.items) {
+            if (!this.stealItem(item, toGive)) {
                 continue;
             }
-
-            item.drop();
-            item.hold(givenPlayer);
-            givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
         }
     }
 }
