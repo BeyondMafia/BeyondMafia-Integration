@@ -158,7 +158,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Kills all who visit her during the night.",
-                "Cannot be killed normally."
+                "Cannot be killed or converted normally."
             ],
         },
         "Templar": {
