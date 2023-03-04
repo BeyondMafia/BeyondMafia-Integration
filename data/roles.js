@@ -713,6 +713,13 @@ const roleData = {
                 "Trespasses on another player's property at night, though annoying, with no effect."
             ],
         },
+        "Housekeeper": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, visit a player.",
+                "Steals this person's items and clears their will."
+            ],
+        },
 
         //Monsters
         "Lycan": {
