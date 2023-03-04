@@ -1,4 +1,5 @@
 const Action = require("../../core/Action");
+const Random = require("../../../lib/Random");
 
 module.exports = class MafiaAction extends Action {
 
@@ -65,9 +66,12 @@ module.exports = class MafiaAction extends Action {
         victim = victim || this.target;
         toGive = toGive || this.actor;
 
-        for (let item of victim.items) {
-            if (!this.stealItem(item, toGive)) {
-                continue;
+        let numItems = victim.items.length;
+        let toSteal = 0;
+        for (let i = 0; i < numItems; i++) {
+            let stolen = this.stealItem(victim.items[toSteal], toGive)
+            if (!stolen) {
+                toSteal += 1;
             }
         }
     }
