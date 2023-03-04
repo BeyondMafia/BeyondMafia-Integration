@@ -35,4 +35,36 @@ module.exports = class MafiaAction extends Action {
 
         return visitors;
     }
+
+    stealItem(givenPlayer, takenPlayer, item) {
+        givenPlayer.holdItem(item);
+        takenPlayer.dropItem(item);
+        givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+    }
+
+    stealRandomItem(givenPlayer, takenPlayer) {
+        let items = Random.randomizeArray(takenPlayer.items);
+        for (let item of items) {
+            if (item.cannotBeStolen) {
+                continue;
+            }
+
+            item.drop();
+            item.hold(givenPlayer);
+            givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+            return;
+        }
+    }
+
+    stealAllItems(givenPlayer, takenPlayer) {
+        for (let item of takenPlayer.items) {
+            if (item.cannotBeStolen) {
+                continue;
+            }
+
+            item.drop();
+            item.hold(givenPlayer);
+            givenPlayer.queueAlert(`You have recieved ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+        }
+    }
 }
