@@ -417,6 +417,18 @@ export const Emotes = {
 		name: "zzz",
 		type: "png"
 	},
+	":tip:": {
+		name: "tip",
+		type: "gif"
+	},
+	":tipb:": {
+		name: "tipb",
+		type: "gif"
+	},
+	":taco:": {
+		name: "taco",
+		type: "gif"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
