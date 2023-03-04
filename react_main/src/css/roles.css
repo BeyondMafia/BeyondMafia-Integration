@@ -363,6 +363,10 @@
     background-position: -900px -40px;
 }
 
+.role-Mafia-Enchantress {
+    background-position: -900px -80px;
+}
+
 /* 
 * Mafia 
 */
@@ -487,6 +491,26 @@
     background-position: -540px -80px;
 }
 
+.role-Mafia-Diabolist {
+    background-position: -570px -80px;
+}
+
+.role-Mafia-Illusionist {
+    background-position: -600px -80px;
+}
+
+.role-Mafia-Cat-Lady {
+    background-position: -330px -120px;
+}
+
+.role-Mafia-Slasher {
+    background-position: -360px -120px;
+}
+
+.role-Mafia-Jinx {
+    background-position: -390px -120px;
+}
+
 /* 
 * Independent 
 */
@@ -537,6 +561,10 @@
 
 .role-Mafia-Mastermind {
     background-position: -660px -80px;
+}
+
+.role-Mafia-Prophet {
+    background-position: -690px -80px;
 }
 
 /* 
