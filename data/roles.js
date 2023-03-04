@@ -455,6 +455,13 @@ const roleData = {
                 "Pays a visit to another player at night, though annoying, with no effect."
             ],
         },
+        "Waitress": {
+            alignment: "Village",
+            description: [
+                "Visits one person at night.",
+                "Roleblocks them and steals any items they're holding.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
