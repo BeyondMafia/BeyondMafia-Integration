@@ -8,7 +8,7 @@ module.exports = class OverturnSpectator extends Item {
         this.reveal = reveal;
         this.lifespan = 1;
         this.meetings = {
-            "Overturn Lynch": {
+            "Overturn Vote": {
                 states: ["Overturn"],
                 flags: ["group", "speech", "voting"],
                 canVote: false

@@ -1,13 +1,13 @@
 const Card = require("../../Card");
 const { PRIORITY_OVERTHROW } = require("../../const/Priority");
 
-module.exports = class OverturnLynch extends Card {
+module.exports = class OverturnVote extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Overturn Lynch": {
+            "Overturn Vote": {
                 states: ["Overturn"],
                 flags: ["group", "speech", "voting", "anonymousVotes"],
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
@@ -17,14 +17,12 @@ module.exports = class OverturnLynch extends Card {
                     power: 3,
                     labels: ["kill"],
                     run: function () {
-                        if (this.dominates())
+                        this.actor.role.data.actionToOverthrow.cancel(true);
+                        if (this.dominates()) {
                             this.target.kill("lynch", this.actor);
+                        }
 
-                        for (let action of this.game.actions[0])
-                            if (action.hasLabel("lynch"))
-                                action.cancel(true);
-
-                        --this.actor.role.overturnsLeft;
+                        --this.actor.role.data.overturnsLeft;
                     }
                 }
             },
@@ -40,13 +38,27 @@ module.exports = class OverturnLynch extends Card {
                 index: 4,
                 length: 1000 * 30,
                 shouldSkip: function () {
-                    if (!this.overturnsLeft)
+                    if (!this.data.overturnsLeft) {
                         return true;
+                    }
 
+                    let isNoVote = true;
+                    for (let action of this.game.actions[0]) {
+                        if (action.hasLabel("lynch")) {
+                            isNoVote = false;
+                            this.data.actionToOverthrow = action;
+                            break;
+                        }
+                    }
+
+                    if (isNoVote) {
+                        this.data.actionToOverthrow = null;
+                        return true;
+                    }
+                            
                     for (let player of this.game.players) {
                         player.holdItem("OverturnSpectator");
                     }
-
                     return false;
                 }
             }
