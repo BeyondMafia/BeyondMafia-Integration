@@ -6,7 +6,10 @@ module.exports = class Gun extends Item {
     constructor(options) {
         super("Gun");
 
-        this.options = options || {}
+        this.reveal = options?.reveal;
+        this.mafiaImmune = options?.mafiaImmune;
+        this.cursed = options?.cursed;
+
         this.meetings = {
             "Shoot Gun": {
                 actionName: "Shoot",
@@ -17,7 +20,7 @@ module.exports = class Gun extends Item {
                     item: this,
                     run: function () {
                         var shooterMask = this.actor.role.data.shooterMask;
-                        var reveal = shooterMask ? true : this.item.options.reveal;
+                        var reveal = shooterMask ? true : this.item.reveal;
                         if (reveal == null) {
                             reveal = Random.randArrayVal([true, false]);
                         }
@@ -25,8 +28,8 @@ module.exports = class Gun extends Item {
                             shooterMask = this.actor.name;
                         }
                         
-                        var mafiaImmune = this.item.options.mafiaImmune;
-                        var cursed = this.item.options.cursed;
+                        var mafiaImmune = this.item.mafiaImmune;
+                        var cursed = this.item.cursed;
 
                         if (cursed) {
                             this.target = this.actor;
