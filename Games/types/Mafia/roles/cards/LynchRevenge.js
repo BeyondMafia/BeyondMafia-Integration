@@ -18,8 +18,8 @@ module.exports = class LynchRevenge extends Card {
                     return false;
                 },
                 action: {
-                    priority: PRIORITY_LYNCH_REVENGE,
                     labels: ["kill"],
+                    priority: PRIORITY_LYNCH_REVENGE,
                     run: function () {
                         if (this.dominates())
                             this.target.kill("lynchRevenge", this.actor);
@@ -32,9 +32,13 @@ module.exports = class LynchRevenge extends Card {
                 type: "delayActions",
                 delayActions: true
             },
+            "Overturn": {
+                type: "delayActions",
+                delayActions: true
+            },
             "Sunset": {
                 type: "add",
-                index: 4,
+                index: 5,
                 length: 1000 * 30,
                 shouldSkip: function () {
                     for (let action of this.game.actions[0])
