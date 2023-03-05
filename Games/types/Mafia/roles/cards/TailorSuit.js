@@ -14,6 +14,10 @@ module.exports = class TailorSuit extends Card {
                     labels: ["giveItem", "suit"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
+                        if (!this.actor.role.data.suit) {
+                            return;
+                        }
+
                         this.target.holdItem("Suit", this.actor.role.data.suit);
                         this.target.queueAlert("You have received a suit!");
                         delete this.actor.role.data.suit;
@@ -22,7 +26,7 @@ module.exports = class TailorSuit extends Card {
             },
             "Choose Suit": {
                 states: ["Night"],
-                flags: ["voting", "mustAct", "noVeg"],
+                flags: ["voting", "mustAct"],
                 inputType: "role",
                 targets: { include: ["all"] },
                 action: {

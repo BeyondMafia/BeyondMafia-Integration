@@ -1093,6 +1093,8 @@ function Message(props) {
     var player, quotedMessage;
     var contentClass = "content ";
     var isMe = false;
+    var currentState = props.history.currentState;
+    var meetings = history.states[currentState].meetings;
 
     if (
         message.senderId != "server" &&
@@ -1129,6 +1131,12 @@ function Message(props) {
 
     if (message.isQuote && !quotedMessage)
         return <></>;
+
+    if(meetings[message.meetingId] !== undefined){
+        if (meetings[message.meetingId].name === "Party!") {
+            contentClass += "party ";
+        }
+    }
 
     if ((player || message.senderId == "anonymous") && !message.isQuote)
         contentClass += "clickable ";
@@ -1189,9 +1197,11 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
-                            emotify />
+                            emotify
+                            iconUsername />
                     </>
                 }
                 {message.isQuote &&
@@ -1205,9 +1215,11 @@ function Message(props) {
                             <UserText
                                 text={quotedMessage.content}
                                 settings={user.settings}
+                                players={players}
                                 filterProfanity
                                 linkify
-                                emotify />
+                                emotify
+                                iconUsername />
                         </div>
                         <i className="fas fa-quote-right" />
                     </>
@@ -1524,7 +1536,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color="black"
+                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
                         width="20"
                         height="20" />
                 }
@@ -2056,10 +2068,10 @@ function FirstGameModal(props) {
                 Breaking game conduct may result in necessary action being taken against your account.
             </div>
             <div className="paragraph">
-                A full description of these rules as well as site and community rules is found <a>here</a>.
+                A full description of these rules as well as site and community rules is found <a href="/community/forums/board/-2z5mOHaYp">here</a>.
             </div>
             <div className="paragraph">
-                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/SLsDA_SI2">here</a>. Good luck, and have fun!
+                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/ht4TEuL6lG">here</a>. Good luck, and have fun!
             </div>
         </>
     );
