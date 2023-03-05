@@ -1,6 +1,6 @@
 const Role = require("../../Role");
 
-module.exports = class Merlin extends Role {
+module.exports = class Seer extends Role {
 
     constructor(player, data) {
         super("Villager", player, data);
