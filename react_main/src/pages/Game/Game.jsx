@@ -1072,6 +1072,8 @@ function Message(props) {
     var player, quotedMessage;
     var contentClass = "content ";
     var isMe = false;
+    var currentState = props.history.currentState;
+    var meetings = history.states[currentState].meetings;
 
     if (
         message.senderId != "server" &&
@@ -1108,6 +1110,12 @@ function Message(props) {
 
     if (message.isQuote && !quotedMessage)
         return <></>;
+
+    if(meetings[message.meetingId] !== undefined){
+        if (meetings[message.meetingId].name === "Party!") {
+            contentClass += "party ";
+        }
+    }
 
     if ((player || message.senderId == "anonymous") && !message.isQuote)
         contentClass += "clickable ";
@@ -1486,7 +1494,7 @@ export function PlayerRows(props) {
                 <ReactLoading
                     className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                     type="bubbles"
-                    color="black"
+                    color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
                     width="20"
                     height="20" />
             }
