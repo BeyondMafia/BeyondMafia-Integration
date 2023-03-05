@@ -63,7 +63,7 @@ const roleData = {
                 "Kills one person each night."
             ],
         },
-        "Seer": {
+        "Detective": {
             alignment: "Village",
             description: [
                 "Learns the role of one person each night.",
@@ -82,7 +82,7 @@ const roleData = {
                 "Armor can block a single attack."
             ],
         },
-        "Archer": {
+        "Hunter": {
             alignment: "Village",
             description: [
                 "When executed, can choose someone to kill."
@@ -128,7 +128,7 @@ const roleData = {
                 "This gun will never reveal the deputy when shot."
             ],
         },
-        "Knight": {
+        "Bulletproof": {
             alignment: "Village",
             description: [
                 "Starts with armor.",
@@ -154,26 +154,26 @@ const roleData = {
                 "Can save one person each night from dying, including herself."
             ],
         },
-        "Babushka": {
+        "Granny": {
             alignment: "Village",
             description: [
                 "Kills all who visit her during the night.",
                 "Cannot be killed or converted normally."
             ],
         },
-        "Illuminato": {
+        "Templar": {
             alignment: "Village",
             description: [
-                "Meets with other Illuminati members during the night."
+                "Meets with other Templars during the night."
             ],
         },
-        "Suspect": {
+        "Miller": {
             alignment: "Village",
             description: [
                 "Appears as Villager to self.",
                 "Appears as Mafioso to investigative roles.",
                 "Appears as Mafioso upon being executed.",
-                "Appears as Suspect upon being killed.",
+                "Appears as Miller upon being killed.",
             ],
         },
         "Mayor": {
@@ -681,7 +681,7 @@ const roleData = {
         "Clown": {
             alignment: "Mafia",
             description: [
-                "Appears as fool to self.",
+                "Appears as Fool to self.",
                 "Will kill their visit target.",
             ],
         },
@@ -792,11 +792,12 @@ const roleData = {
         },
 
         //Independent
-        "Jester": {
+        "Fool": {
             alignment: "Independent",
             description: [
+                "Fools around at night, visiting another player with no effect.",
                 "Wins if executed by the town.",
-                "No one else wins if the Jester wins.",
+                "No one else wins if the Fool wins.",
             ],
         },
         "Executioner": {

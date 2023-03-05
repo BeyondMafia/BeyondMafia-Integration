@@ -1,9 +1,9 @@
 const Role = require("../../Role");
 
-module.exports = class Jester extends Role {
+module.exports = class Fool extends Role {
 
     constructor(player, data) {
-        super("Jester", player, data);
+        super("Fool", player, data);
 
         this.alignment = "Independent";
         this.winCount = "Village";
