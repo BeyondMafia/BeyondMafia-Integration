@@ -401,6 +401,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Medium": {
+            alignment: "Village",
+            description: [
+                "Chooses a dead player per night and holds a seance with that player.",
+                "Medium's identity is not revealed to the dead player.",  
+            ],
+        },
         "Robin Hood": {
             alignment: "Village",
             description: [
@@ -752,6 +759,13 @@ const roleData = {
                 "Chooses one person each night.",
                 "Steals an item from that player.",
                 "Does not attend Mafia meetings.",
+            ],
+        },
+        "Crank": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a dead player per night and holds a seance with that player.",
+                "Crank's identity is not revealed to the dead player.",  
             ],
         },
 
