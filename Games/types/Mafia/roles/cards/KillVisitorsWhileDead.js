@@ -8,7 +8,7 @@ module.exports = class KillVisitorsWhileDead extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_KILL_VISITORS,
+                priority: PRIORITY_KILL_VISITORS - 1,
                 labels: ["kill", "hidden"],
                 run: function () {
                     if (this.actor.alive)
