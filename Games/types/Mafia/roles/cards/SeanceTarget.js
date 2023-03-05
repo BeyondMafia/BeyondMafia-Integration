@@ -1,39 +1,47 @@
 const Card = require("../../Card");
-const {PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
+const { MEETING_PRIORITY_SEANCE } = require("../../const/MeetingPriority");
+const { PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
 
 module.exports = class SeanceTarget extends Card {
 
     constructor(role) {
         super(role);
 
-        this.actor.role.data.seancename = null;
+        this.listeners = {
+            "rolesAssigned": function () {
+                this.data.meetingName = "SeancePlaceholder" + this.player.name;
+                this.meetings[this.data.meetingName] = this.meetings["SeancePlaceholder"]
+                delete this.meetings["SeancePlaceholder"]
+            }
+        };
+
         this.meetings = {
             "Seance Player": {
                 states: ["Day"],
-                flags: ["voting", "exclusive"],
+                flags: ["voting"],
                 targets: { include: ["dead"], exclude: ["alive", "self"] },
                 action: {
                     labels: ["seance"],
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
-                            this.actor.role.data.seanced = this.target.name;
-                            this.actor.role.data.meetingname = "Seance with " + this.target.name;
-                            this.target.holdItem("Summon");
+                            this.target.holdItem("Summon", this.actor.role.data.meetingName);
                         }
                     }
                 }
             },
-            "Seance": {
-                actionName: "End Seance",
+            "SeancePlaceholder": {
+                meetingName: "Seance",
+                actionName: "End Meeting?",
                 states: ["Night"],
-                flags: ["group", "speech", "voting", "anonymous", "mustAct"],
+                flags: ["exclusive", "group", "speech", "anonymous", "voting", "mustAct", "noVeg"],
                 inputType: "boolean",
-                leader: true,
+                priority: MEETING_PRIORITY_SEANCE,
                 shouldMeet: function () {
                     for (let player of this.game.players)
-                        if (player.hasItem("Summon"))
+                        if (player.hasItemProp("Summon", "meetingName", this.data.meetingName)) {
                             return true;
+                        }
 
                     return false;
                 },

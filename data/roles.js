@@ -659,7 +659,6 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
-<<<<<<< HEAD
         "Mummy": {
             alignment: "Mafia",
             description: [
@@ -754,13 +753,13 @@ const roleData = {
                 "Chooses one person each night.",
                 "Steals an item from that player.",
                 "Does not attend Mafia meetings.",
-=======
+            ],
+        },
         "Crank": {
             alignment: "Mafia",
             description: [
                 "Chooses a dead player per night and holds a seance with that player.",
                 "Crank's identity is not revealed to the dead player.",  
->>>>>>> 31e12f9 (Added Crank)
             ],
         },
 
