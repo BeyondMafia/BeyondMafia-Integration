@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_KILL_VISITORS } = require("../../const/Priority");
+const { PRIORITY_KILL_DEFAULT } = require("../../const/Priority");
 
 module.exports = class KillVisitorsWhileDead extends Card {
 
@@ -8,7 +8,7 @@ module.exports = class KillVisitorsWhileDead extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_KILL_VISITORS - 1,
+                priority: PRIORITY_KILL_DEFAULT - 1,
                 labels: ["kill", "hidden"],
                 run: function () {
                     if (this.actor.alive)
