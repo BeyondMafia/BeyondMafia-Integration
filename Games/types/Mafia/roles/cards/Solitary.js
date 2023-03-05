@@ -6,7 +6,7 @@ module.exports = class Solitary extends Card {
         super(role);
 
         this.meetingMods = {
-            "Illuminati Meeting": {
+            "Templar Meeting": {
                 disabled: true
             },
             "Learn Alignment": {

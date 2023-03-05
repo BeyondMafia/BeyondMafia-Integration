@@ -199,7 +199,7 @@ describe("Redis", function () {
                 createTime: Date.now()
             });
 
-            await redis.joinGame(userId, gameId);
+            await redis.joinGame(userId, gameId, false);
             var inGame = await redis.inGame(userId);
             inGame.should.equal(gameId);
 
@@ -237,7 +237,7 @@ describe("Redis", function () {
                 settings: {}
             });
 
-            await redis.joinGame(userId, gameId);
+            await redis.joinGame(userId, gameId, false);
             var inGame = await redis.inGame(userId);
             inGame.should.equal(gameId);
 

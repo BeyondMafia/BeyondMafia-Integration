@@ -63,7 +63,7 @@ const roleData = {
                 "Kills one person each night."
             ],
         },
-        "Seer": {
+        "Detective": {
             alignment: "Village",
             description: [
                 "Learns the role of one person each night.",
@@ -82,7 +82,7 @@ const roleData = {
                 "Armor can block a single attack."
             ],
         },
-        "Archer": {
+        "Hunter": {
             alignment: "Village",
             description: [
                 "When executed, can choose someone to kill."
@@ -128,7 +128,7 @@ const roleData = {
                 "This gun will never reveal the deputy when shot."
             ],
         },
-        "Knight": {
+        "Bulletproof": {
             alignment: "Village",
             description: [
                 "Starts with armor.",
@@ -154,26 +154,26 @@ const roleData = {
                 "Can save one person each night from dying, including herself."
             ],
         },
-        "Babushka": {
+        "Granny": {
             alignment: "Village",
             description: [
                 "Kills all who visit her during the night.",
-                "Cannot be killed normally."
+                "Cannot be killed or converted normally."
             ],
         },
-        "Illuminato": {
+        "Templar": {
             alignment: "Village",
             description: [
-                "Meets with other Illuminati members during the night."
+                "Meets with other Templars during the night."
             ],
         },
-        "Suspect": {
+        "Miller": {
             alignment: "Village",
             description: [
                 "Appears as Villager to self.",
                 "Appears as Mafioso to investigative roles.",
                 "Appears as Mafioso upon being executed.",
-                "Appears as Suspect upon being killed.",
+                "Appears as Miller upon being killed.",
             ],
         },
         "Mayor": {
@@ -304,6 +304,13 @@ const roleData = {
                 "Learns if they share an alignment.",
             ],
         },
+        "Invisible Man": {
+            alignment: "Village",
+            description: [
+                "Can choose one person during the day to stalk.",
+                "Will hear all messages from meetings that player is in that night.",
+                ],
+        },
         "Cyclist": {
             alignment: "Village",
             description: [
@@ -396,6 +403,33 @@ const roleData = {
                 "Appears as Villager to self.",
             ],
         },
+        "Robin Hood": {
+            alignment: "Village",
+            description: [
+                "Every night can pick one person to steal from and another person to give their items to.",
+                "If the person chosen to give to is mafia, the steal will not go through.",
+            ],
+        },
+        "Enchantress": {
+            alignment: "Village",
+            description: [
+                "Once per game, can visit a player during the night and give them a crystal."
+            ],
+        },
+        "Forager": {
+            alignment: "Village",
+            description: [
+                "If not visited by anyone during the night, forages for an item.",
+                "The item can be a Gun, a Knife, Armor, or a Snowball.",
+            ],
+        },
+        "Mortician": {
+            alignment: "Village",
+            description: [
+                "Can visit a dead player every night.",
+                "Learns the role of that player.",
+            ],
+        },
         "Santa": {
             alignment: "Village",
             description: [
@@ -415,6 +449,32 @@ const roleData = {
             description: [
                 "Appears as villager to themself.",
                 "Vote overrides others in village meeting.",
+            ],
+        },
+        "Sleepwalker": {
+            alignment: "Village",
+            description: [
+                "Randomly visits one person every night.",
+                "Appears as villager to self.",
+            ],
+        },
+        "Messenger": {
+            alignment: "Village",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Visitor": {
+            alignment: "Village",
+            description: [
+                "Pays a visit to another player at night, though annoying, with no effect."
+            ],
+        },
+        "Waitress": {
+            alignment: "Village",
+            description: [
+                "Visits one person at night.",
+                "Roleblocks them and steals any items they're holding.",
             ],
         },
 
@@ -600,7 +660,26 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
-        "Sorceror": {
+        "Mummy": {
+            alignment: "Mafia",
+            description: [
+                "Everyone who visits the mummy while the mummy is dead dies.",
+            ],
+        },
+        "Poltergeist": {
+            alignment: "Mafia",
+            description: [
+                "Once dead, may visit one person a night and roleblock them.",
+           ],
+        },
+        "Informant": {
+            alignment: "Mafia",
+            description: [
+                "Can pick a person every night",
+                "Any system messages that person may have got are given to the journalist as well"
+            ],
+         },
+        "Jinx": {
             alignment: "Mafia",
             description: [
                 "Each night, curses a player with a word.",
@@ -610,7 +689,7 @@ const roleData = {
         "Clown": {
             alignment: "Mafia",
             description: [
-                "Appears as fool to self.",
+                "Appears as Fool to self.",
                 "Will kill their visit target.",
             ],
         },
@@ -621,12 +700,61 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
+        "Medusa": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, during the day, can turn all visitors last night to stone.",
+                ],
+        },
+        "Illusionist": {
+            alignment: "Mafia",
+            description: [
+                "Starts with a gun.",
+                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
+            ],
+        },
+        "Cat Lady": {
+            alignment: "Mafia",
+            description: [
+                "Every day, chooses a person to send a cat to.",
+                "At night, the target can choose to let the cat in or chase it out.",
+                "If the cat is let in, the target is roleblocked.",
+                "If chased out, the Cat Lady will learn the role of the target."
+            ],
+        },
         "Slasher": {
             alignment: "Mafia",
             description: [
                 "If not visited during the night, will receive a knife.",
                 "Slasher knives do not reveal.",
-                ],
+            ],
+        },
+        "Courier": {
+            alignment: "Mafia",
+            description: [
+                "Anonymously sends message at night to another player of their choice.",
+            ],
+        },
+        "Trespasser": {
+            alignment: "Mafia",
+            description: [
+                "Trespasses on another player's property at night, though annoying, with no effect."
+            ],
+        },
+        "Housekeeper": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, visit a player.",
+                "Steals this person's items and clears their will."
+            ]
+        },
+        "Thief": {
+            alignment: "Mafia",
+            description: [
+                "Chooses one person each night.",
+                "Steals an item from that player.",
+                "Does not attend Mafia meetings.",
+            ],
         },
 
         //Monsters
@@ -672,11 +800,12 @@ const roleData = {
         },
 
         //Independent
-        "Jester": {
+        "Fool": {
             alignment: "Independent",
             description: [
+                "Fools around at night, visiting another player with no effect.",
                 "Wins if executed by the town.",
-                "No one else wins if the Jester wins.",
+                "No one else wins if the Fool wins.",
             ],
         },
         "Executioner": {
