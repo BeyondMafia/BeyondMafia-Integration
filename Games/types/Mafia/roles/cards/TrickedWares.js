@@ -15,57 +15,18 @@ module.exports = class TrickedWares extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
                     
-                    const item_targets = this.game.players.filter(p => p != this.player);
-                    const target = Random.randArrayVal(item_targets);
+                    const players = this.game.players.filter(p => p != this.player);
+                    const playerToGive = Random.randArrayVal(players);
 
-                    var cursed = Random.randArrayVal([true, false]);
                     var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"];
-                    var given_item = items[Math.floor(Math.random() * items.length)];
-                    
-                    switch (given_item) {
-                        case "Gun":
-                            if (cursed){
-                                target.holdItem("Gun");
-                            } else {
-                                target.holdItem("Gun", {
-                                    cursed: true
-                                });          
-                            }
-                            target.queueAlert("You have received a gun!");
-                            break;
-                        case "Armor":
-                            if (cursed){
-                                target.holdItem("Armor");
-                            } else {
-                                target.holdItem("CursedArmor");
-                            }
-                            target.queueAlert("You have received armor!");
-                            break;
-                        case "Knife":
-                            if (cursed){
-                                target.holdItem("Knife");
-                            } else {
-                                target.holdItem("CursedKnife");
-                            }
-                            target.queueAlert("You have received a knife!");
-                            break;
-                        case "Snowball":
-                            if (cursed){
-                                target.holdItem("Snowball");
-                            } else {
-                                target.holdItem("CursedSnowball");
-                            }
-                            target.queueAlert("You have received a snowball!");
-                            break;
-                        case "Crystal":
-                            if (cursed){
-                                target.holdItem("Crystal");
-                            } else {
-                                target.holdItem("CursedCrystal");
-                            }
-                            target.queueAlert("You have received a crystal ball!");
-                            break;
-                    }   
+                    var itemToGive = Random.randArrayVal(items);
+
+                    var isItemCursed = Random.randArrayVal([true, false]);
+
+                    playerToGive.holdItem(itemToGive, {
+                        cursed: isItemCursed,
+                    })
+                    this.queueGetItemAlert(itemToGive, playerToGive);
                 }
             }
         ]

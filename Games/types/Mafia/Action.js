@@ -37,6 +37,11 @@ module.exports = class MafiaAction extends Action {
         return visitors;
     }
 
+    queueGetItemAlert(itemName, target) {
+        target = target || this.target;
+        target.queueAlert(`You have received ${(itemName === "Armor" ? itemName : "a " + itemName).toLowerCase()}!`);
+    }
+
     stealItem(item, toGive) {
         toGive = toGive || this.actor;
 
@@ -44,9 +49,9 @@ module.exports = class MafiaAction extends Action {
             return false;
         }
 
-        item.drop()
+        item.drop();
         item.hold(toGive);
-        toGive.queueAlert(`You have received ${(item.name === "Armor" ? item.name : "a " + item.name).toLowerCase()}!`);
+        this.queueGetItemAlert(item.name, toGive);
         return true;
     }
 
