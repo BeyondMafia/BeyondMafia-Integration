@@ -678,6 +678,12 @@ const roleData = {
                 "Learns the role of that player and takes all items they're holding.",
             ],
         },
+        "Medusa": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, during the day, can turn all visitors last night to stone.",
+                ],
+        },
         "Illusionist": {
             alignment: "Mafia",
             description: [
