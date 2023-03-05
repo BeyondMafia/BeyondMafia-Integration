@@ -927,11 +927,36 @@ const roleData = {
                 "Wins if a certain number of missions are successful."
             ]
         },
+        "Merlin": {
+            alignment: "Resistance",
+            description: [
+                "Kowns the alignment of all spies.",
+                "If the Rebels would win, the spies can guess who Merlin is to win instead."
+            ]
+        },
+        "Percival": {
+            alignment: "Resistance",
+            description: [
+                "Knows who is Merlin."
+            ]
+        },
         //Spies
         "Spy": {
             alignment: "Spies",
             description: [
                 "Wins if a certain number of missions fail."
+            ]
+        },
+        "Oberon": {
+            alignment: "Spies",
+            description: [
+                "Does not know who the other spies are and spies do not know him."
+            ]
+        },
+        "Morgana": {
+            alignment: "Spies",
+            description: [
+                "Appears as Merlin to Percival."
             ]
         },
     },
