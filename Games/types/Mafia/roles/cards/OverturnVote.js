@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_OVERTHROW } = require("../../const/Priority");
+const { PRIORITY_OVERTHROW_VOTE } = require("../../const/Priority");
 
 module.exports = class OverturnVote extends Card {
 
@@ -8,16 +8,22 @@ module.exports = class OverturnVote extends Card {
 
         this.meetings = {
             "Overturn Vote": {
+                meetingName: "Overturn",
                 states: ["Overturn"],
                 flags: ["group", "speech", "voting", "anonymousVotes"],
                 targets: { include: ["alive"], exclude: ["dead", "self"] },
                 leader: true,
                 action: {
-                    priority: PRIORITY_OVERTHROW,
                     power: 3,
-                    labels: ["kill"],
+                    labels: ["kill", "lynch", "overthrow"],
+                    priority: PRIORITY_OVERTHROW_VOTE,
                     run: function () {
-                        this.actor.role.data.actionToOverthrow.cancel(true);
+                        for (let action of this.game.actions[0]) {
+                            if (action.hasLabel("lynch") && !action.hasLabel("overthrow")) {
+                                action.cancel(true);
+                            }
+                        }
+                        
                         if (this.dominates()) {
                             this.target.kill("lynch", this.actor);
                         }
@@ -46,13 +52,11 @@ module.exports = class OverturnVote extends Card {
                     for (let action of this.game.actions[0]) {
                         if (action.hasLabel("lynch")) {
                             isNoVote = false;
-                            this.data.actionToOverthrow = action;
                             break;
                         }
                     }
 
                     if (isNoVote) {
-                        this.data.actionToOverthrow = null;
                         return true;
                     }
                             
