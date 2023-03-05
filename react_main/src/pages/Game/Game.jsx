@@ -1072,6 +1072,8 @@ function Message(props) {
     var player, quotedMessage;
     var contentClass = "content ";
     var isMe = false;
+    var currentState = props.history.currentState;
+    var meetings = history.states[currentState].meetings;
 
     if (
         message.senderId != "server" &&
@@ -1108,6 +1110,12 @@ function Message(props) {
 
     if (message.isQuote && !quotedMessage)
         return <></>;
+
+    if(meetings[message.meetingId] !== undefined){
+        if (meetings[message.meetingId].name === "Party!") {
+            contentClass += "party ";
+        }
+    }
 
     if ((player || message.senderId == "anonymous") && !message.isQuote)
         contentClass += "clickable ";
