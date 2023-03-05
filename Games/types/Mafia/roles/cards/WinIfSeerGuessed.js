@@ -1,13 +1,13 @@
 const Card = require("../../Card");
 const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
-module.exports = class WinIfMerlinGuessed extends Card {
+module.exports = class WinIfSeerGuessed extends Card {
 
     constructor(role) {
         super(role);
       
       this.meetings = {
-            "Guess Merlin": {
+            "Guess Seer": {
                 states: ["Night"],
                 flags: ["voting", "exclusive"],
                 shouldMeet: function () {
@@ -21,7 +21,7 @@ module.exports = class WinIfMerlinGuessed extends Card {
                     labels: ["visit"],
                     priority: PRIORITY_WIN_CHECK_DEFAULT  - 1,
                     run: function () {
-                        if (this.target.role = "Merlin") {
+                        if (this.target.role = "Seer") {
                             this.data.guessedMerlin = "true";
                         }
                     }
