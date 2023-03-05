@@ -395,6 +395,13 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Robin Hood": {
+            alignment: "Village",
+            description: [
+                "Every night can pick one person to steal from and another person to give their items to.",
+                "If the person chosen to give to is mafia, the steal will not go through.",
+            ],
+        },
         "Enchantress": {
             alignment: "Village",
             description: [
@@ -453,6 +460,13 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Pays a visit to another player at night, though annoying, with no effect."
+            ],
+        },
+        "Waitress": {
+            alignment: "Village",
+            description: [
+                "Visits one person at night.",
+                "Roleblocks them and steals any items they're holding.",
             ],
         },
 
@@ -717,6 +731,21 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Trespasses on another player's property at night, though annoying, with no effect."
+            ],
+        },
+        "Housekeeper": {
+            alignment: "Mafia",
+            description: [
+                "Once per game, visit a player.",
+                "Steals this person's items and clears their will."
+            ]
+        },
+        "Thief": {
+            alignment: "Mafia",
+            description: [
+                "Chooses one person each night.",
+                "Steals an item from that player.",
+                "Does not attend Mafia meetings.",
             ],
         },
 
