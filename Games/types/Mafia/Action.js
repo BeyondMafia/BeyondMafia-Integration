@@ -19,4 +19,20 @@ module.exports = class MafiaAction extends Action {
             }
         }
     }
+
+    getVisitors(player) {
+        player = player || this.actor;
+
+        var visitors = [];
+        for (let action of this.game.actions[0]) {
+            if (
+                action.target == this.actor &&
+                !action.hasLabel("hidden")
+            ) {
+                visitors.push(action.actor);
+            }
+        }
+
+        return visitors;
+    }
 }

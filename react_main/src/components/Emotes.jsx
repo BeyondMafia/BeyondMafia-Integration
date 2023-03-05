@@ -171,7 +171,7 @@ export const Emotes = {
 	},
 	":gay:": {
 		name: "gay",
-		type: "gif"
+		type: "png"
 	},
 	":hamster:": {
 		name: "hamster",
@@ -416,6 +416,14 @@ export const Emotes = {
 	"zzz": {
 		name: "zzz",
 		type: "png"
+	},
+	":tip:": {
+		name: "tip",
+		type: "gif"
+	},
+	":tipb:": {
+		name: "tipb",
+		type: "gif"
 	},
 };
 

@@ -20,9 +20,10 @@ import { RoleCount } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
-import { MaxGameMessageLength, MaxWillLength } from "../../Constants";
+import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
 
 import "../../css/game.css";
+import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
 
 export default function Game() {
     return (
@@ -1071,6 +1072,8 @@ function Message(props) {
     var player, quotedMessage;
     var contentClass = "content ";
     var isMe = false;
+    var currentState = props.history.currentState;
+    var meetings = history.states[currentState].meetings;
 
     if (
         message.senderId != "server" &&
@@ -1107,6 +1110,12 @@ function Message(props) {
 
     if (message.isQuote && !quotedMessage)
         return <></>;
+
+    if(meetings[message.meetingId] !== undefined){
+        if (meetings[message.meetingId].name === "Party!") {
+            contentClass += "party ";
+        }
+    }
 
     if ((player || message.senderId == "anonymous") && !message.isQuote)
         contentClass += "clickable ";
@@ -1149,7 +1158,7 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: player.textColor } : {}}>
+            <div className={contentClass} style={player && player.textColor ? { color: flipTextColor(player.textColor) } : {}}>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
@@ -1160,9 +1169,11 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
-                            emotify />
+                            emotify
+                            iconUsername />
                     </>
                 }
                 {message.isQuote &&
@@ -1176,9 +1187,11 @@ function Message(props) {
                             <UserText
                                 text={quotedMessage.content}
                                 settings={user.settings}
+                                players={players}
                                 filterProfanity
                                 linkify
-                                emotify />
+                                emotify
+                                iconUsername />
                         </div>
                         <i className="fas fa-quote-right" />
                     </>
@@ -1481,7 +1494,7 @@ export function PlayerRows(props) {
                 <ReactLoading
                     className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                     type="bubbles"
-                    color="black"
+                    color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
                     width="20"
                     height="20" />
             }
@@ -1702,36 +1715,55 @@ function ActionButton(props) {
 }
 
 function ActionText(props) {
-    const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
-    const [inputValue, setInputValue] = useState("");
-    const votes = { ...meeting.votes };
+    const meeting = props.meeting;
+    const self = props.self;
 
-    if (inputValue.length == 0 && votes[props.self])
-        setInputValue(votes[props.self]);
+    // text settings
+    const textOptions = meeting.textOptions || {}
+    const minLength = textOptions.minLength || 0;
+    const maxLength = textOptions.maxLength || MaxTextInputLength
 
-    const buttons = meeting.targets.map(target => {
-        var targetDisplay = getTargetDisplay(target, meeting, props.players);
+    const [textData, setTextData] = useState("");
 
-        return (
-            <div
-                className={`btn btn-theme ${votes[props.self] == targetDisplay ? "sel" : ""}`}
-                key={target}
-                onClick={() => onVote(target)}>
-                {targetDisplay}
-            </div>
-        );
-    });
+    function handleOnChange(e) {
+        var textInput = e.target.value;
+        if (textOptions.alphaOnly) {
+            textInput = textInput.replace(/[^a-z]/gi, '');
+        }
+        if (textOptions.toLowerCase) {
+            textInput = textInput.toLowerCase();
+        }
 
-    function onInputChange(e) {
-        onVote(e.target.value);
-        setInputValue(e.target.value);
+        textInput = textInput.substring(0, maxLength);
+        setTextData(textInput);
+    }
+
+    function handleOnSubmit(e) {
+        if (textData.length < minLength) {
+            return;
+        }
+
+        meeting.votes[self] = textData;
+        props.socket.send("vote", {
+            meetingId: meeting.id,
+            selection: textData
+        });
     }
 
     return (
         <div className="action">
-            <input
-                value={inputValue}
-                onChange={onInputChange} />
+            <div className="action-name">
+                {meeting.actionName}
+            </div>
+            <textarea
+                value={textData}
+                onChange={handleOnChange} />
+            <div
+                className="btn btn-theme"
+                onClick={handleOnSubmit}>
+                {textOptions.submit || "Submit"}
+            </div>
+            {meeting.votes[self]}
         </div>
     );
 }
@@ -1993,10 +2025,10 @@ function FirstGameModal(props) {
                 Breaking game conduct may result in necessary action being taken against your account.
             </div>
             <div className="paragraph">
-                A full description of these rules as well as site and community rules is found <a>here</a>.
+                A full description of these rules as well as site and community rules is found <a href="/community/forums/board/-2z5mOHaYp">here</a>.
             </div>
             <div className="paragraph">
-                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/SLsDA_SI2">here</a>. Good luck, and have fun!
+                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/ht4TEuL6lG">here</a>. Good luck, and have fun!
             </div>
         </>
     );
