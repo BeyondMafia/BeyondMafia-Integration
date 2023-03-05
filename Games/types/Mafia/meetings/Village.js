@@ -21,7 +21,7 @@ module.exports = class VillageMeeting extends Meeting {
             this.game.timers["main"] &&
             !this.game.timers["secondary"]
         ) {
-            this.game.createTimer("secondary", 30000, this.game.timers["main"].then);
+            this.game.createTimer("secondary", 60000, this.game.timers["main"].then);
         }
     }
 
@@ -45,7 +45,7 @@ module.exports = class VillageMeeting extends Meeting {
                     member.player.recordStat("reads", false);
             }
 
-            if (member.id == this.finalTarget)
+            if (member.player == this.finalTarget)
                 member.player.recordStat("survival", false);
             else
                 member.player.recordStat("survival", true);

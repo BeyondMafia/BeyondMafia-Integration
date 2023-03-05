@@ -120,7 +120,7 @@ module.exports = class Game {
             });
 
             if (!this.scheduled)
-                await redis.joinGame(this.hostId, this.id);
+                await redis.joinGame(this.hostId, this.id, this.ranked);
             else {
                 await redis.setHostingScheduled(this.hostId, this.id);
                 this.queueScheduleNotifications();
@@ -277,7 +277,7 @@ module.exports = class Game {
                 this.players.length < this.setup.total &&
                 !this.banned[user.id]
             ) {
-                await redis.joinGame(user.id, this.id);
+                await redis.joinGame(user.id, this.id, this.ranked);
 
                 player = new this.Player(user, this, isBot);
                 player.init();
@@ -458,6 +458,7 @@ module.exports = class Game {
             actor: player,
             target: player,
             game: this,
+            labels: ["hidden", "absolute"],
             run: function () {
                 this.target.kill("veg", this.actor);
 
@@ -758,14 +759,14 @@ module.exports = class Game {
         if (!stateInfo.delayActions || skipped > 0)
             this.processActionQueue();
 
+        // Check win conditions
+        if (this.checkGameEnd())
+            return;
+
         // Set next state
         this.incrementState();
         this.stateEvents = {};
         stateInfo = this.getStateInfo();
-
-        // Check win conditions
-        if (this.checkGameEnd())
-            return;
 
         // Tell clients the new state
         this.addStateToHistories(stateInfo.name);
@@ -1293,27 +1294,6 @@ module.exports = class Game {
             });
             await game.save();
 
-            for (let player of this.players) {
-                await models.User.updateOne(
-                    { id: player.user.id },
-                    {
-                        $push: { games: game._id },
-                        $set: { stats: player.user.stats || { "Mafia": {} }, playedGame: true },
-                        $inc: {
-                            rankedCount: this.ranked ? 1 : 0,
-                            coins: this.ranked ? 1 : 0
-                        }
-                    }
-                ).exec();
-
-                // if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
-                //     await models.User.updateOne(
-                //         { id: player.user.referrer },
-                //         { $inc: { coins: constants.referralCoins } }
-                //     );
-                // }
-            }
-
             var rolePlays = setup.rolePlays || {};
             var roleWins = setup.roleWins || {};
 
@@ -1342,6 +1322,40 @@ module.exports = class Game {
                     $set: { rolePlays, roleWins }
                 }
             ).exec();
+
+            for (let player of this.players) {
+                let rankedPoints = 0;
+
+                if (player.won) {
+                    let roleName = this.originalRoles[player.id].split(":")[0];
+
+                    if (rolePlays[roleName] > constants.minRolePlaysForPoints) {
+                        let wins = roleWins[roleName];
+                        let plays = rolePlays[roleName];
+                        let perc = wins / plays;
+                        rankedPoints = Math.round((1 - perc) * 100);
+                    }
+                }
+
+                await models.User.updateOne(
+                    { id: player.user.id },
+                    {
+                        $push: { games: game._id },
+                        $set: { stats: player.user.stats, playedGame: true },
+                        $inc: {
+                            rankedPoints: rankedPoints,
+                            coins: this.ranked && player.won ? 1 : 0,
+                        }
+                    }
+                ).exec();
+
+                // if (this.ranked && player.user.referrer && player.user.rankedCount == constants.referralGames - 1) {
+                //     await models.User.updateOne(
+                //         { id: player.user.referrer },
+                //         { $inc: { coins: constants.referralCoins } }
+                //     );
+                // }
+            }
 
             delete games[this.id];
             deprecationCheck();

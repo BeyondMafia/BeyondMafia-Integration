@@ -20,9 +20,10 @@ import { RoleCount } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
-import { MaxGameMessageLength, MaxWillLength } from "../../Constants";
+import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
 
 import "../../css/game.css";
+import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
 
 export default function Game() {
     return (
@@ -58,6 +59,8 @@ function GameWrapper(props) {
     const [showSettingsModal, setShowSettingsModal] = useState(false);
     const [showFirstGameModal, setShowFirstGameModal] = useState(false);
     const [speechFilters, setSpeechFilters] = useState({ from: "", contains: "" });
+    const [isolationEnabled, setIsolationEnabled] = useState(false);
+    const [isolatedPlayers, setIsolatedPlayers] = useState(new Set());
     const [activeVoiceChannel, setActiveVoiceChannel] = useState();
     const [muted, setMuted] = useState(false);
     const [deafened, setDeafened] = useState(false);
@@ -81,6 +84,17 @@ function GameWrapper(props) {
     const audioLoops = [false, false, false];
     const audioOverrides = [false, false, false];
     const audioVolumes = [1, 1, 1];
+
+    const togglePlayerIsolation = (playerId) => {
+        const newIsolatedPlayers = new Set(isolatedPlayers);
+
+        if(newIsolatedPlayers.has(playerId)) {
+            newIsolatedPlayers.delete(playerId);
+        } else {
+            newIsolatedPlayers.add(playerId);
+        }
+        setIsolatedPlayers(newIsolatedPlayers);
+    }
 
     useEffect(() => {
         if (token == null)
@@ -596,6 +610,10 @@ function GameWrapper(props) {
             setShowSettingsModal: setShowSettingsModal,
             speechFilters: speechFilters,
             setSpeechFilters: setSpeechFilters,
+            isolationEnabled,
+            setIsolationEnabled,
+            isolatedPlayers,
+            togglePlayerIsolation,
             loadAudioFiles: loadAudioFiles,
             playAudio: playAudio,
             stopAudio: stopAudio,
@@ -822,11 +840,10 @@ export function ThreePanelLayout(props) {
 }
 
 export function TextMeetingLayout(props) {
-    const history = props.history;
-    const players = props.players;
-    const stateViewing = props.stateViewing;
-    const updateHistory = props.updateHistory;
-    const setActiveVoiceChannel = props.setActiveVoiceChannel;
+    const game = useContext(GameContext);
+    const { isolationEnabled, isolatedPlayers } = game;
+    const { history, players, stateViewing, updateHistory, setActiveVoiceChannel } = props
+
     const stateInfo = history.states[stateViewing];
     const meetings = stateInfo ? stateInfo.meetings : {};
     const alerts = stateInfo ? stateInfo.alerts : [];
@@ -928,6 +945,9 @@ export function TextMeetingLayout(props) {
 
     var messages = getMessagesToDisplay(meetings, alerts, selTab, players, props.settings, props.filters);
     messages = messages.map((message, i) => {
+        const isNotServerMessage = message.senderId !== "server";
+        const unfocusedMessage = isolationEnabled && isNotServerMessage && isolatedPlayers.size && !isolatedPlayers.has(message.senderId);
+
         return (
             <Message
                 message={message}
@@ -935,7 +955,9 @@ export function TextMeetingLayout(props) {
                 players={players}
                 key={message.id || message.messageId + message.time || i}
                 onMessageQuote={onMessageQuote}
-                settings={props.settings} />
+                settings={props.settings}
+                unfocusedMessage={unfocusedMessage}
+            />
         );
     });
 
@@ -995,7 +1017,7 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
             var content = m.content || "";
             var matches = content.toLowerCase().indexOf(filters.contains.toLowerCase()) != -1;
 
-            var playerName = players[m.senderId].name;
+            var playerName = players[m.senderId]?.name || "";
             matches = matches && playerName.toLowerCase().indexOf(filters.from.toLowerCase()) != -1;
 
             return matches;
@@ -1071,6 +1093,8 @@ function Message(props) {
     var player, quotedMessage;
     var contentClass = "content ";
     var isMe = false;
+    var currentState = props.history.currentState;
+    var meetings = history.states[currentState].meetings;
 
     if (
         message.senderId != "server" &&
@@ -1108,6 +1132,12 @@ function Message(props) {
     if (message.isQuote && !quotedMessage)
         return <></>;
 
+    if(meetings[message.meetingId] !== undefined){
+        if (meetings[message.meetingId].name === "Party!") {
+            contentClass += "party ";
+        }
+    }
+
     if ((player || message.senderId == "anonymous") && !message.isQuote)
         contentClass += "clickable ";
 
@@ -1126,10 +1156,17 @@ function Message(props) {
     else if (isMe)
         contentClass += "me ";
 
+    const messageStyle = {};
+    if(props.unfocusedMessage) {
+        messageStyle.opacity = "0.2";
+    }
+
     return (
         <div
             className="message"
-            onDoubleClick={() => props.onMessageQuote(message)}>
+            onDoubleClick={() => props.onMessageQuote(message)}
+            style={messageStyle}
+        >
             <div className="sender">
                 {props.settings.timestamps &&
                     <Timestamp time={message.time} />
@@ -1149,7 +1186,7 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: player.textColor } : {}}>
+            <div className={contentClass} style={player && player.textColor ? { color: flipTextColor(player.textColor) } : {}}>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
@@ -1160,9 +1197,11 @@ function Message(props) {
                         <UserText
                             text={message.content}
                             settings={user.settings}
+                            players={players}
                             filterProfanity
                             linkify
-                            emotify />
+                            emotify
+                            iconUsername />
                     </>
                 }
                 {message.isQuote &&
@@ -1176,9 +1215,11 @@ function Message(props) {
                             <UserText
                                 text={quotedMessage.content}
                                 settings={user.settings}
+                                players={players}
                                 filterProfanity
                                 linkify
-                                emotify />
+                                emotify
+                                iconUsername />
                         </div>
                         <i className="fas fa-quote-right" />
                     </>
@@ -1454,39 +1495,54 @@ export function SideMenu(props) {
 }
 
 export function PlayerRows(props) {
+    const game = useContext(GameContext);
+    const { isolationEnabled, togglePlayerIsolation, isolatedPlayers } = game;
     const history = props.history;
     const players = props.players;
     const activity = props.activity;
     const stateViewingInfo = history.states[props.stateViewing];
     const selTab = stateViewingInfo && stateViewingInfo.selTab;
 
-    const rows = players.map(player => (
-        <div
-            className={`player ${props.className ? props.className : ""}`}
-            key={player.id}>
-            {props.stateViewing != -1 &&
-                <RoleCount
-                    role={stateViewingInfo.roles[player.id]}
-                    gameType={props.gameType}
-                    showPopover />
-            }
-            <NameWithAvatar
-                id={player.userId}
-                name={player.name}
-                avatar={player.avatar}
-                color={player.nameColor}
-                active={activity.speaking[player.id]}
-                newTab />
-            {selTab && activity.typing[player.id] == selTab &&
-                <ReactLoading
-                    className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
-                    type="bubbles"
-                    color="black"
-                    width="20"
-                    height="20" />
-            }
-        </div>
-    ));
+    const isPlayerIsolated = playerId => isolatedPlayers.has(playerId);
+
+    const rows = players.map(player => {
+        const isolationCheckbox = isolationEnabled && (
+            <input
+                type="checkbox"
+                checked={isPlayerIsolated(player.id)}
+                onChange={() => togglePlayerIsolation(player.id)}
+            />
+        )
+
+        return (
+            <div
+                className={`player ${props.className ? props.className : ""}`}
+                key={player.id}>
+                {isolationCheckbox}
+                {props.stateViewing != -1 &&
+                    <RoleCount
+                        role={stateViewingInfo.roles[player.id]}
+                        gameType={props.gameType}
+                        showPopover />
+                }
+                <NameWithAvatar
+                    id={player.userId}
+                    name={player.name}
+                    avatar={player.avatar}
+                    color={player.nameColor}
+                    active={activity.speaking[player.id]}
+                    newTab />
+                {selTab && activity.typing[player.id] == selTab &&
+                    <ReactLoading
+                        className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
+                        type="bubbles"
+                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        width="20"
+                        height="20" />
+                }
+            </div>
+        )
+    });
 
     return rows;
 }
@@ -1621,7 +1677,7 @@ function ActionSelect(props) {
                 key={member.id}>
                 <div
                     className="voter"
-                    onClick={() => onSelectVote(member.id)}>
+                    /*onClick={() => onSelectVote(member.id)}*/>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
@@ -1702,36 +1758,55 @@ function ActionButton(props) {
 }
 
 function ActionText(props) {
-    const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
-    const [inputValue, setInputValue] = useState("");
-    const votes = { ...meeting.votes };
+    const meeting = props.meeting;
+    const self = props.self;
 
-    if (inputValue.length == 0 && votes[props.self])
-        setInputValue(votes[props.self]);
+    // text settings
+    const textOptions = meeting.textOptions || {}
+    const minLength = textOptions.minLength || 0;
+    const maxLength = textOptions.maxLength || MaxTextInputLength
 
-    const buttons = meeting.targets.map(target => {
-        var targetDisplay = getTargetDisplay(target, meeting, props.players);
+    const [textData, setTextData] = useState("");
 
-        return (
-            <div
-                className={`btn btn-theme ${votes[props.self] == targetDisplay ? "sel" : ""}`}
-                key={target}
-                onClick={() => onVote(target)}>
-                {targetDisplay}
-            </div>
-        );
-    });
+    function handleOnChange(e) {
+        var textInput = e.target.value;
+        if (textOptions.alphaOnly) {
+            textInput = textInput.replace(/[^a-z]/gi, '');
+        }
+        if (textOptions.toLowerCase) {
+            textInput = textInput.toLowerCase();
+        }
 
-    function onInputChange(e) {
-        onVote(e.target.value);
-        setInputValue(e.target.value);
+        textInput = textInput.substring(0, maxLength);
+        setTextData(textInput);
+    }
+
+    function handleOnSubmit(e) {
+        if (textData.length < minLength) {
+            return;
+        }
+
+        meeting.votes[self] = textData;
+        props.socket.send("vote", {
+            meetingId: meeting.id,
+            selection: textData
+        });
     }
 
     return (
         <div className="action">
-            <input
-                value={inputValue}
-                onChange={onInputChange} />
+            <div className="action-name">
+                {meeting.actionName}
+            </div>
+            <textarea
+                value={textData}
+                onChange={handleOnChange} />
+            <div
+                className="btn btn-theme"
+                onClick={handleOnSubmit}>
+                {textOptions.submit || "Submit"}
+            </div>
+            {meeting.votes[self]}
         </div>
     );
 }
@@ -1993,10 +2068,10 @@ function FirstGameModal(props) {
                 Breaking game conduct may result in necessary action being taken against your account.
             </div>
             <div className="paragraph">
-                A full description of these rules as well as site and community rules is found <a>here</a>.
+                A full description of these rules as well as site and community rules is found <a href="/community/forums/board/-2z5mOHaYp">here</a>.
             </div>
             <div className="paragraph">
-                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/SLsDA_SI2">here</a>. Good luck, and have fun!
+                You can also find tutorials, tips, and strategy guides <a href="/community/forums/board/ht4TEuL6lG">here</a>. Good luck, and have fun!
             </div>
         </>
     );
@@ -2025,9 +2100,11 @@ function FirstGameModal(props) {
 }
 
 export function SpeechFilter(props) {
-    const filters = props.filters;
-    const setFilters = props.setFilters;
-    const stateViewing = props.stateViewing;
+    const game = useContext(GameContext);
+    const { isolationEnabled, setIsolationEnabled } = game;
+    const { filters, setFilters, stateViewing } = props;
+
+    const toggleIsolationEnabled = () => setIsolationEnabled(!isolationEnabled);
 
     function onFilter(type, value) {
         setFilters(update(filters, {
@@ -2045,11 +2122,21 @@ export function SpeechFilter(props) {
             title="Speech Filters"
             content={
                 <div className="speech-filters">
+                    <div style={{marginBottom: "10px"}}>
+                        <input
+                            id="isolateMessagesCheckbox"
+                            type="checkbox"
+                            value={isolationEnabled}
+                            onChange={toggleIsolationEnabled} />
+                        <label htmlFor="isolateMessagesCheckbox"> Isolate messages</label>
+                    </div>
                     <input
                         type="text"
                         placeholder="From user"
                         value={filters.from}
-                        onChange={(e) => onFilter("from", e.target.value)} />
+                        onChange={(e) => onFilter("from", e.target.value)}
+                        style={{marginBottom: "10px"}}
+                    />
                     <input
                         type="text"
                         placeholder="Contains"

@@ -3,10 +3,12 @@ const Random = require("../../../../lib/Random");
 
 module.exports = class Knife extends Item {
 
-    constructor(reveal) {
+    constructor(options) {
         super("Knife");
 
-        this.reveal = reveal;
+        this.reveal = options?.reveal;
+        this.cursed = options?.cursed;
+
         this.meetings = {
             "Stab Knife": {
                 actionName: "Stab",
@@ -17,17 +19,22 @@ module.exports = class Knife extends Item {
                     item: this,
                     run: function() {
                         var reveal = this.item.reveal;
-
                         if (reveal == null)
                             reveal = Random.randArrayVal([true, false]);
+                        
+                        var cursed = this.item.cursed;
+                        if (cursed) {
+                            this.target = this.actor;
+                        }
 
-                        if (reveal)
+                        if (reveal && cursed)
+                            this.game.queueAlert(`${this.actor.name} nicks themself with a poisoned knife!`);
+                        else if (reveal && !cursed)
                             this.game.queueAlert(`${this.actor.name} stabs ${this.target.name} with a poisoned knife!`);
                         else
                             this.game.queueAlert(`Someone stabs ${this.target.name} with a poisoned knife!`);
 
                         this.target.giveEffect("Poison", this.actor);
-
                         this.item.drop();
                     }
                 }

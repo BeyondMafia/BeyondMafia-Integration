@@ -12,8 +12,8 @@
 	padding: 4px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 .host .search-bar input::placeholder {

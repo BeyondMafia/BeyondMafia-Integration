@@ -145,7 +145,7 @@ router.get("/:id/connect", async function (req, res) {
             return;
         }
 
-        if (userId && game.setup.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
+        if (userId && game.settings.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
             res.status(500);
             res.send("You are unable to play ranked games. Please contact a mod to be approved.");
             return;
