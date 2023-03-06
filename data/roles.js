@@ -100,6 +100,12 @@ const roleData = {
                 "Tracks someone each night and learns who they visit."
             ],
         },
+        "Governor": {
+            alignment: "Village",
+            description: [
+                "Can override a lynch once per game. (including no-lynches)"
+            ],
+        },
         "Monkey": {
             alignment: "Village",
             description: [
@@ -393,6 +399,13 @@ const roleData = {
             description: [
                 "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
+            ],
+        },
+        "Medium": {
+            alignment: "Village",
+            description: [
+                "Chooses a dead player per night and holds a seance with that player.",
+                "Medium's identity is not revealed to the dead player.",  
             ],
         },
         "Robin Hood": {
@@ -748,6 +761,13 @@ const roleData = {
                 "Does not attend Mafia meetings.",
             ],
         },
+        "Crank": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a dead player per night and holds a seance with that player.",
+                "Crank's identity is not revealed to the dead player.",  
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -890,6 +910,15 @@ const roleData = {
                 "If the gambler wins, they will kill the challenger.",
                 "Wins after killing 3 players.",
             ],
+        "Clockmaker": {
+            alignment: "Independent",
+            description: [
+                "Can kill one player each night.",
+                "Has a clock that starts at 6.",
+                "Whenever they kill a player the clock changes based on that player's alignment.",
+                "Goes up by 1 for village, up by 2 for Mafia or Monster, down by 3 for independant.",
+                "Wins when if clock strikes 12, gains an extra life at 9, instantly dies at 3."
+                ],
         },
     },
     "Split Decision": {
@@ -935,11 +964,36 @@ const roleData = {
                 "Wins if a certain number of missions are successful."
             ]
         },
+        "Merlin": {
+            alignment: "Resistance",
+            description: [
+                "Kowns the alignment of all spies.",
+                "If the Rebels would win, the spies can guess who Merlin is to win instead."
+            ]
+        },
+        "Percival": {
+            alignment: "Resistance",
+            description: [
+                "Knows who is Merlin."
+            ]
+        },
         //Spies
         "Spy": {
             alignment: "Spies",
             description: [
                 "Wins if a certain number of missions fail."
+            ]
+        },
+        "Oberon": {
+            alignment: "Spies",
+            description: [
+                "Does not know who the other spies are and spies do not know him."
+            ]
+        },
+        "Morgana": {
+            alignment: "Spies",
+            description: [
+                "Appears as Merlin to Percival."
             ]
         },
     },
