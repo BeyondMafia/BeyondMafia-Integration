@@ -1201,9 +1201,11 @@ module.exports = class Game {
             player.joinMeetings(meetings)
         }
 
-        let toMeet = this.getMeetingByName(meetingName);
-        toMeet.init();
-
+        for (let meetingName in meetings) {
+            let toMeet = this.getMeetingByName(meetingName);
+            toMeet.init();
+        }
+        
         this.sendMeetings(players);
     }
 
