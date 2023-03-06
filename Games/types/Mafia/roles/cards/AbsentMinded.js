@@ -6,13 +6,13 @@ module.exports = class AbsentMinded extends Card {
       super(role);
       
       if (this.player.role.alignment == "Village") {
-        this.player.data.selfPerception = "Visitor";
+        this.player.data.appearAs = "Visitor";
       } else if (this.player.role.alignment == "Mafia") {
-        this.player.data.selfPerception = "Trespasser";
+        this.player.data.appearAs = "Trespasser";
       }
       
       this.appearance = {
-        self: this.player.data.selfPerception
+        self: this.player.data.appearAs
       };
       this.hideModifier = {
         self: true
