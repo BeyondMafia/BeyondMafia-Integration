@@ -1070,8 +1070,9 @@ module.exports = class Game {
             meeting.init();
     }
 
-    sendMeetings() {
-        for (let player of this.players)
+    sendMeetings(players) {
+        players = players || this.players;
+        for (let player of players)
             player.sendMeetings();
 
         this.sendSpectatorMeetings();
@@ -1191,6 +1192,19 @@ module.exports = class Game {
         this.processDeathQueue();
         this.processRevealQueue();
         this.processAlertQueue();
+    }
+
+    // A test branch version of this.makeMeetings()
+    // will refactor into makeMeetings when stable
+    instantMeeting(meetings, players) {
+        for (let player of players) {
+            player.joinMeetings(meetings)
+        }
+
+        let toMeet = this.getMeetingByName(meetingName);
+        toMeet.init();
+
+        this.sendMeetings(players);
     }
 
     isMustAct() {
