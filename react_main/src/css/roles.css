@@ -363,6 +363,18 @@
     background-position: -900px -80px;
 }
 
+.role-Mafia-Messenger {
+    background-position: -870px -80px;
+}
+
+.role-Mafia-Invisible-Man {
+    background-position: -870px -120px;
+}
+
+.role-Mafia-Visitor {
+    background-position: -900px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -505,6 +517,10 @@
 
 .role-Mafia-Jinx {
     background-position: -390px -120px;
+}
+
+.role-Mafia-Informant {
+    background-position: -420px -120px;
 }
 
 /* 
