@@ -45,6 +45,12 @@ module.exports = class VillageMeeting extends Meeting {
                     member.player.recordStat("reads", false);
             }
 
+            // Check if player vegged. If so, then DON'T record survival.
+            // Because we should record this stat in the veg function in Mafia/Game.js instead.
+            if(this.votes[member.id] === undefined){
+                return;
+            }
+
             if (member.player == this.finalTarget)
                 member.player.recordStat("survival", false);
             else
