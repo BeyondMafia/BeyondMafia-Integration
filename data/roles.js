@@ -401,6 +401,14 @@ const roleData = {
                 "That person will be resurrected.",
             ],
         },
+        "Trickster": {
+            alignment: "Village",
+            description: [
+                "Every night, gives a random player an item which has a 50% chance to be cursed.",
+                "The item can be a Gun, a Knife, Armor, Snowball, or Crystal.",
+                "Appears as Villager to self.",
+            ],
+        },
         "Medium": {
             alignment: "Village",
             description: [
