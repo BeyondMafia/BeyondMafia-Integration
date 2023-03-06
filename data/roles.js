@@ -191,8 +191,10 @@ const roleData = {
         "Priest": {
             alignment: "Village",
             description: [
+                "Will learn what roles visit them at night.",
                 "Kills the Lycan when visited by him.",
                 "Cleanses werewolves when visited by them.",
+                "Converts killing roles who visit them 50% of the time to non-killing roles.",
             ],
         },
         "Mason": {

@@ -1,14 +1,15 @@
 const Card = require("../../Card");
-const { PRIORITY_CLEANSE_WEREWOLF_VISITORS } = require("../../const/Priority");
+const { PRIORITY_CLEANSE_VISITORS } = require("../../const/Priority");
+const Random = require("../../../../../lib/Random");
 
-module.exports = class CleanseWerewolfVisitors extends Card {
+module.exports = class CleanseVisitors extends Card {
 
     constructor(role) {
         super(role);
 
         this.actions = [
             {
-                priority: PRIORITY_CLEANSE_WEREWOLF_VISITORS,
+                priority: PRIORITY_CLEANSE_VISITORS,
                 labels: ["cleanse", "werewolf", "hidden"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
@@ -19,12 +20,25 @@ module.exports = class CleanseWerewolfVisitors extends Card {
                     for (let action of this.game.actions[0]) {
                         if (
                             action.target == this.actor &&
-                            action.actor.hasEffect("Werewolf") &&
                             action.priority > this.priority &&
                             !action.hasLabel("hidden")
                         ) {
-                            action.actor.removeEffect("Werewolf", true);
-                            cleansedWolves[action.actor.id] = true;
+                            if (action.actor.hasEffect("Werewolf")){
+                                action.actor.removeEffect("Werewolf", true);
+                                cleansedWolves[action.actor.id] = true;
+                            }
+                            if (action.hasLabel("kill") &&
+                            !action.hasLabel("werewolf") &&
+                            action.actor.role.name !== "Lycan" &&
+                            Random.randInt(0, 1)){
+                                if (action.actor.role.alignment === "Village"){
+                                    action.actor.setRole("Villager");
+                                }else if(action.actor.role.alignment === "Mafia"){
+                                    action.actor.setRole("Traitor");
+                                }else{
+                                    action.actor.setRole("Survivor");
+                                }
+                            }
                         }
                     }
 
