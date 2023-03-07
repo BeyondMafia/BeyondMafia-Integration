@@ -7,18 +7,33 @@
     --scroll-color: #8b8b8b;
 }
 
-.light-mode{
-    --scheme-color: #fff;
+.light-mode {
+    --scheme-color: #ffffff;
     --scheme-color-sec: #f3f3f3;
-    --scheme-color-text: black;
+    --scheme-color-text: #000000;
     --scheme-color-border: #c7c7c7;
 }
 
-.dark-mode{
+.dark-mode {
     --scheme-color: #181a1b;
     --scheme-color-sec: #1f2123;
     --scheme-color-text: #ffffff;
     --scheme-color-border: #404548;
+}
+
+.auto-mode {
+    @media (prefers-color-scheme: light) {
+        --scheme-color: #ffffff;
+        --scheme-color-sec: #f3f3f3;
+        --scheme-color-text: #000000;
+        --scheme-color-border: #c7c7c7;
+    }
+    @media (prefers-color-scheme: dark) {
+        --scheme-color: #181a1b;
+        --scheme-color-sec: #1f2123;
+        --scheme-color-text: #ffffff;
+        --scheme-color-border: #404548;
+    }
 }
 
 html,
