@@ -64,7 +64,11 @@ export default function Settings(props) {
 				{
 					label: "Dark",
 					value: "dark"
-				}
+				},
+				{
+					label: "Auto",
+					value: "auto"
+				},
 			],
 		}
 	]);
