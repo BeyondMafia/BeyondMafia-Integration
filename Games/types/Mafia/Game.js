@@ -54,18 +54,24 @@ module.exports = class MafiaGame extends Game {
                     this.target.kill("leave", this.actor);
                 }
             }));
-
             if (!this.finished) {
-                player.recordStat("survival", false);
-                player.recordStat("abandons", true);
+                this.recordLeaveStats(player, player.leaveStatsRecorded);
             }
         }
 
         await super.playerLeave(player);
     }
 
+    recordLeaveStats(player, statsRecorded) {
+        if (!statsRecorded) {
+            player.leaveStatsRecorded = true;
+            player.recordStat("survival", false);
+            player.recordStat("abandons", true);
+        }
+    }
+
     async vegPlayer(player) {
-        player.recordStat("abandons", true);
+        this.recordLeaveStats(player, false);
         super.vegPlayer(player);
     }
 
