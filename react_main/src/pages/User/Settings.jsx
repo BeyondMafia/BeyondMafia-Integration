@@ -55,7 +55,17 @@ export default function Settings(props) {
 		{
 			label: "Site Color Scheme",
 			ref: "siteColorScheme",
-			type: "boolean",
+			type: "select",
+			options: [
+				{
+					label: "Light",
+					value: "light"
+				},
+				{
+					label: "Dark",
+					value: "dark"
+				}
+			],
 		}
 	]);
 
