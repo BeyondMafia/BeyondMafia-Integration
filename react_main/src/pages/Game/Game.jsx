@@ -1677,7 +1677,7 @@ function ActionSelect(props) {
                 key={member.id}>
                 <div
                     className="voter"
-                    /*onClick={() => onSelectVote(member.id)}*/>
+                    onClick={() => onSelectVote(member.id)}>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
