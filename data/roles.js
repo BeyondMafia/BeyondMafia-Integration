@@ -386,6 +386,7 @@ const roleData = {
                 "Appears as villager until death.",
                 "Once dead, may visit one person a night and roleblock them.",
             ],
+            graveyardParticipation: "self",
         },
         "Lightkeeper": {
             alignment: "Village",
@@ -400,6 +401,7 @@ const roleData = {
                 "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
+            graveyardParticipation: "all",
         },
         "Trickster": {
             alignment: "Village",
@@ -415,6 +417,7 @@ const roleData = {
                 "Chooses a dead player per night and holds a seance with that player.",
                 "Medium's identity is not revealed to the dead player.",  
             ],
+            graveyardParticipation: "all",
         },
         "Robin Hood": {
             alignment: "Village",
@@ -672,6 +675,7 @@ const roleData = {
                 "Once per game, visits one dead person during the night.",
                 "That person will be resurrected.",
             ],
+            graveyardParticipation: "all",
         },
         "Mummy": {
             alignment: "Mafia",
@@ -684,6 +688,7 @@ const roleData = {
             description: [
                 "Once dead, may visit one person a night and roleblock them.",
            ],
+           graveyardParticipation: "self",
         },
         "Informant": {
             alignment: "Mafia",
@@ -775,6 +780,7 @@ const roleData = {
                 "Chooses a dead player per night and holds a seance with that player.",
                 "Crank's identity is not revealed to the dead player.",  
             ],
+            graveyardParticipation: "all",
         },
 
         //Monsters
@@ -910,6 +916,7 @@ const roleData = {
                 "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
                 "Wins if it kills all of its murderers.",
             ],
+            graveyardParticipation: "self",
         },
         "Clockmaker": {
             alignment: "Independent",
