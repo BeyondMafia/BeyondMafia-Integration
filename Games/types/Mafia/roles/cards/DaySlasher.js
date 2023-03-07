@@ -17,7 +17,7 @@ module.exports = class DaySlasher extends Card {
                     let visitors = this.actor.role.data.visitors;
 
                     if(!visitors?.length){
-                        this.actor.holdItem("Knife", false);
+                        this.actor.holdItem("Knife", { reveal: false });
                     }
                 }
             }

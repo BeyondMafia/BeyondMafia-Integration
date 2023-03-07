@@ -50,6 +50,7 @@ module.exports = class ResistanceGame extends Game {
             this.teamSizes.push(Math.round(this.setup.firstTeamSize + i * this.teamSizeSlope));
 
         this.leaderIndex = Random.randInt(0, this.players.length - 1);
+        this.hasMerlin = false;
     }
 
     get currentTeamSize() {
@@ -107,7 +108,7 @@ module.exports = class ResistanceGame extends Game {
 
     checkWinConditions() {
         var thresholdToWin = this.numMissions / 2
-        var finished = this.missionFails >= thresholdToWin || this.mission - 1 - this.missionFails >= thresholdToWin;
+        var finished = this.missionFails >= thresholdToWin || (this.mission - 1 - this.missionFails >= thresholdToWin && !this.hasMerlin);
         var winners = finished && this.getWinners();
 
         return [finished, winners];
