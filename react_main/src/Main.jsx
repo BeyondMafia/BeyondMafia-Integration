@@ -49,12 +49,26 @@ function Main() {
             if(document.documentElement.classList.contains("dark-mode")){
                 document.documentElement.classList.remove("dark-mode");
             }
+            if(document.documentElement.classList.contains("auto-mode")){
+                document.documentElement.classList.remove("auto-mode");
+            }
             document.documentElement.classList.add("light-mode");
         } else if (user.settings.siteColorScheme == "dark") {
             if(document.documentElement.classList.contains("light-mode")){
                 document.documentElement.classList.remove("light-mode");
             }
+            if(document.documentElement.classList.contains("auto-mode")){
+                document.documentElement.classList.remove("auto-mode");
+            }
             document.documentElement.classList.add("dark-mode");
+        } else if (user.settings.siteColorScheme == "auto") {
+            if(document.documentElement.classList.contains("light-mode")){
+                document.documentElement.classList.remove("light-mode");
+            }
+            if(document.documentElement.classList.contains("dark-mode")){
+                document.documentElement.classList.remove("dark-mode");
+            }
+            document.documentElement.classList.add("auto-mode");
         }
     }
 
