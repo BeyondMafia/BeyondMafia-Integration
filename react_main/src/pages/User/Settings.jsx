@@ -70,6 +70,11 @@ export default function Settings(props) {
 			confirm: "Are you sure you wish to change your username?"
 		},
 		{
+			label: "Birthday",
+			ref: "birthday",
+			type: "date",
+		},
+		{
 			label: "Show Discord",
 			ref: "showDiscord",
 			type: "boolean",
