@@ -24,6 +24,7 @@ var schemas = {
             disableAllCensors: { type: Boolean, default: false },
             hideDeleted: Boolean,
             siteColorScheme: Boolean,
+            birthday: { type: Date, default: Date.now },
         },
         accounts: {
             discord: String,
