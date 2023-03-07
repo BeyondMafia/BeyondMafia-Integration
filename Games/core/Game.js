@@ -454,9 +454,13 @@ module.exports = class Game {
         var ranked = this.ranked;
         this.ranked = false;
 
+        // Set priority to -999 to avoid roles that switch actions
+        // forcing active player to veg. Do not change this.
+        // Happened with witch/cyclist/driver.
         this.queueAction(new Action({
             actor: player,
             target: player,
+            priority: -999,
             game: this,
             labels: ["hidden", "absolute"],
             run: function () {
@@ -466,8 +470,6 @@ module.exports = class Game {
                     this.game.queueAlert("This game is now unranked");
             }
         }));
-
-        await this.playerLeave(player);
     }
 
     createPlayerGoneObj(player) {
