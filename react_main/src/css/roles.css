@@ -651,6 +651,11 @@
     background-position: 0 -16px;
 }
 
+/* for role prediction */
+.modifier-Mafia-Unknown {
+    background-position: -144px -32px;
+}
+
 
 /***********
 *
