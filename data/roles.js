@@ -470,7 +470,7 @@ const roleData = {
         "Seer": {
             alignment: "Village",
             description: [
-                "Knows all of the Mafia at the start of the game.",
+                "Knows all Mafia-aligned players at the start of the game.",
                 "Appears as villager on death.",
                 "If executed, Mafia have the chance to guess who the Seer is, and if correct, will win.",
             ],
