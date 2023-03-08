@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const Random = require("../../../../../lib/Random");
 const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
 
 module.exports = class ForageItem extends Card {
@@ -18,10 +19,11 @@ module.exports = class ForageItem extends Card {
                         return;
                     }
 
-                    var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"]
-                    var givenItem = items[Math.floor(Math.random() * items.length)];
-                    this.actor.holdItem(givenItem);
-                    this.queueGetItemAlert(givenItem, this.actor);
+                    var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"];
+                    var itemToGet = Random.randArrayVal(items);
+
+                    this.actor.holdItem(itemToGet);
+                    this.queueGetItemAlert(itemToGet, this.actor);
                 }
             }
         ];
