@@ -44,20 +44,22 @@ Sunset is used for the Hunter interaction.
 
 ### Core Labels
 
-| Action Label | Description                        |
-|--------------|------------------------------------|
-| kill         | Action kills target.               |
-| save         | Action gives kill immunity.        |
-| revive       | Action revives a player.           |
-| lynch        | Village elimination.               |
-| hidden       | Action does not appear as a visit. |
-| block        | Action cancels other actions.      |
-| giveItem     | Action gives an item.              |
-| giveEffect   | Action gives an effect.            |
-| investigate  | Action gathers information.        |
-| alignment    | Sub-label for investigate.         |
-| role         | Sub-label for investigate.         |
-| convert      | Action changes roles.              |
+| Action Label   | Description                        |
+|----------------|------------------------------------|
+| kill           | Action kills target.               |
+| save           | Action gives kill immunity.        |
+| revive         | Action revives a player.           |
+| lynch          | Village elimination.               |
+| hidden         | Action does not appear as a visit. |
+| absolute       | Action cannot be roleblocked.      |
+| uncontrollable | Action cannot be controlled.       |
+| block          | Action cancels other actions.      |
+| giveItem       | Action gives an item.              |
+| giveEffect     | Action gives an effect.            |
+| investigate    | Action gathers information.        |
+| alignment      | Sub-label for investigate.         |
+| role           | Sub-label for investigate.         |
+| convert        | Action changes roles.              |
 
 ### Role-specific Labels
 
