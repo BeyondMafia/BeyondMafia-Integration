@@ -21,24 +21,6 @@
     --scheme-color-border: #404548;
 }
 
-@media (prefers-color-scheme: light) {
-    .auto-mode {
-        --scheme-color: #ffffff;
-        --scheme-color-sec: #f3f3f3;
-        --scheme-color-text: #000000;
-        --scheme-color-border: #c7c7c7;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    .auto-mode {
-        --scheme-color: #181a1b;
-        --scheme-color-sec: #1f2123;
-        --scheme-color-text: #ffffff;
-        --scheme-color-border: #404548;
-    }
-}
-
 html,
 body {
     width: 100%;
