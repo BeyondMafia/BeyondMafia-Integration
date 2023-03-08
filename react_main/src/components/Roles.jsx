@@ -16,7 +16,7 @@ export function RoleCount(props) {
 
 	// Display predicted icon
 	const isRolePrediction = props.isRolePrediction;
-	const playerId = props.playerId;
+	const toggleRolePrediction = props.toggleRolePrediction;
 	// Choose from list of icons to predict from
 	const makeRolePrediction = props.makeRolePrediction;
 
@@ -50,8 +50,8 @@ export function RoleCount(props) {
 				roleRef.current,
 				"Mark Role as",
 				data => {
-					data.roles = JSON.parse(data.roles)[0]
-					data.toggleRolePrediction = game.toggleRolePrediction(playerId)
+					data.roles = JSON.parse(data.roles)[0];
+					data.toggleRolePrediction = toggleRolePrediction;
 				}
 			)
 			return;

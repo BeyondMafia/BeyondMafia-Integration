@@ -1508,7 +1508,7 @@ export function SideMenu(props) {
 export function PlayerRows(props) {
     const game = useContext(GameContext);
     const { isolationEnabled, togglePlayerIsolation, isolatedPlayers } = game;
-    const { rolePredictions } = game;
+    const { rolePredictions, toggleRolePrediction } = game;
     const history = props.history;
     const players = props.players;
     const activity = props.activity;
@@ -1538,7 +1538,7 @@ export function PlayerRows(props) {
                     <RoleCount
                         role={roleToShow}
                         isRolePrediction={!isRoleRevealed}
-                        playerId={player.id}
+                        toggleRolePrediction={toggleRolePrediction(player.id)}
                         gameType={props.gameType}
                         showPopover />
                 }
