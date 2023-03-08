@@ -80,7 +80,7 @@ export default function Profile() {
                     setFriendsPage(1);
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
-                    var videoMatches =  "" ?? res.data.settings.youtube.match('v=([a-zA-Z0-9_-]+)&?');
+                    var videoMatches = res.data.settings.youtube.match('v=([a-zA-Z0-9_-]+)&?') ?? "";
                     if (videoMatches && videoMatches.length >= 2) {
                         setEmbedId(videoMatches[1]);
                     }
