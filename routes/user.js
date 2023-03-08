@@ -13,6 +13,8 @@ const dbStats = require("../db/stats");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
 
+const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]{11}).*/;
+
 router.get("/info", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
@@ -377,9 +379,26 @@ router.get("/accounts", async function (req, res) {
 router.post("/youtube", async function (req, res){
     res.setHeader("Content-Type", "application/json");
     try{
-        var userId = await routeUtils.verifyLoggedIn(req);
-        var prop = String(req.body.prop);
-        var value = String(req.body.link);
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let prop = String(req.body.prop);
+        let value = String(req.body.link);
+
+        // Make sure string is less than 50 chars.
+        if (value.length > 50) {
+            value = value.substring(0, 50);
+        }
+
+        // Match regex, and remove trailing chars after embedID
+        let matches = value.match(youtubeRegex) ?? "";
+        let embedId = 0;
+        if (matches && matches.length >= 7) {
+            embedId = matches[7];
+        }
+        let embedIndex = value.indexOf(embedId);
+
+        // Youtube video IDs are 11 characters, so get the substring,
+        // & end at the end of the found embedID.
+        value = value.substring(0, embedIndex + 11);                
 
         await models.User.updateOne({ id: userId }, { $set: { [`settings.youtube`]: value } });
         await redis.cacheUserInfo(userId, true);
