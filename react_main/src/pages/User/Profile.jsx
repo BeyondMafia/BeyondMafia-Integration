@@ -62,7 +62,7 @@ export default function Profile() {
 
         if (userId) {
             setProfileLoaded(false);
-            let youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            let youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]{11}).*/;
 
             axios.get(`/user/${userId}/profile`)
                 .then(res => {
@@ -82,7 +82,7 @@ export default function Profile() {
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
                     var videoMatches = res.data.settings.youtube.match(youtubeRegex) ?? "";
-                    if (videoMatches && videoMatches.length >= 2) {
+                    if (videoMatches && videoMatches.length >= 7) {
                         setEmbedId(videoMatches[7]);
                     }
                     else {
