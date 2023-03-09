@@ -9,7 +9,7 @@ module.exports = class Priest extends Role {
         this.cards = [
             "VillageCore",
             "WinWithVillage",
-            "CleanseWerewolfVisitors",
+            "CleanseInfectedVisitors",
             "KillLycanVisitors"
         ];
         this.immunity.wolfBite = 1;
