@@ -1773,6 +1773,9 @@ function ActionText(props) {
         if (textOptions.alphaOnly) {
             textInput = textInput.replace(/[^a-z]/gi, '');
         }
+        if (textOptions.numberOnly) {
+            textInput = textInput.replace(/[^0-9]/gi, '');
+        }
         if (textOptions.toLowerCase) {
             textInput = textInput.toLowerCase();
         }
