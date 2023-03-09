@@ -2574,7 +2574,7 @@ export function useTimersReducer() {
 
                 const intTime = Math.round((timer.delay - timer.time) / 1000);
 
-                if (intTime < 6 && intTime > 0)
+                if (intTime < 16 && intTime > 0)
                     action.playAudio("tick");
                 break;
         }
