@@ -280,7 +280,7 @@ const roleData = {
         "Journalist": {
             alignment: "Village",
             description: [
-                "Can pick a person every night",
+                "Can pick a person every night.",
                 "Any system messages that person may have got are given to the journalist as well"
             ],
         },
@@ -693,8 +693,8 @@ const roleData = {
         "Informant": {
             alignment: "Mafia",
             description: [
-                "Can pick a person every night",
-                "Any system messages that person may have got are given to the journalist as well"
+                "Can pick a person every night.",
+                "Any system messages that person may have got are given to the informant as well"
             ],
          },
         "Jinx": {
