@@ -10,7 +10,7 @@ module.exports = class Lycan extends Role {
             "VillageCore",
             "WinWithMonsters",
             "MeetingMonster",
-            "BitingWolf",
+            "Infect",
             "FullMoonInvincible",
             "CauseFullMoons"
         ];
