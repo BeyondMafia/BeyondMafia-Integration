@@ -13,7 +13,7 @@ const roleData = {
                 "Save one person each night from dying, except himself."
             ],
         },
-        "Arms Dealer": {
+        "Gunsmith": {
             alignment: "Village",
             description: [
                 "Hands out a gun each night."
@@ -69,7 +69,7 @@ const roleData = {
                 "Learns the role of one person each night.",
             ],
         },
-        "Escort": {
+        "Drunk": {
             alignment: "Village",
             description: [
                 "Each night, chooses one person and blocks them from performing any actions.",
@@ -113,11 +113,11 @@ const roleData = {
                 "The steal cannot be blocked, but the actions themselves can."
             ],
         },
-        "Agent": {
+        "Seeker": {
             alignment: "Village",
             description: [
-                "Attempts to guess the identity of the Spy each night.",
-                "Kills the Spy if guess is correct."
+                "Attempts to guess the identity of the Inquisitor each night.",
+                "Kills the Inquisitor if guess is correct."
             ],
         },
         "Sheriff": {
@@ -182,7 +182,7 @@ const roleData = {
                 "Appears as Miller upon being killed.",
             ],
         },
-        "Mayor": {
+        "Celebrity": {
             alignment: "Village",
             description: [
                 "Is publicly revealed to all players.",
@@ -192,7 +192,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Kills the Lycan when visited by him.",
-                "Cleanses werewolves when visited by them.",
+                "Cleanses Werewolves when visited by them.",
             ],
         },
         "Mason": {
@@ -211,7 +211,7 @@ const roleData = {
                 "Decides whether prisoner should be executed or not.",
             ],
         },
-        "Psychic": {
+        "Agent": {
             alignment: "Village",
             description: [
                 "Can anonymously contact any non-Village role.",
@@ -501,7 +501,7 @@ const roleData = {
                 "Wins when the mafia outnumbers all other players.",
             ],
         },
-        "Chemist": {
+        "Poisoner": {
             alignment: "Mafia",
             description: [
                 "Concocts a deadly poison and administers it to one person each night.",
@@ -536,11 +536,11 @@ const roleData = {
                 "Redirection cannot be role blocked."
             ],
         },
-        "Spy": {
+        "Inquisitor": {
             alignment: "Mafia",
             description: [
-                "Attempts to guess the identity of the Agent each night.",
-                "Kills the Agent if guess is correct."
+                "Attempts to guess the identity of the Seeker each night.",
+                "Kills the Seeker if guess is correct."
             ],
         },
         "Ninja": {
@@ -580,7 +580,7 @@ const roleData = {
                 "Learns the cleaned player's role.",
             ],
         },
-        "Telepath": {
+        "Spy": {
             alignment: "Mafia",
             description: [
                 "Can anonymously contact any role.",
@@ -788,8 +788,8 @@ const roleData = {
             alignment: "Monsters",
             description: [
                 "Invincible during full moons, except for visiting the Priest.",
-                "Each night, bites a non-monster player and turns them into a werewolf.",
-                "Werewolves retain their original roles, but they unknowingly kill a random non-monster player on full moons."
+                "Each night, bites a non-monster player and turns them into an infected.",
+                "Infected retain their original roles, but they unknowingly kill a random non-monster player on full moons."
             ],
         },
         "Witch": {
@@ -817,7 +817,7 @@ const roleData = {
                 "Insane players speak gibberish."
             ],
         },
-        "The Thing": {
+        "Werewolf": {
             alignment: "Monsters",
             description: [
                 "Can hunt prey at night by choosing a target and guessing their role.",
@@ -896,7 +896,7 @@ const roleData = {
                 "Wins if both players survive until the end of the game.",
             ],
         },
-        "Matchmaker": {
+        "Mistletoe": {
             alignment: "Independent",
             description: [
                 "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
