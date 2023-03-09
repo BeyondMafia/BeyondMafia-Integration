@@ -28,7 +28,7 @@ module.exports = class KillMonsterVisitors extends Card {
                         }
                         if (
                             action.target == this.actor &&
-                            action.actor.role.name == "Werewolves" &&
+                            action.actor.role.name == "Werewolf" &&
                             action.priority > this.priority &&
                             !action.hasLabel("hidden")
                         ) {
