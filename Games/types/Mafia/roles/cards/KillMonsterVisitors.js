@@ -1,7 +1,7 @@
 const Card = require("../../Card");
-const { PRIORITY_KILL_LYCAN_VISITORS_ENQUEUE, PRIORITY_KILL_LYCAN_VISITORS } = require("../../const/Priority");
+const { PRIORITY_KILL_MONSTER_VISITORS_ENQUEUE, PRIORITY_KILL_MONSTER_VISITORS } = require("../../const/Priority");
 
-module.exports = class KillLycanVisitors extends Card {
+module.exports = class KillMonsterVisitors extends Card {
 
     constructor(role) {
         super(role);
@@ -9,7 +9,7 @@ module.exports = class KillLycanVisitors extends Card {
         // Store visitors before triggering kills since killing modifies visitor behavior
         this.actions = [
             {
-                priority: PRIORITY_KILL_LYCAN_VISITORS_ENQUEUE,
+                priority: PRIORITY_KILL_MONSTER_VISITORS_ENQUEUE,
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
@@ -17,33 +17,33 @@ module.exports = class KillLycanVisitors extends Card {
                     for (let action of this.game.actions[0])
                         if (
                             action.target == this.actor &&
-                            action.actor.role.name == "Lycan" &&
+                            action.actor.role.name == "Vampire" &&
                             action.priority > this.priority &&
                             !action.hasLabel("hidden")
                         ) {
-                            if (!this.actor.role.data.lycanVisitors)
-                                this.actor.role.data.lycanVisitors = [];
+                            if (!this.actor.role.data.monsterVisitors)
+                                this.actor.role.data.monsterVisitors = [];
 
-                            this.actor.role.data.lycanVisitors.push(action.actor);
+                            this.actor.role.data.monsterVisitors.push(action.actor);
                         }
                 }
             },
             {
-                priority: PRIORITY_KILL_LYCAN_VISITORS,
+                priority: PRIORITY_KILL_MONSTER_VISITORS,
                 power: 2,
                 labels: ["kill", "hidden"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    var lycanVisitors = this.actor.role.data.lycanVisitors;
+                    var monsterVisitors = this.actor.role.data.monsterVisitors;
 
-                    if (lycanVisitors) {
-                        for (let visitor of lycanVisitors)
+                    if (monsterVisitors) {
+                        for (let visitor of monsterVisitors)
                             if (this.dominates(visitor))
                                 visitor.kill("basic", this.actor);
 
-                        this.actor.role.data.lycanVisitors = [];
+                        this.actor.role.data.monsterVisitors = [];
                     }
 
                 }
