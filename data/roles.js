@@ -103,7 +103,7 @@ const roleData = {
         "Governor": {
             alignment: "Village",
             description: [
-                "Can override a lynch once per game. (including no-lynches)"
+                "Can override an execution once per game. (including no-executions)"
             ],
         },
         "Monkey": {
