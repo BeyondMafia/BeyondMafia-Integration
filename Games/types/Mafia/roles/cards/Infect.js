@@ -1,22 +1,22 @@
 const Card = require("../../Card");
-const { PRIORITY_BITING_WOLF } = require("../../const/Priority");
+const { PRIORITY_INFECT } = require("../../const/Priority");
 
-module.exports = class BitingWolf extends Card {
+module.exports = class Infect extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Wolf Bite": {
+            "Infect": {
                 states: ["Night"],
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: ["Monsters"] },
                 action: {
-                    labels: ["wolfBite"],
-                    priority: PRIORITY_BITING_WOLF,
+                    labels: ["infect"],
+                    priority: PRIORITY_INFECT,
                     run: function () {
                         if (this.dominates()) {
-                            this.target.giveEffect("Werewolf");
+                            this.target.giveEffect("Infected");
                         }
                     }
                 }
