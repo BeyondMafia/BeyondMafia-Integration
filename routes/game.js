@@ -147,7 +147,7 @@ router.get("/:id/connect", async function (req, res) {
 
         if (userId && game.settings.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
             res.status(500);
-            res.send("You are unable to play ranked games. Please contact a mod to be approved.");
+            res.send("You are unable to play ranked games. Please check the pinned threads in Community > Discussion.");
             return;
         }
 
@@ -340,7 +340,7 @@ router.post("/host", async function (req, res) {
 
         if (req.body.ranked && !setup.ranked) {
             res.status(500);
-            res.send("This setup has not been approved by mods for ranked play.");
+            res.send("This setup has not been approved by mods for ranked play. Please check the pinned threads in Community > Discussion.");
             return;
         }
 
@@ -376,7 +376,7 @@ router.post("/host", async function (req, res) {
 
         if (req.body.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
             res.status(500);
-            res.send("You are unable to play ranked games. Contact a mod to be approved.");
+            res.send("You are unable to play ranked games. Please check the pinned threads in Community > Discussion.");
             return;
         }
 
