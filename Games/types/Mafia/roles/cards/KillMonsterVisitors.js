@@ -26,6 +26,17 @@ module.exports = class KillMonsterVisitors extends Card {
 
                             this.actor.role.data.monsterVisitors.push(action.actor);
                         }
+                        if (
+                            action.target == this.actor &&
+                            action.actor.role.name == "Werewolves" &&
+                            action.priority > this.priority &&
+                            !action.hasLabel("hidden")
+                        ) {
+                            if (!this.actor.role.data.monsterVisitors)
+                                this.actor.role.data.monsterVisitors = [];
+
+                            this.actor.role.data.monsterVisitors.push(action.actor);
+                        }
                 }
             },
             {
