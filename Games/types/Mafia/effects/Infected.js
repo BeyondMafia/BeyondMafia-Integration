@@ -2,10 +2,10 @@ const Effect = require("../Effect");
 const Action = require("../Action");
 const Random = require("../../../../lib/Random");
 
-module.exports = class Werewolf extends Effect {
+module.exports = class Infected extends Effect {
 
     constructor() {
-        super("Werewolf");
+        super("Infected");
 
         this.listeners = {
             "state": function (stateInfo) {
@@ -31,7 +31,7 @@ module.exports = class Werewolf extends Effect {
                     actor: this.player,
                     target: target,
                     game: this.player.game,
-                    labels: ["kill", "werewolf"],
+                    labels: ["kill", "infected"],
                     run: function () {
                         if (this.dominates())
                             this.target.kill("basic", this.actor);
