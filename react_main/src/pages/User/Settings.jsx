@@ -74,6 +74,8 @@ export default function Settings(props) {
 			ref: "birthday",
 			type: "date",
 			saveBtnOnClick: onBirthdaySave,
+			disabled: isBirthdaySet
+			
 		},
 		{
 			label: "Show Discord",
@@ -231,6 +233,7 @@ export default function Settings(props) {
 	}
 	function onBirthdaySave(name, deps) {
 		// Work in progress
+		return isBirthdaySet = true
 	}
 
 	function onLogoutClick() {
