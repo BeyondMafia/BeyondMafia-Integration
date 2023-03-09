@@ -22,6 +22,17 @@
     margin-right: 5px !important;
 }
 
+.video-responsive{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
+    min-height: 200px;
+}
+
+iframe {
+    border-width: 0px;
+}
+
 .avatar.large {
     width: 100px !important;
     height: 100px !important;

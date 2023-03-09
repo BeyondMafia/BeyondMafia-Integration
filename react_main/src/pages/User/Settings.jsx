@@ -101,6 +101,21 @@ export default function Settings(props) {
 			disabled: (deps) => !deps.user.itemsOwned.customProfile
 		},
 		{
+			label: "Youtube video",
+			ref: "youtube",
+			type: "text",
+			saveBtn: "Change",
+			saveBtnDiffer: "youtube",
+			saveBtnOnClick: onYoutubeSave,
+			default: "",
+		},
+		{
+			label: "Autoplay video (will only work after playing once)",
+			ref: "autoplay",
+			type: "boolean",
+			showIf: (deps) => deps.user.settings.youtube != null
+		},
+		{
 			label: "Banner Format",
 			ref: "bannerFormat",
 			type: "select",
@@ -223,6 +238,18 @@ export default function Settings(props) {
 			})
 			.catch(deps.errorAlert);
 	}
+
+	 function onYoutubeSave(link, deps){
+	 	axios.post("/user/youtube", {link})
+	 		.then(res => {
+	 			deps.siteInfo.showAlert("Profile video changed", "success");
+				
+				deps.user.set(update(deps.user, {
+	 				youtube: { $set: link }
+	 			}));
+	 		})
+	 		.catch(deps.errorAlert);
+	 }
 
 	function onLogoutClick() {
 		axios.post("/user/logout")

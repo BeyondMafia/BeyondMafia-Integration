@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
-import { Avatar, Badges, NameWithAvatar } from "./User";
+import { Avatar, Badges, NameWithAvatar, YouTubeEmbed} from "./User";
 import { HiddenUpload, TextEditor } from "../../components/Form";
 import LoadingPage from "../Loading";
 import Setup from "../../components/Setup";
@@ -40,6 +40,8 @@ export default function Profile() {
     const [stats, setStats] = useState();
     const [groups, setGroups] = useState([]);
     const [showStatsModal, setShowStatsModal] = useState(false);
+    const [embedId, setEmbedId] = useState("");
+    const [autoplay, setAutoplay] = useState(false);
 
     const user = useContext(UserContext);
     const siteInfo = useContext(SiteInfoContext);
@@ -60,6 +62,7 @@ export default function Profile() {
 
         if (userId) {
             setProfileLoaded(false);
+            let youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]{11}).*/;
 
             axios.get(`/user/${userId}/profile`)
                 .then(res => {
@@ -78,6 +81,14 @@ export default function Profile() {
                     setFriendsPage(1);
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
+                    var videoMatches = res.data.settings.youtube.match(youtubeRegex) ?? "";
+                    if (videoMatches && videoMatches.length >= 7) {
+                        setEmbedId(videoMatches[7]);
+                    }
+                    else {
+                        setEmbedId("");
+                    }
+                    setAutoplay(res.data.settings.autoplay);
 
                     document.title = `${res.data.name}'s Profile | BeyondMafia`;
                 })
@@ -446,6 +457,9 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className="side column">
+                { <YouTubeEmbed
+                            embedId={embedId}
+                            autoplay={autoplay}></YouTubeEmbed> }
                     {totalGames >= RequiredTotalForStats &&
                         <div className="box-panel ratings" style={panelStyle}>
                             <div className="heading">
