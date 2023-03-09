@@ -787,6 +787,7 @@ const roleData = {
         "Vampire": {
             alignment: "Monsters",
             description: [
+                "Invincible during full moons, except for visiting the Priest.",
                 "Each night, infects a non-monster player.",
                 "Infected retain their original roles, but they unknowingly kill a random non-monster player on full moons."
             ],
