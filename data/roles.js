@@ -191,8 +191,8 @@ const roleData = {
         "Priest": {
             alignment: "Village",
             description: [
-                "Kills the Lycan when visited by him.",
-                "Cleanses Werewolves when visited by them.",
+                "Kills Vampires and Werewolves when visited by him.",
+                "Cleanses infected when visited by them.",
             ],
         },
         "Mason": {
@@ -784,11 +784,10 @@ const roleData = {
         },
 
         //Monsters
-        "Lycan": {
+        "Vampire": {
             alignment: "Monsters",
             description: [
-                "Invincible during full moons, except for visiting the Priest.",
-                "Each night, bites a non-monster player and turns them into an infected.",
+                "Each night, infects a non-monster player.",
                 "Infected retain their original roles, but they unknowingly kill a random non-monster player on full moons."
             ],
         },
