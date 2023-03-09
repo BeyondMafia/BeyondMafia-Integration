@@ -11,6 +11,9 @@ module.exports = class KillVisitors extends Card {
                 priority: PRIORITY_KILL_VISITORS,
                 labels: ["kill", "hidden"],
                 run: function () {
+                    if (!this.actor.alive)
+                        return;
+
                     if (this.game.getStateName() != "Night")
                         return;
 
