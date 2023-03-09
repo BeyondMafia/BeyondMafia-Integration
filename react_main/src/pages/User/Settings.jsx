@@ -73,6 +73,7 @@ export default function Settings(props) {
 			label: "Birthday",
 			ref: "birthday",
 			type: "date",
+			saveBtnOnClick: onBirthdaySave,
 		},
 		{
 			label: "Show Discord",
@@ -227,6 +228,9 @@ export default function Settings(props) {
 				}));
 			})
 			.catch(deps.errorAlert);
+	}
+	function onBirthdaySave(name, deps) {
+		// Work in progress
 	}
 
 	function onLogoutClick() {
