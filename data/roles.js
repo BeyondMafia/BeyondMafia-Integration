@@ -103,7 +103,8 @@ const roleData = {
         "Governor": {
             alignment: "Village",
             description: [
-                "Can override an execution once per game. (including no-executions)"
+                "Once a game, when the village decides to eliminate someone, can override the village vote",
+                "Cannot cancel a village vote. Choosing no one preserves the governor's ability."
             ],
         },
         "Monkey": {
