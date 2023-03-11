@@ -59,18 +59,12 @@ function Main() {
             }
             document.documentElement.classList.add("dark-mode");
         } else if (user.settings.siteColorScheme == "auto") {
-            if (prefersLightScheme.matches) {
-                if (document.documentElement.classList.contains("dark-mode")) {
-                    document.documentElement.classList.remove("dark-mode");
-                }
-                document.documentElement.classList.add("light-mode");
-            } else if (prefersDarkScheme.matches) {
-                if (document.documentElement.classList.contains("light-mode")) {
-                    document.documentElement.classList.remove("light-mode");
-                }
-                document.documentElement.classList.add("dark-mode");
+            if (document.documentElement.classList.contains("dark-mode")) {
+                document.documentElement.classList.remove("dark-mode");
             }
-            
+            if (document.documentElement.classList.contains("light-mode")) {
+                document.documentElement.classList.remove("light-mode");
+            }
         }
     }
 
