@@ -55,7 +55,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Full Moon",
-			text: "When a Vampire or Infected is present in the game, full moons will occur on odd nights."
+			text: "When a Vampire or an infected player is present in the game, full moons will occur on odd nights."
 		},
 		{
 			name: "Eclipse",
