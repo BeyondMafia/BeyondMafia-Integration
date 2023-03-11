@@ -96,7 +96,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Absent-Minded",
-			text: "Appears as Visitor (if Village-aligned) or Trespasser (if Mafia-aligned) to self with no modifier.",
+			text: "Appears as Visitor (if aligned with Village) or Trespasser (if aligned with Mafia) to self with no modifier.",
 			icon: <div className="icon modifier modifier-Mafia-Absent-Minded" />
 		},
 		{
