@@ -926,6 +926,7 @@ const roleData = {
                 "If the gambler wins, they will kill the challenger.",
                 "Wins after killing 3 players.",
             ],
+        },
         "Clockmaker": {
             alignment: "Independent",
             description: [
