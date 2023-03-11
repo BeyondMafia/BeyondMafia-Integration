@@ -1,4 +1,5 @@
 :root {
+    color-scheme: light dark;
     --theme-color: #5357a5;
     --theme-color-sec: #3f3961;
     --theme-color-third: #2a2640;
@@ -28,6 +29,7 @@
         --scheme-color-text: #000000;
         --scheme-color-border: #c7c7c7;
     }
+}
 @media (prefers-color-scheme: dark) {
     html:not(.light-mode) {
         --scheme-color: #181a1b;
