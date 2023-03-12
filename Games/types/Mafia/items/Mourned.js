@@ -19,7 +19,7 @@ module.exports = class Mourned extends Item {
                 whileDead: true,
                 whileAlive: false,
                 run: function () {
-                    this.game.events.emit("mournerAnswer", this.target, this.item.options.mourner);
+                    this.game.events.emit("mournerAnswer", this.target, this.options.mourner);
                 }
             }
         };
