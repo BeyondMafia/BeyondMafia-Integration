@@ -47,3 +47,6 @@ IP_API_PARAMS=strictness=0&allow_public_access_points=true&fast=true&lighter_pen
 RECAPTCHA_KEY=x
 
 RESERVED_NAMES={}
+
+#optional
+REPORT_DISCORD_WEBHOOK=[{"boards": ["boardShortId"], "hook": "discordWebhookUrl"}]

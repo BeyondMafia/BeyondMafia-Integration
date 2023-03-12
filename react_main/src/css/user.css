@@ -7,16 +7,30 @@
     height: 40px;
     border-radius: 50%;
 
-
-	  background-image: url("/images/avatar.png");
-	  background-size: 100%;
-	  background-color: var(--scheme-color);
-	  box-shadow: 0px 0px 1px black;
+    background-image: url("/images/avatar.png");
+    background-size: 100%;
+    background-color: var(--scheme-color);
+    box-shadow: 0px 0px 1px black;
 }
 
 .avatar.small {
     width: 20px !important;
     height: 20px !important;
+}
+
+.avatar.inline {
+    margin-right: 5px !important;
+}
+
+.video-responsive{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
+    min-height: 200px;
+}
+
+iframe {
+    border-width: 0px;
 }
 
 .avatar.large {
@@ -48,7 +62,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    
+
     color: var(--scheme-color-text);
     text-decoration: none;
     line-height: 0px;

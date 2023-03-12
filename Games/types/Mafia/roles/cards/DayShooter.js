@@ -28,7 +28,7 @@ module.exports = class DayShooter extends Card {
                 if ((player === this.player) && killer)
                     {
                         killer.queueAlert("You find a gun in your victim's workshop...")
-                        killer.holdItem("Gun", {reveal: true});
+                        killer.holdItem("Gun", { reveal: true });
                     }
             }
         };

@@ -7,7 +7,7 @@ module.exports = class ClownAround extends Card {
         super(role);
 
         this.appearance = {
-            self: "Jester"
+            self: "Fool"
         };
 
         this.meetings = {

@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const Winners = require("../../../../core/Winners");
 
 module.exports = class TeamCore extends Card {
 
@@ -47,6 +48,24 @@ module.exports = class TeamCore extends Card {
 
                         if (!missionSuccess)
                             this.game.currentMissionFails++;
+                    }
+                }
+            },
+            "Identify Merlin": {
+                states: ["Epilogue"],
+                flags: ["group", "speech", "voting", "mustAct"],
+                targetType: "player",
+                targets: { include: ["Resistance"], exclude: [""] },
+                canVote: false,
+                action: {
+                    run: function () {
+                        let group = "Resistance";
+                        if (this.target.role.name === "Merlin"){
+                            group = "Spies";
+                        }
+                        let winners = new Winners(this.game);
+                        winners.addGroup(group);
+                        this.game.endGame(winners);
                     }
                 }
             }

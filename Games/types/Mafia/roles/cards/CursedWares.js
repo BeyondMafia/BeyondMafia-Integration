@@ -15,32 +15,30 @@ module.exports = class CursedWares extends Card {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 1,
                     run: function() {
                         var itemType = this.actor.role.data.itemType;
+
                         switch (itemType) {
                             case "Gun":
-                                this.target.holdItem("Gun", {
-                                    cursed: true
-                                });           
+                                this.target.holdItem("Gun", { cursed: true })
                                 this.target.queueAlert("You have received a gun!");
                                 break;
                             case "Armor":
-                                this.target.holdItem("CursedArmor");
+                                this.target.holdItem("Armor", { cursed: true })
                                 this.target.queueAlert("You have received armor!");
                                 break;
                             case "Knife":
-                                this.target.holdItem("CursedKnife");
+                                this.target.holdItem("Knife", { cursed: true })
                                 this.target.queueAlert("You have received a knife!");
                                 break;
                             case "Snowball":
-                                this.target.holdItem("CursedSnowball");
+                                this.target.holdItem("Snowball", { cursed: true })
                                 this.target.queueAlert("You have received a snowball!");
                                 break;
                             case "Bread":
-                                this.target.holdItem("CursedBread");
+                                this.target.holdItem("CursedBread")
                                 this.target.queueAlert("You have received a bread!");
                                 break;
                         }
                         delete this.actor.role.data.itemType;
-
                     }
                 }
             },
