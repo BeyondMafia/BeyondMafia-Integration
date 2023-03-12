@@ -1,27 +1,49 @@
 const Item = require("../Item");
-const { PRIORITY_ASK_QUESTION } = require("../const/MeetingPriority");
+const { PRIORITY_MESSAGE_GIVER_DEFAULT } = require("../const/Priority");
 
 module.exports = class Mourned extends Item {
 
     constructor(options) {
         super("Mourned");
 
-        this.options = options || {};
+        this.mourner = options.mourner;
+        this.question = options.question;
+        
         this.lifespan = 1;
         this.cannotBeStolen = true;
+        
         this.meetings = {
-            "Graveyard": {
-				actionName: "Answer Mourner",
+            "Reply Mourner": {
+                actionName: "Reply Mourner",
                 states: ["Night"],
-				flags: ["voting"],
+                flags: ["voting"],
                 inputType: "boolean",
-                priority: PRIORITY_ASK_QUESTION,
                 whileDead: true,
                 whileAlive: false,
-                run: function () {
-                    this.game.events.emit("mournerAnswer", this.target, this.options.mourner);
+                action: {
+                    priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
+                    item: this,
+                    run: function () {
+                        let mourner = this.item.mourner;
+                        if (this.target === "Yes") {
+                            mourner.role.data.mournerYes += 1;
+                        } else {
+                            mourner.role.data.mournerNo += 1;
+                        }
+                    }
                 }
             }
         };
+
+        this.listeners = {
+            "state": function (stateInfo) {
+                if (!this.player.alive)
+                    return;
+
+                if (stateInfo.name.match(/Night/)) {
+                    this.item.holder.queueAlert(this.item.question);
+                }
+            }
+        }
     }
 }
