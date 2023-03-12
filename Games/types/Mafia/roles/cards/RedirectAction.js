@@ -30,6 +30,7 @@ module.exports = class RedirectAction extends Card {
                         if (this.actor.role.data.controlledActor) {
                             for (let action of this.game.actions[0])
                                 if (action.priority > this.priority &&
+                                    !action.hasLabel("uncontrollable") &&
                                     action.actor == this.actor.role.data.controlledActor &&
                                     action.target instanceof Player)
                                     action.target = this.target;

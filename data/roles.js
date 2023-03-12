@@ -103,7 +103,8 @@ const roleData = {
         "Governor": {
             alignment: "Village",
             description: [
-                "Can override a lynch once per game. (including no-lynches)"
+                "Once a game, when the village decides to eliminate someone, can override the village vote",
+                "Cannot cancel a village vote. Choosing no one preserves the governor's ability."
             ],
         },
         "Monkey": {
@@ -280,7 +281,7 @@ const roleData = {
         "Journalist": {
             alignment: "Village",
             description: [
-                "Can pick a person every night",
+                "Can pick a person every night.",
                 "Any system messages that person may have got are given to the journalist as well"
             ],
         },
@@ -693,8 +694,8 @@ const roleData = {
         "Informant": {
             alignment: "Mafia",
             description: [
-                "Can pick a person every night",
-                "Any system messages that person may have got are given to the journalist as well"
+                "Can pick a person every night.",
+                "Any system messages that person may have got are given to the informant as well"
             ],
          },
         "Jinx": {

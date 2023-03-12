@@ -1899,6 +1899,16 @@ export function Timer(props) {
         return <div className="state-timer"></div>;
 
     var time = timer.delay - timer.time;
+
+    if (props.timers["secondary"]) {
+        // show main timer if needed
+        const mainTimer = props.timers["main"];
+        if (mainTimer) {
+            var mainTime = mainTimer.delay - mainTimer.time;
+            time = Math.min(time, mainTime);
+        }
+    }
+
     time = formatTimerTime(time);
 
     return (
@@ -2574,7 +2584,7 @@ export function useTimersReducer() {
 
                 const intTime = Math.round((timer.delay - timer.time) / 1000);
 
-                if (intTime < 6 && intTime > 0)
+                if (intTime < 16 && intTime > 0)
                     action.playAudio("tick");
                 break;
         }
