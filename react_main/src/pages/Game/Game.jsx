@@ -1899,6 +1899,16 @@ export function Timer(props) {
         return <div className="state-timer"></div>;
 
     var time = timer.delay - timer.time;
+
+    if (props.timers["secondary"]) {
+        // show main timer if needed
+        const mainTimer = props.timers["main"];
+        if (mainTimer) {
+            var mainTime = mainTimer.delay - mainTimer.time;
+            time = Math.min(time, mainTime);
+        }
+    }
+
     time = formatTimerTime(time);
 
     return (
