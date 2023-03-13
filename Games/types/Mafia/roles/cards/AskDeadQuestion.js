@@ -85,8 +85,10 @@ module.exports = class AskDeadQuestion extends Card {
                     let percentNo = (numYes / totalResponses) * 100;
                     let percentYes = (numNo / totalResponses) * 100;
 
-
-                    this.actor.queueAlert(`The dead has replied with ${percentNo}% Yes's and ${percentYes}% No's.`);
+                    if (totalResponses === 0)
+                        this.actor.queueAlert(`You receive no responses from the dead.`);
+                    else
+                        this.actor.queueAlert(`The dead has replied with ${percentNo}% Yes's and ${percentYes}% No's.`);
                 }
             }
         ];
