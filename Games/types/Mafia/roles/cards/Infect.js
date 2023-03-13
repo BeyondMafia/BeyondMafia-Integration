@@ -12,7 +12,7 @@ module.exports = class Infect extends Card {
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: ["Monsters"] },
                 action: {
-                    labels: ["infect"],
+                    labels: ["infected"],
                     priority: PRIORITY_INFECT,
                     run: function () {
                         if (this.dominates()) {
