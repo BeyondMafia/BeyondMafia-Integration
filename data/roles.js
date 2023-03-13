@@ -454,6 +454,7 @@ const roleData = {
                 "The players can answer with yes or no.",
                 "The mourner will receive the results of the vote.",
             ],
+            graveyardParticipation: "all",
         },
         "Santa": {
             alignment: "Village",
