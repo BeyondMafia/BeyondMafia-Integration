@@ -1890,6 +1890,8 @@ export function Timer(props) {
         timerName = "postgame";
     else if (props.timers["secondary"])
         timerName = "secondary";
+    else if (props.timers["vegKick"])
+        timerName = "vegKick";
     else
         timerName = "main";
 
@@ -1911,6 +1913,13 @@ export function Timer(props) {
 
     time = formatTimerTime(time);
 
+    if(timerName === "vegKick"){
+        return (
+            <div className="state-timer">
+                Votekick Timer: {time}
+            </div>
+        );
+    }
     return (
         <div className="state-timer">
             {time}
@@ -2577,7 +2586,7 @@ export function useTimersReducer() {
                 for (var timerName in newTimers)
                     newTimers[timerName].time += 1000;
 
-                const timer = newTimers["pregameCountdown"] || newTimers["secondary"] || newTimers["main"];
+                const timer = newTimers["pregameCountdown"] || newTimers["secondary"] || newTimers["main"] || newTimers["vegKick"];
 
                 if (!timer)
                     break;

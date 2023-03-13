@@ -20,6 +20,7 @@ const logger = require("../../modules/logging")("games");
 const constants = require("../../data/constants");
 const routeUtils = require("../../routes/utils");
 const PostgameMeeting = require("./PostgameMeeting");
+const VegReadyMeeting = require("./VegReadyMeeting");
 
 module.exports = class Game {
 
@@ -53,6 +54,7 @@ module.exports = class Game {
         this.readyCheck = options.settings.readyCheck;
         this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
         this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 10000;
+        this.vegKickCountdownLength = options.settings.vegKickCountdownLength != null ? options.settings.vegKickCountdownLength : 300000;
         this.postgameLength = 1000 * 60 * 2;
         this.players = new ArrayHash();
         this.playersGone = {};
@@ -796,8 +798,24 @@ module.exports = class Game {
     }
 
     createNextStateTimer(stateInfo) {
-        this.createTimer("main", stateInfo.length, () => this.gotoNextState());
+        this.createTimer("main", stateInfo.length, () => this.checkVeg());
         this.checkAllMeetingsReady();
+    }
+
+    checkVeg() {
+        this.clearTimer("main");
+        this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
+        for (let player of this.players) {
+            if (player.alive) {
+                this.vegMeeting.join(player);
+            }
+        }
+
+        this.vegMeeting.init();
+
+        for (let player of this.players)
+            player.sendMeeting(this.vegMeeting);
+        this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
     }
 
     broadcastState() {
@@ -1032,12 +1050,26 @@ module.exports = class Game {
     checkAllMeetingsReady() {
         var allReady = true;
 
-        for (let meeting of this.meetings) {
-            if (!meeting.ready) {
-                allReady = false;
-                break;
+        var vegReadyMeeting = this.getMeetings().filter(x => x.name === "Veg Ready");
+        if (vegReadyMeeting.length > 0) {
+            for (let meeting of this.meetings) {
+                if(meeting.name !== "Veg Ready" && !meeting.noVeg){
+                    if (!meeting.ready) {
+                        allReady = false;
+                        break;
+                    }
+                }
             }
         }
+        else {
+            for (let meeting of this.meetings) {
+                if (!meeting.ready) {
+                    allReady = false;
+                    break;
+                }
+            }
+        }
+        
 
         if (allReady)
             this.gotoNextState();

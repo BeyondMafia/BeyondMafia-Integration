@@ -15,7 +15,7 @@ module.exports = class PregameReadyMeeting extends Meeting {
     }
 
     getMeetingInfo(player) {
-        var playerId = player.id;
+        var playerId = player && player.id;
 
         if (!playerId)
             return;
