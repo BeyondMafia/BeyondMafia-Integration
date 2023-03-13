@@ -19,6 +19,8 @@ module.exports = class AskDeadQuestion extends Card {
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         this.actor.role.data.question = this.target;
+                        this.actor.role.data.mournerYes = 0;
+                        this.actor.role.data.mournerNo = 0;
                     }
                 }
             }
@@ -45,14 +47,12 @@ module.exports = class AskDeadQuestion extends Card {
                     for (let player of this.game.players) {
                         if (!player.alive) {
                             player.holdItem("Mourned", {
-                                mourner: this.player,
-                                question: this.player.role.data.question,
+                                mourner: this.actor,
+                                question: this.actor.role.data.question,
                             });
                             numGiven += 1;
                         }
                     }
-                    this.actor.role.data.mournerYes = 0;
-                    this.actor.role.data.mournerNo = 0;
                     this.actor.role.data.numGiven = numGiven;
                 }
             },
@@ -65,20 +65,26 @@ module.exports = class AskDeadQuestion extends Card {
                         return;
                     }
 
-                    if (this.game.getStateName() !== "Day") {
+                    if (this.game.getStateName() !== "Night") {
                         return;
                     }
 
                     if (!this.actor.role.data.question) {
                         return;
                     }
-                                        
+                                
                     let numYes = this.actor.role.data.mournerYes;
                     let numNo = this.actor.role.data.mournerNo;
-                    // let numDidNotReply = this.actor.role.data.numGiven - numYes - numNo;
-                    // this.actor.mournerYes/(numGiven-numDidNotReply)
-                    // this.actor.mournerNo/(numGiven-numDidNotReply)
-                    this.player.queueAlert(`The dead has replied with ${numYes} Yes's and ${numNo} No's.`);
+                    let numGiven = this.actor.role.data.numGiven;
+        
+                    let numDidNotReply = numGiven - numYes - numNo;
+                    let totalResponses = numGiven - numDidNotReply;
+
+                    let percentNo = (numYes / totalResponses) * 100;
+                    let percentYes = (numNo / totalResponses) * 100;
+
+
+                    this.actor.queueAlert(`The dead has replied with ${percentNo}% Yes's and ${percentYes}% No's.`);
                 }
             }
         ];

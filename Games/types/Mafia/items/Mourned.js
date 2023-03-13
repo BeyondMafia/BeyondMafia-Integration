@@ -37,11 +37,11 @@ module.exports = class Mourned extends Item {
 
         this.listeners = {
             "state": function (stateInfo) {
-                if (!this.player.alive)
+                if (this.holder.alive)
                     return;
 
                 if (stateInfo.name.match(/Night/)) {
-                    this.item.holder.queueAlert(this.item.question);
+                    this.holder.queueAlert(`A mourner asks you: ${this.question}`);
                 }
             }
         }
