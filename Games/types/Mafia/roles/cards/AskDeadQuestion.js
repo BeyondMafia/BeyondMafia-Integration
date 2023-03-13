@@ -92,8 +92,5 @@ module.exports = class AskDeadQuestion extends Card {
                 }
             }
         ];
-
-        this.listeners = {
-        }
     }
 }
