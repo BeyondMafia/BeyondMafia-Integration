@@ -24,8 +24,8 @@ module.exports = class DayShooter extends Card {
         ];
 
         this.listeners = {
-            "death": function (player, killer) {
-                if ((player === this.player) && killer)
+            "death": function (player, killer, deathType) {
+                if ((player === this.player) && killer && deathType != "lynch")
                     {
                         killer.queueAlert("You find a gun in your victim's workshop...")
                         killer.holdItem("Gun", { reveal: true });
