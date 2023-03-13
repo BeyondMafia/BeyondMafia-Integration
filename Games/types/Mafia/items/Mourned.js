@@ -8,13 +8,14 @@ module.exports = class Mourned extends Item {
 
         this.mourner = options.mourner;
         this.question = options.question;
+        this.meetingName = options.meetingName;
         
         this.lifespan = 1;
         this.cannotBeStolen = true;
         
         this.meetings = {
             "Reply Mourner": {
-                actionName: "Reply Mourner",
+                actionName: this.meetingName,
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "boolean",

@@ -19,6 +19,7 @@ module.exports = class AskDeadQuestion extends Card {
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         this.actor.role.data.question = this.target;
+                        this.actor.role.data.meetingName = 'Answer Mourner asking "' + this.actor.role.data.question + '"';
                         this.actor.role.data.mournerYes = 0;
                         this.actor.role.data.mournerNo = 0;
                     }
@@ -49,6 +50,7 @@ module.exports = class AskDeadQuestion extends Card {
                             player.holdItem("Mourned", {
                                 mourner: this.actor,
                                 question: this.actor.role.data.question,
+                                meetingName: this.actor.role.data.meetingName,
                             });
                             numGiven += 1;
                         }
@@ -88,5 +90,8 @@ module.exports = class AskDeadQuestion extends Card {
                 }
             }
         ];
+
+        this.listeners = {
+        }
     }
 }
