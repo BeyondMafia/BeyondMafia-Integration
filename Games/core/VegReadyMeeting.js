@@ -3,7 +3,7 @@ const Meeting = require("./Meeting");
 module.exports = class VegReadyMeeting extends Meeting {
 
     constructor(game) {
-        super(game, "Veg Ready");
+        super(game, "Vote Kick");
 
         this.group = true;
         this.voting = true;
@@ -77,6 +77,17 @@ module.exports = class VegReadyMeeting extends Meeting {
     checkEnoughPlayersKicked() {
         if (!(Object.keys(this.votes).length >= Math.ceil(this.members.length / 3))){
             return;
+        }
+
+        var otherMeetings = Object.values(this.game.history.states[this.game.currentState].meetings)
+                                    .filter(x => x.id !== this.id);
+        for (var i = 0; i < otherMeetings.length; i++) {
+            for( var j = 0; j < otherMeetings[i].members.length; j++) {
+                Object.values(otherMeetings[i].members)[j].canUnvote = false;
+                if (Object.values(otherMeetings[i].votes)[j] !== undefined) {
+                    Object.values(otherMeetings[i].members)[j].canVote = false;
+                }
+            }
         }
 
         if (!this.finished) {

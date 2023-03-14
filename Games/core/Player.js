@@ -250,7 +250,7 @@ module.exports = class Player {
 
     getVegMeeting() {
         var stateMeetings = this.getMeetings(this.game.currentState);
-        var vegMeeting = stateMeetings.filter(x => x.name === "Veg Ready");
+        var vegMeeting = stateMeetings.filter(x => x.name === "Vote Kick");
         if (vegMeeting && vegMeeting.length > 0) {
             return vegMeeting[0];
         }

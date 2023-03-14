@@ -1052,10 +1052,10 @@ module.exports = class Game {
     checkAllMeetingsReady() {
         var allReady = true;
 
-        var vegReadyMeeting = this.getMeetings().filter(x => x.name === "Veg Ready");
+        var vegReadyMeeting = this.getMeetings().filter(x => x.name === "Vote Kick");
         if (vegReadyMeeting.length > 0) {
             for (let meeting of this.meetings) {
-                if(meeting.name !== "Veg Ready" && !meeting.noVeg){
+                if(meeting.name !== "Vote Kick" && !meeting.noVeg){
                     if (!meeting.ready) {
                         allReady = false;
                         break;
