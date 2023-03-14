@@ -248,6 +248,14 @@ module.exports = class Player {
         return will;
     }
 
+    getVegMeeting() {
+        var stateMeetings = this.getMeetings(this.game.currentState);
+        var vegMeeting = stateMeetings.filter(x => x.name === "Veg Ready");
+        if (vegMeeting && vegMeeting.length > 0) {
+            return vegMeeting[0];
+        }
+    }
+
     parseCommand(message) {
         var split = message.content.replace("/", "").split(" ");
         var cmd = {
@@ -259,6 +267,12 @@ module.exports = class Player {
 
         switch (cmd.name) {
             case "kick":
+                // Allow /kick to be used to kick players during veg votekick.
+                var vegMeeting = this.getVegMeeting();
+                if (vegMeeting) {
+                    vegMeeting.vote(this, "Kick");
+                    return;
+                }
                 if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
                     return;
 

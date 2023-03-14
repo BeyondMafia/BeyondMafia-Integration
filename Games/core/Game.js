@@ -813,9 +813,11 @@ module.exports = class Game {
 
         this.vegMeeting.init();
 
-        for (let player of this.players)
+        for (let player of this.players) {
             player.sendMeeting(this.vegMeeting);
+        }
         this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
+        this.checkAllMeetingsReady();
     }
 
     broadcastState() {

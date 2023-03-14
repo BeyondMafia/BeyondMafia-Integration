@@ -68,8 +68,10 @@ module.exports = class VegReadyMeeting extends Meeting {
     }
 
     vote(voter) {
-        super.vote(voter, "Kick");
-        this.checkEnoughPlayersKicked();
+        if (!this.votes[voter.id]) {
+            super.vote(voter, "Kick");
+            this.checkEnoughPlayersKicked();
+        }
     }
 
     checkEnoughPlayersKicked() {
@@ -77,9 +79,11 @@ module.exports = class VegReadyMeeting extends Meeting {
             return;
         }
 
-        this.finished = true;
-        this.game.timers.vegKick.setTime(this.vegCounter);
-        this.game.sendAlert("Enough kicks, vegging players!");
+        if (!this.finished) {
+            this.finished = true;
+            this.game.timers.vegKick.setTime(this.vegCounter);
+            this.game.sendAlert("Enough kicks, vegging players!");
+        }
     }
 
     checkReady() { }
