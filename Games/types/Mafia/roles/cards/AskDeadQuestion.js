@@ -44,7 +44,6 @@ module.exports = class AskDeadQuestion extends Card {
                         return;
                     }
                     
-                    let numGiven = 0;
                     for (let player of this.game.players) {
                         if (!player.alive) {
                             player.holdItem("Mourned", {
@@ -52,10 +51,8 @@ module.exports = class AskDeadQuestion extends Card {
                                 question: this.actor.role.data.question,
                                 meetingName: this.actor.role.data.meetingName,
                             });
-                            numGiven += 1;
                         }
                     }
-                    this.actor.role.data.numGiven = numGiven;
                 }
             },
 
@@ -77,10 +74,8 @@ module.exports = class AskDeadQuestion extends Card {
                                 
                     let numYes = this.actor.role.data.mournerYes;
                     let numNo = this.actor.role.data.mournerNo;
-                    let numGiven = this.actor.role.data.numGiven;
         
-                    let numDidNotReply = numGiven - numYes - numNo;
-                    let totalResponses = numGiven - numDidNotReply;
+                    let totalResponses = numYes + numNo;
 
                     let percentNo = (numYes / totalResponses) * 100;
                     let percentYes = (numNo / totalResponses) * 100;
