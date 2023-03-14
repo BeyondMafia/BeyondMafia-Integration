@@ -6,6 +6,13 @@ module.exports = class GiveTurkeyOnDeath extends Card {
     constructor(role) {
         super(role);
         
+        this.meetings = {
+            "Turkey Meeting": {
+                states: ["Night"],
+                flags: ["group", "speech"]
+            }
+        };
+
         let turkeyAlive = 0;
         this.listeners = {
             "rolesAssigned": function () {
@@ -40,13 +47,24 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                     turkeyAlive -= 1;
                 }
             },
+            "start": function () {
+                for (let player of this.game.players) {
+                    if (
+                        player.role.name === "Turkey" &&
+                        player != this.player
+                    ) {
+                        this.revealToPlayer(player);
+                    }
+                }
+            }
         };
 
         this.winCheck = {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             againOnFinished: true,
             check: function (counts, winners, aliveCount) {
-                if (turkeyAlive == aliveCount) {
+                if (turkeyAlive == aliveCount 
+                    && aliveCount != 0) {
                     winners.addPlayer(this.player, this.name);
                 }
             }
