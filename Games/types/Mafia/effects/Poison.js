@@ -15,7 +15,7 @@ module.exports = class Poison extends Effect {
             actor: this.poisoner,
             target: player,
             game: this.poisoner.game,
-            labels: ["kill", "poison", "hidden"],
+            labels: ["kill", "poison", "hidden", "absolute", "uncontrollable"],
             delay: 1,
             effect: this,
             run: function () {

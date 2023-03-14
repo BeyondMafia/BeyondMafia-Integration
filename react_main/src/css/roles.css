@@ -15,7 +15,7 @@
     min-height: 50px;
     padding: 0px 0px 10px 10px;
 
-    background-color: white;
+    background-color: var(--scheme-color);
 }
 
 .role-cell {
@@ -26,15 +26,15 @@
     margin: 10px 10px 0px 0px;
     padding: 5px;
 
-    background-color: #f3f3f3;
-    color: black;
+    background-color: var(--scheme-color-sec);
+    color: var(--scheme-color-text);
     box-shadow: 0px 0px 1px black;
 }
 
 .role-list .role-count-wrap {
     margin-right: 3px;
 
-    color: black;
+    color: var(--scheme-color-text);
 }
 
 .role-cell-content {
@@ -56,7 +56,7 @@
     display: flex;
     flex-flow: row nowrap;
 
-    color: black;
+    color: var(--scheme-color-text);
 }
 
 .role .modifier {
@@ -151,7 +151,7 @@
     background-position: -270px 0;
 }
 
-.role-Mafia-Archer {
+.role-Mafia-Hunter {
     background-position: -300px 0;
 }
 
@@ -159,7 +159,7 @@
     background-position: -30px -40px;
 }
 
-.role-Mafia-Suspect {
+.role-Mafia-Miller {
     background-position: -120px -40px;
 }
 
@@ -171,15 +171,15 @@
     background-position: -180px -40px;
 }
 
-.role-Mafia-Seer {
+.role-Mafia-Detective {
     background-position: -210px -40px;
 }
 
-.role-Mafia-Babushka {
+.role-Mafia-Granny {
     background-position: -240px -40px;
 }
 
-.role-Mafia-Illuminato {
+.role-Mafia-Templar {
     background-position: -270px -40px;
 }
 
@@ -207,15 +207,11 @@
     background-position: -150px -80px;
 }
 
-.role-Mafia-Governor {
-    background-position: -180px -80px;
-}
-
 .role-Mafia-Charon {
     background-position: -240px -80px;
 }
 
-.role-Mafia-Knight {
+.role-Mafia-Bulletproof {
     background-position: -270px -80px;
 }
 
@@ -335,6 +331,70 @@
     background-position: -990px -80px;
 }
 
+.role-Mafia-Lightkeeper {
+    background-position: -870px -0px;
+}
+
+.role-Mafia-Chef {
+    background-position: -900px -0px;
+}
+
+.role-Mafia-Cyclist {
+    background-position: -930px -120px;
+}
+
+.role-Mafia-Justice {
+    background-position: -960px -120px;
+}
+
+.role-Mafia-Journalist {
+    background-position: -990px -120px;
+}
+
+.role-Mafia-King {
+    background-position: -870px -40px;
+}
+
+.role-Mafia-Loudmouth {
+    background-position: -900px -40px;
+}
+
+.role-Mafia-Enchantress {
+    background-position: -900px -80px;
+}
+
+.role-Mafia-Messenger {
+    background-position: -870px -80px;
+}
+
+.role-Mafia-Invisible-Man {
+    background-position: -870px -120px;
+}
+
+.role-Mafia-Visitor {
+    background-position: -900px -120px;
+}
+
+.role-Mafia-Sleepwalker {
+    background-position: -1020px -0px;
+}
+
+.role-Mafia-Governor {
+    background-position: -1020px -40px;
+}
+
+.role-Mafia-Waitress {
+    background-position: -1020px -80px;
+}
+
+.role-Mafia-Mortician {
+    background-position: -1020px -120px;
+}
+
+.role-Mafia-Robin-Hood {
+    background-position: -300px 0;
+}
+
 /* 
 * Mafia 
 */
@@ -447,11 +507,59 @@
     background-position: -450px -80px;
 }
 
+.role-Mafia-Ninja {
+    background-position: -480px -80px;
+}
+
+.role-Mafia-Graverobber {
+    background-position: -510px -80px;
+}
+
+.role-Mafia-Clown {
+    background-position: -540px -80px;
+}
+
+.role-Mafia-Diabolist {
+    background-position: -570px -80px;
+}
+
+.role-Mafia-Illusionist {
+    background-position: -600px -80px;
+}
+
+.role-Mafia-Cat-Lady {
+    background-position: -330px -120px;
+}
+
+.role-Mafia-Slasher {
+    background-position: -360px -120px;
+}
+
+.role-Mafia-Jinx {
+    background-position: -390px -120px;
+}
+
+.role-Mafia-Informant {
+    background-position: -420px -120px;
+}
+
+.role-Mafia-Mummy {
+    background-position: -450px -120px;
+}
+
+.role-Mafia-Medusa {
+    background-position: -480px -120px;
+}
+
+.role-Mafia-Tresspasser {
+    background-position: -510px -120px;
+}
+
 /* 
 * Independent 
 */
 
-.role-Mafia-Jester {
+.role-Mafia-Fool {
     background-position: -630px 0;
 }
 
@@ -495,6 +603,18 @@
     background-position: -630px -80px;
 }
 
+.role-Mafia-Mastermind {
+    background-position: -660px -80px;
+}
+
+.role-Mafia-Prophet {
+    background-position: -690px -80px;
+}
+
+.role-Mafia-Clockmaker {
+    background-position: -720px -80px;
+}
+
 /* 
 * Monsters 
 */
@@ -509,6 +629,10 @@
 
 .role-Mafia-Cthulhu {
     background-position: -840px 0;
+}
+
+.role-Mafia-The-Thing {
+    background-position: -780px -40px;
 }
 
 /* 

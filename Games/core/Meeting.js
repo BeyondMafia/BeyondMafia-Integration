@@ -20,6 +20,7 @@ module.exports = class Meeting {
         this.voting = false;
         this.instant = false;
         this.anonymous = false;
+        this.anonymousVotes = false;
         this.noUnvote = false;
         this.multi = false;
         this.repeatable = false;
@@ -88,6 +89,7 @@ module.exports = class Meeting {
 
         if (options.inputType)
             this.inputType = options.inputType;
+            this.textOptions = options.textOptions;
 
         if (this.multi) {
             this.multiMin = options.multiMin;
@@ -156,7 +158,7 @@ module.exports = class Meeting {
     }
 
     init() {
-        if (this.anonymous)
+        if (this.anonymous || this.anonymousVotes)
             for (let member of this.members)
                 member.anonId = shortid.generate();
 
@@ -212,7 +214,7 @@ module.exports = class Meeting {
                 voteRecord = this.voteRecord;
             }
 
-            if (this.anonymous) {
+            if (this.anonymous || this.anonymousVotes) {
                 votes = { ...votes };
                 voteRecord = [...voteRecord];
 
@@ -239,10 +241,12 @@ module.exports = class Meeting {
             voting: this.voting,
             instant: this.instant,
             anonymous: this.anonymous,
+            anonymousVotes: this.anonymousVotes,
             votesInvisible: this.votesInvisible,
             multi: this.multi,
             targets: this.targets,
             inputType: this.inputType,
+            textOptions: this.textOptions,
             votes: votes,
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),
@@ -638,7 +642,10 @@ module.exports = class Meeting {
                     (!this.multi && this.votes[member.id] == null) ||
                     (this.multi && selections.length < this.multiMin && selections.indexOf("*") == -1)
                 ) {
-                    this.game.vegPlayer(member.player);
+                    const isKickEliminated = this.actionName === "Village Vote" && this.finalTarget === member.id;
+                    if (!isKickEliminated) {
+                        this.game.vegPlayer(member.player);
+                    }
                 }
             }
         }
@@ -717,8 +724,16 @@ module.exports = class Meeting {
 
             message.recipients = [recipientMember.player, message.sender];
             message.prefix = `whispers to ${recipientMember.player.name}`;
-        }
 
+            let leakChance = -1;
+
+            if(this.game.setup.leakPercentage > 0)
+                leakChance = Random.randFloatRange(0, 100);
+            
+            if( leakChance > 0 && leakChance <= this.game.setup.leakPercentage)
+                message.recipients = this.getPlayers();
+        }
+       
         if (!message.recipients)
             message.recipients = this.getPlayers();
 

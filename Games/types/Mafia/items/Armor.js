@@ -2,8 +2,14 @@ const Item = require("../Item");
 
 module.exports = class Armor extends Item {
 
-    constructor() {
+    constructor(options) {
         super("Armor");
+
+        this.cursed = options?.cursed;
+        if (this.cursed) {
+            this.lifespan = 1;
+            return
+        }
 
         this.uses = 1;
         this.effects = ["Kill Immune"];
@@ -30,9 +36,13 @@ module.exports = class Armor extends Item {
     }
 
     hold(player) {
-        for (let effect of player.effects) {
-            if (effect.name == "Armor") {
-                effect.uses++;
+        for (let item of player.items) {
+            if (item.name == "Armor") {
+                if (this.cursed) {
+                    item.drop();
+                } else {
+                    item.uses++;
+                }
                 return;
             }
         }

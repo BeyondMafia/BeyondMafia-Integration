@@ -40,7 +40,7 @@
 }
 
 .hide-alert:hover {
-    color: rgb(223, 223, 223);
+    color: var(--scheme-color-sec);
 }
 
 .alert-error {

@@ -10,6 +10,7 @@ module.exports = function (type, name) {
         "lynchRevenge": `${name} was killed in an act of revenge.`,
         "bomb": `${name} explodes into a thousand pieces.`,
         "curse": `${name} feels a cold chill run down their spine!`
+
     };
 
     return templates[type];

@@ -3,10 +3,12 @@ const Random = require("../../../../lib/Random");
 
 module.exports = class Snowball extends Item {
 
-    constructor(reveal) {
+    constructor(options) {
         super("Snowball");
 
-        this.reveal = reveal;
+        this.reveal = options?.reveal;
+        this.cursed = options?.cursed;
+
         this.meetings = {
             "Throw Snowball": {
                 actionName: "Throw",
@@ -17,11 +19,17 @@ module.exports = class Snowball extends Item {
                     item: this,
                     run: function() {
                         var reveal = this.item.reveal;
-
                         if (reveal == null)
                             reveal = Random.randArrayVal([true, false]);
 
-                        if (reveal)
+                        var cursed = this.item.cursed;
+                        if (cursed) {
+                            this.target = this.actor;
+                        }
+
+                        if (reveal && cursed)
+                            this.game.queueAlert(`${this.actor.name} pulls out a snowball, it explodes in their hand!`);
+                        else if (reveal && !cursed)
                             this.game.queueAlert(`${this.actor.name} pulls out a snowball, it hits ${this.target.name} in the face!`);
                         else
                             this.game.queueAlert(`Someone throws a snowball at ${this.target.name}!`);

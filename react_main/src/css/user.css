@@ -9,13 +9,28 @@
 
     background-image: url("/images/avatar.png");
     background-size: 100%;
-    background-color: white;
+    background-color: var(--scheme-color);
     box-shadow: 0px 0px 1px black;
 }
 
 .avatar.small {
     width: 20px !important;
     height: 20px !important;
+}
+
+.avatar.inline {
+    margin-right: 5px !important;
+}
+
+.video-responsive{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
+    min-height: 200px;
+}
+
+iframe {
+    border-width: 0px;
 }
 
 .avatar.large {
@@ -48,7 +63,7 @@
     flex-flow: row nowrap;
     align-items: center;
 
-    color: black;
+    color: var(--scheme-color-text);
     text-decoration: none;
     line-height: 0px;
     white-space: nowrap;
@@ -204,9 +219,8 @@
 
 .profile .box-panel .content {
     padding: 5px;
-
-    background-color: white;
-    color: black;
+	  background-color: var(--scheme-color);
+	  color: var(--scheme-color-text);
 }
 
 .profile .box-panel .row {
@@ -299,8 +313,8 @@
     box-sizing: border-box;
     padding: 15px;
 
-    background-color: white;
-    color: black;
+	  background-color: var(--scheme-color);
+	  color: var(--scheme-color-text);
 }
 
 .profile .bio.edit {
@@ -325,7 +339,8 @@
 }
 
 .profile .react-mde .grip {
-    color: black;
+	  color: var(--scheme-color-text);
+	  background-color: var(--scheme-color-sec);
 }
 
 .profile .options {

@@ -20,7 +20,7 @@ export default function ResistanceGame(props) {
 	const gameType = "Resistance";
 	const meetings = history.states[stateViewing] ? history.states[stateViewing].meetings : {};
 	const stateEvents = history.states[stateViewing] ? history.states[stateViewing].stateEvents : [];
-	const stateNames = ["Team Selection", "Team Approval", "Mission"];
+	const stateNames = ["Team Selection", "Team Approval", "Mission", "Epilogue"];
 	const audioFileNames = [];
 	const audioLoops = [];
 	const audioOverrides = [];

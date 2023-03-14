@@ -23,6 +23,9 @@ var schemas = {
             disablePg13Censor: { type: Boolean, default: false },
             disableAllCensors: { type: Boolean, default: false },
             hideDeleted: Boolean,
+            siteColorScheme: Boolean,
+            autoplay: {type: Boolean, default: false},
+            youtube: String,
         },
         accounts: {
             discord: String,

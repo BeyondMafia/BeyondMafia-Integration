@@ -22,6 +22,10 @@ export default function LearnMafia(props) {
 			name: "Bomb",
 			text: "When a player is killed while holding a bomb, the player who killed them will also die."
 		},
+		{
+			name: "Crystal",
+			text: "The holder of the crystal can choose a person each night and if they die, their targets role will be revealed.",
+		},
 	];
 
 	var mechanics = [
@@ -101,7 +105,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Solitary",
-			text: "Does not attend Cop or Illuminati meetings.",
+			text: "Does not attend the Cop or Templar meetings.",
 			icon: <div className="icon modifier modifier-Mafia-Solitary" />
 		},
 		{
