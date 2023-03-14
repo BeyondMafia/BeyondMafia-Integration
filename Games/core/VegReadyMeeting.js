@@ -7,14 +7,11 @@ module.exports = class VegReadyMeeting extends Meeting {
 
         this.group = true;
         this.voting = true;
-        this.noRecord = false;
         this.noVeg = true;
         this.vegCounter = 15000;
-
         this.inputType = "button";
         this.targets = ["Kick"];
-        this.votes = {};
-        this.voteRecord = [];
+        this.votesInvisible = true;
     }
 
     getMembers() {
@@ -37,9 +34,17 @@ module.exports = class VegReadyMeeting extends Meeting {
         var playerId = player && player.id;
         var member = this.members[playerId] || {};
         var votes = {};
+        var voteRecord = [];
 
         if (this.voting) {
+            if (member.id) {
+                votes = this.voteVersions[member.id].votes;
+                voteRecord = this.voteVersions[member.id].voteRecord;
+            }
+            else {
                 votes = this.votes;
+                voteRecord = this.voteRecord;
+            }
         }
 
         return {
@@ -48,6 +53,7 @@ module.exports = class VegReadyMeeting extends Meeting {
             actionName: this.name,
             members: this.getMembers(),
             group: this.group,
+            votesInvisible: this.votesInvisible,
             speech: this.speech,
             voting: this.voting,
             targets: this.targets,
@@ -62,25 +68,12 @@ module.exports = class VegReadyMeeting extends Meeting {
     }
 
     vote(voter) {
-        if (this.finished || this.members[voter.id].ready){
-            return;
-        }
-
-        this.members[voter.id].ready = true;
-        this.votes[voter.id] = "Kick";
-        this.members[voter.id].player.seeVote({ voter, target: "Kick", meeting: this }, true);
-        this.game.sendAlert(`${voter.name} has kicked.`);
+        super.vote(voter, "Kick");
         this.checkEnoughPlayersKicked();
     }
 
     checkEnoughPlayersKicked() {
-        var kicks = 0;
-        for (let member of this.members){
-            if (member.ready){
-                kicks++;
-            }
-        }
-        if (!(kicks >= Math.ceil(this.members.length / 3))){
+        if (!(Object.keys(this.votes).length >= Math.ceil(this.members.length / 3))){
             return;
         }
 

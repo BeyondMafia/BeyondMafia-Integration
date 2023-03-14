@@ -1728,6 +1728,9 @@ function ActionSelect(props) {
 
 function ActionButton(props) {
     const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
+    if (notClickable) {
+        return null;
+    }
     const votes = { ...meeting.votes };
 
     for (let playerId in votes)
