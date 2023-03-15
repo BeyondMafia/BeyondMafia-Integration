@@ -339,155 +339,165 @@ const roleData = {
         "Sapling": {
             alignment: "Village",
             description: [
-                "Once per game can choose to turn into a tree at night.",
-                "While a tree, cannot vote and immune to most ways of dying.",
+                "Choose whether or not to grow into a tree at night.",
+                "Tree is immune to most ways of dying.",
+                "Tree cannot vote."
                 ],
         },
         "Tree": {
             alignment: "Village",
             disabled: true,
             description: [
-                "Cannot vote and immune to most ways of dying.",
+                "Tree is immune to most ways of dying.",
+                "Tree cannot vote."
                 ],
         },
         "Baker": {
             alignment: "Village",
             description: [
-                "When in the game, everyone starts with two bread.",
-                "Gives out up to two bread each night.",
-                "If all bakers die, a famine will start, killing anyone who can't eat one bread per day/night.",
+                "When baker is present in the game, all players start with two breads.",
+                "Gives out up to two breads each night.",
+                "If all bakers die, a famine will start, and each player will comsume one bread per day cycle and night cycle.",
+                "Players who run out of bread after famine has begun will die."
             ],
         },
         "Virgin": {
             alignment: "Village",
             description: [
-                "If executed by the village vote, no one will die the following night.",
+                "If executed by the village, no one will die the following night.",
             ],
         },
         "Mimic": {
             alignment: "Village",
             description: [
-                "Can choose to mimic another player at night and will change based on their alignment.",
-                "Will steal role if target was town, become villager if target was mafia, and become amnesiac otherwise.",
+                "Chooses a player at night and attempt to mimic their role.",
+                "If player is town, mimic steals their role and that player becomes a villager.",
+                "If player is mafia, mimic becomes villager.",
+                "If player is independent or monster, mimic becomes amnesiac."
             ],
         },
         "Judge": {
             alignment: "Village",
             description: [
-                "Votes weight is 2."
+                "Vote weight is worth 2 players votes in day meeting."
             ],
         },
         "Party Host": {
             alignment: "Village",
             description: [
-                "Can choose to host a party for everyone to attend once per game.",
+                "Chooses to host a party during day meeting for everyone to attend once per game on the following night.",
+                "Everyone will share a night meeting."
             ],
         },
         "Loudmouth": {
             alignment: "Village",
             description: [
-                "Will cry out and reveal who visited them.",
-                "Sees self as blue."
+                "If visited, cries out the idenity of players who visited them during the night.",
+                "Appears as villager to self."
             ],
         },      
         "Ghost": {
             alignment: "Village",
             description: [
-                "Appears as villager until death.",
-                "Once dead, may visit one person a night and roleblock them.",
+                "Appears as villager to self, until dead.",
+                "Once dead, chooses to block one player each night."
             ],
             graveyardParticipation: "self",
         },
         "Lightkeeper": {
             alignment: "Village",
             description: [
-                "Causes an eclipse during the day following their death.",
-                "All votes and speech are anonymous during an eclipse."
+                "Following their death, causes an eclipse during the day",
+                "During an eclipse all speech and votes are anonymous."
             ],
         },
         "Resurrectionist": {
             alignment: "Village",
             description: [
-                "Once per game, visits one dead person during the night.",
-                "That person will be resurrected.",
+                "Visits a dead player during the night once per game.",
+                "That player will be resurrected the following day.",
+                "If players identity was revealed upon death, they will remain revealed when ressurected."
             ],
             graveyardParticipation: "all",
         },
         "Trickster": {
             alignment: "Village",
             description: [
-                "Every night, gives a random player an item which has a 50% chance to be cursed.",
-                "The item can be a Gun, a Knife, Armor, Snowball, or Crystal.",
-                "Appears as Villager to self.",
+                "Gives out an item each night to a random player.",
+                "The item can be a Gun, Knife, Armor, Snowball, or Crystal.",
+                "The item has a 50% chance to be Cursed.",
+                "Cursed items will misfire or be otherwise ineffective.",
+                "Appears as Villager to self."
             ],
         },
         "Medium": {
             alignment: "Village",
             description: [
-                "Chooses a dead player per night and holds a seance with that player.",
-                "Medium's identity is not revealed to the dead player.",  
+                "Holds a seance with a dead player once per night.",
+                "Identity is not revealed to the dead player."
             ],
             graveyardParticipation: "all",
         },
         "Robin Hood": {
             alignment: "Village",
             description: [
-                "Every night can pick one person to steal from and another person to give their items to.",
-                "If the person chosen to give to is mafia, the steal will not go through.",
+                "Chooses one player to steal from each night and another player to recieve their items.",
+                "If the person chosen to recieve is mafia, the steal will not go through.",
             ],
         },
         "Enchantress": {
             alignment: "Village",
             description: [
-                "Once per game, can visit a player during the night and give them a crystal."
+                "Gives out a crystal to a player during the night, once per game.",
+                "Crystals reveal the chosen player's role identity upon the holder's death."
             ],
         },
         "Forager": {
             alignment: "Village",
             description: [
-                "If not visited by anyone during the night, forages for an item.",
-                "The item can be a Gun, a Knife, Armor, or a Snowball.",
+                "Forages for an item if not visited by anyone during the night.",
+                "Foraged item can be a Gun, Knife, Armor, Crystal or Snowball.",
             ],
         },
         "Mortician": {
             alignment: "Village",
             description: [
-                "Can visit a dead player every night.",
-                "Learns the role of that player.",
+                "Chooses to visit a dead player at night and learns their role idenity."
             ],
         },
         "Santa": {
             alignment: "Village",
             description: [
-                "Gives out various items at night.",
-                "Can visit someone at night to know their alignment if not visited.",
+                "Visits a player each night to learn their role alignment.",
+                "If not visited during the night, will learn whether that player is naughty or nice.",
+                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, each night."
             ],
         },
         "Tinkerer": {
             alignment: "Village",
             description: [
-                "If not visited at night, will craft a gun.",
+                "Crafts a gun if not visited during the night.",
                 "If killed, the killer will find a gun that always reveals.",
             ],
         },
         "King": {
             alignment: "Village",
             description: [
-                "Appears as villager to themself.",
                 "Vote overrides others in village meeting.",
+                "Appears as Villager to self."
             ],
         },
         "Sleepwalker": {
             alignment: "Village",
             description: [
-                "Randomly visits one person every night.",
-                "Appears as villager to self.",
+                "Visits a random person each night.",
+                "Appears as Villager to self.",
             ],
         },
         "Messenger": {
             alignment: "Village",
             description: [
-                "Anonymously sends message at night to another player of their choice.",
+                "Sends an anonymous message to a player of choice during the night.",
             ],
         },
         "Visitor": {
@@ -499,8 +509,8 @@ const roleData = {
         "Waitress": {
             alignment: "Village",
             description: [
-                "Visits one person at night.",
-                "Roleblocks them and steals any items they're holding.",
+                "Visits a player and blocks them from performing actions at night.",
+                "Steals any items they are holding.",
             ],
         },
 
