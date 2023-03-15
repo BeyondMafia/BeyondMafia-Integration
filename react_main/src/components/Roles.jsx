@@ -61,7 +61,7 @@ export function RoleCount(props) {
 		if (!roleName || !props.showPopover || roleName === "null")
 			return;
 
-		popover.onHover(
+		popover.onClick(
 			`/roles/${props.gameType}/${roleName}`,
 			"role",
 			roleRef.current,
