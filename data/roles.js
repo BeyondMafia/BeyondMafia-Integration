@@ -171,13 +171,14 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Kills all players who visit her during the night.",
-                "Cannot be killed or converted normally."
+                "Cannot be killed or converted at night.",
+                "Can only be killed by village execution."
             ],
         },
         "Templar": {
             alignment: "Village",
             description: [
-                "Meets with other Templars during the night."
+                "Shares a night meeting with other Templars."
             ],
         },
         "Miller": {
@@ -192,145 +193,147 @@ const roleData = {
         "Mayor": {
             alignment: "Village",
             description: [
-                "Is publicly revealed to all players.",
+                "Identity is publicly revealed to all players at the start of the game.",
             ],
         },
         "Priest": {
             alignment: "Village",
             description: [
-                "Kills the Lycan when visited by him.",
                 "Cleanses werewolves when visited by them.",
+                "Kills Lycan when visited by them."
             ],
         },
         "Mason": {
             alignment: "Village",
             description: [
-                "Meets with other Masons during the night.",
-                "The group converts one player into a Mason each night.",
+                "Converts one player into a Mason each night.",
+                "Shares a night meeting with other Masons.",
                 "All Masons die if they attempt to convert a member of the Mafia.",
             ],
         },
         "Jailer": {
             alignment: "Village",
             description: [
-                "Chooses someone to jail each day.",
-                "Meets with the prisoner at night and the prisoner cannot attend other meetings or perform actions.",
-                "Decides whether prisoner should be executed or not.",
+                "Chooses someone to jail each day meeting.",
+                "Meets with the prisoner at night and the prisoner cannot perform actions or attend other meetings.",
+                "Decides whether or not the prisoner should be executed.",
             ],
         },
         "Psychic": {
             alignment: "Village",
             description: [
-                "Can anonymously contact any non-Village role.",
+                "Can anonymously contact any non-Village role during the day.",
             ],
         },
         "Funsmith": {
             alignment: "Village",
             description: [
-                "Hands out a gun each night.",
-                "Hands out guns to all visitors at night.",
+                "Gives out a gun each night.",
+                "Gives out a gun to all visitors at night.",
             ],
         },
         "Town Crier": {
             alignment: "Village",
             description: [
-                "Can anonymously broadcast messages during the day",
+                "Can anonymously broadcast messages during the day.",
             ],
         },
         "Capybara": {
             alignment: "Village",
             description: [
-                "Chooses another player to give a Yuzu OrangeZ to invite them to join a hot springs relaxation.",
-                "At night, anonymously meets with all capybaras and players who've brought an orange to the hot springs.",
+                "Chooses a player to invite to a hot springs relaxation by giving them a Yuzu OrangeZ each night.",
+                "When holding a Yuzu OrangeZ, player can choose during the day to anonymously meet with the Capybara and other Yuzu OrangeZ holders the following night.",
+                "Multiple Capybaras share a night meeting.",
             ],
         },
         "Neighbor": {
             alignment: "Village",
             description: [
-                "Visits one person each night to communicate their role.",
+                "Visits a player each night to reveal their role identity.",
             ],
         },
         "Nurse": {
             alignment: "Village",
             description: [
-                "Saves one person, except herself, each night from dying but blocks them from performing any actions."
+                "Saves one person each night from dying and blocks them from performing night actions.",
+                "Cannot save self."
             ],
         },
         "Commuter": {
             alignment: "Village",
             description: [
-                "Blocks all who visit him during the night from performing any actions.",
+                "Blocks all visitors during the night from performing any actions.",
             ],
         },
         "Caroler": {
             alignment: "Village",
             description: [
-                "Sings a carol to somebody about 3 people, at least one of whom is Mafia aligned.",
-                "The carol is not heard if the target visits at night.",
-                "Cannot choose same the person consecutively.",
+                "Sings a carol to a player about 3 people, at least one of whom is Mafia aligned.",
+                "The carol is not heard if the player chosen visits at night.",
+                "Cannot choose same the player consecutively.",
             ],
         },
         "Dreamer": {
             alignment: "Village",
             description: [
-                "Dreams about 3 people, (at least one of whom is Mafia aligned), or about 1 Villager to trust.",
-                "Does not dream if visited.",
+                "Dreams about 3 people, at least one of whom is Mafia aligned, or about 1 person who is Village aligned.",
+                "Does not dream if visited at night.",
             ],
         },
         "Chef": {
             alignment: "Village",
             description: [
-                "Chooses up to two players to invite to a banquet.",
-                "At night, guests will all anonymously meet and see the roles of all guests.",
+                "Chooses two players during the day to attend a banquet the following evening.",
+                "Players chosen to attend the banquet meet anonymously with their roles revealed to one another.",
             ],
         },
         "Journalist": {
             alignment: "Village",
             description: [
-                "Can pick a person every night.",
-                "Any system messages that person may have got are given to the journalist as well"
+                "Chooses a player each night and views any system messages they recieve the following day."
             ],
         },
         "Cutler": {
             alignment: "Village",
             description: [
-                "Hands out a knife each night."
+                "Gives out a knife each night.",
+                "Knives can be used to attack a player during the day and will result in that players death the following day."
             ],
         },
         "Snowman": {
             alignment: "Village",
             description: [
-                "Hands out a snowball each night.",
-                "Immune to snowballs"
+                "Gives out a snowball each night.",
+                "Snowballs can be thrown at a player during the day and will block their actions the following night.",
+                "Snowballs thrown at the Snowman will have no effect."
             ],
         },
         "Snoop": {
             alignment: "Village",
             description: [
-                "Snoops someone each night and learns what items they are carrying.",
+                "Visits a player each night and learns what items they are carrying.",
             ],
         },
         "Justice": {
             alignment: "Village",
             description: [
-                "Investigates two people at night.",
-                "Learns if they share an alignment.",
+                "Investigates two people at night and learns if they share an alignment."
             ],
         },
         "Invisible Man": {
             alignment: "Village",
             description: [
-                "Can choose one person during the day to stalk.",
-                "Will hear all messages from meetings that player is in that night.",
+                "Choose one player during the day to follow at night.",
+                "Views all messages from that player's meetings that night.",
                 ],
         },
         "Cyclist": {
             alignment: "Village",
             description: [
-                "Each night, chooses two targets, A and B.",
-                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
-                "Does not visit.",
-                "Redirection cannot be role blocked."
+                "Chooses two players, A and B, each night.",
+                "Players who visit A will be redirected to B.",
+                "Players who visit B will be redirected to A.",
+                "Redirection does not count as a visit and cannot be role blocked."
             ],
         },
         "Sapling": {
