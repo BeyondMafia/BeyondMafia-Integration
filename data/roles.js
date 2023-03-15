@@ -731,8 +731,9 @@ const roleData = {
         "Clown": {
             alignment: "Mafia",
             description: [
-                "Appears as Fool to self.",
+                "Fools around at night, visiting another player.",
                 "Will kill their visit target.",
+                "Appears as Fool to self."
             ],
         },
         "Graverobber": {
@@ -795,16 +796,15 @@ const roleData = {
         "Thief": {
             alignment: "Mafia",
             description: [
-                "Chooses one person each night.",
-                "Steals an item from that player.",
+                "Chooses a player to steal an item from each night.",
                 "Does not attend Mafia meetings.",
             ],
         },
         "Crank": {
             alignment: "Mafia",
             description: [
-                "Chooses a dead player per night and holds a seance with that player.",
-                "Crank's identity is not revealed to the dead player.",  
+                "Chooses a dead player once per night and holds a seance with that player.",
+                "Identity is not revealed to the dead player.",  
             ],
             graveyardParticipation: "all",
         },
@@ -813,15 +813,15 @@ const roleData = {
         "Lycan": {
             alignment: "Monsters",
             description: [
-                "Invincible during full moons, except for visiting the Priest.",
-                "Each night, bites a non-monster player and turns them into a werewolf.",
-                "Werewolves retain their original roles, but they unknowingly kill a random non-monster player on full moons."
+                "Each night, bites a non-monster player and turns them into a Werewolf.",
+                "Werewolves retain their original roles, but they unknowingly kill a random non-monster player on full moons.",
+                "Invincible during full moons, except for when visiting the Priest."
             ],
         },
         "Witch": {
             alignment: "Monsters",
             description: [
-                "Can choose a player to control.",
+                "Chooses one player to control.",
                 "Chooses who that player will perform their actions on.",
                 "Redirection cannot be role blocked.",
                 "Causes an eclipse during the day following her death.",
@@ -832,22 +832,23 @@ const roleData = {
             alignment: "Monsters",
             description: [
                 "Meets with other Cultists and Monsters during the night.",
-                "The Cultists convert one player into a Cultist each night.",
-                "All Cultists die if a leader (original Cultist) dies.",
+                "Cultists convert one player into a Cultist each night.",
+                "All Cultists die if their leader (original Cultist) dies.",
             ],
         },
         "Cthulhu": {
             alignment: "Monsters",
             description: [
-                "All who visit the Cthulhu go insane.",
-                "Insane players speak gibberish."
+                "All players who visit the Cthulhu go insane.",
+                "Insane players speak gibberish for the rest of the game."
             ],
         },
         "The Thing": {
             alignment: "Monsters",
             description: [
-                "Can hunt prey at night by choosing a target and guessing their role.",
-                "If guessed correctly, becomes immortal for the next day, if incorrect will be revealed to all."
+                "Chooses to hunt at night by choosing a player and guessing their role.",
+                "If guessed correct, becomes immortal for the following day.",
+                "If guessed incorrect, identity will be revealed to all."
             ],
         },
 
@@ -863,8 +864,8 @@ const roleData = {
         "Executioner": {
             alignment: "Independent",
             description: [
-                "Is randomly assigned a Village/Independent player as a target.",
-                "Wins if their target is executed in Village meeting while alive.",
+                "Randomly assigned a Village/Independent player as a target.",
+                "Wins if their target player is executed in Village meeting while alive.",
             ],
         },
         "Serial Killer": {
@@ -877,81 +878,85 @@ const roleData = {
         "Amnesiac": {
             alignment: "Independent",
             description: [
-                "Once per game can become the role of a dead player."
+                "Choose to become the role of a dead player, once per game."
             ],
         },
         "Survivor": {
             alignment: "Independent",
             description: [
-                "Wins if survives until the end of the game."
+                "Wins if alive at the end of the game."
             ],
         },
         "Alien": {
             alignment: "Independent",
             description: [
-                "Can choose one player to probe each night.",
+                "Chooses one player to probe each night.",
                 "Wins if all players left alive have been probed."
             ],
         },
         "Old Maid": {
             alignment: "Independent",
             description: [
-                "Can choose one player to swap roles with each night.",
+                "Chooses a player to swap roles with each night.",
+                "Chosen player becomes the Old Maid.",
                 "Cannot win the game.",
             ],
         },
         "Traitor": {
             alignment: "Independent",
             description: [
-                "Wins when mafia wins.",
+                "Wins with mafia.",
                 "Does not count towards mafia win count.",
             ],
         },
         "Mastermind": {
             alignment: "Independent",
             description: [
-                "Mafia meeting is anonymous",
-                "Wins instead of mafia and counts toward their total",
+                "Mafia meeting is anonymous if Mastermind is present in the game.",
+                "Wins instead of mafia and counts toward their total.",
                 ],
         },
         "Lover": {
             alignment: "Independent",
             description: [
-                "Once per game can fall in love with another player.",
-                "Both players die if either dies.",
+                "Fall in love with another player, once per game.",
+                "Both players die if either of them is killed.",
                 "Wins if both players survive until the end of the game.",
             ],
         },
         "Matchmaker": {
             alignment: "Independent",
             description: [
-                "Each night chooses two people to go on a date. If those two are the same alignment, they will fall in love.",
+                "Each night chooses two players to go on a date. If they are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
             ],
         },
         "Prophet": {
             alignment: "Independent",
             description: [
-                "Once per game can predict when the game will end.",
-                "Wins if they guess correctly.",
+                "Predict once per game, the day/night cycle the game will end.",
+                "Wins if guess is correct.",
             ],
         },
         "Vengeful Spirit": {
             alignment: "Independent",
             description: [
-                "If killed by any other players in a way that is not the village vote, will gain the ability to kill a player each night in the graveyard.",
-                "Wins if it kills all of its murderers.",
+                "If murdered by another player, gains the ability to kill each night from the graveyard.",
+                "Does not gain the ability if executed by village vote.",
+                "Wins if they kill all of their murderers.",
             ],
             graveyardParticipation: "self",
         },
         "Clockmaker": {
             alignment: "Independent",
             description: [
-                "Can kill one player each night.",
-                "Has a clock that starts at 6.",
-                "Whenever they kill a player the clock changes based on that player's alignment.",
-                "Goes up by 1 for village, up by 2 for Mafia or Monster, down by 3 for independant.",
-                "Wins when if clock strikes 12, gains an extra life at 9, instantly dies at 3."
+                "Has a clock that starts at 6 PM.",
+                "Choosing to kill a player each night changes the time based on that player's alignment.",
+                "Clock goes up by 1 hour for village, 2 hours for Mafia or Monster, and down by 3 hours for Independent.",
+                "Dies instantly at 3 PM.",
+                "Gains an extra life at 9 PM.",
+                "Wins when clock strikes 12 midnight."
+                
                 ],
         },
     },
