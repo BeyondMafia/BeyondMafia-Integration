@@ -101,6 +101,9 @@ function GameWrapper(props) {
         return function (prediction) {
             let newRolePredictions = rolePredictions;
             newRolePredictions[playerId] = prediction;
+            if (prediction === "null") {
+                delete newRolePredictions[playerId];
+            }
             setRolePredictions(newRolePredictions);
         }
     }
@@ -1526,8 +1529,8 @@ export function PlayerRows(props) {
             />
         )
 
-        const isRoleRevealed = stateViewingInfo.roles[player.id] !== undefined;
-        const roleToShow = isRoleRevealed? stateViewingInfo.roles[player.id] : rolePredictions[player.id];
+        const rolePrediction = rolePredictions[player.id];
+        const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
 
         return (
             <div
@@ -1537,7 +1540,7 @@ export function PlayerRows(props) {
                 {props.stateViewing != -1 &&
                     <RoleCount
                         role={roleToShow}
-                        isRolePrediction={!isRoleRevealed}
+                        isRolePrediction={rolePrediction !== undefined}
                         toggleRolePrediction={toggleRolePrediction(player.id)}
                         gameType={props.gameType}
                         showPopover />

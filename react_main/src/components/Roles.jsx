@@ -31,11 +31,7 @@ export function RoleCount(props) {
 		modifier = props.role.modifier;
 	}
 
-	if (roleName === "null") {
-		roleName = null;
-	}
-
-	if (isRolePrediction && roleName) {
+	if (isRolePrediction) {
 		modifier = "Unknown";
 	}
 
@@ -43,7 +39,7 @@ export function RoleCount(props) {
 		if (props.onClick)
 			props.onClick();
 
-		if (isRolePrediction) {
+		if (toggleRolePrediction) {
 			popover.onClick(
 				`/setup/${game.setup.id}`,
 				"rolePrediction",
@@ -65,7 +61,7 @@ export function RoleCount(props) {
 		if (!roleName || !props.showPopover)
 			return;
 
-		popover.onClick(
+		popover.onHover(
 			`/roles/${props.gameType}/${roleName}`,
 			"role",
 			roleRef.current,
