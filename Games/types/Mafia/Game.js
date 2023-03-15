@@ -4,6 +4,7 @@ const Queue = require("../../core/Queue");
 const Winners = require("../../core/Winners");
 const Action = require("./Action");
 const stateEventMessages = require("./templates/stateEvents");
+const roleData = require("../../../data/roles");
 
 module.exports = class MafiaGame extends Game {
 
@@ -44,6 +45,19 @@ module.exports = class MafiaGame extends Game {
 
     }
 
+    assignRoles() {
+        let roleset = super.assignRoles();
+
+        for (let playerId of this.originalRoles) {
+            let roleName = this.originalRoles[playerId]
+            let data = roleData[this.type][roleName]
+            if (data.graveyardParticipation === "all") {
+                this.graveyardParticipation = true;
+                return;
+            }
+        }
+    }
+
     async playerLeave(player) {
         if (this.started) {
             this.queueAction(new Action({
@@ -54,7 +68,24 @@ module.exports = class MafiaGame extends Game {
                     this.target.kill("leave", this.actor);
                 }
             }));
-            if (!this.finished) {
+
+            // game not finished, player still alive
+            let toRecord = !this.finished && player.alive;
+
+            if (!player.alive) {
+                if (this.graveyardParticipation) {
+                    // game requires graveyard participation
+                    toRecord = true;
+                } else {
+                    // role requires graveyard participation
+                    let data = roleData[this.type][player.role.name];
+                    if (data.graveyardParticipation === "self") {
+                        toRecord = true;
+                    }
+                }
+            }
+
+            if (toRecord) {
                 this.recordLeaveStats(player, player.leaveStatsRecorded);
             }
         }
