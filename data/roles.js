@@ -537,23 +537,23 @@ const roleData = {
         "Hooker": {
             alignment: "Mafia",
             description: [
-                "Each night, chooses one person and blocks them from performing any actions.",
+                "Blocks a player each night from performing any actions.",
             ],
         },
         "Godfather": {
             alignment: "Mafia",
             description: [
                 "Leads the mafia kill each night.",
-                "Appears as Villager/innocent to investigative roles.",
+                "Appears as Villager to investigative roles.",
             ],
         },
         "Driver": {
             alignment: "Mafia",
             description: [
-                "Each night, chooses two targets, A and B.",
-                "Players who visit A will be redirected to B, and players who visit B will be redirected to A.",
-                "Does not visit.",
-                "Redirection cannot be role blocked."
+                "Chooses two players, A and B, each night.",
+                "Players who visit A will be redirected to B.",
+                "Players who visit B will be redirected to A.",
+                "Redirection does not count as a visit and cannot be roleblocked."
             ],
         },
         "Spy": {
@@ -567,50 +567,50 @@ const roleData = {
              alignment: "Mafia",
              description: [
                  "Does not get detected by watchers and trackers.",
-                 "Can kill bomb without getting killed."
+                 "Kills bomb without setting off the explosion."
          
             ],
         },
         "Lawyer": {
             alignment: "Mafia",
             description: [
-                "Chooses a fellow mafia member each night and makes them appear as a Villager/innocent to investigative roles."
+                "Chooses a fellow mafia member each night to appear as a Villager to investigative roles."
             ],
         },
         "Disguiser": {
             alignment: "Mafia",
             description: [
-                "Can steal the identity of the person killed by the Mafia each night.",
-                "Cannot be targeted while disguising.",
+                "Chooses to steal the identity of the Mafia kill each night.",
+                "Cannot be targeted while disguised as another player."
             ],
         },
         "Sniper": {
             alignment: "Mafia",
             description: [
                 "Starts with a gun.",
-                "Gun does not reveal the sniper when shot.",
-                "Does not attend Mafia meetings.",
+                "Gun does not reveal identity when fired.",
+                "Does not attend the Mafia meeting."
             ],
         },
         "Janitor": {
             alignment: "Mafia",
             description: [
-                "Can choose a person to clean once.",
-                "If that person dies their role will not be revealed.",
+                "Chooses to clean a mafia kill once per game.",
+                "Player's role will be hidden from the town if kill is sucessful.",
                 "Learns the cleaned player's role.",
             ],
         },
         "Telepath": {
             alignment: "Mafia",
             description: [
-                "Can anonymously contact any role.",
+                "Can anonymously contact any role during the day.",
             ],
         },
         "Associate": {
             alignment: "Mafia",
             description: [
-                "Hands out a gun each night.",
-                "The gun will only kill if the target is not aligned with Mafia.",
+                "Gives out a gun each night.",
+                "Gun will only kill the target if not aligned with the Mafia.",
             ],
         },
         "Gramps": {
@@ -623,20 +623,20 @@ const roleData = {
         "Lookout": {
             alignment: "Mafia",
             description: [
-                "Watches someone each night and learns who visits them."
+                "Watches a player each night and learns who visited them."
             ],
         },
         "Scout": {
             alignment: "Mafia",
             description: [
-                "Tracks someone each night and learns who they visit."
+                "Tracks a player each night and learns who they visited."
             ],
         },
         "Arsonist": {
             alignment: "Mafia",
             description: [
                 "Douses one player with Gasoline each night.",
-                "Can light one match during the day to burn doused players.",
+                "Choose to light a match during the day to burn doused players to ashes."
             ],
         },
         "Killer Bee": {
@@ -648,79 +648,83 @@ const roleData = {
         "Diabolist": {
             alignment: "Mafia",
             description: [
-                "Can choose a victim and a target each night.",
-                "If the victim votes for the target, the victim will die."
+                "Chooses a player to be a victim and a target each night.",
+                "If the victim votes for the target in the village meeting the following day, the victim will die."
             ]
         },
         "Tailor": {
             alignment: "Mafia",
             description: [
-                "Gives out suits that make the wearer appear to be a different role."
+                "Gives out a suit each night that disguise the wearer's role identity.",
+                "Suits can be selected from any role within the current game."
             ],
         },
         "Actress": {
             alignment: "Mafia",
             description: [
-                "Learns a targets role and appears to be that role."
+                "Visits a player to appears as their role.",
+                "Learns chosen player's role."
             ],
         },
         "Prosecutor": {
             alignment: "Mafia",
             description: [
-                "Votes weight is 2."
+                "Vote weight is worth 2 players votes in village meeting."
             ],
         },
         "Fabricator": {
             alignment: "Mafia",
             description: [
-                "Once per night can give out an ill-fated version of many items."
+                "Gives out a fabricated item once per night.",
+                "Fabricated Guns and Knives will backfire against the player who used them.",
+                "Fabricated Armor, Crystals and Snowballs will be ineffective."
             ],
         },
         "Heartbreaker": {
             alignment: "Mafia",
             description: [
-                "Once per game can fall in love with another player.",
-                "If Heartbreaker dies, both players will die.",
+                "Fall in love with another player once per game.",
+                "Both players will die if Heartbreaker dies.",
             ],
         },
         "Yakuza": {
             alignment: "Mafia",
             description: [
-                "Can choose to sacrifice themself to convert one player to Mafioso.",
+                "Chooses to sacrifice self once per game to convert another player to Mafioso.",
             ],
         },
         "Necromancer": {
             alignment: "Mafia",
             description: [
-                "Once per game, visits one dead person during the night.",
-                "That person will be resurrected.",
+                "Visits a dead player during the night once per game.",
+                "That player will be resurrected the following day.",
+                "If players identity was revealed upon death, they will remain revealed when ressurected."
             ],
             graveyardParticipation: "all",
         },
         "Mummy": {
             alignment: "Mafia",
             description: [
-                "Everyone who visits the mummy while the mummy is dead dies.",
+                "Everyone who visits the mummy while the mummy is dead, dies.",
             ],
         },
         "Poltergeist": {
             alignment: "Mafia",
             description: [
-                "Once dead, may visit one person a night and roleblock them.",
+                "Once dead, visits one player each night and roleblock them.",
            ],
            graveyardParticipation: "self",
         },
         "Informant": {
             alignment: "Mafia",
             description: [
-                "Can pick a person every night.",
-                "Any system messages that person may have got are given to the informant as well"
+                "Chooses a player each night and views any system messages they recieve the following day."
             ],
          },
         "Jinx": {
             alignment: "Mafia",
             description: [
-                "Each night, curses a player with a word.",
+                "Curses a player with a forbidden word each night.",
                 "If the person speaks the word the next day, they will die."
             ],
         },
@@ -734,56 +738,58 @@ const roleData = {
         "Graverobber": {
             alignment: "Mafia",
             description: [
-                "Can visit a dead player every night.",
-                "Learns the role of that player and takes all items they're holding.",
+                "Visits a dead player every night.",
+                "Learns the role of that player and takes any items they were holding.",
             ],
         },
         "Medusa": {
             alignment: "Mafia",
             description: [
-                "Once per game, during the day, can turn all visitors last night to stone.",
+                "Chooses to turn last nights visitors to stone, once per game, during the day.",
+                "Players turned to stone are killed."
                 ],
         },
         "Illusionist": {
             alignment: "Mafia",
             description: [
                 "Starts with a gun.",
-                "Each night, chooses one person to frame as the shooter of any guns shot by the Illusionist."
+                "Chooses one player each night to frame as the shooter of any guns shot by the Illusionist."
             ],
         },
         "Cat Lady": {
             alignment: "Mafia",
             description: [
-                "Every day, chooses a person to send a cat to.",
-                "At night, the target can choose to let the cat in or chase it out.",
-                "If the cat is let in, the target is roleblocked.",
-                "If chased out, the Cat Lady will learn the role of the target."
+                "Chooses a player to send them a cat, each day.",
+                "The player can choose to let the cat in during the night, or chase it out.",
+                "If the cat is let in, the player is roleblocked.",
+                "If the cat is chased out, the Cat Lady will learn the player's role."
             ],
         },
         "Slasher": {
             alignment: "Mafia",
             description: [
-                "If not visited during the night, will receive a knife.",
+                "Will receive a knife if not visited during the night.",
                 "Slasher knives do not reveal.",
             ],
         },
         "Courier": {
             alignment: "Mafia",
             description: [
-                "Anonymously sends message at night to another player of their choice.",
+                "Sends an anonymous message at night to a player of choice."
             ],
         },
         "Trespasser": {
             alignment: "Mafia",
             description: [
-                "Trespasses on another player's property at night, though annoying, with no effect."
+                "Choose to trespass on another player's property at night.",
+                "Annoyingly, this visit has no effect."
             ],
         },
         "Housekeeper": {
             alignment: "Mafia",
             description: [
-                "Once per game, visit a player.",
-                "Steals this person's items and clears their will."
+                "Visit a player and clear their will, once per game.",
+                "Steals any items the player is holding."
             ]
         },
         "Thief": {
