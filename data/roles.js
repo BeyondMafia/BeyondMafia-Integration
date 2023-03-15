@@ -10,108 +10,111 @@ const roleData = {
         "Doctor": {
             alignment: "Village",
             description: [
-                "Save one person each night from dying, except himself."
+                "Saves one player from dying each night.",
+                "Cannot save self."
             ],
         },
         "Arms Dealer": {
             alignment: "Village",
             description: [
-                "Hands out a gun each night."
+                "Gives out a gun each night."
             ],
         },
         "Cop": {
             alignment: "Village",
             description: [
-                "Investigates one person each night and learns their alignment.",
-                "Multiple cops meet in a group."
+                "Investigates one player each night and learns their alignment.",
+                "Multiple cops share a night meeting."
             ],
         },
         "Insane Cop": {
             alignment: "Village",
             description: [
-                "Investigates one person each night and learns their alignment (alignments will be reversed).",
+                "Investigates one player each night and learns their alignment (alignment will be reversed).",
                 "Appears as normal cop upon death.",
-                "Multiple insane cops meet in a group."
+                "Multiple insane cops share a night meeting."
             ],
         },
         "Naive Cop": {
             alignment: "Village",
             description: [
-                "Investigates one person each night and learns their alignment (alignments will always appear innocent).",
+                "Investigates one player each night and learns their alignment (alignments will always appear innocent).",
                 "Appears as normal cop upon death.",
-                "Multiple naive cops meet in a group."
+                "Multiple naive cops share a night meeting."
             ],
         },
         "Paranoid Cop": {
             alignment: "Village",
             description: [
-                "Investigates one person each night and learns their alignment (alignments will always appear guilty).",
+                "Investigates one player each night and learns their alignment (alignments will always appear guilty).",
                 "Appears as normal cop upon death.",
-                "Multiple paranoid cops meet in a group."
+                "Multiple paranoid cops share a night meeting."
             ],
         },
         "Oracle": {
             alignment: "Village",
             description: [
-                "Chooses one player each night.",
-                "If she dies, that player's role will be revealed."
+                "Chooses one player each night whose role will be revealed upon death."
             ],
         },
         "Vigilante": {
             alignment: "Village",
             description: [
-                "Kills one person each night."
+                "Kills one player each night."
             ],
         },
         "Detective": {
             alignment: "Village",
             description: [
-                "Learns the role of one person each night.",
+                "Investigates one player each night and learns their role.",
             ],
         },
         "Escort": {
             alignment: "Village",
             description: [
-                "Each night, chooses one person and blocks them from performing any actions.",
+                "Chooses one player each night and blocks them from performing any night actions.",
             ],
         },
         "Blacksmith": {
             alignment: "Village",
             description: [
-                "Hands out armor to one player each night.",
-                "Armor can block a single attack."
+                "Gives out armor to one player each night.",
+                "Armor blocks a single attack."
             ],
         },
         "Hunter": {
             alignment: "Village",
             description: [
-                "When executed, can choose someone to kill."
+                "Chooses a player to kill when executed by town during the day."
             ],
         },
         "Watcher": {
             alignment: "Village",
             description: [
-                "Watches someone each night and learns who visits them."
+                "Watches a player each night and learns who visited them."
             ],
         },
         "Tracker": {
             alignment: "Village",
             description: [
-                "Tracks someone each night and learns who they visit."
+                "Tracks a player each night and learns who they visited."
             ],
         },
         "Governor": {
             alignment: "Village",
             description: [
-                "Once a game, when the village decides to eliminate someone, can override the village vote",
-                "Cannot cancel a village vote. Choosing no one preserves the governor's ability."
+                "Overrides village execution once per game.",
+                "Cannot cancel a village execution." ,
+                "Choosing no one preserves the governor's override ability."
             ],
         },
         "Monkey": {
             alignment: "Village",
             description: [
-                "Each night can steal the actions of a player and do them itself.",
-                "The steal cannot be blocked, but the actions themselves can."
+                "Steal the actions of a player to do for themselves each night.",
+                "The action stolen can be blocked.",
+                "Steal cannot be blocked." ,
+                
             ],
         },
         "Agent": {
@@ -125,27 +128,29 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Starts with a gun.",
-                "This gun will always reveal the sheriff when shot."
+                "This gun always reveals the sheriff when shot."
             ],
         },
         "Deputy": {
             alignment: "Village",
             description: [
                 "Starts with a gun.",
-                "This gun will never reveal the deputy when shot."
+                "This gun never reveals the deputy when shot."
             ],
         },
         "Bulletproof": {
             alignment: "Village",
             description: [
                 "Starts with armor.",
+                "Armor blocks a single attack."
             ],
         },
         "Bomb": {
             alignment: "Village",
             description: [
-                "Starts with a bomb that will explode when the player is killed.",
-                "Does not explode if executed.",
+                "Starts with a bomb.",
+                "Bomb goes off when player is killed, targeting the attacker.",
+                "Bomb does not go off when executed by village.",
             ],
         },
         "Village Idiot": {
@@ -158,13 +163,14 @@ const roleData = {
         "Medic": {
             alignment: "Village",
             description: [
-                "Can save one person each night from dying, including herself."
+                "Save one person from dying each night.",
+                "Can save self."
             ],
         },
         "Granny": {
             alignment: "Village",
             description: [
-                "Kills all who visit her during the night.",
+                "Kills all players who visit her during the night.",
                 "Cannot be killed or converted normally."
             ],
         },
