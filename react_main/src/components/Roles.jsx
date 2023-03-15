@@ -58,7 +58,7 @@ export function RoleCount(props) {
 			return;
 		}
 
-		if (!roleName || !props.showPopover)
+		if (!roleName || !props.showPopover || roleName === "null")
 			return;
 
 		popover.onHover(
@@ -73,7 +73,7 @@ export function RoleCount(props) {
 		if (props.onMouseEnter)
 			props.onMouseEnter();
 
-		if (!roleName || !props.showSecondaryHover)
+		if (!roleName || !props.showSecondaryHover || roleName === "null")
 			return;
 
 		// assumes that this is attached to a child in a popover
