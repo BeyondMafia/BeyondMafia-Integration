@@ -13,16 +13,21 @@ module.exports = class EnqueueVisitors extends Card{
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    for (let action of this.game.actions[0])
-                        if (
-                            action.target == this.actor &&
-                            !action.hasLabel("hidden")
-                        ) {
-                            if (!this.actor.role.data.visitors)
-                                this.actor.role.data.visitors = [];
-
-                            this.actor.role.data.visitors.push(action.actor);
+                    for (let action of this.game.actions[0]) {
+                        let toCheck = action.target;
+                        if (!Array.isArray(action.target)) {
+                            toCheck = [action.target];
                         }
+            
+                        for (let target of toCheck) {
+                            if (target == this.actor && !action.hasLabel("hidden")) {
+                                if (!this.actor.role.data.visitors)
+                                    this.actor.role.data.visitors = [];
+
+                                this.actor.role.data.visitors.push(action.actor);
+                            }
+                        }
+                    }
                 }
             }
         ]
