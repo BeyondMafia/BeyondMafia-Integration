@@ -28,8 +28,13 @@ module.exports = class VillageMeeting extends Meeting {
     unvote(voter) {
         var unvoted = super.unvote(voter);
 
-        if (unvoted && this.game.timers["secondary"])
-            this.game.clearTimer("secondary");
+        if (unvoted && this.game.timers["secondary"]) {
+            var voteArr = Object.values(this.votes);
+            if((Object.values(this.members).length - voteArr.length) > 1){
+                this.game.clearTimer("secondary");
+            }
+            
+        }
     }
 
     finish(isVote) {

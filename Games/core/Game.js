@@ -804,20 +804,22 @@ module.exports = class Game {
 
     checkVeg() {
         this.clearTimer("main");
-        this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
-        for (let player of this.players) {
-            if (player.alive) {
-                this.vegMeeting.join(player);
+        if (!this.checkAllMeetingsReady()){
+            this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
+            for (let player of this.players) {
+                if (player.alive) {
+                    this.vegMeeting.join(player);
+                }
             }
-        }
 
-        this.vegMeeting.init();
+            this.vegMeeting.init();
 
-        for (let player of this.players) {
-            player.sendMeeting(this.vegMeeting);
+            for (let player of this.players) {
+                player.sendMeeting(this.vegMeeting);
+            }
+            this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
+            this.checkAllMeetingsReady();
         }
-        this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
-        this.checkAllMeetingsReady();
     }
 
     broadcastState() {
@@ -1058,7 +1060,7 @@ module.exports = class Game {
                 if(meeting.name !== "Vote Kick" && !meeting.noVeg){
                     if (!meeting.ready) {
                         allReady = false;
-                        break;
+                        return false;
                     }
                 }
             }
@@ -1067,14 +1069,31 @@ module.exports = class Game {
             for (let meeting of this.meetings) {
                 if (!meeting.ready) {
                     allReady = false;
-                    break;
+                    return false;
                 }
             }
         }
         
-
-        if (allReady)
-            this.gotoNextState();
+        if (allReady){ 
+            if (vegReadyMeeting.length > 0) {
+                this.gotoNextState();
+                return true;
+            }
+            else {
+                if (this.getStateName() === "Day") {
+                    if (this.timers.secondary !== undefined &&
+                        this.timers.secondary.timeLeft() <= 0) {
+                            this.clearTimer("secondary");
+                            this.gotoNextState();
+                            return true;
+                    }
+                }
+                else {
+                    this.gotoNextState();
+                    return true;
+                }
+            }
+        }
     }
 
     finishMeetings() {
