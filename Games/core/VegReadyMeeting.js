@@ -70,12 +70,22 @@ module.exports = class VegReadyMeeting extends Meeting {
     vote(voter) {
         if (!this.votes[voter.id]) {
             super.vote(voter, "Kick");
+
+            var otherMeetings = Object.values(this.game.history.states[this.game.currentState].meetings)
+                                        .filter(x => x.id !== this.id);
+            for (var i = 0; i < otherMeetings.length; i++) {
+                if (otherMeetings[i].members[voter.id] !== undefined && otherMeetings[i].noVeg === false) {
+                    otherMeetings[i].members[voter.id].canUnvote = false;
+                    otherMeetings[i].members[voter.id].canVote = false;
+                }
+            }
+
             this.checkEnoughPlayersKicked();
         }
     }
 
     checkEnoughPlayersKicked() {
-        if (!(Object.keys(this.votes).length >= Math.ceil(this.members.length / 3))){
+        if (!(Object.keys(this.votes).length >= Math.ceil(this.game.players.length / 3))){
             return;
         }
 
@@ -84,7 +94,9 @@ module.exports = class VegReadyMeeting extends Meeting {
         for (var i = 0; i < otherMeetings.length; i++) {
             for( var j = 0; j < otherMeetings[i].members.length; j++) {
                 Object.values(otherMeetings[i].members)[j].canUnvote = false;
-                if (Object.values(otherMeetings[i].votes)[j] !== undefined) {
+                if (Object.values(Object.keys(otherMeetings[i].votes))
+                .filter(x => x === Object.values(
+                    Object.values(otherMeetings)[i].members)[j].id)[0] !== undefined) {
                     Object.values(otherMeetings[i].members)[j].canVote = false;
                 }
             }

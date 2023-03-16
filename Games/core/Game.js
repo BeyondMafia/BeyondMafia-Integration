@@ -54,7 +54,7 @@ module.exports = class Game {
         this.readyCheck = options.settings.readyCheck;
         this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
         this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 10000;
-        this.vegKickCountdownLength = options.settings.vegKickCountdownLength != null ? options.settings.vegKickCountdownLength : 300000;
+        this.vegKickCountdownLength = options.settings.vegKickCountdownLength != null ? options.settings.vegKickCountdownLength : 120000;
         this.postgameLength = 1000 * 60 * 2;
         this.players = new ArrayHash();
         this.playersGone = {};
@@ -742,6 +742,7 @@ module.exports = class Game {
     }
 
     gotoNextState() {
+        
         var stateInfo = this.getStateInfo();
 
         // Clear current timers
@@ -793,6 +794,8 @@ module.exports = class Game {
         this.processAlertQueue();
         this.events.emit("meetingsMade");
 
+        this.vegMeeting = undefined;
+
         // Create next state timer
         this.createNextStateTimer(stateInfo);
     }
@@ -804,10 +807,18 @@ module.exports = class Game {
 
     checkVeg() {
         this.clearTimer("main");
+        this.clearTimer("secondary");
         this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
         for (let player of this.players) {
             if (player.alive) {
-                this.vegMeeting.join(player);
+                for (let i = 0; i < Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false).length; i++) {
+                    if ((Object.values(this.history.states[this.currentState].meetings)
+                        .filter(x => x.noVeg === false)[i].members[player.id]) !== undefined) {
+                            if ((Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false)[i].votes[player.id]) !== undefined) {
+                                this.vegMeeting.join(player);
+                            }
+                    }
+                }
             }
         }
 

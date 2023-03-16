@@ -513,6 +513,28 @@ module.exports = class Meeting {
             this.game.spectatorsSeeVote(vote);
 
         this.checkReady();
+
+        
+        if (this.game.vegMeeting !== undefined && !this.game.vegMeeting.finished &&
+                this.id !== this.game.vegMeeting.id && Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] === undefined) { 
+            var allVoted = true;
+            var otherMeetings = Object.values(this.game.history.states[this.game.currentState].meetings)
+                                .filter(x => x.id !== this.game.vegMeeting.id && x.noVeg === false);
+            for (let i = 0; i < otherMeetings.length; i++) {
+                if (Object.values(otherMeetings[i].members).filter(x => x.id === voter.id)[0] !== undefined) {
+                    if (otherMeetings[i].votes[voter.id] === undefined) {
+                        allVoted = false;
+                        break;
+                    }
+                }
+            }
+            if (allVoted) {
+                this.game.vegMeeting.join(this.members[voter.id].player);
+                this.members[voter.id].player.sendMeeting(this.game.vegMeeting);
+            }
+        }
+        
+
         return true;
     }
 
@@ -567,6 +589,14 @@ module.exports = class Meeting {
             this.game.spectatorsSeeUnvote(info);
 
         this.checkReady();
+
+        if (this.noVeg === false) {
+            if (Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] !== undefined){
+                this.game.vegMeeting.leave(this.members[voter.id].player, true);
+                this.members[voter.id].player.leftMeeting(this.game.vegMeeting);
+            }
+        }
+
         return true;
     }
 
