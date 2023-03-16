@@ -101,6 +101,9 @@ function GameWrapper(props) {
         return function (prediction) {
             let newRolePredictions = rolePredictions;
             newRolePredictions[playerId] = prediction;
+            if (prediction === null) {
+                delete newRolePredictions[playerId];
+            }
             setRolePredictions(newRolePredictions);
         }
     }
@@ -338,6 +341,8 @@ function GameWrapper(props) {
         });
 
         socket.on("reveal", info => {
+            toggleRolePrediction(info.playerId)(null);
+
             updateHistory({
                 type: "reveal",
                 playerId: info.playerId,
