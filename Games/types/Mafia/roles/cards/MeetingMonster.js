@@ -9,7 +9,7 @@ module.exports = class MeetingMonster extends Card {
             "Monsters": {
                 states: ["Night"],
                 flags: ["group", "speech"],
-                canVote: false
+                isVoter: false
             }
         };
     }

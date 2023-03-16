@@ -12,7 +12,7 @@ module.exports = class OverturnSpectator extends Item {
                 meetingName: "Overturn",
                 states: ["Overturn"],
                 flags: ["group", "speech", "voting"],
-                canVote: false
+                isVoter: false
             }
         };
     }

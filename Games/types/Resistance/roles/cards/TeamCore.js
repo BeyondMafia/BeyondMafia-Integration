@@ -56,7 +56,7 @@ module.exports = class TeamCore extends Card {
                 flags: ["group", "speech", "voting", "mustAct"],
                 targetType: "player",
                 targets: { include: ["Resistance"], exclude: [""] },
-                canVote: false,
+                isVoter: false,
                 action: {
                     run: function () {
                         let group = "Resistance";

@@ -1666,7 +1666,7 @@ function ActionSelect(props) {
         );
     });
 
-    const votes = Object.values(meeting.members).filter(member => member.canVote).map(member => {
+    const votes = Object.values(meeting.members).filter(member => member.isVoter).map(member => {
         var selection = meeting.votes[member.id];
         var player = props.players[member.id];
         selection = getTargetDisplay(selection, meeting, props.players);
@@ -1819,7 +1819,8 @@ function useAction(props) {
     const history = props.history;
     const stateViewing = props.stateViewing;
     const isCurrentState = stateViewing == history.currentState;
-    const notClickable = !isCurrentState || !meeting.amMember || !meeting.canVote || (meeting.instant && meeting.votes[props.self]);
+
+    const notClickable = !isCurrentState || !meeting.amMember || !meeting.isVoter || (meeting.instant && meeting.votes[props.self]);
 
     function onVote(sel) {
         var isUnvote;

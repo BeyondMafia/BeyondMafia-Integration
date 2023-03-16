@@ -63,6 +63,7 @@ module.exports = class Meeting {
             player: player,
             leader: options.leader,
             voteWeight: options.voteWeight || 1,
+            isVoter: options.isVoter != false && (player.alive || !options.passiveDead),
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
             canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
@@ -78,7 +79,7 @@ module.exports = class Meeting {
 
         this.members.push(member);
 
-        if (member.canVote)
+        if (member.isVoter)
             this.totalVoters++;
 
         if (options.noGroup)
@@ -131,7 +132,7 @@ module.exports = class Meeting {
         if (this.finished)
             return;
 
-        if (this.voting && this.members[player.id].canVote) {
+        if (this.voting && this.members[player.id].isVoter) {
             delete this.votes[player.id];
 
             for (let memberId in this.voteVersions)
@@ -179,7 +180,8 @@ module.exports = class Meeting {
             if (member.visible) {
                 members.push({
                     id: member.anonId || member.id,
-                    canVote: member.canVote
+                    canVote: member.canVote,
+                    isVoter: member.isVoter
                 });
             }
         }
@@ -252,6 +254,7 @@ module.exports = class Meeting {
             messages: this.getPlayerMessages(member.player),
             canVote: member.canVote,
             canUnvote: member.canUnvote,
+            isVoter: member.isVoter,
             canTalk: member.canTalk,
             speechAbilities: this.getSpeechAbilityInfo(member),
             vcToken: this.speech && !this.anonymous && member.canTalk && member.vcToken,
@@ -437,6 +440,7 @@ module.exports = class Meeting {
         if (
             !this.members[voter.id] ||
             !this.members[voter.id].canVote ||
+            !this.members[voter.id].isVoter ||
             !this.voting ||
             (this.finished && !this.repeatable)
         ) {
@@ -665,7 +669,7 @@ module.exports = class Meeting {
         // Veg players who didn't vote
         if (!this.noVeg) {
             for (let member of this.members) {
-                if (!member.canVote)
+                if (!member.isVoter)
                     continue;
 
                 if (

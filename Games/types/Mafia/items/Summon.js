@@ -14,7 +14,7 @@ module.exports = class Summon extends Item {
             states: ["Night"],
             flags: ["exclusive", "group", "speech", "anonymous", "voting"],
             priority: MEETING_PRIORITY_SEANCE,
-            canVote: false,
+            isVoter: false,
             whileDead: true
         }
     };

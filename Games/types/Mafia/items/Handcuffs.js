@@ -15,7 +15,7 @@ module.exports = class Handcuffs extends Item {
                 states: ["Night"],
                 flags: ["exclusive", "group", "speech", "voting", "anonymous"],
                 inputType: "boolean",
-                canVote: false,
+                isVoter: false,
                 priority: MEETING_PRIORITY_JAIL,
             }
         };

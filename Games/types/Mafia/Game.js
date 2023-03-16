@@ -132,7 +132,7 @@ module.exports = class MafiaGame extends Game {
         }
     }
 
-    gotoNextState() {
+    checkVeg() {
         var prevStateName = this.getStateName();
 
         if ((!this.timers["secondary"] || !this.timers["secondary"].done) && prevStateName == "Day") {
@@ -141,7 +141,7 @@ module.exports = class MafiaGame extends Game {
                     continue;
 
                 for (let member of meeting.members)
-                    if (member.canVote && !meeting.votes[member.id] && !member.player.votedForExtension)
+                    if (member.isVoter && !meeting.votes[member.id] && !member.player.votedForExtension)
                         this.extensionVotes++;
 
                 var aliveCount = this.alivePlayers().length;
@@ -171,6 +171,10 @@ module.exports = class MafiaGame extends Game {
         if (this.statesSinceLastDeath >= this.noDeathLimit && prevStateName == "Day")
             this.meteorImminent = true;
 
+        super.checkVeg();
+    }
+
+    gotoNextState() {
         super.gotoNextState();
     }
 

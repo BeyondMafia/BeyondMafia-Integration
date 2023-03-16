@@ -22,7 +22,8 @@ module.exports = class VegReadyMeeting extends Meeting {
             if (member.visible) {
                 members.push({
                     id: member.anonId || member.id,
-                    canVote: member.canVote
+                    canVote: member.canVote,
+                    isVoter: member.isVoter
                 });
             }
         }
@@ -62,6 +63,7 @@ module.exports = class VegReadyMeeting extends Meeting {
             messages: [],
             canVote: true,
             canUnvote: false,
+            isVoter: member.isVoter,
             amMember: member.id != null,
             voteRecord: this.voteRecord
         };
