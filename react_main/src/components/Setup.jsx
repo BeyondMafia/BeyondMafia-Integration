@@ -87,7 +87,7 @@ export function SmallRoleList(props) {
 				small
 				role={role}
 				makeRolePrediction={props.makeRolePrediction}
-				key={role}
+				key={role || "null"}
 				showSecondaryHover
 				gameType={props.gameType} />
 		));

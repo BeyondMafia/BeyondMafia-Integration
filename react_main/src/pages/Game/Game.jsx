@@ -101,9 +101,6 @@ function GameWrapper(props) {
         return function (prediction) {
             let newRolePredictions = rolePredictions;
             newRolePredictions[playerId] = prediction;
-            if (prediction === "null") {
-                delete newRolePredictions[playerId];
-            }
             setRolePredictions(newRolePredictions);
         }
     }

@@ -376,7 +376,7 @@ export function parseSetupPopover(setup, roleData) {
 
 export function parseRolePredictionPopover(data) {
     let roleset = Object.keys(data.roles);
-    roleset.unshift("null");
+    roleset.unshift(undefined);
 
     return (
         <SmallRoleList
