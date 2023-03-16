@@ -163,14 +163,14 @@ const roleData = {
         "Medic": {
             alignment: "Village",
             description: [
-                "Save one person from dying each night.",
+                "Saves one person from dying each night.",
                 "Can save self."
             ],
         },
         "Granny": {
             alignment: "Village",
             description: [
-                "Kills all players who visit her during the night.",
+                "Kills all players who visit during the night.",
                 "Cannot be killed or converted at night.",
                 "Can only be killed by village execution."
             ],
@@ -249,7 +249,7 @@ const roleData = {
         "Neighbor": {
             alignment: "Village",
             description: [
-                "Visits a player each night to reveal their role identity.",
+                "Chooses a player each night to reveal their identity as neighbor.",
             ],
         },
         "Nurse": {
@@ -290,7 +290,7 @@ const roleData = {
         "Journalist": {
             alignment: "Village",
             description: [
-                "Chooses a player each night and views any system messages they recieve the following day."
+                "Chooses a player each night and views any reports they receive the following day."
             ],
         },
         "Cutler": {
@@ -323,7 +323,7 @@ const roleData = {
         "Invisible Man": {
             alignment: "Village",
             description: [
-                "Choose one player during the day to follow at night.",
+                "Chooses one player during the day to follow at night.",
                 "Views all messages from that player's meetings that night.",
                 ],
         },
@@ -339,7 +339,7 @@ const roleData = {
         "Sapling": {
             alignment: "Village",
             description: [
-                "Choose whether or not to grow into a tree at night.",
+                "Chooses whether or not to grow into a tree at night.",
                 "Tree is immune to most ways of dying.",
                 "Tree cannot vote."
                 ],
@@ -357,7 +357,7 @@ const roleData = {
             description: [
                 "When baker is present in the game, all players start with two breads.",
                 "Gives out up to two breads each night.",
-                "If all bakers die, a famine will start, and each player will comsume one bread per day cycle and night cycle.",
+                "If all bakers die, a famine will start, and each player will consume one bread per day cycle and night cycle.",
                 "Players who run out of bread after famine has begun will die."
             ],
         },
@@ -379,14 +379,14 @@ const roleData = {
         "Judge": {
             alignment: "Village",
             description: [
-                "Vote weight is worth 2 players votes in day meeting."
+                "Vote weight is worth 2 votes in day meeting."
             ],
         },
         "Party Host": {
             alignment: "Village",
             description: [
                 "Chooses to host a party during day meeting for everyone to attend once per game on the following night.",
-                "Everyone will share a night meeting."
+                "Everyone will share a party meeting at night."
             ],
         },
         "Loudmouth": {
@@ -416,7 +416,7 @@ const roleData = {
             description: [
                 "Visits a dead player during the night once per game.",
                 "That player will be resurrected the following day.",
-                "If players identity was revealed upon death, they will remain revealed when ressurected."
+                "If player's identity was revealed upon death, they will remain revealed when resurrected."
             ],
             graveyardParticipation: "all",
         },
@@ -441,8 +441,8 @@ const roleData = {
         "Robin Hood": {
             alignment: "Village",
             description: [
-                "Chooses one player to steal from each night and another player to recieve their items.",
-                "If the person chosen to recieve is mafia, the steal will not go through.",
+                "Chooses one player to steal from each night and another player to receive their items.",
+                "If the person chosen to receive an item is mafia, the steal will not go through.",
             ],
         },
         "Enchantress": {
@@ -503,7 +503,8 @@ const roleData = {
         "Visitor": {
             alignment: "Village",
             description: [
-                "Pays a visit to another player at night, though annoying, with no effect."
+                "Pays a visit to another player at night.",
+                "Annoyingly, this visit has no effect."
             ],
         },
         "Waitress": {
@@ -596,7 +597,7 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Chooses to clean a mafia kill once per game.",
-                "Player's role will be hidden from the town if kill is sucessful.",
+                "Player's role will be hidden from the town if kill is successful.",
                 "Learns the cleaned player's role.",
             ],
         },
@@ -636,7 +637,7 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Douses one player with Gasoline each night.",
-                "Choose to light a match during the day to burn doused players to ashes."
+                "Chooses to light a match during the day to burn doused players to ashes."
             ],
         },
         "Killer Bee": {
@@ -655,7 +656,7 @@ const roleData = {
         "Tailor": {
             alignment: "Mafia",
             description: [
-                "Gives out a suit each night that disguise the wearer's role identity.",
+                "Gives out a suit each night that disguises the wearer's role identity.",
                 "Suits can be selected from any role within the current game."
             ],
         },
@@ -669,7 +670,7 @@ const roleData = {
         "Prosecutor": {
             alignment: "Mafia",
             description: [
-                "Vote weight is worth 2 players votes in village meeting."
+                "Vote weight is worth 2 votes in village meeting."
             ],
         },
         "Fabricator": {
@@ -683,7 +684,7 @@ const roleData = {
         "Heartbreaker": {
             alignment: "Mafia",
             description: [
-                "Fall in love with another player once per game.",
+                "Falls in love with another player once per game.",
                 "Both players will die if Heartbreaker dies.",
             ],
         },
@@ -698,14 +699,14 @@ const roleData = {
             description: [
                 "Visits a dead player during the night once per game.",
                 "That player will be resurrected the following day.",
-                "If players identity was revealed upon death, they will remain revealed when ressurected."
+                "If player's role identity was revealed upon death, they will remain revealed when resurrected."
             ],
             graveyardParticipation: "all",
         },
         "Mummy": {
             alignment: "Mafia",
             description: [
-                "Everyone who visits the mummy while the mummy is dead, dies.",
+                "Everyone who visits the mummy while the mummy is dead will die.",
             ],
         },
         "Poltergeist": {
@@ -718,7 +719,7 @@ const roleData = {
         "Informant": {
             alignment: "Mafia",
             description: [
-                "Chooses a player each night and views any system messages they recieve the following day."
+                "Chooses a player each night and views any reports they receive the following day."
             ],
          },
         "Jinx": {
@@ -746,7 +747,7 @@ const roleData = {
         "Medusa": {
             alignment: "Mafia",
             description: [
-                "Chooses to turn last nights visitors to stone, once per game, during the day.",
+                "Chooses to turn all visitors from the previous night into stone, once per game, during the day.",
                 "Players turned to stone are killed."
                 ],
         },
@@ -762,14 +763,14 @@ const roleData = {
             description: [
                 "Chooses a player to send them a cat, each day.",
                 "The player can choose to let the cat in during the night, or chase it out.",
-                "If the cat is let in, the player is roleblocked.",
+                "If the cat is let in, the player is blocked from performing night actions.",
                 "If the cat is chased out, the Cat Lady will learn the player's role."
             ],
         },
         "Slasher": {
             alignment: "Mafia",
             description: [
-                "Will receive a knife if not visited during the night.",
+                "Receives a knife if not visited during the night.",
                 "Slasher knives do not reveal.",
             ],
         },
@@ -782,14 +783,14 @@ const roleData = {
         "Trespasser": {
             alignment: "Mafia",
             description: [
-                "Choose to trespass on another player's property at night.",
+                "Chooses to trespass on another player's property at night.",
                 "Annoyingly, this visit has no effect."
             ],
         },
         "Housekeeper": {
             alignment: "Mafia",
             description: [
-                "Visit a player and clear their will, once per game.",
+                "Visits a player and clear their will, once per game.",
                 "Steals any items the player is holding."
             ]
         },
@@ -878,7 +879,7 @@ const roleData = {
         "Amnesiac": {
             alignment: "Independent",
             description: [
-                "Choose to become the role of a dead player, once per game."
+                "Chooses to become the role of a dead player once per game."
             ],
         },
         "Survivor": {
@@ -919,8 +920,8 @@ const roleData = {
         "Lover": {
             alignment: "Independent",
             description: [
-                "Fall in love with another player, once per game.",
-                "Both players die if either of them is killed.",
+                "Falls in love with another player once per game.",
+                "Both players die if either of them are killed.",
                 "Wins if both players survive until the end of the game.",
             ],
         },
@@ -950,12 +951,12 @@ const roleData = {
         "Clockmaker": {
             alignment: "Independent",
             description: [
-                "Has a clock that starts at 6 PM.",
+                "Has a clock that starts at 6 o'clock.",
                 "Choosing to kill a player each night changes the time based on that player's alignment.",
                 "Clock goes up by 1 hour for village, 2 hours for Mafia or Monster, and down by 3 hours for Independent.",
-                "Dies instantly at 3 PM.",
-                "Gains an extra life at 9 PM.",
-                "Wins when clock strikes 12 midnight."
+                "Dies instantly at 3 o'clock.",
+                "Gains an extra life at 9 o'clock.",
+                "Wins when clock strikes 12 o'clock."
                 
                 ],
         },
