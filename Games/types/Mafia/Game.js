@@ -141,7 +141,7 @@ module.exports = class MafiaGame extends Game {
                     continue;
 
                 for (let member of meeting.members)
-                    if (member.isVoter && !meeting.votes[member.id] && !member.player.votedForExtension)
+                    if (member.canVote && !meeting.votes[member.id] && !member.player.votedForExtension)
                         this.extensionVotes++;
 
                 var aliveCount = this.alivePlayers().length;

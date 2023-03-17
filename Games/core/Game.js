@@ -816,7 +816,7 @@ module.exports = class Game {
                 for (let i = 0; i < vegMeetings.length; i++) {
                     if (vegMeetings[i].members[player.id] !== undefined) {
                         if (vegMeetings[i].votes[player.id] === undefined) {
-                            if (vegMeetings[i].members[player.id].isVoter && vegMeetings[i].members[player.id].canVote) {
+                            if (vegMeetings[i].members[player.id].canVote && vegMeetings[i].members[player.id].canUpdateVote) {
                                 addToKick = false;
                             }
                         }

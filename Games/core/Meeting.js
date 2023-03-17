@@ -63,8 +63,8 @@ module.exports = class Meeting {
             player: player,
             leader: options.leader,
             voteWeight: options.voteWeight || 1,
-            isVoter: options.isVoter != false && (player.alive || !options.passiveDead),
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
+            canUpdateVote: options.canUpdateVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
             canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
             visible: options.visible != false && (player.alive || !options.passiveDead),
@@ -79,7 +79,7 @@ module.exports = class Meeting {
 
         this.members.push(member);
 
-        if (member.isVoter)
+        if (member.canVote)
             this.totalVoters++;
 
         if (options.noGroup)
@@ -132,7 +132,7 @@ module.exports = class Meeting {
         if (this.finished)
             return;
 
-        if (this.voting && this.members[player.id].isVoter) {
+        if (this.voting && this.members[player.id].canVote) {
             delete this.votes[player.id];
 
             for (let memberId in this.voteVersions)
@@ -180,8 +180,8 @@ module.exports = class Meeting {
             if (member.visible) {
                 members.push({
                     id: member.anonId || member.id,
-                    canVote: member.canVote,
-                    isVoter: member.isVoter
+                    canUpdateVote: member.canUpdateVote,
+                    canVote: member.canVote
                 });
             }
         }
@@ -252,9 +252,9 @@ module.exports = class Meeting {
             votes: votes,
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),
-            canVote: member.canVote,
+            canUpdateVote: member.canUpdateVote,
             canUnvote: member.canUnvote,
-            isVoter: member.isVoter,
+            canVote: member.canVote,
             canTalk: member.canTalk,
             speechAbilities: this.getSpeechAbilityInfo(member),
             vcToken: this.speech && !this.anonymous && member.canTalk && member.vcToken,
@@ -343,7 +343,7 @@ module.exports = class Meeting {
                 this.unvote(this.members[voterId], this.votes[voterId]);
                 if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
                     this.members[voterId].canUnvote = false;
-                    this.members[voterId].canVote = true;
+                    this.members[voterId].canUpdateVote = true;
                 }
                 
             }
@@ -446,8 +446,8 @@ module.exports = class Meeting {
 
         if (
             !this.members[voter.id] ||
+            !this.members[voter.id].canUpdateVote ||
             !this.members[voter.id].canVote ||
-            !this.members[voter.id].isVoter ||
             !this.voting ||
             (this.finished && !this.repeatable)
         ) {
@@ -546,7 +546,7 @@ module.exports = class Meeting {
         }
 
         if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
-            this.members[voter.id].canVote = false;
+            this.members[voter.id].canUpdateVote = false;
             this.members[voter.id].canUnvote = false;
         }
         
@@ -681,7 +681,7 @@ module.exports = class Meeting {
         // Veg players who didn't vote
         if (!this.noVeg) {
             for (let member of this.members) {
-                if (!member.isVoter)
+                if (!member.canVote)
                     continue;
 
                 if (

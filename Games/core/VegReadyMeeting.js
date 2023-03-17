@@ -22,8 +22,8 @@ module.exports = class VegReadyMeeting extends Meeting {
             if (member.visible) {
                 members.push({
                     id: member.anonId || member.id,
-                    canVote: member.canVote,
-                    isVoter: member.isVoter
+                    canUpdateVote: member.canUpdateVote,
+                    canVote: member.canVote
                 });
             }
         }
@@ -61,9 +61,9 @@ module.exports = class VegReadyMeeting extends Meeting {
             inputType: this.inputType,
             votes: votes,
             messages: [],
-            canVote: true,
+            canUpdateVote: true,
             canUnvote: false,
-            isVoter: member.isVoter,
+            canVote: member.canVote,
             amMember: member.id != null,
             voteRecord: this.voteRecord
         };
@@ -78,7 +78,7 @@ module.exports = class VegReadyMeeting extends Meeting {
             for (var i = 0; i < otherMeetings.length; i++) {
                 if (otherMeetings[i].members[voter.id] !== undefined && otherMeetings[i].noVeg === false) {
                     otherMeetings[i].members[voter.id].canUnvote = false;
-                    otherMeetings[i].members[voter.id].canVote = false;
+                    otherMeetings[i].members[voter.id].canUpdateVote = false;
                 }
             }
 
@@ -99,7 +99,7 @@ module.exports = class VegReadyMeeting extends Meeting {
                 if (Object.values(Object.keys(otherMeetings[i].votes))
                 .filter(x => x === Object.values(
                     Object.values(otherMeetings)[i].members)[j].id)[0] !== undefined) {
-                    Object.values(otherMeetings[i].members)[j].canVote = false;
+                    Object.values(otherMeetings[i].members)[j].canUpdateVote = false;
                 }
             }
         }
