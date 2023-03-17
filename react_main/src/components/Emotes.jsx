@@ -161,6 +161,10 @@ export const Emotes = {
 		name: "catjam",
 		type: "gif"
 	},
+	":ratjam:": {
+		name: "ratjam",
+		type: "gif"
+	},
 	":ditto:": {
 		name: "ditto",
 		type: "gif"
@@ -432,6 +436,14 @@ export const Emotes = {
 	":taco:": {
 		name: "taco",
 		type: "gif"
+	},
+	":eee:": {
+		name: "eee",
+		type: "png"
+	},
+	":awoo:": {
+		name: "awoo",
+		type: "png"
 	},
 };
 
