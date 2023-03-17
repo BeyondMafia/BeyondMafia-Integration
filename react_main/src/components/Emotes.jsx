@@ -437,6 +437,9 @@ export const Emotes = {
 		name: "taco",
 		type: "gif"
 	},
+	":eee:": {
+		name: "eee",
+		type: "png"
 };
 
 export const EmoteKeys = Object.keys(Emotes);
