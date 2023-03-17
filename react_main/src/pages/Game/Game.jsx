@@ -1686,11 +1686,27 @@ function ActionSelect(props) {
         );
     });
 
-    const votes = Object.values(meeting.members).filter(member => member.canVote).map(member => {
+    const votes = Object.values(meeting.members).map(member => {
         var selection = meeting.votes[member.id];
         var player = props.players[member.id];
         selection = getTargetDisplay(selection, meeting, props.players);
 
+        if (!member.canVote) {
+            return (
+                <div
+                    className={`vote ${meeting.multi ? "multi" : ""}`}
+                    key={member.id}>
+                    <div
+                        className="voter">
+                        {(player && player.name) || "Anonymous"}
+                    </div>
+                    <div className="selection">
+                        does not vote
+                    </div>
+                </div>
+            );
+        }
+        
         return (
             <div
                 className={`vote ${meeting.multi ? "multi" : ""}`}
