@@ -72,9 +72,8 @@ module.exports = class MafiaGame extends Game {
             // game not finished, player still alive
             let toRecord = !this.finished && player.alive;
 
-            if (!player.alive && this.graveyardParticipation) {
-                toRecord = true;
-            } else if (!player.alive && player.requiresGraveyardParticipation()) {
+            if (!player.alive && 
+                (this.graveyardParticipation || player.requiresGraveyardParticipation())) {
                 toRecord = true;
             }
 

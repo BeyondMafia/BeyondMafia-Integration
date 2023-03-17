@@ -67,10 +67,10 @@ module.exports = class MafiaPlayer extends Player {
     }
 
     kill(killType, killer, instant) {
-        if (this.game.graveyardParticipation || this.requiresGraveyardParticipation()) {
-            this.sendAlert("Please stay in the game. Graveyard participation is required.");
-        }
-
         super.kill(killType, killer, instant);
+
+        if (this.game.graveyardParticipation || this.requiresGraveyardParticipation()) {
+            this.queueAlert("Please stay in the game. Graveyard participation is required.");
+        }
     }
 }
