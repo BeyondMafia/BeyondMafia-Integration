@@ -440,6 +440,11 @@ export const Emotes = {
 	":eee:": {
 		name: "eee",
 		type: "png"
+	},
+	":awoo:": {
+		name: "awoo",
+		type: "png"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
