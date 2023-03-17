@@ -111,7 +111,7 @@ const roleData = {
         "Monkey": {
             alignment: "Village",
             description: [
-                "Steal the actions of a player to do for themselves each night.",
+                "Steals the actions of a player to do for themselves each night.",
                 "The action stolen can be blocked.",
                 "Steal cannot be blocked." ,
                 
@@ -163,7 +163,7 @@ const roleData = {
         "Medic": {
             alignment: "Village",
             description: [
-                "Saves one person from dying each night.",
+                "Saves one player from dying each night.",
                 "Can save self."
             ],
         },
@@ -214,7 +214,7 @@ const roleData = {
         "Jailer": {
             alignment: "Village",
             description: [
-                "Chooses someone to jail each day meeting.",
+                "Chooses a player to jail each day meeting.",
                 "Meets with the prisoner at night and the prisoner cannot perform actions or attend other meetings.",
                 "Decides whether or not the prisoner should be executed.",
             ],
@@ -255,7 +255,7 @@ const roleData = {
         "Nurse": {
             alignment: "Village",
             description: [
-                "Saves one person each night from dying and blocks them from performing night actions.",
+                "Saves one player each night from dying and blocks them from performing night actions.",
                 "Cannot save self."
             ],
         },
@@ -317,7 +317,7 @@ const roleData = {
         "Justice": {
             alignment: "Village",
             description: [
-                "Investigates two people at night and learns if they share an alignment."
+                "Investigates two players at night and learns if they share an alignment."
             ],
         },
         "Invisible Man": {
@@ -442,7 +442,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Chooses one player to steal from each night and another player to receive their items.",
-                "If the person chosen to receive an item is mafia, the steal will not go through.",
+                "If the player chosen to receive an item is mafia, the steal will not go through.",
             ],
         },
         "Enchantress": {
@@ -490,7 +490,7 @@ const roleData = {
         "Sleepwalker": {
             alignment: "Village",
             description: [
-                "Visits a random person each night.",
+                "Visits a random player each night.",
                 "Appears as Villager to self.",
             ],
         },
