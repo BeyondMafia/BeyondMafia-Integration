@@ -26,6 +26,7 @@ var schemas = {
             siteColorScheme: Boolean,
             autoplay: {type: Boolean, default: false},
             youtube: String,
+            birthday: Date,
         },
         accounts: {
             discord: String,

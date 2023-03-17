@@ -70,6 +70,14 @@ export default function Settings(props) {
 			confirm: "Are you sure you wish to change your username?"
 		},
 		{
+			label: "Birthday",
+			ref: "birthday",
+			type: "date",
+			saveBtn: "Change",
+			saveBtnDiffer: "date",
+			saveBtnOnClick: onBirthdaySave,
+		},
+		{
 			label: "Show Discord",
 			ref: "showDiscord",
 			type: "boolean",
@@ -215,6 +223,23 @@ export default function Settings(props) {
 		}
 
 		update(action);
+	}
+
+	function onBirthdaySave(date, deps) {
+		axios.post("/user/birthday", { date })
+			.then(res => {
+				deps.siteInfo.showAlert("Birthday set", "success");
+
+				deps.user.set(update(deps.user, {
+					birthday: { $set: date },
+					itemsOwned: {
+						birthdayChange: {
+							$set: deps.user.itemsOwned.birthdayChange - 1
+						}
+					}
+				}));
+			})
+			.catch(deps.errorAlert);
 	}
 
 	function onUsernameSave(name, deps) {

@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useRef, useEffect } from "react";
 import { ChromePicker } from "react-color";
+import  DatePicker  from "react-date-picker";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
@@ -17,6 +18,7 @@ import "../css/markdown.css";
 import { dateToHTMLString } from "../utils";
 
 export default function Form(props) {
+	const [val, onDateChange] = useState(new Date());
 	function onChange(event, field, localOnly) {
 		var value = event.target.value;
 
@@ -185,6 +187,40 @@ export default function Form(props) {
 								className="btn btn-theme extra"
 								onClick={() => onChange({ target: { value: field.default } }, field)}>
 								Reset
+							</div>
+						}
+					</div>
+				);
+			case "date":
+				return (
+					<div className={fieldWrapperClass} key={field.ref}>
+						<div className="label">
+							{field.label}
+						</div>
+						<DatePicker
+							calendarAriaLabel="Toggle calendar"
+							clearAriaLabel="Clear value"
+							dayAriaLabel="Day"
+							monthAriaLabel="Month"
+							nativeInputAriaLabel="Date"
+							onChange={onDateChange}
+							value={val}
+							yearAriaLabel="Year"
+						/>
+						{field.saveBtn && props.deps[field.saveBtnDiffer] != field.value &&
+							<div
+								className="btn btn-theme extra"
+								onClick={(e) => {
+									let conf = !field.confirm || window.confirm(field.confirm);
+
+									if (conf) {
+										if (field.saveBtnOnClick)
+											field.saveBtnOnClick(field.value, props.deps);
+										else
+											onDateChange(e);
+									}
+								}}>
+								{field.saveBtn}
 							</div>
 						}
 					</div>

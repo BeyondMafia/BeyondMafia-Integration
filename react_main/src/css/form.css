@@ -8,6 +8,21 @@
 	flex-shrink: 0;
 }
 
+
+.form input[type="number"]{
+	box-sizing: inherit;
+
+	border: none;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
+	font-size: 17px;
+	margin-bottom: 10px;
+}
+
+.react-date-picker__wrapper{
+	border: none;
+}
+
 .form .field-wrapper {
 	display: flex;
 	flex-flow: row nowrap;
@@ -16,6 +31,19 @@
 	position: relative;
 
 	margin-bottom: 10px;
+}
+
+main{
+	margin-bottom: 10px;
+}
+
+div .react-date-picker{
+	background-color: var(--scheme-color);
+}
+
+.react-date-picker__button svg{
+	color: var(--scheme-color-text);
+	stroke: var(--scheme-color-text);
 }
 
 .form .label {
@@ -31,7 +59,6 @@
 
 .form input[type="text"],
 .form input[type="password"],
-.form input[type="number"],
 .form select,
 .form .switch-wrapper {
 	box-sizing: border-box;

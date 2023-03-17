@@ -376,6 +376,24 @@ router.get("/accounts", async function (req, res) {
     }
 });
 
+router.post("/birthday", async function (req, res){
+    res.setHeader("Content-Type", "application/json");
+    try{
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let prop = String(req.body.prop);
+        let value = String(req.body.date);
+
+        await models.User.updateOne({ id: userId }, { $set: { [`settings.birthday`]: value }});
+        await redis.cacheUserInfo(userId, true);
+        res.send("Birthday updated successfully.");
+    }
+    catch(e){
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating birthday.");
+    }
+});
+
 router.post("/youtube", async function (req, res){
     res.setHeader("Content-Type", "application/json");
     try{
