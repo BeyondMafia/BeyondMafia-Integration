@@ -10,7 +10,8 @@ module.exports = class Tree extends Role {
         this.cancelImmunity = ["ignite"];
         this.meetingMods = {
             "Village": {
-                isVoter: false
+                isVoter: false,
+                canVote: true
             }
         }
     }

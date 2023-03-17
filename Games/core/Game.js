@@ -809,16 +809,25 @@ module.exports = class Game {
         this.clearTimer("main");
         this.clearTimer("secondary");
         this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
+        var vegMeetings = Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false && x.id !== this.vegMeeting.id);
         for (let player of this.players) {
+            var addToKick = true;
             if (player.alive) {
-                for (let i = 0; i < Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false).length; i++) {
-                    if ((Object.values(this.history.states[this.currentState].meetings)
-                        .filter(x => x.noVeg === false)[i].members[player.id]) !== undefined) {
-                            if ((Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false)[i].votes[player.id]) !== undefined) {
-                                this.vegMeeting.join(player);
+                for (let i = 0; i < vegMeetings.length; i++) {
+                    if (vegMeetings[i].members[player.id] !== undefined) {
+                        if (vegMeetings[i].votes[player.id] === undefined) {
+                            if (vegMeetings[i].members[player.id].isVoter && vegMeetings[i].members[player.id].canVote) {
+                                addToKick = false;
                             }
+                        }
                     }
                 }
+            }
+            else {
+                addToKick = false;
+            }
+            if (addToKick) {
+                this.vegMeeting.join(player);
             }
         }
 

@@ -338,8 +338,15 @@ module.exports = class Meeting {
         }
 
         for (let voterId in this.votes)
-            if (this.targets.indexOf(this.votes[voterId]) == -1)
-                delete this.votes[voterId];
+            if (this.targets.indexOf(this.votes[voterId]) == -1){
+                this.members[voterId].canUnvote = true;
+                this.unvote(this.members[voterId], this.votes[voterId]);
+                if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
+                    this.members[voterId].canUnvote = false;
+                    this.members[voterId].canVote = true;
+                }
+                
+            }
     }
 
     parseTargetDefinitions(targets, targetType, players, self) {
@@ -536,6 +543,11 @@ module.exports = class Meeting {
                 this.game.vegMeeting.join(this.members[voter.id].player);
                 this.members[voter.id].player.sendMeeting(this.game.vegMeeting);
             }
+        }
+
+        if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
+            this.members[voter.id].canVote = false;
+            this.members[voter.id].canUnvote = false;
         }
         
 
