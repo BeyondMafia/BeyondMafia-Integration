@@ -17,4 +17,5 @@ module.exports = class MafiaRole extends Role {
             investigate: "real"
         };
     }
+
 } 

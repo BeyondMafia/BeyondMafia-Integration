@@ -693,7 +693,6 @@ module.exports = class Game {
         }
 
         this.events.emit("rolesAssigned");
-        return roleset;
     }
 
     getRoleClass(roleName) {

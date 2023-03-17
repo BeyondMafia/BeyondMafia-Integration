@@ -46,11 +46,11 @@ module.exports = class MafiaGame extends Game {
     }
 
     assignRoles() {
-        let roleset = super.assignRoles();
+        super.assignRoles();
 
-        for (let playerId of this.originalRoles) {
-            let roleName = this.originalRoles[playerId]
-            let data = roleData[this.type][roleName]
+        for (let playerId in this.originalRoles) {
+            let roleName = this.originalRoles[playerId].split(":")[0];
+            let data = roleData[this.type][roleName];
             if (data.graveyardParticipation === "all") {
                 this.graveyardParticipation = true;
                 return;
@@ -72,17 +72,10 @@ module.exports = class MafiaGame extends Game {
             // game not finished, player still alive
             let toRecord = !this.finished && player.alive;
 
-            if (!player.alive) {
-                if (this.graveyardParticipation) {
-                    // game requires graveyard participation
-                    toRecord = true;
-                } else {
-                    // role requires graveyard participation
-                    let data = roleData[this.type][player.role.name];
-                    if (data.graveyardParticipation === "self") {
-                        toRecord = true;
-                    }
-                }
+            if (!player.alive && this.graveyardParticipation) {
+                toRecord = true;
+            } else if (!player.alive && player.requiresGraveyardParticipation()) {
+                toRecord = true;
             }
 
             if (toRecord) {

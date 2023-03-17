@@ -834,8 +834,6 @@ module.exports = class Player {
         this.queueLastWill();
         this.game.events.emit("death", this, killer, killType, instant);
 
-        // check graveyard participation
-        
         if (!instant)
             return;
 
