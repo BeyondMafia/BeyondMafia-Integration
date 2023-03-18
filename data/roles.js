@@ -793,6 +793,15 @@ const roleData = {
                 "Chooses to become the role of an executed Mafia-aligned player once per game."
             ],
         },
+         "Don": {
+            alignment: "Mafia",
+            description: [
+                "Overrides village execution once per game.",
+                "Cannot cancel a village execution." ,
+                "Cannot override an execution on Mafia-aligned players." ,
+                "Choosing no one preserves the don's override ability."
+            ],
+        },
         "Housekeeper": {
             alignment: "Mafia",
             description: [
