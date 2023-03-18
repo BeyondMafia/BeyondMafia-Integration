@@ -268,7 +268,7 @@ const roleData = {
         "Caroler": {
             alignment: "Village",
             description: [
-                "Sings a carol to a player about 3 people, at least one of whom is Mafia aligned.",
+                "Sings a carol to a player about 3 players, at least one of whom is Mafia aligned.",
                 "The carol is not heard if the player chosen visits at night.",
                 "Cannot choose same the player consecutively.",
             ],
@@ -276,7 +276,7 @@ const roleData = {
         "Dreamer": {
             alignment: "Village",
             description: [
-                "Dreams about 3 people, at least one of whom is Mafia aligned, or about 1 person who is Village aligned.",
+                "Dreams about 3 players, at least one of whom is Mafia aligned, or about 1 player who is Village aligned.",
                 "Does not dream if visited at night.",
             ],
         },
@@ -525,14 +525,14 @@ const roleData = {
         "Poisoner": {
             alignment: "Mafia",
             description: [
-                "Concocts a deadly poison and administers it to one person each night.",
+                "Concocts a deadly poison and administers it to one player each night.",
                 "The poisoned target will die at the end of the following night unless saved.",
             ],
         },
         "Stalker": {
             alignment: "Mafia",
             description: [
-                "Stalks one person each night and learns their role.",
+                "Stalks one player each night and learns their role.",
             ],
         },
         "Hooker": {
@@ -726,7 +726,7 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Curses a player with a forbidden word each night.",
-                "If the person speaks the word the next day, they will die."
+                "If the player speaks the word the next day, they will die."
             ],
         },
         "Clown": {
@@ -1049,7 +1049,7 @@ const roleData = {
         "Hunter": {
             alignment: "Village",
             description: [
-                "If executed, the person he voted to execute is also killed."
+                "If executed, the player he voted to execute is also killed."
             ]
         },
         "Mason": {
