@@ -18,7 +18,7 @@ import "../css/markdown.css";
 import { dateToHTMLString } from "../utils";
 
 export default function Form(props) {
-	const [val, onDateChange] = useState(new Date());
+	const [dVal, onDateChange] = useState(new Date());
 	function onChange(event, field, localOnly) {
 		var value = event.target.value;
 
@@ -204,10 +204,12 @@ export default function Form(props) {
 							monthAriaLabel="Month"
 							nativeInputAriaLabel="Date"
 							onChange={onDateChange}
-							value={val}
+							value={dVal}
 							yearAriaLabel="Year"
 						/>
-						{field.saveBtn && props.deps[field.saveBtnDiffer] != field.value &&
+						{field.saveBtn &&
+						 Date.parse(props.deps.user.settings[field.saveBtnDiffer]) 
+						 != Date.parse(dVal) &&
 							<div
 								className="btn btn-theme extra"
 								onClick={(e) => {
@@ -215,7 +217,7 @@ export default function Form(props) {
 
 									if (conf) {
 										if (field.saveBtnOnClick)
-											field.saveBtnOnClick(field.value, props.deps);
+											field.saveBtnOnClick(dVal, props.deps);
 										else
 											onDateChange(e);
 									}

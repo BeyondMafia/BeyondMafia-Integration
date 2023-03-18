@@ -74,7 +74,7 @@ export default function Settings(props) {
 			ref: "birthday",
 			type: "date",
 			saveBtn: "Change",
-			saveBtnDiffer: "date",
+			saveBtnDiffer: "birthday",
 			saveBtnOnClick: onBirthdaySave,
 		},
 		{
