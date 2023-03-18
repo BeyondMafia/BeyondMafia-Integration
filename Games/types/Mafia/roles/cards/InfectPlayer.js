@@ -1,13 +1,13 @@
 const Card = require("../../Card");
 const { PRIORITY_INFECT } = require("../../const/Priority");
 
-module.exports = class Infect extends Card {
+module.exports = class InfectPlayer extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Infect": {
+            "Infect Player": {
                 states: ["Night"],
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: ["Monsters"] },
