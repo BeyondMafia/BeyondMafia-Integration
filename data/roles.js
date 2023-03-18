@@ -200,7 +200,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Cleanses Infected when visited by them.",
-                "Kills Vampire and Werewolves when visited by them."
+                "Kills Vampire and Werewolf when visited by them."
             ],
         },
         "Mason": {
@@ -819,6 +819,15 @@ const roleData = {
                 "Invincible during full moons, except for when visiting the Priest."
             ],
         },
+        "Werewolf": {
+            alignment: "Monsters",
+            description: [
+                "Chooses to hunt at night by choosing a player and guessing their role.",
+                "If guessed correct, becomes immortal for the following day.",
+                "If guessed incorrect, identity will be revealed to all.",
+                "Invincible during full moons, except for when visiting the Priest."
+            ],
+        },
         "Witch": {
             alignment: "Monsters",
             description: [
@@ -842,14 +851,6 @@ const roleData = {
             description: [
                 "All players who visit the Cthulhu go insane.",
                 "Insane players speak gibberish for the rest of the game."
-            ],
-        },
-        "Werewolf": {
-            alignment: "Monsters",
-            description: [
-                "Chooses to hunt at night by choosing a player and guessing their role.",
-                "If guessed correct, becomes immortal for the following day.",
-                "If guessed incorrect, identity will be revealed to all."
             ],
         },
 
