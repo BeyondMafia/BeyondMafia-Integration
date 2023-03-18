@@ -10,7 +10,7 @@ module.exports = class Vampire extends Role {
             "VillageCore",
             "WinWithMonsters",
             "MeetingMonster",
-            "Infect",
+            "InfectPlayer",
             "FullMoonInvincible",
             "CauseFullMoons"
         ];
