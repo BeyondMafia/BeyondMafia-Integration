@@ -10,7 +10,9 @@ module.exports = class Werewolf extends Role {
             "VillageCore",
             "WinWithMonsters",
             "HuntPrey",
-            "Oblivious"
+            "Oblivious",
+            "FullMoonInvincible",
+            "CauseFullMoons"
         ];
     }
 
