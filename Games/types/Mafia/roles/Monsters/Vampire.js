@@ -11,7 +11,6 @@ module.exports = class Vampire extends Role {
             "WinWithMonsters",
             "MeetingMonster",
             "InfectPlayer",
-            "FullMoonInvincible",
             "CauseFullMoons"
         ];
     }
