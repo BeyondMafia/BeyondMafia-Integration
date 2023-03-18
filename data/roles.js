@@ -787,6 +787,12 @@ const roleData = {
                 "Annoyingly, this visit has no effect."
             ],
         },
+        "Apprentice": {
+            alignment: "Mafia",
+            description: [
+                "Chooses to become the role of an executed Mafia-aligned player once per game."
+            ],
+        },
         "Housekeeper": {
             alignment: "Mafia",
             description: [
@@ -917,6 +923,12 @@ const roleData = {
                 "Wins instead of mafia and counts toward their total.",
                 ],
         },
+        "Autocrat": {
+            alignment: "Independent",
+            description: [
+                "Wins instead of village and counts toward their total.",
+                ],
+        },
         "Lover": {
             alignment: "Independent",
             description: [
@@ -959,6 +971,13 @@ const roleData = {
                 "Wins when clock strikes 12 o'clock."
                 
                 ],
+        },
+        "Nomad": {
+            alignment: "Independent",
+            description: [
+                "Chooses another player at night to gain their alignment.",
+                "Wins if they are alive and their last target also wins."
+            ],
         },
     },
     "Split Decision": {
