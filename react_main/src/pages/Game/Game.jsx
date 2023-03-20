@@ -1174,8 +1174,10 @@ function Message(props) {
     }
 
     if(player !== undefined) {
-        if (areSameDay(Date.now(), player.birthday)) {
-            contentClass += " party ";
+        if(player.birthday !== undefined) {
+            if (areSameDay(Date.now(), player.birthday)) {
+                contentClass += " party ";
+            }
         }
     }
     return (
