@@ -1513,7 +1513,9 @@ export function PlayerRows(props) {
                 onChange={() => togglePlayerIsolation(player.id)}
             />
         )
-
+        
+        const ifDark = document.documentElement.classList.contains("dark-mode") || window.matchMedia("(prefers-color-scheme: dark)");
+        
         return (
             <div
                 className={`player ${props.className ? props.className : ""}`}
@@ -1536,7 +1538,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        color={ isDark ?  "white" : "black"}
                         width="20"
                         height="20" />
                 }
