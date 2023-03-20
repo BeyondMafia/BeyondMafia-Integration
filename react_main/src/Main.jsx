@@ -43,17 +43,9 @@ function Main() {
             })
             .catch(errorAlert);
     }
-    
-    const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    
+
     if (user.settings != null) {
-        if (user.settings.siteColorScheme == "light") {
-            if (document.documentElement.classList.contains("dark-mode")) {
-                document.documentElement.classList.remove("dark-mode");
-            }
-            document.documentElement.classList.add("light-mode");
-        } else if (user.settings.siteColorScheme == "dark") {
+        if (user.settings.siteColorScheme == "dark") {
             if (document.documentElement.classList.contains("light-mode")) {
                 document.documentElement.classList.remove("light-mode");
             }
@@ -65,6 +57,11 @@ function Main() {
             if (document.documentElement.classList.contains("light-mode")) {
                 document.documentElement.classList.remove("light-mode");
             }
+        } else {
+            if (document.documentElement.classList.contains("dark-mode")) {
+                document.documentElement.classList.remove("dark-mode");
+            }
+            document.documentElement.classList.add("light-mode");
         }
     }
 
