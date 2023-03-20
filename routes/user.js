@@ -338,7 +338,7 @@ router.get("/settings/data", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req, true);
         var user = userId && await models.User.findOne({ id: userId, deleted: false })
-            .select("name settings -_id");
+            .select("name birthday settings -_id");
 
         if (user) {
             user = user.toJSON();
@@ -347,6 +347,7 @@ router.get("/settings/data", async function (req, res) {
                 user.settings = {};
 
             user.settings.username = user.name;
+            user.birthday = Date.parse(user.birthday);
             res.send(user.settings);
         }
         else
@@ -373,24 +374,6 @@ router.get("/accounts", async function (req, res) {
     catch (e) {
         logger.error(e);
         res.send("Unable to load settings")
-    }
-});
-
-router.post("/birthday", async function (req, res){
-    res.setHeader("Content-Type", "application/json");
-    try{
-        let userId = await routeUtils.verifyLoggedIn(req);
-        let prop = String(req.body.prop);
-        let value = String(req.body.date);
-
-        await models.User.updateOne({ id: userId }, { $set: { [`settings.birthday`]: value }});
-        await redis.cacheUserInfo(userId, true);
-        res.send("Birthday updated successfully.");
-    }
-    catch(e){
-        logger.error(e);
-        res.status(500);
-        res.send("Error updating birthday.");
     }
 });
 
@@ -592,6 +575,44 @@ router.post("/avatar", async function (req, res) {
             logger.error(e);
             res.send("Error uploading avatar image.");
         }
+    }
+});
+
+router.post("/birthday", async function (req, res){
+    res.setHeader("Content-Type", "application/json");
+    try{
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let prop = String(req.body.prop);
+        var itemsOwned = await redis.getUserItemsOwned(userId);
+        var perm = "changeBday";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm))) {
+            return;
+        }
+        let value = String(req.body.date);
+
+        if (!itemsOwned.bdayChange) {
+            res.status(500);
+            res.send("You must purchase another birthday change from the Shop.");
+            return;
+        }
+
+        await models.User.updateOne(
+            { id: userId },
+            {
+                $set: { birthday: value, bdayChanged: true },
+                $inc: { "itemsOwned.bdayChange": -1 }
+            }
+        ).exec();
+        await redis.cacheUserInfo(userId, true);
+
+        res.sendStatus(200);
+
+    }
+    catch(e){
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating birthday.");
     }
 });
 
