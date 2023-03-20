@@ -18,7 +18,6 @@ import "../css/markdown.css";
 import { dateToHTMLString } from "../utils";
 
 export default function Form(props) {
-	const [dVal, onDateChange] = useState(new Date());
 	function onChange(event, field, localOnly) {
 		var value = event.target.value;
 
@@ -26,6 +25,17 @@ export default function Form(props) {
 			value = field.min;
 		else if (field.max != null && Number(value) > field.max)
 			value = field.max;
+
+		props.onChange({
+			ref: field.ref,
+			prop: "value",
+			value: value,
+			localOnly
+		});
+	}
+
+	function onDChange(date, field, localOnly) {
+		var value = new Date(date);
 
 		props.onChange({
 			ref: field.ref,
@@ -192,6 +202,18 @@ export default function Form(props) {
 					</div>
 				);
 			case "date":
+				var currentValue = 0;
+				if (field.value === undefined || field.value === "undefined") {
+					if (props.deps.user[field.saveBtnDiffer] === undefined || props.deps.user[field.saveBtnDiffer] === "undefined") {
+						currentValue = new Date();
+					}
+					else {
+						currentValue = new Date(props.deps.user[field.saveBtnDiffer]);
+					}
+				}
+				else {
+					currentValue = new Date(field.value);
+				}
 				return (
 					<div className={fieldWrapperClass} key={field.ref}>
 						<div className="label">
@@ -203,13 +225,15 @@ export default function Form(props) {
 							dayAriaLabel="Day"
 							monthAriaLabel="Month"
 							nativeInputAriaLabel="Date"
-							onChange={onDateChange}
-							value={dVal}
+							onChange={e => onDChange(e, field, true)}
+							value={currentValue}
+							default={subtractYears(new Date(), 13)}
 							yearAriaLabel="Year"
+							maxDate={subtractYears(new Date(), 13)}
 						/>
 						{field.saveBtn &&
-						 Date.parse(props.deps.user.settings[field.saveBtnDiffer]) 
-						 != Date.parse(dVal) &&
+						 Date.parse(props.deps.user[field.saveBtnDiffer]) 
+						 != Date.parse(currentValue) &&
 							<div
 								className="btn btn-theme extra"
 								onClick={(e) => {
@@ -217,9 +241,9 @@ export default function Form(props) {
 
 									if (conf) {
 										if (field.saveBtnOnClick)
-											field.saveBtnOnClick(dVal, props.deps);
+										field.saveBtnOnClick(field.value, props.deps);
 										else
-											onDateChange(e);
+											onDChange(e, field, true);
 									}
 								}}>
 								{field.saveBtn}
@@ -259,6 +283,11 @@ export default function Form(props) {
 			}
 		</div>
 	);
+}
+
+function subtractYears(date, years) {
+	date.setFullYear(date.getFullYear() - years);
+	return date;
 }
 
 function Switch(props) {

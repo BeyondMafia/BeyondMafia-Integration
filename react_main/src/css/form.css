@@ -37,6 +37,11 @@ main{
 	margin-bottom: 10px;
 }
 
+.react-date-picker{
+	z-index: 10;
+	display: inline;
+}
+
 div .react-date-picker{
 	background-color: var(--scheme-color);
 }
@@ -44,6 +49,11 @@ div .react-date-picker{
 .react-date-picker__button svg{
 	color: var(--scheme-color-text);
 	stroke: var(--scheme-color-text);
+}
+
+.react-calendar{
+	position: absolute;
+	z-index: 100;
 }
 
 .form .label {

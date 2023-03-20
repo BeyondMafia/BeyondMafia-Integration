@@ -75,7 +75,9 @@ export default function Settings(props) {
 			type: "date",
 			saveBtn: "Change",
 			saveBtnDiffer: "birthday",
+			default: Date.now(),
 			saveBtnOnClick: onBirthdaySave,
+			confirm: "Are you sure you wish to change your birthday?"
 		},
 		{
 			label: "Show Discord",
@@ -233,8 +235,8 @@ export default function Settings(props) {
 				deps.user.set(update(deps.user, {
 					birthday: { $set: date },
 					itemsOwned: {
-						birthdayChange: {
-							$set: deps.user.itemsOwned.birthdayChange - 1
+						bdayChange: {
+							$set: deps.user.itemsOwned.bdayChange - 1
 						}
 					}
 				}));
