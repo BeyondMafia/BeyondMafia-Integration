@@ -13,12 +13,10 @@ module.exports = class GiveTurkeyOnDeath extends Card {
             }
         };
 
-        let turkeyAlive = 0;
         this.listeners = {
             "rolesAssigned": function () {
                 for (let player of this.game.players) {
                     if (player.role.name === "Turkey") {
-                        turkeyAlive += 1;
                         return;
                     }
 
@@ -47,7 +45,6 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                         }
                     }
                 }
-                turkeyAlive -= 1;
             },
             "start": function () {
                 for (let player of this.game.players) {
@@ -57,17 +54,6 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                     ) {
                         this.revealToPlayer(player);
                     }
-                }
-            }
-        };
-
-        this.winCheck = {
-            priority: PRIORITY_WIN_CHECK_DEFAULT,
-            againOnFinished: true,
-            check: function (counts, winners, aliveCount) {
-                if (turkeyAlive == aliveCount 
-                    && aliveCount != 0) {
-                    winners.addPlayer(this.player, this.name);
                 }
             }
         };

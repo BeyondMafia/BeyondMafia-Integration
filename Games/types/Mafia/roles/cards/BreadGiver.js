@@ -35,6 +35,10 @@ module.exports = class BreadGiver extends Card {
         this.listeners = {
             "rolesAssigned": function () {
                 for (let player of this.game.players) {
+                    if (player.role.name === "Turkey") {
+                        return;
+                    }
+
                     let items = player.items.map(a => a.name);
                     let breadCount = 0;
                     for (let item of items) {

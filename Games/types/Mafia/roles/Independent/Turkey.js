@@ -6,7 +6,7 @@ module.exports = class Turkey extends Role {
         super("Turkey", player, data);
 
         this.alignment = "Independent";
-        this.cards = ["VillageCore", "GiveTurkeyOnDeath"];
+        this.cards = ["VillageCore", "GiveTurkeyOnDeath", "WinIfOnlyTurkeyAlive"];
     }
 
 }
