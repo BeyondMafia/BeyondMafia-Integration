@@ -44,7 +44,6 @@ function Main() {
             .catch(errorAlert);
     }
     
-    
     const userColourScheme = user.settings?.siteColorScheme || "light";
     if (userColourScheme === "light") {
         if (document.documentElement.classList.contains("dark-mode")) {

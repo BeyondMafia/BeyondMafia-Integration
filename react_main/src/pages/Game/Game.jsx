@@ -1426,6 +1426,7 @@ function SpeechInput(props) {
                     placeholder={placeholder}
                     maxLength={MaxGameMessageLength}
                     onChange={onSpeechType}
+                    enterKeyHint="done"
                     onKeyDown={onSpeechSubmit} />
             </div>
             {options.voiceChat &&
