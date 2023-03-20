@@ -13,37 +13,38 @@ module.exports = class Famished extends Effect {
 
                 let bakerAlive = false;
                 let turkeyInGame = false;
-                for (let player of this.game.players){
-                    if (player.role.name === "Baker" && player.alive){
+                for (let player of this.game.players) {
+                    if (player.role.name === "Baker" && player.alive) {
                         bakerAlive = true;
                     }
-                    if (player.role.name === "Turkey"){
+                    if (player.role.name === "Turkey") {
                         turkeyInGame = true;
                     }
                 }
 
-                if(bakerAlive && !turkeyInGame)
+                if (bakerAlive && !turkeyInGame)
                     return;
 
-                if (this.player.hasItem("Turkey")){
+                if (this.player.hasItem("Turkey")) {
                     this.player.dropItem("Turkey", false);
-                } else if (this.player.hasItem("Bread")){
+                } else if (this.player.hasItem("Bread")) {
                     this.player.dropItem("Bread", false);
-                } else if (this.player.hasItem("Orange")){
+                } else if (this.player.hasItem("Orange")) {
                     this.player.dropItem("Orange", false);
-                }else{
-                    if (this.player.role.name !== "Turkey")
-                        this.game.queueAction(new Action({
-                            actor: this.player,
-                            target: this.player,
-                            game: this.player.game,
-                            power: 5,
-                            labels: ["kill", "famine"],
-                            run: function () {
-                                if (this.dominates())
-                                    this.target.kill("basic", this.actor);
-                            }
-                        }));
+                } else if (this.player.role.name === "Turkey") {
+                    // pass
+                } else {
+                    this.game.queueAction(new Action({
+                        actor: this.player,
+                        target: this.player,
+                        game: this.player.game,
+                        power: 5,
+                        labels: ["kill", "famine"],
+                        run: function () {
+                            if (this.dominates())
+                                this.target.kill("basic", this.actor);
+                        }
+                    }));
                 }
             }
         };

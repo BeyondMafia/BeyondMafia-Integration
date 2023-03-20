@@ -45,7 +45,7 @@ module.exports = class BreadGiver extends Card {
                         player.holdItem("Bread");
                         breadCount++;
                     }
-                    if(!player.hasEffect("Famished") && player.role.name !== "Turkey")
+                    if (!player.hasEffect("Famished") && player.role.name !== "Turkey")
                         player.giveEffect("Famished");
                 }
             },
