@@ -444,6 +444,22 @@ export const Emotes = {
 	":awoo:": {
 		name: "awoo",
 		type: "png"
+		},
+	":pepeawooga:": {
+		name: "awooga128",
+		type: "png"
+		},
+	":rainbowdoge:": {
+		name: "rainbowdoge",
+		type: "png"
+		},
+	":thomas:": {
+		name: "thomasoface",
+		type: "png"
+		},
+	":pepereee:": {
+		name: "reeeee1",
+		type: "png"
 	},
 };
 
