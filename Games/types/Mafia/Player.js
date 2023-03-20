@@ -71,6 +71,8 @@ module.exports = class MafiaPlayer extends Player {
 
         if (this.game.graveyardParticipation || this.requiresGraveyardParticipation()) {
             this.queueAlert("Please stay in the game. Graveyard participation is required.");
+        } else {
+            this.queueAlert("Graveyard participation is not required. You can leave the game.")
         }
     }
 }
