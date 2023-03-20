@@ -19,7 +19,9 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                 for (let player of this.game.players) {
                     if (player.role.name === "Turkey") {
                         turkeyAlive += 1;
+                        return;
                     }
+
                     let items = player.items.map(a => a.name);
                     let breadCount = 0;
                     for (let item of items) {
@@ -30,7 +32,7 @@ module.exports = class GiveTurkeyOnDeath extends Card {
                         player.holdItem("Bread");
                         breadCount++;
                     }
-                    if(!player.hasEffect("Famished") && player.role.name !== "Turkey") {
+                    if (!player.hasEffect("Famished")) {
                         player.giveEffect("Famished");
                     }
                 }
@@ -38,7 +40,7 @@ module.exports = class GiveTurkeyOnDeath extends Card {
             "death": function (player, killer, deathType) {
                 if (player == this.player){
                     this.game.queueAlert("The town cooks the Turkey and turns it into 2 meals for everyone!");
-                    for (let person of this.game.players){
+                    for (let person of this.game.players) {
                         person.holdItem("Turkey");
                         person.holdItem("Turkey");
                     }
