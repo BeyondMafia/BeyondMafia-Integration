@@ -95,14 +95,6 @@ function Main() {
                     ), "basic", true);
                 }
 
-                if (res.data.bdayChanged == false) {
-                    siteInfo.showAlert(() => (
-                        <div>
-                            New birthday feature! You can change your birthday once in your <Link to={`/user/settings`}>settings</Link>.
-                        </div>
-                    ))
-                }
-
                 if (res.data.inGame) {
                     siteInfo.showAlert(index => (
                         <div>
