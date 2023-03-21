@@ -15,6 +15,10 @@ module.exports = class NightRoleBlocker extends Card {
                     priority: PRIORITY_NIGHT_ROLE_BLOCKER,
                     run: function () {
                         this.blockActions();
+
+                        if (this.actor.role.alignment === "Mafia" && this.target.role.name === "Virgin") {
+                            this.target.setRole("Villager");
+                        }
                     }
                 }
             }
