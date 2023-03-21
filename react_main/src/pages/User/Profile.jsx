@@ -81,14 +81,16 @@ export default function Profile() {
                     setFriendsPage(1);
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
-                    var videoMatches = res.data.settings.youtube.match(youtubeRegex) ?? "";
-                    if (videoMatches && videoMatches.length >= 7) {
-                        setEmbedId(videoMatches[7]);
+                    setEmbedId("");
+                    setAutoplay(false);
+
+                    if(res.data.settings.youtube !== undefined) {
+                        var videoMatches = res.data.settings.youtube.match(youtubeRegex) ?? "";
+                        if (videoMatches && videoMatches.length >= 7) {
+                            setEmbedId(videoMatches[7]);
+                        }
+                        setAutoplay(res.data.settings.autoplay);
                     }
-                    else {
-                        setEmbedId("");
-                    }
-                    setAutoplay(res.data.settings.autoplay);
 
                     document.title = `${res.data.name}'s Profile | BeyondMafia`;
                 })

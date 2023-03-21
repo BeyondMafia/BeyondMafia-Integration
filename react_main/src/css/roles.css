@@ -375,6 +375,43 @@
     background-position: -900px -120px;
 }
 
+.role-Mafia-Sleepwalker {
+    background-position: -1020px -0px;
+}
+
+.role-Mafia-Governor {
+    background-position: -1020px -40px;
+}
+
+.role-Mafia-Waitress {
+    background-position: -1020px -80px;
+}
+
+.role-Mafia-Mortician {
+    background-position: -1020px -120px;
+}
+
+.role-Mafia-Robin-Hood {
+    background-position: -300px 0;
+}
+
+.role-Mafia-Tinkerer {
+    background-position: -1050px -0px;
+}
+
+.role-Mafia-Trickster {
+    background-position: -1050px -40px;
+}
+
+.role-Mafia-Santa {
+    background-position: -1050px -80px;
+}
+
+.role-Mafia-Medium {
+    background-position: -1050px -120px;
+}
+
+
 /* 
 * Mafia 
 */
@@ -523,6 +560,26 @@
     background-position: -420px -120px;
 }
 
+.role-Mafia-Mummy {
+    background-position: -450px -120px;
+}
+
+.role-Mafia-Medusa {
+    background-position: -480px -120px;
+}
+
+.role-Mafia-Trespasser {
+    background-position: -510px -120px;
+}
+
+.role-Mafia-Thief {
+    background-position: -540px -120px;
+}
+
+.role-Mafia-Courier {
+    background-position: -570px -120px;
+}
+
 /* 
 * Independent 
 */
@@ -577,6 +634,10 @@
 
 .role-Mafia-Prophet {
     background-position: -690px -80px;
+}
+
+.role-Mafia-Clockmaker {
+    background-position: -720px -80px;
 }
 
 /* 

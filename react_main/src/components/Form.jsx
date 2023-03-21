@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useRef, useEffect } from "react";
 import { ChromePicker } from "react-color";
+import  DatePicker  from "react-date-picker";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
@@ -24,6 +25,17 @@ export default function Form(props) {
 			value = field.min;
 		else if (field.max != null && Number(value) > field.max)
 			value = field.max;
+
+		props.onChange({
+			ref: field.ref,
+			prop: "value",
+			value: value,
+			localOnly
+		});
+	}
+
+	function onDChange(date, field, localOnly) {
+		var value = new Date(date);
 
 		props.onChange({
 			ref: field.ref,
@@ -189,6 +201,56 @@ export default function Form(props) {
 						}
 					</div>
 				);
+			case "date":
+				var currentValue = 0;
+				if (field.value === undefined || field.value === "undefined") {
+					if (props.deps.user[field.saveBtnDiffer] === undefined || props.deps.user[field.saveBtnDiffer] === "undefined") {
+						currentValue = new Date();
+					}
+					else {
+						currentValue = new Date(props.deps.user[field.saveBtnDiffer]);
+					}
+				}
+				else {
+					currentValue = new Date(field.value);
+				}
+				return (
+					<div className={fieldWrapperClass} key={field.ref}>
+						<div className="label">
+							{field.label}
+						</div>
+						<DatePicker
+							calendarAriaLabel="Toggle calendar"
+							clearAriaLabel="Clear value"
+							dayAriaLabel="Day"
+							monthAriaLabel="Month"
+							nativeInputAriaLabel="Date"
+							onChange={e => onDChange(e, field, true)}
+							value={currentValue}
+							default={subtractYears(new Date(), 13)}
+							yearAriaLabel="Year"
+							maxDate={subtractYears(new Date(), 13)}
+						/>
+						{field.saveBtn &&
+						 Date.parse(props.deps.user[field.saveBtnDiffer]) 
+						 != Date.parse(currentValue) &&
+							<div
+								className="btn btn-theme extra"
+								onClick={(e) => {
+									let conf = !field.confirm || window.confirm(field.confirm);
+
+									if (conf) {
+										if (field.saveBtnOnClick)
+										field.saveBtnOnClick(field.value, props.deps);
+										else
+											onDChange(e, field, true);
+									}
+								}}>
+								{field.saveBtn}
+							</div>
+						}
+					</div>
+				);
 			case "datetime-local":
 				return (
 					<div className={fieldWrapperClass} key={field.ref}>
@@ -221,6 +283,11 @@ export default function Form(props) {
 			}
 		</div>
 	);
+}
+
+function subtractYears(date, years) {
+	date.setFullYear(date.getFullYear() - years);
+	return date;
 }
 
 function Switch(props) {
