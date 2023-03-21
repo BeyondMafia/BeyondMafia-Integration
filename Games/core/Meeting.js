@@ -607,9 +607,11 @@ module.exports = class Meeting {
         this.checkReady();
 
         if (this.noVeg === false) {
-            if (Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] !== undefined){
-                this.game.vegMeeting.leave(this.members[voter.id].player, true);
-                this.members[voter.id].player.leftMeeting(this.game.vegMeeting);
+            if (this.game.vegMeeting !== undefined) {
+                if (Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] !== undefined) {
+                    this.game.vegMeeting.leave(this.members[voter.id].player, true);
+                    this.members[voter.id].player.leftMeeting(this.game.vegMeeting);
+                }
             }
         }
 

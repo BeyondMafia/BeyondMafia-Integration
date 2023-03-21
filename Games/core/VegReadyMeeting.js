@@ -87,7 +87,8 @@ module.exports = class VegReadyMeeting extends Meeting {
     }
 
     checkEnoughPlayersKicked() {
-        if (!(Object.keys(this.votes).length >= Math.ceil(this.game.players.length / 3))){
+        var alivePlayers = Object.values(this.game.players).filter(x => x.alive);
+        if (!(Object.keys(this.votes).length >= Math.ceil(alivePlayers.length / 3))){
             return;
         }
 

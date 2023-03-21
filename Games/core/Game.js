@@ -809,7 +809,7 @@ module.exports = class Game {
         this.clearTimer("main");
         this.clearTimer("secondary");
         this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
-        var vegMeetings = Object.values(this.history.states[this.currentState].meetings).filter(x => x.noVeg === false && x.id !== this.vegMeeting.id);
+        var vegMeetings = Object.values(this.history.states[this.currentState].meetings).filter(x => x.id !== this.vegMeeting.id);
         for (let player of this.players) {
             var addToKick = true;
             if (player.alive) {
@@ -836,7 +836,6 @@ module.exports = class Game {
         for (let player of this.players) {
             player.sendMeeting(this.vegMeeting);
         }
-        // this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
         this.checkAllMeetingsReady();
     }
 
