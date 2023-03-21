@@ -37,6 +37,16 @@ const shopItems = [
         }
     },
     {
+        name: "Birthday Change",
+        desc: "Change your birthday once per purchase",
+        key: "bdayChange",
+        price: 10,
+        limit: null,
+        onBuy: function () {
+            
+        }
+    },
+    {
         name: "3 Character Username",
         desc: "Set your name to one that is 3 characters long",
         key: "threeCharName",

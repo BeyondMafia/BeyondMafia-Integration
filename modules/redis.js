@@ -121,7 +121,7 @@ async function cacheUserInfo(userId, reset) {
 
     if (!exists || reset) {
         var user = await models.User.findOne({ id: userId, deleted: false })
-            .select("id name avatar blockedUsers settings itemsOwned nameChanged");
+            .select("id name avatar blockedUsers settings itemsOwned nameChanged bdayChanged birthday");
 
         if (!user)
             return false;
@@ -132,6 +132,8 @@ async function cacheUserInfo(userId, reset) {
         await client.setAsync(`user:${userId}:info:name`, user.name);
         await client.setAsync(`user:${userId}:info:avatar`, user.avatar);
         await client.setAsync(`user:${userId}:info:nameChanged`, user.nameChanged);
+        await client.setAsync(`user:${userId}:info:bdayChanged`, user.bdayChanged);
+        await client.setAsync(`user:${userId}:info:birthday`, user.birthday);
         await client.setAsync(`user:${userId}:info:blockedUsers`, JSON.stringify(user.blockedUsers || []));
         await client.setAsync(`user:${userId}:info:settings`, JSON.stringify(user.settings));
         await client.setAsync(`user:${userId}:info:itemsOwned`, JSON.stringify(user.itemsOwned));
@@ -146,6 +148,8 @@ async function cacheUserInfo(userId, reset) {
     client.expire(`user:${userId}:info:name`, 3600);
     client.expire(`user:${userId}:info:avatar`, 3600);
     client.expire(`user:${userId}:info:nameChanged`, 3600);
+    client.expire(`user:${userId}:info:bdayChanged`, 3600);
+    client.expire(`user:${userId}:info:birthday`, 3600);
     client.expire(`user:${userId}:info:blockedUsers`, 3600);
     client.expire(`user:${userId}:info:settings`, 3600);
     client.expire(`user:${userId}:info:itemsOwned`, 3600);
@@ -159,6 +163,8 @@ async function deleteUserInfo(userId) {
     await client.delAsync(`user:${userId}:info:name`);
     await client.delAsync(`user:${userId}:info:avatar`);
     await client.delAsync(`user:${userId}:info:nameChanged`);
+    await client.delAsync(`user:${userId}:info:bdayChanged`);
+    await client.delAsync(`user:${userId}:info:birthday`);
     await client.delAsync(`user:${userId}:info:status`);
     await client.delAsync(`user:${userId}:info:blockedUsers`);
     await client.delAsync(`user:${userId}:info:settings`);
@@ -177,6 +183,8 @@ async function getUserInfo(userId) {
     info.name = await client.getAsync(`user:${userId}:info:name`);
     info.avatar = await client.getAsync(`user:${userId}:info:avatar`) == "true";
     info.nameChanged = await client.getAsync(`user:${userId}:info:nameChanged`) == "true";
+    info.bdayChanged = await client.getAsync(`user:${userId}:info:bdayChanged`) == "true";
+    info.birthday = await client.getAsync(`user:${userId}:info:birthday`);
     info.status = await client.getAsync(`user:${userId}:info:status`);
     info.blockedUsers = JSON.parse(await client.getAsync(`user:${userId}:info:blockedUsers`));
     info.settings = JSON.parse(await client.getAsync(`user:${userId}:info:settings`));

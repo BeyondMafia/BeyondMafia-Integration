@@ -69,12 +69,13 @@ module.exports = class MafiaGame extends Game {
                 }
             }));
 
-            // game not finished, player still alive
-            let toRecord = !this.finished && player.alive;
-
-            if (!player.alive && 
-                (this.graveyardParticipation || player.requiresGraveyardParticipation())) {
-                toRecord = true;
+            // game not finished, record by default
+            let toRecord = !this.finished;
+            
+            if (toRecord && !player.alive) {
+                if (!this.graveyardParticipation && !player.requiresGraveyardParticipation()) {
+                    toRecord = false;
+                }
             }
 
             if (toRecord) {
