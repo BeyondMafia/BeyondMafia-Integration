@@ -17,7 +17,7 @@ module.exports = class GiveTurkeyOnDeath extends Card {
             "rolesAssigned": function () {
                 for (let player of this.game.players) {
                     if (player.role.name === "Turkey") {
-                        return;
+                        continue;
                     }
 
                     let items = player.items.map(a => a.name);
