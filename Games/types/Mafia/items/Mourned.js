@@ -13,24 +13,22 @@ module.exports = class Mourned extends Item {
         this.lifespan = 1;
         this.cannotBeStolen = true;
         
-        this.meetings = {
-            "Reply Mourner": {
-                actionName: this.meetingName,
-                states: ["Night"],
-                flags: ["voting"],
-                inputType: "boolean",
-                whileDead: true,
-                whileAlive: false,
-                action: {
-                    priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
-                    item: this,
-                    run: function () {
-                        let mourner = this.item.mourner;
-                        if (this.target === "Yes") {
-                            mourner.role.data.mournerYes += 1;
-                        } else {
-                            mourner.role.data.mournerNo += 1;
-                        }
+        this.meetings[this.meetingName] = {
+            actionName: this.meetingName,
+            states: ["Night"],
+            flags: ["voting"],
+            inputType: "boolean",
+            whileDead: true,
+            whileAlive: false,
+            action: {
+                priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
+                item: this,
+                run: function () {
+                    let mourner = this.item.mourner;
+                    if (this.target === "Yes") {
+                        mourner.role.data.mournerYes += 1;
+                    } else {
+                        mourner.role.data.mournerNo += 1;
                     }
                 }
             }
