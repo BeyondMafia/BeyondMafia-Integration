@@ -825,7 +825,7 @@ module.exports = class Meeting {
             return selections.length >= this.multiMin || selections.indexOf("*") != -1;
         }
     }
-    
+
     // Checks whether the meeting has a plurality target.
     get hasPlurality() {
         var count = {};
@@ -840,9 +840,9 @@ module.exports = class Meeting {
 
             count[target] += member.voteWeight;
         }
-
-        sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
-        // Checking for plurality.
+        let sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
+        
+        // Checking for plurality
         if (sortedCount.length === 1 || sortedCount[0][1] > sortedCount[1][1])
             return true;
         return false;
