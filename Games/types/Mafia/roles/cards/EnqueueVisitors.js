@@ -7,7 +7,7 @@ module.exports = class EnqueueVisitors extends Card{
         this.actions = [
             {
                 priority: PRIORITY_VISITORS_ENQUEUE,
-                labels: ["absolute"],
+                labels: ["absolute", "hidden"],
                 run: function () {
                     this.actor.role.data.visitors = [];
                     if (this.game.getStateName() != "Night")
