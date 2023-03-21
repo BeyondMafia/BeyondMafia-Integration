@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_WATCH } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class WatchPlayer extends Card {
 
@@ -12,7 +12,7 @@ module.exports = class WatchPlayer extends Card {
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: [] },
                 action: {
-                    priority: PRIORITY_WATCH,
+                    priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
                     run: function () {
                         var visits = [];
 

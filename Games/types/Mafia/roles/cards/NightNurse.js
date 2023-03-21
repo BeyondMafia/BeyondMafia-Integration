@@ -14,16 +14,8 @@ module.exports = class NightNurse extends Card {
                     labels: ["save", "block"],
                     priority: PRIORITY_NIGHT_NURSE,
                     run: function () {
-                        for (let action of this.game.actions[0]) {
-                            if (
-                                action.priority > this.priority &&
-                                !action.hasLabel("absolute")
-                            ) {
-                                action.cancelActor(this.target);
-                            }
-                        }
-
-                        this.target.setTempImmunity("kill", 1);
+                        this.blockActions();
+                        this.heal(1);
                     }
                 }
             }

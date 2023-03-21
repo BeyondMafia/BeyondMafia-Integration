@@ -1,5 +1,6 @@
 const Card = require("../../Card");
 const { PRIORITY_REDIRECT_ACTION_CONTROL, PRIORITY_REDIRECT_ACTION_TARGET } = require("../../const/Priority");
+const Player = require("../../../../core/Player");
 
 module.exports = class RedirectAction extends Card {
 
@@ -28,7 +29,10 @@ module.exports = class RedirectAction extends Card {
                     run: function () {
                         if (this.actor.role.data.controlledActor) {
                             for (let action of this.game.actions[0])
-                                if (action.priority > this.priority && action.actor == this.actor.role.data.controlledActor)
+                                if (action.priority > this.priority &&
+                                    !action.hasLabel("uncontrollable") &&
+                                    action.actor == this.actor.role.data.controlledActor &&
+                                    action.target instanceof Player)
                                     action.target = this.target;
 
                             delete this.actor.role.data.controlledActor;

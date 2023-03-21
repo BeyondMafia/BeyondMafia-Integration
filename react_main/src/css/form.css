@@ -8,6 +8,21 @@
 	flex-shrink: 0;
 }
 
+
+.form input[type="number"]{
+	box-sizing: inherit;
+
+	border: none;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
+	font-size: 17px;
+	margin-bottom: 10px;
+}
+
+.react-date-picker__wrapper{
+	border: none;
+}
+
 .form .field-wrapper {
 	display: flex;
 	flex-flow: row nowrap;
@@ -18,20 +33,42 @@
 	margin-bottom: 10px;
 }
 
+main{
+	margin-bottom: 10px;
+}
+
+.react-date-picker{
+	z-index: 10;
+	display: inline;
+}
+
+div .react-date-picker{
+	background-color: var(--scheme-color);
+}
+
+.react-date-picker__button svg{
+	color: var(--scheme-color-text);
+	stroke: var(--scheme-color-text);
+}
+
+.react-calendar{
+	position: absolute;
+	z-index: 100;
+}
+
 .form .label {
 	flex-grow: 1;
 
 	box-sizing: border-box;
 	padding: 5px 8px;
-	border-right: 1px solid #c7c7c7;
+	border-right: 1px solid var(--scheme-color-border);
 
-	background-color: #f3f3f3;
-	color: black;
+	background-color: var(--scheme-color-sec);
+	color: var(--scheme-color-text);
 }
 
 .form input[type="text"],
 .form input[type="password"],
-.form input[type="number"],
 .form select,
 .form .switch-wrapper {
 	box-sizing: border-box;
@@ -39,8 +76,8 @@
 	padding: 5px 8px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 	font-size: 17px;
 }
 
@@ -54,13 +91,13 @@
 	padding: 0px 8px;
 	border: none;
 
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 	font-size: 17px;
 }
 
 .form input:disabled {
-	background-color: white;
+	background-color: var(--scheme-color);
 }
 
 .form input[type="text"],
@@ -134,7 +171,7 @@
 
 .form .color-picker {
 	width: 50px;
-	border: 1px solid #c7c7c7;
+	border: 1px solid var(--scheme-color-border);
 	border-left: none;
 
 	cursor: pointer;
@@ -147,7 +184,7 @@
 }
 
 .form .chrome-picker>div:last-child {
-	background-color: white;
+	background-color: var(--scheme-color-sec);
 }
 
 .form .chrome-picker>div:last-child .flexbox-fix:last-child label {
@@ -156,6 +193,8 @@
 
 .form .chrome-picker>div:last-child .flexbox-fix:last-child>div:last-child {
 	display: none !important;
+	color: var(--scheme-color-text);
+	background-color: var(--scheme-color);
 }
 
 .form .chrome-picker {
@@ -164,6 +203,11 @@
 	z-index: 8;
 
 	cursor: pointer;
+}
+
+.flexbox-fix input{
+	color: var(--scheme-color-text) !important;
+	background-color: var(--scheme-color-sec) !important;
 }
 
 .form .extra {
@@ -269,7 +313,7 @@
 }
 
 .search-select .option-row:hover {
-	background-color: #f3f3f3;
+	background-color: var(--scheme-color-sec);
 }
 
 .search-select input::placeholder {

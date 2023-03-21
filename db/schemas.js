@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var stats = require("./stats");
 
 var schemas = {
     "User": new mongoose.Schema({
@@ -6,6 +7,7 @@ var schemas = {
         name: { type: String, index: true },
         ip: [{ type: String, index: true }],
         email: [{ type: String, index: true }],
+        birthday: Date,
         fbUid: String,
         avatar: Boolean,
         banner: Boolean,
@@ -22,6 +24,9 @@ var schemas = {
             disablePg13Censor: { type: Boolean, default: false },
             disableAllCensors: { type: Boolean, default: false },
             hideDeleted: Boolean,
+            siteColorScheme: Boolean,
+            autoplay: {type: Boolean, default: false},
+            youtube: String,
         },
         accounts: {
             discord: String,
@@ -37,7 +42,6 @@ var schemas = {
         setups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         favSetups: [{ type: mongoose.Schema.Types.ObjectId, ref: "Setup" }],
         games: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game" }],
-        rankedCount: Number,
         globalNotifs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Notification" }],
         blockedUsers: [String],
         coins: { type: Number, default: 0 },
@@ -45,32 +49,16 @@ var schemas = {
             textColors: { type: Number, default: 0 },
             customProfile: { type: Number, default: 0 },
             nameChange: { type: Number, default: 1 },
+            bdayChange: { type: Number, default: 1 },
             emotes: { type: Number, default: 0 },
             threeCharName: { type: Number, default: 0 },
             twoCharName: { type: Number, default: 0 },
             oneCharName: { type: Number, default: 0 },
         },
-        stats: {
-            "Mafia": {
-                reads: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                survival: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                participation: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-                wins: {
-                    count: { type: Number, default: 0 },
-                    total: { type: Number, default: 0 },
-                },
-            }
-        },
+        stats: {},
+        rankedPoints: { type: Number, default: 0 },
         nameChanged: false,
+        bdayChanged: false,
         playedGame: false,
         referrer: String,
         transactions: [Number],
@@ -111,9 +99,10 @@ var schemas = {
         excessRoles: Number,
         favorites: Number,
         featured: { type: Boolean, index: true },
+        ranked: { type: Boolean, default: false },
         played: { type: Number, index: true },
-        rolePlays: { type: Map, of: Number },
-        roleWins: { type: Map, of: Number }
+        rolePlays: {},
+        roleWins: {}
     }),
     "Game": new mongoose.Schema({
         id: { type: String, index: true },
@@ -406,6 +395,5 @@ schemas.Ban.virtual("mod", {
     foreignField: "id",
     justOne: true
 });
-
 
 module.exports = schemas;

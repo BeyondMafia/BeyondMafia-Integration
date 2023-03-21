@@ -9,6 +9,7 @@ const deathMessages = require("./death");
 const revivalMessages = require("./revival");
 const constants = require("../../data/constants");
 const logger = require("../../modules/logging")("games");
+const dbStats = require("../../db/stats");
 
 module.exports = class Player {
 
@@ -29,6 +30,7 @@ module.exports = class Player {
         this.tempAppearance = {};
         this.history = new History(this.game, this);
         this.ready = false;
+        this.won = false;
         this.deathMessages = deathMessages;
         this.revivalMessages = revivalMessages;
     }
@@ -306,7 +308,8 @@ module.exports = class Player {
             userId: this.user.id,
             avatar: this.user.avatar,
             textColor: this.user.textColor,
-            nameColor: this.user.nameColor
+            nameColor: this.user.nameColor,
+            birthday: this.user.birthday
         };
 
         return info;
@@ -463,7 +466,7 @@ module.exports = class Player {
 
         var voterId = vote.voter.id;
 
-        if (vote.meeting.anonymous)
+        if (vote.meeting.anonymous || vote.meeting.anonymousVotes)
             voterId = vote.meeting.members[voterId].anonId;
 
         this.send("vote", {
@@ -495,7 +498,7 @@ module.exports = class Player {
 
         var voterId = info.voter.id;
 
-        if (info.meeting.anonymous)
+        if (info.meeting.anonymous || info.meeting.anonymousVotes)
             voterId = info.meeting.members[voterId].anonId;
 
         this.send("unvote", {
@@ -542,6 +545,7 @@ module.exports = class Player {
 
     joinMeetings(meetings) {
         var currentStateName = this.game.getStateName();
+        var [inExclusive, maxPriority] = this.getMeetingsExclusivity();
 
         for (let meetingName in meetings) {
             let options = meetings[meetingName];
@@ -560,7 +564,8 @@ module.exports = class Player {
                 (options.shouldMeet != null && !options.shouldMeet.bind(this.role)(meetingName, options)) ||
                 (this.alive && options.whileAlive == false) ||
                 (!this.alive && !options.whileDead) ||
-                (options.unique && options.whileDead && options.whileAlive)
+                (options.unique && options.whileDead && options.whileAlive) ||
+                (inExclusive && maxPriority > options.priority)
             ) {
                 continue;
             }
@@ -579,12 +584,22 @@ module.exports = class Player {
 
                             if (options.times <= 0)
                                 delete meetings[meetingName];
+
+                            inExclusive |= meeting.exclusive;
+
+                            if (meeting.exclusive && meeting.priority > maxPriority)
+                                maxPriority = meeting.priority;
                         }
 
                         joined = true;
                         break;
                     }
                     else if (!meeting.group && meeting.hasJoined(this)) {
+                        inExclusive |= meeting.exclusive;
+
+                        if (meeting.exclusive && meeting.priority > maxPriority)
+                            maxPriority = meeting.priority;
+
                         joined = true;
                         break;
                     }
@@ -598,8 +613,26 @@ module.exports = class Player {
 
                 if (options.times <= 0)
                     delete meetings[meetingName];
+
+                inExclusive |= meeting.exclusive;
+
+                if (meeting.exclusive && meeting.priority > maxPriority)
+                    maxPriority = meeting.priority;
             }
+
+            if (inExclusive)
+                for (let meeting of this.getMeetings())
+                    if (meeting.priority < maxPriority)
+                        meeting.leave(this, true);
         }
+    }
+
+    getMeetingsExclusivity() {
+        for (let meeting of this.getMeetings())
+            if (meeting.exclusive)
+                return [true, meeting.priority];
+
+        return [false, 0];
     }
 
     act(target, meeting, actors) {
@@ -873,15 +906,43 @@ module.exports = class Player {
         if (!this.game.ranked)
             return;
 
+        if (!this.user.stats[this.game.type])
+            this.user.stats[this.game.type] = dbStats.statsSet(this.game.type);
+
         const stats = this.user.stats[this.game.type];
 
-        if (stats == null || stats[stat] == null)
+        if (!stats.all)
+            stats.all = dbStats.statsObj(this.game.type);
+
+        this.updateStatsObj(stats.all, stat, inc);
+        this.updateStatsMap(stats, "bySetup", this.game.setup.id, stat, inc);
+
+        if (!this.role)
             return;
 
-        stats[stat].total++;
+        var role = `${this.role.name}${this.role.modifier ? ":" + this.role.modifier : ""}`;
+        this.updateStatsMap(stats, "byRole", role, stat, inc);
+        this.updateStatsMap(stats, "byAlignment", this.role.alignment, stat, inc);
+    }
 
-        if (inc)
-            stats[stat].count++;
+    updateStatsMap(stats, mapName, key, stat, inc) {
+        if (!stats[mapName])
+            stats[mapName] = {};
+
+        const statsObj = stats[mapName][key] || dbStats.statsObj(this.game.type);
+        this.updateStatsObj(statsObj, stat, inc);
+        stats[mapName][key] = statsObj;
+    }
+
+    updateStatsObj(stats, stat, inc) {
+        if (stat != "totalGames") {
+            stats[stat].total++;
+
+            if (inc)
+                stats[stat].count++;
+        }
+        else
+            stats.totalGames++;
     }
 
     swapIdentity(player) {

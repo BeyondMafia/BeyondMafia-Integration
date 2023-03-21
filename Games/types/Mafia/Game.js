@@ -4,6 +4,7 @@ const Queue = require("../../core/Queue");
 const Winners = require("../../core/Winners");
 const Action = require("./Action");
 const stateEventMessages = require("./templates/stateEvents");
+const roleData = require("../../../data/roles");
 
 module.exports = class MafiaGame extends Game {
 
@@ -44,6 +45,19 @@ module.exports = class MafiaGame extends Game {
 
     }
 
+    assignRoles() {
+        super.assignRoles();
+
+        for (let playerId in this.originalRoles) {
+            let roleName = this.originalRoles[playerId].split(":")[0];
+            let data = roleData[this.type][roleName];
+            if (data.graveyardParticipation === "all") {
+                this.graveyardParticipation = true;
+                return;
+            }
+        }
+    }
+
     async playerLeave(player) {
         if (this.started) {
             this.queueAction(new Action({
@@ -55,10 +69,41 @@ module.exports = class MafiaGame extends Game {
                 }
             }));
 
-            player.recordStat("survival", false);
+            // game not finished, record by default
+            let toRecord = !this.finished;
+            
+            if (toRecord && !player.alive) {
+                if (!this.graveyardParticipation && !player.requiresGraveyardParticipation()) {
+                    toRecord = false;
+                }
+            }
+
+            if (toRecord) {
+                this.recordLeaveStats(player, player.leaveStatsRecorded);
+            }
         }
 
         await super.playerLeave(player);
+    }
+
+    recordLeaveStats(player, statsRecorded) {
+        if (!statsRecorded) {
+            player.leaveStatsRecorded = true;
+            player.recordStat("survival", false);
+            player.recordStat("abandons", true);
+        }
+    }
+
+    async vegPlayer(player) {
+        this.recordLeaveStats(player, false);
+        super.vegPlayer(player);
+    }
+
+    start() {
+        super.start();
+
+        for (let player of this.players)
+            player.recordStat("totalGames");
     }
 
     incrementState() {
@@ -218,7 +263,7 @@ module.exports = class MafiaGame extends Game {
 
     async endGame(winners) {
         for (let player of this.players) {
-            if (winners.players.indexOf(player) != -1)
+            if (player.won)
                 player.recordStat("wins", true);
             else
                 player.recordStat("wins", false);

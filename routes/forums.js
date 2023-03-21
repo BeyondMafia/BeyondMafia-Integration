@@ -1,3 +1,4 @@
+const axios = require("axios")
 const express = require("express");
 const shortid = require("shortid");
 const constants = require("../data/constants");
@@ -397,7 +398,7 @@ router.post("/thread", async function (req, res) {
         var perm = "createThread";
 
         var board = await models.ForumBoard.findOne({ id: boardId })
-            .select("rank");
+            .select("rank name id");
 
         if (!board) {
             res.status(500);
@@ -449,6 +450,32 @@ router.post("/thread", async function (req, res) {
                 $inc: { threadCount: 1 }
             }
         ).exec();
+
+        try {
+            const alertSettings = JSON.parse(process.env.FORUM_DISCORD_WEBHOOOKS);
+            const useWebook     = alertSettings.find( (curWebook) => {
+                return curWebook.boards.indexOf(board.id) !== -1;
+            } );
+
+            if (useWebook) {
+                await axios( {
+                    "method" : "post",
+                    "url"    : useWebook.hook,
+                    "data"   : {
+                        "content" : "New thread in " + board.name,
+                        "embeds"  : [ {
+                            "url"   : process.env.BASE_URL + "/community/forums/thread/" + thread.id,
+                            "title" : title,
+                        } ],
+                    },
+                } );
+            }
+        } catch (e) {
+            // error stack is pretty untracable with the error, and i didn't want to modify the error object itself,
+            // so I'm just posting 2 warnings to the logger
+            logger.warn("Error posting forum thread to webhook");
+            logger.warn(e);
+        }
 
         res.send(thread.id);
     }

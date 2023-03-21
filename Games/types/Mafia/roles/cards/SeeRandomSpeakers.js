@@ -5,9 +5,6 @@ module.exports = class SeeRandomSpeakers extends Card {
 
     constructor(role) {
         super(role);
-        this.appearance = {
-            self: "Villager"
-        };
     }
 
     hear(message) {

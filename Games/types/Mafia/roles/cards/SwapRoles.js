@@ -11,12 +11,17 @@ module.exports = class SwapRoles extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    labels: ["hidden", "absolute"],
+                    labels: ["hidden", "absolute", "convert"],
                     priority: PRIORITY_SWAP_ROLES,
                     run: function () {
+                        if (!this.dominates()) {
+                            return;
+                        }
+                        
                         var currRoleName = this.actor.role.name;
                         var currRoleModifier = this.actor.role.modifier;
                         var currRoleData = this.actor.role.data;
+
                         this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`, this.target.role.data);
                         this.target.setRole(`${currRoleName}:${currRoleModifier}`, currRoleData);
                     }

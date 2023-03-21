@@ -161,6 +161,10 @@ export const Emotes = {
 		name: "catjam",
 		type: "gif"
 	},
+	":ratjam:": {
+		name: "ratjam",
+		type: "gif"
+	},
 	":ditto:": {
 		name: "ditto",
 		type: "gif"
@@ -171,7 +175,7 @@ export const Emotes = {
 	},
 	":gay:": {
 		name: "gay",
-		type: "gif"
+		type: "png"
 	},
 	":hamster:": {
 		name: "hamster",
@@ -415,6 +419,46 @@ export const Emotes = {
 	},
 	"zzz": {
 		name: "zzz",
+		type: "png"
+	},
+	":tip:": {
+		name: "tip",
+		type: "gif"
+	},
+	":tipb:": {
+		name: "tipb",
+		type: "gif"
+	},
+	":chick:": {
+		name: "chick",
+		type: "png"
+	},
+	":taco:": {
+		name: "taco",
+		type: "gif"
+	},
+	":eee:": {
+		name: "eee",
+		type: "png"
+	},
+	":awoo:": {
+		name: "awoo",
+		type: "png"
+		},
+	":pepeawooga:": {
+		name: "awooga128",
+		type: "png"
+		},
+	":rainbowdoge:": {
+		name: "rainbowdoge",
+		type: "png"
+		},
+	":thomas:": {
+		name: "thomasoface",
+		type: "png"
+		},
+	":pepereee:": {
+		name: "reeeee1",
 		type: "png"
 	},
 };

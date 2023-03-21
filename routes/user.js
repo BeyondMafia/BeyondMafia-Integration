@@ -9,8 +9,11 @@ const models = require("../db/models");
 const routeUtils = require("./utils");
 const redis = require("../modules/redis");
 const constants = require("../data/constants");
+const dbStats = require("../db/stats");
 const logger = require("../modules/logging")(".");
 const router = express.Router();
+
+const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]{11}).*/;
 
 router.get("/info", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
@@ -184,6 +187,21 @@ router.get("/:id/profile", async function (req, res) {
         user.groups = (await redis.getBasicUserInfo(userId)).groups;
         user.maxFriendsPage = Math.ceil(user.numFriends / constants.friendsPerPage) || 1;
 
+        var allStats = dbStats.allStats();
+        user.stats = user.stats || allStats;
+
+        for (let gameType in allStats) {
+            if (!user.stats[gameType])
+                user.stats[gameType] = dbStats.statsSet(gameType);
+            else {
+                let statsSet = dbStats.statsSet(gameType);
+
+                for (let objName in statsSet)
+                    if (!user.stats[gameType][objName])
+                        user.stats[gameType][objName] = statsSet[objName];
+            }
+        }
+
         if (isSelf) {
             var friendRequests = await models.FriendRequest.find({ targetId: userId })
                 .select("userId user")
@@ -320,7 +338,7 @@ router.get("/settings/data", async function (req, res) {
     try {
         var userId = await routeUtils.verifyLoggedIn(req, true);
         var user = userId && await models.User.findOne({ id: userId, deleted: false })
-            .select("name settings -_id");
+            .select("name birthday settings -_id");
 
         if (user) {
             user = user.toJSON();
@@ -329,6 +347,7 @@ router.get("/settings/data", async function (req, res) {
                 user.settings = {};
 
             user.settings.username = user.name;
+            user.birthday = Date.parse(user.birthday);
             res.send(user.settings);
         }
         else
@@ -355,6 +374,41 @@ router.get("/accounts", async function (req, res) {
     catch (e) {
         logger.error(e);
         res.send("Unable to load settings")
+    }
+});
+
+router.post("/youtube", async function (req, res){
+    res.setHeader("Content-Type", "application/json");
+    try{
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let prop = String(req.body.prop);
+        let value = String(req.body.link);
+
+        // Make sure string is less than 50 chars.
+        if (value.length > 50) {
+            value = value.substring(0, 50);
+        }
+
+        // Match regex, and remove trailing chars after embedID
+        let matches = value.match(youtubeRegex) ?? "";
+        let embedId = 0;
+        if (matches && matches.length >= 7) {
+            embedId = matches[7];
+        }
+        let embedIndex = value.indexOf(embedId);
+
+        // Youtube video IDs are 11 characters, so get the substring,
+        // & end at the end of the found embedID.
+        value = value.substring(0, embedIndex + 11);                
+
+        await models.User.updateOne({ id: userId }, { $set: { [`settings.youtube`]: value } });
+        await redis.cacheUserInfo(userId, true);
+        res.send("Video updated successfully.");
+    }
+    catch(e){
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating video.")
     }
 });
 
@@ -521,6 +575,44 @@ router.post("/avatar", async function (req, res) {
             logger.error(e);
             res.send("Error uploading avatar image.");
         }
+    }
+});
+
+router.post("/birthday", async function (req, res){
+    res.setHeader("Content-Type", "application/json");
+    try{
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let prop = String(req.body.prop);
+        var itemsOwned = await redis.getUserItemsOwned(userId);
+        var perm = "changeBday";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm))) {
+            return;
+        }
+        let value = String(req.body.date);
+
+        if (!itemsOwned.bdayChange) {
+            res.status(500);
+            res.send("You must purchase another birthday change from the Shop.");
+            return;
+        }
+
+        await models.User.updateOne(
+            { id: userId },
+            {
+                $set: { birthday: value, bdayChanged: true },
+                $inc: { "itemsOwned.bdayChange": -1 }
+            }
+        ).exec();
+        await redis.cacheUserInfo(userId, true);
+
+        res.sendStatus(200);
+
+    }
+    catch(e){
+        logger.error(e);
+        res.status(500);
+        res.send("Error updating birthday.");
     }
 });
 

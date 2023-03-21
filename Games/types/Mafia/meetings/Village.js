@@ -21,7 +21,7 @@ module.exports = class VillageMeeting extends Meeting {
             this.game.timers["main"] &&
             !this.game.timers["secondary"]
         ) {
-            this.game.createTimer("secondary", 30000, this.game.timers["main"].then);
+            this.game.createTimer("secondary", 60000, this.game.timers["main"].then);
         }
     }
 
@@ -45,7 +45,13 @@ module.exports = class VillageMeeting extends Meeting {
                     member.player.recordStat("reads", false);
             }
 
-            if (member.id == this.finalTarget)
+            // Check if player vegged. If so, then DON'T record survival.
+            // Because we should record this stat in the veg function in Mafia/Game.js instead.
+            if(this.votes[member.id] === undefined){
+                return;
+            }
+
+            if (member.player == this.finalTarget)
                 member.player.recordStat("survival", false);
             else
                 member.player.recordStat("survival", true);

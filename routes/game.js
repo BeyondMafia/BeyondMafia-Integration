@@ -145,6 +145,12 @@ router.get("/:id/connect", async function (req, res) {
             return;
         }
 
+        if (userId && game.settings.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
+            res.status(500);
+            res.send("You are unable to play ranked games. Please check the pinned threads in Community > Discussion.");
+            return;
+        }
+
         var type = game.type;
         var port = game.port;
         var token = userId && await redis.createAuthToken(userId);
@@ -166,13 +172,22 @@ router.get("/:id/connect", async function (req, res) {
 router.get("/:id/review/data", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
         var gameId = String(req.params.id);
+        var perm = "reviewPrivate";
+
         let game = await models.Game.findOne({ id: gameId })
             .select("-_id")
             .populate("setup", "-_id")
             .populate("users", "id avatar tag settings emojis -_id");
 
-        if (game && !game.private) {
+        if (
+            game &&
+            (
+                !game.private ||
+                (userId && (await routeUtils.verifyPermission(res, userId, perm)))
+            )
+        ) {
             game = game.toJSON();
             game.users = game.users.map(user => ({
                 ...user,
@@ -323,9 +338,9 @@ router.post("/host", async function (req, res) {
             return;
         }
 
-        if (req.body.ranked && setup.total < 7) {
+        if (req.body.ranked && !setup.ranked) {
             res.status(500);
-            res.send("Ranked games must have at least 7 players.");
+            res.send("This setup has not been approved by mods for ranked play. Please check the pinned threads in Community > Discussion.");
             return;
         }
 
@@ -359,9 +374,9 @@ router.post("/host", async function (req, res) {
             return;
         }
 
-        if (req.body.ranked && !(await routeUtils.verifyPermission(userId, "hostRanked"))) {
+        if (req.body.ranked && !(await routeUtils.verifyPermission(userId, "playRanked"))) {
             res.status(500);
-            res.send("You are unable to host ranked games.");
+            res.send("You are unable to play ranked games. Please check the pinned threads in Community > Discussion.");
             return;
         }
 
@@ -583,6 +598,9 @@ const lobbyChecks = {
     "Competitive": (gameType, setup, settings) => {
         if (gameType != "Mafia")
             return "Only Mafia is allowed in Competitive lobby.";
+
+        if (setup.ranked)
+            return "Ranked games are not allowed in Sandbox lobby.";
 
         if (!setup.comp)
             return "Only comp games are allowed in Competitive lobby";

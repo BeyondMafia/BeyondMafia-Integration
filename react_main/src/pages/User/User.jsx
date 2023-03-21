@@ -10,6 +10,32 @@ import { SubNav } from "../../components/Nav";
 import { HiddenUpload } from "../../components/Form";
 
 import "../../css/user.css"
+import { flipTextColor } from "../../utils";
+
+
+export function YouTubeEmbed(props) {
+	const embedId = props.embedId;
+	var autoplay = "";
+	if (props.autoplay) {
+		autoplay = 1;
+	}
+	else {
+		autoplay = 0;
+	}
+	if (embedId !== null && embedId !== "") {
+		return (
+		<div id="profile-video" className="video-responsive">
+			<iframe
+				src={`https://www.youtube.com/embed/${embedId}?autoplay=${autoplay}&mute=0`}
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media;"
+				allowFullScreen>
+			</iframe>
+		</div>);
+	}
+	else {
+		return null;
+	}
+}
 
 export default function User(props) {
 	const user = useContext(UserContext);
@@ -138,7 +164,7 @@ export function NameWithAvatar(props) {
 				name={name}
 				small={small}
 				active={active} />
-			<div className="user-name" style={color ? { color: color } : {}}>{name}</div>
+			<div className="user-name" style={color ? { color: flipTextColor(color) } : {}}>{name}</div>
 			{groups &&
 				<Badges groups={groups} small={small} />
 			}

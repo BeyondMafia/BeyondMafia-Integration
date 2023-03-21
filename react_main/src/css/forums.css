@@ -538,8 +538,8 @@
 	padding: 5px;
 
 	word-break: break-word;
-	background-color: white;
-	color: black;
+	background-color: var(--scheme-color);
+	color: var(--scheme-color-text);
 }
 
 

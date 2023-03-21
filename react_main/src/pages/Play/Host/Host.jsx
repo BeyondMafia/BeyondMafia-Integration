@@ -86,7 +86,7 @@ export default function Host(props) {
         var args = [listType, page];
 
         if (searchVal.length)
-            args.append(searchVal);
+            args.push(searchVal);
 
         getSetupList(...args);
     }
