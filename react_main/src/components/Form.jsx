@@ -214,6 +214,7 @@ export default function Form(props) {
 				else {
 					currentValue = new Date(field.value);
 				}
+				var currentYear = new Date().getFullYear();
 				return (
 					<div className={fieldWrapperClass} key={field.ref}>
 						<div className="label">
@@ -227,9 +228,10 @@ export default function Form(props) {
 							nativeInputAriaLabel="Date"
 							onChange={e => onDChange(e, field, true)}
 							value={currentValue}
-							default={subtractYears(new Date(), 13)}
-							yearAriaLabel="Year"
-							maxDate={subtractYears(new Date(), 13)}
+							default={new Date()}
+							maxDetail="month"
+							maxDate={new Date(currentYear, 11, 31)}
+							minDate={new Date(currentYear, 0, 1)}
 						/>
 						{field.saveBtn &&
 						 Date.parse(props.deps.user[field.saveBtnDiffer]) 
@@ -283,11 +285,6 @@ export default function Form(props) {
 			}
 		</div>
 	);
-}
-
-function subtractYears(date, years) {
-	date.setFullYear(date.getFullYear() - years);
-	return date;
 }
 
 function Switch(props) {

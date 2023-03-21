@@ -233,12 +233,7 @@ export default function Settings(props) {
 				deps.siteInfo.showAlert("Birthday set", "success");
 
 				deps.user.set(update(deps.user, {
-					birthday: { $set: date },
-					itemsOwned: {
-						bdayChange: {
-							$set: deps.user.itemsOwned.bdayChange - 1
-						}
-					}
+					birthday: { $set: date }
 				}));
 			})
 			.catch(deps.errorAlert);
