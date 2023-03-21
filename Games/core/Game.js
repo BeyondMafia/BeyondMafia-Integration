@@ -836,7 +836,7 @@ module.exports = class Game {
         for (let player of this.players) {
             player.sendMeeting(this.vegMeeting);
         }
-        this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
+        // this.createTimer("vegKick", this.vegKickCountdownLength, () => this.gotoNextState());
         this.checkAllMeetingsReady();
     }
 

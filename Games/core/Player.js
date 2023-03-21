@@ -859,8 +859,13 @@ module.exports = class Player {
         for (let meeting of this.game.meetings)
             meeting.generateTargets();
 
+        if (this.game.vegMeeting !== undefined) {
+            this.game.vegMeeting.checkEnoughPlayersKicked();
+        }
+
         this.game.sendMeetings();
         this.game.checkAllMeetingsReady();
+
     }
 
     revive(revivalType, reviver, instant) {

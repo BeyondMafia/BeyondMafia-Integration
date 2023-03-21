@@ -106,7 +106,8 @@ module.exports = class VegReadyMeeting extends Meeting {
 
         if (!this.finished) {
             this.finished = true;
-            this.game.timers.vegKick.setTime(this.vegCounter);
+            // this.game.timers.vegKick.setTime(this.vegCounter);
+            this.game.createTimer("vegKick", this.vegCounter, () => this.game.gotoNextState());
             this.game.sendAlert("Enough kicks, vegging players!");
         }
     }
