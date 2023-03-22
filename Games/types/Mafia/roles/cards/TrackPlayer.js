@@ -29,7 +29,7 @@ module.exports = class TrackPlayer extends Card {
                         if (visits.length == 0)
                             visits.push("no one");
 
-                        this.actor.queueAlert(`${this.target.name} visited ${visits.join(", ")} during the night.`);
+                        this.actor.queueAlert(`:sy0g: ${this.target.name} visited ${visits.join(", ")} during the night.`);
                     }
                 }
             }
