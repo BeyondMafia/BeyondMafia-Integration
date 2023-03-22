@@ -337,16 +337,23 @@ module.exports = class Meeting {
             }
         }
 
-        for (let voterId in this.votes)
-            if (this.targets.indexOf(this.votes[voterId]) == -1){
-                this.members[voterId].canUnvote = true;
-                this.unvote(this.members[voterId], this.votes[voterId]);
-                if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
-                    this.members[voterId].canUnvote = false;
-                    this.members[voterId].canUpdateVote = true;
-                }
-                
+        for (let voterId in this.votes) {
+            // voted for someone who is still a valid target
+            if (this.targets.indexOf(this.votes[voterId]) != -1) {
+                continue;
             }
+
+            // unvote the invalid target
+            this.members[voterId].canUnvote = true;
+            this.unvote(this.members[voterId], this.votes[voterId]);
+
+            // re-enable voting even during kicks
+            if (this.game.kickMeeting && this.game.kickMeeting.finished) {
+                this.members[voterId].canUnvote = false;
+                this.members[voterId].canUpdateVote = true;
+            }   
+        }
+            
     }
 
     parseTargetDefinitions(targets, targetType, players, self) {
@@ -525,31 +532,37 @@ module.exports = class Meeting {
 
         this.checkReady();
 
-        
-        if (this.game.vegMeeting !== undefined && !this.game.vegMeeting.finished &&
-                this.id !== this.game.vegMeeting.id && Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] === undefined) { 
-            var allVoted = true;
-            var otherMeetings = Object.values(this.game.history.states[this.game.currentState].meetings)
-                                .filter(x => x.id !== this.game.vegMeeting.id && x.noVeg === false);
-            for (let i = 0; i < otherMeetings.length; i++) {
-                if (Object.values(otherMeetings[i].members).filter(x => x.id === voter.id)[0] !== undefined) {
-                    if (otherMeetings[i].votes[voter.id] === undefined) {
-                        allVoted = false;
-                        break;
-                    }
-                }
-            }
-            if (allVoted) {
-                this.game.vegMeeting.join(this.members[voter.id].player);
-                this.members[voter.id].player.sendMeeting(this.game.vegMeeting);
+        if (!this.game.kickMeeting || this.id === this.game.kickMeeting.id) {
+            return true;
+        }
+
+        // enough kicks reached
+        if (this.game.kickMeeting.finished) {
+            this.members[voter.id].canUpdateVote = false;
+            this.members[voter.id].canUnvote = false;
+            return true;
+        }
+
+        if (this.game.kickMeeting.hasJoined(player)) {
+            return true;
+        }
+
+        // check if player has voted in all their meetings, then add them to the kick meeting
+        var votedInAllMeetings = true;
+        let player = this.members[voter.id].player;
+        var otherMeetings = player.getMeetings().filter(x => x.id !== this.game.kickMeeting.id && x.noVeg === false);
+
+        for (let meeting of otherMeetings) {
+            if (!meeting.votes[voter.id]) {
+                votedInAllMeetings = false;
+                break;
             }
         }
 
-        if (this.game.vegMeeting !== undefined && this.game.vegMeeting.finished) {
-            this.members[voter.id].canUpdateVote = false;
-            this.members[voter.id].canUnvote = false;
+        if (votedInAllMeetings) {
+            this.game.kickMeeting.join(player);
+            player.sendMeeting(this.game.kickMeeting);
         }
-        
 
         return true;
     }
@@ -606,13 +619,11 @@ module.exports = class Meeting {
 
         this.checkReady();
 
-        if (this.noVeg === false) {
-            if (this.game.vegMeeting !== undefined) {
-                if (Object.values(this.game.vegMeeting.members).filter(x => x.id === voter.id)[0] !== undefined) {
-                    this.game.vegMeeting.leave(this.members[voter.id].player, true);
-                    this.members[voter.id].player.leftMeeting(this.game.vegMeeting);
-                }
-            }
+        // meeting requires vote, player is no longer eligible for the kicks meeting
+        if (this.noVeg === false &&
+            this.game.kickMeeting &&
+            this.game.kickMeeting.hasJoined(player)) {
+                this.game.kickMeeting.leave(player, true);
         }
 
         return true;
