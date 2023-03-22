@@ -12,13 +12,13 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 
 ## Running the site locally
 
-> If you don't have a working dev environment, you can check out [this guide](/docs/github-codespace.md) for running the code remotely on Github Codespaces.
+> If you don't have a working dev environment, you can check out [this guide](/docs/setup-github-codespace.md) for running the code remotely on Github Codespaces.
 
 #### Prerequisites
 
 1. Install node.js, and set the version to `v14.15.1`.
 
-2. Install MongoDB and Redis and run them as services. If using Windows, install Memurai instead of Redis. You can refer to [this guide](/docs/mongo-redis-docker.md) for setting up MongoDB and Redis via docker.
+2. Install MongoDB and Redis and run them as services. If using Windows, install Memurai instead of Redis. You can refer to [this guide](/docs/setup-mongo-redis-docker.md) for setting up MongoDB and Redis via docker.
 
 3. Clone your forked repository. Replace "r3ndd" with your github username.
 
@@ -53,7 +53,7 @@ npm install
 
 2. Create a `.env` file for the React app under `BeyondMafia-Integration/react_main/.env` and copy this [example file](/docs/client_env)
 
-3. Refer to [this guide](/docs/dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
+3. Refer to [this guide](/docs/setup-dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
 
 #### Start the site
 
@@ -71,6 +71,7 @@ npm start
 
 ## Role and game creation
 
-- [Role Creation Guide](/docs/role-creation-guide.md)
-- [Role Icon Guide](/docs/role-icons.md)
+- [Role Creation Guide](/docs/guide-role-creation.md)
+- [Role Icon Guide](/docs/guide-role-icons.md)
+
 Detailed documentation for role/game creation coming soon.
