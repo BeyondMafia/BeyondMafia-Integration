@@ -248,13 +248,9 @@ module.exports = class Player {
         return will;
     }
 
-    getVegMeeting() {
-        var stateMeetings = this.getMeetings(this.game.currentState);
-        var vegMeeting = stateMeetings.filter(x => x.name === "Vote Kick");
-        if (vegMeeting && vegMeeting.length > 0) {
-            return vegMeeting[0];
-        }
-    }
+    getVegKickMeeting() {
+        return this.game.vegKickMeeting;
+     }
 
     parseCommand(message) {
         var split = message.content.replace("/", "").split(" ");
@@ -268,9 +264,9 @@ module.exports = class Player {
         switch (cmd.name) {
             case "kick":
                 // Allow /kick to be used to kick players during veg votekick.
-                var vegMeeting = this.getVegMeeting();
-                if (vegMeeting) {
-                    vegMeeting.vote(this, "Kick");
+                var vegKickMeeting = this.getVegKickMeeting();
+                if (vegKickMeeting !== undefined) {
+                    vegKickMeeting.vote(this, "Kick");
                     return;
                 }
                 if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
@@ -859,8 +855,8 @@ module.exports = class Player {
         for (let meeting of this.game.meetings)
             meeting.generateTargets();
 
-        if (this.game.vegMeeting !== undefined) {
-            this.game.vegMeeting.checkEnoughPlayersKicked();
+        if (this.game.vegKickMeeting !== undefined) {
+            this.game.vegKickMeeting.checkEnoughPlayersKicked();
         }
 
         this.game.sendMeetings();

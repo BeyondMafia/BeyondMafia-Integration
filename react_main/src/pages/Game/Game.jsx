@@ -1920,7 +1920,7 @@ export function Timer(props) {
     if(timerName === "vegKick"){
         return (
             <div className="state-timer">
-                Votekick Timer: {time}
+                Kicking in {time}
             </div>
         );
     }

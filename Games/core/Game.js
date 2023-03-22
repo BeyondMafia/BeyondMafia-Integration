@@ -20,7 +20,7 @@ const logger = require("../../modules/logging")("games");
 const constants = require("../../data/constants");
 const routeUtils = require("../../routes/utils");
 const PostgameMeeting = require("./PostgameMeeting");
-const VegReadyMeeting = require("./VegReadyMeeting");
+const VegKickMeeting = require("./VegKickMeeting");
 
 module.exports = class Game {
 
@@ -742,7 +742,6 @@ module.exports = class Game {
     }
 
     gotoNextState() {
-        
         var stateInfo = this.getStateInfo();
 
         // Clear current timers
@@ -794,7 +793,7 @@ module.exports = class Game {
         this.processAlertQueue();
         this.events.emit("meetingsMade");
 
-        this.vegMeeting = undefined;
+        this.vegKickMeeting = undefined;
 
         // Create next state timer
         this.createNextStateTimer(stateInfo);
@@ -808,33 +807,40 @@ module.exports = class Game {
     checkVeg() {
         this.clearTimer("main");
         this.clearTimer("secondary");
-        this.vegMeeting = this.createMeeting(VegReadyMeeting, "vegKickMeeting");
-        var vegMeetings = Object.values(this.history.states[this.currentState].meetings).filter(x => x.id !== this.vegMeeting.id);
+
+        this.vegKickMeeting = this.createMeeting(VegKickMeeting, "vegKickMeeting");
+
+        var toJoinVegKickMeeting = [];
         for (let player of this.players) {
-            var addToKick = true;
-            if (player.alive) {
-                for (let i = 0; i < vegMeetings.length; i++) {
-                    if (vegMeetings[i].members[player.id] !== undefined) {
-                        if (vegMeetings[i].votes[player.id] === undefined) {
-                            if (vegMeetings[i].members[player.id].canVote && vegMeetings[i].members[player.id].canUpdateVote) {
-                                addToKick = false;
-                            }
-                        }
+            if (!player.alive) {
+                continue;
+            }
+
+            var addToVegKickMeeting = true;
+            let otherMeetings = player.getMeetings().filter(x => x.id !== this.vegKickMeeting.id);
+            for (let meeting of otherMeetings) {
+                // player has not voted
+                if (meeting.votes[player.id] === undefined &&
+                    meeting.members[player.id].canVote &&
+                    meeting.members[player.id].canUpdateVote) {
+                        addToVegKickMeeting = false;
                     }
-                }
             }
-            else {
-                addToKick = false;
-            }
-            if (addToKick) {
-                this.vegMeeting.join(player);
+
+            if (addToVegKickMeeting) {
+                toJoinVegKickMeeting.push(player);
             }
         }
 
-        this.vegMeeting.init();
+        // this part is the same as (future) instant meeting logic so i've extracted it out
+        for (let player of toJoinVegKickMeeting) {
+            this.vegKickMeeting.join(player);
+        }
+
+        this.vegKickMeeting.init();
 
         for (let player of this.players) {
-            player.sendMeeting(this.vegMeeting);
+            player.sendMeeting(this.vegKickMeeting);
         }
         this.checkAllMeetingsReady();
     }
@@ -1071,26 +1077,17 @@ module.exports = class Game {
     checkAllMeetingsReady() {
         var allReady = true;
 
-        var vegReadyMeeting = this.getMeetings().filter(x => x.name === "Vote Kick");
-        if (vegReadyMeeting.length > 0) {
-            for (let meeting of this.meetings) {
-                if(meeting.name !== "Vote Kick" && !meeting.noVeg){
-                    if (!meeting.ready) {
-                        allReady = false;
-                        break;
-                    }
-                }
+        for (let meeting of this.meetings) {
+            let extraConditionDuringKicks = true;
+            if (this.vegKickMeeting !== undefined) {
+                extraConditionDuringKicks = meeting.name !== "Vote Kick" && !meeting.noVeg
+            }
+
+            if (!meeting.ready && extraConditionDuringKicks) {
+                allReady = false;
+                break;
             }
         }
-        else {
-            for (let meeting of this.meetings) {
-                if (!meeting.ready) {
-                    allReady = false;
-                    break;
-                }
-            }
-        }
-        
 
         if (allReady)
             this.gotoNextState();
