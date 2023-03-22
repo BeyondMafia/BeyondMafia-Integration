@@ -10,7 +10,6 @@ module.exports = class Loudmouth extends Role {
             "VillageCore",
             "WinWithVillage",
             "Humble",
-            "EnqueueVisitors",
             "CryOutVisitors"];
     }
 
