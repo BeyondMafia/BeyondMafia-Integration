@@ -465,6 +465,15 @@ const roleData = {
                 "Chooses to visit a dead player at night and learns their role idenity."
             ],
         },
+        "Mourner": {
+            alignment: "Village",
+            description: [
+                "Can ask players in the graveyard a question every night.",
+                "The players can answer with yes or no.",
+                "The mourner will receive the results of the vote.",
+            ],
+            graveyardParticipation: "all",
+        },
         "Santa": {
             alignment: "Village",
             description: [
