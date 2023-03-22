@@ -27,8 +27,8 @@ module.exports = class MafiaPlayer extends Player {
 
         switch (cmd.name) {
             case "extend":
-                var kickMeeting = super.getVegKickMeeting();
-                if (kickMeeting) {
+                var vegKickMeeting = super.getVegKickMeeting();
+                if (vegKickMeeting !== undefined) {
                     return;
                 }
                 if (this.game.getStateName() != "Day" || this.votedForExtension || !this.alive)

@@ -348,7 +348,6 @@ module.exports = class Meeting {
 
             // re-enable voting even during kicks
             if (this.game.vegKickMeeting !== undefined && this.game.vegKickMeeting.finished) {
-                this.members[voterId].canUnvote = false;
                 this.members[voterId].canUpdateVote = true;
             }   
         }
