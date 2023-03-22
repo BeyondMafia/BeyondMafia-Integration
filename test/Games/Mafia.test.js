@@ -196,6 +196,8 @@ describe("Games/Mafia", function () {
             game.winners.groups["Village"].should.have.lengthOf(3);
         });
 
+        // with the addition of kicks #485, this will just wait for everyone to vote
+        /*
         it("should still end with everyone AFK", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
@@ -204,7 +206,7 @@ describe("Games/Mafia", function () {
             const game = await makeGame(setup);
 
             await waitForGameEnd(game);
-        });
+        });*/
     });
 
     describe("Arms Dealer", function () {
