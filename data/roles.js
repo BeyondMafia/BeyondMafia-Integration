@@ -977,6 +977,12 @@ const roleData = {
                 
                 ],
         },
+        "Phantom": {
+            alignment: "Independent",
+            description: [
+                "Wins if in the graveyard when the game ends",
+            ],
+        },
     },
     "Split Decision": {
         //Blue
