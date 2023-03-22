@@ -9,7 +9,8 @@ module.exports = function (type, name) {
         "poison": `${name} finally succumbs to poison.`,
         "lynchRevenge": `${name} was killed in an act of revenge.`,
         "bomb": `${name} explodes into a thousand pieces.`,
-        "curse": `${name} feels a cold chill run down their spine!`
+        "curse": `${name} feels a cold chill run down their spine!`,
+        "love": `${name} misses their beloved too much.`,
 
     };
 
