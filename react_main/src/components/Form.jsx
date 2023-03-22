@@ -208,7 +208,7 @@ export default function Form(props) {
 							{field.label}
 						</div>
 						<DatePicker
-						    format='MMMM dd'
+							format='MMMM dd'
 							calendarAriaLabel="Toggle calendar"
 							clearAriaLabel="Clear value"
 							dayAriaLabel="Day"
