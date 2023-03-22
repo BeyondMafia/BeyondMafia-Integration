@@ -34,12 +34,22 @@ module.exports = class BreadGiver extends Card {
         };
         this.listeners = {
             "rolesAssigned": function () {
-                for (let player of this.game.players){
-                    if(!player.hasItem("Bread")){
-                        player.holdItem("Bread");
-                        player.holdItem("Bread");
+                for (let player of this.game.players) {
+                    if (player.role.name === "Turkey") {
+                        continue;
                     }
-                    if(!player.hasEffect("Famished"))
+
+                    let items = player.items.map(a => a.name);
+                    let breadCount = 0;
+                    for (let item of items) {
+                        if (item == "Bread")
+                            breadCount++;
+                    }
+                    while (breadCount < 2) {
+                        player.holdItem("Bread");
+                        breadCount++;
+                    }
+                    if (!player.hasEffect("Famished"))
                         player.giveEffect("Famished");
                 }
             },

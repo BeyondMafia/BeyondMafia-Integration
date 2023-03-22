@@ -357,8 +357,7 @@ const roleData = {
             description: [
                 "When baker is present in the game, all players start with two breads.",
                 "Gives out up to two breads each night.",
-                "If all bakers die, a famine will start, and each player will consume one bread per day cycle and night cycle.",
-                "Players who run out of bread after famine has begun will die."
+                "If all bakers die, a famine will start."
             ],
         },
         "Virgin": {
@@ -939,6 +938,15 @@ const roleData = {
             description: [
                 "Each night chooses two players to go on a date. If they are the same alignment, they will fall in love.",
                 "Wins if all players left alive are in love.",
+            ],
+        },
+        "Turkey": {
+            alignment: "Independent",
+            description: [
+                "The game begins with a famine, with each player starting with four bread.",
+                "Turkeys are immune to the famine.",
+                "Whenever a turkey dies, the village turns it into 2 turkey meals to survive the famine.",
+                "The turkeys win if they survive to the end of the game and everyone else dies of famine.",
             ],
         },
         "Prophet": {
