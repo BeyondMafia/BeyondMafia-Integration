@@ -18,7 +18,7 @@ module.exports = class CryOutVisitors extends Card {
                     if (visitors?.length) {
                         let names = visitors?.map(visitor => visitor.name);
                         this.game.queueAlert(`Someone shouts during the night: `
-                            + `Curses! ${names.join(", ")} disturbed my slumber!`);
+                            + `:sy1e: Curses! ${names.join(", ")} disturbed my slumber!`);
                         this.actor.role.data.visitors = [];
                     }
                 }

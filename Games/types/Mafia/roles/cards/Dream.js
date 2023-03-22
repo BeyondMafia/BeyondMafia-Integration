@@ -41,10 +41,10 @@ module.exports = class Dream extends Card {
                     var messageProb = Random.randInt(0, 1);
 
                     if (village.length == 0)
-                        dream = `You had a dream that you can trust no one but yourself...`;
+                        dream = `:sy2f: You had a dream that you can trust no one but yourself...`;
                     else if (mafia.length == 0 || messageProb == 0) {
                         var chosenOne = Random.randArrayVal(village);
-                        dream = `You had a dream that you can trust ${chosenOne.name}...`;
+                        dream = `:sy2f: You had a dream that you can trust ${chosenOne.name}...`;
                     }
                     else {
                         if (chosenThree.filter(p => p.role.alignment == "Mafia").length == 0) {
@@ -52,7 +52,7 @@ module.exports = class Dream extends Card {
                             chosenThree = Random.randomizeArray(chosenThree);
                         }
 
-                        dream = `You had a dream where at least one of ${chosenThree[0].name}, ${chosenThree[1].name}, and ${chosenThree[2].name} is the Mafia...`;
+                        dream = `:sy2f: You had a dream where at least one of ${chosenThree[0].name}, ${chosenThree[1].name}, and ${chosenThree[2].name} is the Mafia...`;
                     }
 
                     this.actor.queueAlert(dream);
