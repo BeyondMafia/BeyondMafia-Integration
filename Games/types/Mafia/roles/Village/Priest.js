@@ -12,7 +12,7 @@ module.exports = class Priest extends Role {
             "CleanseInfectedVisitors",
             "KillMonsterVisitors"
         ];
-        this.immunity.infect = 1;
+        this.immunity.infected = 1;
     }
 
 }
