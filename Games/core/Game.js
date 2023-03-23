@@ -802,7 +802,12 @@ module.exports = class Game {
     }
 
     createNextStateTimer(stateInfo) {
-        this.createTimer("main", stateInfo.length, () => this.checkVeg());
+        if (this.isTest) {
+            this.createTimer("main", stateInfo.length, () => this.gotoNextState());
+        }
+        else {
+            this.createTimer("main", stateInfo.length, () => this.checkVeg());
+        }
         this.checkAllMeetingsReady();
     }
 
