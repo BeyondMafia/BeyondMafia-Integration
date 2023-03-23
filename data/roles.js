@@ -200,7 +200,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Cleanses Infected when visited by them.",
-                "Kills Vampires and Werewolves when visited by them."
+                //"Kills Vampires and Werewolves when visited by them."
             ],
         },
         "Mason": {
