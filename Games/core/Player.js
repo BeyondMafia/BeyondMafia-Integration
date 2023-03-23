@@ -251,15 +251,16 @@ module.exports = class Player {
     // Checks that player has voted in all meetings except the vegkick meeting.
     // This function is used during the vegkick meeting, so vegkickmeeting should not be undefined.
     hasVotedInAllMeetings() {
+        let allMeetings = this.getMeetings();
         let vegKickMeetingId = this.getVegKickMeeting()?.id;
 
-        for (let meeting of otherMeetings) {
+        for (let meeting of allMeetings) {
             if (meeting.id === vegKickMeetingId) {
                 continue;
             }
 
             // player has not voted
-            if (meeting.members[player.id].canVote && meeting.votes[player.id] === undefined) {
+            if (meeting.members[this.id].canVote && meeting.votes[this.id] === undefined) {
                 return false;
             }
         }

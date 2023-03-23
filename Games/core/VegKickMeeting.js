@@ -12,6 +12,8 @@ module.exports = class VegKickMeeting extends Meeting {
         this.inputType = "button";
         this.targets = ["Kick"];
         this.votesInvisible = true;
+
+        this.hasFrozenOtherMeetings = false;
     }
 
     getMeetingInfo(player) {
@@ -32,6 +34,10 @@ module.exports = class VegKickMeeting extends Meeting {
     }
 
     freezeOtherMeetings() {
+        if (this.hasFrozenOtherMeetings) {
+            return;
+        }
+
         // disable vote for everyone
         // set canUnvote = false
         // if the player has voted, set canUpdateVote = false
@@ -48,12 +54,18 @@ module.exports = class VegKickMeeting extends Meeting {
                 }
             }
         }
+
+        this.hasFrozenOtherMeetings = true;
     }
 
     checkEnoughPlayersKicked() {
         var numAlive = Object.values(this.game.players).filter(x => x.alive).length;
         let vegKickThreshold = Math.ceil(numAlive / 3);
-        if (!Object.keys(this.votes).length < vegKickThreshold) {
+
+        let numKicked = Object.keys(this.votes).length;
+
+        this.game.sendAlert(`Kicking... ${numKicked} / ${vegKickThreshold}`);
+        if (numKicked < vegKickThreshold) {
             return;
         }
 
