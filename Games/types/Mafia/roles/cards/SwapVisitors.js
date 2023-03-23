@@ -14,6 +14,11 @@ module.exports = class SwapVisitors extends Card {
                 action: {
                     priority: PRIORITY_SWAP_VISITORS_A,
                     run: function () {
+                        if (this.target.role.name === "Drunk") {
+                            if (this.dominates()) {
+                                this.actor.kill("basic", this.actor);
+                            }
+                        }
                         this.actor.role.data.destinationA = this.target;
                     }
                 }
@@ -25,6 +30,11 @@ module.exports = class SwapVisitors extends Card {
                 action: {
                     priority: PRIORITY_SWAP_VISITORS_B_AND_SWAP,
                     run: function () {
+                        if (this.target.role.name === "Drunk") {
+                            if (this.dominates()) {
+                                this.actor.kill("basic", this.actor);
+                            }
+                        }
                         if (this.actor.role.data.destinationA){
                             var destinationA = this.actor.role.data.destinationA;
                             var destinationB = this.target;
