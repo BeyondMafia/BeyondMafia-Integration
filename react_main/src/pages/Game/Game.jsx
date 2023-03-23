@@ -2590,7 +2590,7 @@ export function useTimersReducer() {
                 for (var timerName in newTimers)
                     newTimers[timerName].time += 1000;
 
-                const timer = newTimers["pregameCountdown"] || newTimers["secondary"] || newTimers["main"] || newTimers["vegKick"];
+                const timer = newTimers["pregameCountdown"] || newTimers["secondary"] || newTimers["main"];
 
                 if (!timer)
                     break;

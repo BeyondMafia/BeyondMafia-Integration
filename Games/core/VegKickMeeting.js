@@ -27,29 +27,11 @@ module.exports = class VegKickMeeting extends Meeting {
         }
         super.vote(voter, "Kick");
 
-        // player has voted, disable unvote and update vote for them
-        var allMeetings = this.members[voter.id].player.getMeetings();
-        for (let meeting of allMeetings) {
-            if (meeting.id === this.id || meeting.noVeg === true) {
-                continue;
-            }
-
-            meeting.members[voter.id].canUnvote = false;
-            if (meeting.votes[voter.id] !== undefined) {
-                meeting.members[voter.id].canUpdateVote = false;
-            }
-        }
-
+        this.freezeOtherMeetings();
         this.checkEnoughPlayersKicked();
     }
 
-    checkEnoughPlayersKicked() {
-        var numAlive = Object.values(this.game.players).filter(x => x.alive).length;
-        let vegKickThreshold = Math.ceil(numAlive / 3);
-        if (this.votes.length < vegKickThreshold) {
-            return;
-        }
-
+    freezeOtherMeetings() {
         // disable vote for everyone
         // set canUnvote = false
         // if the player has voted, set canUpdateVote = false
@@ -66,10 +48,19 @@ module.exports = class VegKickMeeting extends Meeting {
                 }
             }
         }
+    }
+
+    checkEnoughPlayersKicked() {
+        var numAlive = Object.values(this.game.players).filter(x => x.alive).length;
+        let vegKickThreshold = Math.ceil(numAlive / 3);
+        if (!Object.keys(this.votes).length < vegKickThreshold) {
+            return;
+        }
+
+        this.freezeOtherMeetings();
 
         if (!this.finished) {
             this.finished = true;
-            // this.game.timers.vegKick.setTime(this.vegCounter);
             this.game.createTimer("vegKick", this.vegCounter, () => this.game.gotoNextState());
             this.game.sendAlert("Enough kicks, vegging players!");
         }
