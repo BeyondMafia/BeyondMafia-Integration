@@ -29,9 +29,9 @@ module.exports = class ReceiveReports extends Card {
                         }
                         let alert;
                         if (reports.length)
-                            alert = `You received all reports that ${this.target.name} received: (${reports.join(',\n')}).`;
+                            alert = `:sy0e: You received all reports that ${this.target.name} received: (${reports.join(',\n')}).`;
                         else
-                            alert = `${this.target.name} received no reports.`
+                            alert = `:sy0e: ${this.target.name} received no reports.`
                         this.actor.queueAlert(alert);
                     }
                 }

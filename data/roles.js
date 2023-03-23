@@ -357,8 +357,7 @@ const roleData = {
             description: [
                 "When baker is present in the game, all players start with two breads.",
                 "Gives out up to two breads each night.",
-                "If all bakers die, a famine will start, and each player will consume one bread per day cycle and night cycle.",
-                "Players who run out of bread after famine has begun will die."
+                "If all bakers die, a famine will start."
             ],
         },
         "Virgin": {
@@ -464,6 +463,15 @@ const roleData = {
             description: [
                 "Chooses to visit a dead player at night and learns their role idenity."
             ],
+        },
+        "Mourner": {
+            alignment: "Village",
+            description: [
+                "Can ask players in the graveyard a question every night.",
+                "The players can answer with yes or no.",
+                "The mourner will receive the results of the vote.",
+            ],
+            graveyardParticipation: "all",
         },
         "Santa": {
             alignment: "Village",
@@ -953,6 +961,15 @@ const roleData = {
                 "Wins if all players left alive are in love.",
             ],
         },
+        "Turkey": {
+            alignment: "Independent",
+            description: [
+                "The game begins with a famine, with each player starting with four bread.",
+                "Turkeys are immune to the famine.",
+                "Whenever a turkey dies, the village turns it into 2 turkey meals to survive the famine.",
+                "The turkeys win if they survive to the end of the game and everyone else dies of famine.",
+            ],
+        },
         "Prophet": {
             alignment: "Independent",
             description: [
@@ -986,6 +1003,10 @@ const roleData = {
             description: [
                 "Chooses another player at night to gain their alignment.",
                 "Wins if they are alive and their last target also wins."
+        "Phantom": {
+            alignment: "Independent",
+            description: [
+                "Wins if in the graveyard when the game ends",
             ],
         },
     },

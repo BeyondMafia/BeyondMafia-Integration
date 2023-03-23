@@ -16,7 +16,7 @@ module.exports = class GivePresents extends Card {
                     run: function() {
                         let itemType = this.actor.role.data.itemType;
                         if (itemType){
-                            let alert = `You have recieved ${(itemType === "Armor" ? itemType : "a " + itemType).toLowerCase()}!`
+                            let alert = `:sy3a: You have recieved ${(itemType === "Armor" ? itemType : "a " + itemType).toLowerCase()}!`
                             this.target.holdItem(itemType);
                             this.target.queueAlert(alert);
                         }
