@@ -16,7 +16,7 @@ module.exports = class TurnIntoTree extends Card {
                     run: function () {
                         if (this.target === "Yes"){
                             this.actor.setRole(`Tree:${this.actor.role.modifier}`, this.actor.role.data, true, false);
-                            this.actor.queueAlert("You grow into a tree!");
+                            this.actor.queueAlert(":sy2e: You grow into a tree!");
                         }
                     }
                 }

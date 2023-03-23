@@ -76,7 +76,7 @@ function stealIdentity(target) {
     if (!this.data.originalUser)
         this.data.originalUser = this.player.user;
 
-    this.player.queueAlert("Someone has stolen your identity!");
+    this.player.queueAlert(":sy5g: Someone has stolen your identity!");
     this.data.swaps.unshift([this.player, target]);
     this.player.swapIdentity(target);
     this.data.originalUser.swapped = target.user;

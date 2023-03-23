@@ -18,7 +18,7 @@ module.exports = class GiveCrystal extends Card {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         this.target.holdItem("Crystal");
-                        this.target.queueAlert("You have received a crystal ball!");
+                        this.target.queueAlert(":sy1i: You have received a crystal ball!");
                         this.actor.role.data.crystalGiven = true;
                     },
                 },
