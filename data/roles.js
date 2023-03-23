@@ -334,7 +334,7 @@ const roleData = {
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
                 "Redirection does not count as a visit and cannot be role blocked.",
-                "Dies if visiting a Drunk"
+                "Dies if visiting a Drunk."
             ],
         },
         "Sapling": {
@@ -564,7 +564,7 @@ const roleData = {
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
                 "Redirection does not count as a visit and cannot be roleblocked.",
-                "Dies if visiting a Drunk"
+                "Dies if visiting a Drunk."
             ],
         },
         "Inquisitor": {
