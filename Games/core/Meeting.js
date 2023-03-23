@@ -607,7 +607,7 @@ module.exports = class Meeting {
 
         this.checkReady();
 
-        // meeting requires vote, player is no longer eligible for the kicks meeting
+        // player is no longer eligible for the kicks meeting
         if (this.game.vegKickMeeting !== undefined) {
             let player = this.members[voter.id].player;
             if (this.game.vegKickMeeting.hasJoined(player)) {
