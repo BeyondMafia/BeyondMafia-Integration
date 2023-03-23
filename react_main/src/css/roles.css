@@ -395,6 +395,23 @@
     background-position: -300px 0;
 }
 
+.role-Mafia-Tinkerer {
+    background-position: -1050px -0px;
+}
+
+.role-Mafia-Trickster {
+    background-position: -1050px -40px;
+}
+
+.role-Mafia-Santa {
+    background-position: -1050px -80px;
+}
+
+.role-Mafia-Medium {
+    background-position: -1050px -120px;
+}
+
+
 /* 
 * Mafia 
 */
@@ -551,8 +568,16 @@
     background-position: -480px -120px;
 }
 
-.role-Mafia-Tresspasser {
+.role-Mafia-Trespasser {
     background-position: -510px -120px;
+}
+
+.role-Mafia-Thief {
+    background-position: -540px -120px;
+}
+
+.role-Mafia-Courier {
+    background-position: -570px -120px;
 }
 
 /* 

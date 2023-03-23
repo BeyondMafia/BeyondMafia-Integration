@@ -45,14 +45,14 @@ module.exports = class Carol extends Card {
                         ];
 
                         if (mafia.length == 0)
-                            carol = `You see a merry Caroler outside your house! They sing you a happy song about all of the Mafia being dead!`;
+                            carol = `:sy3c: You see a merry Caroler outside your house! They sing you a happy song about all of the Mafia being dead!`;
                         else {
                             if (chosenThree.filter(p => p.role.alignment == "Mafia").length == 0) {
                                 chosenThree[0] = Random.randArrayVal(mafia);
                                 chosenThree = Random.randomizeArray(chosenThree);
                             }
 
-                            carol = `You see a merry Caroler outside your house! They sing you a Carol about ${chosenThree[0].name}, ${chosenThree[1].name}, ${chosenThree[2].name}, at least one of whom is the Mafia!`;
+                            carol = `:sy3c: You see a merry Caroler outside your house! They sing you a Carol about ${chosenThree[0].name}, ${chosenThree[1].name}, ${chosenThree[2].name}, at least one of whom is the Mafia!`;
                         }
 
                         this.target.queueAlert(carol);
