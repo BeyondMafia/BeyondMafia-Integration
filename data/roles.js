@@ -1003,6 +1003,8 @@ const roleData = {
             description: [
                 "Chooses another player at night to gain their alignment.",
                 "Wins if they are alive and their last target also wins."
+            ],
+        },
         "Phantom": {
             alignment: "Independent",
             description: [
