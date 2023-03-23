@@ -812,11 +812,7 @@ module.exports = class Game {
 
         var toJoinVegKickMeeting = [];
         for (let player of this.players) {
-            if (!player.alive) {
-                continue;
-            }
-
-            if (player.hasVotedInAllMeetings()) {
+            if (player.alive && player.hasVotedInAllMeetings()) {
                 toJoinVegKickMeeting.push(player);
             }
         }
