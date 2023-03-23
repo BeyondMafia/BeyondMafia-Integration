@@ -200,7 +200,7 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Cleanses Infected when visited by them.",
-                "Kills Vampire and Werewolf when visited by them."
+                "Kills Vampires and Werewolves when visited by them."
             ],
         },
         "Mason": {
@@ -333,7 +333,8 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be role blocked."
+                "Redirection does not count as a visit and cannot be role blocked.",
+                "Dies if visiting a Drunk"
             ],
         },
         "Sapling": {
@@ -562,7 +563,8 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be roleblocked."
+                "Redirection does not count as a visit and cannot be roleblocked.",
+                "Dies if visiting a Drunk"
             ],
         },
         "Inquisitor": {
