@@ -547,18 +547,7 @@ module.exports = class Meeting {
             return true;
         }
 
-        // check if player has voted in all their meetings, then add them to the kick meeting
-        var votedInAllMeetings = true;
-        var otherMeetings = player.getMeetings().filter(x => x.id !== this.game.vegKickMeeting.id && x.noVeg === false);
-
-        for (let meeting of otherMeetings) {
-            if (!meeting.votes[voter.id]) {
-                votedInAllMeetings = false;
-                break;
-            }
-        }
-
-        if (votedInAllMeetings) {
+        if (player.hasVotedInAllMeetings()) {
             this.game.vegKickMeeting.join(player);
             player.sendMeeting(this.game.vegKickMeeting);
         }
@@ -619,7 +608,7 @@ module.exports = class Meeting {
         this.checkReady();
 
         // meeting requires vote, player is no longer eligible for the kicks meeting
-        if (this.noVeg === false && this.game.vegKickMeeting !== undefined) {
+        if (this.game.vegKickMeeting !== undefined) {
             let player = this.members[voter.id].player;
             if (this.game.vegKickMeeting.hasJoined(player)) {
                 this.game.vegKickMeeting.leave(player, true);

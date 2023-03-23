@@ -816,18 +816,7 @@ module.exports = class Game {
                 continue;
             }
 
-            var addToVegKickMeeting = true;
-            let otherMeetings = player.getMeetings().filter(x => x.id !== this.vegKickMeeting.id);
-            for (let meeting of otherMeetings) {
-                // player has not voted
-                if (meeting.votes[player.id] === undefined &&
-                    meeting.members[player.id].canVote &&
-                    meeting.members[player.id].canUpdateVote) {
-                        addToVegKickMeeting = false;
-                    }
-            }
-
-            if (addToVegKickMeeting) {
+            if (player.hasVotedInAllMeetings()) {
                 toJoinVegKickMeeting.push(player);
             }
         }
