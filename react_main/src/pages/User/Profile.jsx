@@ -81,14 +81,13 @@ export default function Profile() {
                     setFriendsPage(1);
                     setStats(res.data.stats);
                     setGroups(res.data.groups);
+                    setEmbedId("");
+                    setAutoplay(false);
 
                     if(res.data.settings.youtube !== undefined) {
                         var videoMatches = res.data.settings.youtube.match(youtubeRegex) ?? "";
                         if (videoMatches && videoMatches.length >= 7) {
                             setEmbedId(videoMatches[7]);
-                        }
-                        else {
-                            setEmbedId("");
                         }
                         setAutoplay(res.data.settings.autoplay);
                     }

@@ -555,6 +555,8 @@ module.exports = class Game {
         for (let player of this.players)
             if (player != newPlayer)
                 player.send("playerJoin", newPlayer.getPlayerInfo(player));
+        
+        this.sendAlert(`${newPlayer.name} has joined.`);        
     }
 
     sendStateEventMessages() {

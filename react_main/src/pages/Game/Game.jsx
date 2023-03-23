@@ -1084,6 +1084,18 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
     return messages;
 }
 
+function areSameDay(first, second) {
+    first = new Date(first);
+    second = new Date(second);
+    first.setYear(0);
+    second.setYear(0);
+    if (first.getMonth() === second.getMonth() &&
+        first.getDate() === second.getDate()) {
+            return true;
+        }
+        return false;
+}
+
 function Message(props) {
     const history = props.history;
     const players = props.players;
@@ -1161,6 +1173,13 @@ function Message(props) {
         messageStyle.opacity = "0.2";
     }
 
+    if(player !== undefined) {
+        if(player.birthday !== undefined) {
+            if (areSameDay(Date.now(), player.birthday)) {
+                contentClass += " party ";
+            }
+        }
+    }
     return (
         <div
             className="message"
@@ -1426,6 +1445,7 @@ function SpeechInput(props) {
                     placeholder={placeholder}
                     maxLength={MaxGameMessageLength}
                     onChange={onSpeechType}
+                    enterKeyHint="done"
                     onKeyDown={onSpeechSubmit} />
             </div>
             {options.voiceChat &&
@@ -1677,7 +1697,7 @@ function ActionSelect(props) {
                 key={member.id}>
                 <div
                     className="voter"
-                    /*onClick={() => onSelectVote(member.id)}*/>
+                    onClick={() => onSelectVote(member.id)}>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {

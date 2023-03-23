@@ -867,11 +867,33 @@ module.exports = class Meeting {
         if (this.finished || !this.voting)
             return true;
         else if (!this.multi)
-            return Object.keys(this.votes).length == this.totalVoters;
+            return Object.keys(this.votes).length == this.totalVoters && this.hasPlurality;
         else {
             var selections = Object.values(this.votes)[0] || [];
             return selections.length >= this.multiMin || selections.indexOf("*") != -1;
         }
+    }
+
+    // Checks whether the meeting has a plurality target.
+    get hasPlurality() {
+        var count = {};
+
+        // Count all votes
+        for (let voterId in this.votes) {
+            let member = this.members[voterId];
+            let target = this.votes[voterId];
+
+            if (!count[target])
+                count[target] = 0;
+
+            count[target] += member.voteWeight;
+        }
+        let sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
+        
+        // Checking for plurality
+        if (sortedCount.length === 1 || sortedCount[0][1] > sortedCount[1][1])
+            return true;
+        return false;
     }
 
     get leader() {

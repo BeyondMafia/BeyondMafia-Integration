@@ -338,7 +338,8 @@ module.exports = class Player {
             userId: this.user.id,
             avatar: this.user.avatar,
             textColor: this.user.textColor,
-            nameColor: this.user.nameColor
+            nameColor: this.user.nameColor,
+            birthday: this.user.birthday
         };
 
         return info;

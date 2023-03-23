@@ -1,6 +1,7 @@
 const Player = require("../../core/Player");
 const deathMessages = require("./templates/death");
 const revivalMessages = require("./templates/revival");
+const roleData = require("../../../data/roles");
 
 module.exports = class MafiaPlayer extends Player {
 
@@ -62,4 +63,20 @@ module.exports = class MafiaPlayer extends Player {
         }
     }
 
+    requiresGraveyardParticipation() {
+        let data = roleData["Mafia"][this.role.name];
+        if (data.graveyardParticipation === "self") {
+            return true;
+        }
+    }
+
+    kill(killType, killer, instant) {
+        super.kill(killType, killer, instant);
+
+        if (this.game.graveyardParticipation || this.requiresGraveyardParticipation()) {
+            this.queueAlert("Please stay in the game. Graveyard participation is required.");
+        } else {
+            this.queueAlert("Graveyard participation is not required. You can leave the game.")
+        }
+    }
 }
