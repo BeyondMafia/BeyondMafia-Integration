@@ -25,7 +25,7 @@ module.exports = class CleanDeath extends Card {
 
                                 if (!targetRole.data.lastCleanedAppearance) {
                                     var roleName = action.target.getAppearance("death", true);
-                                    this.actor.queueAlert(`You discover ${action.target.name}'s role is ${roleName}.`);
+                                    this.actor.queueAlert(`:sy6b: You discover ${action.target.name}'s role is ${roleName}.`);
 
                                     actorRole.data.cleanedPlayer = action.target;
                                     targetRole.data.lastCleanedAppearance = targetRole.appearance.death;

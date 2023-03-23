@@ -22,7 +22,7 @@ module.exports = class AlignmentLearner extends Card {
                         else
                             alignment = `the ${alignment}`;
 
-                        var alert = `You learn that ${this.target.name} is sided with the ${alignment}.`;
+                        var alert = `:sy0d: You learn that ${this.target.name} is sided with the ${alignment}.`;
                         this.game.queueAlert(alert, 0, this.meeting.getPlayers());
                     }
                 }

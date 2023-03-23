@@ -10,6 +10,7 @@ module.exports = class User {
         this.dev = props.dev;
         this.textColor = props.settings && props.settings.textColor;
         this.nameColor = props.settings && props.settings.nameColor;
+        this.birthday = props.birthday;
         this.rankedCount = props.rankedCount;
         this.stats = props.stats || dbStats.allStats();
         this.playedGame = props.playedGame;

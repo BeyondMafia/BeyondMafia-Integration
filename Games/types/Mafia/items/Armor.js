@@ -21,9 +21,19 @@ module.exports = class Armor extends Item {
                     !this.holder.role.immunity["kill"] &&
                     !this.holder.tempImmunity["kill"]
                 ) {
+                    // check for effect immunity
                     for (let effect of this.holder.effects)
                         if (effect.immunity["kill"] && effect.name != "Kill Immune")
                             return;
+
+                    // check for saves
+                    for (let action of this.game.actions[0]) {
+                        if (action.target === this.holder &&
+                            action.hasLabel("save")
+                            ) {
+                            return;
+                        }
+                    }  
 
                     this.uses--;
                     this.holder.queueAlert("Shattering to pieces, your armor saves your life!");

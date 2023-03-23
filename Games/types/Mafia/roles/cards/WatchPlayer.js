@@ -29,7 +29,7 @@ module.exports = class WatchPlayer extends Card {
                         if (visits.length == 0)
                             visits.push("no one");
 
-                        this.actor.queueAlert(`${this.target.name} was visited by ${visits.join(", ")} during the night.`);
+                        this.actor.queueAlert(`:sy0f: ${this.target.name} was visited by ${visits.join(", ")} during the night.`);
                     }
                 }
             }
