@@ -591,17 +591,10 @@ router.post("/birthday", async function (req, res){
         }
         let value = String(req.body.date);
 
-        if (!itemsOwned.bdayChange) {
-            res.status(500);
-            res.send("You must purchase another birthday change from the Shop.");
-            return;
-        }
-
         await models.User.updateOne(
             { id: userId },
             {
-                $set: { birthday: value, bdayChanged: true },
-                $inc: { "itemsOwned.bdayChange": -1 }
+                $set: { birthday: value, bdayChanged: true }
             }
         ).exec();
         await redis.cacheUserInfo(userId, true);

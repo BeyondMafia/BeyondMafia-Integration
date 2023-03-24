@@ -459,7 +459,307 @@ export const Emotes = {
 		},
 	":pepereee:": {
 		name: "reeeee1",
-		type: "png"
+		type: "png"		
+	},
+	":sy0a:": {
+		name: "sy0a",
+		type: "png"		
+	},
+	":sy0b:": {
+		name: "sy0b",
+		type: "png"		
+	},
+	":sy0c:": {
+		name: "sy0c",
+		type: "png"		
+	},
+	":sy0d:": {
+		name: "sy0d",
+		type: "png"		
+	},
+	":sy0e:": {
+		name: "sy0e",
+		type: "png"		
+	},
+	":sy0f:": {
+		name: "sy0f",
+		type: "png"		
+	},
+	":sy0g:": {
+		name: "sy0g",
+		type: "png"		
+	},
+	":sy0h:": {
+		name: "sy0h",
+		type: "png"		
+	},
+	":sy0i:": {
+		name: "sy0i",
+		type: "png"		
+	},
+	":sy1a:": {
+		name: "sy1a",
+		type: "png"		
+	},
+	":sy1b:": {
+		name: "sy1b",
+		type: "png"		
+	},
+	":sy1c:": {
+		name: "sy1c",
+		type: "png"		
+	},
+	":sy1d:": {
+		name: "sy1d",
+		type: "png"		
+	},
+	":sy1e:": {
+		name: "sy1e",
+		type: "png"		
+	},
+	":sy1f:": {
+		name: "sy1f",
+		type: "png"		
+	},
+	":sy1g:": {
+		name: "sy1g",
+		type: "png"		
+	},
+	":sy1h:": {
+		name: "sy1h",
+		type: "png"		
+	},
+	":sy1i:": {
+		name: "sy1i",
+		type: "png"		
+	},
+	":sy2a:": {
+		name: "sy2a",
+		type: "png"		
+	},
+	":sy2b:": {
+		name: "sy2b",
+		type: "png"		
+	},
+	":sy2c:": {
+		name: "sy2c",
+		type: "png"		
+	},
+	":sy2d:": {
+		name: "sy2d",
+		type: "png"		
+	},
+	":sy2e:": {
+		name: "sy2e",
+		type: "png"		
+	},
+	":sy2f:": {
+		name: "sy2f",
+		type: "png"		
+	},
+	":sy2g:": {
+		name: "sy2g",
+		type: "png"		
+	},
+	":sy2h:": {
+		name: "sy2h",
+		type: "png"		
+	},
+	":sy2i:": {
+		name: "sy2i",
+		type: "png"	
+	},
+	":sy3a:": {
+		name: "sy3a",
+		type: "png"		
+	},
+	":sy3b:": {
+		name: "sy3b",
+		type: "png"		
+	},
+	":sy3c:": {
+		name: "sy3c",
+		type: "png"		
+	},
+	":sy3d:": {
+		name: "sy3d",
+		type: "png"		
+	},
+	":sy3e:": {
+		name: "sy3e",
+		type: "png"		
+	},
+	":sy3f:": {
+		name: "sy3f",
+		type: "png"		
+	},
+	":sy3g:": {
+		name: "sy3g",
+		type: "png"		
+	},
+	":sy3h:": {
+		name: "sy3h",
+		type: "png"		
+	},
+	":sy3i:": {
+		name: "sy3i",
+		type: "png"		
+	},
+	":sy4a:": {
+		name: "sy4a",
+		type: "png"		
+	},
+	":sy4b:": {
+		name: "sy4b",
+		type: "png"		
+	},
+	":sy4c:": {
+		name: "sy4c",
+		type: "png"		
+	},
+	":sy4d:": {
+		name: "sy4d",
+		type: "png"		
+	},
+	":sy4e:": {
+		name: "sy4e",
+		type: "png"		
+	},
+	":sy4f:": {
+		name: "sy4f",
+		type: "png"		
+	},
+	":sy4g:": {
+		name: "sy4g",
+		type: "png"		
+	},
+	":sy4h:": {
+		name: "sy4h",
+		type: "png"		
+	},
+	":sy4i:": {
+		name: "sy4i",
+		type: "png"		
+	},
+	":sy5a:": {
+		name: "sy5a",
+		type: "png"		
+	},
+	":sy5b:": {
+		name: "sy5b",
+		type: "png"		
+	},
+	":sy5c:": {
+		name: "sy5c",
+		type: "png"		
+	},
+	":sy5d:": {
+		name: "sy5d",
+		type: "png"		
+	},
+	":sy5e:": {
+		name: "sy5e",
+		type: "png"		
+	},
+	":sy5f:": {
+		name: "sy5f",
+		type: "png"		
+	},
+	":sy5g:": {
+		name: "sy5g",
+		type: "png"		
+	},
+	":sy5h:": {
+		name: "sy5h",
+		type: "png"		
+	},
+	":sy5i:": {
+		name: "sy5i",
+		type: "png"		
+	},
+	":sy6a:": {
+		name: "sy6a",
+		type: "png"		
+	},
+	":sy6b:": {
+		name: "sy6b",
+		type: "png"		
+	},
+	":sy6c:": {
+		name: "sy6c",
+		type: "png"		
+	},
+	":sy6d:": {
+		name: "sy6d",
+		type: "png"		
+	},
+	":sy6e:": {
+		name: "sy6e",
+		type: "png"		
+	},
+	":sy6f:": {
+		name: "sy6f",
+		type: "png"		
+	},
+	":sy6g:": {
+		name: "sy6g",
+		type: "png"		
+	},
+	":sy6h:": {
+		name: "sy6h",
+		type: "png"		
+	},
+	":sy6i:": {
+		name: "sy6i",
+		type: "png"		
+	},
+	":sy7a:": {
+		name: "sy7a",
+		type: "png"		
+	},
+	":sy7b:": {
+		name: "sy7b",
+		type: "png"		
+	},
+	":sy7c:": {
+		name: "sy7c",
+		type: "png"		
+	},
+	":sy7d:": {
+		name: "sy7d",
+		type: "png"		
+	},
+	":sy7e:": {
+		name: "sy7e",
+		type: "png"		
+	},
+	":sy7f:": {
+		name: "sy7f",
+		type: "png"		
+	},
+	":sy7g:": {
+		name: "sy7g",
+		type: "png"		
+	},
+	":sy7h:": {
+		name: "sy7h",
+		type: "png"		
+	},
+	":sy7i:": {
+		name: "sy7i",
+		type: "png"		
+	},
+	":sy8a:": {
+		name: "sy8a",
+		type: "png"		
+	},
+	":sy8b:": {
+		name: "sy8b",
+		type: "png"		
+	},
+	":sy8c:": {
+		name: "sy8c",
+		type: "png"	
 	},
 };
 

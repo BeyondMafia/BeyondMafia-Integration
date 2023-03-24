@@ -49,7 +49,6 @@ var schemas = {
             textColors: { type: Number, default: 0 },
             customProfile: { type: Number, default: 0 },
             nameChange: { type: Number, default: 1 },
-            bdayChange: { type: Number, default: 1 },
             emotes: { type: Number, default: 0 },
             threeCharName: { type: Number, default: 0 },
             twoCharName: { type: Number, default: 0 },
