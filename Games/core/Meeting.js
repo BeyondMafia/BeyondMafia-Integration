@@ -252,9 +252,9 @@ module.exports = class Meeting {
             votes: votes,
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),
+            canVote: member.canVote,
             canUpdateVote: member.canUpdateVote,
             canUnvote: member.canUnvote,
-            canVote: member.canVote,
             canTalk: member.canTalk,
             speechAbilities: this.getSpeechAbilityInfo(member),
             vcToken: this.speech && !this.anonymous && member.canTalk && member.vcToken,
@@ -534,8 +534,8 @@ module.exports = class Meeting {
             return true;
         }
 
-        // enough kicks reached
-        if (this.game.vegKickMeeting.finished) {
+        // freeze votes
+        if (this.game.vegKickMeeting.hasFrozenOtherMeetings) {
             this.members[voter.id].canUpdateVote = false;
             this.members[voter.id].canUnvote = false;
             return true;
@@ -543,11 +543,8 @@ module.exports = class Meeting {
 
         let player = this.members[voter.id].player;
 
-        if (this.game.vegKickMeeting.hasJoined(player)) {
-            return true;
-        }
-
-        if (player.hasVotedInAllMeetings()) {
+        // join veg kick meeting if needed
+        if (!this.game.vegKickMeeting.hasJoined(player) && player.hasVotedInAllMeetings()) {
             this.game.vegKickMeeting.join(player);
             player.sendMeeting(this.game.vegKickMeeting);
         }

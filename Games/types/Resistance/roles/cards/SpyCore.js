@@ -12,8 +12,7 @@ module.exports = class SpyCore extends Card {
                 flags: ["voting", "mustAct", "includeNo"]
             },
             "Identify Merlin": {
-                canVote: true,
-                canUpdateVote: true
+                canVote: true
             }
         };
 
