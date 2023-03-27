@@ -817,18 +817,15 @@ module.exports = class Game {
 
         this.vegKickMeeting = this.createMeeting(VegKickMeeting, "vegKickMeeting");
 
-        var toJoinVegKickMeeting = [];
         for (let player of this.players) {
-            if (player.alive && player.hasVotedInAllMeetings()) {
-                toJoinVegKickMeeting.push(player);
+            if (!player.alive) {
+                continue
             }
-        }
 
-        // this part is the same as (future) instant meeting logic so i've extracted it out
-        for (let player of toJoinVegKickMeeting) {
-            this.vegKickMeeting.join(player);
+            let canKick = player.hasVotedInAllMeetings();
+            this.vegKickMeeting.join(player, canKick);
         }
-
+        
         this.vegKickMeeting.init();
 
         for (let player of this.players) {

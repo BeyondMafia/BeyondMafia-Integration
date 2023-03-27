@@ -545,9 +545,8 @@ module.exports = class Meeting {
         let player = this.members[voter.id].player;
 
         // join veg kick meeting if needed
-        if (!this.game.vegKickMeeting.hasJoined(player) && player.hasVotedInAllMeetings()) {
-            this.game.vegKickMeeting.join(player);
-            player.sendMeeting(this.game.vegKickMeeting);
+        if (player.hasVotedInAllMeetings()) {
+            this.game.vegKickMeeting.enableKicks(player);
         }
 
         return true;
@@ -608,9 +607,7 @@ module.exports = class Meeting {
         // player is no longer eligible for the kicks meeting
         if (this.game.vegKickMeeting !== undefined) {
             let player = this.members[voter.id].player;
-            if (this.game.vegKickMeeting.hasJoined(player)) {
-                this.game.vegKickMeeting.leave(player, true);
-            }
+            this.game.vegKickMeeting.disableKicks(player);
         }
 
         return true;

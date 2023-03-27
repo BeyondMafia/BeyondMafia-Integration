@@ -18,12 +18,28 @@ module.exports = class VegKickMeeting extends Meeting {
 
     getMeetingInfo(player) {
         let info = super.getMeetingInfo(player);
-        info.canUpdateVote = true;
         info.canUnvote = false;
         return info;
     }
 
+    join(player, canVote) {
+        super.join(player, {
+            canVote: canVote
+        })
+    }
+
+    enableKicks(player) {
+        this.members[player.id].canVote = true;
+        player.sendMeeting(this);
+    }
+
+    disableKicks(player) {
+        this.members[player.id].canVote = false;
+        player.sendMeeting(this);
+    }
+
     vote(voter) {
+        // already kicked
         if (this.votes[voter.id]) {
             return
         }
