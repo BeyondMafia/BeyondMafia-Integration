@@ -74,17 +74,20 @@ module.exports = class VegKickMeeting extends Meeting {
         this.hasFrozenOtherMeetings = true;
     }
 
-    checkEnoughPlayersKicked() {
+    getKickState() {
         var numAlive = Object.values(this.game.players).filter(x => x.alive).length;
         let vegKickThreshold = Math.ceil(numAlive / 3);
 
         let numKicked = Object.keys(this.votes).length;
-
         this.game.sendAlert(`Kicking... ${numKicked} / ${vegKickThreshold}`);
+        return [numKicked, vegKickThreshold]
+    }
+
+    checkEnoughPlayersKicked() {
+        let [numKicked, vegKickThreshold] = this.getKickState();
         if (numKicked < vegKickThreshold) {
             return;
         }
-
         this.freezeOtherMeetings();
 
         if (!this.finished) {

@@ -825,8 +825,9 @@ module.exports = class Game {
             let canKick = player.hasVotedInAllMeetings();
             this.vegKickMeeting.join(player, canKick);
         }
-        
+
         this.vegKickMeeting.init();
+        this.vegKickMeeting.getKickState();
 
         for (let player of this.players) {
             player.sendMeeting(this.vegKickMeeting);
