@@ -20,7 +20,13 @@ module.exports = class OverturnVote extends Card {
                     run: function () {
                         for (let action of this.game.actions[0]) {
                             if (action.hasLabel("lynch") && !action.hasLabel("overthrow")) {
+                                if (action.target === this.target) {
+                                    return;
+                                }
+                                
+                                // Only one village vote can be overthrown
                                 action.cancel(true);
+                                break;
                             }
                         }
                         

@@ -105,7 +105,7 @@ const roleData = {
             description: [
                 "Overrides village execution once per game.",
                 "Cannot cancel a village execution." ,
-                "Choosing no one preserves the governor's override ability."
+                "Choosing no one or the original target preserves the governor's override ability."
             ],
         },
         "Monkey": {
