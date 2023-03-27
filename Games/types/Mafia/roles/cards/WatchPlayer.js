@@ -15,22 +15,14 @@ module.exports = class WatchPlayer extends Card {
                     labels: ["investigate", "hidden"],
                     priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
                     run: function () {
-                        var visits = [];
 
-                        for (let action of this.game.actions[0]) {
-                            if (
-                                action.target == this.target &&
-                                !action.hasLabel("hidden") &&
-                                action.priority < this.priority
-                            ) {
-                                visits.push(action.actor.name);
-                            }
+                        let visitors = this.getVisitors(this.target);
+                        let visitorNames = visitors.map(player => player.name);
+                        if (visitorNames.length === 0) {;
+                            visitorNames.push("no one");
                         }
 
-                        if (visits.length == 0)
-                            visits.push("no one");
-
-                        this.actor.queueAlert(`:sy0f: ${this.target.name} was visited by ${visits.join(", ")} during the night.`);
+                        this.actor.queueAlert(`:sy0f: ${this.target.name} was visited by ${visitorNames.join(", ")} during the night.`);
                     }
                 }
             }
