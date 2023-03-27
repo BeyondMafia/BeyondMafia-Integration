@@ -259,6 +259,10 @@ module.exports = class Player {
                 continue;
             }
 
+            if (meeting.finished) {
+                continue;
+            }
+
             // player has not voted
             if (meeting.members[this.id].canVote && meeting.votes[this.id] === undefined) {
                 return false;

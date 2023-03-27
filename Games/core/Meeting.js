@@ -344,12 +344,14 @@ module.exports = class Meeting {
             }
 
             // unvote the invalid target
-            delete this.votes[voterId];
+            this.members[voterId].canUnvote = true;
+            this.unvote(this.members[voterId], this.votes[voterId]);
 
-            // re-enable voting even during kicks
-            if (this.game.vegKickMeeting !== undefined && this.game.vegKickMeeting.finished) {
+            if (this.game.vegKickMeeting !== undefined) {
+                this.members[voterId].canUnvote = false;
+                // re-enable voting even during kicks
                 this.members[voterId].canUpdateVote = true;
-            }   
+            }
         }
             
     }
@@ -538,7 +540,6 @@ module.exports = class Meeting {
         if (this.game.vegKickMeeting.hasFrozenOtherMeetings) {
             this.members[voter.id].canUpdateVote = false;
             this.members[voter.id].canUnvote = false;
-            return true;
         }
 
         let player = this.members[voter.id].player;
