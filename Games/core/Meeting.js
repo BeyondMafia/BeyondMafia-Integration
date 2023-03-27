@@ -347,7 +347,7 @@ module.exports = class Meeting {
             this.members[voterId].canUnvote = true;
             this.unvote(this.members[voterId], this.votes[voterId]);
 
-            if (this.game.vegKickMeeting !== undefined) {
+            if (this.game.vegKickMeeting !== undefined && this.game.vegKickMeeting.hasFrozenOtherMeetings) {
                 this.members[voterId].canUnvote = false;
                 // re-enable voting even during kicks
                 this.members[voterId].canUpdateVote = true;
