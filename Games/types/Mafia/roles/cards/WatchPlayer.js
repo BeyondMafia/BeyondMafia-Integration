@@ -12,6 +12,7 @@ module.exports = class WatchPlayer extends Card {
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: [] },
                 action: {
+                    labels: ["investigate", "hidden"],
                     priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
                     run: function () {
                         var visits = [];
