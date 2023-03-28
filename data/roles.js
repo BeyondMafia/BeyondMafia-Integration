@@ -805,8 +805,7 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Overrides village execution once per game.",
-                "Cannot cancel a village execution." ,
-                "Cannot override an execution on Mafia-aligned players." ,
+                "Cannot cancel a village execution or override an execution on Mafia-aligned player." ,
                 "Choosing no one preserves the don's override ability."
             ],
         },
