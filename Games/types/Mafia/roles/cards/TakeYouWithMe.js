@@ -13,7 +13,7 @@ module.exports = class TakeYouWithMe extends Card {
                     player == this.player &&
                     this.data.loves.alive
                 ) {
-                    this.data.loves.kill(deathType, killer, instant);
+                    this.data.loves.kill("love", this.player, instant);
                 }
             }
         };

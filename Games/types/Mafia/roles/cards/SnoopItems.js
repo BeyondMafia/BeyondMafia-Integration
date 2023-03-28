@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class SnoopItems extends Card {
 
@@ -11,28 +11,24 @@ module.exports = class SnoopItems extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
-                        let items = this.target.items.map(a => a.name);
-                        let alert = `You snoop on ${this.target.name} during the night and find they are carrying `;
-
-                        if (items.length) {
-                            let count = {};
-
-                            for (let item of items) {
-                                if (item in count) {
-                                    count[item] += 1;
-                                }
-                                else {
-                                    count[item] = 1;
-                                }
+                        let items = [];
+                        for (let item of this.target.items) {
+                            if (item.cannotBeSnooped) {
+                                continue;
                             }
 
-                            alert += Object.keys(count).map(key => "a " + key).join(", ") + ".";
-                        } else {
-                            alert += "nothing.";
+                            items.push("a " + item.name);
+                        }
+                        items.sort();
+
+                        let itemsToAlert = "nothing"
+                        if (items.length > 0) {
+                            itemsToAlert = items.join(", ");
                         }
 
+                        let alert = `:sy7b: You snoop on ${this.target.name} during the night and find they are carrying ${itemsToAlert}.`;
                         this.actor.queueAlert(alert);
                     }
                 }

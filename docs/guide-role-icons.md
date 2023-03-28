@@ -45,7 +45,7 @@ Download the [role spritesheet](/react_main/public/images/roles.png).
 
 How it works: you will make edits to your personal repository, and then make a request for your changes to be accepted into the master copy.
 
-### Step 4: Syncing your repository
+### Step 3: Syncing your repository
 
 This step is important to prevent git conflicts.
 
@@ -77,7 +77,7 @@ git pull upstream master
 git checkout -b add-mafioso-icon
 ```
 
-### Step 5: Make Code Changes
+### Step 4: Make Code Changes
 
 #### Spritesheet
 
@@ -120,7 +120,7 @@ Extra info: What do offsets mean? You can imagine a frame on the first `30px` by
 }
 ```
 
-### Step 6: Git commands to "upload" the code to Github
+### Step 5: Git commands to "upload" the code to Github
 
 1. Check the changes made. You should be on your role branch, with only two files modified - the spritesheet and the role css.
 
@@ -155,7 +155,7 @@ The confirmatory message will be like this:
 git push origin add-example-icon
 ```
 
-### Step 7: Creating a Pull Request
+### Step 6: Creating a Pull Request
 
 The changes have been committed to your personal fork, e.g. `Giga/BeyondMafia`. The site is running on a shared master copy, `rend/BeyondMafia`.
 
@@ -179,7 +179,7 @@ Click `Compare & pull request` if you can, then you can skip Step 3.
 
 7. Your pull request (PR) will appear [here](https://github.com/r3ndd/BeyondMafia-Integration/pulls), and it will soon be reviewed.
 
-### Step 8: Closing Codespace
+### Step 7: Closing Codespace
 
 Disclaimer: Every Github user has an allocated amount of Codespace usage each month. **If you are just developing role icons, you can skip this step**. However, if you run any other processes like containers in the background, then this step is important.
 

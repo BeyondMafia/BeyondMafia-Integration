@@ -18,16 +18,17 @@ module.exports = class DayShooter extends Card {
 
                     if(!visitors?.length){
                         this.actor.holdItem("Gun");
+                        this.queueGetItemAlert("Gun", this.actor);
                     }
                 }
             }
         ];
 
         this.listeners = {
-            "death": function (player, killer) {
-                if ((player === this.player) && killer)
+            "death": function (player, killer, deathType) {
+                if ((player === this.player) && killer && deathType != "lynch")
                     {
-                        killer.queueAlert("You find a gun in your victim's workshop...")
+                        killer.queueAlert(":sy2h: You find a gun in your victim's workshop...")
                         killer.holdItem("Gun", { reveal: true });
                     }
             }
