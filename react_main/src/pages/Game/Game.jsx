@@ -1536,7 +1536,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        color={ (document.documentElement.classList.includes("dark") || window.matchMedia("(prefers-color-scheme: dark)");) ?  "white" : "black"}
                         width="20"
                         height="20" />
                 }
