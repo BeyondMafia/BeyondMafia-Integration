@@ -202,6 +202,8 @@ export default function Form(props) {
 					</div>
 				);
 			case "date":
+				let selectedValue = props.deps.user[field.ref]
+
 				return (
 					<div className={fieldWrapperClass} key={field.ref}>
 						<div className="label">
@@ -215,7 +217,7 @@ export default function Form(props) {
 							monthAriaLabel="Month"
 							nativeInputAriaLabel="Date"
 							onChange={e => onDChange(e, field, true)}
-							value={field.value || new Date()}
+							value={field.value || selectedValue || new Date()}
 							maxDetail="month"
 						/>
 						{field.saveBtn && !props.deps.user[field.saveBtnDiffer] &&
