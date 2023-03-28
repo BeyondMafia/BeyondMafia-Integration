@@ -573,11 +573,15 @@
 }
 
 .role-Mafia-Thief {
-    background-position: -540px -120px;
+    background-position: -570px -120px;
 }
 
 .role-Mafia-Courier {
-    background-position: -570px -120px;
+    background-position: -600px -120px;
+}
+
+.role-Mafia-Poltergeist {
+    background-position: -600px -120px;
 }
 
 /* 
@@ -769,6 +773,10 @@
 
 .role-Resistance-Rebel {
     background-position: 0 -240px;
+}
+
+.role-Resistance-Merlin {
+    background-position: -30px -240px;
 }
 
 /*
