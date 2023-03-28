@@ -817,6 +817,13 @@ const roleData = {
             ],
             graveyardParticipation: "all",
         },
+        "Hitman": {
+            alignment: "Mafia",
+            description: [
+                "Kills one player each night.",
+                "Does not attend the Mafia meeting."
+            ],
+        },
 
         //Monsters
         "Lycan": {
