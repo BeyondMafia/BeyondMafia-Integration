@@ -124,6 +124,11 @@ export default function LearnMafia(props) {
 			text: "Can only perform actions once.",
 			icon: <div className="icon modifier modifier-Mafia-One-Shot" />
 		},
+		{
+			name: "Bloodthirsty",
+			text: "Needs to kill other players to stay alive.",
+			icon: <div className="icon modifier modifier-Mafia-One-Shot" />
+		},
 	];
 
 	useEffect(() => {
