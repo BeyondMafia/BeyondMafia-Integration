@@ -127,7 +127,7 @@ export default function LearnMafia(props) {
 		{
 			name: "Bloodthirsty",
 			text: "Needs to kill other players to stay alive.",
-			icon: <div className="icon modifier modifier-Mafia-One-Shot" />
+			icon: <div className="icon modifier modifier-Mafia-Bloodthirsty" />
 		},
 	];
 
