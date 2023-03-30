@@ -1697,7 +1697,7 @@ function ActionSelect(props) {
                 key={member.id}>
                 <div
                     className="voter"
-                    /*onClick={() => onSelectVote(member.id)}*/>
+                    onClick={() => onSelectVote(member.id)}>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
@@ -1790,6 +1790,9 @@ function ActionText(props) {
 
     function handleOnChange(e) {
         var textInput = e.target.value;
+        // disable new lines by default
+        textInput = textInput.replace(/\n/g, " ");
+
         if (textOptions.alphaOnly) {
             textInput = textInput.replace(/[^a-z]/gi, '');
         }

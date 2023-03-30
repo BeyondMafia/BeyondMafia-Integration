@@ -74,7 +74,7 @@ export default function Settings(props) {
 			ref: "birthday",
 			type: "date",
 			saveBtn: "Change",
-			saveBtnDiffer: "birthday",
+			saveBtnDiffer: "bdayChanged",
 			default: Date.now(),
 			saveBtnOnClick: onBirthdaySave,
 			confirm: "Are you sure you wish to change your birthday?"
@@ -234,11 +234,7 @@ export default function Settings(props) {
 
 				deps.user.set(update(deps.user, {
 					birthday: { $set: date },
-					itemsOwned: {
-						bdayChange: {
-							$set: deps.user.itemsOwned.bdayChange - 1
-						}
-					}
+					bdayChanged: { $set: true }
 				}));
 			})
 			.catch(deps.errorAlert);

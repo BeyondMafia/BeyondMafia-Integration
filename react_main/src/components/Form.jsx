@@ -202,38 +202,23 @@ export default function Form(props) {
 					</div>
 				);
 			case "date":
-				var currentValue = 0;
-				if (field.value === undefined || field.value === "undefined") {
-					if (props.deps.user[field.saveBtnDiffer] === undefined || props.deps.user[field.saveBtnDiffer] === "undefined") {
-						currentValue = new Date();
-					}
-					else {
-						currentValue = new Date(props.deps.user[field.saveBtnDiffer]);
-					}
-				}
-				else {
-					currentValue = new Date(field.value);
-				}
 				return (
 					<div className={fieldWrapperClass} key={field.ref}>
 						<div className="label">
 							{field.label}
 						</div>
 						<DatePicker
+							format='MMMM dd'
 							calendarAriaLabel="Toggle calendar"
 							clearAriaLabel="Clear value"
 							dayAriaLabel="Day"
 							monthAriaLabel="Month"
 							nativeInputAriaLabel="Date"
 							onChange={e => onDChange(e, field, true)}
-							value={currentValue}
-							default={subtractYears(new Date(), 13)}
-							yearAriaLabel="Year"
-							maxDate={subtractYears(new Date(), 13)}
+							value={field.value || new Date()}
+							maxDetail="month"
 						/>
-						{field.saveBtn &&
-						 Date.parse(props.deps.user[field.saveBtnDiffer]) 
-						 != Date.parse(currentValue) &&
+						{field.saveBtn && !props.deps.user[field.saveBtnDiffer] &&
 							<div
 								className="btn btn-theme extra"
 								onClick={(e) => {
@@ -241,7 +226,7 @@ export default function Form(props) {
 
 									if (conf) {
 										if (field.saveBtnOnClick)
-										field.saveBtnOnClick(field.value, props.deps);
+											field.saveBtnOnClick(field.value || field.default, props.deps);
 										else
 											onDChange(e, field, true);
 									}
@@ -283,11 +268,6 @@ export default function Form(props) {
 			}
 		</div>
 	);
-}
-
-function subtractYears(date, years) {
-	date.setFullYear(date.getFullYear() - years);
-	return date;
 }
 
 function Switch(props) {

@@ -15,7 +15,7 @@ module.exports = class GiveVisitorsGuns extends Card {
                         for (let action of this.game.actions[0]) {
                             if (action.target == this.actor && !action.hasLabel("hidden")) {
                                 action.actor.holdItem("Gun");
-                                action.actor.queueAlert("You have received a gun!");
+                                action.actor.queueAlert(":sy2h: You have received a gun!");
                             }
                         }
                     }
