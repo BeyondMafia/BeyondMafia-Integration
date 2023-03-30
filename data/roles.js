@@ -461,7 +461,7 @@ const roleData = {
         "Mortician": {
             alignment: "Village",
             description: [
-                "Chooses to visit a dead player at night and learns their role idenity."
+                "Chooses to visit a dead player at night and learns their role identity."
             ],
         },
         "Mourner": {
