@@ -31,15 +31,9 @@ module.exports = class Bloodthirsty extends Card {
                 }
             },
             "death": function (player, killer, deathType) {
-                if (killer === this.player && player !== this.player){
-                    if ((this.data.blood + 50) >= 100)
-                        this.data.blood = 100;
-                    else
-                        this.data.blood += 50;
+                if (killer === this.player && player !== this.player && deathType !== "lynch"){
+                    this.data.blood += max(this.data.blood+50, 100);
                     this.player.queueAlert(`You have successful killed someone! You now have ${this.data.blood}% blood left!`);
-                }
-                if (this.data.blood >= 100){
-                    this.data.blood = 100;
                 }
             }
         }
