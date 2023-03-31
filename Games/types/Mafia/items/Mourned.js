@@ -17,7 +17,8 @@ module.exports = class Mourned extends Item {
             actionName: this.meetingName,
             states: ["Night"],
             flags: ["voting"],
-            inputType: "boolean",
+            inputType: "alignment",
+            targets: ['Yes', 'No'],
             whileDead: true,
             whileAlive: false,
             action: {
@@ -27,7 +28,8 @@ module.exports = class Mourned extends Item {
                     let mourner = this.item.mourner;
                     if (this.target === "Yes") {
                         mourner.role.data.mournerYes += 1;
-                    } else {
+                    } 
+                    if (this.target === "No") {
                         mourner.role.data.mournerNo += 1;
                     }
                 }
