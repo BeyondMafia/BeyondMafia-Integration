@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_MAKE_GUILTY } = require("../../const/Priority");
 
-module.exports = class MakeInnocent extends Card {
+module.exports = class MakeGuilty extends Card {
 
     constructor(role) {
         super(role);
