@@ -87,7 +87,7 @@ module.exports = class Player {
 
                 // check slurs
                 for (let slur of slurs) {
-                    if (message.content.includes(slur)) {
+                    if (message.content.replace(' ', '').toLowerCase().includes(slur)) {
                         this.sendAlert("Warning: Your message contains inappropriate language. Please revise your message without using offensive terms.");
                         return;
                     }

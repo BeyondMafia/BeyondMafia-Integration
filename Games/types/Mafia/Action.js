@@ -32,7 +32,7 @@ module.exports = class MafiaAction extends Action {
             }
 
             for (let target of toCheck) {
-                if (target == this.actor && !action.hasLabel("hidden")) {
+                if (target === player && !action.hasLabel("hidden")) {
                     visitors.push(action.actor);
                 }
             }
