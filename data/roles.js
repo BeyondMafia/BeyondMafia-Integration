@@ -817,6 +817,12 @@ const roleData = {
             ],
             graveyardParticipation: "all",
         },
+        "Framer": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a living player each night to appear as a member of the Mafia to investigative roles.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
