@@ -11,13 +11,14 @@ module.exports = class MakeVisitorsInsane extends Card {
                 priority: PRIORITY_EFFECT_GIVER_DEFAULT,
                 labels: ["hidden", "absolute"],
                 run: function () {
-                    if (this.game.getStateName() == "Night") {
-                        for (let action of this.game.actions[0]) {
-                            if (action.target == this.actor && !action.hasLabel("hidden")) {
-                                action.actor.giveEffect("Insanity");
-                                action.actor.queueAlert(":sy3f: Reality fades as your mind is consumed by insanity.");
-                            }
-                        }
+                    if (this.game.getStateName() !== "Night") {
+                        return
+                    }
+
+                    let visitors = this.getVisitors();
+                    for (let visitor of visitors) {
+                        visitor.giveEffect("Insanity");
+                        visitor.queueAlert(":sy3f: Reality fades as your mind is consumed by insanity.");
                     }
                 }
             }
