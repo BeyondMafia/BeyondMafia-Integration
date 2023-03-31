@@ -824,6 +824,12 @@ const roleData = {
                 "Does not attend the Mafia meeting."
             ],
         },
+        "Framer": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a living player each night to appear as a member of the Mafia to investigative roles.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
