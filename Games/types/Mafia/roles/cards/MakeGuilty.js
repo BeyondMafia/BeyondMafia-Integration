@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_MAKE_GUILTY } = require("../../const/Priority");
+const { PRIORITY_MODIFY_INVESTIGATIVE_RESULT_DEFAULT } = require("../../const/Priority");
 
 module.exports = class MakeGuilty extends Card {
 
@@ -12,9 +12,9 @@ module.exports = class MakeGuilty extends Card {
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: ["self"] },
                 action: {
-                    priority: PRIORITY_MAKE_GUILTY,
+                    priority: PRIORITY_MODIFY_INVESTIGATIVE_RESULT_DEFAULT,
                     run: function () {
-                        this.target.setTempAppearance("investigate", "Mafia");
+                        this.target.setTempAppearance("investigate", "Mafioso");
                     }
                 }
             }
