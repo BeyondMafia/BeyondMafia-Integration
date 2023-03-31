@@ -34,6 +34,10 @@ module.exports = class BreadGiver extends Card {
         };
         this.listeners = {
             "rolesAssigned": function (player) {
+                if (player) {
+                    return
+                }
+
                 for (let player of this.game.players) {
                     if (player.role.name === "Turkey") {
                         continue;
