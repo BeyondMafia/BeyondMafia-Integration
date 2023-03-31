@@ -14,7 +14,11 @@ module.exports = class GiveTurkeyOnDeath extends Card {
         };
 
         this.listeners = {
-            "rolesAssigned": function () {
+            "rolesAssigned": function (player) {
+                if (player) {
+                    return
+                }
+
                 for (let player of this.game.players) {
                     // give bread
                     let items = player.items.map(a => a.name);

@@ -8,8 +8,14 @@ module.exports = class SeanceTarget extends Card {
         super(role);
 
         this.listeners = {
-            "rolesAssigned": function () {
-                this.data.meetingName = "Seance with " + this.player.name;
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
+                }
+
+                if (!this.data.meetingName) {
+                    this.data.meetingName = "Seance with " + this.player.name;
+                }
                 this.meetings[this.data.meetingName] = this.meetings["SeancePlaceholder"]
                 delete this.meetings["SeancePlaceholder"]
             }
