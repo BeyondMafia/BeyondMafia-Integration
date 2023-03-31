@@ -15,7 +15,7 @@ module.exports = class Bloodthirsty extends Card {
                 if (!this.player.alive)
                     return;
 
-                if (this.game.getStateName() != "Night")
+                if (this.game.getStateName() != "Day")
                     return;
 
                 this.data.blood -= 25;
@@ -32,7 +32,7 @@ module.exports = class Bloodthirsty extends Card {
             },
             "death": function (player, killer, deathType) {
                 if (killer === this.player && player !== this.player && deathType !== "lynch"){
-                    this.data.blood += Math.max(this.data.blood+50, 100);
+                    this.data.blood = Math.min(this.data.blood+50, 100);
                     this.player.queueAlert(`You have successful killed someone! You now have ${this.data.blood}% blood left!`);
                 }
             }
