@@ -18,7 +18,9 @@ module.exports = class MimicRole extends Card {
                         if (targetRole.alignment === "Village" || targetRole.winCount === "Village") {
                             // only check conversion immunity for village roles
                             if (this.dominates()) {
-                                this.actor.setRole(`${targetRole.name}:${targetRole.modifier}`);
+                                this.actor.setRole(`${targetRole.name}:${targetRole.modifier}`, this.target.role.data);
+                                this.game.events.emit("rolesAssigned", this.actor);
+                                
                                 this.target.setRole("Villager");
                             }
                         } else if (targetRole.alignment === "Mafia" || targetRole.winCount === "Mafia"){
