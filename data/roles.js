@@ -105,7 +105,7 @@ const roleData = {
             description: [
                 "Overrides village execution once per game.",
                 "Cannot cancel a village execution." ,
-                "Choosing no one preserves the governor's override ability."
+                "Choosing no one or the original target preserves the governor's override ability."
             ],
         },
         "Monkey": {
@@ -392,7 +392,7 @@ const roleData = {
         "Loudmouth": {
             alignment: "Village",
             description: [
-                "If visited, cries out the idenity of players who visited them during the night.",
+                "If visited, cries out the identity of players who visited them during the night.",
                 "Appears as villager to self."
             ],
         },      
@@ -462,7 +462,7 @@ const roleData = {
         "Mortician": {
             alignment: "Village",
             description: [
-                "Chooses to visit a dead player at night and learns their role idenity."
+                "Chooses to visit a dead player at night and learns their role identity."
             ],
         },
         "Mourner": {
@@ -818,6 +818,19 @@ const roleData = {
                 "Identity is not revealed to the dead player.",  
             ],
             graveyardParticipation: "all",
+        },
+        "Hitman": {
+            alignment: "Mafia",
+            description: [
+                "Kills one player each night.",
+                "Does not attend the Mafia meeting."
+            ],
+        },
+        "Framer": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a living player each night to appear as a member of the Mafia to investigative roles.", 
+            ],
         },
 
         //Monsters

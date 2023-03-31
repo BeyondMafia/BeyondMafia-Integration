@@ -11,7 +11,7 @@ module.exports = function (type, name) {
         "bomb": `${name} explodes into a thousand pieces.`,
         "curse": `${name} feels a cold chill run down their spine!`,
         "love": `${name} misses their beloved too much.`,
-
+        "famine": `${name} could not survive the great potato famine.`
     };
 
     return templates[type];
