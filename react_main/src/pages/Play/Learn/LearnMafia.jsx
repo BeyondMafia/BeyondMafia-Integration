@@ -128,6 +128,11 @@ export default function LearnMafia(props) {
 			text: "Can only perform actions once.",
 			icon: <div className="icon modifier modifier-Mafia-One-Shot" />
 		},
+		{
+			name: "Loud",
+			text: "All reports recieved are announced to everyone.",
+			icon: <div className="icon modifier modifier-Mafia-Loud" />
+		},
 	];
 
 	useEffect(() => {
