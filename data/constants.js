@@ -79,7 +79,7 @@ module.exports = {
             "Exposed": ["PublicReveal"],
             "Chameleon": ["VillagerToInvestigative"],
             "Humble": ["Humble"],
-            "Absent-Minded": ["AbsentMinded"],
+            "Scatterbrained": ["Scatterbrained"],
             "Lone": ["Lone"],
             "Solitary": ["Solitary"],
             "Delayed": ["Delayed"],
