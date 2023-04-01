@@ -39,6 +39,13 @@ module.exports = class ResistanceGame extends Game {
         this.numMissions = this.setup.numMissions;
         this.currentMissionFails = 0;
 
+        // scorekeeping
+        this.currentMissionHistory = null;
+        this.missionRecord = {
+            missionHistory: [],
+            score: { "rebels": 0, "spies": 0 }
+        }
+
         this.teamFails = 0;
         this.currentTeamFail = false;
         this.teamFailLimit = this.setup.teamFailLimit;
@@ -71,6 +78,8 @@ module.exports = class ResistanceGame extends Game {
             }
             else
                 this.queueAlert(`Mission ${this.mission} succeeded.`);
+            
+            this.recordMissionFails(this.currentMissionFails);
 
             this.mission++;
             this.currentMissionFails = 0;
@@ -92,6 +101,28 @@ module.exports = class ResistanceGame extends Game {
         }
     }
 
+    recordMissionTeam(team) {
+        this.currentMissionHistory = {
+            mission: this.mission,
+            team: team
+        }
+    }
+
+    recordMissionFails(numFails) {
+        if (!this.currentMissionHistory) {
+            // unintended behaviour
+            return;
+        }
+
+        this.currentMissionHistory.numFails = numFails;
+        const winningTeam = this.currentMissionHistory.numFails == 0 ? "rebels" : "spies";
+
+        // update mission record
+        this.missionRecord.missionHistory.push(this.currentMissionHistory);
+        this.missionRecord.score[winningTeam] += 1;
+        this.currentMissionHistory = null;
+    }
+
     getStateInfo(state) {
         var info = super.getStateInfo(state);
         info.mission = this.mission;
@@ -102,6 +133,8 @@ module.exports = class ResistanceGame extends Game {
                 name: `Mission ${this.mission}`
             }
         }
+
+        info.extraInfo = this.missionRecord;
 
         return info;
     }
