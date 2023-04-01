@@ -99,6 +99,11 @@ export default function LearnMafia(props) {
 			icon: <div className="icon modifier modifier-Mafia-Humble" />
 		},
 		{
+			name: "Scatterbrained",
+			text: "Appears as Visitor (if Village-aligned) or Trespasser (if Mafia-aligned) to self with no modifier.",
+			icon: <div className="icon modifier modifier-Mafia-Scatterbrained" />
+		},
+		{
 			name: "Lone",
 			text: "Does not attend the Mafia or Monsters meeting.",
 			icon: <div className="icon modifier modifier-Mafia-Lone" />
