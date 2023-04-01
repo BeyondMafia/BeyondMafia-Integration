@@ -1793,6 +1793,9 @@ function ActionText(props) {
 
     function handleOnChange(e) {
         var textInput = e.target.value;
+        // disable new lines by default
+        textInput = textInput.replace(/\n/g, " ");
+
         if (textOptions.alphaOnly) {
             textInput = textInput.replace(/[^a-z]/gi, '');
         }

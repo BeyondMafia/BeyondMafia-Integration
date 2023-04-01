@@ -45,7 +45,7 @@ module.exports = class Famished extends Effect {
                     labels: ["kill", "famine"],
                     run: function () {
                         if (this.dominates())
-                            this.target.kill("basic", this.actor);
+                            this.target.kill("famine", this.actor);
                     }
                 }));
             }
