@@ -44,9 +44,6 @@ function Main() {
             .catch(errorAlert);
     }
     
-    const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    
     if (user.settings != null) {
         if (user.settings.siteColorScheme == "light") {
             if (document.documentElement.classList.contains("dark-mode")) {
