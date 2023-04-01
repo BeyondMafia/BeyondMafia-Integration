@@ -119,7 +119,7 @@ export default function Host(props) {
             .catch(errorAlert);
     }
 
-    const hostButtonLabels = ["Featured", "Popular", "Favorites", "Yours"];
+    const hostButtonLabels = ["Featured", "Popular", "Ranked", "Favorites", "Yours"];
     const hostButtons = hostButtonLabels.map(label => (
         <TopBarLink
             text={label}
