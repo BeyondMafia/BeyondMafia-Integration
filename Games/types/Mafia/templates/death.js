@@ -10,6 +10,7 @@ module.exports = function (type, name) {
         "lynchRevenge": `${name} was killed in an act of revenge.`,
         "bomb": `${name} explodes into a thousand pieces.`,
         "curse": `${name} feels a cold chill run down their spine!`,
+        "bloodthirst": `${name} wasn't able to satisfy their thirst for blood.`,
         "love": `${name} misses their beloved too much.`,
         "famine": `${name} could not survive the great potato famine.`
     };

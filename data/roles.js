@@ -827,9 +827,18 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Chooses a dead player once per night and holds a seance with that player.",
-                "Identity is not revealed to the dead player.",  
+                "Identity is not revealed to the dead player.",
+                "Does not attend the Mafia meeting."
             ],
             graveyardParticipation: "all",
+        },
+        "Interrogator": {
+            alignment: "Mafia",
+            description: [
+                "Chooses a player to jail each day meeting.",
+                "Meets with the prisoner at night and the prisoner cannot perform actions or attend other meetings.",
+                "Decides whether or not the prisoner should be executed.",
+            ],
         },
         "Hitman": {
             alignment: "Mafia",
