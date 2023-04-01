@@ -105,7 +105,7 @@ const roleData = {
             description: [
                 "Overrides village execution once per game.",
                 "Cannot cancel a village execution." ,
-                "Choosing no one preserves the governor's override ability."
+                "Choosing no one or the original target preserves the governor's override ability."
             ],
         },
         "Monkey": {
@@ -824,6 +824,12 @@ const roleData = {
                 "Chooses a player to jail each day meeting.",
                 "Meets with the prisoner at night and the prisoner cannot perform actions or attend other meetings.",
                 "Decides whether or not the prisoner should be executed.",
+            ],
+        },
+        "Hitman": {
+            alignment: "Mafia",
+            description: [
+                "Kills one player each night.",
                 "Does not attend the Mafia meeting."
             ],
         },
