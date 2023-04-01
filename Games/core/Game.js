@@ -1073,6 +1073,7 @@ module.exports = class Game {
                 extraConditionDuringKicks = meeting.name !== "Vote Kick" && !meeting.noVeg
             }
 
+            // during kicks, we need to exclude the votekick and noveg meetings
             if (!meeting.ready && extraConditionDuringKicks) {
                 allReady = false;
                 break;

@@ -274,7 +274,9 @@ module.exports = class Player {
             }
 
             // player has not voted
-            if (meeting.members[this.id].canVote && meeting.votes[this.id] === undefined) {
+            if (meeting.members[this.id].canVote &&
+                meeting.members[this.id].canUpdateVote && 
+                meeting.votes[this.id] === undefined) {
                 return false;
             }
         }
