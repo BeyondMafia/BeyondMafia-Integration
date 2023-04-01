@@ -75,4 +75,16 @@ module.exports = class MafiaPlayer extends Player {
             this.queueAlert("Graveyard participation is not required. You can leave the game.")
         }
     }
+
+    speakQuote(quote) {
+        quote = super.speakQuote(quote);
+
+        let sourceMeeting = this.game.getMeeting(quote.fromMeetingId, quote.fromState);
+        if (sourceMeeting.name === "Village" || sourceMeeting.name === quote.meeting.name) {
+            return quote
+        }
+
+        quote.cancel = true;
+        return
+    }
 }
