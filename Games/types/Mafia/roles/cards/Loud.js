@@ -7,7 +7,13 @@ module.exports = class Loud extends Card {
 
         this.listeners = {
             "state": function (){
-                let reports = [];
+                if (this.game.setup.startState == "Night" && this.game.getStateInfo().name == "Night 0"){
+                    return;
+                }
+
+                if (this.game.setup.startState == "Day" && this.game.getStateInfo().name == "Day 1"){
+                    return;
+                }
 
                 for (let alert of this.game.alertQueue) {
                     if (!alert.recipients) {
@@ -15,7 +21,7 @@ module.exports = class Loud extends Card {
                     }
                     for (let recipient of alert.recipients) {
                         if (recipient == this.player) {
-                            this.game.queueAlert(`You overhear someone say: ${alert.message}`);
+                            this.game.queueAlert(`A Loud ${this.player.role.name} is overheard reading: ${alert.message}`);
                         }
                     }
                 }
