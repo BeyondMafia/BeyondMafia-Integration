@@ -130,7 +130,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Loud",
-			text: "All reports recieved are announced to everyone.",
+			text: "All reports recieved are announced to everyone, with the players role revealed.",
 			icon: <div className="icon modifier modifier-Mafia-Loud" />
 		},
 	];
