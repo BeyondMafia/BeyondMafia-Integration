@@ -20,7 +20,8 @@ module.exports = class Loud extends Card {
                         continue
                     }
                     for (let recipient of alert.recipients) {
-                        if (recipient == this.player) {
+                        if (recipient == this.player &&
+                            !alert.message.startsWith("Graveyard participation")) {
                             this.game.queueAlert(`A Loud ${this.player.role.name} is overheard reading: ${alert.message}`);
                         }
                     }
