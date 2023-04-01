@@ -6,11 +6,6 @@ module.exports = class Trespasser extends Role {
         super("Trespasser", player, data);
         this.alignment = "Mafia";
         this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "Visit"];
-        this.meetingMods = {
-            "Visit": {
-                actionName: "Trespass",
-            }
-        };
     }
 
 }
