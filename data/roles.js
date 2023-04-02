@@ -882,6 +882,13 @@ const roleData = {
                 "If guessed incorrect, identity will be revealed to all."
             ],
         },
+        "Accursed Doll": {
+            alignment: "Monsters",
+            description: [
+                "If visited at night by a non-monster, gains a knife the next day.",
+                "Knows who visits but not their roles.",
+            ],
+        },
 
         //Independent
         "Fool": {
