@@ -13,14 +13,7 @@ module.exports = class SnoopItems extends Card {
                 action: {
                     priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
-                        let items = [];
-                        for (let item of this.target.items) {
-                            if (item.cannotBeSnooped) {
-                                continue;
-                            }
-
-                            items.push("a " + item.name);
-                        }
+                        let items = this.snoopAllItems()
                         items.sort();
 
                         let itemsToAlert = "nothing"

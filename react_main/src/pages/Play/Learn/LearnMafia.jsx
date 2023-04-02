@@ -24,7 +24,35 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Crystal",
-			text: "The holder of the crystal can choose a person each night and if they die, their targets role will be revealed.",
+			text: "The holder of the crystal can choose a person each night and if they die, their target's role will be revealed.",
+		},
+		{
+			name: "Knife",
+			text: "Can be used once during the day to stab a specific player, who will bleed out and die the following night.",
+		},
+		{
+			name: "Snowball",
+			text: "Can be used once during the day to freeze a specific player, who will be roleblocked the following night.",
+		},
+		{
+			name: "Bread",
+			text: "Given out by the baker. Counts as 1 ration for each phase in a famine.",
+		},
+		{
+			name: "Yuzu Orange",
+			text: "Given out by the Capybara to invite players to relax at the hot springs. Counts as 1 ration for each phase in a famine.",
+		},
+		{
+			name: "Suit",
+			text: "Given by the tailor, a suit determines what role a user will appear as once dead.",
+		},
+		{
+			name: "Gasoline",
+			text: "Used by the arsonist to douse their victims in preparation for their ignition.",
+		},
+		{
+			name: "Match",
+			text: "Used by the arsonist to ignite everyone doused with gasoline.",
 		},
 	];
 
