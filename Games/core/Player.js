@@ -25,6 +25,9 @@ module.exports = class Player {
         this.events = game.events;
         this.role = null;
         this.alive = true;
+        this.data = {
+            blood: 50
+        };
         this.items = [];
         this.effects = [];
         this.tempImmunity = {};
