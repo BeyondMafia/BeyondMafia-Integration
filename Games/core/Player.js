@@ -366,6 +366,10 @@ module.exports = class Player {
         this.history.addStateEvents(events, state);
     }
 
+    addStateExtraInfoToHistory(extraInfo, state) {
+        this.history.addStateExtraInfo(extraInfo, state);
+    }
+
     speak(message) {
         const originalMessage = message;
         message = new Message(message);

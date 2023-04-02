@@ -21,9 +21,13 @@
     align-items: center;
 
     width: 50vw;
+    max-width: fit-content;
 
     margin-bottom: 10px;
     padding: 5px;
+    margin-left: 55px;
+    padding-left: 24px;
+    padding-right: 24px;
 
     background-color: var(--theme-color);
     color: white;
