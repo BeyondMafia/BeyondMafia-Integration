@@ -1,0 +1,36 @@
+const Card = require("../../Card");
+
+module.exports = class Scatterbrained extends Card {
+
+    constructor(role) {
+    
+        super(role);
+        
+        this.hideModifier = {
+            self: true
+        }
+        
+        var appearance;
+        if (this.role.alignment === "Village" || this.role.winCount === "Village") {
+            appearance = "Visitor"
+        } else if (this.role.alignment === "Mafia") {
+            appearance = "Trespasser"
+        }
+
+        if (!appearance) {
+            return;
+        }
+
+        this.appearance = {
+            self: appearance
+        }
+        this.meetingMods = {
+            "*": {
+                actionName: "Visit",
+            },
+            "Village": {
+                actionName: "Village Vote"
+            }
+        };
+    }
+}
