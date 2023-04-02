@@ -107,4 +107,33 @@ module.exports = class MafiaAction extends Action {
             }
         }
     }
+
+    snoopAllItems(victim, excludeRoleItems) {
+        victim = victim || this.target;
+
+        let items = [];
+        for (let item of this.target.items) {
+            if (item.cannotBeSnooped) {
+                continue;
+            }
+
+            items.push("a " + item.snoopName);
+        }
+
+        if (excludeRoleItems) {
+            return items;
+        }
+
+        switch (victim.role.name) {
+            case "Mason":
+            case "Cultist":
+                items.push("a Robe");
+                break;
+            case "Janitor":
+                items.push("a Mop");
+                break
+        }
+
+        return items;
+    }
 }
