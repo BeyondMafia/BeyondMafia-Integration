@@ -24,7 +24,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Crystal",
-			text: "The holder of the crystal can choose a person each night and if they die, their targets role will be revealed.",
+			text: "The holder of the crystal can choose a person each night and if they die, their target's role will be revealed.",
 		},
 		{
 			name: "Knife",
@@ -32,7 +32,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Snowball",
-			text: "Can be used once during the day to freeze a specific player, who will be role blocked the following night.",
+			text: "Can be used once during the day to freeze a specific player, who will be roleblocked the following night.",
 		},
 		{
 			name: "Bread",
@@ -48,7 +48,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Gasoline",
-			text: "Used by the arsonist to douse their victims in preparation of the great town BBQ.",
+			text: "Used by the arsonist to douse their victims in preparation for their ignition.",
 		},
 		{
 			name: "Match",
