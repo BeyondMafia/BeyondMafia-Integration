@@ -9,7 +9,7 @@ module.exports = class Loud extends Card {
         this.actions = [
             {
                 priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT + 2,
-                labels: ["investigate", "alerts", "hidden", "absolute"],
+                labels: ["investigate", "alerts", "hidden", "absolute", "uncontrollable"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
