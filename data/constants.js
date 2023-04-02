@@ -86,6 +86,7 @@ module.exports = {
             "Odd": ["Odd"],
             "One Shot": ["OneShot"],
             "Bloodthirsty": ["Bloodthirsty"],
+            "Loud": ["Loud"],
         },
         "Split Decision": {},
         "Resistance": {},
