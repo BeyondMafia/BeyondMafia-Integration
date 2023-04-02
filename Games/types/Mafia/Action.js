@@ -41,6 +41,29 @@ module.exports = class MafiaAction extends Action {
         return visitors;
     }
 
+    getReports(player) {
+        player = player || this.target;
+        let reports = [];
+
+        for (let alert of this.game.alertQueue) {
+            if (!alert.recipients) {
+                continue
+            }
+
+            if (alert.message.startsWith("Graveyard participation")) {
+                continue
+            }
+            
+            for (let recipient of alert.recipients) {
+                if (recipient === player) {
+                    reports.push(alert.message);
+                }
+            }
+        }
+
+        return reports
+    }
+
     queueGetItemAlert(itemName, target) {
         target = target || this.target;
         target.queueAlert(`You have received ${(itemName === "Armor" ? itemName : "a " + itemName).toLowerCase()}!`);

@@ -138,6 +138,11 @@ export default function LearnMafia(props) {
 			text: "Needs to kill other players to stay alive.",
 			icon: <div className="icon modifier modifier-Mafia-Bloodthirsty" />
 		},
+		{
+			name: "Loud",
+			text: "All reports recieved are announced to everyone, with the player's role revealed.",
+			icon: <div className="icon modifier modifier-Mafia-Loud" />
+		},
 	];
 
 	useEffect(() => {
