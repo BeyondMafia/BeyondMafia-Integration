@@ -77,7 +77,7 @@ export default function Settings(props) {
 			saveBtnDiffer: "bdayChanged",
 			default: Date.now(),
 			saveBtnOnClick: onBirthdaySave,
-			confirm: "Are you sure you wish to change your birthday?"
+			confirm: "Are you sure you wish to change your birthday? Your birthday can only be changed ONCE per account."
 		},
 		{
 			label: "Show Discord",
