@@ -35,11 +35,7 @@ export default function LearnMafia(props) {
 			text: "Can be used once during the day to freeze a specific player, who will be role blocked the following night.",
 		},
 		{
-			name: "Crystal",
-			text: "At night, the crystal ball can be enchanted with a target's name. When the holder dies, the target's role is revealed.",
-		},
-		{
-			name: "Baker",
+			name: "Bread",
 			text: "Given out by the baker. Counts as 1 ration for each phase in a famine.",
 		},
 		{
@@ -56,7 +52,7 @@ export default function LearnMafia(props) {
 		},
 		{
 			name: "Match",
-			text: "Used by the arsonist to ignite the great town BBQ.",
+			text: "Used by the arsonist to ignite everyone doused with gasoline.",
 		},
 	];
 
