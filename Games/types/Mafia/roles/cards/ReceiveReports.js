@@ -15,23 +15,12 @@ module.exports = class ReceiveReports extends Card {
                     labels: ["investigate", "alerts"],
                     priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT + 1,
                     run: function () {
-                        let reports = []
-
-                        for (let alert of this.game.alertQueue) {
-                            if (!alert.recipients) {
-                                continue
-                            }
-                            for (let recipient of alert.recipients) {
-                                if (recipient == this.target) {
-                                    reports.push(alert.message);
-                                }
-                            }
-                        }
+                        let reports = this.getReports();
                         let alert;
                         if (reports.length)
-                            alert = `You received all reports that ${this.target.name} received: (${reports.join(',\n')}).`;
+                            alert = `:sy0e: You received all reports that ${this.target.name} received: ( ${reports.join(', ')}).`;
                         else
-                            alert = `${this.target.name} received no reports.`
+                            alert = `:sy0e: ${this.target.name} received no reports.`
                         this.actor.queueAlert(alert);
                     }
                 }

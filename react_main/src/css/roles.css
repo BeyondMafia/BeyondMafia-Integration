@@ -375,6 +375,43 @@
     background-position: -900px -120px;
 }
 
+.role-Mafia-Sleepwalker {
+    background-position: -1020px -0px;
+}
+
+.role-Mafia-Governor {
+    background-position: -1020px -40px;
+}
+
+.role-Mafia-Waitress {
+    background-position: -1020px -80px;
+}
+
+.role-Mafia-Mortician {
+    background-position: -1020px -120px;
+}
+
+.role-Mafia-Robin-Hood {
+    background-position: -300px 0;
+}
+
+.role-Mafia-Tinkerer {
+    background-position: -1050px -0px;
+}
+
+.role-Mafia-Trickster {
+    background-position: -1050px -40px;
+}
+
+.role-Mafia-Santa {
+    background-position: -1050px -80px;
+}
+
+.role-Mafia-Medium {
+    background-position: -1050px -120px;
+}
+
+
 /* 
 * Mafia 
 */
@@ -523,6 +560,30 @@
     background-position: -420px -120px;
 }
 
+.role-Mafia-Mummy {
+    background-position: -450px -120px;
+}
+
+.role-Mafia-Medusa {
+    background-position: -480px -120px;
+}
+
+.role-Mafia-Trespasser {
+    background-position: -510px -120px;
+}
+
+.role-Mafia-Thief {
+    background-position: -570px -120px;
+}
+
+.role-Mafia-Courier {
+    background-position: -600px -120px;
+}
+
+.role-Mafia-Poltergeist {
+    background-position: -810px -40px;
+}
+
 /* 
 * Independent 
 */
@@ -579,6 +640,10 @@
     background-position: -690px -80px;
 }
 
+.role-Mafia-Clockmaker {
+    background-position: -720px -80px;
+}
+
 /* 
 * Monsters 
 */
@@ -627,6 +692,10 @@
     background-position: -80px 0;
 }
 
+.modifier-Mafia-Scatterbrained {
+    background-position: -48px -16px;
+}
+
 .modifier-Mafia-Lone {
     background-position: -96px 0;
 }
@@ -649,6 +718,14 @@
 
 .modifier-Mafia-One-Shot {
     background-position: 0 -16px;
+}
+
+.modifier-Mafia-Bloodthirsty {
+    background-position: -16px -16px;
+}
+
+.modifier-Mafia-Loud {
+    background-position: -32px -16px;
 }
 
 /* for role prediction */
@@ -680,11 +757,11 @@
 */
 
 .role-Split-Decision-Red-Member {
-    background-position: -330px -160px;
+    background-position: -60px -160px;
 }
 
 .role-Split-Decision-Bomber {
-    background-position: -360px -160px;
+    background-position: -90px -160px;
 }
 
 /*
@@ -692,7 +769,7 @@
 */
 
 .role-Split-Decision-Gambler {
-    background-position: -630px -160px;
+    background-position: -120px -160px;
 }
 
 
@@ -709,6 +786,10 @@
 
 .role-Resistance-Rebel {
     background-position: 0 -240px;
+}
+
+.role-Resistance-Merlin {
+    background-position: -30px -240px;
 }
 
 /*

@@ -119,6 +119,40 @@ router.get("/popular", async function (req, res) {
     }
 });
 
+router.get("/ranked", async function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req, true);
+        var gameType = String(req.query.gameType);
+        var pageSize = 7;
+        var pageLimit = 10;
+        var start = ((Number(req.query.page) || 1) - 1) * pageSize;
+        var setupLimit = pageSize * pageLimit;
+
+        if (!utils.verifyGameType(gameType)) {
+            res.send({ setups: [], pages: 0 });
+            return;
+        }
+
+        if (start < setupLimit) {
+            var setups = await models.Setup.find({ ranked: true, gameType })
+                .skip(start)
+                .limit(pageSize)
+                .select("id gameType name roles closed count featured -_id");
+            var count = await models.Setup.countDocuments({ gameType });
+
+            await markFavSetups(userId, setups);
+            res.send({ setups: setups, pages: Math.min(Math.ceil(count / pageSize), pageLimit) || 1 });
+        }
+        else
+            res.send({ setups: [], pages: 0 });
+    }
+    catch (e) {
+        logger.error(e);
+        res.send({ setups: [], pages: 0 });
+    }
+});
+
 router.get("/favorites", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {

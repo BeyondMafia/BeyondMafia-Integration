@@ -10,6 +10,7 @@
     "immutability-helper": "^3.0.2",
     "react": "^16.13.1",
     "react-color": "^2.18.0",
+    "react-date-picker": "^9.2.0",
     "react-dom": "^16.13.1",
     "react-dropdown": "^1.7.0",
     "react-loading": "^2.0.3",

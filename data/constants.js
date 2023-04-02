@@ -79,12 +79,15 @@ module.exports = {
             "Exposed": ["PublicReveal"],
             "Chameleon": ["VillagerToInvestigative"],
             "Humble": ["Humble"],
+            "Scatterbrained": ["Scatterbrained"],
             "Lone": ["Lone"],
             "Solitary": ["Solitary"],
             "Delayed": ["Delayed"],
             "Even": ["Even"],
             "Odd": ["Odd"],
             "One Shot": ["OneShot"],
+            "Bloodthirsty": ["Bloodthirsty"],
+            "Loud": ["Loud"],
         },
         "Split Decision": {},
         "Resistance": {},
@@ -163,6 +166,7 @@ module.exports = {
         "privateChat",
         "editBio",
         "changeName",
+        "changeBday",
     ],
     // Perms that can only be granted by a user with rank Infinity
     protectedPerms: [
@@ -190,6 +194,7 @@ module.exports = {
         "privateChat": true,
         "editBio": true,
         "changeName": true,
+        "changeBday": true,
 
         "createCategory": true,
         "deleteAnyPost": true,

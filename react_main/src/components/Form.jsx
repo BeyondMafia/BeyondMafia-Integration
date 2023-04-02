@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useRef, useEffect } from "react";
 import { ChromePicker } from "react-color";
+import  DatePicker  from "react-date-picker";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
@@ -24,6 +25,17 @@ export default function Form(props) {
 			value = field.min;
 		else if (field.max != null && Number(value) > field.max)
 			value = field.max;
+
+		props.onChange({
+			ref: field.ref,
+			prop: "value",
+			value: value,
+			localOnly
+		});
+	}
+
+	function onDChange(date, field, localOnly) {
+		var value = new Date(date);
 
 		props.onChange({
 			ref: field.ref,
@@ -185,6 +197,50 @@ export default function Form(props) {
 								className="btn btn-theme extra"
 								onClick={() => onChange({ target: { value: field.default } }, field)}>
 								Reset
+							</div>
+						}
+					</div>
+				);
+			case "date":
+				if (field.value === "undefined") {
+					field.value = undefined
+				}
+
+				let selectedValue = props.deps.user[field.ref];
+				if (selectedValue === "undefined") {
+					selectedValue = undefined
+				}
+
+				return (
+					<div className={fieldWrapperClass} key={field.ref}>
+						<div className="label">
+							{field.label}
+						</div>
+						<DatePicker
+							format='MMMM dd'
+							calendarAriaLabel="Toggle calendar"
+							clearAriaLabel="Clear value"
+							dayAriaLabel="Day"
+							monthAriaLabel="Month"
+							nativeInputAriaLabel="Date"
+							onChange={e => onDChange(e, field, true)}
+							value={field.value || selectedValue || new Date()}
+							maxDetail="month"
+						/>
+						{field.saveBtn && !props.deps.user[field.saveBtnDiffer] &&
+							<div
+								className="btn btn-theme extra"
+								onClick={(e) => {
+									let conf = !field.confirm || window.confirm(field.confirm);
+
+									if (conf) {
+										if (field.saveBtnOnClick)
+											field.saveBtnOnClick(field.value || field.default, props.deps);
+										else
+											onDChange(e, field, true);
+									}
+								}}>
+								{field.saveBtn}
 							</div>
 						}
 					</div>

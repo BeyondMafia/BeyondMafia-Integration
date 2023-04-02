@@ -30,7 +30,8 @@ module.exports = class SwapVisitors extends Card {
                             var destinationB = this.target;
 
                             for (let action of this.game.actions[0]) {
-                                if (action.priority > this.priority) {
+                                if (action.priority > this.priority &&
+                                    !action.hasLabel("uncontrollable")) {
                                     if (action.target == destinationA)
                                         action.target = destinationB;
                                     else if (action.target == destinationB)

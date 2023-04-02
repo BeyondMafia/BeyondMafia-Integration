@@ -30,7 +30,8 @@ module.exports = class History {
             alerts: [],
             stateEvents: {},
             roles: { ...this.states[prevState].roles },
-            dead: { ...this.states[prevState].dead }
+            dead: { ...this.states[prevState].dead },
+            extraInfo: {},
         };
     }
 
@@ -40,6 +41,13 @@ module.exports = class History {
 
         for (let eventName in events)
             state.stateEvents[eventName] = events[eventName];
+    }
+
+    addStateExtraInfo(extraInfo, state) {
+        state = state == null ? this.game.currentState : state;
+        state = this.states[state];
+
+        state.extraInfo = extraInfo;
     }
 
     addMeeting(meeting, state) {
@@ -98,7 +106,8 @@ module.exports = class History {
                 alerts: [],
                 stateEvents: Object.keys(info.stateEvents),
                 roles: info.roles,
-                dead: info.dead
+                dead: info.dead,
+                extraInfo: info.extraInfo
             };
 
             for (let meetingId in info.meetings) {

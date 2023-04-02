@@ -70,6 +70,16 @@ export default function Settings(props) {
 			confirm: "Are you sure you wish to change your username?"
 		},
 		{
+			label: "Birthday",
+			ref: "birthday",
+			type: "date",
+			saveBtn: "Change",
+			saveBtnDiffer: "bdayChanged",
+			default: Date.now(),
+			saveBtnOnClick: onBirthdaySave,
+			confirm: "Are you sure you wish to change your birthday? Your birthday can only be changed ONCE per account."
+		},
+		{
 			label: "Show Discord",
 			ref: "showDiscord",
 			type: "boolean",
@@ -99,6 +109,21 @@ export default function Settings(props) {
 			type: "color",
 			default: "#5357a5",
 			disabled: (deps) => !deps.user.itemsOwned.customProfile
+		},
+		{
+			label: "Youtube video",
+			ref: "youtube",
+			type: "text",
+			saveBtn: "Change",
+			saveBtnDiffer: "youtube",
+			saveBtnOnClick: onYoutubeSave,
+			default: "",
+		},
+		{
+			label: "Autoplay video (will only work after playing once)",
+			ref: "autoplay",
+			type: "boolean",
+			showIf: (deps) => deps.user.settings.youtube != null
 		},
 		{
 			label: "Banner Format",
@@ -202,6 +227,19 @@ export default function Settings(props) {
 		update(action);
 	}
 
+	function onBirthdaySave(date, deps) {
+		axios.post("/user/birthday", { date })
+			.then(res => {
+				deps.siteInfo.showAlert("Birthday set", "success");
+
+				deps.user.set(update(deps.user, {
+					birthday: { $set: date },
+					bdayChanged: { $set: true }
+				}));
+			})
+			.catch(deps.errorAlert);
+	}
+
 	function onUsernameSave(name, deps) {
 		var code = "";
 
@@ -223,6 +261,18 @@ export default function Settings(props) {
 			})
 			.catch(deps.errorAlert);
 	}
+
+	 function onYoutubeSave(link, deps){
+	 	axios.post("/user/youtube", {link})
+	 		.then(res => {
+	 			deps.siteInfo.showAlert("Profile video changed", "success");
+				
+				deps.user.set(update(deps.user, {
+	 				youtube: { $set: link }
+	 			}));
+	 		})
+	 		.catch(deps.errorAlert);
+	 }
 
 	function onLogoutClick() {
 		axios.post("/user/logout")

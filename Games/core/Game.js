@@ -553,6 +553,8 @@ module.exports = class Game {
         for (let player of this.players)
             if (player != newPlayer)
                 player.send("playerJoin", newPlayer.getPlayerInfo(player));
+        
+        this.sendAlert(`${newPlayer.name} has joined.`);        
     }
 
     sendStateEventMessages() {
@@ -772,11 +774,13 @@ module.exports = class Game {
 
         // Tell clients the new state
         this.addStateToHistories(stateInfo.name);
+
         this.broadcastState();
         this.events.emit("state", stateInfo);
 
         // Send state events
-        this.addStateEventsToHistories(this.stateEvents)
+        this.addStateEventsToHistories(this.stateEvents);
+        this.addStateExtraInfoToHistories(stateInfo.extraInfo);
         this.broadcast("stateEvents", Object.keys(this.stateEvents));
         this.events.emit("stateEvents", this.stateEvents);
         this.sendStateEventMessages();
@@ -818,6 +822,14 @@ module.exports = class Game {
 
         for (let player of this.players)
             player.addStateEventsToHistory(events, state);
+    }
+
+    addStateExtraInfoToHistories(extraInfo, state) {
+        this.history.addStateExtraInfo(extraInfo, state);
+        this.spectatorHistory.addStateExtraInfo(extraInfo, state);
+
+        for (let player of this.players)
+            player.addStateExtraInfoToHistory(extraInfo, state);
     }
 
     incrementState() {

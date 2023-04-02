@@ -26,15 +26,42 @@ module.exports = class MafiaAction extends Action {
 
         var visitors = [];
         for (let action of this.game.actions[0]) {
-            if (
-                action.target == this.actor &&
-                !action.hasLabel("hidden")
-            ) {
-                visitors.push(action.actor);
+            let toCheck = action.target;
+            if (!Array.isArray(action.target)) {
+                toCheck = [action.target];
+            }
+
+            for (let target of toCheck) {
+                if (target === player && !action.hasLabel("hidden")) {
+                    visitors.push(action.actor);
+                }
             }
         }
 
         return visitors;
+    }
+
+    getReports(player) {
+        player = player || this.target;
+        let reports = [];
+
+        for (let alert of this.game.alertQueue) {
+            if (!alert.recipients) {
+                continue
+            }
+
+            if (alert.message.startsWith("Graveyard participation")) {
+                continue
+            }
+            
+            for (let recipient of alert.recipients) {
+                if (recipient === player) {
+                    reports.push(alert.message);
+                }
+            }
+        }
+
+        return reports
     }
 
     queueGetItemAlert(itemName, target) {

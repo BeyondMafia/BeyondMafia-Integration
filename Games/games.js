@@ -47,7 +47,7 @@ var deprecated = false;
                         if (!userId) return;
 
                         user = await models.User.findOne({ id: userId, deleted: false })
-                            .select("id name avatar settings dev itemsOwned rankedCount stats playedGame referrer");
+                            .select("id name avatar settings dev itemsOwned rankedCount stats playedGame birthday referrer");
 
                         if (!user) {
                             user = null;

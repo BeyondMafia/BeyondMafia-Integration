@@ -1100,6 +1100,18 @@ function getMessagesToDisplay(meetings, alerts, selTab, players, settings, filte
     return messages;
 }
 
+function areSameDay(first, second) {
+    first = new Date(first);
+    second = new Date(second);
+    first.setYear(0);
+    second.setYear(0);
+    if (first.getMonth() === second.getMonth() &&
+        first.getDate() === second.getDate()) {
+            return true;
+        }
+        return false;
+}
+
 function Message(props) {
     const history = props.history;
     const players = props.players;
@@ -1177,6 +1189,13 @@ function Message(props) {
         messageStyle.opacity = "0.2";
     }
 
+    if(player !== undefined) {
+        if(player.birthday !== undefined) {
+            if (areSameDay(Date.now(), player.birthday)) {
+                contentClass += " party ";
+            }
+        }
+    }
     return (
         <div
             className="message"
@@ -1442,6 +1461,7 @@ function SpeechInput(props) {
                     placeholder={placeholder}
                     maxLength={MaxGameMessageLength}
                     onChange={onSpeechType}
+                    enterKeyHint="done"
                     onKeyDown={onSpeechSubmit} />
             </div>
             {options.voiceChat &&
@@ -1688,18 +1708,34 @@ function ActionSelect(props) {
         );
     });
 
-    const votes = Object.values(meeting.members).filter(member => member.canVote).map(member => {
+    const votes = Object.values(meeting.members).map(member => {
         var selection = meeting.votes[member.id];
         var player = props.players[member.id];
         selection = getTargetDisplay(selection, meeting, props.players);
 
+        if (!member.canVote) {
+            return (
+                <div
+                    className={`vote ${meeting.multi ? "multi" : ""}`}
+                    key={member.id}>
+                    <div
+                        className="voter">
+                        {(player && player.name) || "Anonymous"}
+                    </div>
+                    <div className="selection">
+                        does not vote
+                    </div>
+                </div>
+            );
+        }
+        
         return (
             <div
                 className={`vote ${meeting.multi ? "multi" : ""}`}
                 key={member.id}>
                 <div
                     className="voter"
-                    /*onClick={() => onSelectVote(member.id)}*/>
+                    onClick={() => onSelectVote(member.id)}>
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
@@ -1792,6 +1828,9 @@ function ActionText(props) {
 
     function handleOnChange(e) {
         var textInput = e.target.value;
+        // disable new lines by default
+        textInput = textInput.replace(/\n/g, " ");
+
         if (textOptions.alphaOnly) {
             textInput = textInput.replace(/[^a-z]/gi, '');
         }
@@ -1921,6 +1960,16 @@ export function Timer(props) {
         return <div className="state-timer"></div>;
 
     var time = timer.delay - timer.time;
+
+    if (props.timers["secondary"]) {
+        // show main timer if needed
+        const mainTimer = props.timers["main"];
+        if (mainTimer) {
+            var mainTime = mainTimer.delay - mainTimer.time;
+            time = Math.min(time, mainTime);
+        }
+    }
+
     time = formatTimerTime(time);
 
     return (
@@ -2241,7 +2290,8 @@ function useHistoryReducer() {
                                     alerts: [],
                                     stateEvents: [],
                                     roles: { ...history.states[prevState].roles },
-                                    dead: { ...history.states[prevState].dead }
+                                    dead: { ...history.states[prevState].dead },
+                                    extraInfo: { ...action.state.extraInfo }
                                 }
                             }
                         },
@@ -2596,7 +2646,7 @@ export function useTimersReducer() {
 
                 const intTime = Math.round((timer.delay - timer.time) / 1000);
 
-                if (intTime < 6 && intTime > 0)
+                if (intTime < 16 && intTime > 0)
                     action.playAudio("tick");
                 break;
         }

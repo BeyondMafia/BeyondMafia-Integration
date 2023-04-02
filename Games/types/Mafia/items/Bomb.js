@@ -9,7 +9,9 @@ module.exports = class Bomb extends Item {
         this.cannotBeStolen = true;
         this.listeners = {
             "death": function (player, killer, deathType, instant) {
-                if (player == this.holder && killer && deathType != "lynch") {
+                if (player == this.holder 
+                    && killer && killer.role.name != "Ninja" 
+                    && deathType != "lynch") {
                     var action = new Action({
                         actor: this.holder,
                         target: killer,
