@@ -7,6 +7,14 @@ module.exports = class JailTarget extends Card {
     constructor(role) {
         super(role);
 
+        this.listeners = {
+            "rolesAssigned": function () {
+                this.data.meetingName = "Jail with " + this.player.name;
+                this.meetings[this.data.meetingName] = this.meetings["JailPlaceholder"]
+                delete this.meetings["JailPlaceholder"]
+            }
+        };
+
         this.meetings = {
             "Jail Target": {
                 states: ["Day"],
@@ -16,13 +24,14 @@ module.exports = class JailTarget extends Card {
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
-                            this.target.holdItem("Handcuffs");
+                            this.target.holdItem("Handcuffs", this.actor.role.data.meetingName);
                             this.actor.role.data.prisoner = this.target;
                         }
                     }
                 }
             },
-            "Jail": {
+            "JailPlaceholder": {
+                meetingName: "Jail",
                 actionName: "Execute Prisoner",
                 states: ["Night"],
                 flags: ["exclusive", "group", "speech", "voting", "anonymous"],

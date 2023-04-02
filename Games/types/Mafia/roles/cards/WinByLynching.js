@@ -20,7 +20,11 @@ module.exports = class WinByLynching extends Card {
             }
         };
         this.listeners = {
-            "rolesAssigned": function (stateInfo) {
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
+                }
+
                 const nonMafia = this.game.players.filter(p => (
                     (p.role.alignment == "Village" || p.role.winCount == "Village") &&
                         p.alive &&

@@ -33,6 +33,8 @@ module.exports = class TeamCore extends Card {
                             this.game.queueAlert(`Mission ${this.game.mission} failed due to lack of a team.`);
                             this.game.mission++;
                             this.game.missionFails++;
+                            this.game.currentMissionFails = 0;
+                            this.game.teamFails = 0;
                         }
                     }
                 }

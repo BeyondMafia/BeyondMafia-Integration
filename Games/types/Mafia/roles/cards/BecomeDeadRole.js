@@ -14,7 +14,8 @@ module.exports = class BecomeDeadRole extends Card {
                 action: {
                     priority: PRIORITY_BECOME_DEAD_ROLE,
                     run: function () {
-                        this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`);
+                        this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`, this.target.role.data);
+                        this.game.events.emit("rolesAssigned", this.actor);
                     }
                 }
             }
