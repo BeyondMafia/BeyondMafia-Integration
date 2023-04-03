@@ -37,7 +37,7 @@ module.exports = class CompareAlignments extends Card {
                         else
                             comparison = "different alignments";
 
-                        var alert = `You learn that ${targetA.name} and ${targetB.name} have ${comparison}!`;
+                        var alert = `:sy8h: You learn that ${targetA.name} and ${targetB.name} have ${comparison}!`;
                         this.actor.queueAlert(alert);
                     }
                 }

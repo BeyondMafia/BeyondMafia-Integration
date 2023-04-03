@@ -37,7 +37,7 @@ module.exports = class GiveTurkeyOnDeath extends Card {
             },
             "death": function (player, killer, deathType) {
                 if (player == this.player) {
-                    this.game.queueAlert("The town cooks the Turkey and turns it into 2 meals for everyone!");
+                    this.game.queueAlert(":sy9c: The town cooks the Turkey and turns it into 2 meals for everyone!");
                     for (let person of this.game.players) {
                         if (person.alive && person.role.name !== "Turkey") {
                             person.holdItem("Turkey");
