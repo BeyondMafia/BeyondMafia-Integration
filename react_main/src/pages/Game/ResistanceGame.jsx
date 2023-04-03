@@ -215,9 +215,25 @@ function MissionHistory(props) {
 	const missionHistory = props.missionHistory || [];
 
 	const missionHistoryView = missionHistory.map((history, i) => {
-		const success = history.numFails == 0 ? "success" : "fail"
+		const success = history.numFails === 0 ? "success" : "fail"
 
-		const teamMembers = history.team.join(" ");
+		let teamMembers = history.team.join(" ");
+
+		if (history.numFails === -1) {
+			return (
+				<div className="rst-mh-row">
+				<div className={`rst-mh-status rst-mh-${success}`}>
+					X
+				</div>
+				
+				<div className="rst-mh-team">
+					rejected
+				</div>
+
+			</div>
+			)
+		}
+
 		return (
 			<div className="rst-mh-row">
 				<div className={`rst-mh-status rst-mh-${success}`}>
