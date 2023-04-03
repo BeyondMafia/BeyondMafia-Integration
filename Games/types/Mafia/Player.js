@@ -11,7 +11,7 @@ module.exports = class MafiaPlayer extends Player {
         this.deathMessages = deathMessages;
         this.revivalMessages = revivalMessages;
         this.votedForExtension = false;
-        this.data.blood = 50;
+        this.data.blood = 100;
     }
 
     getRevealType(deathType) {

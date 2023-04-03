@@ -7,6 +7,7 @@ module.exports = class Bloodthirsty extends Card {
 
         this.listeners = {
             "rolesAssigned": function () {
+                this.player.data.blood = 50;
                 this.player.queueAlert(`You have ${this.player.data.blood}% blood left!`);
             },
             "actionsNext": function () {
