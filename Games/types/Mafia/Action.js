@@ -12,11 +12,12 @@ module.exports = class MafiaAction extends Action {
         this.target.removeEffect("Poison", true);
     }
 
-    blockActions(){
+    blockActions(victim){
+        victim = victim || this.target;
         for (let action of this.game.actions[0]) {
             if (action.priority > this.priority &&
                 !action.hasLabel("absolute")) {
-                    action.cancelActor(this.target);
+                    action.cancelActor(victim);
             }
         }
     }

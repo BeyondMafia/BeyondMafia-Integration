@@ -882,6 +882,16 @@ const roleData = {
                 "If guessed incorrect, identity will be revealed to all."
             ],
         },
+        "Leech": {
+            alignment: "Monsters",
+            description: [
+                "Is bloodthirsty.",
+                "During the night, can target a player to feed from.",
+                "While on a target, that player is roleblocked.",
+                "Each phase, drains 25% of their blood.",
+                "Stays on their target until they die."
+            ],
+        },
 
         //Independent
         "Fool": {
