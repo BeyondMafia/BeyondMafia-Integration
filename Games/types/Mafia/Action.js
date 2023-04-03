@@ -136,4 +136,17 @@ module.exports = class MafiaAction extends Action {
 
         return items;
     }
+    
+    takeBullet(victim, shield) {
+        victim = victim || this.target;
+        shield = shield || this.actor;
+        for (let action of this.game.actions[0]) {
+            if (action.priority > this.priority &&
+                action.hasLabel("kill") &&
+                !victim.role.immunity["kill"] &&
+                !victim.tempImmunity["kill"]) {
+                action.target = shield;
+            }
+        }
+    }
 }
