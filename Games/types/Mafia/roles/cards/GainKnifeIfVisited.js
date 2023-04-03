@@ -20,7 +20,7 @@ module.exports = class GainKnifeIfVisited extends Card {
 
                     if(visitorsAlignments.length > 0 &&
                         visitorsAlignments.length !== monstersCount){
-                        this.actor.holdItem("Knife", { reveal: false });
+                        this.actor.holdItem("Knife");
                         this.queueGetItemAlert("Knife", this.actor);
                     }
                 }

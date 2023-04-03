@@ -10,7 +10,6 @@ module.exports = class AccursedDoll extends Role {
             "VillageCore",
             "WinWithMonsters",
             "MeetingMonster",
-            "EnqueueVisitors",
             "LearnVisitorsPerson",
             "GainKnifeIfVisited"
         ];
