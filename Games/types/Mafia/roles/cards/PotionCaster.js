@@ -11,7 +11,7 @@ module.exports = class PotionCaster extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    labels: ["investigate", "role"],
+                    labels: ["investigate", "role", "save", "kill"],
                     priority: PRIORITY_ROLE_LEANER - 1,
                     run: function () {
                         var potion = this.actor.role.data.potionType;
@@ -30,6 +30,7 @@ module.exports = class PotionCaster extends Card {
                                 break;
                         }
                         this.actor.role.data.potionCounter[potion] = 2;
+                        delete this.actor.role.data.potionType;
                     }
                 }
             },
@@ -37,9 +38,9 @@ module.exports = class PotionCaster extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "alignment",
-                targets: this.actor.role.data.targets,
+                targets: this.actor.role.data.potionList,
                 action: {
-                    priority: PRIORITY_ITEM_LEANER - 2,
+                    priority: PRIORITY_ROLE_LEANER - 2,
                     run: function() {
                         this.actor.role.data.potionType = this.target;
                     }
@@ -49,17 +50,18 @@ module.exports = class PotionCaster extends Card {
 
         this.listeners = {
             "rolesAssigned": function() {
-                this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0}
-                this.data.potionList = ["Attacking", "Healing", "Exposing"]
+                this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
+                this.data.potionList = ["Attacking", "Healing", "Exposing"];
             },
             "state": function (stateInfo) {
                 if (!stateInfo.name.match(/Night/)) {
                     return
                 }
 
-                let tempPotion = []
+                var tempPotion = [];
                 for (let potion in potionList){
-                    if (potionCounter[potion] == 0){
+                    this.data.potionCounter[potion] = Math.min(0, this.data.potionCounter[potion]-1);
+                    if (this.data.potionCounter[potion] === 0){
                         tempPotion.push(potion);
                     }
                 }
