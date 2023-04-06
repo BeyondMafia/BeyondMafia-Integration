@@ -842,7 +842,7 @@ const roleData = {
         "Apprentice": {
             alignment: "Mafia",
             description: [
-                "Chooses to become the role of an executed Mafia-aligned player, once per game.", 
+                "Chooses to become the role of a dead Mafia-aligned player once per game.", 
             ],
         },
 
