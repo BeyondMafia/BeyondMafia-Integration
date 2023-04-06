@@ -9,13 +9,9 @@ module.exports = class Apprentice extends Role {
         this.cards = ["VillageCore", "WinWithMafia", "MeetingMafia", "BecomeDeadRole"];
         this.meetingMods = {
             "Become Role": {
-                targets: { include: [executedMafia], exclude: ["alive", "self"] },
+                targets: { include: ["Mafia"], exclude: ["alive", "self"] },
             }
         };
     }
 
-}
-
-function executedMafia(player) {
-    return player.deathType == "lynch" && player.role.alignment == "Mafia";
 }
