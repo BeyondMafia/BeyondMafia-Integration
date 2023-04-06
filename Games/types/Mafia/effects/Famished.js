@@ -29,7 +29,7 @@ module.exports = class Famished extends Effect {
                     return;
 
                 // food items are eaten in this order
-                let foodTypes = ["Turkey", "Bread", "Orange"];
+                let foodTypes = ["Turkey", "Bread", "Orange", "Fruit"];
                 for (let food of foodTypes) {
                     if (this.player.hasItem(food)) {
                         this.player.dropItem(food, false);
