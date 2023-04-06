@@ -27,7 +27,7 @@ module.exports = class BreadGiver extends Card {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         this.target.holdItem("Bread");
-                        this.target.queueAlert("You have received a bread!");
+                        this.target.queueAlert(":sy2c: You have received a bread!");
                     }
                 }
             }
