@@ -1005,6 +1005,13 @@ const roleData = {
                 "Wins if in the graveyard when the game ends",
             ],
         },
+        "Nomad": {
+            alignment: "Independent",
+            description: [
+                "Chooses another player at night to gain the alignment of.",
+                "Wins if they are alive when their last target wins."
+            ],
+        },
     },
     "Split Decision": {
         //Blue
