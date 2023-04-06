@@ -1,10 +1,13 @@
 const Card = require("../../Card");
-const { PRIORITY_ROLE_LEANER } = require("../../const/Priority");
+const { PRIORITY_ROLE_LEARNER } = require("../../const/Priority");
 
 module.exports = class PotionCaster extends Card {
 
     constructor(role) {
         super(role);
+
+        role.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
+        role.data.potionList = ["Attacking", "Healing", "Exposing"];
 
         this.meetings = {
             "Cast Potion": {
@@ -12,7 +15,7 @@ module.exports = class PotionCaster extends Card {
                 flags: ["voting"],
                 action: {
                     labels: ["investigate", "role", "save", "kill"],
-                    priority: PRIORITY_ROLE_LEANER - 1,
+                    priority: PRIORITY_ROLE_LEARNER - 1,
                     run: function () {
                         var potion = this.actor.role.data.potionType;
 
@@ -29,6 +32,7 @@ module.exports = class PotionCaster extends Card {
                                 this.actor.queueAlert(`:sy0d: You learn that ${this.target.name}'s role is ${role}.`);
                                 break;
                         }
+                        this.player.queueAlert(this.actor.role.data.potionCounter);
                         this.actor.role.data.potionCounter[potion] = 2;
                         delete this.actor.role.data.potionType;
                     }
@@ -38,9 +42,10 @@ module.exports = class PotionCaster extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "alignment",
+                targets: {exclude: [offCooldown]},
                 targets: this.actor.role.data.potionList,
                 action: {
-                    priority: PRIORITY_ROLE_LEANER - 2,
+                    priority: PRIORITY_ROLE_LEARNER - 2,
                     run: function() {
                         this.actor.role.data.potionType = this.target;
                     }
@@ -49,25 +54,20 @@ module.exports = class PotionCaster extends Card {
         };
 
         this.listeners = {
-            "rolesAssigned": function() {
-                this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
-                this.data.potionList = ["Attacking", "Healing", "Exposing"];
-            },
             "state": function (stateInfo) {
                 if (!stateInfo.name.match(/Night/)) {
-                    return
+                    return;
                 }
 
-                var tempPotion = [];
-                for (let potion in potionList){
-                    this.data.potionCounter[potion] = Math.min(0, this.data.potionCounter[potion]-1);
-                    if (this.data.potionCounter[potion] === 0){
-                        tempPotion.push(potion);
-                    }
+                for (let potion in role.data.potionCounter){
+                    role.data.potionCounter[potion] = Math.min(0, role.data.potionCounter[potion]-1);
+                    //this.player.queueAlert(this.data.potionCounter[potion]);
                 }
-                this.data.potionList = tempPotion;
             }
-
         };
     }
+}
+
+function offCooldown(potion) {
+    return role.data.potionCounter[potion] === 0;
 }
