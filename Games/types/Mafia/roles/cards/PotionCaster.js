@@ -32,7 +32,6 @@ module.exports = class PotionCaster extends Card {
                                 this.actor.queueAlert(`:sy0d: You learn that ${this.target.name}'s role is ${role}.`);
                                 break;
                         }
-                        this.player.queueAlert(this.actor.role.data.potionCounter);
                         this.actor.role.data.potionCounter[potion] = 2;
                         delete this.actor.role.data.potionType;
                     }
@@ -42,8 +41,7 @@ module.exports = class PotionCaster extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "alignment",
-                targets: {exclude: [offCooldown]},
-                targets: this.actor.role.data.potionList,
+                targets: role.data.potionList,
                 action: {
                     priority: PRIORITY_ROLE_LEARNER - 2,
                     run: function() {
@@ -59,15 +57,16 @@ module.exports = class PotionCaster extends Card {
                     return;
                 }
 
-                for (let potion in role.data.potionCounter){
+                var tempPotion = [];
+                for (let potion in role.data.potionList){
                     role.data.potionCounter[potion] = Math.min(0, role.data.potionCounter[potion]-1);
-                    //this.player.queueAlert(this.data.potionCounter[potion]);
+                    if (role.data.potionCounter[potion] <= 0){
+                        tempPotion.push(potion);
+                    }
                 }
+
+                role.data.potionList = tempPotion;
             }
         };
     }
-}
-
-function offCooldown(potion) {
-    return role.data.potionCounter[potion] === 0;
 }
