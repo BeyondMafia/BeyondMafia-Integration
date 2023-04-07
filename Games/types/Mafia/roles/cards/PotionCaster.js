@@ -6,12 +6,6 @@ module.exports = class PotionCaster extends Card {
     constructor(role) {
         super(role);
 
-        this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
-        this.data.potionList = ["Attacking", "Healing", "Exposing"];
-
-        this.data.potionType = null;
-        this.data.currentTarget = null;
-
         this.meetings = {
             "Cast Potion": {
                 states: ["Night"],
@@ -23,7 +17,7 @@ module.exports = class PotionCaster extends Card {
                         this.actor.role.data.currentTarget = this.target;
 
                         // set cooldown
-                        var potion = this.actor.role.data.potionType;
+                        var potion = this.actor.role.data.currentPotion;
                         this.actor.role.data.potionCounter[potion] = 2;
                     }
                 }
@@ -36,7 +30,7 @@ module.exports = class PotionCaster extends Card {
                 action: {
                     priority: PRIORITY_ROLE_LEARNER - 2,
                     run: function() {
-                        this.actor.role.data.potionType = this.target;
+                        this.actor.role.data.currentPotion = this.target;
                     }
                 }
             },
@@ -63,7 +57,7 @@ module.exports = class PotionCaster extends Card {
                         target.kill("basic", this.actor)
                     }
 
-                    delete this.actor.role.data.potionType;
+                    delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
                 }
             },
@@ -85,7 +79,7 @@ module.exports = class PotionCaster extends Card {
 
                     this.heal(1, target);
                     
-                    delete this.actor.role.data.potionType;
+                    delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
                 }
             },
@@ -108,13 +102,24 @@ module.exports = class PotionCaster extends Card {
                     let role = target.getAppearance("investigate", true);
                     this.actor.queueAlert(`:sy0d: You learn that ${target.name}'s role is ${role}.`);
                     
-                    delete this.actor.role.data.potionType;
+                    delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
                 }
             }
-        ]
+        ];
 
         this.listeners = {
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
+                }
+
+                this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
+                this.data.potionList = ["Attacking", "Healing", "Exposing"];
+
+                this.data.currentPotion = null;
+                this.data.currentTarget = null;
+            },
             // refresh cooldown
             "state": function (stateInfo) {
                 if (!stateInfo.name.match(/Night/)) {
