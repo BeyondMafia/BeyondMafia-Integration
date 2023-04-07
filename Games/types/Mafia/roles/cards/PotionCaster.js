@@ -6,6 +6,8 @@ module.exports = class PotionCaster extends Card {
     constructor(role) {
         super(role);
 
+        this.potionList = ["Attacking", "Healing", "Exposing"];
+
         this.meetings = {
             "Cast Potion": {
                 states: ["Night"],
@@ -26,7 +28,7 @@ module.exports = class PotionCaster extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "alignment",
-                targets: role.data.potionList,
+                targets: this.potionList,
                 action: {
                     priority: PRIORITY_ROLE_LEARNER - 2,
                     run: function() {
@@ -45,7 +47,7 @@ module.exports = class PotionCaster extends Card {
                         return;
                     }
 
-                    if (this.actor.role.data.currentPotion !== "Healing")
+                    if (this.actor.role.data.currentPotion !== "Attacking")
                         return;
 
                     let target = this.actor.role.data.currentTarget;
@@ -69,7 +71,7 @@ module.exports = class PotionCaster extends Card {
                         return;
                     }
 
-                    if (this.actor.role.data.currentPotion !== "Attacking")
+                    if (this.actor.role.data.currentPotion !== "Healing")
                         return;
 
                     let target = this.actor.role.data.currentTarget;
@@ -115,7 +117,8 @@ module.exports = class PotionCaster extends Card {
                 }
 
                 this.data.potionCounter = {"Attacking": 0, "Healing": 0, "Exposing": 0};
-                this.data.potionList = ["Attacking", "Healing", "Exposing"];
+                // for role swaps that require data
+                this.data.fullPotionList = this.potionList;
 
                 this.data.currentPotion = null;
                 this.data.currentTarget = null;
@@ -127,14 +130,14 @@ module.exports = class PotionCaster extends Card {
                 }
 
                 var tempPotion = [];
-                for (let potion in role.data.potionList){
-                    role.data.potionCounter[potion] = Math.max(0, role.data.potionCounter[potion]-1);
-                    if (role.data.potionCounter[potion] <= 0){
+                for (let potion in this.data.fullPotionList){
+                    this.data.potionCounter[potion] = Math.max(0, this.data.potionCounter[potion]-1);
+                    if (this.data.potionCounter[potion] <= 0){
                         tempPotion.push(potion);
                     }
                 }
 
-                role.data.potionList = tempPotion;
+                this.potionList = tempPotion;
             }
         };
     }
