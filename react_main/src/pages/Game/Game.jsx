@@ -1613,6 +1613,7 @@ export function ActionList(props) {
                 case "boolean":
                 case "role":
                 case "alignment":
+                case "custom":
                 case "select":
                     action =
                         <ActionSelect
