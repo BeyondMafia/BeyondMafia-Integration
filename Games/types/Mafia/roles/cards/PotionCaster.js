@@ -46,7 +46,7 @@ module.exports = class PotionCaster extends Card {
                         return;
                     }
 
-                    if (this.actor.role.data.currentPotion !== "Attacking")
+                    if (this.actor.role.data.currentPotion !== "Damaging")
                         return;
 
                     let target = this.actor.role.data.currentTarget;
@@ -70,7 +70,7 @@ module.exports = class PotionCaster extends Card {
                         return;
                     }
 
-                    if (this.actor.role.data.currentPotion !== "Healing")
+                    if (this.actor.role.data.currentPotion !== "Restoring")
                         return;
 
                     let target = this.actor.role.data.currentTarget;
@@ -92,7 +92,7 @@ module.exports = class PotionCaster extends Card {
                         return;
                     }
 
-                    if (this.actor.role.data.currentPotion !== "Exposing")
+                    if (this.actor.role.data.currentPotion !== "Elucidating")
                         return;
 
                     let target = this.actor.role.data.currentTarget;
@@ -115,7 +115,7 @@ module.exports = class PotionCaster extends Card {
                     return;
                 }
 
-                this.data.fullPotionList = ["Attacking", "Healing", "Exposing"];
+                this.data.fullPotionList = ["Damaging", "Restoring", "Elucidating"];
                 let cooldown = this.data.fullPotionList.length;
                 this.data.potionCooldown = cooldown;
 
@@ -140,6 +140,8 @@ module.exports = class PotionCaster extends Card {
                     if (this.data.potionCounter[potion] <= 0) {
                         this.data.potionCounter[potion] = 0
                         currentPotionList.push(potion);
+                    } else {
+                        this.player.queueAlert(`Your ${potion} potion will come off cooldown in ${this.data.potionCounter[potion]} turn${(this.data.potionCounter[potion] <= 0 ? "" : "s")}.`);
                     }
                 }
 

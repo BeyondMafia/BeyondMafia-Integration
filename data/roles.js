@@ -882,13 +882,13 @@ const roleData = {
                 "If guessed incorrect, identity will be revealed to all."
             ],
         },
-        "Potion Master": {
+        "Alchemist": {
             alignment: "Monsters",
             description: [
                 "Can choose between three potions to cast at night.",
-                "An attacking potion, which attacks the target.",
-                "A healing potion, which heals the target.",
-                "An exposing potion, which exposes the targets role.",
+                "An damaging potion, which attacks the target.",
+                "A restoring potion, which heals the target.",
+                "An elucidating potion, which reveals the targets role.",
                 "Each potion has a three night cooldown."
             ],
         },
