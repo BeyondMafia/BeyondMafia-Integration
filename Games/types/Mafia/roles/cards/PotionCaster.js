@@ -15,10 +15,6 @@ module.exports = class PotionCaster extends Card {
                     run: function () {
                         // set target
                         this.actor.role.data.currentTarget = this.target;
-
-                        // set cooldown
-                        var potion = this.actor.role.data.currentPotion;
-                        this.actor.role.data.potionCounter[potion] = this.actor.role.data.potionCooldown;
                     }
                 }
             },
@@ -58,6 +54,10 @@ module.exports = class PotionCaster extends Card {
                         target.kill("basic", this.actor)
                     }
 
+                     // set cooldown
+                     var potion = this.actor.role.data.currentPotion;
+                     this.actor.role.data.potionCounter[potion] = this.actor.role.data.potionCooldown;
+
                     delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
                 }
@@ -79,6 +79,10 @@ module.exports = class PotionCaster extends Card {
                     }
 
                     this.heal(1, target);
+
+                     // set cooldown
+                     var potion = this.actor.role.data.currentPotion;
+                     this.actor.role.data.potionCounter[potion] = this.actor.role.data.potionCooldown;
                     
                     delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
@@ -103,6 +107,10 @@ module.exports = class PotionCaster extends Card {
                     let role = target.getAppearance("investigate", true);
                     this.actor.queueAlert(`:sy0d: You learn that ${target.name}'s role is ${role}.`);
                     
+                     // set cooldown
+                     var potion = this.actor.role.data.currentPotion;
+                     this.actor.role.data.potionCounter[potion] = this.actor.role.data.potionCooldown;
+
                     delete this.actor.role.data.currentPotion;
                     delete this.actor.role.data.currentTarget;
                 }
