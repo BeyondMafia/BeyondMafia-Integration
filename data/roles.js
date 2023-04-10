@@ -886,10 +886,10 @@ const roleData = {
             alignment: "Monsters",
             description: [
                 "Can choose between three potions to cast at night.",
-                "An damaging potion, which attacks the target.",
+                "A damaging potion, which attacks the target.",
                 "A restoring potion, which heals the target.",
                 "An elucidating potion, which reveals the target's role.",
-                "Each potion has a three night cooldown."
+                "Once a potion has been concocted, it cannot be brewed again for the next two nights."
             ],
         },
 
