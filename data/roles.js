@@ -839,6 +839,12 @@ const roleData = {
                 "Chooses a living player each night to appear as a member of the Mafia to investigative roles.", 
             ],
         },
+        "Apprentice": {
+            alignment: "Mafia",
+            description: [
+                "Chooses to become the role of a dead Mafia-aligned player once per game.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
