@@ -581,7 +581,11 @@
 }
 
 .role-Mafia-Poltergeist {
-    background-position: -600px -120px;
+    background-position: -810px -40px;
+}
+
+.role-Mafia-Housekeeper {
+    background-position: -840px -40px;
 }
 
 /* 
@@ -644,6 +648,10 @@
     background-position: -720px -80px;
 }
 
+.role-Mafia-Phantom {
+    background-position: -750px -80px;
+}
+
 /* 
 * Monsters 
 */
@@ -692,6 +700,10 @@
     background-position: -80px 0;
 }
 
+.modifier-Mafia-Scatterbrained {
+    background-position: -48px -16px;
+}
+
 .modifier-Mafia-Lone {
     background-position: -96px 0;
 }
@@ -714,6 +726,14 @@
 
 .modifier-Mafia-One-Shot {
     background-position: 0 -16px;
+}
+
+.modifier-Mafia-Bloodthirsty {
+    background-position: -16px -16px;
+}
+
+.modifier-Mafia-Loud {
+    background-position: -32px -16px;
 }
 
 
@@ -740,11 +760,11 @@
 */
 
 .role-Split-Decision-Red-Member {
-    background-position: -330px -160px;
+    background-position: -60px -160px;
 }
 
 .role-Split-Decision-Bomber {
-    background-position: -360px -160px;
+    background-position: -90px -160px;
 }
 
 /*
@@ -752,7 +772,7 @@
 */
 
 .role-Split-Decision-Gambler {
-    background-position: -630px -160px;
+    background-position: -120px -160px;
 }
 
 

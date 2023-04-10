@@ -32,13 +32,36 @@ module.exports = class MafiaAction extends Action {
             }
 
             for (let target of toCheck) {
-                if (target == this.actor && !action.hasLabel("hidden")) {
+                if (target === player && !action.hasLabel("hidden")) {
                     visitors.push(action.actor);
                 }
             }
         }
 
         return visitors;
+    }
+
+    getReports(player) {
+        player = player || this.target;
+        let reports = [];
+
+        for (let alert of this.game.alertQueue) {
+            if (!alert.recipients) {
+                continue
+            }
+
+            if (alert.message.startsWith("Graveyard participation")) {
+                continue
+            }
+            
+            for (let recipient of alert.recipients) {
+                if (recipient === player) {
+                    reports.push(alert.message);
+                }
+            }
+        }
+
+        return reports
     }
 
     queueGetItemAlert(itemName, target) {
@@ -83,5 +106,34 @@ module.exports = class MafiaAction extends Action {
                 toSteal += 1;
             }
         }
+    }
+
+    snoopAllItems(victim, excludeRoleItems) {
+        victim = victim || this.target;
+
+        let items = [];
+        for (let item of this.target.items) {
+            if (item.cannotBeSnooped) {
+                continue;
+            }
+
+            items.push("a " + item.snoopName);
+        }
+
+        if (excludeRoleItems) {
+            return items;
+        }
+
+        switch (victim.role.name) {
+            case "Mason":
+            case "Cultist":
+                items.push("a Robe");
+                break;
+            case "Janitor":
+                items.push("a Mop");
+                break
+        }
+
+        return items;
     }
 }

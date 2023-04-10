@@ -59,4 +59,13 @@ module.exports = class Gun extends Item {
         };
     }
 
+    get snoopName() {
+        if (this.mafiaImmune) {
+            return "Gun (Associate)"
+        } else if (this.cursed) {
+            return "Gun (Cursed)"
+        }
+
+        return this.name;
+    }
 }

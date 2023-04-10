@@ -25,6 +25,7 @@ module.exports = class Player {
         this.events = game.events;
         this.role = null;
         this.alive = true;
+        this.data = {};
         this.items = [];
         this.effects = [];
         this.tempImmunity = {};
@@ -87,7 +88,7 @@ module.exports = class Player {
 
                 // check slurs
                 for (let slur of slurs) {
-                    if (message.content.includes(slur)) {
+                    if (message.content.replace(' ', '').toLowerCase().includes(slur)) {
                         this.sendAlert("Warning: Your message contains inappropriate language. Please revise your message without using offensive terms.");
                         return;
                     }
@@ -364,6 +365,10 @@ module.exports = class Player {
 
     addStateEventsToHistory(events, state) {
         this.history.addStateEvents(events, state);
+    }
+
+    addStateExtraInfoToHistory(extraInfo, state) {
+        this.history.addStateExtraInfo(extraInfo, state);
     }
 
     speak(message) {
