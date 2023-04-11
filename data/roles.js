@@ -522,7 +522,12 @@ const roleData = {
                 "Steals any items they are holding.",
             ],
         },
-
+        "Crafter": {
+            alignment: "Village",
+            description: [
+                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Fabricated version of any of these items each night.",
+            ],
+        },
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
