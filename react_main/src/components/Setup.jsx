@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 
-import { PopoverContext, UserContext } from "../Contexts";
+import { GameContext, PopoverContext, UserContext } from "../Contexts";
 import { RoleCount } from "./Roles";
 import { Alignments } from "../Constants";
 import { filterProfanity } from "./Basic";
@@ -81,15 +81,19 @@ export default function Setup(props) {
 export function SmallRoleList(props) {
 	var roles;
 
-	if (Array.isArray(props.roles))
+	if (Array.isArray(props.roles)) {
 		roles = props.roles.map(role => (
 			<RoleCount
 				small
 				role={role}
-				key={role}
+				makeRolePrediction={props.makeRolePrediction}
+				key={role || "null"}
 				showSecondaryHover
 				gameType={props.gameType} />
 		));
+
+	}
+		
 	else
 		roles = Object.keys(props.roles).map(role => (
 			<RoleCount

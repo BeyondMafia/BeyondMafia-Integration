@@ -16,7 +16,7 @@ import Dropdown, { useDropdown } from "../../components/Dropdown";
 import Setup from "../../components/Setup";
 import { NameWithAvatar } from "../User/User";
 import { ClientSocket as Socket } from "../../Socket";
-import { RoleCount } from "../../components/Roles";
+import { RoleCount, RolePrediction } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
@@ -61,6 +61,7 @@ function GameWrapper(props) {
     const [speechFilters, setSpeechFilters] = useState({ from: "", contains: "" });
     const [isolationEnabled, setIsolationEnabled] = useState(false);
     const [isolatedPlayers, setIsolatedPlayers] = useState(new Set());
+    const [rolePredictions, setRolePredictions] = useState({});
     const [activeVoiceChannel, setActiveVoiceChannel] = useState();
     const [muted, setMuted] = useState(false);
     const [deafened, setDeafened] = useState(false);
@@ -94,6 +95,17 @@ function GameWrapper(props) {
             newIsolatedPlayers.add(playerId);
         }
         setIsolatedPlayers(newIsolatedPlayers);
+    }
+    
+    function toggleRolePrediction(playerId) {
+        return function (prediction) {
+            let newRolePredictions = rolePredictions;
+            newRolePredictions[playerId] = prediction;
+            if (prediction === null) {
+                delete newRolePredictions[playerId];
+            }
+            setRolePredictions(newRolePredictions);
+        }
     }
 
     useEffect(() => {
@@ -329,6 +341,8 @@ function GameWrapper(props) {
         });
 
         socket.on("reveal", info => {
+            toggleRolePrediction(info.playerId)(null);
+
             updateHistory({
                 type: "reveal",
                 playerId: info.playerId,
@@ -614,6 +628,8 @@ function GameWrapper(props) {
             setIsolationEnabled,
             isolatedPlayers,
             togglePlayerIsolation,
+            rolePredictions,
+            toggleRolePrediction,
             loadAudioFiles: loadAudioFiles,
             playAudio: playAudio,
             stopAudio: stopAudio,
@@ -1517,6 +1533,7 @@ export function SideMenu(props) {
 export function PlayerRows(props) {
     const game = useContext(GameContext);
     const { isolationEnabled, togglePlayerIsolation, isolatedPlayers } = game;
+    const { rolePredictions, toggleRolePrediction } = game;
     const history = props.history;
     const players = props.players;
     const activity = props.activity;
@@ -1534,6 +1551,9 @@ export function PlayerRows(props) {
             />
         )
 
+        const rolePrediction = rolePredictions[player.id];
+        const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
+
         return (
             <div
                 className={`player ${props.className ? props.className : ""}`}
@@ -1541,7 +1561,9 @@ export function PlayerRows(props) {
                 {isolationCheckbox}
                 {props.stateViewing != -1 &&
                     <RoleCount
-                        role={stateViewingInfo.roles[player.id]}
+                        role={roleToShow}
+                        isRolePrediction={rolePrediction !== undefined}
+                        toggleRolePrediction={toggleRolePrediction(player.id)}
                         gameType={props.gameType}
                         showPopover />
                 }

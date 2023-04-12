@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 
-import { PopoverContext, SiteInfoContext } from "../Contexts";
+import { GameContext, PopoverContext, SiteInfoContext } from "../Contexts";
 import { Time } from "./Basic";
 import { SmallRoleList, GameStateIcon } from "./Setup";
 import { NameWithAvatar } from "../pages/User/User";
@@ -166,6 +166,9 @@ export function usePopover(siteInfo) {
         switch (type) {
             case "setup":
                 content = parseSetupPopover(content, siteInfo.roles);
+                break;
+            case "rolePrediction":
+                content = parseRolePredictionPopover(content);
                 break;
             case "role":
                 content = parseRolePopover(content);
@@ -369,6 +372,18 @@ export function parseSetupPopover(setup, roleData) {
     }
 
     return result;
+}
+
+export function parseRolePredictionPopover(data) {
+    let roleset = Object.keys(data.roles);
+    roleset.unshift(undefined);
+
+    return (
+        <SmallRoleList
+            roles={roleset}
+            makeRolePrediction={data.toggleRolePrediction}
+            gameType={data.gameType} />
+    )
 }
 
 export function parseGamePopover(game) {
