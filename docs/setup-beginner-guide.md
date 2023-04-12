@@ -139,9 +139,15 @@ cd react_main
 npm start
 ```
 
-The forwarded ports should be on localhost `127.0.0.1` instead of the Github URI. Check that all ports are running on HTTP, which is the default option.
+3. Check that the forwarded ports are on localhost `127.0.0.1` instead of the Github URI. All ports should be running on HTTP, which is the default option.
 
-You can now view your test site, and create your own test account. This account is not affiliated to `beyondmafia.com`. If your email domain is not accepted, look for the email section in both `.env` files.
+![ports](https://user-images.githubusercontent.com/24848927/231508693-4a1cb918-c07d-4f52-813e-7d1ddbff6b65.png)
+
+4. You can now view your test site and create your own test account. Find the port that is `3001`, and click the globe icon to "Open in Browser".
+
+![open in browser](https://user-images.githubusercontent.com/24848927/231509086-1ad88bca-02f2-45e2-9bd5-d6cd3cc860ce.png)
+
+This account is not affiliated to `beyondmafia.com`. If your email domain is not accepted, look for the email section in both `.env` files.
 
 ## Step 4: Setting up Bot Games
 
