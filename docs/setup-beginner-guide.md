@@ -41,7 +41,9 @@ This repository runs mongo, redis and node services in the background. It can ca
 
 ![shutdown](https://user-images.githubusercontent.com/24848927/219884970-e323877b-aeb9-4dbf-bbaf-7c18304353ca.png)
 
-### Step 3: Install Mongo and Redis
+## Step 3: Setup the Project
+
+### Install Mongo and Redis
 
 1. Run the redis container.
 ```
@@ -84,7 +86,7 @@ switched to db beyondmafia
 beyondmafia> exit
 ```
 
-### Step 4: Install node modules
+### Install node modules
 
 1. Install pm2 globally.
 
@@ -105,7 +107,7 @@ cd react_main
 npm install
 ```
 
-### Step 5: Environment Variables
+### Set Environment Variables
 
 1. Create the backend `.env`.
 
@@ -121,7 +123,7 @@ cp docs/client_env /workspaces/BeyondMafia-Integration/react_main/.env
 
 3. Follow [this guide](/docs/setup-dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA. As you follow the guide, fill in the `.env` files.
 
-### Step 6: Start the Site
+### Start the Site
 
 1. Start the backend server
 
@@ -141,7 +143,7 @@ The forwarded ports should be on localhost `127.0.0.1` instead of the Github URI
 
 You can now view your test site, and create your own test account. This account is not affiliated to `beyondmafia.com`. If your email domain is not accepted, look for the email section in both `.env` files.
 
-### Step 7: Setting up Bot Games
+## Step 4: Setting up Bot Games
 
 To play games with bots, we need to add the `dev` property to your user. Make sure that you first create an account on your test site.
 
@@ -198,7 +200,7 @@ beyondmafia> db.users.find({}, {name:1, dev:1})
 ]
 ```
 
-#### Testing games with bots
+### Testing games with bots
 
 1. Create and host a setup.
 
@@ -207,3 +209,94 @@ beyondmafia> db.users.find({}, {name:1, dev:1})
 ![test tube](https://user-images.githubusercontent.com/24848927/212348802-56db2540-5b3d-4c72-8182-3ab883eed99c.png)
 
 3. Click the test tube icon and bot accounts will spawn in new windows. Remember to enable pop-up windows in your browser.
+
+## Step 5: Syncing your repository
+
+Before you make any code changes, you should ensure that you follow this step to prevent git conflicts. If you are unsure at any step, please type `git status` and ask for help.
+
+1. Stash away your previous changes.
+
+```
+git stash
+```
+
+3. Return to the master branch.
+
+```
+git checkout master
+```
+
+4. Get the latest updates from `rend/BeyondMafia`'s master branch.
+
+```
+git pull upstream master
+```
+
+5. Create a new branch (i.e. code workspace) for your role. To avoid dealing conflicts, use a new branch name each time.
+
+```
+git checkout -b add-mafioso-role
+```
+
+You can now make code changes as needed.
+
+## Step 6: Git commands to "upload" the code to Github
+
+> This step can be done using [Github Desktop](https://desktop.github.com/). A guide for that will come soon.
+
+1. Check the changes made. You should be on your role branch.
+
+```
+git status
+```
+
+<img src="https://user-images.githubusercontent.com/24848927/220961194-1a0a2b02-3e83-4d47-b495-d3c09e54055d.png" alt="git status example" width="700"/>
+
+You can also type this command to double check the changes made. It will show you which lines have been added or modified.
+
+```
+git diff
+```
+
+2. Confirm your changes by committing.
+
+```
+git commit -am "added mafioso role"
+```
+
+The confirmatory message will be like this:
+
+```
+[add-example-icon abcde12] added example icon
+ 2 files changed, 4 insertions(+)
+```
+
+3. Upload your code to Github (also known as "remote"). The branch name is what you see beside `abcde12` in the previous confirmatory message. Note that your copy won't be exactly `abcde12`
+
+```
+git push origin add-mafioso-role
+```
+
+## Step 7: Creating a Pull Request
+
+The changes have been committed to your personal fork, e.g. `Giga/BeyondMafia`. The site is running on a shared master copy, `rend/BeyondMafia`.
+
+1. Go to [rend/BeyondMafia](https://github.com/r3ndd/BeyondMafia-Integration/pulls).
+
+2. You might see a message prompting you to create a pull request.
+
+<img src="https://user-images.githubusercontent.com/24848927/220965490-6b2c19f8-4175-4e09-882c-9b8a986760d4.png" alt="compare and pull" width="700"/>
+
+Click `Compare & pull request` if you can, then you can skip Step 3.
+
+3. If you do not see that automated message, click `New Pull Request`. Select "compare across forks". Find your repository in the red box, and find your branch name in the blue box.
+
+<img src="https://user-images.githubusercontent.com/24848927/220970441-b62ffb11-7ee2-4332-b5f9-a30814644fee.png" alt="compare across forks" width="700"/>
+
+4. (Optional) Add any details in the description.
+
+5. Set the Pull Request title to `feat: added mafioso role`
+
+6. Click `Create Pull Request`, ensuring that it does not say "draft".
+
+7. Your pull request (PR) will appear [here](https://github.com/r3ndd/BeyondMafia-Integration/pulls), and it will soon be reviewed.
