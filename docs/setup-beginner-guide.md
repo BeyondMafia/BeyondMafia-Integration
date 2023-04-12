@@ -212,7 +212,7 @@ beyondmafia> db.users.find({}, {name:1, dev:1})
 
 ## Step 5: Syncing your repository
 
-Before you make any code changes, you should ensure that you follow this step to prevent git conflicts. If you are unsure at any step, please type `git status` and ask for help.
+> Before you make any code changes, you should ensure that you follow this step to prevent git conflicts. If you are unsure at any step, please type `git status` and ask for help. For simplicity, you should repeat this step each time you make some code changes.
 
 1. Stash away your previous changes.
 
