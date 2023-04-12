@@ -141,7 +141,7 @@ npm start
 
 3. Check that the forwarded ports are on localhost `127.0.0.1` instead of the Github URI. All ports should be running on HTTP, which is the default option.
 
-![ports](https://user-images.githubusercontent.com/24848927/231508693-4a1cb918-c07d-4f52-813e-7d1ddbff6b65.png)
+![ports](https://user-images.githubusercontent.com/24848927/231512231-11b51d11-4b92-4173-a4a7-31f96483a73d.png)
 
 4. You can now view your test site and create your own test account. Find the port that is `3001`, and click the globe icon to "Open in Browser".
 
