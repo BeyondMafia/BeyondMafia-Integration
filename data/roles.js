@@ -888,6 +888,16 @@ const roleData = {
                 "If guessed incorrect, identity will be revealed to all."
             ],
         },
+        "Alchemist": {
+            alignment: "Monsters",
+            description: [
+                "Can choose between three potions to cast at night.",
+                "A damaging potion, which attacks the target.",
+                "A restoring potion, which heals the target.",
+                "An elucidating potion, which reveals the target's role.",
+                "Once a potion has been concocted, it cannot be brewed again for the next two nights."
+            ],
+        },
 
         //Independent
         "Fool": {
