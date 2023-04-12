@@ -43,19 +43,24 @@ This repository runs mongo, redis and node services in the background. It can ca
 
 ### Step 3: Install Mongo and Redis
 
-1. Run the mongo container.
+1. Run the redis container.
+```
+docker run -d -p 6379:6379 --name redis --restart=always redis
+```
+
+2. Run the mongo container.
 
 ```
 docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password -v local-mongo:/data/db --name mongo --restart=always mongo
 ```
 
-2. Enter the mongo shell.
+3. Enter the mongo shell.
 
 ```
 docker exec -it mongo mongosh
 ```
 
-3. Authenticate as admin. The default password (configured in Step `3.1`) is `password`.
+4. Authenticate as admin. The default password (configured in Step `3.2`) is `password`.
 
 ```
 test> use admin
@@ -64,26 +69,19 @@ switched to db admin
 admin> db.auth('admin', passwordPrompt())
 Enter password
 ********{ ok: 1 }
-
-admin> 
 ```
 
-4. Create a database.
+5. Create a database.
 
 ```
 admin> use beyondmafia
 switched to db beyondmafia
 ```
 
-5. Exit the mongo shell.
+6. Exit the mongo shell.
 
 ```
 beyondmafia> exit
-```
-
-6. Run the redis container
-```
-docker run -d -p 6379:6379 --name redis --restart=always redis
 ```
 
 ### Step 4: Install node modules
@@ -199,29 +197,3 @@ beyondmafia> db.users.find({}, {name:1, dev:1})
 ![test tube](https://user-images.githubusercontent.com/24848927/212348802-56db2540-5b3d-4c72-8182-3ab883eed99c.png)
 
 3. Click the test tube icon and bot accounts will spawn in new windows. Remember to enable pop-up windows in your browser.
-
-#### (Optional) Set as Owner
-
-Owner permissions are not needed for testing roles but it will come in handy to test other site functions like forum and chat.
-
-1. Get your user ObjectId.
-
-```
-beyondmafia> db.users.find({}, {name:1})
-```
-
-2. Get the group ObjectId.
-
-```
-beyondmafia> db.groups.find({name:'Owner'}, {name:1})
-```
-
-3. Add the group mapping.
-
-```
-beyondmafia> db.ingroups.insert(
-  {
-    user: ObjectId("6XXXuserId"),
-    group: ObjectId("6YYYgroupId")
-  })
-```
