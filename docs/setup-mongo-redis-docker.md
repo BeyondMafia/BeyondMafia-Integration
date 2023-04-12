@@ -47,13 +47,6 @@ MONGO_USER=admin
 MONGO_PW=password
 ```
 
-8. If you need to delete mongo (skip for now!)
-
-```
-docker rm -f mongo
-docker volume rm local-mongo
-```
-
 ## Redis
 
 ```

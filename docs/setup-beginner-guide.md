@@ -95,7 +95,7 @@ npm i -g pm2
 2. Install backend node modules.
 
 ```bash
-cd BeyondMafia-Integration 
+cd /workspaces/BeyondMafia-Integration/ 
 npm install
 ```
 
@@ -107,21 +107,31 @@ npm install
 
 ### Step 5: Environment Variables
 
-1. Create `.env` file for the server under `BeyondMafia-Integration/.env`, and copy this [example file](/docs/server_env)
+1. Create the backend `.env`.
 
-2. Create a `.env` file for the React app under `BeyondMafia-Integration/react_main/.env` and copy this [example file](/docs/client_env)
+```
+cp docs/server_env /workspaces/BeyondMafia-Integration/.env
+```
 
-3. Refer to [this guide](/docs/setup-dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
+2. Create the frontend `.env`. Note that this file is under the `react_main` subdirectory.
+
+```
+cp docs/client_env /workspaces/BeyondMafia-Integration/react_main/.env
+```
+
+3. Follow [this guide](/docs/setup-dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA. As you follow the guide, fill in the `.env` files.
 
 ### Step 6: Start the Site
 
 1. Start the backend server
+
 ```
-cd BeyondMafia-Integration 
+cd /workspaces/BeyondMafia-Integration
 npm start
 ```
 
 2. Start the frontend React app
+
 ```
 cd react_main
 npm start
