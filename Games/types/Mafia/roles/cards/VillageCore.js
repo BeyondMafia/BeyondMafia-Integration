@@ -13,6 +13,7 @@ module.exports = class VillageCore extends Card {
                 flags: ["group", "speech", "voting"],
                 whileDead: true,
                 passiveDead: true,
+                speakDead: true,
                 action: {
                     labels: ["kill", "lynch", "hidden"],
                     priority: PRIORITY_VILLAGE,
@@ -23,14 +24,22 @@ module.exports = class VillageCore extends Card {
                     }
                 }
             },
-            "Graveyard": {
-                states: ["*"],
+            "Village ": {
+                states: ["Night"],
                 flags: ["group", "speech", "liveJoin"],
                 whileAlive: false,
                 whileDead: true,
                 passiveDead: false,
+                speakDead: true
             }
         };
+    }
+
+    speak(message) {
+        message.modified = true;
+        if (!message.sender.alive) {
+            message.recipients = message.game.players.filter(x => !x.alive);
+        }
     }
 
 }

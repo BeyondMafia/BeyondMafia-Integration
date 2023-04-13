@@ -106,7 +106,14 @@ export function capitalize(string) {
 	return "#" + r + g + b;
   }
 
-  export function flipTextColor(hexColor){
+  export function determineColor(player) {
+	if (player.alive) {
+		return flipTextColor(player.textColor);
+	}
+	return "#C35C5C";
+  }
+
+  export function flipTextColor(hexColor) {
 	let hslColor = hexToHSL(hexColor);
 	let hslVals = hslColor.split(',');
 	let h = hslVals[0], s = hslVals[1], l = hslVals[2];

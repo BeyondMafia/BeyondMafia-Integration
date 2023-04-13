@@ -65,7 +65,7 @@ module.exports = class Meeting {
             voteWeight: options.voteWeight || 1,
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
-            canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
+            canTalk: options.canTalk != false && (player.alive || options.speakDead),
             visible: options.visible != false && (player.alive || !options.passiveDead),
             whileAlive: options.whileAlive != false,
             whileDead: options.whileDead,
@@ -739,6 +739,12 @@ module.exports = class Meeting {
 
         if (message.recipients.length == 0)
             return;
+
+        // if (!member.alive) {
+        //     if (this.contains("Village")) {
+        //         message.recipients = message.game.players.filter(x => !x.alive);
+        //     }
+        // }
 
         message = new Message({
             sender: message.sender,
