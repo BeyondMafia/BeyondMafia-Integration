@@ -16,4 +16,8 @@ module.exports = class Suit extends Item {
 
         super.hold(player);
     }
+
+    get snoopName() {
+        return `Suit (${this.type})`
+    }
 }

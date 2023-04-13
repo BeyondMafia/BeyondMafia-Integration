@@ -20,7 +20,7 @@ module.exports = class LearnVisitors extends Card {
                             !action.hasLabel("hidden")
                         ) {
                             var role = action.actor.getAppearance("investigate", true);
-                            var alert = `You learn that ${action.actor.name}'s role is ${role}.`;
+                            var alert = `:sy0d: You learn that ${action.actor.name}'s role is ${role}.`;
                             this.actor.queueAlert(alert);
                         }
                     }

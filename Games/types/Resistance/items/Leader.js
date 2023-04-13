@@ -32,7 +32,11 @@ module.exports = class Leader extends Item {
 
                         this.actor.role.meetings["Approve Team"].disabled = true;
 
-                        this.game.queueAlert(`Team selected: ${this.target.map(t => t.name).join(", ")}`);
+                        var selectedNames = this.target.map(t => t.name);
+                        // for displaying mission history
+                        this.game.recordMissionTeam(selectedNames);
+                        
+                        this.game.queueAlert(`Team selected: ${selectedNames.join(", ")}`);
                         this.actor.dropItem("Leader");
                     }
                 }

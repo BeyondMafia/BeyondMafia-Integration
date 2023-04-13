@@ -23,7 +23,10 @@ module.exports = class SwapRoles extends Card {
                         var currRoleData = this.actor.role.data;
 
                         this.actor.setRole(`${this.target.role.name}:${this.target.role.modifier}`, this.target.role.data);
+                        this.game.events.emit("rolesAssigned", this.actor);
+
                         this.target.setRole(`${currRoleName}:${currRoleModifier}`, currRoleData);
+                        this.game.events.emit("rolesAssigned", this.target);
                     }
                 }
             }

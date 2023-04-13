@@ -36,11 +36,11 @@ module.exports = class Gun extends Item {
                         }
 
                         if (reveal && cursed)
-                            this.game.queueAlert(`${shooterMask} pulls a gun, it backfires!`);
+                            this.game.queueAlert(`:sy0b: ${shooterMask} pulls a gun, it backfires!`);
                         else if (reveal && !cursed)
-                            this.game.queueAlert(`${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
+                            this.game.queueAlert(`:sy0a: ${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
                         else
-                            this.game.queueAlert(`Someone fires a gun at ${this.target.name}!`);
+                            this.game.queueAlert(`:sy0a: Someone fires a gun at ${this.target.name}!`);
 
                         // kill
                         var toKill = this.dominates();
@@ -59,4 +59,13 @@ module.exports = class Gun extends Item {
         };
     }
 
+    get snoopName() {
+        if (this.mafiaImmune) {
+            return "Gun (Associate)"
+        } else if (this.cursed) {
+            return "Gun (Cursed)"
+        }
+
+        return this.name;
+    }
 }

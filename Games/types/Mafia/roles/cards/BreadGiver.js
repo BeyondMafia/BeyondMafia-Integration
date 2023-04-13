@@ -27,18 +27,19 @@ module.exports = class BreadGiver extends Card {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
                         this.target.holdItem("Bread");
-                        this.target.queueAlert("You have received a bread!");
+                        this.target.queueAlert(":sy2c: You have received a piece of bread!");
                     }
                 }
             }
         };
         this.listeners = {
-            "rolesAssigned": function () {
-                for (let player of this.game.players) {
-                    if (player.role.name === "Turkey") {
-                        continue;
-                    }
+            "rolesAssigned": function (player) {
+                if (player) {
+                    return
+                }
 
+                for (let player of this.game.players) {
+                    // give bread
                     let items = player.items.map(a => a.name);
                     let breadCount = 0;
                     for (let item of items) {
@@ -49,6 +50,8 @@ module.exports = class BreadGiver extends Card {
                         player.holdItem("Bread");
                         breadCount++;
                     }
+
+                    // give effect
                     if (!player.hasEffect("Famished"))
                         player.giveEffect("Famished");
                 }
