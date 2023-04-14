@@ -13,9 +13,7 @@ module.exports = class SeanceTarget extends Card {
                     return;
                 }
 
-                if (!this.data.meetingName) {
-                    this.data.meetingName = "Seance with " + this.player.name;
-                }
+                this.data.meetingName = "Seance with " + this.player.name;
                 this.meetings[this.data.meetingName] = this.meetings["SeancePlaceholder"]
                 delete this.meetings["SeancePlaceholder"]
             }
