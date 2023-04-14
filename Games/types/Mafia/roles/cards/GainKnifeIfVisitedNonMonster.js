@@ -15,14 +15,16 @@ module.exports = class GainKnifeIfVisitedNonMonster extends Card {
                         return;
 
                     let visitors = this.getVisitors(this.player);
-                    let visitorsAlignments = visitors.map(player => player.role.alignment);
-                    let monstersCount = visitorsAlignments.filter(alignment => alignment=="Monsters").length;
+                    let hasNonMonsterVisitors = visitors
+                        .filter(v => v.role.alignment !== "Monsters")
+                        ?.length > 0;
 
-                    if(visitorsAlignments.length > 0 &&
-                        visitorsAlignments.length !== monstersCount){
-                        this.actor.holdItem("Knife");
-                        this.queueGetItemAlert("Knife", this.actor);
+                    if (!hasNonMonsterVisitors) {
+                        return;
                     }
+                    
+                    this.actor.holdItem("Knife");
+                    this.queueGetItemAlert("Knife", this.actor);
                 }
             }
         ];

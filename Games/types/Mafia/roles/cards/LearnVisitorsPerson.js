@@ -1,7 +1,7 @@
 const Card = require("../../Card");
 const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
-module.exports = class LearnVisitors extends Card {
+module.exports = class LearnVisitorsPerson extends Card {
 
     constructor(role) {
         super(role);
@@ -14,18 +14,12 @@ module.exports = class LearnVisitors extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    for (let action of this.game.actions[0]) {
-                        if (
-                            action.target == this.actor &&
-                            !action.hasLabel("hidden")
-                        ) {
-                            let visitors = this.getVisitors(this.player);
-                            let visitorNames = visitors.map(player => player.name);
-                            if (visitorNames.length === 0) {;
-                                visitorNames.push("no one");
-                            }
-                        }
+                    let visitors = this.getVisitors(this.player);
+                    let visitorNames = visitors.map(v => v.name);
+                    if (visitors.length === 0) {
+                        visitorNames = ["no one"];
                     }
+
                     this.actor.queueAlert(`:sy0f: You were visited by ${visitorNames.join(", ")} during the night.`);
                 }
             }

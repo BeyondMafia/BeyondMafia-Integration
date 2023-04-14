@@ -11,7 +11,7 @@ module.exports = class AccursedDoll extends Role {
             "WinWithMonsters",
             "MeetingMonster",
             "LearnVisitorsPerson",
-            "GainKnifeIfVisited"
+            "GainKnifeIfVisitedNonMonster"
         ];
     }
 
