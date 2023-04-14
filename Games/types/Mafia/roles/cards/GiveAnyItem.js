@@ -65,7 +65,7 @@ module.exports = class GiveAnyItem extends Card {
             "Choose Item": {
                 states: ["Night"],
                 flags: ["voting"],
-                inputType: "alignment",
+                inputType: "custom",
                 targets: ["Gun", "Armor", "Knife", "Snowball", "Bread", "Fake Gun", "Fake Armor", "Fake Knife", "Fake Snowball", "Fake Bread"],
                 action: {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 2,
