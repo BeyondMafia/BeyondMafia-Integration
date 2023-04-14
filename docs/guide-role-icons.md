@@ -1,5 +1,7 @@
 # Role Icon Creation Guide
 
+This guide is intended for contributions that are primarily aesthetic in nature and do not require testing. If you intend to write roles and game features, please follow the main [setup guide](/docs/setup-guide.md).
+
 ## Role Icon Specification
 
 - 30px by 40px
