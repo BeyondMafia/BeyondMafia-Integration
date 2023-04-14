@@ -1044,6 +1044,24 @@ function useModCommands(argValues, commandRan) {
                     .catch(errorAlert);
             }
         },
+        "Blacklist": {
+            perm: "whitelist",
+            args: [
+                {
+                    label: "User",
+                    name: "userId",
+                    type: "user_search"
+                },
+            ],
+            run: function () {
+                axios.post("/mod/blacklist", argValues)
+                    .then(() => {
+                        siteInfo.showAlert("User blacklisted.", "success");
+                        commandRan();
+                    })
+                    .catch(errorAlert);
+            }
+        },
         "Schedule Restart": {
             perm: "scheduleRestart",
             args: [
