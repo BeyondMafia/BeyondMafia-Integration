@@ -805,6 +805,18 @@ export const Emotes = {
 		name: "sy9e",
 		type: "png"
 	},
+	":sy9a:": {
+		name: "sy9a",
+		type: "png"
+	},
+	":wink:": {
+		name: "wink",
+		type: "png"
+	},
+	":zzz:": {
+		name: "zzz",
+		type: "png"
+	},
 };
 
 export const EmoteKeys = Object.keys(Emotes);
