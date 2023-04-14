@@ -14,8 +14,11 @@ module.exports = class BondedForLife extends Card {
                     priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
                     run: function() {
                         this.actor.role.data.loves = this.target;
-                        let alert = `:sy3g: You fall deathly in love with ${this.actor.name}.`;
-                        this.target.queueAlert(alert);
+                        let targetAlert = `:sy3g: You fall deathly in love with ${this.actor.name}.`;
+                        this.target.queueAlert(targetAlert);
+
+                        let actorAlert = `:sy3g: You fall deathly in love with ${this.target.name}.`;
+                        this.actor.queueAlert(actorAlert);
                     }
                 },
                 shouldMeet() {
