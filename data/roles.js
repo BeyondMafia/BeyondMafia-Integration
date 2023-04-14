@@ -531,7 +531,7 @@ const roleData = {
         "Fabulist": {
             alignment: "Village",
             description: [
-                "Tells a story to a player of choice during the night.",
+                "Composes a fake system message, given to a player of their choice, at night.",
             ],
         },
         //Mafia
@@ -859,7 +859,7 @@ const roleData = {
         "Hoaxer": {
             alignment: "Mafia",
             description: [
-                "Spreads a hoax to a player of choice during the night.",
+                "Composes a fake system message, given to a player of their choice, at night.",
             ],
         },
 
