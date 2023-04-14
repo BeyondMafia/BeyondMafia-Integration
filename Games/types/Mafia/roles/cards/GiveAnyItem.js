@@ -54,7 +54,7 @@ module.exports = class GiveAnyItem extends Card {
                                 this.target.queueAlert(":sy8b: You have received a snowball!");
                                 break;
                             case "Fake Bread":
-                                this.target.holdItem("CursedBread")
+                                this.target.holdItem("Bread", { cursed: true })
                                 this.target.queueAlert(":sy2c: You have received a piece of bread!");
                                 break;
                         }

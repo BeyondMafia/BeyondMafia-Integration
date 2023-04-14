@@ -810,6 +810,10 @@ module.exports = class Player {
         return false;
     }
 
+    getItems(itemName) {
+        return this.items.filter(i => i.name == itemName)
+    }
+
     hasEffect(effectName) {
         for (let effect of this.effects)
             if (effect.name == effectName)
