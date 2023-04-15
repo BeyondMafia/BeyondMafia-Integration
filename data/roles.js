@@ -968,6 +968,12 @@ const roleData = {
                 "Wins instead of mafia and counts toward their total.",
                 ],
         },
+        "Autocrat": {
+            alignment: "Independent",
+            description: [
+                "Wins instead of village and counts toward their total.",
+                ],
+        },
         "Lover": {
             alignment: "Independent",
             description: [
