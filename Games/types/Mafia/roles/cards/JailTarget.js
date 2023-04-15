@@ -8,7 +8,11 @@ module.exports = class JailTarget extends Card {
         super(role);
 
         this.listeners = {
-            "rolesAssigned": function () {
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
+                }
+
                 this.data.meetingName = "Jail with " + this.player.name;
                 this.meetings[this.data.meetingName] = this.meetings["JailPlaceholder"]
                 delete this.meetings["JailPlaceholder"]

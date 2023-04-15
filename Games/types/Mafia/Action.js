@@ -7,9 +7,11 @@ module.exports = class MafiaAction extends Action {
         super(options);
     }
 
-    heal(power){
-        this.target.setTempImmunity("kill", power);
-        this.target.removeEffect("Poison", true);
+    heal(power, target) {
+        target = target || this.target;
+        
+        target.setTempImmunity("kill", power);
+        target.removeEffect("Poison", true);
     }
 
     blockActions(){

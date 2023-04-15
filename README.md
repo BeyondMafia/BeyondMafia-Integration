@@ -12,7 +12,7 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 
 ## Running the site locally
 
-> If you don't have a working dev environment, you can check out [this guide](/docs/setup-github-codespace.md) for running the code remotely on Github Codespaces.
+> If you are a beginner, please follow [this beginner guide](/docs/setup-beginner-guide.md) and ask in Discord if you are stuck at any step.
 
 #### Prerequisites
 
@@ -73,5 +73,3 @@ npm start
 
 - [Role Creation Guide](/docs/guide-role-creation.md)
 - [Role Icon Guide](/docs/guide-role-icons.md)
-
-Detailed documentation for role/game creation coming soon.

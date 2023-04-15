@@ -69,8 +69,10 @@ module.exports = class ResistanceGame extends Game {
     }
 
     incrementState() {
-        //Leaving states
-        if (this.getStateInfo().name.match(/Mission/)) {
+        // Leaving states
+        let previousState = this.getStateInfo().name;
+
+        if (previousState.match(/Mission/)) {
             if (this.currentMissionFails > 0) {
                 this.missionFails++;
                 var plural = this.currentMissionFails > 1;
@@ -84,9 +86,18 @@ module.exports = class ResistanceGame extends Game {
             this.mission++;
             this.currentMissionFails = 0;
             this.teamFails = 0;
-        }
-        else if (this.getStateInfo().name.match(/Team Selection/))
+        } else if (previousState.match(/Team Approval/) &&
+            this.teamFails >= this.teamFailLimit) {
+            this.queueAlert(`Mission ${this.mission} failed due to lack of a team.`);
+            this.recordMissionFails(-1);
+
+            this.missionFails++;
+            this.mission++;
+            this.currentMissionFails = 0;
+            this.teamFails = 0;
+        } else if (previousState.match(/Team Selection/)) {
             this.currentTeamFail = false;
+        }
 
         super.incrementState();
 
@@ -109,13 +120,15 @@ module.exports = class ResistanceGame extends Game {
     }
 
     recordMissionFails(numFails) {
-        if (!this.currentMissionHistory) {
-            // unintended behaviour
-            return;
+        if (numFails === -1) {
+            this.currentMissionHistory = {
+                mission: this.mission,
+                team: [],
+            }
         }
-
+            
         this.currentMissionHistory.numFails = numFails;
-        const winningTeam = this.currentMissionHistory.numFails == 0 ? "rebels" : "spies";
+        const winningTeam = this.currentMissionHistory.numFails === 0 ? "rebels" : "spies";
 
         // update mission record
         this.missionRecord.missionHistory.push(this.currentMissionHistory);

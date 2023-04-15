@@ -16,7 +16,7 @@ import Dropdown, { useDropdown } from "../../components/Dropdown";
 import Setup from "../../components/Setup";
 import { NameWithAvatar } from "../User/User";
 import { ClientSocket as Socket } from "../../Socket";
-import { RoleCount } from "../../components/Roles";
+import { RoleCount, RolePrediction } from "../../components/Roles";
 import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
@@ -61,6 +61,7 @@ function GameWrapper(props) {
     const [speechFilters, setSpeechFilters] = useState({ from: "", contains: "" });
     const [isolationEnabled, setIsolationEnabled] = useState(false);
     const [isolatedPlayers, setIsolatedPlayers] = useState(new Set());
+    const [rolePredictions, setRolePredictions] = useState({});
     const [activeVoiceChannel, setActiveVoiceChannel] = useState();
     const [muted, setMuted] = useState(false);
     const [deafened, setDeafened] = useState(false);
@@ -94,6 +95,17 @@ function GameWrapper(props) {
             newIsolatedPlayers.add(playerId);
         }
         setIsolatedPlayers(newIsolatedPlayers);
+    }
+    
+    function toggleRolePrediction(playerId) {
+        return function (prediction) {
+            let newRolePredictions = rolePredictions;
+            newRolePredictions[playerId] = prediction;
+            if (prediction === null) {
+                delete newRolePredictions[playerId];
+            }
+            setRolePredictions(newRolePredictions);
+        }
     }
 
     useEffect(() => {
@@ -329,6 +341,8 @@ function GameWrapper(props) {
         });
 
         socket.on("reveal", info => {
+            toggleRolePrediction(info.playerId)(null);
+
             updateHistory({
                 type: "reveal",
                 playerId: info.playerId,
@@ -614,6 +628,8 @@ function GameWrapper(props) {
             setIsolationEnabled,
             isolatedPlayers,
             togglePlayerIsolation,
+            rolePredictions,
+            toggleRolePrediction,
             loadAudioFiles: loadAudioFiles,
             playAudio: playAudio,
             stopAudio: stopAudio,
@@ -1378,6 +1394,7 @@ function SpeechInput(props) {
             e.preventDefault();
             const words = speechInput.split(" ");
             const word = words.pop();
+            // Removing non-word characters before the string.
             const seedString = word.match(/[^\w-]?([\w-]*)$/)[1].toLowerCase();
             const prefix = word.substring(0, word.length - seedString.length);
             if (!seedString.length)
@@ -1402,6 +1419,9 @@ function SpeechInput(props) {
                     }
                     words.push(prefix + matchedPlayers[0].substring(0, i));
                 }
+                setSpeechInput(words.join(" "));
+            } else if (word.toLowerCase() === "@everyone".substring(0, word.length)) { // Check for @everyone.
+                words.push("@everyone");
                 setSpeechInput(words.join(" "));
             }
         }
@@ -1517,6 +1537,7 @@ export function SideMenu(props) {
 export function PlayerRows(props) {
     const game = useContext(GameContext);
     const { isolationEnabled, togglePlayerIsolation, isolatedPlayers } = game;
+    const { rolePredictions, toggleRolePrediction } = game;
     const history = props.history;
     const players = props.players;
     const activity = props.activity;
@@ -1534,6 +1555,34 @@ export function PlayerRows(props) {
             />
         )
 
+        const rolePrediction = rolePredictions[player.id];
+        const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
+
+        var colorAutoScheme = false;
+        var bubbleColor = "black";
+        if (document.documentElement.classList.length === 0) {
+                colorAutoScheme = true;
+        }
+        else {
+             if (!document.documentElement.classList.contains("light-mode")) {
+                 if (!document.documentElement.classList.contains("dark-mode")) {
+                     colorAutoScheme = true;
+                 }
+                 else {
+                     bubbleColor = "white";
+                 }
+             }
+             else {
+                 bubbleColor = "black";
+             }
+        }
+
+        if (colorAutoScheme) {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                bubbleColor = "white";
+            }
+        }
+
         return (
             <div
                 className={`player ${props.className ? props.className : ""}`}
@@ -1541,7 +1590,9 @@ export function PlayerRows(props) {
                 {isolationCheckbox}
                 {props.stateViewing != -1 &&
                     <RoleCount
-                        role={stateViewingInfo.roles[player.id]}
+                        role={roleToShow}
+                        isRolePrediction={rolePrediction !== undefined}
+                        toggleRolePrediction={toggleRolePrediction(player.id)}
                         gameType={props.gameType}
                         showPopover />
                 }
@@ -1556,7 +1607,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        color={bubbleColor}
                         width="20"
                         height="20" />
                 }
@@ -1613,6 +1664,7 @@ export function ActionList(props) {
                 case "boolean":
                 case "role":
                 case "alignment":
+                case "custom":
                 case "select":
                     action =
                         <ActionSelect
