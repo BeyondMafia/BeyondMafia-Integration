@@ -856,10 +856,16 @@ const roleData = {
                 "Chooses to become the role of a dead Mafia-aligned player once per game.", 
             ],
         },
-        "Hoaxer": {
+      "Hoaxer": {
             alignment: "Mafia",
             description: [
                 "Composes a fake system message, given to a player of their choice, at night.",
+            ],
+        },
+        "Ventriloquist": {
+            alignment: "Mafia",
+            description: [
+                "Can speak as any player during the day.", 
             ],
         },
 
@@ -978,6 +984,12 @@ const roleData = {
             description: [
                 "Mafia meeting is anonymous if Mastermind is present in the game.",
                 "Wins instead of mafia and counts toward their total.",
+                ],
+        },
+        "Autocrat": {
+            alignment: "Independent",
+            description: [
+                "Wins instead of village and counts toward their total.",
                 ],
         },
         "Lover": {

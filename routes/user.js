@@ -440,27 +440,6 @@ router.post("/settings/update", async function (req, res) {
             return;
         }
 
-        if (prop == "backgroundColor" || prop == "textColor" || prop == "nameColor") {
-            var c = new color(value);
-
-            // replaced c.isLight() with a manual check
-            // original function https://github.com/Qix-/color/blob/master/index.js#L298
-            // YIQ equation from http://24ways.org/2010/calculating-color-contrast
-
-            // original value was 0.5
-            const contrastTolerance = 0.6;
-
-            const rgb = c.rgb().color;
-            const yiq = (rgb[0] * 2126 + rgb[1] * 7152 + rgb[2] * 722) / 10000;
-            const isLight = yiq >= contrastTolerance * 256;
-
-            if ((prop == "backgroundColor" || prop == "textColor" || prop == "nameColor") && isLight) {
-                res.status(500);
-                res.send("Color is too light.");
-                return;
-            }
-        }
-
         await models.User.updateOne({ id: userId }, { $set: { [`settings.${prop}`]: value } });
         await redis.cacheUserInfo(userId, true);
 
