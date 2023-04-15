@@ -1578,7 +1578,7 @@ export function PlayerRows(props) {
         }
 
         if (colorAutoScheme) {
-            if (window.matchMedia("(prefers-color-scheme: dark)")) {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
                 bubbleColor = "white";
             }
         }

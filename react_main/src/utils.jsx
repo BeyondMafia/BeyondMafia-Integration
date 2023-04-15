@@ -128,7 +128,7 @@ export function capitalize(string) {
 	}
 
 	if (colorAutoScheme) {
-		if (window.matchMedia("(prefers-color-scheme: dark)")) {
+		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 			colorScheme = "dark";
 		}
 	}
