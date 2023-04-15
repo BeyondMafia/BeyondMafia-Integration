@@ -34,8 +34,12 @@ module.exports = class Storyteller extends Card {
                     labels: ["message"],
                     priority: PRIORITY_MESSAGE_GIVER_DEFAULT,
                     run: function () {
-                      this.target.queueAlert(this.actor.role.data.message);
-                      delete this.actor.role.data.message;
+                        if (!this.actor.role.data.message) {
+                            return
+                        }
+                        
+                        this.target.queueAlert(this.actor.role.data.message);
+                        delete this.actor.role.data.message;
                     }
                 }
             }
