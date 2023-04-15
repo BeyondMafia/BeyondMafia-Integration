@@ -110,9 +110,39 @@ export function capitalize(string) {
 	let hslColor = hexToHSL(hexColor);
 	let hslVals = hslColor.split(',');
 	let h = hslVals[0], s = hslVals[1], l = hslVals[2];
-	if((l > 70 && document.documentElement.classList.contains("light-mode")) ||
-	    l < 30 && document.documentElement.classList.contains("dark-mode")){
-			hslColor = hslColor.replace(/[0-9.]+(?!.*[0-9])/, String(100 - parseInt(hslColor.match(/[0-9.]+(?!.*[0-9])/), 10)));
+
+	var colorScheme = "light";
+	var colorAutoScheme = false;
+	if (document.documentElement.classList.length === 0) {
+		colorAutoScheme = true;
+	}
+	else {
+		if (!document.documentElement.classList.contains("light-mode")) {
+			if (!document.documentElement.classList.contains("dark-mode")) {
+				colorAutoScheme = true;
+			}
+			else {
+				colorScheme = "dark";
+			}
+		}
+	}
+
+	if (colorAutoScheme) {
+		if (window.matchMedia("(prefers-color-scheme: dark)")) {
+			colorScheme = "dark";
+		}
+	}
+
+
+	if (l > 70 && colorScheme === "light") {
+		var difference = l - 70;
+		hslColor = hslColor.replace(/[0-9.]+(?!.*[0-9])/, String(parseInt(hslColor.match(/[0-9.]+(?!.*[0-9])/) - difference, 10)));
+	}
+	else {
+		if(l < 30 && colorScheme === "dark") {
+			var difference = 30 - l;
+			hslColor = hslColor.replace(/[0-9.]+(?!.*[0-9])/, String(difference + parseInt(hslColor.match(/[0-9.]+(?!.*[0-9])/), 10)));
+		}
 	}
 	
 	hslVals = hslColor.split(',');

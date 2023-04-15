@@ -1558,6 +1558,31 @@ export function PlayerRows(props) {
         const rolePrediction = rolePredictions[player.id];
         const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
 
+        var colorAutoScheme = false;
+        var bubbleColor = "black";
+        if (document.documentElement.classList.length === 0) {
+                colorAutoScheme = true;
+        }
+        else {
+             if (!document.documentElement.classList.contains("light-mode")) {
+                 if (!document.documentElement.classList.contains("dark-mode")) {
+                     colorAutoScheme = true;
+                 }
+                 else {
+                     bubbleColor = "white";
+                 }
+             }
+             else {
+                 bubbleColor = "black";
+             }
+        }
+
+        if (colorAutoScheme) {
+            if (window.matchMedia("(prefers-color-scheme: dark)")) {
+                bubbleColor = "white";
+            }
+        }
+
         return (
             <div
                 className={`player ${props.className ? props.className : ""}`}
@@ -1582,7 +1607,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        color={bubbleColor}
                         width="20"
                         height="20" />
                 }
