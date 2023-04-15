@@ -893,9 +893,8 @@ const roleData = {
             description: [
                 "Is bloodthirsty.",
                 "During the night, can target a player to feed from.",
-                "While on a target, that player is roleblocked.",
-                "Each phase, drains 25% of their blood.",
-                "Stays on their target until they die."
+                "Drains 50% of their blood.",
+                "Gains an extra life after draining 150% blood."
             ],
         },
 
