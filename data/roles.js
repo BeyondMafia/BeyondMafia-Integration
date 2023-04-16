@@ -528,6 +528,15 @@ const roleData = {
                 "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Fabricated version of any of these items each night.",
             ],
         },
+        "Samurai": {
+            alignment: "Village",
+            description: [
+                "Cannot be converted.",
+                "Kills anyone who tries to convert them at night.",
+                "Can kill a maximum of 2 people",
+            ],
+        },
+
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
