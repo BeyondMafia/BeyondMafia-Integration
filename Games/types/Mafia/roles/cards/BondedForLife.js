@@ -16,6 +16,9 @@ module.exports = class BondedForLife extends Card {
                         this.actor.role.data.loves = this.target;
                         let alert = `:sy3g: You fall deathly in love with ${this.actor.name}.`;
                         this.target.queueAlert(alert);
+
+                        let selfAlert = `:sy3g: You fall deathly in love with ${this.target.name}.`;
+                        this.actor.queueAlert(selfAlert);
                     }
                 },
                 shouldMeet() {

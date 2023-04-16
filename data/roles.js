@@ -522,7 +522,18 @@ const roleData = {
                 "Steals any items they are holding.",
             ],
         },
-
+        "Crafter": {
+            alignment: "Village",
+            description: [
+                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Fabricated version of any of these items each night.",
+            ],
+        },
+        "Fabulist": {
+            alignment: "Village",
+            description: [
+                "Composes a fake system message, given to a player of their choice, at night.",
+            ],
+        },
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
@@ -839,6 +850,24 @@ const roleData = {
                 "Chooses a living player each night to appear as a member of the Mafia to investigative roles.", 
             ],
         },
+        "Apprentice": {
+            alignment: "Mafia",
+            description: [
+                "Chooses to become the role of a dead Mafia-aligned player once per game.", 
+            ],
+        },
+      "Hoaxer": {
+            alignment: "Mafia",
+            description: [
+                "Composes a fake system message, given to a player of their choice, at night.",
+            ],
+        },
+        "Ventriloquist": {
+            alignment: "Mafia",
+            description: [
+                "Can speak as any player during the day.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -880,6 +909,23 @@ const roleData = {
                 "Chooses to hunt at night by choosing a player and guessing their role.",
                 "If guessed correct, becomes immortal for the following day.",
                 "If guessed incorrect, identity will be revealed to all."
+            ],
+        },
+        "Accursed Doll": {
+            alignment: "Monsters",
+            description: [
+                "If visited at night by a non-monster, gains a knife the next day.",
+                "Knows who visits but not their roles.",
+            ],
+        },
+        "Alchemist": {
+            alignment: "Monsters",
+            description: [
+                "Can choose between three potions to cast at night.",
+                "A damaging potion, which attacks the target.",
+                "A restoring potion, which heals the target.",
+                "An elucidating potion, which reveals the target's role.",
+                "Once a potion has been concocted, it cannot be brewed again for the next two nights."
             ],
         },
 
@@ -945,6 +991,12 @@ const roleData = {
             description: [
                 "Mafia meeting is anonymous if Mastermind is present in the game.",
                 "Wins instead of mafia and counts toward their total.",
+                ],
+        },
+        "Autocrat": {
+            alignment: "Independent",
+            description: [
+                "Wins instead of village and counts toward their total.",
                 ],
         },
         "Lover": {

@@ -25,6 +25,7 @@ module.exports = class Player {
         this.events = game.events;
         this.role = null;
         this.alive = true;
+        this.data = {};
         this.items = [];
         this.effects = [];
         this.tempImmunity = {};
@@ -909,9 +910,9 @@ module.exports = class Player {
         var will;
 
         if (this.lastWill)
-            will = `As read from ${this.name}'s last will: ${this.lastWill}`;
+            will = `:sy5h: As read from ${this.name}'s last will: ${this.lastWill}`;
         else
-            will = `${this.name} did not leave a will.`;
+            will = `:sy5h: ${this.name} did not leave a will.`;
 
         this.game.queueAlert(will);
     }

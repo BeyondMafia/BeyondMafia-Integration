@@ -12,7 +12,7 @@ module.exports = class Sting extends Card {
                 action: {
                     labels: ["kill", "sting"],
                     run: function () {
-                        this.game.queueAlert(`${this.actor.name} rushes at ${this.target.name} and delivers a fatal sting!`);
+                        this.game.queueAlert(`:sy8d: ${this.actor.name} rushes at ${this.target.name} and delivers a fatal sting!`);
 
                         this.actor.kill("basic", this.actor, true);
 

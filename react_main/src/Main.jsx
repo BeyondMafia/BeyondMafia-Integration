@@ -44,18 +44,36 @@ function Main() {
             .catch(errorAlert);
     }
 
-    if(user.settings != null){
-        if(user.settings.siteColorScheme){
-            if(document.documentElement.classList.contains("light-mode")){
-                document.documentElement.classList.remove("light-mode");
-                }
-            document.documentElement.classList.add("dark-mode");
+    var userColourScheme = "";
+
+    if (user.settings?.siteColorScheme === false) {
+        userColourScheme = "light";
+    }
+    else if (user.settings.siteColorScheme === true) {
+        userColourScheme = "dark";
+    }
+    else {
+        userColourScheme = user.settings?.siteColorScheme || "auto";
+    }
+    
+    if (userColourScheme === "light") {
+        if (document.documentElement.classList.contains("dark-mode")) {
+            document.documentElement.classList.remove("dark-mode");
         }
-        else{
-            if(document.documentElement.classList.contains("dark-mode")) {
-                document.documentElement.classList.remove("dark-mode");
-            }
-            document.documentElement.classList.add("light-mode");
+        document.documentElement.classList.add("light-mode");
+    }
+    else if (userColourScheme === "dark") {
+        if (document.documentElement.classList.contains("light-mode")) {
+            document.documentElement.classList.remove("light-mode");
+        }
+        document.documentElement.classList.add("dark-mode");
+    }
+    else if (userColourScheme === "auto") {
+        if (document.documentElement.classList.contains("dark-mode")) {
+            document.documentElement.classList.remove("dark-mode");
+        }
+        if (document.documentElement.classList.contains("light-mode")) {
+            document.documentElement.classList.remove("light-mode");
         }
     }
 
