@@ -36,8 +36,8 @@ module.exports = class VillageCore extends Card {
     }
 
     speak(message) {
-        message.modified = true;
         if (!message.sender.alive) {
+            message.modified = true;
             message.recipients = message.game.players.filter(x => !x.alive);
         }
     }

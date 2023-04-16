@@ -21,6 +21,7 @@ import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
 import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
+import { emotify } from "../../components/Emotes";
 
 import "../../css/game.css";
 import { determineColor, flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
@@ -1221,7 +1222,8 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: determineColor(player.textColor) } : {}}>
+            {history.currentState >= 0 && player && message.prefix === "dead" && <div>{emotify(":rip:")}</div>}
+            <div className={contentClass} style={player && player.textColor ? { color: determineColor(message.prefix, player, history.currentState) } : {}}>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
@@ -1394,6 +1396,7 @@ function SpeechInput(props) {
             e.preventDefault();
             const words = speechInput.split(" ");
             const word = words.pop();
+            // Removing non-word characters before the string.
             const seedString = word.match(/[^\w-]?([\w-]*)$/)[1].toLowerCase();
             const prefix = word.substring(0, word.length - seedString.length);
             if (!seedString.length)
@@ -1418,6 +1421,9 @@ function SpeechInput(props) {
                     }
                     words.push(prefix + matchedPlayers[0].substring(0, i));
                 }
+                setSpeechInput(words.join(" "));
+            } else if (word.toLowerCase() === "@everyone".substring(0, word.length)) { // Check for @everyone.
+                words.push("@everyone");
                 setSpeechInput(words.join(" "));
             }
         }

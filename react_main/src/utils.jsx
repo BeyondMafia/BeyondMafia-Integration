@@ -106,11 +106,24 @@ export function capitalize(string) {
 	return "#" + r + g + b;
   }
 
-  export function determineColor(player) {
-	if (player.alive) {
-		return flipTextColor(player.textColor);
+  //This is mafia-specific, should refactor this to be in 
+  //mafia specific utils maybe when other games are added.
+  export function determineColor(prefix, player, gameState) {
+	if (gameState < 0) {
+		if (player.textColor) {
+			return flipTextColor(player.textColor);
+		}
+		return;
 	}
-	return "#C35C5C";
+	else {
+		if (prefix !== "dead") {
+			if (player.textColor) {
+				return flipTextColor(player.textColor);
+			}
+			return;
+		}
+	}
+	return "#BD4C4C";
   }
 
   export function flipTextColor(hexColor) {

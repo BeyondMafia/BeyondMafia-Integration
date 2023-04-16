@@ -740,11 +740,13 @@ module.exports = class Meeting {
         if (message.recipients.length == 0)
             return;
 
-        // if (!member.alive) {
-        //     if (this.contains("Village")) {
-        //         message.recipients = message.game.players.filter(x => !x.alive);
-        //     }
-        // }
+        if (!member.player.alive) {
+            if (this.name.includes("Village")) {
+                message.modified = true;
+                message.prefix = "dead";
+                message.recipients = this.game.players.filter(x => !x.alive);
+            }
+        }
 
         message = new Message({
             sender: message.sender,
