@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const {PRIORITY_VISITORS_ENQUEUE } = require("../../const/Priority");
+const {PRIORITY_ACTORS_ENQUEUE } = require("../../const/Priority");
 
 module.exports = class Astral extends Card {
 
@@ -8,7 +8,7 @@ module.exports = class Astral extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_VISITORS_ENQUEUE,
+                priority: PRIORITY_ACTORS_ENQUEUE,
                 labels: ["absolute", "hidden"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
