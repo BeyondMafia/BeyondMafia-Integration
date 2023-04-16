@@ -37,23 +37,23 @@ module.exports = class GiveAnyItem extends Card {
                                 this.target.holdItem("Bread")
                                 this.target.queueAlert(":sy2c: You have received a piece of bread!");
                                 break;
-                            case "Fake Gun":
+                            case "Cursed Gun":
                                 this.target.holdItem("Gun", { cursed: true })
                                 this.target.queueAlert(":sy2h: You have received a gun!");
                                 break;
-                            case "Fake Armor":
+                            case "Cursed Armor":
                                 this.target.holdItem("Armor", { cursed: true })
                                 this.target.queueAlert(":sy1a: You have received armor!");
                                 break;
-                            case "Fake Knife":
+                            case "Cursed Knife":
                                 this.target.holdItem("Knife", { cursed: true })
                                 this.target.queueAlert(":sy3h: You have received a knife!");
                                 break;
-                            case "Fake Snowball":
+                            case "Cursed Snowball":
                                 this.target.holdItem("Snowball", { cursed: true })
                                 this.target.queueAlert(":sy8b: You have received a snowball!");
                                 break;
-                            case "Fake Bread":
+                            case "Cursed Bread":
                                 this.target.holdItem("CursedBread")
                                 this.target.queueAlert(":sy2c: You have received a piece of bread!");
                                 break;
@@ -66,7 +66,7 @@ module.exports = class GiveAnyItem extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 inputType: "alignment",
-                targets: ["Gun", "Armor", "Knife", "Snowball", "Bread", "Fake Gun", "Fake Armor", "Fake Knife", "Fake Snowball", "Fake Bread"],
+                targets: ["Gun", "Armor", "Knife", "Snowball", "Bread", "Cursed Gun", "Cursed Armor", "Cursed Knife", "Cursed Snowball", "Cursed Bread"],
                 action: {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 2,
                     run: function() {
