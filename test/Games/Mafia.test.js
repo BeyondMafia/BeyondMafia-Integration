@@ -1290,4 +1290,37 @@ describe("Games/Mafia", function () {
             Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("Curses!")).should.be.true;
         });
     });
+
+    describe.only("Nomad", function() {
+        it("should win with mafia when it follows mafia", async function(){
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 3, roles: [{"Villager": 1, "Mafioso": 1, "Nomad": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if(meeting.name == "Follow the ways of"){
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+                else {
+                    this.sendToServer("vote", {
+                       selection: roles["Villager"].id,
+                       meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Mafia"]);
+            game.winners.groups["Mafia"].should.have.lengthOf(1);        
+            should.exist(game.winners.groups["Nomad"]);
+            game.winners.groups["Nomad"].should.have.lengthOf(1); 
+            should.not.exist(game.winners.groups["Village"]);
+        });
+    });
 });

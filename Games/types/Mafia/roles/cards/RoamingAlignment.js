@@ -1,7 +1,7 @@
 const Card = require("../../Card");
-const { PRIORITY_MODIFY_ALIGNMENT } = require("../../const/Priority");
+const { PRIORITY_MODIFY_ALIGNMENT, PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
-module.exports = class ModifyAlignment extends Card {
+module.exports = class RoamingAlignment extends Card {
 
     constructor(role) {
         super(role);
@@ -21,12 +21,25 @@ module.exports = class ModifyAlignment extends Card {
                             return;
                         }
 
-                        this.actor.role.alignment = alignment;
+                        this.actor.role.data.alignment = alignment;
                         this.actor.queueAlert(`You follow ${this.target.name} and learn the ways of the ${alignment}.`);
                     }
                 }
             }
         }
+
+        this.winCheck = {
+            priority: PRIORITY_WIN_CHECK_DEFAULT,
+            againOnFinished: true,
+            check: function (counts, winners, aliveCount, confirmedFinished) {
+                if (this.player.alive &&
+                    confirmedFinished &&
+                    winners.groups[this.data.alignment] &&
+                    !winners.groups[this.name]) {
+                    winners.addPlayer(this.player, this.name);
+                }
+            }
+        };
         
     }
 
