@@ -850,6 +850,12 @@ const roleData = {
                 "Chooses to become the role of a dead Mafia-aligned player once per game.", 
             ],
         },
+        "Ventriloquist": {
+            alignment: "Mafia",
+            description: [
+                "Can speak as any player during the day.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
