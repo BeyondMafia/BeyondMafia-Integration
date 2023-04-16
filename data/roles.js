@@ -4,14 +4,14 @@ const roleData = {
         "Villager": {
             alignment: "Village",
             description: [
-                "Wins when no mafia or malevolent independents remain."
+                "Wins when no mafia or malevolent independents remain.",
+                "Other roles appear as Villager to investigative roles, upon death, and to themself."
             ],
         },
         "Doctor": {
             alignment: "Village",
             description: [
-                "Saves one player from dying each night.",
-                "Cannot save self."
+                "Saves another player from dying each night.",
             ],
         },
         "Arms Dealer": {
@@ -24,7 +24,8 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Investigates one player each night and learns their alignment.",
-                "Multiple cops share a night meeting."
+                "Multiple cops share a night meeting.",
+                "Some other roles appear as Cop to themself."
             ],
         },
         "Insane Cop": {
@@ -72,7 +73,8 @@ const roleData = {
         "Escort": {
             alignment: "Village",
             description: [
-                "Chooses one player each night and blocks them from performing any night actions.",
+                "Visits one player each night and blocks them from performing any night actions.",
+                "Some actions cannot be blocked."
             ],
         },
         "Blacksmith": {
@@ -91,13 +93,15 @@ const roleData = {
         "Watcher": {
             alignment: "Village",
             description: [
-                "Watches a player each night and learns who visited them."
+                "Watches a player each night and learns who visited them.",
+                "Doesn't visit it's target."
             ],
         },
         "Tracker": {
             alignment: "Village",
             description: [
-                "Tracks a player each night and learns who they visited."
+                "Tracks a player each night and learns who they visited.",
+                "Doesn't visit it's target."
             ],
         },
         "Governor": {
@@ -512,7 +516,8 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Pays a visit to another player at night.",
-                "Annoyingly, this visit has no effect."
+                "Annoyingly, this visit has no effect.",
+                "Town roles with the Scatterbrained modifier appear as this role to self."
             ],
         },
         "Waitress": {
@@ -525,7 +530,7 @@ const roleData = {
         "Crafter": {
             alignment: "Village",
             description: [
-                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Fabricated version of any of these items each night.",
+                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Cursed version of any of these items each night.",
             ],
         },
         //Mafia
@@ -689,9 +694,9 @@ const roleData = {
         "Fabricator": {
             alignment: "Mafia",
             description: [
-                "Gives out a fabricated item once per night.",
-                "Fabricated Guns and Knives will backfire against the player who used them.",
-                "Fabricated Armor, Crystals and Snowballs will be ineffective."
+                "Gives out a cursed item once per night.",
+                "Cursed Guns and Knives will backfire against the player who used them.",
+                "Cursed Armor, Crystals and Snowballs will be ineffective."
             ],
         },
         "Heartbreaker": {
@@ -797,7 +802,8 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Chooses to trespass on another player's property at night.",
-                "Annoyingly, this visit has no effect."
+                "Annoyingly, this visit has no effect.",
+                "Mafia roles with the Scatterbrained modifier appear as this role to self."
             ],
         },
         "Housekeeper": {
@@ -848,6 +854,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Chooses to become the role of a dead Mafia-aligned player once per game.", 
+            ],
+        },
+        "Butler": {
+            alignment: "Mafia",
+            description: [
+                "Appears as a Villager upon death.", 
             ],
         },
 
@@ -901,6 +913,7 @@ const roleData = {
                 "Fools around at night, visiting another player with no effect.",
                 "Wins if executed by the town.",
                 "No one else wins if the Fool wins.",
+                "Clown appears as this role to self.",
             ],
         },
         "Executioner": {
