@@ -1,15 +1,29 @@
 const Card = require("../../Card");
+const {PRIORITY_VISITORS_ENQUEUE } = require("../../const/Priority");
 
 module.exports = class Astral extends Card {
 
     constructor(role) {
         super(role);
 
-        this.meetingMods = {
-            "*": {
-               labels: labels.concat(['hidden']),
+        this.actions = [
+            {
+                priority: PRIORITY_VISITORS_ENQUEUE,
+                labels: ["absolute", "hidden"],
+                run: function () {
+                    if (this.game.getStateName() != "Night")
+                        return;
+
+                    for (let action of this.game.actions[0]) {
+                        let toCheck = action.actors;
+                        if (toCheck.includes(this.player)){
+                            action.labels.push("hidden");
+                        }
+                    }
+                }
             }
-        };
+        ]
+
     }
 
 }
