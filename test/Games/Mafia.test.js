@@ -1290,4 +1290,51 @@ describe("Games/Mafia", function () {
             Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("Curses!")).should.be.true;
         });
     });
+
+    describe.only("Lover", function() {
+        it("If successful, both lover and target should receive notice", async function() {
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 3, roles: [{"Villager": 1, "Mafioso": 1, "Lover": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if(meeting.name === "Fall in love"){
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                } else {
+                    this.sendToServer("vote", {
+                       selection: roles["Mafioso"].id,
+                       meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            let targetHasMessage = false;
+            let loverHasMessage = false;
+
+            Object.values(game.history.states).flatMap(m => m.alerts).forEach((alert) => {
+                if(alert.content.includes('deathly')) {
+                    alert.recipients.forEach(r => {
+                        if(r.role.name === 'Villager') {
+                            targetHasMessage = true;
+                        } else if (r.role.name === 'Lover') {
+                            loverHasMessage = true;
+                        }
+                    });
+                }
+
+                if (targetHasMessage && loverHasMessage) {
+                    return;
+                }
+            });
+
+            (targetHasMessage && loverHasMessage).should.be.true;
+        });
+    });
 });

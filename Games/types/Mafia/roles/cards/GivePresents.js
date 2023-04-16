@@ -28,7 +28,7 @@ module.exports = class GivePresents extends Card {
             "Choose Present": {
                 states: ["Night"],
                 flags: ["voting"],
-                inputType: "alignment",
+                inputType: "custom",
                 targets: ["Gun", "Armor", "Knife", "Snowball", "Bread"],
                 action: {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 1,

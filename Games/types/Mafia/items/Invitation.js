@@ -9,6 +9,7 @@ module.exports = class Invitation extends Item {
         super("Invitation");
 
         this.lifespan = 1;
+        this.cannotBeStolen = true;
 
         this.meetings = {
             "Banquet": {

@@ -864,6 +864,12 @@ const roleData = {
                 "Appears as a Villager upon death.", 
             ],
         },
+        "Ventriloquist": {
+            alignment: "Mafia",
+            description: [
+                "Can speak as any player during the day.", 
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -905,6 +911,16 @@ const roleData = {
                 "Chooses to hunt at night by choosing a player and guessing their role.",
                 "If guessed correct, becomes immortal for the following day.",
                 "If guessed incorrect, identity will be revealed to all."
+            ],
+        },
+        "Alchemist": {
+            alignment: "Monsters",
+            description: [
+                "Can choose between three potions to cast at night.",
+                "A damaging potion, which attacks the target.",
+                "A restoring potion, which heals the target.",
+                "An elucidating potion, which reveals the target's role.",
+                "Once a potion has been concocted, it cannot be brewed again for the next two nights."
             ],
         },
 
@@ -971,6 +987,12 @@ const roleData = {
             description: [
                 "Mafia meeting is anonymous if Mastermind is present in the game.",
                 "Wins instead of mafia and counts toward their total.",
+                ],
+        },
+        "Autocrat": {
+            alignment: "Independent",
+            description: [
+                "Wins instead of village and counts toward their total.",
                 ],
         },
         "Lover": {
