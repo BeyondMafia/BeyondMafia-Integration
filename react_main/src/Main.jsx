@@ -44,8 +44,18 @@ function Main() {
             .catch(errorAlert);
     }
 
-    const userColourScheme = user.settings?.siteColorScheme || "light";
+    var userColourScheme = "";
 
+    if (user.settings?.siteColorScheme === false) {
+        userColourScheme = "light";
+    }
+    else if (user.settings.siteColorScheme === true) {
+        userColourScheme = "dark";
+    }
+    else {
+        userColourScheme = user.settings?.siteColorScheme || "auto";
+    }
+    
     if (userColourScheme === "light") {
         if (document.documentElement.classList.contains("dark-mode")) {
             document.documentElement.classList.remove("dark-mode");
