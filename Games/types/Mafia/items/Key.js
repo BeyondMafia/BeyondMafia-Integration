@@ -17,7 +17,7 @@ module.exports = class Key extends Item {
                     item: this,
                     run: function () {
                         if (this.target == "Yes") {
-                            this.item.holder.giveEffect("Untargetable");
+                            this.item.holder.holdItem("Lock");
                             this.item.drop();
                         }
                     }
