@@ -1291,7 +1291,7 @@ describe("Games/Mafia", function () {
         });
     });
 
-    describe.only("Lover", function() {
+    describe("Lover", function() {
         it("If successful, both lover and target should receive notice", async function() {
             await db.promise;
             await redis.client.flushdbAsync();
