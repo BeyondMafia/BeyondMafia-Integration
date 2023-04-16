@@ -642,13 +642,15 @@ const roleData = {
         "Lookout": {
             alignment: "Mafia",
             description: [
-                "Watches a player each night and learns who visited them."
+                "Watches a player each night and learns who visited them.",
+                "Doesn't visit it's target."
             ],
         },
         "Scout": {
             alignment: "Mafia",
             description: [
-                "Tracks a player each night and learns who they visited."
+                "Tracks a player each night and learns who they visited.",
+                "Doesn't visit it's target."
             ],
         },
         "Arsonist": {
