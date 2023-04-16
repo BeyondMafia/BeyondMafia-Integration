@@ -101,7 +101,6 @@ const roleData = {
             alignment: "Village",
             description: [
                 "Tracks a player each night and learns who they visited.",
-                "Doesn't visit its target."
             ],
         },
         "Governor": {
@@ -656,7 +655,6 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Tracks a player each night and learns who they visited.",
-                "Doesn't visit its target."
             ],
         },
         "Arsonist": {
