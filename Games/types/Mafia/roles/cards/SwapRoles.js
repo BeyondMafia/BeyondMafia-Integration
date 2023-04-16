@@ -11,7 +11,7 @@ module.exports = class SwapRoles extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    labels: ["hidden", "absolute", "convert"],
+                    labels: ["hidden", "convert"],
                     priority: PRIORITY_SWAP_ROLES,
                     run: function () {
                         if (!this.dominates()) {

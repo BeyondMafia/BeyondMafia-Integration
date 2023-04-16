@@ -528,6 +528,13 @@ const roleData = {
                 "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Fabricated version of any of these items each night.",
             ],
         },
+        "Keymaker": {
+            alignment: "Village",
+            description: [
+                "Gives out a key to one player each night."
+            ],
+        },
+
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
