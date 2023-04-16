@@ -68,7 +68,32 @@ module.exports = class MafiaAction extends Action {
 
     queueGetItemAlert(itemName, target) {
         target = target || this.target;
-        target.queueAlert(`You have received ${(itemName === "Armor" ? itemName : "a " + itemName).toLowerCase()}!`);
+
+        let alert = "";
+        switch (itemName) {
+            case "Gun":
+                alert = ":sy2h: You have received a gun!";
+                break;
+            case "Armor":
+                alert = ":sy1a: You have received armor!";
+                break;
+            case "Knife":
+                alert = ":sy3h: You have received a knife!";
+                break;
+            case "Snowball":
+                alert = ":sy8b: You have received a snowball!";
+                break;
+            case "Crystal":
+                alert = ":sy1i: You have received a crystal ball!";
+                break;
+            case "Bread":
+                alert = ":sy2c: You have received a piece of bread!";
+                break;
+            default:
+                alert = `You have received a ${itemName}!`;
+        }
+        
+        target.queueAlert(alert);
     }
 
     stealItem(item, toGive) {
