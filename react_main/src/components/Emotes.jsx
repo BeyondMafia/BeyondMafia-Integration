@@ -165,7 +165,7 @@ export const Emotes = {
 		name: "ratjam",
 		type: "gif"
 	},
-	":LMAO": {
+	":lmao:": {
 		name: "lmao",
 		type: "png"
 	},
