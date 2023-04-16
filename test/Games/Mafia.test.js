@@ -1291,7 +1291,7 @@ describe("Games/Mafia", function () {
         });
     });
 
-    describe.only("Nomad", function() {
+    describe("Nomad", function() {
         it("should win with mafia when it follows mafia", async function(){
             await db.promise;
             await redis.client.flushdbAsync();
@@ -1301,13 +1301,12 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function(meeting){
-                if(meeting.name == "Follow the ways of"){
+                if (meeting.name == "Follow the ways of") {
                     this.sendToServer("vote", {
                         selection: roles["Mafioso"].id,
                         meetingId: meeting.id
                     });
-                }
-                else {
+                } else if (meeting.name == "Mafia") {
                     this.sendToServer("vote", {
                        selection: roles["Villager"].id,
                        meetingId: meeting.id
@@ -1321,6 +1320,43 @@ describe("Games/Mafia", function () {
             should.exist(game.winners.groups["Nomad"]);
             game.winners.groups["Nomad"].should.have.lengthOf(1); 
             should.not.exist(game.winners.groups["Village"]);
+        });
+    });
+
+    describe("Nomad", function() {
+        it("should win with village when it follows village", async function(){
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 3, roles: [{"Villager": 1, "Mafioso": 1, "Nomad": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if (meeting.name == "Follow the ways of") {
+                    this.sendToServer("vote", {
+                        selection: roles["Villager"].id,
+                        meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                       selection: "*",
+                       meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Village") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mafioso"].id,
+                        meetingId: meeting.id
+                    });
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Village"]);
+            game.winners.groups["Village"].should.have.lengthOf(1);        
+            should.exist(game.winners.groups["Nomad"]);
+            game.winners.groups["Nomad"].should.have.lengthOf(1); 
+            should.not.exist(game.winners.groups["Mafia"]);
         });
     });
 });
