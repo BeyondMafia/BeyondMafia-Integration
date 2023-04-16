@@ -533,6 +533,12 @@ const roleData = {
                 "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Cursed version of any of these items each night.",
             ],
         },
+        "Fabulist": {
+            alignment: "Village",
+            description: [
+                "Composes a fake system message, given to a player of their choice, at night.",
+            ],
+        },
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
@@ -862,6 +868,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Appears as a Villager upon death.", 
+            ],
+        },
+        "Hoaxer": {
+            alignment: "Mafia",
+            description: [
+                "Composes a fake system message, given to a player of their choice, at night.",
             ],
         },
         "Ventriloquist": {
