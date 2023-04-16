@@ -720,10 +720,6 @@
     background-position: -80px 0;
 }
 
-.modifier-Mafia-Scatterbrained {
-    background-position: -48px -16px;
-}
-
 .modifier-Mafia-Lone {
     background-position: -96px 0;
 }
@@ -754,6 +750,14 @@
 
 .modifier-Mafia-Loud {
     background-position: -32px -16px;
+}
+
+.modifier-Mafia-Scatterbrained {
+    background-position: -48px -16px;
+}
+
+.modifier-Mafia-Astral {
+    background-position: -60px -16px;
 }
 
 /* for role prediction */

@@ -174,7 +174,7 @@ export default function LearnMafia(props) {
 		{
 			name: "Astral",
 			text: "All actions done by this player do not appear as visits.",
-			icon: <div className="icon modifier modifier-Mafia-Armed" />
+			icon: <div className="icon modifier modifier-Mafia-Astral" />
 		},
 	];
 
