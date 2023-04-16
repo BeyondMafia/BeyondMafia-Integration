@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const {PRIORITY_ACTORS_ENQUEUE } = require("../../const/Priority");
+const { PRIORITY_MODIFY_ACTION_LABELS } = require("../../const/Priority");
 
 module.exports = class Astral extends Card {
 
@@ -8,15 +8,15 @@ module.exports = class Astral extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_ACTORS_ENQUEUE,
+                priority: PRIORITY_MODIFY_ACTION_LABELS,
                 labels: ["absolute", "hidden"],
                 run: function () {
                     if (this.game.getStateName() != "Night")
                         return;
 
                     for (let action of this.game.actions[0]) {
-                        let toCheck = action.actors;
-                        if (toCheck.includes(this.player)){
+                        if (action.priority > this.priority &&
+                            action.actors.includes(this.actor)) {
                             action.labels.push("hidden");
                         }
                     }
