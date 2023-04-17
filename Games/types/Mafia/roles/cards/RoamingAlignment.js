@@ -9,7 +9,8 @@ module.exports = class RoamingAlignment extends Card {
         this.winCount = "Village";
 
         this.meetings = {
-            "Follow the ways of": {
+            "Ally With": {
+                actionName: "Follow the ways of",
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
