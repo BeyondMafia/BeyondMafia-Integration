@@ -1060,8 +1060,8 @@ const roleData = {
         "Nomad": {
             alignment: "Independent",
             description: [
-                "Chooses to follow the ways of another player at night, gaining their alignment.",
-                "Wins if they are alive when the last alignment gained wins."
+                "Chooses to follow the ways of another player at night, allying themself with the player's alignment.",
+                "Wins if they are alive when the last alignment they allied with wins."
             ],
         },
     },
