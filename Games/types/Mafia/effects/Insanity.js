@@ -35,9 +35,9 @@ module.exports = class Insanity extends Effect {
         const encryptionKey = Buffer.alloc(32);
         encryptionKey.write(secretKey, "utf8");
 
-        // Encrypting message with AES.
+        // Encrypting message with AES. Also pad string by two characters because it doesn't work otherwise.
         const cipher = crypto.createCipheriv("aes-256-gcm", encryptionKey, crypto.randomBytes(16));
-        let encryptedString = cipher.update(string, "utf8", "base64");
+        let encryptedString = cipher.update(string + "!!", "utf8", "base64");
 
         // Adding some spaces, just to be safe! That's how encryption works right?
         let index = 0;
