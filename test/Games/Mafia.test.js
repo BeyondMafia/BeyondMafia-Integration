@@ -1348,7 +1348,7 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function(meeting){
-                if (meeting.name == "Follow the ways of") {
+                if (meeting.name == "Allign With") {
                     this.sendToServer("vote", {
                         selection: roles["Mafioso"].id,
                         meetingId: meeting.id
@@ -1380,7 +1380,7 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function(meeting){
-                if (meeting.name == "Follow the ways of") {
+                if (meeting.name == "Align With") {
                     this.sendToServer("vote", {
                         selection: roles["Villager"].id,
                         meetingId: meeting.id
