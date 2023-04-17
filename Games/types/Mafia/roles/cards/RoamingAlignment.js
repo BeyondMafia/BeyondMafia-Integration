@@ -9,7 +9,7 @@ module.exports = class RoamingAlignment extends Card {
         this.winCount = "Village";
 
         this.meetings = {
-            "Ally With": {
+            "Allign With": {
                 actionName: "Follow the ways of",
                 states: ["Night"],
                 flags: ["voting"],
@@ -18,7 +18,7 @@ module.exports = class RoamingAlignment extends Card {
                     run: function () {
                         let alignment = this.target.role.alignment;
                         if (alignment == "Independent") {
-                            this.actor.queueAlert(`You follow ${this.target.name} but did not find a home.`)
+                            this.actor.queueAlert(`You follow ${this.target.name} but could not find somewhere that you could call your own.`)
                             return;
                         }
 
