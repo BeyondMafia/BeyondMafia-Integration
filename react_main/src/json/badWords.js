@@ -1,9 +1,9 @@
 export default [
-    "fuck",
-    "shit",
+    "asshole",
     "bitch",
     "cunt",
-    "whore",
     "dick",
-    "asshole",
+    "fuck",
+    "shit",
+    "whore",
 ]
