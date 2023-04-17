@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { emotify } from "./Emotes";
 import badWords from "../json/badWords";
+import slurs from "../json/slurs";
 
 export function ItemList(props) {
 	const items = props.items;
@@ -190,6 +191,9 @@ export function filterProfanity(text, settings, char) {
 
 		if (!settings.disablePg13Censor)
 			segment = filterProfanitySegment(badWords, segment, char);
+
+		if (!settings.disableAllCensors)
+			segment = filterProfanitySegment(slurs, segment, char);
 
 		text[i] = segment;
 	}

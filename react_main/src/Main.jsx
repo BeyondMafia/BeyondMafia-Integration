@@ -15,6 +15,7 @@ import User, { Avatar, useUser } from "./pages/User/User";
 import Legal from "./pages/Legal/Legal";
 import Popover, { usePopover } from "./components/Popover";
 import Chat from "./pages/Chat/Chat";
+import Emotes from "./pages/Chat/EmoteList";
 
 import "./css/main.css";
 import { useReducer } from "react";
@@ -44,8 +45,18 @@ function Main() {
             .catch(errorAlert);
     }
 
-    const userColourScheme = user.settings?.siteColorScheme || "light";
+    var userColourScheme = "";
 
+    if (user.settings?.siteColorScheme === false) {
+        userColourScheme = "light";
+    }
+    else if (user.settings.siteColorScheme === true) {
+        userColourScheme = "dark";
+    }
+    else {
+        userColourScheme = user.settings?.siteColorScheme || "auto";
+    }
+    
     if (userColourScheme === "light") {
         if (document.documentElement.classList.contains("dark-mode")) {
             document.documentElement.classList.remove("dark-mode");
@@ -150,6 +161,7 @@ function Main() {
                                             <Route path="/auth" render={() => <Auth />} />
                                             <Route path="/user" render={() => <User />} />
                                             <Route path="/legal" render={() => <Legal />} />
+                                            <Route path="/emotes" render={() => <Emotes />} />
                                             <Route render={() => <Redirect to="/play" />} />
                                         </Switch>
                                     </div>
