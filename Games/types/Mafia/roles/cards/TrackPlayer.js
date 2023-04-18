@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_INVESTIGATIVE_DEFAULT } = require("../../const/Priority");
 
 module.exports = class TrackPlayer extends Card {
 
@@ -11,7 +11,7 @@ module.exports = class TrackPlayer extends Card {
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
-                    priority: PRIORITY_INVESTIGATIVE_AFTER_RESOLVE_DEFAULT,
+                    priority: PRIORITY_INVESTIGATIVE_DEFAULT,
                     run: function () {
                         var visits = [];
 
@@ -19,10 +19,15 @@ module.exports = class TrackPlayer extends Card {
                             if (
                                 action.actors.indexOf(this.target) != -1 &&
                                 !action.hasLabel("hidden") &&
-                                action.priority < this.priority &&
                                 action.target
                             ) {
-                                visits.push(action.target.name);
+                                let targets = action.target;
+                                if (!Array.isArray(action.target)) {
+                                    targets = [action.target];
+                                }
+
+                                let targetNames = targets.map(p => p.name);
+                                visits.push(...targetNames);
                             }
                         }
 

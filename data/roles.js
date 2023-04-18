@@ -532,12 +532,27 @@ const roleData = {
                 "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Cursed version of any of these items each night.",
             ],
         },
+        "Keymaker": {
+            alignment: "Village",
+            description: [
+                "Gives out a key to one player each night."
+            ],
+        },
         "Fabulist": {
             alignment: "Village",
             description: [
                 "Composes a fake system message, given to a player of their choice, at night.",
             ],
         },
+        "Samurai": {
+            alignment: "Village",
+            description: [
+                "Cannot be converted.",
+                "Kills anyone who tries to convert them at night.",
+                "Can kill a maximum of 2 people",
+            ],
+        },
+
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
