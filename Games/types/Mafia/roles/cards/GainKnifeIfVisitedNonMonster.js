@@ -14,10 +14,10 @@ module.exports = class GainKnifeIfVisitedNonMonster extends Card {
                     if (this.game.getStateName() !== "Night")
                         return;
 
-                    if (!this.player.alive)
+                    if (!this.actor.alive)
                         return;
 
-                    let visitors = this.getVisitors(this.player);
+                    let visitors = this.getVisitors(this.actor);
                     let hasNonMonsterVisitors = visitors
                         .filter(v => v.role.alignment !== "Monsters")
                         ?.length > 0;

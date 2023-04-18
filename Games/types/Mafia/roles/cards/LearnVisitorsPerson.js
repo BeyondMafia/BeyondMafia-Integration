@@ -14,10 +14,10 @@ module.exports = class LearnVisitorsPerson extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    if (!this.player.alive)
+                    if (!this.actor.alive)
                         return;
 
-                    let visitors = this.getVisitors(this.player);
+                    let visitors = this.getVisitors(this.actor);
                     let visitorNames = visitors.map(v => v.name);
                     if (visitors.length === 0) {
                         visitorNames = ["no one"];
