@@ -137,6 +137,10 @@ export const Emotes = {
         name: "catjam",
         type: "gif"
     },
+    ":cavebob:": {
+        name: "cavebob",
+        type: "png"
+    },
     ":chick:": {
         name: "chick",
         type: "png"
@@ -152,6 +156,10 @@ export const Emotes = {
     ":cookie:": {
         name: "cookie",
         type: "png"
+    },
+    ":couldyounot:": {
+        name: "couldyounot",
+        type: "gif"
     },
     ":cupcake:": {
         name: "cupcake",
@@ -244,6 +252,14 @@ export const Emotes = {
     ":monkas:": {
         name: "MonkaS",
         type: "png"
+    },
+    ":monkfade:": {
+        name: "monkfade",
+        type: "gif"
+    },
+    ":monkspin:": {
+        name: "monkspin",
+        type: "gif"
     },
     ":nodders:": {
         name: "Nodders",
@@ -356,6 +372,10 @@ export const Emotes = {
     ":rip:": {
         name: "rip",
         type: "png"
+    },
+    ":roach:": {
+        name: "roach",
+        type: "gif"
     },
     ":rose:": {
         name: "rose",
@@ -817,26 +837,6 @@ export const Emotes = {
         name: "zzz",
         type: "png"
     },
-    "cavebob": {
-        name: "cavebob",
-        type: "png"
-    },
-    ":roach:": {
-        name: "roach",
-        type: "gif"
-    },
-    ":monkspin:": {
-        name: "monkspin",
-        type: "gif"
-    },
-    ":monkfade:": {
-        name: "monkfade",
-        type: "gif"
-    },
-    ":couldyounot:": {
-        name: "couldyounot",
-        type: "gif"
-    }
 };
 
 export const EmoteKeys = Object.keys(Emotes);
