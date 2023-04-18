@@ -46,11 +46,16 @@ module.exports = class MafiaAction extends Action {
         }
     }
 
-    getVisitors(player) {
+    getVisitors(player, label) {
         player = player || this.actor;
 
         var visitors = [];
         for (let action of this.game.actions[0]) {
+
+            if (label && !action.hasLabel(label)) {
+                continue;
+            }
+            
             let toCheck = action.target;
             if (!Array.isArray(action.target)) {
                 toCheck = [action.target];

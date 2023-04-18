@@ -544,7 +544,15 @@ const roleData = {
                 "Composes a fake system message, given to a player of their choice, at night.",
             ],
         },
-        
+        "Samurai": {
+            alignment: "Village",
+            description: [
+                "Cannot be converted.",
+                "Kills anyone who tries to convert them at night.",
+                "Can kill a maximum of 2 people",
+            ],
+        },
+
         //Mafia
         "Mafioso": {
             alignment: "Mafia",
