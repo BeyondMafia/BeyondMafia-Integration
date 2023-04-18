@@ -83,7 +83,7 @@ module.exports = class AskDeadQuestion extends Card {
                     if (totalResponses === 0)
                         this.actor.queueAlert(`You receive no responses from the dead.`);
                     else
-                        this.actor.queueAlert(`The dead has replied with ${percentYes}% Yes's and ${percentNo}% No's.`);
+                        this.actor.queueAlert(`The dead has replied with ${percentYes}% Yes's and ${percentNo}% No's to your question "${this.actor.role.data.question}"`);
                 }
             }
         ];
