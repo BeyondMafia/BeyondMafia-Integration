@@ -816,6 +816,26 @@ export const Emotes = {
     "zzz": {
         name: "zzz",
         type: "png"
+    },
+    "cavebob": {
+        name: "cavebob",
+        type: "png"
+    },
+    ":roach:": {
+        name: "roach",
+        type: "gif"
+    },
+    ":monkspin:": {
+        name: "monkspin",
+        type: "gif"
+    },
+    ":monkfade:": {
+        name: "monkfade",
+        type: "gif"
+    },
+    ":couldyounot:": {
+        name: "couldyounot",
+        type: "gif"
     }
 };
 
