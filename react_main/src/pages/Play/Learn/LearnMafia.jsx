@@ -35,6 +35,10 @@ export default function LearnMafia(props) {
 			text: "Can be used once during the day to freeze a specific player, who will be roleblocked the following night.",
 		},
 		{
+			name: "Key",
+			text: "Can be used once during the night to make the player untargetable. All actions on the player are cancelled",
+		},
+		{
 			name: "Bread",
 			text: "Given out by the baker. Counts as 1 ration for each phase in a famine.",
 		},

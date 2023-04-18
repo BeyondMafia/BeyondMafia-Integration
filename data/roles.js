@@ -532,6 +532,12 @@ const roleData = {
                 "Gives out a Gun, Knife, Armor, Crystal, or Snowball, or a Cursed version of any of these items each night.",
             ],
         },
+        "Keymaker": {
+            alignment: "Village",
+            description: [
+                "Gives out a key to one player each night."
+            ],
+        },
         "Fabulist": {
             alignment: "Village",
             description: [

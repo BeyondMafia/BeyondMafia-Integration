@@ -14,11 +14,34 @@ module.exports = class MafiaAction extends Action {
         target.removeEffect("Poison", true);
     }
 
-    blockActions(){
+    blockActions(target) {
+        target = target || this.target;
+
         for (let action of this.game.actions[0]) {
             if (action.priority > this.priority &&
                 !action.hasLabel("absolute")) {
-                    action.cancelActor(this.target);
+                    action.cancelActor(target);
+            }
+        }
+    }
+
+    makeUntargetable(player) {
+        player = player || this.target;
+        
+        for (let action of this.game.actions[0]) {
+            if (action.hasLabel("absolute")) {
+                continue;
+            }
+            
+            let toCheck = action.target;
+            if (!Array.isArray(action.target)) {
+                toCheck = [action.target];
+            }
+            
+            for (let target of toCheck) {
+                if (target === player) {
+                    action.cancel(true)
+                }
             }
         }
     }
