@@ -840,6 +840,34 @@ router.post("/whitelist", async (req, res) => {
     }
 });
 
+router.post("/blacklist", async (req, res) => {
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToActOn = String(req.body.userId);
+        var perm = "whitelist";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
+
+        ipBan = new models.Ban({
+            userId: userIdToActOn,
+            type: "ipFlag"
+        });
+        await ipBan.save();
+        await redis.cacheUserInfo(userIdToActOn, true);
+        await models.User.updateOne({ id: userIdToActOn }, { $set: { flagged: true } });
+        await redis.cacheUserPermissions(userIdToActOn);
+
+        routeUtils.createModAction(userId, "Blacklist", [userIdToActOn]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error blacklisting user.");
+    }
+});
+
 router.get("/alts", async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     try {
