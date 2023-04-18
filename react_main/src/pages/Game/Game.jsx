@@ -1197,7 +1197,7 @@ function Message(props) {
         }
     }
 
-    if (message.content.startsWith(">")) {
+    if (message.content?.startsWith(">")) {
         contentClass += "greentext ";
     }
     
