@@ -277,8 +277,13 @@
 	white-space: pre-wrap;
 }
 
+.game .message .content.greentext {
+	color: #789922
+}
+
 .game .message .content.party {
 	background: linear-gradient(to right, #ff2c29, #fc417f, #8e4dff, #61b8ff, #04cee9, #15e920, #cfe010, #e9930a, #ff4108) !important;
+	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-moz-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;

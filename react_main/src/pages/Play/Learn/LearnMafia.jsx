@@ -175,6 +175,11 @@ export default function LearnMafia(props) {
 			text: "All reports recieved are announced to everyone, with the player's role revealed.",
 			icon: <div className="icon modifier modifier-Mafia-Loud" />
 		},
+		{
+			name: "Astral",
+			text: "All actions done by this player do not appear as visits.",
+			icon: <div className="icon modifier modifier-Mafia-Astral" />
+		},
 	];
 
 	useEffect(() => {

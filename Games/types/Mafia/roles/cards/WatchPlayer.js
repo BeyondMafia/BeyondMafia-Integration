@@ -7,7 +7,7 @@ module.exports = class WatchPlayer extends Card {
         super(role);
 
         this.meetings = {
-            "Watch": {
+            "Watch (no visit)": {
                 states: ["Night"],
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: [] },
