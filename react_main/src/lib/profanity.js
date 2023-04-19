@@ -68,7 +68,6 @@ function filterProfanitySegment(profanityType, segment, char) {
     // Filtering profanity.
     for (const profanityRegex of profanityRegexps) {
         let regexRes = profanityRegex.exec(segment);
-        console.log(regexRes);
         while (regexRes) {
             // regexRes.index returns the index of the start of the match, not the capturing group.
             const index = regexRes.index + regexRes[0].indexOf(regexRes[1]);
