@@ -230,7 +230,7 @@ module.exports = class Player {
             }
         });
 
-        socket.on("slur", () => {
+        socket.on("slurDetected", () => {
             this.sendAlert("Warning: Your message contains inappropriate language. Please revise your message without using offensive terms.");
         });
 
