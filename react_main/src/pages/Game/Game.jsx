@@ -1747,22 +1747,6 @@ function ActionSelect(props) {
         var selection = meeting.votes[member.id];
         var player = props.players[member.id];
         selection = getTargetDisplay(selection, meeting, props.players);
-
-        if (!member.canVote) {
-            return (
-                <div
-                    className={`vote ${meeting.multi ? "multi" : ""}`}
-                    key={member.id}>
-                    <div
-                        className="voter">
-                        {(player && player.name) || "Anonymous"}
-                    </div>
-                    <div className="selection">
-                        does not vote
-                    </div>
-                </div>
-            );
-        }
         
         return (
             <div
@@ -1774,14 +1758,24 @@ function ActionSelect(props) {
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
+                    !member.canVote &&
+                    <div className="selection">
+                        does not vote
+                    </div>
+                }
+                {
+                    member.canVote &&
                     selection.length > 0 &&
                     <div className="italic">
                         votes
                     </div>
                 }
-                <div className="selection">
-                    {selection.join(", ")}
-                </div>
+                {
+                    member.canVote &&
+                    <div className="selection">
+                        {selection.join(", ")}
+                    </div>
+                }
             </div>
         );
     });
