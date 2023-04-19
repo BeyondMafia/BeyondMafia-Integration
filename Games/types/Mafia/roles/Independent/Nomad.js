@@ -6,6 +6,7 @@ module.exports = class Nomad extends Role {
         super("Nomad", player, data);
 
         this.alignment = "Independent";
+        this.winCount = "Village";
         this.cards = ["VillageCore", "RoamingAlignment"];
     }
 
