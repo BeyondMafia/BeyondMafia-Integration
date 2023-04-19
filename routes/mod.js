@@ -1011,6 +1011,32 @@ router.post("/clearBio", async (req, res) => {
         res.send("Error clearing bio.");
     }
 });
+router.post("/clearVideo", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    try {
+        var userId = await routeUtils.verifyLoggedIn(req);
+        var userIdToClear = String(req.body.userId);
+        var perm = "clearBio";
+
+        if (!(await routeUtils.verifyPermission(res, userId, perm)))
+            return;
+
+        await models.User.updateOne(
+            { id: userIdToClear },
+            { $set: { settings: { youtube: "" }} }
+        ).exec();
+
+        await redis.cacheUserInfo(userIdToClear, true);
+
+        routeUtils.createModAction(userId, "Clear Video", [userIdToClear]);
+        res.sendStatus(200);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error clearing video.");
+    }
+});
 router.post("/clearAvi", async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     try {
