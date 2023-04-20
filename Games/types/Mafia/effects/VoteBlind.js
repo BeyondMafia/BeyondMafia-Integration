@@ -3,7 +3,7 @@ const Effect = require("../Effect");
 module.exports = class VoteBlind extends Effect {
 
     constructor(lifespan) {
-        super("Blind");
+        super("VoteBlind");
         this.lifespan = lifespan || Infinity;
     }
 
