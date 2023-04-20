@@ -860,6 +860,24 @@ function useModCommands(argValues, commandRan) {
                     .catch(errorAlert);
             }
         },
+        "Clear Video": {
+            perm: "clearBio",
+            args: [
+                {
+                    label: "User",
+                    name: "userId",
+                    type: "user_search"
+                },
+            ],
+            run: function () {
+                axios.post("/mod/clearVideo", argValues)
+                    .then(() => {
+                        siteInfo.showAlert("Video cleared.", "success");
+                        commandRan();
+                    })
+                    .catch(errorAlert);
+            }
+        },
         "Clear Account Display": {
             perm: "clearAccountDisplay",
             args: [
