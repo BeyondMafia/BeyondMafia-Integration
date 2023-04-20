@@ -63,10 +63,14 @@ function filterProfanitySegment(profanityType, segment, char) {
         default:
             return segment;
     }
+
+    let originalSegment = segment;
     // Substituting numbers with letters.
     for (const num in leetMappings) {
         segment = segment.replace(num, leetMappings[num]);
     }
+
+    let segmentBeforeFilter = segment;
     // Filtering profanity.
     for (const profanityRegex of profanityRegexps) {
         let regexRes = profanityRegex.exec(segment);
@@ -77,6 +81,10 @@ function filterProfanitySegment(profanityType, segment, char) {
             segment = segment.slice(0, index) + char.repeat(length) + segment.slice(index + length);
             regexRes = profanityRegex.exec(segment);
         }
+    }
+
+    if (segment == segmentBeforeFilter) {
+        segment = originalSegment
     }
     return segment;
 }
