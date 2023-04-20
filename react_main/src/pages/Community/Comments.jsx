@@ -68,6 +68,7 @@ export default function Comments(props) {
 
 	const commentRows = comments.map(comment => (
 		<Comment
+			location={location}
 			comment={comment}
 			comments={comments}
 			setComments={setComments}
@@ -129,6 +130,7 @@ export default function Comments(props) {
 }
 
 function Comment(props) {
+	const location = props.location;
 	const comment = props.comment;
 	const comments = props.comments;
 	const setComments = props.setComments;
@@ -187,7 +189,11 @@ function Comment(props) {
 						</div>
 					</div>
 					<div className="btns-wrapper">
-						{!comment.deleted && (user.perms.deleteAnyPost || (user.perms.deleteOwnPost && comment.author.id == user.id)) &&
+						{!comment.deleted && 
+							(user.perms.deleteAnyPost 
+								|| (user.perms.deleteOwnPost && comment.author.id == user.id)
+								|| (location == user.id)
+							) &&
 							<i
 								className="fas fa-trash"
 								onClick={onDeleteClick} />
