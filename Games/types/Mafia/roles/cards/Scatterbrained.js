@@ -7,7 +7,8 @@ module.exports = class Scatterbrained extends Card {
         super(role);
         
         this.hideModifier = {
-            self: true
+            self: true,
+            reveal: true,
         }
         
         var appearance;
@@ -22,8 +23,10 @@ module.exports = class Scatterbrained extends Card {
         }
 
         this.appearance = {
-            self: appearance
+            self: appearance,
+            reveal: appearance
         }
+
         this.meetingMods = {
             "*": {
                 actionName: "Visit",
