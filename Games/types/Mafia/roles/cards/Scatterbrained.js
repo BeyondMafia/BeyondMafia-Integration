@@ -23,8 +23,10 @@ module.exports = class Scatterbrained extends Card {
         }
 
         this.appearance = {
-            self: appearance
+            self: appearance,
+            reveal: appearance
         }
+
         this.meetingMods = {
             "*": {
                 actionName: "Visit",
