@@ -5,7 +5,7 @@ import axios from "axios";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import ReactLoading from "react-loading";
 
-import { filterProfanity, linkify, UserText } from "../../components/Basic";
+import { linkify, UserText } from "../../components/Basic";
 import LoadingPage from "../Loading";
 import MafiaGame from "./MafiaGame";
 import SplitDecisionGame from "./SplitDecisionGame";
@@ -21,6 +21,7 @@ import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
 import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
+import { textIncludesSlurs } from "../../lib/profanity";
 
 import "../../css/game.css";
 import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
@@ -1385,15 +1386,19 @@ function SpeechInput(props) {
             if (abilityName == "Say")
                 abilityName = null;
 
-            socket.send("speak", {
-                content: speechInput,
-                meetingId: selTab,
-                abilityName,
-                abilityTarget
-            });
-
+            if (textIncludesSlurs(speechInput)) {
+                socket.send("slurDetected");
+            } else {
+                socket.send("speak", {
+                    content: speechInput,
+                    meetingId: selTab,
+                    abilityName,
+                    abilityTarget
+                });
+                props.setAutoScroll(true);
+           }
+            
             setSpeechInput("");
-            props.setAutoScroll(true);
 
         } else if (e.key === "Tab") {
             e.preventDefault();
