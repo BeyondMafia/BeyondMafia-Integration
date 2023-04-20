@@ -7,6 +7,19 @@ module.exports = class TrickedWares extends Card {
     constructor(role) {
         super(role);
 
+        this.listeners = {
+            "state": function (stateInfo) {
+                if (!stateInfo.name.match(/Night/)) {
+                    return;
+                }
+
+                const players = this.game.players.filter(p => p != this.player);
+                const playerToGive = Random.randArrayVal(players);
+
+                this.actions[0].target = playerToGive;
+            }
+        };
+
         this.actions = [
             {
                 labels: ["giveItem"],
@@ -15,18 +28,14 @@ module.exports = class TrickedWares extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
                     
-                    const players = this.game.players.filter(p => p != this.player);
-                    const playerToGive = Random.randArrayVal(players);
-
                     var items = ["Gun", "Armor", "Knife", "Snowball", "Crystal"];
                     var itemToGive = Random.randArrayVal(items);
-
                     var isItemCursed = Random.randArrayVal([true, false]);
 
-                    playerToGive.holdItem(itemToGive, {
+                    this.target.holdItem(itemToGive, {
                         cursed: isItemCursed,
                     })
-                    this.queueGetItemAlert(itemToGive, playerToGive);
+                    this.queueGetItemAlert(itemToGive);
                 }
             }
         ]
