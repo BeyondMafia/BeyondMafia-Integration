@@ -189,11 +189,9 @@ function Comment(props) {
 						</div>
 					</div>
 					<div className="btns-wrapper">
-						{!comment.deleted && 
-							(user.perms.deleteAnyPost 
+						{!comment.deleted && (user.perms.deleteAnyPost 
 								|| (user.perms.deleteOwnPost && comment.author.id == user.id)
-								|| (location == user.id)
-							) &&
+								|| (location == user.id)) &&
 							<i
 								className="fas fa-trash"
 								onClick={onDeleteClick} />
