@@ -38,7 +38,7 @@ module.exports = class MeetWithMasons extends Card {
 
         this.actions = [
             {
-                priority: PRIORITY_KILL_DEFAULT,
+                priority: PRIORITY_KILL_DEFAULT + 1,
                 labels: ["kill", "hidden", "absolute"],
                 run: function () {
                     if (!this.actor.alive)
