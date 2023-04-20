@@ -25,7 +25,10 @@ module.exports = class ControlPuppet extends Card {
 
     parseForReview(message) {
         message.recipients = message.versions["*"].recipients;
-        message.prefix = message.versions["*"].prefix;
+
+        let puppet = this.game.getPlayer(message.abilityTarget);
+        message.prefix = `controlling ${puppet.name}`
+        
         return message;
     }
 }
