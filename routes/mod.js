@@ -1154,6 +1154,7 @@ router.post("/clearName", async (req, res) => {
         res.send("Error clearing username.");
     }
 });
+
 router.post("/clearAllContent", async (req, res) => {
     try {
         var userId = await routeUtils.verifyLoggedIn(req);
