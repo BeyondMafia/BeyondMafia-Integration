@@ -161,6 +161,21 @@ export default function Profile() {
             .catch(errorAlert);
     }
 
+    function onDeleteFriend(friendId) {
+        return () => {
+            var shouldUnfriend = window.confirm("Are you sure you wish to unfriend or cancel your friend request?");
+            if (!shouldUnfriend)
+                return;
+            
+            axios.post("/user/friend", { user: friendId })
+                .then((res) => {
+                    setIsFriend(false);
+                    siteInfo.showAlert(res.data, "success");
+                })
+                .catch(errorAlert);
+        }
+    }
+
     function onBlockUserClick() {
         if (!isBlocked) {
             var shouldBlock = window.confirm("Are you sure you wish to block this user?");
@@ -335,6 +350,10 @@ export default function Profile() {
                 id={friend.id}
                 name={friend.name}
                 avatar={friend.avatar} />
+            <div className="btns-wrapper">
+                <i className="fas fa-trash"
+                    onClick={onDeleteFriend(friend.id)} />
+            </div>
             <div className="last-active">
                 <Time
                     minSec
