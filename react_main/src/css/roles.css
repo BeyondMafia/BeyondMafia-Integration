@@ -419,6 +419,9 @@
     background-position: -840px -120px;
 }
 
+.role-Mafia-Samurai {
+    background-position: -810px -120px;
+}
 
 /* 
 * Mafia 
@@ -597,7 +600,7 @@
 }
 
 .role-Mafia-Framer {
-    background-position: -720px -80px;
+    background-position: -780px -80px;
 }
 
 .role-Mafia-Hitman {
@@ -760,6 +763,10 @@
     background-position: -64px -16px;
 }
 
+.modifier-Mafia-Unblockable {
+    background-position: -80px -16px;
+}
+
 /* for role prediction */
 .modifier-Mafia-Unknown {
     background-position: -144px -32px;
@@ -836,7 +843,9 @@
     background-position: -330px -240px;
 }
 
-
+.role-Resistance-Morgana {
+    background-position: -300px -240px;
+}
 
 /***********
 *

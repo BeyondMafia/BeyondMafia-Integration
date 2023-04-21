@@ -180,6 +180,11 @@ export default function LearnMafia(props) {
 			text: "All actions done by this player do not appear as visits.",
 			icon: <div className="icon modifier modifier-Mafia-Astral" />
 		},
+		{
+			name: "Unblockable",
+			text: "All actions done by this player cannot be roleblocked or controlled.",
+			icon: <div className="icon modifier modifier-Mafia-Unblockable" />
+		},
 	];
 
 	useEffect(() => {
