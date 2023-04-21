@@ -64,27 +64,24 @@ function filterProfanitySegment(profanityType, segment, char) {
             return segment;
     }
 
-    let originalSegment = segment;
     // Substituting numbers with letters.
+    let mappedSegment = segment;
     for (const num in leetMappings) {
-        segment = segment.replace(num, leetMappings[num]);
+        mappedSegment = mappedSegment.replaceAll(num, leetMappings[num]);
     }
 
-    let segmentBeforeFilter = segment;
     // Filtering profanity.
     for (const profanityRegex of profanityRegexps) {
-        let regexRes = profanityRegex.exec(segment);
+        let regexRes = profanityRegex.exec(mappedSegment);
         while (regexRes) {
             // regexRes.index returns the index of the start of the match, not the capturing group.
             const index = regexRes.index + regexRes[0].indexOf(regexRes[1]);
             const length = regexRes[1].length;
             segment = segment.slice(0, index) + char.repeat(length) + segment.slice(index + length);
-            regexRes = profanityRegex.exec(segment);
+            // Filtering mappedSegment, to ensure that segments match.
+            mappedSegment = mappedSegment.slice(0, index) + char.repeat(length) + mappedSegment.slice(index + length);
+            regexRes = profanityRegex.exec(mappedSegment);
         }
-    }
-
-    if (segment == segmentBeforeFilter) {
-        segment = originalSegment
     }
     return segment;
 }
