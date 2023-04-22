@@ -17,14 +17,14 @@ module.exports = class MeetWithMasons extends Card {
                     priority: PRIORITY_MASON_CONVERT,
                     run: function () {
                         if (this.target.role.name == "Cultist") {
-                            this.actor.role.data.masonKills = [this.target];
-                            this.actor.role.data.masonKiller = this.actor;
+                            this.actor.role.masonKills = [this.target];
+                            this.actor.role.masonKiller = this.actor;
                             return;
                         }
 
                         if (this.target.role.alignment == "Mafia") {
-                            this.actor.role.data.masonKills = this.actors;
-                            this.actor.role.data.masonKiller = this.target;
+                            this.actor.role.masonKills = this.actors;
+                            this.actor.role.masonKiller = this.target;
                             return
                         }
                         
@@ -41,25 +41,22 @@ module.exports = class MeetWithMasons extends Card {
                 priority: PRIORITY_KILL_DEFAULT + 1,
                 labels: ["kill", "hidden", "absolute"],
                 run: function () {
-                    if (!this.actor.alive)
-                        return;
-
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    let targets = this.actor.role.data.masonKills;
+                    let targets = this.actor.role.masonKills;
                     if (!targets) {
                         return;
                     }
 
                     for (let t of targets) {
                         if (this.dominates(t)) {
-                            t.kill("basic", this.actor.role.data.masonKiller)
+                            t.kill("basic", this.actor.role.masonKiller)
                         }
                     }
 
-                    delete this.actor.role.data.masonKill;
-                    delete this.actor.role.data.masonKiller;
+                    delete this.actor.role.masonKill;
+                    delete this.actor.role.masonKiller;
                 }
             }
         ];
