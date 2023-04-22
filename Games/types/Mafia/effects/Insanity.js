@@ -8,6 +8,12 @@ module.exports = class Insanity extends Effect {
         super("Insanity");
     }
 
+    apply(player) {
+        super.apply(player);
+
+        player.role.meetings["Village"].canVote = false;
+    }
+
     speak(message) {
         message.content = this.makeStringInsane(message.content);
         message.parseForReview = this.parseForReview;
