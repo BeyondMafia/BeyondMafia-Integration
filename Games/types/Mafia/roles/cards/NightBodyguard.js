@@ -23,15 +23,7 @@ module.exports = class NightBodyguard extends Card {
                         }
 
                         this.actor.role.killers = killers;
-                        this.actor.role.willDieSaving = true;
-                        this.actor.role.willKillAttacker = true;
-                        this.actor.role.willKillAllAttackers = true;
-
-                        if (this.target.role.name != "Mayor") {
-                            this.actor.role.willDieSaving = Random.randArrayVal([true, false]);
-                            this.actor.role.willKillAttacker = Random.randArrayVal([true, false]);
-                            this.actor.role.willKillAllAttackers = false;
-                        }
+                        this.actor.role.savedRole = this.target.role.name;
                     }
                 }
             }
@@ -45,30 +37,35 @@ module.exports = class NightBodyguard extends Card {
                     if (this.game.getStateName() != "Night")
                         return;
 
-                    // kill attackers first
-                    let shouldKill = this.actor.role.willKillAttacker;
-                    if (!shouldKill) {
+                    // target was not attacked
+                    let killers = this.actor.role.killers;
+                    if (!killers) {
                         return
                     }
-                    let toKill = this.actor.role.killers;
-                    if (!this.actor.role.willKillAllAttackers) {
-                        toKill = [killers[0]];
+
+                    // fights with attacker, deciding who should die
+                    let diesSaving = true;
+                    let killsAttacker = true;
+                    let killsAllAttackers = true;
+                    if (this.actor.role.savedRole != "Mayor") {
+                        diesSaving = Random.randArrayVal([true, false]);
+                        killsAttacker = Random.randArrayVal([true, false]);
+                        killsAllAttackers = false;
                     }
 
-                    for (let k of toKill) {
-                        if (this.dominates(k)) {
-                            k.kill("basic", this.actor);
+                    // kill attackers first
+                    if (killsAttacker) {
+                        let toKill = killsAllAttackers ? killers : killers[0];
+                        for (let k of toKill) {
+                            if (this.dominates(k)) {
+                                k.kill("basic", this.actor);
+                            }
                         }
                     }
 
-                    // die during the save
-                    let dieDuringSave = this.actor.role.willDieSaving;
-                    if (!dieDuringSave) {
-                        return;
-                    }
-
-                    if (this.dominates(this.actor)) {
-                        this.actor.kill("basic", toKill[0])
+                    // bodyguard did not survive the fight
+                    if (diesSaving && this.dominates(this.actor)) {
+                        this.actor.kill("basic", killers[0])
                     }
                 }
             }
