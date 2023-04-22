@@ -30,9 +30,9 @@ module.exports = class Snowball extends Item {
                         if (reveal && cursed)
                             this.game.queueAlert(`${this.actor.name} pulls out a snowball, it explodes in their hand!`);
                         else if (reveal && !cursed)
-                            this.game.queueAlert(`${this.actor.name} pulls out a snowball, it hits ${this.target.name} in the face!`);
+                            this.game.queueAlert(`:sy8b: ${this.actor.name} pulls out a snowball, it hits ${this.target.name} in the face!`);
                         else
-                            this.game.queueAlert(`Someone throws a snowball at ${this.target.name}!`);
+                            this.game.queueAlert(`:sy8b: Someone throws a snowball at ${this.target.name}!`);
 
                         if (this.dominates())
                             this.target.giveEffect("Stun", this.actor);

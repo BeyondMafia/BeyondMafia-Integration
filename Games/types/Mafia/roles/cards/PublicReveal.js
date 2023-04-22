@@ -6,11 +6,13 @@ module.exports = class PublicReveal extends Card {
         super(role);
 
         this.listeners = {
-            "state": function (stateInfo) {
-                if (!this.data.revealed) {
-                    this.data.revealed = true;
-                    this.revealToAll();
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
                 }
+                
+                this.data.revealed = true;
+                this.revealToAll();
             }
         };
     }

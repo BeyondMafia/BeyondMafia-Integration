@@ -71,6 +71,7 @@
 @media (max-width: 1600px) {
     .alert {
         width: 60vw;
+        margin-left: 0;
     }
 }
 

@@ -8,10 +8,11 @@ module.exports = class GunFramer extends Card {
                 
         this.meetings = {
             "Frame Shooter": {
-                actionName: "Frame as Shooter",
+                actionName: "Frame as Shooter (no visit)",
                 states: ["Night"],
                 flags: ["voting"],
                 action: {
+                    labels: ["hidden"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT + 1,
                     run: function () {
                         this.actor.role.data.shooterMask = this.target.name;

@@ -34,7 +34,7 @@ module.exports = class CursedWares extends Card {
                                 this.target.queueAlert(":sy8b: You have received a snowball!");
                                 break;
                             case "Bread":
-                                this.target.holdItem("CursedBread")
+                                this.target.holdItem("Bread", { cursed: true })
                                 this.target.queueAlert(":sy2c: You have received a piece of bread!");
                                 break;
                         }
@@ -45,7 +45,7 @@ module.exports = class CursedWares extends Card {
             "Choose Cursed Item": {
                 states: ["Night"],
                 flags: ["voting"],
-                inputType: "alignment",
+                inputType: "custom",
                 targets: ["Gun", "Armor", "Knife", "Snowball", "Bread"],
                 action: {
                     priority: PRIORITY_ITEM_GIVER_DEFAULT - 2,

@@ -860,6 +860,24 @@ function useModCommands(argValues, commandRan) {
                     .catch(errorAlert);
             }
         },
+        "Clear Video": {
+            perm: "clearBio",
+            args: [
+                {
+                    label: "User",
+                    name: "userId",
+                    type: "user_search"
+                },
+            ],
+            run: function () {
+                axios.post("/mod/clearVideo", argValues)
+                    .then(() => {
+                        siteInfo.showAlert("Video cleared.", "success");
+                        commandRan();
+                    })
+                    .catch(errorAlert);
+            }
+        },
         "Clear Account Display": {
             perm: "clearAccountDisplay",
             args: [
@@ -1039,6 +1057,24 @@ function useModCommands(argValues, commandRan) {
                 axios.post("/mod/whitelist", argValues)
                     .then(() => {
                         siteInfo.showAlert("User whitelisted.", "success");
+                        commandRan();
+                    })
+                    .catch(errorAlert);
+            }
+        },
+        "Blacklist": {
+            perm: "whitelist",
+            args: [
+                {
+                    label: "User",
+                    name: "userId",
+                    type: "user_search"
+                },
+            ],
+            run: function () {
+                axios.post("/mod/blacklist", argValues)
+                    .then(() => {
+                        siteInfo.showAlert("User blacklisted.", "success");
                         commandRan();
                     })
                     .catch(errorAlert);
