@@ -413,6 +413,12 @@ const roleData = {
                 "During an eclipse all speech and votes are anonymous."
             ],
         },
+        "Leader": {
+            alignment: "Village",
+            description: [
+                "On the day following their death, all votes will be anonymous",
+            ],
+        },
         "Resurrectionist": {
             alignment: "Village",
             description: [
