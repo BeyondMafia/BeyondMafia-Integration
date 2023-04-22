@@ -892,7 +892,7 @@ const roleData = {
             alignment: "Monsters",
             description: [
                 "Is bloodthirsty.",
-                "During the night, can target a player to feed from.",
+                "During the night, can target a player to leech from.",
                 "Drains 50% of their blood.",
                 "Gains an extra life after draining 150% blood."
             ],

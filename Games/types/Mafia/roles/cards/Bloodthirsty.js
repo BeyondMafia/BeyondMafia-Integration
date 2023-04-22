@@ -19,7 +19,7 @@ module.exports = class Bloodthirsty extends Card {
 
                 this.player.data.blood -= 25;
                 if (this.player.data.blood <= 0){
-                    this.player.kill("bloodthirst", this.player);
+                    this.player.kill("blood", this.player);
                 } else if (this.player.data.blood <= 25){
                     this.player.queueAlert(`You hunger for blood. You now have ${this.player.data.blood}% blood left! If you don't kill anybody before the next day, you will die!`);
                 } else {
