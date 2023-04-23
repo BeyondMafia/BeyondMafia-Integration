@@ -35,6 +35,10 @@ export default function LearnMafia(props) {
 			text: "Can be used once during the day to freeze a specific player, who will be roleblocked the following night.",
 		},
 		{
+			name: "Key",
+			text: "Can be used once during the night to make the player untargetable. All actions on the player are cancelled",
+		},
+		{
 			name: "Bread",
 			text: "Given out by the baker. Counts as 1 ration for each phase in a famine.",
 		},
@@ -170,6 +174,16 @@ export default function LearnMafia(props) {
 			name: "Loud",
 			text: "All reports recieved are announced to everyone, with the player's role revealed.",
 			icon: <div className="icon modifier modifier-Mafia-Loud" />
+		},
+		{
+			name: "Astral",
+			text: "All actions done by this player do not appear as visits.",
+			icon: <div className="icon modifier modifier-Mafia-Astral" />
+		},
+		{
+			name: "Unblockable",
+			text: "All actions done by this player cannot be roleblocked or controlled.",
+			icon: <div className="icon modifier modifier-Mafia-Unblockable" />
 		},
 	];
 

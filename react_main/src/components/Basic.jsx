@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { emotify } from "./Emotes";
-import badWords from "../json/badWords";
+import { filterProfanitySegment } from "../lib/profanity";
 
 export function ItemList(props) {
 	const items = props.items;
@@ -189,33 +189,16 @@ export function filterProfanity(text, settings, char) {
 		char = char || "*";
 
 		if (!settings.disablePg13Censor)
-			segment = filterProfanitySegment(badWords, segment, char);
+			segment = filterProfanitySegment("swears", segment, char);
+
+		if (!settings.disableAllCensors)
+			segment = filterProfanitySegment("slurs", segment, char);
 
 		text[i] = segment;
 	}
 
 	text = text.flat();
 	return text.length == 1 ? text[0] : text;
-}
-
-function filterProfanitySegment(profanity, segment, char) {
-	for (let word of profanity) {
-		let regex = new RegExp(word, "i");
-		let regexRes = regex.exec(segment);
-
-		while (regexRes) {
-			let index = regexRes.index;
-			let length = regexRes[0].length;
-			let replacement = char.repeat(length);
-
-			segment = segment.split("");
-			segment.splice(index, length, replacement);
-			segment = segment.join("");
-			regexRes = regex.exec(segment);
-		}
-	}
-
-	return segment;
 }
 
 export function iconUsername(text, players) {

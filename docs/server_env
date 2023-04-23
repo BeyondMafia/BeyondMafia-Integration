@@ -16,9 +16,9 @@ BOT_KEY=x
 
 # follow your mongo setup
 MONGO_URL=localhost
-MONGO_DB=dbname
+MONGO_DB=beyondmafia
 MONGO_USER=admin
-MONGO_PW=x
+MONGO_PW=password
 
 # any number from 0 to 15
 REDIS_DB=0
@@ -30,7 +30,7 @@ FIREBASE_PROJECT_ID=x
 FIREBASE_MESSAGING_SENDER_ID=x
 FIREBASE_APP_ID=x
 FIREBASE_MEASUREMENT_ID=x
-FIREBASE_JSON_FILE=x
+FIREBASE_JSON_FILE=../firebase.json
 
 EMAIL_DOMAINS=["gmail.com"]
 

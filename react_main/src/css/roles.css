@@ -411,6 +411,17 @@
     background-position: -1050px -120px;
 }
 
+.role-Mafia-Mourner {
+    background-position: -840px -80px;
+}
+
+.role-Mafia-Forager {
+    background-position: -840px -120px;
+}
+
+.role-Mafia-Samurai {
+    background-position: -810px -120px;
+}
 
 /* 
 * Mafia 
@@ -588,6 +599,18 @@
     background-position: -840px -40px;
 }
 
+.role-Mafia-Framer {
+    background-position: -780px -80px;
+}
+
+.role-Mafia-Hitman {
+    background-position: -810px -80px;
+}
+
+.role-Mafia-Interrogator {
+    background-position: -630px -120px;
+}
+
 /* 
 * Independent 
 */
@@ -700,10 +723,6 @@
     background-position: -80px 0;
 }
 
-.modifier-Mafia-Scatterbrained {
-    background-position: -48px -16px;
-}
-
 .modifier-Mafia-Lone {
     background-position: -96px 0;
 }
@@ -734,6 +753,18 @@
 
 .modifier-Mafia-Loud {
     background-position: -32px -16px;
+}
+
+.modifier-Mafia-Scatterbrained {
+    background-position: -48px -16px;
+}
+
+.modifier-Mafia-Astral {
+    background-position: -64px -16px;
+}
+
+.modifier-Mafia-Unblockable {
+    background-position: -80px -16px;
 }
 
 /* for role prediction */
@@ -800,6 +831,10 @@
     background-position: -30px -240px;
 }
 
+.role-Resistance-Percival {
+    background-position: -60px -240px;
+}
+
 /*
 * Spies
 */
@@ -808,7 +843,9 @@
     background-position: -330px -240px;
 }
 
-
+.role-Resistance-Morgana {
+    background-position: -300px -240px;
+}
 
 /***********
 *

@@ -1,0 +1,18 @@
+export default [
+    "ass",
+    "asshole",
+    "bitch",
+    "bitches",
+    "cock",
+    "cunt",
+    "dick",
+    "fuck",
+    "fucked",
+    "fucking",
+    "pussy",
+    "shit",
+    "slut",
+    "tit",
+    "wanker",
+    "whore",
+]

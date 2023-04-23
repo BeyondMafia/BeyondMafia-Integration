@@ -10,7 +10,6 @@ const revivalMessages = require("./revival");
 const constants = require("../../data/constants");
 const logger = require("../../modules/logging")("games");
 const dbStats = require("../../db/stats");
-const slurs = require("../../data/moderation/slurs.json");
 
 module.exports = class Player {
 
@@ -84,14 +83,6 @@ module.exports = class Player {
                 if (Spam.rateLimit(speechPast, constants.msgSpamSumLimit, constants.msgSpamRateLimit)) {
                     this.sendAlert("You are speaking too quickly!");
                     return;
-                }
-
-                // check slurs
-                for (let slur of slurs) {
-                    if (message.content.replace(' ', '').toLowerCase().includes(slur)) {
-                        this.sendAlert("Warning: Your message contains inappropriate language. Please revise your message without using offensive terms.");
-                        return;
-                    }
                 }
 
                 if (message.content[0] == "/" && message.content.slice(0, 4) != "/me ") {
@@ -237,6 +228,10 @@ module.exports = class Player {
             catch (e) {
                 logger.error(e);
             }
+        });
+
+        socket.on("slurDetected", () => {
+            this.sendAlert("Warning: Your message contains inappropriate language. Please revise your message without using offensive terms.");
         });
 
         socket.on("leave", () => {
@@ -812,6 +807,10 @@ module.exports = class Player {
                 return true;
 
         return false;
+    }
+
+    getItems(itemName) {
+        return this.items.filter(i => i.name == itemName)
     }
 
     hasEffect(effectName) {

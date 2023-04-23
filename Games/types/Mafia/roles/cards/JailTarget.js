@@ -1,5 +1,5 @@
 const Card = require("../../Card");
-const { PRIORITY_JAIL_EXECUTE, PRIORITY_DAY_DEFAULT } = require("../../const/Priority");
+const { PRIORITY_DAY_DEFAULT, PRIORITY_KILL_DEFAULT } = require("../../const/Priority");
 const { MEETING_PRIORITY_JAIL } = require("../../const/MeetingPriority");
 
 module.exports = class JailTarget extends Card {
@@ -8,7 +8,11 @@ module.exports = class JailTarget extends Card {
         super(role);
 
         this.listeners = {
-            "rolesAssigned": function () {
+            "rolesAssigned": function (player) {
+                if (player && player != this.player) {
+                    return;
+                }
+
                 this.data.meetingName = "Jail with " + this.player.name;
                 this.meetings[this.data.meetingName] = this.meetings["JailPlaceholder"]
                 delete this.meetings["JailPlaceholder"]
@@ -47,7 +51,7 @@ module.exports = class JailTarget extends Card {
                 },
                 action: {
                     labels: ["kill", "jail"],
-                    priority: PRIORITY_JAIL_EXECUTE,
+                    priority: PRIORITY_KILL_DEFAULT,
                     run: function () {
                         var prisoner = this.actor.role.data.prisoner;
 

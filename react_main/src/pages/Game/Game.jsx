@@ -5,7 +5,7 @@ import axios from "axios";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import ReactLoading from "react-loading";
 
-import { filterProfanity, linkify, UserText } from "../../components/Basic";
+import { linkify, UserText } from "../../components/Basic";
 import LoadingPage from "../Loading";
 import MafiaGame from "./MafiaGame";
 import SplitDecisionGame from "./SplitDecisionGame";
@@ -21,7 +21,7 @@ import Form, { useForm } from "../../components/Form";
 import { Modal } from "../../components/Modal";
 import { useErrorAlert } from "../../components/Alerts";
 import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../Constants";
-import { emotify } from "../../components/Emotes";
+import { textIncludesSlurs } from "../../lib/profanity";
 
 import "../../css/game.css";
 import { determineColor, flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
@@ -1218,6 +1218,10 @@ function Message(props) {
         }
     }
 
+    if (message.content?.startsWith(">")) {
+        contentClass += "greentext ";
+    }
+    
     return (
         <div
             className="message"
@@ -1403,15 +1407,19 @@ function SpeechInput(props) {
             if (abilityName == "Say")
                 abilityName = null;
 
-            socket.send("speak", {
-                content: speechInput,
-                meetingId: selTab,
-                abilityName,
-                abilityTarget
-            });
-
+            if (textIncludesSlurs(speechInput)) {
+                socket.send("slurDetected");
+            } else {
+                socket.send("speak", {
+                    content: speechInput,
+                    meetingId: selTab,
+                    abilityName,
+                    abilityTarget
+                });
+                props.setAutoScroll(true);
+           }
+            
             setSpeechInput("");
-            props.setAutoScroll(true);
 
         } else if (e.key === "Tab") {
             e.preventDefault();
@@ -1583,6 +1591,30 @@ export function PlayerRows(props) {
 
         var showBubbles = (Object.keys(history.states[history.currentState].dead).includes(props.self) ||
          players.find(x => x.id === props.self) !== undefined);
+        var colorAutoScheme = false;
+        var bubbleColor = "black";
+        if (document.documentElement.classList.length === 0) {
+                colorAutoScheme = true;
+        }
+        else {
+             if (!document.documentElement.classList.contains("light-mode")) {
+                 if (!document.documentElement.classList.contains("dark-mode")) {
+                     colorAutoScheme = true;
+                 }
+                 else {
+                     bubbleColor = "white";
+                 }
+             }
+             else {
+                 bubbleColor = "black";
+             }
+        }
+
+        if (colorAutoScheme) {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                bubbleColor = "white";
+            }
+        }
 
         return (
             <div
@@ -1608,7 +1640,7 @@ export function PlayerRows(props) {
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
-                        color={ document.documentElement.classList[0].includes("dark") ?  "white" : "black"}
+                        color={bubbleColor}
                         width="20"
                         height="20" />
                 }
@@ -1745,22 +1777,6 @@ function ActionSelect(props) {
         var selection = meeting.votes[member.id];
         var player = props.players[member.id];
         selection = getTargetDisplay(selection, meeting, props.players);
-
-        if (!member.canVote) {
-            return (
-                <div
-                    className={`vote ${meeting.multi ? "multi" : ""}`}
-                    key={member.id}>
-                    <div
-                        className="voter">
-                        {(player && player.name) || "Anonymous"}
-                    </div>
-                    <div className="selection">
-                        does not vote
-                    </div>
-                </div>
-            );
-        }
         
         return (
             <div
@@ -1772,14 +1788,24 @@ function ActionSelect(props) {
                     {(player && player.name) || "Anonymous"}
                 </div>
                 {
+                    !member.canVote &&
+                    <div className="selection">
+                        does not vote
+                    </div>
+                }
+                {
+                    member.canVote &&
                     selection.length > 0 &&
                     <div className="italic">
                         votes
                     </div>
                 }
-                <div className="selection">
-                    {selection.join(", ")}
-                </div>
+                {
+                    member.canVote &&
+                    <div className="selection">
+                        {selection.join(", ")}
+                    </div>
+                }
             </div>
         );
     });
