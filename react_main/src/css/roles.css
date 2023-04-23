@@ -152,7 +152,7 @@
 }
 
 .role-Mafia-Hunter {
-    background-position: -300px 0;
+    background-position: -780px -120px;
 }
 
 .role-Mafia-Agent {
@@ -675,6 +675,10 @@
     background-position: -750px -80px;
 }
 
+.role-Mafia-Autocrat {
+    background-position: -750px -120px;
+}
+
 /* 
 * Monsters 
 */
@@ -845,6 +849,10 @@
 
 .role-Resistance-Morgana {
     background-position: -300px -240px;
+}
+
+.role-Resistance-Oberon {
+    background-position: -270px -240px;
 }
 
 /***********
