@@ -1235,7 +1235,7 @@ module.exports = class Game {
 
             for (let player of this.players)
                 if (!player.left)
-                    this.postgame.join(player);
+                    this.postgame.join(player, this.postgame);
 
             this.postgame.init();
 

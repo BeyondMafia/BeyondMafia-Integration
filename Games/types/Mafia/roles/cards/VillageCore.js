@@ -24,7 +24,7 @@ module.exports = class VillageCore extends Card {
                     }
                 }
             },
-            "Village ": {
+            "Graveyard": {
                 states: ["Night"],
                 flags: ["group", "speech", "liveJoin"],
                 whileAlive: false,
@@ -34,12 +34,4 @@ module.exports = class VillageCore extends Card {
             }
         };
     }
-
-    speak(message) {
-        if (!message.sender.alive) {
-            message.modified = true;
-            message.recipients = message.game.players.filter(x => !x.alive);
-        }
-    }
-
 }

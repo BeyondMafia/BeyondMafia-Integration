@@ -741,9 +741,10 @@ module.exports = class Meeting {
             return;
 
         if (!member.player.alive) {
-            if (this.name.includes("Village")) {
+            if (this.name.includes("Village") ||
+                this.name.includes("Graveyard") ||
+                this.name.includes("Party!")) {
                 message.modified = true;
-                message.prefix = "dead";
                 message.recipients = this.game.players.filter(x => !x.alive);
             }
         }

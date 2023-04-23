@@ -16,8 +16,8 @@ module.exports = class SeanceTarget extends Card {
                 if (!this.data.meetingName) {
                     this.data.meetingName = "Seance with " + this.player.name;
                 }
-                this.meetings[this.data.meetingName] = this.meetings["SeancePlaceholder"]
-                delete this.meetings["SeancePlaceholder"]
+                this.meetings[this.data.meetingName] = this.meetings["SeancePlaceholder"];
+                delete this.meetings["SeancePlaceholder"];
             }
         };
 
@@ -42,6 +42,7 @@ module.exports = class SeanceTarget extends Card {
                 states: ["Night"],
                 flags: ["exclusive", "group", "speech", "anonymous", "voting", "mustAct", "noVeg"],
                 inputType: "boolean",
+                speakDead: true,
                 priority: MEETING_PRIORITY_SEANCE,
                 shouldMeet: function () {
                     for (let player of this.game.players)
