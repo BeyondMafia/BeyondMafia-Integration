@@ -336,7 +336,7 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be role blocked."
+                "Redirection cannot be role blocked."
             ],
         },
         "Sapling": {
@@ -598,7 +598,7 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be roleblocked."
+                "Redirection cannot be roleblocked."
             ],
         },
         "Spy": {
