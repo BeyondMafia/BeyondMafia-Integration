@@ -164,6 +164,29 @@ iframe {
     display: flex;
 }
 
+.user-name.dark {
+    filter: brightness(70%)
+}
+
+.user-name.darker {
+    filter: brightness(60%)
+}
+.user-name.darkest {
+    filter: brightness(50%);
+}
+
+.user-name.bright {
+    filter: brightness(130%);
+}
+
+.user-name.brighter {
+    filter: brightness(145%);
+}
+
+.user-name.brightest {
+    filter: brightness(160%);
+}
+
 .profile .user-info {
     flex-grow: 1;
 
