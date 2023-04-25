@@ -88,6 +88,28 @@ function addListenerToRoles(game, roleNames, eventName, action) {
     addListenerToPlayers(players, eventName, action);
 }
 
+function gameHasAlert(game, alertMsg, roleName) {
+    let hasAlert = false;
+
+    Object.values(game.history.states).flatMap(s => s.alerts).forEach((alert) => {
+        if (alert.content.includes(alertMsg)) {
+            if (roleName == undefined) {
+                hasAlert = true;
+                return
+            }
+
+            alert.recipients.forEach(r => {
+                if (r.role.name === roleName) {
+                    hasAlert = true;
+                    return
+                }
+            })
+        }
+    })
+
+    return hasAlert;
+}
+
 function waitForResult(check) {
     return new Promise((resolve, reject) => {
         var interval = setInterval(() => {
@@ -1287,7 +1309,7 @@ describe("Games/Mafia", function () {
             });
 
             await waitForGameEnd(game);
-            Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("Curses!")).should.be.true;
+            gameHasAlert(game, "Curses!").should.be.true;
         });
     });
 
@@ -1440,7 +1462,7 @@ describe("Games/Mafia", function () {
 
             
             await waitForGameEnd(game);
-            Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("You see a merry Caroler outside your house!")).should.be.true;
+            gameHasAlert(game, "You see a merry Caroler outside your house!", "Janitor").should.be.true;
         });
     });
 
