@@ -1368,9 +1368,7 @@ describe("Games/Mafia", function () {
             game.winners.groups["Nomad"].should.have.lengthOf(1); 
             should.not.exist(game.winners.groups["Village"]);
         });
-    });
 
-    describe("Nomad", function() {
         it("should win with village when it follows village", async function(){
             await db.promise;
             await redis.client.flushdbAsync();
@@ -1406,4 +1404,5 @@ describe("Games/Mafia", function () {
             should.not.exist(game.winners.groups["Mafia"]);
         });
     });
+
 });
