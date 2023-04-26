@@ -437,6 +437,9 @@ module.exports = class Game {
             }
         }
 
+        // In the event of a guiser swap, the userId that is needed to leave is
+        // the target. However, the `player` in this game is the still alive disguiser
+        // Therefore, if the swapped user is not null, then we need to use that person's ID
         let userIdToLeave = player.user.id;
         if (player.user.swapped) {
             userIdToLeave = player.user.swapped.id;
