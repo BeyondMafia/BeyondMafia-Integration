@@ -437,7 +437,11 @@ module.exports = class Game {
             }
         }
 
-        await redis.leaveGame(player.user.id);
+        let userIdToLeave = player.user.id;
+        if (player.user.swapped) {
+            userIdToLeave = player.user.swapped.id;
+        }
+        await redis.leaveGame(userIdToLeave);
     }
 
     async onAllPlayersLeft() {
