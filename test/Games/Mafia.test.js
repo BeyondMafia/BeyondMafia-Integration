@@ -1405,4 +1405,43 @@ describe("Games/Mafia", function () {
         });
     });
 
+    describe("Caroler", function() {
+        it("janitor should get carol when it does not visit", async function(){
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 3, roles: [{"Villager": 1, "Caroler": 1, "Janitor": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if (meeting.name == "Sing Carol") {
+                    this.sendToServer("vote", {
+                        selection: roles["Janitor"].id,
+                        meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                       selection: "*",
+                       meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Clean Death") {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                     });
+                } else if (meeting.name == "Village") {
+                this.sendToServer("vote", {
+                    selection: roles["Janitor"].id,
+                    meetingId: meeting.id
+                });
+            }
+            });
+
+            
+            await waitForGameEnd(game);
+            Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("You see a merry Caroler outside your house!")).should.be.true;
+        });
+    });
+
 });
