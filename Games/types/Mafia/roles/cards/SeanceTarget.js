@@ -28,6 +28,11 @@ module.exports = class SeanceTarget extends Card {
                     labels: ["seance"],
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
+                        if (this.target.hasItem("Summon")){
+                            this.actor.queueAlert(`You try and seance ${this.target.name} but you don't find them in the graveyard!`);
+                            return;
+                        }
+
                         if (this.dominates()) {
                             this.target.holdItem("Summon", this.actor.role.data.meetingName);
                         }
