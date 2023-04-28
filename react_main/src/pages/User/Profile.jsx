@@ -163,7 +163,7 @@ export default function Profile() {
 
     function onDeleteFriend(friendId) {
         return () => {
-            var shouldUnfriend = window.confirm("Are you sure you wish to unfriend or cancel your friend request?");
+            var shouldUnfriend = window.confirm("Are you sure you wish to delete this friend?");
             if (!shouldUnfriend)
                 return;
             
@@ -346,13 +346,15 @@ export default function Profile() {
 
     const friendRows = friends.map(friend => (
         <div className="friend" key={friend.id}>
-            <NameWithAvatar
-                id={friend.id}
-                name={friend.name}
-                avatar={friend.avatar} />
-            <div className="btns-wrapper">
-                <i className="fas fa-trash"
-                    onClick={onDeleteFriend(friend.id)} />
+            <div className="friend-avatar">
+                <NameWithAvatar
+                    id={friend.id}
+                    name={friend.name}
+                    avatar={friend.avatar} />
+                <div className="btns-wrapper">
+                    <i className="fas fa-trash"
+                        onClick={onDeleteFriend(friend.id)} />
+                </div>
             </div>
             <div className="last-active">
                 <Time
