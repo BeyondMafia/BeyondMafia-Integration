@@ -1572,7 +1572,7 @@ function RoleMarkerToggle(props) {
             onClick={onRoleMarkerClick}
             ref={roleMarkerRef}>
 
-            <i className="fas fa-map-pin"></i>
+            <i className="fas fa-user-edit"></i>
         </div>
     )
 
