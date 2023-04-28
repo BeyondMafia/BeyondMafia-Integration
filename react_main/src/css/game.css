@@ -562,6 +562,11 @@
 	margin-right: 5px;
 }
 
+.game .player .role-marker i {
+	margin: 8px;
+}
+
+
 .game .player .role {
 	cursor: pointer;
 }
