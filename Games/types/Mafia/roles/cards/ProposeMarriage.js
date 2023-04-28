@@ -10,7 +10,7 @@ module.exports = class ProposeMarriage extends Card {
                 states: ["Day"],
                 flags: ["voting", "instant", "noVeg"],
                 shouldMeet: function() {
-                    return !this.data.isMarried;
+                    return !this.isMarried;
                 },
                 action: {
                     labels: ["marriage"],

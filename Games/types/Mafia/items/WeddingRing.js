@@ -25,7 +25,7 @@ module.exports = class WeddingRing extends Item {
                             return;
                         }
                         
-                        this.item.proposer.role.data.isMarried = true;
+                        this.item.proposer.role.isMarried = true;
                         this.item.proposer.role.revealToAll();
                         this.actor.role.revealToAll();
                     }
