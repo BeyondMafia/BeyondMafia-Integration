@@ -558,6 +558,13 @@ const roleData = {
                 "Can kill a maximum of 2 people",
             ],
         },
+        "President": {
+            alignment: "Village",
+            description: [
+                "All villagers will know who president is.",
+                "When President dies, all villagers will die.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
