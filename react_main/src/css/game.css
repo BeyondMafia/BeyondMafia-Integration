@@ -277,6 +277,30 @@
 	white-space: pre-wrap;
 }
 
+.game .message .content.dark {
+	filter: brightness(70%);
+}
+
+.game .message .content.darker {
+	filter: brightness(60%);
+}
+
+.game .message .content-darkest {
+	filter: brightness(50%);
+}
+
+.game .message .content-bright {
+	filter: brightness(130%)
+}
+
+.game .message .content.brighter {
+	filter: brightness(145%);
+}
+
+.game .message .content.brightest {
+	filter: brightness(160%);
+}
+
 .game .message .content.greentext {
 	color: #789922
 }

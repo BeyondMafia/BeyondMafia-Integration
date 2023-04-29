@@ -24,7 +24,7 @@ import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../C
 import { textIncludesSlurs } from "../../lib/profanity";
 
 import "../../css/game.css";
-import { flipTextColor, hexToHSL, HSLToHex, HSLToHexString, RGBToHSL } from "../../utils";
+import { adjustColor, flipTextColor } from "../../utils";
 
 export default function Game() {
     return (
@@ -1200,6 +1200,10 @@ function Message(props) {
 
     if (message.content?.startsWith(">")) {
         contentClass += "greentext ";
+    }
+
+    if (player !== undefined && player.textColor !== undefined) {
+        contentClass += `${adjustColor(player.textColor)}`;
     }
     
     return (
