@@ -7,7 +7,7 @@ module.exports = class MindShifter extends Card {
         super(role);
 
         this.meetings = {
-            "Drive Insane": {
+            "Warp Mind": {
                 states: ["Night"],
                 flags: ["voting"],
                 targets: { include: ["alive"], exclude: ["Monsters"] },
@@ -39,6 +39,7 @@ module.exports = class MindShifter extends Card {
                     for (let visitor of visitors){
                         if (visitor.role.alignment != "Monsters")
                             stillInsane = false;
+                            break;
                         }
 
                     if (stillInsane){

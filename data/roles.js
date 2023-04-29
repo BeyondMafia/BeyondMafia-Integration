@@ -965,7 +965,7 @@ const roleData = {
             alignment: "Monsters",
             description: [
                 "Visits a player each night.",
-                "If that player is not visited by a non-Monsters player during the next night, they will go insane."
+                "If that player is not visited by a non-Monster player during the next night, they will go insane."
             ],
         },
 
