@@ -18,7 +18,7 @@ module.exports = class KillTownOnDeath extends Card {
                 
                 for (let _player of this.game.players){
                     if(_player.alive && _player.role.alignment === "Village"){
-                        this.player.kill("basic", this.player, instant);
+                        _player.kill("basic", this.player, instant);
                     }
                 }
             },
