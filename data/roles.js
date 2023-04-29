@@ -336,7 +336,7 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be role blocked."
+                "Redirection cannot be role blocked."
             ],
         },
         "Sapling": {
@@ -487,7 +487,7 @@ const roleData = {
             description: [
                 "Visits a player each night to learn their role alignment.",
                 "If not visited during the night, will learn whether that player is naughty or nice.",
-                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, each night."
+                "Gives out a Gun, Knife, Armor, Crystal, Snowball, or Bread, each night."
             ],
         },
         "Tinkerer": {
@@ -558,6 +558,13 @@ const roleData = {
                 "Can kill a maximum of 2 people",
             ],
         },
+        "President": {
+            alignment: "Village",
+            description: [
+                "All villagers will know who president is.",
+                "When President dies, all villagers will die.",
+                ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -598,7 +605,7 @@ const roleData = {
                 "Chooses two players, A and B, each night.",
                 "Players who visit A will be redirected to B.",
                 "Players who visit B will be redirected to A.",
-                "Redirection does not count as a visit and cannot be roleblocked."
+                "Redirection cannot be roleblocked."
             ],
         },
         "Spy": {
