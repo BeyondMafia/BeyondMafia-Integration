@@ -34,7 +34,8 @@ module.exports = class MindShifter extends Card {
                         return;
                     }
 
-                    const becomesInsane = !visitors.find(visitor => visitor.role.alignment != "Monsters")
+                    var visitors = this.getVisitors(this.actor.role.data.insane);
+                    var becomesInsane = !visitors.find(visitor => visitor.role.alignment != "Monsters")
 
                     if (becomesInsane){
                         this.actor.role.data.insane.giveEffect("Insanity");
