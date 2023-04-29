@@ -7,7 +7,7 @@ module.exports = class Seeker extends Role {
 
         this.alignment = "Village";
         this.cards = ["VillageCore", "WinWithVillage", "GuessAdversaryKill"];
-        this.roleToGuess = "Spy";
+        this.roleToGuess = "Inquisitor";
         this.meetingMods = {
             "Guess Adversary": {
                 actionName: "Guess Inquisitor"
