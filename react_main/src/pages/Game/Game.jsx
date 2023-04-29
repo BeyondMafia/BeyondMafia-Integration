@@ -1820,6 +1820,9 @@ function ActionSelect(props) {
 
 function ActionButton(props) {
     const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
+    if (notClickable) {
+        return null;
+    }
     const votes = { ...meeting.votes };
 
     for (let playerId in votes)
@@ -1911,6 +1914,7 @@ function useAction(props) {
     const history = props.history;
     const stateViewing = props.stateViewing;
     const isCurrentState = stateViewing == history.currentState;
+
     const notClickable = !isCurrentState || !meeting.amMember || !meeting.canVote || (meeting.instant && meeting.votes[props.self]);
 
     function onVote(sel) {
@@ -1985,6 +1989,8 @@ export function Timer(props) {
         timerName = "postgame";
     else if (props.timers["secondary"])
         timerName = "secondary";
+    else if (props.timers["vegKick"])
+        timerName = "vegKick";
     else
         timerName = "main";
 
@@ -2006,6 +2012,13 @@ export function Timer(props) {
 
     time = formatTimerTime(time);
 
+    if(timerName === "vegKick"){
+        return (
+            <div className="state-timer">
+                Kicking in {time}
+            </div>
+        );
+    }
     return (
         <div className="state-timer">
             {time}

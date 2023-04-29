@@ -64,6 +64,7 @@ module.exports = class Meeting {
             leader: options.leader,
             voteWeight: options.voteWeight || 1,
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
+            canUpdateVote: options.canUpdateVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
             canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
             visible: options.visible != false && (player.alive || !options.passiveDead),
@@ -179,6 +180,7 @@ module.exports = class Meeting {
             if (member.visible) {
                 members.push({
                     id: member.anonId || member.id,
+                    canUpdateVote: member.canUpdateVote,
                     canVote: member.canVote
                 });
             }
@@ -251,6 +253,7 @@ module.exports = class Meeting {
             voteRecord: voteRecord,
             messages: this.getPlayerMessages(member.player),
             canVote: member.canVote,
+            canUpdateVote: member.canUpdateVote,
             canUnvote: member.canUnvote,
             canTalk: member.canTalk,
             speechAbilities: this.getSpeechAbilityInfo(member),
@@ -334,9 +337,23 @@ module.exports = class Meeting {
             }
         }
 
-        for (let voterId in this.votes)
-            if (this.targets.indexOf(this.votes[voterId]) == -1)
-                delete this.votes[voterId];
+        for (let voterId in this.votes) {
+            // voted for someone who is still a valid target
+            if (this.targets.indexOf(this.votes[voterId]) != -1) {
+                continue;
+            }
+
+            // unvote the invalid target
+            this.members[voterId].canUnvote = true;
+            this.unvote(this.members[voterId], this.votes[voterId]);
+
+            if (this.game.vegKickMeeting !== undefined && this.game.vegKickMeeting.hasFrozenOtherMeetings) {
+                this.members[voterId].canUnvote = false;
+                // re-enable voting even during kicks
+                this.members[voterId].canUpdateVote = true;
+            }
+        }
+            
     }
 
     parseTargetDefinitions(targets, targetType, players, self) {
@@ -436,6 +453,7 @@ module.exports = class Meeting {
 
         if (
             !this.members[voter.id] ||
+            !this.members[voter.id].canUpdateVote ||
             !this.members[voter.id].canVote ||
             !this.voting ||
             (this.finished && !this.repeatable)
@@ -513,6 +531,24 @@ module.exports = class Meeting {
             this.game.spectatorsSeeVote(vote);
 
         this.checkReady();
+
+        if (this.game.vegKickMeeting === undefined || this.id === this.game.vegKickMeeting.id) {
+            return true;
+        }
+
+        // freeze votes
+        if (this.game.vegKickMeeting.hasFrozenOtherMeetings) {
+            this.members[voter.id].canUpdateVote = false;
+            this.members[voter.id].canUnvote = false;
+        }
+
+        let player = this.members[voter.id].player;
+
+        // join veg kick meeting if needed
+        if (player.hasVotedInAllMeetings()) {
+            this.game.vegKickMeeting.enableKicks(player);
+        }
+
         return true;
     }
 
@@ -567,6 +603,13 @@ module.exports = class Meeting {
             this.game.spectatorsSeeUnvote(info);
 
         this.checkReady();
+
+        // player is no longer eligible for the kicks meeting
+        if (this.game.vegKickMeeting !== undefined) {
+            let player = this.members[voter.id].player;
+            this.game.vegKickMeeting.disableKicks(player);
+        }
+
         return true;
     }
 
