@@ -10,15 +10,18 @@ module.exports = class KillTownOnDeath extends Card {
                 if (player !== this.player){
                     return;
                 }
-                for (let _player of this.game.players){
-                    if (_player.alive && _player.role.name === this.player.role.name){
+
+                let alive = this.game.players.filter(p => p.alive);
+
+                for (const p of alive) {
+                    if (p.role === this.player.role){
                         return;
                     }
                 }
-                
-                for (let _player of this.game.players){
-                    if(_player.alive && _player.role.alignment === "Village"){
-                        _player.kill("basic", this.player, instant);
+
+                for (let p of alive) {
+                    if (p.role.alignment === "Village"){
+                        p.kill("basic", this.player, instant);
                     }
                 }
             },
