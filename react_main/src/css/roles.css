@@ -127,7 +127,7 @@
     background-position: -90px 0;
 }
 
-.role-Mafia-Arms-Dealer {
+.role-Mafia-Gunsmith {
     background-position: -120px 0;
 }
 
@@ -155,7 +155,7 @@
     background-position: -300px 0;
 }
 
-.role-Mafia-Agent {
+.role-Mafia-Seeker {
     background-position: -30px -40px;
 }
 
@@ -195,7 +195,7 @@
     background-position: -60px -80px;
 }
 
-.role-Mafia-Escort {
+.role-Mafia-Drunk {
     background-position: -90px -80px;
 }
 
@@ -235,7 +235,7 @@
     background-position: -240px -80px;
 }
 
-.role-Mafia-Mayor {
+.role-Mafia-Celebrity {
     background-position: -60px -40px;
 }
 
@@ -243,8 +243,8 @@
     background-position: -90px -40px;
 }
 
-.role-Mafia-Psychic {
-    background-position: -120px -80px;
+.role-Mafia-Agent {
+    background-position: -30px -40px;
 }
 
 .role-Mafia-Jailer {
@@ -283,7 +283,7 @@
     background-position: -210px -120px;
 }
 
-.role-Mafia-Matchmaker {
+.role-Mafia-Mistletoe {
     background-position: -240px -120px;
 }
 
@@ -435,7 +435,7 @@
     background-position: -360px 0;
 }
 
-.role-Mafia-Spy {
+.role-Mafia-Inquisitor {
     background-position: -390px 0;
 }
 
@@ -443,7 +443,7 @@
     background-position: -420px 0;
 }
 
-.role-Mafia-Chemist {
+.role-Mafia-Poisoner {
     background-position: -480px 0;
 }
 
@@ -471,8 +471,8 @@
     background-position: -360px -40px;
 }
 
-.role-Mafia-Telepath {
-    background-position: -450px -0px;
+.role-Mafia-Spy {
+    background-position: -390px 0;
 }
 
 .role-Mafia-Sniper {
