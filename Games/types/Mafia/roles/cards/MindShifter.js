@@ -34,15 +34,9 @@ module.exports = class MindShifter extends Card {
                         return;
                     }
 
-                    var stillInsane = true;
-                    var visitors = this.getVisitors(this.actor.role.data.insane);
-                    for (let visitor of visitors){
-                        if (visitor.role.alignment != "Monsters")
-                            stillInsane = false;
-                            break;
-                        }
+                    const becomesInsane = !visitors.find(visitor => visitor.role.alignment != "Monsters")
 
-                    if (stillInsane){
+                    if (becomesInsane){
                         this.actor.role.data.insane.giveEffect("Insanity");
                         this.actor.role.data.insane.queueAlert(":sy3f: Reality fades as your mind is consumed by insanity.");
                     }
