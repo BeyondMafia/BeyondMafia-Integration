@@ -487,7 +487,7 @@ const roleData = {
             description: [
                 "Visits a player each night to learn their role alignment.",
                 "If not visited during the night, will learn whether that player is naughty or nice.",
-                "Gives out a Gun, Knife, Armor, Crystal, or Snowball, each night."
+                "Gives out a Gun, Knife, Armor, Crystal, Snowball, or Bread, each night."
             ],
         },
         "Tinkerer": {
