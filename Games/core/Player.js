@@ -254,6 +254,36 @@ module.exports = class Player {
         return will;
     }
 
+    // Checks that player has voted in all meetings except the vegkick meeting.
+    // This function is used during the vegkick meeting, so vegkickmeeting should not be undefined.
+    hasVotedInAllMeetings() {
+        let allMeetings = this.getMeetings();
+        let vegKickMeetingId = this.getVegKickMeeting()?.id;
+
+        for (let meeting of allMeetings) {
+            if (meeting.id === vegKickMeetingId) {
+                continue;
+            }
+
+            if (meeting.finished) {
+                continue;
+            }
+
+            // player has not voted
+            if (meeting.members[this.id].canVote &&
+                meeting.members[this.id].canUpdateVote && 
+                meeting.votes[this.id] === undefined) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    getVegKickMeeting() {
+        return this.game.vegKickMeeting;
+    }
+
     parseCommand(message) {
         var split = message.content.replace("/", "").split(" ");
         var cmd = {
@@ -265,6 +295,12 @@ module.exports = class Player {
 
         switch (cmd.name) {
             case "kick":
+                // Allow /kick to be used to kick players during veg votekick.
+                var vegKickMeeting = this.getVegKickMeeting();
+                if (vegKickMeeting !== undefined) {
+                    vegKickMeeting.vote(this, "Kick");
+                    return;
+                }
                 if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
                     return;
 
@@ -860,8 +896,13 @@ module.exports = class Player {
         for (let meeting of this.game.meetings)
             meeting.generateTargets();
 
+        if (this.game.vegKickMeeting !== undefined) {
+            this.game.vegKickMeeting.checkEnoughPlayersKicked();
+        }
+
         this.game.sendMeetings();
         this.game.checkAllMeetingsReady();
+
     }
 
     revive(revivalType, reviver, instant) {

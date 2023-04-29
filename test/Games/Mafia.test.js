@@ -196,6 +196,8 @@ describe("Games/Mafia", function () {
             game.winners.groups["Village"].should.have.lengthOf(3);
         });
 
+        // with the addition of kicks #485, this will just wait for everyone to vote
+        /*
         it("should still end with everyone AFK", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
@@ -204,7 +206,7 @@ describe("Games/Mafia", function () {
             const game = await makeGame(setup);
 
             await waitForGameEnd(game);
-        });
+        });*/
     });
 
     describe("Arms Dealer", function () {
@@ -452,7 +454,7 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name == "Guess Adversary") {
+                if (meeting.actionName == "Guess Spy") {
                     this.sendToServer("vote", {
                         selection: roles["Spy"].id,
                         meetingId: meeting.id
@@ -481,7 +483,7 @@ describe("Games/Mafia", function () {
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.name != "Guess Adversary") {
+                if (meeting.actionName == "Guess Agent") {
                     this.sendToServer("vote", {
                         selection: roles["Agent"].id,
                         meetingId: meeting.id
@@ -1070,18 +1072,18 @@ describe("Games/Mafia", function () {
     });
 
     describe("Mason", function () {
-        it("should win upon converting the Serial Killer", async function () {
+        it("should win upon converting the Cthulhu", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
-            const setup = { total: 3, roles: [{ "Mason": 2, "Serial Killer": 1 }] };
+            const setup = { total: 3, roles: [{ "Mason": 2, "Cthulhu": 1 }] };
             const game = await makeGame(setup);
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
                 if (meeting.name == "Masons") {
                     this.sendToServer("vote", {
-                        selection: roles["Serial Killer"].id,
+                        selection: roles["Cthulhu"].id,
                         meetingId: meeting.id
                     });
                 }
@@ -1094,7 +1096,7 @@ describe("Games/Mafia", function () {
             });
 
             await waitForGameEnd(game);
-            should.not.exist(game.winners.groups["Serial Killer"]);
+            should.not.exist(game.winners.groups["Monsters"]);
             should.exist(game.winners.groups["Village"]);
         });
 
@@ -1278,7 +1280,7 @@ describe("Games/Mafia", function () {
                         meetingId: meeting.id
                     });
                 }
-                else{
+                else {
                     this.sendToServer("vote", {
                        selection: "*",
                        meetingId: meeting.id

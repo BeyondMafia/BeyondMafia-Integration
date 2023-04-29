@@ -849,11 +849,17 @@ router.post("/blacklist", async (req, res) => {
         if (!(await routeUtils.verifyPermission(res, userId, perm)))
             return;
 
-        ipBan = new models.Ban({
-            userId: userIdToActOn,
-            type: "ipFlag"
-        });
-        await ipBan.save();
+        await routeUtils.banUser(
+            userIdToActOn,
+            0,
+            ["vote", "createThread", "postReply", "publicChat", "privateChat", "playGame", "editBio", "changeName"],
+            "ipFlag"
+        );
+        await routeUtils.createNotification({
+            content: `Your IP address has been flagged as suspicious. Please message an admin or moderator in the chat panel to gain full access to the site. A list of moderators can be found by clicking on this message.`,
+            icon: "flag",
+            link: "/community/moderation"
+        }, [userIdToActOn]);
         await redis.cacheUserInfo(userIdToActOn, true);
         await models.User.updateOne({ id: userIdToActOn }, { $set: { flagged: true } });
         await redis.cacheUserPermissions(userIdToActOn);
