@@ -16,7 +16,7 @@ module.exports = class MindShifter extends Card {
                     priority: PRIORITY_EFFECT_GIVER_DEFAULT,
                     run: function () {
                         this.actor.role.data.insane = this.target;
-                        this.target.queueAlert("You will be driven insane if not visited by a player not aligned with the Monsters!");
+                        this.target.queueAlert("You will be driven insane if not visited by a player not aligned with the Monsters, tonight!");
                     }
                 }
             }
