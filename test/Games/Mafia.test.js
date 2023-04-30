@@ -466,19 +466,19 @@ describe("Games/Mafia", function () {
         });
     });
 
-    describe("Agent and Spy", function () {
-        it("should make the Village win when the Spy is guessed", async function () {
+    describe("Seeker and Inquisitor", function () {
+        it("should make the Village win when the Inquisitor is guessed", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
-            const setup = { total: 3, roles: [{ "Villager": 1, "Agent": 1, "Spy": 1 }] };
+            const setup = { total: 3, roles: [{ "Villager": 1, "Seeker": 1, "Inquisitor": 1 }] };
             const game = await makeGame(setup);
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.actionName == "Guess Spy") {
+                if (meeting.actionName == "Guess Inquisitor") {
                     this.sendToServer("vote", {
-                        selection: roles["Spy"].id,
+                        selection: roles["Inquisitor"].id,
                         meetingId: meeting.id
                     });
                 }
@@ -496,18 +496,18 @@ describe("Games/Mafia", function () {
             game.winners.groups["Village"].should.have.lengthOf(2);
         });
 
-        it("should make the Mafia win when the Agent is guessed", async function () {
+        it("should make the Mafia win when the Seeker is guessed", async function () {
             await db.promise;
             await redis.client.flushdbAsync();
 
-            const setup = { total: 3, roles: [{ "Villager": 1, "Agent": 1, "Spy": 1 }] };
+            const setup = { total: 3, roles: [{ "Villager": 1, "Seeker": 1, "Inquisitor": 1 }] };
             const game = await makeGame(setup);
             const roles = getRoles(game);
 
             addListenerToPlayers(game.players, "meeting", function (meeting) {
-                if (meeting.actionName == "Guess Agent") {
+                if (meeting.actionName == "Guess Seeker") {
                     this.sendToServer("vote", {
-                        selection: roles["Agent"].id,
+                        selection: roles["Seeker"].id,
                         meetingId: meeting.id
                     });
                 }
