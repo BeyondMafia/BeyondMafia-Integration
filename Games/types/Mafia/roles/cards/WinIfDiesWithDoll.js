@@ -1,8 +1,7 @@
 const Card = require("../../Card");
-const Random = require("../../../../../lib/Random");
 const { PRIORITY_WIN_CHECK_DEFAULT } = require("../../const/Priority");
 
-module.exports = class WinByLynching extends Card {
+module.exports = class WinIfDiesWithDoll extends Card {
 
     constructor(role) {
         super(role);
