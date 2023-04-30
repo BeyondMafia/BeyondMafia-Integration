@@ -33,17 +33,14 @@ module.exports = class BreadGiver extends Card {
             }
         };
         this.listeners = {
-            "roleAssigned": function (player) {
-                if (player) {
-                    return
-                }
+            "start": function () {
 
                 for (let player of this.game.players) {
                     // give bread
                     let items = player.items.map(a => a.name);
                     let breadCount = 0;
                     for (let item of items) {
-                        if (item == "Bread")
+                        if (item === "Bread")
                             breadCount++;
                     }
                     while (breadCount < 2) {

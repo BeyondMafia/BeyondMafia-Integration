@@ -7,7 +7,7 @@ module.exports = class ElectionResults extends Card {
 
         this.listeners = {
             "roleAssigned": function (player) {
-                if (player && player !== this.player) {
+                if (player !== this.player) {
                     return;
                 }
 
