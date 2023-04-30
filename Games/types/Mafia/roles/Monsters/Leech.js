@@ -10,7 +10,8 @@ module.exports = class Leech extends Role {
             "VillageCore",
             "WinWithMonsters",
             "MeetingMonster",
-            "LeechBlood"
+            "LeechBlood",
+            "Bloodthirsty"
         ];
     }
 
