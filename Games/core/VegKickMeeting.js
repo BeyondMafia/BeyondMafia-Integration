@@ -12,6 +12,9 @@ module.exports = class VegKickMeeting extends Meeting {
         this.inputType = "button";
         this.targets = ["Kick"];
         this.votesInvisible = true;
+        // when enough kicks has reached, people who have not voted can spam kick
+        // this flag prevents that
+        this.repeatable = true;
 
         this.hasFrozenOtherMeetings = false;
     }
@@ -24,9 +27,14 @@ module.exports = class VegKickMeeting extends Meeting {
 
     resetKicks() {
         this.game.clearTimer("vegKick");
-        this.votes = {};
+        this.finished = false;
 
         for (let player of this.game.players) {
+            // unvote
+            this.members[player.id].canUnvote = true;
+            this.unvote(this.members[player.id], this.votes[player.id]);
+            this.members[player.id].canUnvote = false;
+
             if (!player.alive) {
                 continue
             }
@@ -96,6 +104,7 @@ module.exports = class VegKickMeeting extends Meeting {
         let vegKickThreshold = Math.ceil(numAlive / 3);
 
         let numKicked = Object.keys(this.votes).length;
+        numKicked = Math.min(numKicked, vegKickThreshold);
         this.game.sendAlert(`Kicking... ${numKicked} / ${vegKickThreshold}`);
         return [numKicked, vegKickThreshold]
     }
