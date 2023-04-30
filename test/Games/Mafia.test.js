@@ -1433,14 +1433,14 @@ describe("Games/Mafia", function () {
                         selection: roles["Mayor"].id,
                         meetingId: meeting.id
                     });
-                } else {
-                    console.log(meeting.name)
                 }
             });
 
             await waitForGameEnd(game);
             should.exist(game.winners.groups["Village"]);
-            game.winners.groups["Village"].should.have.lengthOf(2);        
+            game.winners.groups["Village"].should.have.lengthOf(2);
+            roles["Bodyguard"].alive.should.be.false;
+            roles["Mayor"].alive.should.be.true;
             should.not.exist(game.winners.groups["Mafia"]);
             should.not.exist(game.winners.groups["Serial Killer"]);
         });
