@@ -18,6 +18,7 @@ const redis = require("../../modules/redis");
 const roleData = require("../..//data/roles");
 const logger = require("../../modules/logging")("games");
 const constants = require("../../data/constants");
+const renamedRoleMapping = require("../../data/renamedRoles")
 const routeUtils = require("../../routes/utils");
 const PostgameMeeting = require("./PostgameMeeting");
 const VegKickMeeting = require("./VegKickMeeting");
@@ -54,7 +55,6 @@ module.exports = class Game {
         this.readyCheck = options.settings.readyCheck;
         this.readyCountdownLength = options.settings.readyCountdownLength != null ? options.settings.readyCountdownLength : 30000;
         this.pregameCountdownLength = options.settings.pregameCountdownLength != null ? options.settings.pregameCountdownLength : 10000;
-        this.vegKickCountdownLength = options.settings.vegKickCountdownLength != null ? options.settings.vegKickCountdownLength : 120000;
         this.postgameLength = 1000 * 60 * 2;
         this.players = new ArrayHash();
         this.playersGone = {};
@@ -695,7 +695,17 @@ module.exports = class Game {
         this.originalRoles = {};
 
         for (let roleName in roleset) {
-            for (let j = 0; j < roleset[roleName]; j++) {
+            let originalRoleName = roleName
+
+            // mapping for renamed roles
+            const modifier = roleName.split(":")[1];
+            roleName = roleName.split(":")[0];
+            if (renamedRoleMapping[roleName]) {
+                roleName = renamedRoleMapping[roleName];
+            }
+            roleName = [roleName, modifier].join(":");
+
+            for (let j = 0; j < roleset[originalRoleName]; j++) {
                 let player = randomPlayers[i];
                 player.setRole(roleName);
                 this.originalRoles[player.id] = roleName;
@@ -1070,8 +1080,9 @@ module.exports = class Game {
             meeting.init();
     }
 
-    sendMeetings() {
-        for (let player of this.players)
+    sendMeetings(players) {
+        players = players || this.players;
+        for (let player of players)
             player.sendMeetings();
 
         this.sendSpectatorMeetings();
@@ -1191,6 +1202,21 @@ module.exports = class Game {
         this.processDeathQueue();
         this.processRevealQueue();
         this.processAlertQueue();
+    }
+
+    // A test branch version of this.makeMeetings()
+    // will refactor into makeMeetings when stable
+    instantMeeting(meetings, players) {
+        for (let player of players) {
+            player.joinMeetings(meetings)
+        }
+
+        for (let meetingName in meetings) {
+            let toMeet = this.getMeetingByName(meetingName);
+            toMeet.init();
+        }
+        
+        this.sendMeetings(players);
     }
 
     isMustAct() {

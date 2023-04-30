@@ -22,6 +22,23 @@ module.exports = class VegKickMeeting extends Meeting {
         return info;
     }
 
+    resetKicks() {
+        this.game.clearTimer("vegKick");
+        this.votes = {};
+
+        for (let player of this.game.players) {
+            if (!player.alive) {
+                continue
+            }
+
+            let canKick = player.hasVotedInAllMeetings();
+            this.members[player.id].canVote = canKick;
+            player.sendMeeting(this);
+        }
+
+        this.getKickState();
+    }
+
     join(player, canVote) {
         super.join(player, {
             canVote: canVote
