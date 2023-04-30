@@ -959,6 +959,15 @@ const roleData = {
                 "If guessed incorrect, identity will be revealed to all."
             ],
         },
+        "Leech": {
+            alignment: "Monsters",
+            description: [
+                "Is bloodthirsty.",
+                "During the night, can attach to a player and leech from them, stealing 50% of their blood.",
+                "If the player dies from leeching, the leech also gains an additional 50% of blood.",
+                "Gains an extra life after draining 150% blood."
+            ],
+        },
         "Accursed Doll": {
             alignment: "Monsters",
             description: [
