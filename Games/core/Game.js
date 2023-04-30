@@ -18,6 +18,7 @@ const redis = require("../../modules/redis");
 const roleData = require("../..//data/roles");
 const logger = require("../../modules/logging")("games");
 const constants = require("../../data/constants");
+const renamedRoleMapping = require("../../data/renamedRoles")
 const routeUtils = require("../../routes/utils");
 const PostgameMeeting = require("./PostgameMeeting");
 const VegKickMeeting = require("./VegKickMeeting");
@@ -695,7 +696,17 @@ module.exports = class Game {
         this.originalRoles = {};
 
         for (let roleName in roleset) {
-            for (let j = 0; j < roleset[roleName]; j++) {
+            let originalRoleName = roleName
+
+            // mapping for renamed roles
+            const modifier = roleName.split(":")[1];
+            roleName = roleName.split(":")[0];
+            if (renamedRoleMapping[roleName]) {
+                roleName = renamedRoleMapping[roleName];
+            }
+            roleName = [roleName, modifier].join(":");
+
+            for (let j = 0; j < roleset[originalRoleName]; j++) {
                 let player = randomPlayers[i];
                 player.setRole(roleName);
                 this.originalRoles[player.id] = roleName;

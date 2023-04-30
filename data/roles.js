@@ -14,7 +14,7 @@ const roleData = {
                 "Saves another player from dying each night.",
             ],
         },
-        "Arms Dealer": {
+        "Gunsmith": {
             alignment: "Village",
             description: [
                 "Gives out a gun each night."
@@ -70,7 +70,7 @@ const roleData = {
                 "Investigates one player each night and learns their role.",
             ],
         },
-        "Escort": {
+        "Drunk": {
             alignment: "Village",
             description: [
                 "Visits one player each night and blocks them from performing any night actions.",
@@ -120,7 +120,7 @@ const roleData = {
                 
             ],
         },
-        "Agent": {
+        "Seeker": {
             alignment: "Village",
             description: [
                 "Attempts to guess the identity of the Spy each night.",
@@ -193,7 +193,7 @@ const roleData = {
                 "Appears as Miller upon being killed.",
             ],
         },
-        "Mayor": {
+        "Celebrity": {
             alignment: "Village",
             description: [
                 "Identity is publicly revealed to all players at the start of the game.",
@@ -222,7 +222,7 @@ const roleData = {
                 "Decides whether or not the prisoner should be executed.",
             ],
         },
-        "Psychic": {
+        "Agent": {
             alignment: "Village",
             description: [
                 "Can anonymously contact any non-Village role during the day.",
@@ -573,7 +573,7 @@ const roleData = {
                 "Wins when the mafia outnumbers all other players.",
             ],
         },
-        "Chemist": {
+        "Poisoner": {
             alignment: "Mafia",
             description: [
                 "Concocts a deadly poison and administers it to one person each night.",
@@ -608,7 +608,7 @@ const roleData = {
                 "Redirection cannot be roleblocked."
             ],
         },
-        "Spy": {
+        "Inquisitor": {
             alignment: "Mafia",
             description: [
                 "Attempts to guess the identity of the Agent each night.",
@@ -652,7 +652,7 @@ const roleData = {
                 "Learns the cleaned player's role.",
             ],
         },
-        "Telepath": {
+        "Spy": {
             alignment: "Mafia",
             description: [
                 "Can anonymously contact any role during the day.",
@@ -1048,7 +1048,7 @@ const roleData = {
                 "Wins if both players survive until the end of the game.",
             ],
         },
-        "Matchmaker": {
+        "Mistletoe": {
             alignment: "Independent",
             description: [
                 "Each night chooses two players to go on a date. If they are the same alignment, they will fall in love.",
