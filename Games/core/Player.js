@@ -897,7 +897,7 @@ module.exports = class Player {
             meeting.generateTargets();
 
         if (this.game.vegKickMeeting !== undefined) {
-            this.game.vegKickMeeting.checkEnoughPlayersKicked();
+            this.game.vegKickMeeting.resetKicks();
         }
 
         this.game.sendMeetings();

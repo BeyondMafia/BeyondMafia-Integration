@@ -678,7 +678,7 @@ module.exports = class Meeting {
         // Veg players who didn't vote
         if (!this.noVeg) {
             for (let member of this.members) {
-                if (!member.canVote)
+                if (!member.canVote || !member.canUpdateVote)
                     continue;
 
                 if (
