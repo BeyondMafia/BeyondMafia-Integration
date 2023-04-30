@@ -28,7 +28,7 @@ module.exports = class JailTarget extends Card {
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
                         if (this.dominates()) {
-                            this.target.holdItem("Handcuffs", this.actor.role.data.meetingName);
+                            this.target.holdItem("Handcuffs", this.actor.role.data.meetingName, this.actor);
                             this.actor.role.data.prisoner = this.target;
                         }
                     }
