@@ -423,6 +423,14 @@
     background-position: -810px -120px;
 }
 
+.role-Mafia-Fabulist {
+    background-position: -660px -120px;
+}
+
+.role-Mafia-Crafter {
+    background-position: -690px -120px;
+}
+
 /* 
 * Mafia 
 */
@@ -677,6 +685,10 @@
 
 .role-Mafia-Autocrat {
     background-position: -750px -120px;
+}
+
+.role-Mafia-Turkey {
+    background-position: -720px -120px;
 }
 
 /* 
