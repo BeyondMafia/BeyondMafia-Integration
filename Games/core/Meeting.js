@@ -317,6 +317,9 @@ module.exports = class Meeting {
             else
                 this.targets = ["Yes"];
         }
+        else if (this.inputType == "text") {
+            this.targets = ["TextInputPlaceholder"]
+        }
 
         for (let member of this.members) {
             for (let ability of member.speechAbilities) {

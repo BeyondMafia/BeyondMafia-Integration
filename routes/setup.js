@@ -803,6 +803,14 @@ const countChecks = {
 
         return true;
     },
+    "Ghost": (roles, count, total, closed, unique) => {
+        if (count["Town"] < 1 || count["Ghost"] < 1)
+            return "Must have at least one Town member and at leasty one Ghost member.";
+        
+        if (count["Ghost"] >= count["Town"])
+            return "Ghosts must not make up the majority.";
+        return true;
+    },
 };
 
 const optionsChecks = {
@@ -861,6 +869,19 @@ const optionsChecks = {
 
         return { votesInvisible, excessRoles, total: newTotal };
     },
+    "Ghost": (setup) => {
+        let wordLength = Number(setup.wordLength);
+        let townWord = setup.townWord;
+        let foolWord = setup.foolWord;
+
+        if (townWord.length !== wordLength)
+            return "Town word length must be equal to the word size specified"
+
+        if (foolWord && foolWord.length !== wordLength)
+            return "Fool word length must be equal to the word size specified"
+
+        return { wordLength, townWord, foolWord }
+    }
 };
 
 module.exports = router;

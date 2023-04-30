@@ -1292,6 +1292,28 @@ const roleData = {
             ]
         },
     },
+    "Ghost": {
+        "Town": {
+            alignment: "Town",
+            description: [
+                "knows real word"
+            ]
+        },
+        "Fool": {
+            alignment: "Town",
+            description: [
+                "knows fake word and appears to self as town"
+            ]
+        },
+        "Ghost": {
+            alignment: "Ghost",
+            description: [
+                "does not know word. must blend in",
+                "knows other ghosts",
+                "when voted off must guess town word or else get majority to win"
+            ]
+        },
+    }
 };
 
 module.exports = roleData;
