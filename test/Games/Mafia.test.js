@@ -1408,7 +1408,7 @@ describe("Games/Mafia", function () {
     });
 
 
-    describe.only("Bodyguard", function() {
+    describe("Bodyguard", function() {
         it("should kill all attackers and save the mayor", async function(){
             await db.promise;
             await redis.client.flushdbAsync();
