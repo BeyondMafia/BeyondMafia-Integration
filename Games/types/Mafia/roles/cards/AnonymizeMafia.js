@@ -13,7 +13,7 @@ module.exports = class AnonymizeMafia extends Card {
         };
 
         this.listeners = {
-            "rolesAssigned": function (player) {
+            "roleAssigned": function (player) {
                 if (player && player != this.player) {
                     return;
                 }

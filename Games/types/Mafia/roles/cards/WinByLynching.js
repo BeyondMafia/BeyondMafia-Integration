@@ -20,7 +20,7 @@ module.exports = class WinByLynching extends Card {
             }
         };
         this.listeners = {
-            "rolesAssigned": function (player) {
+            "roleAssigned": function (player) {
                 if (player && player != this.player) {
                     return;
                 }

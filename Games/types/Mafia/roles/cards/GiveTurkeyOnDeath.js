@@ -14,7 +14,7 @@ module.exports = class GiveTurkeyOnDeath extends Card {
         };
 
         this.listeners = {
-            "rolesAssigned": function (player) {
+            "roleAssigned": function (player) {
                 if (player) {
                     return
                 }

@@ -634,8 +634,8 @@ module.exports = class Game {
         this.startTime = Date.now();
 
         // Tell clients the game started, assign roles, and move to the next state
-        this.started = true;
         this.assignRoles();
+        this.started = true;
         this.broadcast("start");
         this.events.emit("start");
 
@@ -713,7 +713,7 @@ module.exports = class Game {
             }
         }
 
-        this.events.emit("rolesAssigned");
+        this.players.map(p => this.events.emit("roleAssigned", p));
     }
 
     getRoleClass(roleName) {
