@@ -2,10 +2,12 @@ const Item = require("../Item");
 
 module.exports = class WeddingRing extends Item {
 
-    constructor(proposer, meetingName) {
+    constructor(proposer) {
         super("Wedding Ring");
 
         this.proposer = proposer;
+        
+        let meetingName = "Accept Proposal from " + this.proposer.name;
         this.meetings[meetingName] = {
             meetingName: "Accept Proposal",
             states: ["Day"],
