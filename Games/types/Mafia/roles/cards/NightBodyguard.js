@@ -8,7 +8,8 @@ module.exports = class NightBodyguard extends Card {
         super(role);
 
         this.meetings = {
-            "Save": {
+            "Night Bodyguard": {
+                actionName: "Save",
                 states: ["Night"],
                 flags: ["voting"],
                 action: {

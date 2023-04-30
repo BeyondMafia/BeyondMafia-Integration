@@ -1407,4 +1407,42 @@ describe("Games/Mafia", function () {
         });
     });
 
+
+    describe.only("Bodyguard", function() {
+        it("should kill all attackers and save the mayor", async function(){
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 4, roles: [{"Mayor": 1, "Mafioso": 1, "Serial Killer": 1, "Bodyguard": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mayor"].id,
+                        meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Solo Kill") {
+                    this.sendToServer("vote", {
+                       selection: roles["Mayor"].id,
+                       meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Night Bodyguard") {
+                    this.sendToServer("vote", {
+                        selection: roles["Mayor"].id,
+                        meetingId: meeting.id
+                    });
+                } else {
+                    console.log(meeting.name)
+                }
+            });
+
+            await waitForGameEnd(game);
+            should.exist(game.winners.groups["Village"]);
+            game.winners.groups["Village"].should.have.lengthOf(2);        
+            should.not.exist(game.winners.groups["Mafia"]);
+            should.not.exist(game.winners.groups["Serial Killer"]);
+        });
+    });
 });
