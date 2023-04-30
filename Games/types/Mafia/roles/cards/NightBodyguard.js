@@ -56,7 +56,7 @@ module.exports = class NightBodyguard extends Card {
 
                     // kill attackers first
                     if (killsAttacker) {
-                        let toKill = killsAllAttackers ? killers : killers[0];
+                        let toKill = killsAllAttackers ? killers : [killers[0]];
                         for (let k of toKill) {
                             if (this.dominates(k)) {
                                 k.kill("basic", this.actor);
