@@ -968,6 +968,13 @@ const roleData = {
                 "Once a potion has been concocted, it cannot be brewed again for the next two nights."
             ],
         },
+        "Mindwarper": {
+            alignment: "Monsters",
+            description: [
+                "Visits a player each night.",
+                "If that player is not visited by a non-Monster player during the next night, they will go insane."
+            ],
+        },
 
         //Independent
         "Fool": {
