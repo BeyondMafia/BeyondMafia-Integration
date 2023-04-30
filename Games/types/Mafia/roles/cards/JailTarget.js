@@ -43,9 +43,11 @@ module.exports = class JailTarget extends Card {
                 leader: true,
                 priority: MEETING_PRIORITY_JAIL,
                 shouldMeet: function () {
-                    for (let player of this.game.players)
-                        if (player.hasItem("Handcuffs"))
+                    for (let player of this.game.players) {
+                        if (player.alive && player.hasItemProp("Handcuffs", "meetingName", this.data.meetingName)) {
                             return true;
+                        }
+                    }
 
                     return false;
                 },
