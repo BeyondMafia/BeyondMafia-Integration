@@ -6,10 +6,11 @@ module.exports = class WinIfHotPotatoKillsTwo extends Card {
     constructor(role) {
         super(role);
 
+        role.hotPotatoKills = 0;
         this.winCheck = {
             priority: PRIORITY_WIN_CHECK_DEFAULT,
             check: function(counts, winners, aliveCount) {
-                if (this.player.alive && winners.groups[this.name] &&
+                if (this.player.alive && !winners.groups[this.name] &&
                     (this.hotPotatoKills >= 2 || aliveCount <= 2)) {
                     winners.addPlayer(this.player, this.name)
                 } 
