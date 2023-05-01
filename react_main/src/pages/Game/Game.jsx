@@ -1204,22 +1204,17 @@ function Message(props) {
         messageStyle.opacity = "0.2";
     }
 
-    
     if (player !== undefined) {
         if (playerDead && props.stateViewing > 0 && stateMeetingDefined) {
             contentClass += "dead";
-        }
-        else{
-            if (player.birthday !== undefined) {
-                if (areSameDay(Date.now(), player.birthday)) {
-                    contentClass += " party ";
-                }
-            }
+        } else if (player.birthday !== undefined && areSameDay(Date.now(), player.birthday)) {
+            contentClass += " party ";
         }
     }
 
     if (message.content?.startsWith(">")) {
         contentClass += "greentext ";
+        playerHasTextColor = false;
     }
     
     return (
