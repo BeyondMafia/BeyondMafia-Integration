@@ -1468,7 +1468,7 @@ describe("Games/Mafia", function () {
         });
     });
 
-    describe.only("Creepy Girl", function() {
+    describe("Creepy Girl", function() {
         it("wins when doll holder does", async function(){
             await db.promise;
             await redis.client.flushdbAsync();
