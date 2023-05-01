@@ -700,7 +700,7 @@ module.exports = class Game {
             // mapping for renamed roles
             const modifier = roleName.split(":")[1];
             roleName = roleName.split(":")[0];
-            if (renamedRoleMapping[roleName]) {
+            if (this.type == "Mafia" && renamedRoleMapping[roleName]) {
                 roleName = renamedRoleMapping[roleName];
             }
             roleName = [roleName, modifier].join(":");
