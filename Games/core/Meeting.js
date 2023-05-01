@@ -699,7 +699,7 @@ module.exports = class Meeting {
         actor.act(finalTarget, this, actors);
     }
 
-    speak(message) {
+    speak(message, defaultRecipients) {
         var member = this.members[message.sender.id];
 
         if (
@@ -735,20 +735,15 @@ module.exports = class Meeting {
         }
        
         if (!message.recipients)
-            message.recipients = this.getPlayers();
+            message.recipients = defaultRecipients || this.getPlayers();
 
         if (message.recipients.length == 0)
             return;
 
-        if (!member.player.alive) {
-            if (this.name.includes("Village") ||
-                this.name.includes("Graveyard") ||
-                this.name.includes("Party!")) {
-                message.modified = true;
-                message.recipients = this.game.players.filter(x => !x.alive);
-            }
+        if (defaultRecipients) {
+            message.modified = true;
         }
-
+        
         message = new Message({
             sender: message.sender,
             content: message.content,
