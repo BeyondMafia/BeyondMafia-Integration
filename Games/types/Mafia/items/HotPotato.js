@@ -10,6 +10,7 @@ module.exports = class HotPotato extends Item {
         this.killer = killer;
         this.baseMeetingName = "Pass Hot Potato";
         this.currentMeetingIndex = 0;
+
         this.listeners = {
             "state": function (stateInfo) {
                 if (!stateInfo.name.match(/Day/)) {
@@ -63,14 +64,18 @@ module.exports = class HotPotato extends Item {
             }
         }
 
-        this.meetings[this.getCurrentMeetingName()] = this.potatoMeeting;
+        this.meetings[this.baseMeetingName] = this.potatoMeeting;
     }
 
-    getMeetingName(idx) {
-        return `${this.baseMeetingName} ${idx}`;
+     getMeetingName(idx) {
+        return `${this.id} ${idx}`;
     }
 
     getCurrentMeetingName() {
+        if (this.currentMeetingIndex === 0) {
+            return this.baseMeetingName;
+        }
+
         return this.getMeetingName(this.currentMeetingIndex);
     }
 
@@ -78,4 +83,4 @@ module.exports = class HotPotato extends Item {
         this.currentMeetingIndex += 1
         return this.getCurrentMeetingName();
     }
-};
+}
