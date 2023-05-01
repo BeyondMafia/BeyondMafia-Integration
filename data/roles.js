@@ -1128,6 +1128,14 @@ const roleData = {
                 "Chooses to follow the ways of another player at night, aligning with their alignmemt.",
                 "Wins if they are alive when the last alignment they are aligned with wins."
             ],
+        },       
+        "Potato Lady": {
+            alignment: "Independent",
+            description: [
+                "Gives out a hot potato each night.",
+                "The hot potato can be passed around during the day, randomly exploding.",
+                "Wins if two people die to the hot potato given out by them.",
+            ],
         },
     },
     "Split Decision": {
