@@ -561,10 +561,6 @@ module.exports = class Player {
             let options = meetings[meetingName];
             let disabled = false;
 
-            if (meetingName === "Party!" && !this.alive) {
-                options.flags.push("exclusive");
-            }
-
             for (let item of this.items)
                 disabled = disabled || item.shouldDisableMeeting(meetingName, options);
 
