@@ -357,7 +357,7 @@ module.exports = class Player {
         return info;
     }
 
-    setRole(roleName, roleData, noReveal, noAlert) {
+    setRole(roleName, roleData, noReveal, noAlert, noEmit) {
         const modifier = roleName.split(":")[1];
         roleName = roleName.split(":")[0];
 
@@ -370,6 +370,10 @@ module.exports = class Player {
 
         if (!(noReveal || (oldAppearanceSelf && oldAppearanceSelf === this.role.appearance.self)))
             this.role.revealToSelf(noAlert);
+
+        if (this.game.started && !noEmit){
+            this.game.events.emit("roleAssigned", this);
+        }
     }
 
     removeRole() {
@@ -897,7 +901,7 @@ module.exports = class Player {
             meeting.generateTargets();
 
         if (this.game.vegKickMeeting !== undefined) {
-            this.game.vegKickMeeting.checkEnoughPlayersKicked();
+            this.game.vegKickMeeting.resetKicks();
         }
 
         this.game.sendMeetings();

@@ -88,6 +88,28 @@ function addListenerToRoles(game, roleNames, eventName, action) {
     addListenerToPlayers(players, eventName, action);
 }
 
+function gameHasAlert(game, alertMsg, roleName) {
+    let hasAlert = false;
+
+    Object.values(game.history.states).flatMap(s => s.alerts).forEach((alert) => {
+        if (alert.content.includes(alertMsg)) {
+            if (roleName == undefined) {
+                hasAlert = true;
+                return
+            }
+
+            alert.recipients.forEach(r => {
+                if (r.role.name === roleName) {
+                    hasAlert = true;
+                    return
+                }
+            })
+        }
+    })
+
+    return hasAlert;
+}
+
 function waitForResult(check) {
     return new Promise((resolve, reject) => {
         var interval = setInterval(() => {
@@ -1289,7 +1311,7 @@ describe("Games/Mafia", function () {
             });
 
             await waitForGameEnd(game);
-            Object.values(game.history.states).flatMap(m => m.alerts).some(c => c.content.includes("Curses!")).should.be.true;
+            gameHasAlert(game, "Curses!").should.be.true;
         });
     });
 
@@ -1404,6 +1426,45 @@ describe("Games/Mafia", function () {
             should.exist(game.winners.groups["Nomad"]);
             game.winners.groups["Nomad"].should.have.lengthOf(1); 
             should.not.exist(game.winners.groups["Mafia"]);
+        });
+    });
+
+    describe("Caroler", function() {
+        it("janitor should get carol when it does not visit", async function(){
+            await db.promise;
+            await redis.client.flushdbAsync();
+
+            const setup = {total: 3, roles: [{"Villager": 1, "Caroler": 1, "Janitor": 1}]};
+            const game = await makeGame(setup, 3);
+            const roles = getRoles(game);
+
+            addListenerToPlayers(game.players, "meeting", function(meeting){
+                if (meeting.name == "Sing Carol") {
+                    this.sendToServer("vote", {
+                        selection: roles["Janitor"].id,
+                        meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Mafia") {
+                    this.sendToServer("vote", {
+                       selection: "*",
+                       meetingId: meeting.id
+                    });
+                } else if (meeting.name == "Clean Death") {
+                    this.sendToServer("vote", {
+                        selection: "*",
+                        meetingId: meeting.id
+                     });
+                } else if (meeting.name == "Village") {
+                this.sendToServer("vote", {
+                    selection: roles["Janitor"].id,
+                    meetingId: meeting.id
+                });
+            }
+            });
+
+            
+            await waitForGameEnd(game);
+            gameHasAlert(game, "You see a merry Caroler outside your house!", "Janitor").should.be.true;
         });
     });
 
