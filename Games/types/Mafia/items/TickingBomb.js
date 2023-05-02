@@ -85,9 +85,9 @@ module.exports = class TickingBomb extends Item {
 
     // increase meeting name index to ensure each meeting name is unique
     incrementMeetingName() {
-        let mtg = this.item.meetings[this.item.getCurrentMeetingName()]
-        delete this.item.meetings[this.item.getCurrentMeetingName()]
+        let mtg = this.meetings[this.getCurrentMeetingName()]
+        delete this.meetings[this.getCurrentMeetingName()]
         this.currentMeetingIndex += 1
-        this.item.meetings[this.item.getCurrentMeetingName()] = mtg;
+        this.meetings[this.getCurrentMeetingName()] = mtg;
     }
 }
