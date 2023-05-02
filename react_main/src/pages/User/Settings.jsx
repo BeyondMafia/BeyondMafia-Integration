@@ -94,6 +94,12 @@ export default function Settings(props) {
 			confirm: "Are you sure you wish to change your birthday? Your birthday can only be changed ONCE per account."
 		},
 		{
+			label: "Show Birthday",
+			ref: "showBirthday",
+			type: "boolean",
+			showIf: (deps) => deps.birthday
+		},
+		{
 			label: "Show Discord",
 			ref: "showDiscord",
 			type: "boolean",

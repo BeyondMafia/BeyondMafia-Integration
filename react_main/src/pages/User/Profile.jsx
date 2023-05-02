@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
-import { Avatar, Badges, NameWithAvatar, YouTubeEmbed} from "./User";
+import { Avatar, Badges, NameWithAvatar, YouTubeEmbed, Birthday } from "./User";
 import { HiddenUpload, TextEditor } from "../../components/Form";
 import LoadingPage from "../Loading";
 import Setup from "../../components/Setup";
@@ -30,6 +30,7 @@ export default function Profile() {
     const [isFriend, setIsFriend] = useState(false);
     const [settings, setSettings] = useState({});
     const [accounts, setAccounts] = useState({});
+    const [birthday, setBirthday] = useState();
     const [recentGames, setRecentGames] = useState([]);
     const [createdSetups, setCreatedSetups] = useState([]);
     const [bustCache, setBustCache] = useState(false);
@@ -74,6 +75,7 @@ export default function Profile() {
                     setIsFriend(res.data.isFriend);
                     setSettings(res.data.settings);
                     setAccounts(res.data.accounts || {});
+                    setBirthday(res.data.birthday);
                     setRecentGames(res.data.games);
                     setCreatedSetups(res.data.setups);
                     setMaxFriendsPage(res.data.maxFriendsPage);
@@ -414,6 +416,9 @@ export default function Profile() {
                             </div>
                         </div>
                         <Badges groups={groups} />
+                        {settings.showBirthday && birthday &&
+                            <Birthday birthday={birthday}/>
+                        }
                         {!isSelf && user.loggedIn &&
                             <div className="options">
                                 <i

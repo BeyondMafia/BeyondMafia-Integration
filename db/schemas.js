@@ -16,6 +16,7 @@ var schemas = {
             showDiscord: { type: Boolean, default: false },
             showTwitch: { type: Boolean, default: false },
             showSteam: { type: Boolean, default: false },
+            showBirthday: { type: Boolean, default: false },
             backgroundColor: String,
             bannerFormat: String,
             textColor: String,

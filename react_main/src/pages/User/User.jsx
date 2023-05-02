@@ -210,6 +210,13 @@ export function Badge(props) {
 	);
 }
 
+export function Birthday(props) {
+	return (
+		<div className="birthday">
+			{props.birthday}
+		</div>
+	)
+}
 export function useUser() {
 	const [user, setUser] = useState({
 		loggedIn: false,

@@ -120,6 +120,10 @@ iframe {
     line-height: 0px;
 }
 
+.birthday {
+    color: black;
+}
+
 .profile {
     display: flex;
     flex-flow: row nowrap;

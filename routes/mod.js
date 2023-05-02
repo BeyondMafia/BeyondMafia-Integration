@@ -1088,6 +1088,7 @@ router.post("/clearAccountDisplay", async (req, res) => {
                     "settings.showTwitch": false,
                     "settings.showGoogle": false,
                     "settings.showSteam": false,
+                    "settings.showBirthday": false,
                 }
             }
         ).exec();
@@ -1159,6 +1160,7 @@ router.post("/clearAllContent", async (req, res) => {
                     "settings.showTwitch": false,
                     "settings.showGoogle": false,
                     "settings.showSteam": false,
+                    "settings.showBirthday": false,
                 }
             }
         ).exec();
