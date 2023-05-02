@@ -13,53 +13,53 @@ module.exports = class Gun extends Item {
         this.baseMeetingName = "Shoot Gun";
         this.currentMeetingIndex = 0;
 
-        this.gunMeeting = {
-            actionName: "Shoot",
-            states: ["Day"],
-            flags: ["voting", "instant", "noVeg"],
-            action: {
-                labels: ["kill", "gun"],
-                item: this,
-                run: function () {
-                    var shooterMask = this.actor.role.data.shooterMask;
-                    var reveal = shooterMask ? true : this.item.reveal;
-                    if (reveal == null) {
-                        reveal = Random.randArrayVal([true, false]);
+        this.meetings = {
+            [this.baseMeetingName]: {
+                actionName: "Shoot",
+                states: ["Day"],
+                flags: ["voting", "instant", "noVeg"],
+                action: {
+                    labels: ["kill", "gun"],
+                    item: this,
+                    run: function () {
+                        var shooterMask = this.actor.role.data.shooterMask;
+                        var reveal = shooterMask ? true : this.item.reveal;
+                        if (reveal == null) {
+                            reveal = Random.randArrayVal([true, false]);
+                        }
+                        if (shooterMask == null) {
+                            shooterMask = this.actor.name;
+                        }
+                        
+                        var mafiaImmune = this.item.mafiaImmune;
+                        var cursed = this.item.cursed;
+
+                        if (cursed) {
+                            this.target = this.actor;
+                        }
+
+                        if (reveal && cursed)
+                            this.game.queueAlert(`:sy0b: ${shooterMask} pulls a gun, it backfires!`);
+                        else if (reveal && !cursed)
+                            this.game.queueAlert(`:sy0a: ${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
+                        else
+                            this.game.queueAlert(`:sy0a: Someone fires a gun at ${this.target.name}!`);
+
+                        // kill
+                        var toKill = this.dominates();
+                        if (mafiaImmune && this.target.role.alignment == "Mafia")
+                            toKill = false
+
+                        if (toKill) {
+                            this.target.kill("gun", this.actor, true);
+                        }
+
+                        this.item.drop();
+                        this.game.broadcast("gunshot");
                     }
-                    if (shooterMask == null) {
-                        shooterMask = this.actor.name;
-                    }
-                    
-                    var mafiaImmune = this.item.mafiaImmune;
-                    var cursed = this.item.cursed;
-
-                    if (cursed) {
-                        this.target = this.actor;
-                    }
-
-                    if (reveal && cursed)
-                        this.game.queueAlert(`:sy0b: ${shooterMask} pulls a gun, it backfires!`);
-                    else if (reveal && !cursed)
-                        this.game.queueAlert(`:sy0a: ${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
-                    else
-                        this.game.queueAlert(`:sy0a: Someone fires a gun at ${this.target.name}!`);
-
-                    // kill
-                    var toKill = this.dominates();
-                    if (mafiaImmune && this.target.role.alignment == "Mafia")
-                        toKill = false
-
-                    if (toKill) {
-                        this.target.kill("gun", this.actor, true);
-                    }
-
-                    this.item.drop();
-                    this.game.broadcast("gunshot");
                 }
             }
         };
-
-        this.meetings[this.baseMeetingName] = this.gunMeeting;
     }
 
     get snoopName() {
@@ -86,8 +86,9 @@ module.exports = class Gun extends Item {
 
     // increase meeting name index to ensure each meeting name is unique
     incrementMeetingName() {
+        let mtg = this.item.meetings[this.item.getCurrentMeetingName()]
         delete this.item.meetings[this.item.getCurrentMeetingName()]
         this.currentMeetingIndex += 1
-        this.item.meetings[this.item.getCurrentMeetingName()] = this.item.gunMeeting;
+        this.item.meetings[this.item.getCurrentMeetingName()] = mtg;
     }
 }
