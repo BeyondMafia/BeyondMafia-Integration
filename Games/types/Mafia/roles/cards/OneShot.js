@@ -5,7 +5,7 @@ module.exports = class OneShot extends Card {
     constructor(role) {
         super(role);
 
-        this.metCount = {};
+        role.metCount = {};
         this.meetingMods = {
             "*": {
                 shouldMeet: function (meetingName) {
