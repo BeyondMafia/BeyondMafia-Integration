@@ -2,13 +2,13 @@ const Item = require("../Item");
 const Action = require("../Action");
 const Random = require("../../../../lib/Random");
 
-module.exports = class HotPotato extends Item {
+module.exports = class TickingBomb extends Item {
 
     constructor(killer) {
-        super("Hot Potato");
+        super("Ticking Bomb");
 
         this.killer = killer;
-        this.baseMeetingName = "Pass Hot Potato";
+        this.baseMeetingName = "Pass Ticking Bomb";
         this.currentMeetingIndex = 0;
 
         this.listeners = {
@@ -21,9 +21,10 @@ module.exports = class HotPotato extends Item {
                     return;
                 }
 
-                // potato detonates between 10 and 30 seconds
+                // bomb detonates between 10 and 30 seconds
                 let toDetonate = Random.randInt(10000, 30000);
                 this.timer = setTimeout(() => {
+                    this.drop();
                     if (!this.holder.alive) {
                         return
                     }
@@ -38,14 +39,14 @@ module.exports = class HotPotato extends Item {
                                 this.target.kill("bomb", this.actor, true);
                         }
                     });
-        
+
                     this.game.instantAction(action);
                 }, toDetonate);
             }
         };
 
-        this.potatoMeeting = {
-            actionName: "Pass Hot Potato to",
+        this.bombMeeting = {
+            actionName: "Pass Ticking Bomb to",
             states: ["Day"],
             flags: ["voting", "instant", "noVeg"],
             targets: { include: ["alive"], exclude: ["self"] },
@@ -57,17 +58,21 @@ module.exports = class HotPotato extends Item {
                     this.item.hold(this.target);
                     // increase meeting name index to ensure each meeting name is unique
                     delete this.item.meetings[this.item.getCurrentMeetingName()]
-                    this.item.meetings[this.item.generateNextMeetingName()] = this.item.potatoMeeting;
+                    this.item.meetings[this.item.generateNextMeetingName()] = this.item.bombMeeting;
 
                     this.game.instantMeeting(this.item.meetings, [this.target]);
                 }
             }
         }
 
-        this.meetings[this.baseMeetingName] = this.potatoMeeting;
+        this.meetings[this.baseMeetingName] = this.bombMeeting;
     }
 
-     getMeetingName(idx) {
+    get snoopName() {
+        return "Bomb (Ticking)"
+    }
+
+    getMeetingName(idx) {
         return `${this.id} ${idx}`;
     }
 

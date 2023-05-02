@@ -1129,12 +1129,12 @@ const roleData = {
                 "Wins if they are alive when the last alignment they are aligned with wins."
             ],
         },       
-        "Potato Lady": {
+        "Anarchist": {
             alignment: "Independent",
             description: [
-                "Gives out a hot potato each night.",
-                "The hot potato can be passed around during the day, randomly exploding.",
-                "Wins if two people die to the hot potato given out by them.",
+                "Gives out a ticking bomb each night.",
+                "The ticking bomb can be passed around during the day, randomly exploding.",
+                "Wins if two people die to the ticking bomb given out by them, or they are the last one alive.",
             ],
         },
     },

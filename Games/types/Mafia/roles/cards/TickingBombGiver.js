@@ -1,13 +1,13 @@
 const Card = require("../../Card");
 const { PRIORITY_ITEM_GIVER_DEFAULT } = require("../../const/Priority");
 
-module.exports = class HotPotatoGiver extends Card {
+module.exports = class TickingBombGiver extends Card {
 
     constructor(role) {
         super(role);
 
         this.meetings = {
-            "Give Hot Potato": {
+            "Give Ticking Bomb": {
                 states: ["Night"],
                 flags: ["voting"],
                 targets: { include: ["alive"] },
@@ -15,8 +15,8 @@ module.exports = class HotPotatoGiver extends Card {
                     labels: ["giveItem", "bomb"],
                     priority: PRIORITY_ITEM_GIVER_DEFAULT,
                     run: function () {
-                        this.target.holdItem("HotPotato", this.actor);
-                        this.queueGetItemAlert("HotPotato");
+                        this.target.holdItem("TickingBomb", this.actor);
+                        this.queueGetItemAlert("TickingBomb");
                     }
                 }
             }
