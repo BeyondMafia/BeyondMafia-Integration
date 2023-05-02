@@ -15,7 +15,7 @@ module.exports = class Fiddler extends Card {
                     labels: ["effect"],
                     priority: PRIORITY_EFFECT_GIVER_DEFAULT,
                     run: function () {
-                        this.target.giveEffect("Fiddled", this.actor, 1);
+                        this.target.giveEffect("Fiddled", 1);
                     }
                 }
             }
