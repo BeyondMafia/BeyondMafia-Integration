@@ -10,6 +10,7 @@ module.exports = class TickingBomb extends Item {
         this.killer = killer;
         this.baseMeetingName = "Pass Ticking Bomb";
         this.currentMeetingIndex = 0;
+        this.lifespan = 1;
 
         this.listeners = {
             "state": function (stateInfo) {
@@ -45,27 +46,25 @@ module.exports = class TickingBomb extends Item {
             }
         };
 
-        this.bombMeeting = {
-            actionName: "Pass Ticking Bomb to",
-            states: ["Day"],
-            flags: ["voting", "instant", "noVeg"],
-            targets: { include: ["alive"], exclude: ["self"] },
-            action: {
-                labels: ["giveItem", "bomb"],
-                item: this,
-                run: function () {
-                    this.item.drop();
-                    this.item.hold(this.target);
-                    // increase meeting name index to ensure each meeting name is unique
-                    delete this.item.meetings[this.item.getCurrentMeetingName()]
-                    this.item.meetings[this.item.generateNextMeetingName()] = this.item.bombMeeting;
+        this.meetings = {
+            [this.baseMeetingName]: {
+                actionName: "Pass Ticking Bomb to",
+                states: ["Day"],
+                flags: ["voting", "instant", "noVeg"],
+                targets: { include: ["alive"], exclude: ["self"] },
+                action: {
+                    labels: ["giveItem", "bomb"],
+                    item: this,
+                    run: function () {
+                        this.item.drop();
+                        this.item.hold(this.target);
 
-                    this.game.instantMeeting(this.item.meetings, [this.target]);
+                        this.item.incrementMeetingName();
+                        this.game.instantMeeting(this.item.meetings, [this.target]);
+                    }
                 }
             }
         }
-
-        this.meetings[this.baseMeetingName] = this.bombMeeting;
     }
 
     get snoopName() {
@@ -84,8 +83,11 @@ module.exports = class TickingBomb extends Item {
         return this.getMeetingName(this.currentMeetingIndex);
     }
 
-    generateNextMeetingName() {
+    // increase meeting name index to ensure each meeting name is unique
+    incrementMeetingName() {
+        let mtg = this.item.meetings[this.item.getCurrentMeetingName()]
+        delete this.item.meetings[this.item.getCurrentMeetingName()]
         this.currentMeetingIndex += 1
-        return this.getCurrentMeetingName();
+        this.item.meetings[this.item.getCurrentMeetingName()] = mtg;
     }
 }
