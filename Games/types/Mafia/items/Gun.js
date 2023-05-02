@@ -10,53 +10,56 @@ module.exports = class Gun extends Item {
         this.mafiaImmune = options?.mafiaImmune;
         this.cursed = options?.cursed;
 
-        this.meetings = {
-            "Shoot Gun": {
-                actionName: "Shoot",
-                states: ["Day"],
-                flags: ["voting", "instant", "noVeg"],
-                action: {
-                    labels: ["kill", "gun"],
-                    item: this,
-                    run: function () {
-                        var shooterMask = this.actor.role.data.shooterMask;
-                        var reveal = shooterMask ? true : this.item.reveal;
-                        if (reveal == null) {
-                            reveal = Random.randArrayVal([true, false]);
-                        }
-                        if (shooterMask == null) {
-                            shooterMask = this.actor.name;
-                        }
-                        
-                        var mafiaImmune = this.item.mafiaImmune;
-                        var cursed = this.item.cursed;
+        this.baseMeetingName = "Shoot Gun";
+        this.currentMeetingIndex = 0;
 
-                        if (cursed) {
-                            this.target = this.actor;
-                        }
-
-                        if (reveal && cursed)
-                            this.game.queueAlert(`:sy0b: ${shooterMask} pulls a gun, it backfires!`);
-                        else if (reveal && !cursed)
-                            this.game.queueAlert(`:sy0a: ${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
-                        else
-                            this.game.queueAlert(`:sy0a: Someone fires a gun at ${this.target.name}!`);
-
-                        // kill
-                        var toKill = this.dominates();
-                        if (mafiaImmune && this.target.role.alignment == "Mafia")
-                            toKill = false
-
-                        if (toKill) {
-                            this.target.kill("gun", this.actor, true);
-                        }
-
-                        this.item.drop();
-                        this.game.broadcast("gunshot");
+        this.gunMeeting = {
+            actionName: "Shoot",
+            states: ["Day"],
+            flags: ["voting", "instant", "noVeg"],
+            action: {
+                labels: ["kill", "gun"],
+                item: this,
+                run: function () {
+                    var shooterMask = this.actor.role.data.shooterMask;
+                    var reveal = shooterMask ? true : this.item.reveal;
+                    if (reveal == null) {
+                        reveal = Random.randArrayVal([true, false]);
                     }
+                    if (shooterMask == null) {
+                        shooterMask = this.actor.name;
+                    }
+                    
+                    var mafiaImmune = this.item.mafiaImmune;
+                    var cursed = this.item.cursed;
+
+                    if (cursed) {
+                        this.target = this.actor;
+                    }
+
+                    if (reveal && cursed)
+                        this.game.queueAlert(`:sy0b: ${shooterMask} pulls a gun, it backfires!`);
+                    else if (reveal && !cursed)
+                        this.game.queueAlert(`:sy0a: ${shooterMask} pulls a gun and shoots at ${this.target.name}!`);
+                    else
+                        this.game.queueAlert(`:sy0a: Someone fires a gun at ${this.target.name}!`);
+
+                    // kill
+                    var toKill = this.dominates();
+                    if (mafiaImmune && this.target.role.alignment == "Mafia")
+                        toKill = false
+
+                    if (toKill) {
+                        this.target.kill("gun", this.actor, true);
+                    }
+
+                    this.item.drop();
+                    this.game.broadcast("gunshot");
                 }
             }
         };
+
+        this.meetings[this.baseMeetingName] = this.gunMeeting;
     }
 
     get snoopName() {
@@ -67,5 +70,24 @@ module.exports = class Gun extends Item {
         }
 
         return this.name;
+    }
+
+    getMeetingName(idx) {
+        return `${this.id} ${idx}`;
+    }
+
+    getCurrentMeetingName() {
+        if (this.currentMeetingIndex === 0) {
+            return this.baseMeetingName;
+        }
+
+        return this.getMeetingName(this.currentMeetingIndex);
+    }
+
+    // increase meeting name index to ensure each meeting name is unique
+    incrementMeetingName() {
+        delete this.item.meetings[this.item.getCurrentMeetingName()]
+        this.currentMeetingIndex += 1
+        this.item.meetings[this.item.getCurrentMeetingName()] = this.item.gunMeeting;
     }
 }

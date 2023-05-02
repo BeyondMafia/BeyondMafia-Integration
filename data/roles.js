@@ -573,6 +573,12 @@ const roleData = {
                 "When President dies, all villagers will die.",
                 ],
         },
+        "Gunslinger": {
+            alignment: "Village",
+            description: [
+                "When shot, has an 80% chance of surviving and stealing the gun.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -914,6 +920,12 @@ const roleData = {
             alignment: "Mafia",
             description: [
                 "Can speak as any player during the day.", 
+            ],
+        },
+        "Sharpshooter": {
+            alignment: "Mafia",
+            description: [
+                "When shot, has an 80% chance of surviving and stealing the gun.",
             ],
         },
 
