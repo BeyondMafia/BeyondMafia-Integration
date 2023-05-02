@@ -578,7 +578,7 @@ const roleData = {
             description: [
                 "Guards one person every night.",
                 "If the target was attacked, has a 50% chance to die and a 50% chance to kill one attacker (independent rolls).",
-                "If the target was the Mayor, has a 100% chance to die and a 100% chance to kill all attackers."
+                "If the target was the Celebrity, has a 100% chance to die and a 100% chance to kill all attackers."
             ],        
         },
 
