@@ -1,4 +1,5 @@
 module.exports = {
+    "Sorceror": "Jinx",
     "Jester": "Fool",
     "Knight": "Bulletproof",
     "Seer": "Detective",
