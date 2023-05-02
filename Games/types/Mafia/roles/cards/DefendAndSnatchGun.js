@@ -1,4 +1,5 @@
 const Card = require("../../Card");
+const Random = require("../../../../../lib/Random");
 
 module.exports = class DefendAndSnatchGun extends Card {
 
@@ -14,9 +15,9 @@ module.exports = class DefendAndSnatchGun extends Card {
 
                 let toSnatch = Random.randFloatRange(0, 100) <= 80;
                 if (toSnatch) {
-                    action.item.hold(this.target);
+                    action.item.hold(this.player);
                     action.item.incrementMeetingName();
-                    this.game.instantMeeting(this.item.meetings, [this.target]);
+                    this.game.instantMeeting(action.item.meetings, [this.player]);
                     return;
                 }
 

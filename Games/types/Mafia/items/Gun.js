@@ -22,6 +22,9 @@ module.exports = class Gun extends Item {
                     labels: ["kill", "gun"],
                     item: this,
                     run: function () {
+                        this.item.drop();
+                        this.game.broadcast("gunshot");
+
                         var shooterMask = this.actor.role.data.shooterMask;
                         var reveal = shooterMask ? true : this.item.reveal;
                         if (reveal == null) {
@@ -53,9 +56,6 @@ module.exports = class Gun extends Item {
                         if (toKill) {
                             this.target.kill("gun", this.actor, true);
                         }
-
-                        this.item.drop();
-                        this.game.broadcast("gunshot");
                     }
                 }
             }
@@ -86,9 +86,9 @@ module.exports = class Gun extends Item {
 
     // increase meeting name index to ensure each meeting name is unique
     incrementMeetingName() {
-        let mtg = this.item.meetings[this.item.getCurrentMeetingName()]
-        delete this.item.meetings[this.item.getCurrentMeetingName()]
+        let mtg = this.meetings[this.getCurrentMeetingName()]
+        delete this.meetings[this.getCurrentMeetingName()]
         this.currentMeetingIndex += 1
-        this.item.meetings[this.item.getCurrentMeetingName()] = mtg;
+        this.meetings[this.getCurrentMeetingName()] = mtg;
     }
 }
