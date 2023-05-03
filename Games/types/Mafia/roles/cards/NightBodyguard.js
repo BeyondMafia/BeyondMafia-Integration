@@ -44,28 +44,24 @@ module.exports = class NightBodyguard extends Card {
                         return
                     }
 
-                    // fights with attacker, deciding who should die
-                    let diesSaving = true;
-                    let killsAttacker = true;
-                    let killsAllAttackers = true;
-                    if (this.actor.role.savedRole != "Celebrity") {
-                        diesSaving = Random.randArrayVal([true, false]);
-                        killsAttacker = Random.randArrayVal([true, false]);
-                        killsAllAttackers = false;
+                    // checks how many to kill
+                    let killsAllAttackers = false;
+                    if (this.actor.role.savedRole === "Celebrity") {
+                        killsAllAttackers = true;
                     }
 
                     // kill attackers first
-                    if (killsAttacker) {
-                        let toKill = killsAllAttackers ? killers : [killers[0]];
-                        for (let k of toKill) {
-                            if (this.dominates(k)) {
-                                k.kill("basic", this.actor);
-                            }
+                    if (!killsAllAttackers) {
+                        killers = [Random.randArrayVal(killers)];
+                    }
+                    for (let k of killers) {
+                        if (this.dominates(k)) {
+                            k.kill("basic", this.actor);
                         }
                     }
 
                     // bodyguard did not survive the fight
-                    if (diesSaving && this.dominates(this.actor)) {
+                    if (this.dominates(this.actor)) {
                         this.actor.kill("basic", killers[0])
                     }
                 }

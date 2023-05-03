@@ -576,9 +576,9 @@ const roleData = {
         "Bodyguard": {
             alignment: "Village",
             description: [
-                "Guards one person every night.",
-                "If the target was attacked, has a 50% chance to die and a 50% chance to kill one attacker (independent rolls).",
-                "If the target was the Celebrity, has a 100% chance to die and a 100% chance to kill all attackers."
+                "Guards one person every night",
+                "If the target was attacked, the Bodyguard will kill one attacker and die.",
+                "If the target was the Celebrity, the Bodyguard will kill all attackers and die."
             ],        
         },
 
