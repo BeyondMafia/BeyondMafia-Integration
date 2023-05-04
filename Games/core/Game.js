@@ -685,9 +685,7 @@ module.exports = class Game {
         for (let j in this.setup.roles) {
             let roleSet = this.setup.roles[j];
             let newRoleSet = {};
-            let iterated = [];
             for (let originalRoleName in roleSet) {
-                iterated.push(originalRoleName)
                 let [roleName, modifier] = originalRoleName.split(":");
                 let newName = mappedRoles[roleName] || roleName;
                 let newRoleName = [newName, modifier].join(":");
