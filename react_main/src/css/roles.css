@@ -195,7 +195,7 @@
     background-position: -60px -80px;
 }
 
-.role-Mafia-Drunk {
+.role-Mafia-Celebrity {
     background-position: -90px -80px;
 }
 
@@ -235,7 +235,7 @@
     background-position: -240px -80px;
 }
 
-.role-Mafia-Celebrity {
+.role-Mafia-President {
     background-position: -60px -40px;
 }
 
@@ -421,6 +421,10 @@
 
 .role-Mafia-Samurai {
     background-position: -810px -120px;
+}
+
+.role-Mafia-Bride {
+    background-position: -1080px -30px;
 }
 
 /* 
@@ -677,6 +681,10 @@
 
 .role-Mafia-Autocrat {
     background-position: -750px -120px;
+}
+
+.role-Mafia-Nomad {
+    background-position: -1080px -0px;
 }
 
 /* 
