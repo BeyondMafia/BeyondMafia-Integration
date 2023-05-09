@@ -5,6 +5,7 @@ import { GameContext } from "../../Contexts";
 import { SideMenu } from "./Game";
 
 import "../../css/game.css";
+import "../../css/gameGhost.css";
 
 export default function GhostGame(props) {
 	const game = useContext(GameContext);
@@ -129,7 +130,7 @@ export default function GhostGame(props) {
 				}
 				rightPanelContent={
 					<>
-						<PastClues
+						<HistoryKeeper
 							history={history}
 							stateViewing={stateViewing} />
 						<ActionList
@@ -149,7 +150,7 @@ export default function GhostGame(props) {
 	);
 }
 
-function PastClues(props) {
+function HistoryKeeper(props) {
 	const history = props.history;
 
 	const stateViewing = props.stateViewing;
@@ -158,16 +159,83 @@ function PastClues(props) {
 		return <></>;
 
 	const extraInfo = history.states[stateViewing].extraInfo;
-
+	console.log(extraInfo)
 	return (
 		<SideMenu
-			title="Past Clues"
+			title="Game Info"
 			scrollable
-			content={ 
+			content={
 				<>
-					<div>hi</div>
+					<GhostHistory 
+						responseHistory={extraInfo.responseHistory}
+						currentClueHistory={extraInfo.currentClueHistory}
+					/>
 				</>
 			}
 		/>
 	);
+}
+
+function GhostHistory(props) {
+	let responseHistory = props.responseHistory;
+	let currentClueHistory = props.currentClueHistory;
+
+	return (
+		<>
+			<div className="ghost">
+				<div className="ghost-current-history">
+					<div className="ghost-name"> Current Round </div>
+					<ClueHistory clueHistory={currentClueHistory}/>
+				</div>
+				<div className="ghost-legacy-history">
+					<div className="ghost-name"> Past Rounds </div>
+					{responseHistory.map(h => {
+						switch(h.type) {
+							case "clue":
+								return <ClueHistory clueHistory={h.data}/>
+							case "guess":
+								return <GuessHistory guess={h.data} />
+						}
+					})}
+				</div>
+			</div>
+		</>
+	)
+}
+
+function GuessHistory(props) {
+	let g = props.guess;
+
+	return (
+		<div className="ghost-guess">
+			<div className="ghost-player-name"> {g.name} </div>
+			guesses:
+			<div className="ghost-player-input"> {g.guess} </div>
+		</div>
+	)
+}
+
+function ClueHistory(props) {
+	let clueHistory = props.clueHistory;
+	
+	return (
+		<> 
+			{clueHistory.map(c => (
+				<Clue clue={c} /> )
+			)} 
+		</>
+	)
+}
+
+function Clue(props) {
+	let c = props.clue;
+
+	return (
+		<>
+			<div className="ghost-clue">
+				<div className="ghost-player-name"> {c.name} </div>
+				<div className="ghost-player-input"> {c.clue} </div>
+			</div>
+		</>
+	)
 }

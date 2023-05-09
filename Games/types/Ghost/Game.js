@@ -139,8 +139,8 @@ module.exports = class GhostGame extends Game {
     getStateInfo(state) {
         var info = super.getStateInfo(state);
         info.extraInfo = {
-            "history": this.responseHistory,
-            "current": this.currentClueHistory
+            "responseHistory": this.responseHistory,
+            "currentClueHistory": this.currentClueHistory
         }
         return info;
     }

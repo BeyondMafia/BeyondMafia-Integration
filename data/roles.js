@@ -1296,21 +1296,22 @@ const roleData = {
         "Town": {
             alignment: "Town",
             description: [
-                "knows real word"
+                "Knows the hidden word."
             ]
         },
         "Fool": {
             alignment: "Town",
             description: [
-                "knows fake word and appears to self as town"
+                "Knows the decoy word, which has the same number of letters as the hidden word.",
+                "Appears to self as Town, and does not know that their word is the decoy word.",
             ]
         },
         "Ghost": {
             alignment: "Ghost",
             description: [
-                "does not know word. must blend in",
-                "knows other ghosts",
-                "when voted off must guess town word or else get majority to win"
+                "Knows other Ghosts.",
+                "Only knows the number of letters in the hidden word.",
+                "Must blend in and guess the hidden word.",
             ]
         },
     }
