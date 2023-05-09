@@ -145,6 +145,24 @@ module.exports = class GhostGame extends Game {
         return info;
     }
 
+    // process player leaving immediately
+    async playerLeave(player) {
+        if (this.started) {
+            let action = new Action({
+                actor: player,
+                target: player,
+                game: this,
+                run: function () {
+                    this.target.kill("leave", this.actor, true);
+                }
+            });
+
+            this.instantAction(action);
+        }
+
+        await super.playerLeave(player);
+    }
+
     checkWinConditions() {
         var finished = false;
         var counts = {};

@@ -11,6 +11,7 @@ module.exports = class TownCore extends Card {
                 flags: ["group", "speech", "voting"],
                 targets: { include: ["alive"] },
                 whileDead: true,
+                passiveDead: true,
                 action: {
                     labels: ["lynch"],
                     run: function () {
