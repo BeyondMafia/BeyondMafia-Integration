@@ -24,7 +24,7 @@ export default function HostGhost() {
             disabled: true,
         },
         {
-            label: "Configure Words",
+            label: "Configure Words (Unavailable)",
             ref: "configureWords",
             type: "boolean",
             value: false,

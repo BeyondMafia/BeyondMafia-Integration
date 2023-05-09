@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useContext, useState } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 
-import { useSocketListeners, useStateViewingReducer, ThreePanelLayout, TopBar, TextMeetingLayout, ActionList, PlayerList, Timer, SpeechFilter, Notes } from "./Game";
+import { useSocketListeners, ThreePanelLayout, TopBar, TextMeetingLayout, ActionList, PlayerList, Timer, SpeechFilter, Notes } from "./Game";
 import { GameContext } from "../../Contexts";
 import { SideMenu } from "./Game";
 
@@ -152,7 +152,6 @@ export default function GhostGame(props) {
 
 function HistoryKeeper(props) {
 	const history = props.history;
-
 	const stateViewing = props.stateViewing;
 
 	if (stateViewing < 0)
@@ -169,6 +168,8 @@ function HistoryKeeper(props) {
 					<GhostHistory 
 						responseHistory={extraInfo.responseHistory}
 						currentClueHistory={extraInfo.currentClueHistory}
+						word={extraInfo.word}
+						wordLength={extraInfo.wordLength}
 					/>
 				</>
 			}
@@ -179,17 +180,36 @@ function HistoryKeeper(props) {
 function GhostHistory(props) {
 	let responseHistory = props.responseHistory;
 	let currentClueHistory = props.currentClueHistory;
+	let word = props.word;
+	let wordLength = props.wordLength;
 
 	return (
 		<>
 			<div className="ghost">
+				<div className="ghost-word-info">
+					{word &&
+					// for town
+						<>
+							<div className="ghost-name"> Your Word </div>
+							<div className="ghost-input"> {word} </div>
+						</>
+					}
+
+					{!word &&
+					// for ghost
+						<>
+							<div className="ghost-name"> Word Length </div>
+							<div className="ghost-input"> {wordLength} </div>
+						</>
+					}
+				</div>
 				<div className="ghost-current-history">
 					<div className="ghost-name"> Current Round </div>
 					<ClueHistory clueHistory={currentClueHistory}/>
 				</div>
 				<div className="ghost-legacy-history">
 					<div className="ghost-name"> Past Rounds </div>
-					{responseHistory.map(h => {
+					{responseHistory.slice().reverse().map(h => {
 						switch(h.type) {
 							case "clue":
 								return <ClueHistory clueHistory={h.data}/>
@@ -207,10 +227,8 @@ function GuessHistory(props) {
 	let g = props.guess;
 
 	return (
-		<div className="ghost-guess">
-			<div className="ghost-player-name"> {g.name} </div>
-			guesses:
-			<div className="ghost-player-input"> {g.guess} </div>
+		<div className="ghost-history-group ghost-input ghost-guess">
+			<span> {g.name} guesses </span> {g.guess}
 		</div>
 	)
 }
@@ -220,9 +238,11 @@ function ClueHistory(props) {
 	
 	return (
 		<> 
-			{clueHistory.map(c => (
-				<Clue clue={c} /> )
-			)} 
+			<div className="ghost-history-group">
+				{clueHistory.map(c => (
+					<Clue clue={c} /> )
+				)} 
+			</div>		
 		</>
 	)
 }
@@ -232,9 +252,8 @@ function Clue(props) {
 
 	return (
 		<>
-			<div className="ghost-clue">
-				<div className="ghost-player-name"> {c.name} </div>
-				<div className="ghost-player-input"> {c.clue} </div>
+			<div className="ghost-input ghost-clue">
+				<span> {c.name} </span> {c.clue}
 			</div>
 		</>
 	)

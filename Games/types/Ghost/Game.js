@@ -77,6 +77,14 @@ module.exports = class GhostGame extends Game {
     }
 
     startRoundRobin(firstPick) {
+        if (this.currentClueHistory.length > 0) {
+            this.responseHistory.push({
+                "type": "clue",
+                "data": this.currentClueHistory,
+            })
+            this.currentClueHistory = [];
+        }
+        
         this.currentPlayerList = this.alivePlayers();
         this.startIndex = this.currentPlayerList.indexOf(firstPick);
         this.currentIndex = this.startIndex;
@@ -97,11 +105,6 @@ module.exports = class GhostGame extends Game {
             while (true) {
                 if (this.currentIndex == this.startIndex) {
                     this.playerGivingClue = false;
-                    this.responseHistory.push({
-                        "type": "clue",
-                        "data": this.currentClueHistory,
-                    })
-                    this.currentClueHistory = [];
                     break;
                 }
 
@@ -134,6 +137,13 @@ module.exports = class GhostGame extends Game {
             "type": "guess",
             "data": data
         })
+    }
+
+    // send player-specific state
+    broadcastState() {
+        for (let p of this.players) {
+            p.sendStateInfo();
+        }
     }
 
     getStateInfo(state) {

@@ -16,14 +16,20 @@
 	margin-top: 10px;
 	padding-top: 0px;
 
+	text-align: center;
 	font-weight: bold;
 }
 
-.game .ghost-player-name {
-	margin-right: 4px;
+.game .ghost-history-group {
+	margin-bottom: 15px;
 }
 
-.game .ghost-player-input {
+.game .ghost-input span {
+	margin-right: 4px;
+	color: #bd4c4c;
+}
+
+.game .ghost-input {
 	color: black;
 	size: 8px;
 }
