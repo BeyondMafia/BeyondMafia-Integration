@@ -156,7 +156,7 @@ router.get("/:id/profile", async function (req, res) {
         var userId = String(req.params.id);
         var isSelf = reqUserId == userId;
         var user = await models.User.findOne({ id: userId, deleted: false })
-            .select("id name avatar settings accounts wins losses bio banner setups games numFriends stats -_id")
+            .select("id name avatar birthday settings accounts wins losses bio banner setups games numFriends stats -_id")
             .populate({
                 path: "setups",
                 select: "id gameType name closed count roles total -_id",

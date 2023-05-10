@@ -416,6 +416,7 @@ export default function Profile() {
                             </div>
                         </div>
                         <Badges groups={groups} />
+                        
                         {settings.showBirthday && birthday &&
                             <Birthday birthday={birthday}/>
                         }

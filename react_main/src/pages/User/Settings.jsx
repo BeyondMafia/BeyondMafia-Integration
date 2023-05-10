@@ -97,7 +97,7 @@ export default function Settings(props) {
 			label: "Show Birthday",
 			ref: "showBirthday",
 			type: "boolean",
-			showIf: (deps) => deps.birthday
+			showIf: (deps) => deps.user.birthday
 		},
 		{
 			label: "Show Discord",

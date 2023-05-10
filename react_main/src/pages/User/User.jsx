@@ -211,9 +211,13 @@ export function Badge(props) {
 }
 
 export function Birthday(props) {
+	let birthday = new Date(props.birthday);
+	let month = birthday.toLocaleString('default', { month: 'long' });
+	let day = birthday.getDate();
+
 	return (
 		<div className="birthday">
-			{props.birthday}
+			{month} {day}
 		</div>
 	)
 }
