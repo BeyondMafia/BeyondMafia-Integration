@@ -28,6 +28,7 @@ export default function HostGhost() {
             ref: "configureWords",
             type: "boolean",
             value: false,
+            disabled: true,
         },
         {
             label: "Word Length",
