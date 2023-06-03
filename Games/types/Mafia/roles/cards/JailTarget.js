@@ -27,6 +27,11 @@ module.exports = class JailTarget extends Card {
                     labels: ["jail"],
                     priority: PRIORITY_DAY_DEFAULT,
                     run: function () {
+                        if (this.target.hasItem("Handcuffs")){
+                            this.actor.queueAlert(`You try and jail ${this.target.name} but you can't find them!`);
+                            return;
+                        }
+
                         if (this.dominates()) {
                             this.target.holdItem("Handcuffs", this.actor.role.data.meetingName);
                             this.actor.role.data.prisoner = this.target;
