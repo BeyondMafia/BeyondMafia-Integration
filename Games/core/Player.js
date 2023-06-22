@@ -304,6 +304,11 @@ module.exports = class Player {
                 if (this.game.started || this.user.id != this.game.hostId || cmd.args.length == 0)
                     return;
 
+                if (this.game.ranked) {
+                    this.game.sendAlert("You cannot kick players from ranked games.");
+                    return;
+                }
+
                 for (let player of this.game.players) {
                     if (player.name.toLowerCase() == cmd.args[0].toLowerCase()) {
                         this.game.kickPlayer(player, true);
