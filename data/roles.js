@@ -922,6 +922,12 @@ const roleData = {
                 "Can speak as any player during the day.", 
             ],
         },
+        "Fiddler": {
+            alignment: "Mafia",
+            description: [
+                "Serenades a player each night, causing them to be unable to hear anything the next day.",
+              ],
+        },
         "Sharpshooter": {
             alignment: "Mafia",
             description: [
