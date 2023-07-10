@@ -96,6 +96,7 @@ export default function MafiaGame() {
 						history={history} />
 				} />
 			<ThreePanelLayout
+        settings={game.settings}
 				leftPanelContent={
 					<>
 						<PlayerList

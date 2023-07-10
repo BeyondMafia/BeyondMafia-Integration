@@ -842,7 +842,7 @@ export function TopBar(props) {
 
 export function ThreePanelLayout(props) {
     return (
-        <div className="main">
+        <div className={"main " + (props.settings.fullscreen ? 'fullscreen' : '')}>
             <div className="left-panel panel">
                 {props.leftPanelContent}
             </div>
@@ -2116,6 +2116,12 @@ function SettingsModal(props) {
             value: settings.sounds
         },
         {
+            label: "Fullscreen",
+            ref: "fullscreen",
+            type: "boolean",
+            value: settings.fullscreen
+        },
+        {
             label: "Volume",
             ref: "volume",
             type: "range",
@@ -2797,6 +2803,7 @@ export function useSettingsReducer() {
         votingLog: true,
         timestamps: true,
         sounds: true,
+        fullscreen: true,
         volume: 1,
     };
 
