@@ -891,6 +891,16 @@
 /*
  * Media Queries
  */
+@media (max-width: 1150px) {
+	.game .left-panel,
+	.game .right-panel {
+		min-width: 200px !important;
+	}
+
+	.game .center-panel {
+		min-width: 500px !important;
+	}
+}
 
 @media (max-width: 900px) {
 	.game .main {
