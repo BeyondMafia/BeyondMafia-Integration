@@ -1380,7 +1380,8 @@ module.exports = class Game {
                 voiceChat: this.voiceChat,
                 readyCheck: this.readyCheck,
                 stateLengths: this.stateLengths,
-                gameTypeOptions: JSON.stringify(this.getGameTypeOptions())
+                gameTypeOptions: JSON.stringify(this.getGameTypeOptions()),
+                createTime: this.createTime
             });
             await game.save();
 
