@@ -189,7 +189,6 @@ function GameWrapper(props) {
                         return;
                     }
 
-                    setCreateTime(data.createTime);
                     setGameType(data.type);
                     setSetup(data.setup);
 
@@ -1281,7 +1280,8 @@ function Message(props) {
 }
 
 export function Timestamp(props) {
-    const timestamp = Math.abs(new Date(props.time) - new Date(props.gameCreateTime));
+    let gameCreateTime = props.gameCreateTime || 0;  // Use real time if gameCreateTime was undefined
+    const timestamp = Math.abs(new Date(props.time) - new Date(gameCreateTime));
 
     // Convert millisecond difference into hours/minutes/seconds
     let hours = String(Math.floor((timestamp / (1000 * 60 * 60)) % 24)).padStart(2, "0"),
