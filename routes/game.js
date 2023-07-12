@@ -629,6 +629,9 @@ const settingsChecks = {
     "One Night": (settings, setup) => {
         return {};
     },
+    "Jotto": (settings, setup) => {
+        return {};
+    },
 };
 
 module.exports = router;

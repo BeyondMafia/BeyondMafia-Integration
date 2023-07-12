@@ -470,6 +470,12 @@ router.post("/create", async function (req, res) {
             return;
         }
 
+        if (setup.gameType == "Jotto" && (newTotal < constants.minJottoSetupTotal || newTotal > constants.maxJottoSetupTotal)) {
+            res.status(500);
+            res.send(`Jotto setups must have between ${constants.minJottoSetupTotal} to ${constants.maxJottoSetupTotal} players.`);
+            return;
+        }
+
         setup.roles = newRoles;
         setup.count = newCount;
         setup.total = newTotal;
@@ -803,6 +809,11 @@ const countChecks = {
 
         return true;
     },
+    "Jotto": (roles, count, total, closed, unique) => {
+        if (count["Jotter"] < 2)
+            return "Must have at least 2 players.";
+        return true;
+    },
 };
 
 const optionsChecks = {
@@ -861,6 +872,9 @@ const optionsChecks = {
 
         return { votesInvisible, excessRoles, total: newTotal };
     },
+    "Jotto": (setup) => {
+        return setup;
+    }
 };
 
 module.exports = router;

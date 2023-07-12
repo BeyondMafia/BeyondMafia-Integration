@@ -272,6 +272,7 @@ module.exports = class Player {
             // player has not voted
             if (meeting.members[this.id].canVote &&
                 meeting.members[this.id].canUpdateVote && 
+                meeting.voting &&
                 meeting.votes[this.id] === undefined) {
                 return false;
             }

@@ -885,6 +885,9 @@ module.exports = class Meeting {
             count[target] += member.voteWeight;
         }
         let sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
+
+        if (sortedCount.length === 0)
+            return false;
         
         // Checking for plurality
         if (sortedCount.length === 1 || sortedCount[0][1] > sortedCount[1][1])

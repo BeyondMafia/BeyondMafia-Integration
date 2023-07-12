@@ -1292,6 +1292,15 @@ const roleData = {
             ]
         },
     },
+    "Jotto": {
+        "Jotter": {
+            alignment: "Jotter",
+            description: [
+                "A Jotto player.",
+                "May choose a word, then guess the opponent's word."
+            ]
+        }
+    },
 };
 
 module.exports = roleData;

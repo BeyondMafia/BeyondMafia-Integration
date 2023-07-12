@@ -1,0 +1,103 @@
+
+/* Jotto container title */
+.jotto-layout-title {
+	padding: 10px;
+    margin: 0px 0px 10px;
+
+	background-color: var(--theme-color);
+	color: white;
+}
+
+.jotto-layout {
+    display: inline-flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* Jotto word container */
+.jotto-word {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 11rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Jotto word letter container */
+.jotto-word-tile {
+    align-items: center;
+    justify-content: center;
+
+    display: inline-flex;
+    height: 2rem;
+    width: 2rem;
+    box-sizing: border-box;
+    border: 1px solid black;
+
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Jotto answer slightly bigger */
+.jotto-word.jotto-answer {
+    width: 13rem;
+    margin-bottom: 1rem;
+}
+
+.jotto-word-tile.jotto-answer {
+    height: 2.4rem;
+    width: 2.4rem;
+
+    color: lightcoral;
+    font-weight: bold;
+}
+
+/* Jotto input container */
+.jotto-input-container {
+    position: relative;
+    width: 11rem;
+    height: 2rem;
+}
+
+/* Jotto text input */
+.jotto-input {
+    /* Positioning */
+    position: absolute;
+    left: 0;
+
+    /* Display & Box Model */
+    width: inherit;
+    height: inherit;
+    box-sizing: content-box;
+    padding: 0;
+    margin: 0;
+    border-width: 0;
+
+    /* Other */
+    opacity: 0;
+    color: transparent;
+    background-color: transparent;
+    user-select: none;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s;
+}
+
+/* highlight input */
+.jotto-input:focus {
+    border-width: 0px 0px 4px 0px;
+    border-color: red;
+
+    opacity: 0.5;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s;
+}
+
+.jotto-guess-score {
+    margin-left: 0.5rem;
+
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.jotto-guess-score.low {color: #ff0000;} /* 1 & 2 */
+.jotto-guess-score.medium {color: #ff9900;} /* 3 */
+.jotto-guess-score.high {color: #ffcc00;} /* 4 */
+.jotto-guess-score.max {color: #8fbb00;} /* 5 */
+.jotto-guess-score.winner {color: #00ff00;} /* 6 */

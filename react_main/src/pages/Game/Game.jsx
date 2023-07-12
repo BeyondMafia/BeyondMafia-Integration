@@ -11,6 +11,7 @@ import MafiaGame from "./MafiaGame";
 import SplitDecisionGame from "./SplitDecisionGame";
 import ResistanceGame from "./ResistanceGame";
 import OneNightGame from "./OneNightGame";
+import JottoGame from "./JottoGame";
 import { GameContext, PopoverContext, SiteInfoContext, UserContext } from "../../Contexts";
 import Dropdown, { useDropdown } from "../../components/Dropdown";
 import Setup from "../../components/Setup";
@@ -671,6 +672,9 @@ function GameWrapper(props) {
                     {gameType == "One Night" &&
                         <OneNightGame />
                     }
+                    {gameType == "Jotto" &&
+                        <JottoGame />
+                    }
                 </div>
             </GameContext.Provider>
         );
@@ -837,6 +841,156 @@ export function TopBar(props) {
                 }
             </div>
         </div>
+    );
+}
+
+export function SidePanelLayout(props) {
+    return (
+        <div className="main">
+            <div className="side-left-panel panel">
+                {props.leftPanelContent}
+            </div>
+            <div className="side-main-panel panel">
+                {props.mainPanelContent}
+            </div>
+        </div>
+    );
+}
+
+export function CombinedTextMeetingLayout(props) {
+    const game = useContext(GameContext);
+    const { isolationEnabled, isolatedPlayers } = game;
+    const { history, players, stateViewing, updateHistory } = props
+
+    const stateInfo = history.states[stateViewing];
+    const meetings = stateInfo ? stateInfo.meetings : {};
+    const selTab = stateInfo && stateInfo.selTab;
+
+    const [autoScroll, setAutoScroll] = useState(true);
+    const [mouseMoved, setMouseMoved] = useState(false);
+    const speechDisplayRef = useRef();
+
+    const speechMeetings = Object.values(meetings).filter(meeting => meeting.speech);
+
+    useLayoutEffect(() => doAutoScroll());
+
+    useEffect(() => {
+        if (stateViewing != null && !selTab && speechMeetings.length) {
+            updateHistory({
+                type: "selTab",
+                state: stateViewing,
+                meetingId: speechMeetings[0].id
+            });
+        }
+    }, [stateViewing, speechMeetings]);
+
+    useEffect(() => {
+        if (stateViewing == history.currentState)
+            setAutoScroll(true);
+        else
+            setAutoScroll(false);
+    }, [stateViewing]);
+
+    useEffect(() => {
+        function onMouseMove() {
+            setMouseMoved(true);
+            document.removeEventListener("mousemove", onMouseMove);
+        }
+
+        document.addEventListener("mousemove", onMouseMove);
+
+        return () => document.removeEventListener("mousemove", onMouseMove);
+    }, []);
+
+    function doAutoScroll() {
+        if (autoScroll && speechDisplayRef.current)
+            speechDisplayRef.current.scrollTop = speechDisplayRef.current.scrollHeight;
+    }
+
+    function onMessageQuote(message) {
+        if (!props.review && message.senderId != "server" && !message.isQuote && message.quotable) {
+            props.socket.send("quote", {
+                messageId: message.id,
+                toMeetingId: history.states[history.currentState].selTab,
+                fromMeetingId: message.meetingId,
+                fromState: stateViewing
+            });
+        }
+    }
+
+    function onSpeechScroll() {
+        if (!mouseMoved) {
+            doAutoScroll();
+            return;
+        }
+
+        let speech = speechDisplayRef.current;
+
+        if (Math.round(speech.scrollTop + speech.clientHeight) >= Math.round(speech.scrollHeight))
+            setAutoScroll(true);
+        else
+            setAutoScroll(false);
+    }
+
+    // Get all messages and alerts only
+    let messages = [];
+    for (let state in history.states) {
+        if (history.states[state]) {
+            for (let t in history.states[state].meetings) {
+                messages.push(...history.states[state].meetings[t].messages);
+            }
+            messages.push(...history.states[state].alerts);
+        }
+    }
+
+    messages.sort((a, b) => a.time - b.time);
+    messages = messages.map((message, i) => {
+        const isNotServerMessage = message.senderId !== "server";
+        const unfocusedMessage = isolationEnabled && isNotServerMessage && isolatedPlayers.size && !isolatedPlayers.has(message.senderId);
+
+        return (
+            <Message
+                message={message}
+                history={history}
+                players={players}
+                key={message.id || message.messageId + message.time || i}
+                onMessageQuote={onMessageQuote}
+                settings={props.settings}
+                unfocusedMessage={unfocusedMessage}
+            />
+        );
+    });
+
+    let canSpeak = selTab;
+    canSpeak = canSpeak && (meetings[selTab].members.length > 1 || history.currentState == -1);
+    canSpeak = canSpeak && stateViewing == history.currentState && meetings[selTab].amMember && meetings[selTab].canTalk;
+
+    return (
+        <>
+            <div className="speech-wrapper">
+                <div
+                    className="speech-display"
+                    onScroll={onSpeechScroll}
+                    ref={speechDisplayRef}>
+                    {messages}
+                </div>
+                {canSpeak &&
+                    <SpeechInput
+                        meetings={meetings}
+                        selTab={selTab}
+                        players={players}
+                        options={props.options}
+                        socket={props.socket}
+                        setAutoScroll={setAutoScroll}
+                        agoraClient={props.agoraClient}
+                        localAudioTrack={props.localAudioTrack}
+                        muted={props.muted}
+                        setMuted={props.setMuted}
+                        deafened={props.deafened}
+                        setDeafened={props.setDeafened} />
+                }
+            </div>
+        </>
     );
 }
 
@@ -1479,7 +1633,7 @@ function SpeechInput(props) {
                     placeholder={placeholder}
                     maxLength={MaxGameMessageLength}
                     onChange={onSpeechType}
-                    enterKeyHint="done"
+                    enterkeyhint="done"
                     onKeyDown={onSpeechSubmit} />
             </div>
             {options.voiceChat &&
@@ -1860,7 +2014,7 @@ function ActionSelect(props) {
     );
 }
 
-function ActionButton(props) {
+export function ActionButton(props) {
     const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
     if (notClickable) {
         return null;

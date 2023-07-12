@@ -1,18 +1,20 @@
 module.exports = {
     restart: null,
-    gameTypes: ["Mafia", "Split Decision", "Resistance", "One Night"],
+    gameTypes: ["Mafia", "Split Decision", "Resistance", "One Night", "Jotto"],
     lobbies: ["Main", "Sandbox", "Competitive", "Games"],
     alignments: {
         "Mafia": ["Village", "Mafia", "Monsters", "Independent"],
         "Split Decision": ["Blue", "Red", "Independent"],
         "Resistance": ["Resistance", "Spies"],
         "One Night": ["Village", "Werewolves", "Independent"],
+        "Jotto": ["Jotter"],
     },
     startStates: {
         "Mafia": ["Night", "Day"],
         "Split Decision": ["Round"],
         "Resistance": ["Team Selection"],
         "One Night": ["Night"],
+        "Jotto": ["Choose Word"],
     },
     configurableStates: {
         "Mafia": {
@@ -68,6 +70,18 @@ module.exports = {
                 default: 2 * 60 * 1000
             }
         },
+        "Jotto": {
+            "Choose Word": {
+                min: 1 * 60 * 1000,
+                max: 5 * 60 * 1000,
+                default: 2 * 60 * 1000
+            },
+            "Guess Word": {
+                min: 1 * 60 * 1000,
+                max: 5 * 60 * 1000,
+                default: 2 * 60 * 1000
+            }
+        },
     },
     noQuotes: {},
 
@@ -94,6 +108,7 @@ module.exports = {
         "Split Decision": {},
         "Resistance": {},
         "One Night": {},
+        "Jotto": {},
     },
 
     maxPlayers: 50,
@@ -152,6 +167,8 @@ module.exports = {
     referralGames: 5,
     referralCoins: 50,
 
+    minJottoSetupTotal: 2,
+    maxJottoSetupTotal: 4,
     minMafiaSetupTotal: 5,
     captchaThreshold: 0.25,
 
