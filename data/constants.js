@@ -111,7 +111,7 @@ module.exports = {
         "Jotto": {},
     },
 
-    maxPlayers: 50,
+    maxPlayers: 25,
     maxSpectators: 100,
     maxOwnedSetups: 100,
     maxFavSetups: 100,

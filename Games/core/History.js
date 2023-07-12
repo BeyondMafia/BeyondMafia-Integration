@@ -11,7 +11,7 @@ module.exports = class History {
                 stateEvents: {},
                 roles: {},
                 dead: {},
-                extraInfo: {}
+                extraInfo: {},
             }
         };
     }

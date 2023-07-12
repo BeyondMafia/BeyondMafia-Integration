@@ -69,6 +69,7 @@ function GameWrapper(props) {
     const [deafened, setDeafened] = useState(false);
     const [rehostId, setRehostId] = useState();
     const [dev, setDev] = useState(false);
+    const [createTime, setCreateTime] = useState();
 
     const playersRef = useRef();
     const selfRef = useRef();
@@ -510,6 +511,7 @@ function GameWrapper(props) {
     function getConnectionInfo() {
         axios.get(`/game/${gameId}/connect`)
             .then(res => {
+                setCreateTime(res.data.createTime);
                 setGameType(res.data.type);
                 setPort(res.data.port);
                 setToken(res.data.token || false);
@@ -647,6 +649,7 @@ function GameWrapper(props) {
             setDeafened: setDeafened,
             noLeaveRef,
             dev: dev,
+            createTime: createTime
         };
 
         return (
@@ -996,7 +999,7 @@ export function CombinedTextMeetingLayout(props) {
 
 export function ThreePanelLayout(props) {
     return (
-        <div className="main">
+        <div className={"main " + (props.settings.fullscreen ? 'fullscreen' : '')}>
             <div className="left-panel panel">
                 {props.leftPanelContent}
             </div>
@@ -1128,6 +1131,7 @@ export function TextMeetingLayout(props) {
                 onMessageQuote={onMessageQuote}
                 settings={props.settings}
                 unfocusedMessage={unfocusedMessage}
+                gameCreateTime={game.createTime}
             />
         );
     });
@@ -1272,6 +1276,7 @@ function Message(props) {
     const players = props.players;
     const user = useContext(UserContext);
 
+    let gameCreateTime = props.gameCreateTime;
     var message = props.message;
     var player, quotedMessage;
     var contentClass = "content ";
@@ -1368,7 +1373,7 @@ function Message(props) {
         >
             <div className="sender">
                 {props.settings.timestamps &&
-                    <Timestamp time={message.time} />
+                    <Timestamp gameCreateTime={gameCreateTime} time={message.time} />
                 }
                 {player &&
                     <NameWithAvatar
@@ -1406,7 +1411,7 @@ function Message(props) {
                 {message.isQuote &&
                     <>
                         <i className="fas fa-quote-left" />
-                        <Timestamp time={quotedMessage.time} />
+                        <Timestamp gameCreateTime={gameCreateTime} time={quotedMessage.time} />
                         <div className="quote-info">
                             {`${quotedMessage.senderName} in ${quotedMessage.meetingName}: `}
                         </div>
@@ -1429,10 +1434,13 @@ function Message(props) {
 }
 
 export function Timestamp(props) {
-    const time = new Date(props.time);
-    var hours = String(time.getHours()).padStart(2, "0");
-    var minutes = String(time.getMinutes()).padStart(2, "0");
-    var seconds = String(time.getSeconds()).padStart(2, "0");
+    let gameCreateTime = props.gameCreateTime || 0;  // Use real time if gameCreateTime was undefined
+    const timestamp = Math.abs(new Date(props.time) - new Date(gameCreateTime));
+
+    // Convert millisecond difference into hours/minutes/seconds
+    let hours = String(Math.floor((timestamp / (1000 * 60 * 60)) % 24)).padStart(2, "0"),
+        minutes = String(Math.floor((timestamp / (1000 * 60)) % 60)).padStart(2, "0"),
+        seconds = String(Math.floor((timestamp / 1000) % 60)).padStart(2, "0");
 
     return (
         <div className="time">
@@ -2270,6 +2278,12 @@ function SettingsModal(props) {
             value: settings.sounds
         },
         {
+            label: "Fullscreen",
+            ref: "fullscreen",
+            type: "boolean",
+            value: settings.fullscreen
+        },
+        {
             label: "Volume",
             ref: "volume",
             type: "range",
@@ -2951,6 +2965,7 @@ export function useSettingsReducer() {
         votingLog: true,
         timestamps: true,
         sounds: true,
+        fullscreen: true,
         volume: 1,
     };
 

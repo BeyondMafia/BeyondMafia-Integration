@@ -573,6 +573,12 @@ const roleData = {
                 "When President dies, all villagers will die.",
                 ],
         },
+        "Gunslinger": {
+            alignment: "Village",
+            description: [
+                "When shot, has an 80% chance of surviving and stealing the gun.",
+            ],
+        },
 
         //Mafia
         "Mafioso": {
@@ -916,6 +922,18 @@ const roleData = {
                 "Can speak as any player during the day.", 
             ],
         },
+        "Fiddler": {
+            alignment: "Mafia",
+            description: [
+                "Serenades a player each night, causing them to be unable to hear anything the next day.",
+              ],
+        },
+        "Sharpshooter": {
+            alignment: "Mafia",
+            description: [
+                "When shot, has an 80% chance of surviving and stealing the gun.",
+            ],
+        },
 
         //Monsters
         "Lycan": {
@@ -1127,6 +1145,14 @@ const roleData = {
             description: [
                 "Chooses to follow the ways of another player at night, aligning with their alignmemt.",
                 "Wins if they are alive when the last alignment they are aligned with wins."
+            ],
+        },
+        "Creepy Girl": {
+            alignment: "Independent",
+            description: [
+                "Can give out one doll at night",
+                "The doll can be passed to someone else each night.",
+                "Wins if the player holding the doll dies."
             ],
         },
     },

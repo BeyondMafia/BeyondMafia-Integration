@@ -93,6 +93,7 @@ export default function ResistanceGame(props) {
 						history={history} />
 				} />
 			<ThreePanelLayout
+        settings={game.settings}
 				leftPanelContent={
 					<>
 						<PlayerList
