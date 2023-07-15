@@ -160,6 +160,20 @@ export default function JottoGame(props) {
                 });
             }
             break;
+        case "cheatsheetall":
+            const cheatSheet = ["ABCDEFGHJIKLMNOPQRSTUVWXYZ"].reduce((obj, letters) => {
+                for (let letter of letters) {
+                    obj[letter] = action.info.class;
+                }
+                return obj;
+            }, {});
+
+            newJottoHistory = update(jottoHistory, {
+                cheatsheet: {
+                    $set: cheatSheet
+                }
+            });
+            break;
     }
 
     return newJottoHistory || jottoHistory;
@@ -568,8 +582,15 @@ function JottoCheatSheet(props) {
             letterClass = "none";
 
         props.updateJottoHistory({
-            type:"cheatsheet", 
+            type: "cheatsheet", 
             info: {letter: letter, class: letterClass}
+        });
+    }
+
+    function handleResetCheatsheet(e) {
+        props.updateJottoHistory({
+            type: "cheatsheetall", 
+            info: {class: "none"}
         });
     }
 
@@ -591,6 +612,9 @@ function JottoCheatSheet(props) {
     return (
         <>
             <div className="jotto-cheatsheet">{letters}</div>
+            <button
+                className="jotto-cheatsheet-reset btn btn-theme"
+                onClick={handleResetCheatsheet}>Reset</button>
         </>
     )
 }

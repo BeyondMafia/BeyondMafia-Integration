@@ -136,6 +136,10 @@
     display: flex;
 }
 
+.btn.jotto-cheatsheet-reset {
+    padding: 6px 12px;
+}
+
 .jotto-cheatsheet-row {
     justify-content: center;
     flex-direction: row;
