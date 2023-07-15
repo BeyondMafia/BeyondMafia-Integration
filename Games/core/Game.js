@@ -29,6 +29,7 @@ module.exports = class Game {
         this.id = options.id;
         this.hostId = options.hostId;
         this.port = options.port;
+        this.History = options.History || History;
         this.Player = Player;
         this.events = new events();
         this.stateLengths = options.settings.stateLengths;
@@ -60,8 +61,8 @@ module.exports = class Game {
         this.playersGone = {};
         this.spectators = [];
         this.spectatorLimit = constants.maxSpectators;
-        this.history = new History(this);
-        this.spectatorHistory = new History(this, "spectator");
+        this.history = new this.History(this);
+        this.spectatorHistory = new this.History(this, "spectator");
         this.spectatorMeetFilter = { "*": true };
         this.timers = {};
         this.actions = [
@@ -202,6 +203,13 @@ module.exports = class Game {
         }
 
         this.revealQueue.empty();
+    }
+
+    revealAllPlayers() {
+        for (let player of this.players) {
+            this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
+            player.removeAllEffects();
+        }
     }
 
     queueReveal(player, appearance) {
@@ -760,6 +768,21 @@ module.exports = class Game {
         this.spectatorHistory.recordDead(player, dead);
     }
 
+
+    historySnapshot() {
+        // Take snapshot of roles
+        this.history.recordAllRoles();
+
+        // Take snapshot of dead players
+        this.history.recordAllDead();
+    }
+
+    processStateQueues() {
+        this.processDeathQueue();
+        this.processRevealQueue();
+        this.processAlertQueue();
+    }
+
     gotoNextState() {
         var stateInfo = this.getStateInfo();
 
@@ -769,11 +792,7 @@ module.exports = class Game {
         // Finish all meetings and take actions
         this.finishMeetings();
 
-        // Take snapshot of roles
-        this.history.recordAllRoles();
-
-        // Take snapshot of dead players
-        this.history.recordAllDead();
+        this.historySnapshot();
 
         // Check if states will be skipped
         var [_, skipped] = this.getNextStateIndex();
@@ -808,10 +827,8 @@ module.exports = class Game {
         this.inactivityCheck();
 
         // Make meetings and send deaths, reveals, alerts
-        this.processDeathQueue();
-        this.processRevealQueue();
+        this.processStateQueues();
         this.makeMeetings();
-        this.processAlertQueue();
         this.events.emit("meetingsMade");
 
         this.vegKickMeeting = undefined;
@@ -1199,9 +1216,7 @@ module.exports = class Game {
             return;
 
         this.checkAllMeetingsReady();
-        this.processDeathQueue();
-        this.processRevealQueue();
-        this.processAlertQueue();
+        this.processStateQueues();
     }
 
     // A test branch version of this.makeMeetings()
@@ -1257,11 +1272,7 @@ module.exports = class Game {
         // Finish all meetings and take actions
         this.finishMeetings();
 
-        // Take snapshot of roles
-        this.history.recordAllRoles();
-
-        // Take snapshot of dead players
-        this.history.recordAllDead();
+        this.historySnapshot();
 
         var winners = new Winners(this);
         winners.addGroup("No one");
@@ -1285,18 +1296,12 @@ module.exports = class Game {
 
             this.events.emit("aboutToFinish");
 
-            this.history.recordAllRoles();
-            this.history.recordAllDead();
+            this.historySnapshot();
 
             winners.queueAlerts();
-            this.processDeathQueue();
-            this.processRevealQueue();
-            this.processAlertQueue();
+            this.processStateQueues();
 
-            for (let player of this.players) {
-                this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
-                player.removeAllEffects();
-            }
+            this.revealAllPlayers();
 
             this.broadcast("winners", winners.getWinnersInfo());
 

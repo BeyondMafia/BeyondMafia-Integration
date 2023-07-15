@@ -1,5 +1,6 @@
 const Game = require("../../core/Game");
 const Player = require("./Player");
+const History = require("./History");
 const Queue = require("../../core/Queue");
 const Winners = require("./Winners");
 const Action = require("./Action");
@@ -7,6 +8,7 @@ const Action = require("./Action");
 module.exports = class JottoGame extends Game {
 
     constructor(options) {
+        options.History = History;
         super(options);
 
         this.type = "Jotto";
@@ -28,15 +30,14 @@ module.exports = class JottoGame extends Game {
             }
         ];
 
-        this.wordHistory = [];  // Would only have 2 words, but maybe useful for "rematching" in the future
-        this.guessHistory = [];
-
         this.opponentSelected = false;
+        this.guessQueue = new Queue();
+        this.chosenWordQueue = new Queue();
     }
 
     async playerLeave(player) {
-        if (this.started) {
-            this.queueAction(new Action({
+        if (this.started && !this.finished) {
+            this.instantAction(new Action({
                 actor: player,
                 target: player,
                 game: this,
@@ -49,23 +50,17 @@ module.exports = class JottoGame extends Game {
         await super.playerLeave(player);
     }
 
-    async endGame(winners) {
-        await super.endGame(winners);
+    getGuessScore(player, word) {
+        let opponentWord = this.players[player.role.targetId].role.chosenWord;
 
-        let ei = {
-            "wordHistory": this.wordHistory.map(a => ({...a})),
-            "guessHistory": this.guessHistory.map(a => ({...a}))
-        };
-        if (this.opponentSelected) {
-            ei["opponents"] = this.players.reduce((acc, p) => ({ 
-                ...acc, 
-                [p.id]: {
-                    target: p.role.opponentTargetId,
-                    attacker: p.role.opponentAttackerId
-                }
-            }), {});
+        if (word == opponentWord)
+            return 6;
+        
+        for (let letter of word) {
+            opponentWord = opponentWord.replace(letter, "");
         }
-        this.addStateExtraInfoToHistories(ei);
+
+        return 5 - opponentWord.length;
     }
 
     assignRoles() {
@@ -75,46 +70,105 @@ module.exports = class JottoGame extends Game {
         // Creates a loop of opponents. Likely depends on join order, may add randomization in the future
         for (let i in playerArray) {
             const idx = Number(i);
-            playerArray[idx].role.opponentTargetId = playerArray[(idx+1)%playerArray.length].id;
-            playerArray[(idx+1)%playerArray.length].role.opponentAttackerId = playerArray[idx].id;
+            const aidx = ((idx-1)+playerArray.length) % playerArray.length;
+            const tidx = (idx+1)%playerArray.length;
+
+            let player = playerArray[idx];
+            let attacker = playerArray[aidx];
+            let target = playerArray[tidx];
+
+            player.role.attackerId = attacker.id;
+            player.role.targetId = target.id;
+
+            // Initialize empty guesses and opponent records
+            this.recordGuess(player);
+            this.recordOpponents(player, attacker.id, target.id);
+
+            // Tell everyone who opponents are
+            this.broadcast("jottoinit", { playerId: player.id, attackerId: attacker.id, targetId: target.id });
+
+            // No need to hide Jotter role
+            let appearance = `${player.role.name}:${player.role.modifier}`
+            this.recordRole(player, appearance);
+            this.broadcast("reveal", { playerId: player.id, role: appearance });
         }
 
         this.opponentSelected = true;
     }
 
-    getGuessScore(player, word) {
-        let opponentWord = this.players[player.role.opponentTargetId].role.chosenWord;
-
-        if (word == opponentWord) {
-            return 6;
-        }
-        
-        for (let letter of word) {
-            opponentWord = opponentWord.replace(letter, "");
+    recordOpponents(player, attackerId, targetId) {
+        for (let _player of this.players) {
+            _player.history.recordOpponents(player, attackerId, targetId);
         }
 
-        return 5 - opponentWord.length;
+        this.spectatorHistory.recordOpponents(player, attackerId, targetId);
     }
 
-    getStateInfo(state) {
-        let info = super.getStateInfo(state);
+    // When a word is guessed, queue it for broadcasting
+    queueGuess(player, word, score) {
+        this.guessQueue.enqueue({ player, word, score });
+    }
 
-        info.extraInfo = {
-            "wordHistory": this.wordHistory.map(a => ({...a})),
-            "guessHistory": this.guessHistory.map(a => ({...a}))
+    processGuessQueue() {
+        for (let item of this.guessQueue) {
+            this.recordGuess(item.player);
+            this.broadcast("jottoguess", { playerId: item.player.id, word: item.word, score: item.score });
         }
 
-        if (this.opponentSelected) {
-            info.extraInfo["opponents"] = this.players.reduce((acc, p) => ({ 
-                ...acc, 
-                [p.id]: {
-                    target: p.role.opponentTargetId,
-                    attacker: p.role.opponentAttackerId
-                }
-            }), {});
+        this.guessQueue.empty();
+    }
+
+    recordGuess(player) {
+        for (let _player of this.players) {
+            _player.history.recordGuess(player);
         }
 
-        return info;
+        this.spectatorHistory.recordGuess(player);
+    }
+
+    // When a word is chosen, queue it for sending to player
+    queueChosenWord(player, word, score) {
+        this.chosenWordQueue.enqueue({ player, word, score });
+    }
+
+    processChosenWordQueue() {
+        for (let item of this.chosenWordQueue) {
+            this.recordChosenWord(item.player, item.word, item.score);
+            
+            item.player.send("jottoreveal", { playerId: item.player.id, word: item.word });
+        }
+
+        this.chosenWordQueue.empty();
+    }
+
+    recordChosenWord(player, word) {
+        player.history.recordChosenWord(player, word);
+    }
+
+    // Override to also reveal jotto words
+    revealAllPlayers() {
+        for (let player of this.players) {
+            this.broadcast("reveal", { playerId: player.id, role: `${player.role.name}:${player.role.modifier}` });
+            this.broadcast("jottoreveal", { playerId: player.id, word: player.role.chosenWord });
+            player.removeAllEffects();
+        }
+    }
+
+    historySnapshot() {
+        super.historySnapshot();
+
+        // Jotto snapshot
+        this.history.recordAllGuesses();
+        this.history.recordAllChosenWords();
+        this.history.recordAllOpponents();
+    }
+
+    processStateQueues() {
+        super.processStateQueues();
+
+        // Jotto Queues
+        this.processGuessQueue();
+        this.processChosenWordQueue();
     }
 
     // Override getNextStateIndex()
@@ -140,21 +194,6 @@ module.exports = class JottoGame extends Game {
         return [nextStateIndex, skipped];
     }
 
-    recordWord(player, word) {
-        this.wordHistory.push({
-            "pid": player.id,
-            "word": word
-        });
-    }
-
-    recordGuess(player, word, score) {
-        this.guessHistory.push({
-            "pid": player.id,
-            "word": word,
-            "score": score
-        });
-    }
-
     checkWinConditions() {
         let finished = false;
         let winQueue = new Queue();
@@ -168,17 +207,18 @@ module.exports = class JottoGame extends Game {
             winCheck.check(winners);
         }
 
-        winners.determinePlayers();
-
-        // Even if opponent leaves, if player guessed correctly, it's technically their win
-        if (winners.groupAmt() > 0) {
-            finished = true
-        }
-        // Missing at least one player, inconclusive
-        else if (this.alivePlayers().length < 2) {
+        // Last remaining player wins by default
+        if (this.alivePlayers().length === 1) {
+            winners.addPlayer(this.alivePlayers()[0]);
+            finished = true;
+        } 
+        // Nobody remains, no one wins
+        else if (this.alivePlayers().length === 0) {
             winners.addGroup("No one");
             finished = true;
         }
+        winners.determinePlayers();
+
         return [finished, winners];
     }
 

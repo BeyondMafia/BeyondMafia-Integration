@@ -1,17 +1,21 @@
 const Player = require("../../core/Player");
+const History = require("./History");
 const Utils = require("../../core/Utils");
+const deathMessages = require("./death");
 const logger = require("../../../modules/logging")("games");
 
 module.exports = class JottoPlayer extends Player {
 
     constructor(user, game, isBot) {
         super(user, game, isBot);
+        this.history = new History(this.game, this);
+        this.deathMessages = deathMessages;
     }
 
     socketListeners() {
         const socket = this.socket;
 
-        socket.on("jottowordsubmit", word => {
+        socket.on("jottovote", word => {
             try {
                 if (typeof word != "object") return;
 
@@ -35,5 +39,10 @@ module.exports = class JottoPlayer extends Player {
         });
 
         super.socketListeners();
+    }
+
+    queueDeathMessage(type) {
+        const deathMessage = this.deathMessages(type || "basic", this.name);
+        this.game.queueAlert(deathMessage);
     }
 }

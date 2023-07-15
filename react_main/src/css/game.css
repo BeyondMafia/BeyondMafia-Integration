@@ -192,9 +192,11 @@
 	width: 20%;
     min-width: 300px;
 }
+
 .game .side-main-panel {
     width: 50%;
 	min-width: 750px;
+    margin-left: 10px;
 }
 
 .game .left-panel,

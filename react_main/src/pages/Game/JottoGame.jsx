@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useContext, useState } from "react";
+import React, { useRef, useEffect, useContext, useState, useReducer } from "react";
 
 import { useSocketListeners, CombinedTextMeetingLayout, TopBar, PlayerList, Timer, SidePanelLayout, ActionButton } from "./Game";
 import { MaxTextInputLength, JottoLegalWords } from "../../Constants";
 import { GameContext } from "../../Contexts";
+import update from "immutability-helper";
 
 import "../../css/jotto.css";
 
@@ -28,6 +29,142 @@ export default function JottoGame(props) {
   const audioLoops = [];
   const audioOverrides = [];
   const audioVolumes = [];
+
+  const cheatSheetInit = ["ABCDEFGHJIKLMNOPQRSTUVWXYZ"].reduce((obj, letters) => {
+    for (let letter of letters) {
+        obj[letter] = "none";
+    }
+    return obj;
+  }, {});
+  const [jottoHistory, updateJottoHistory] = useReducer((jottoHistory, action) => {
+    let newJottoHistory;
+    
+    switch (action.type) {
+        case "set":
+            let stateIds = Object.keys(action.history).sort((a, b) => a - b);
+
+            // Convert History into JottoHistory
+            newJottoHistory = { states: {}, cheatsheet: { ...jottoHistory.cheatsheet}};
+            for (let state of stateIds) {
+                if (action.history[state].extraInfo) {
+                    newJottoHistory.states[state] = { ...action.history[state].extraInfo };
+                } else {
+                    newJottoHistory.states[state] = { guesses: {}, chosenWords: {}, opponents: {} };
+                }
+            }
+
+            newJottoHistory.currentState = -2;
+            if (stateIds[0] != -2)
+                newJottoHistory.currentState = stateIds[stateIds.length - 1];
+            break;
+        case "addState":
+            if (!jottoHistory.states[action.state.id]) {
+                let prevState;
+
+                if (action.state.id != -2)
+                    prevState = action.state.id - 1;
+                else
+                    prevState = Object.keys(jottoHistory.states).sort((a, b) => b - a)[0];
+
+                // Deep copy old guesses array (no need to deep copy guess objects)
+                let deepGuesses = {};
+                if (jottoHistory.states[prevState]) {
+                    for (let pid in jottoHistory.states[prevState].guesses) {
+                        deepGuesses[pid] = [ ...jottoHistory.states[prevState].guesses[pid] ];
+                    }
+                }
+
+                newJottoHistory = update(jottoHistory, {
+                    states: {
+                        [action.state.id]: {
+                            $set: {
+                                guesses: { ...deepGuesses },
+                                chosenWords: { ...jottoHistory.states[prevState].chosenWords }, 
+                                opponents: { ...jottoHistory.states[prevState].opponents }
+                            }
+                        }
+                    },
+                    currentState: {
+                        $set: action.state.id
+                    }
+                });
+            }
+            else
+                newJottoHistory = jottoHistory;
+            break;
+        case "jottoguess":
+            if (jottoHistory.states[jottoHistory.currentState]) {
+
+                newJottoHistory = update(jottoHistory, {
+                    states: {
+                        [jottoHistory.currentState]: {
+                            guesses: {
+                                [action.info.playerId]: {
+                                    $push: [{
+                                        word: action.info.word,
+                                        score: action.info.score
+                                    }]
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            break;
+        case "jottoreveal":
+            if (jottoHistory.states[jottoHistory.currentState]) {
+                newJottoHistory = update(jottoHistory, {
+                    states: {
+                        [jottoHistory.currentState]: {
+                            chosenWords: {
+                                [action.info.playerId]: {
+                                    $set: action.info.word
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            break;
+        case "jottoinit":
+            if (jottoHistory.states[jottoHistory.currentState]) {
+                newJottoHistory = update(jottoHistory, {
+                    states: {
+                        [jottoHistory.currentState]: {
+                            guesses: {
+                                [action.info.playerId]: {
+                                    $set: []
+                                }
+                            },
+                            opponents: {
+                                [action.info.playerId]: {
+                                    $set: {
+                                        attackerId: action.info.attackerId,
+                                        targetId: action.info.targetId
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            break;
+        case "cheatsheet":
+            if (jottoHistory.cheatsheet[action.info.letter]) {
+                newJottoHistory = update(jottoHistory, {
+                    cheatsheet: {
+                        [action.info.letter]: {
+                            $set: action.info.class
+                        }
+                    }
+                });
+            }
+            break;
+    }
+
+    return newJottoHistory || jottoHistory;
+
+  }, { states: {}, cheatsheet: cheatSheetInit});;
   
   // Make player view current state when it changes
   useEffect(() => {
@@ -43,12 +180,33 @@ export default function JottoGame(props) {
   }, []);
 
   useSocketListeners(socket => {
+    socket.on("history", history => {
+        updateJottoHistory({type: "set", history});
+    });
+    socket.on("state", state => {
+        updateJottoHistory({type: "addState", state});
+    });
+
     socket.on("state", state => {
       if (playBellRef.current)
         game.playAudio("bell");
 
       playBellRef.current = true;
+    });
 
+    // Receive guesses
+    socket.on("jottoguess", info => {
+        updateJottoHistory({ type: "jottoguess", info });
+    });
+
+    // Reveal chosenWords
+    socket.on("jottoreveal", info => {
+        updateJottoHistory({ type: "jottoreveal", info });
+    });
+
+    // Receive opponents
+    socket.on("jottoinit", info => {
+        updateJottoHistory({ type: "jottoinit", info });
     });
   }, game.socket);
 
@@ -116,8 +274,11 @@ export default function JottoGame(props) {
               players={players}
               self={self}
               history={history}
+              jottoHistory={jottoHistory}
+              updateJottoHistory={updateJottoHistory} 
               stateViewing={stateViewing}
               review={game.review}
+              isSpectator={game.isSpectator}
               />
           </>
         } />
@@ -128,76 +289,30 @@ export default function JottoGame(props) {
 function JottoLayout(props) {
     let playerColumns = [];
     let selfId = props.self;
-
-    if (props.history.states[props.stateViewing]) {
-        const opponents = props.history.states[props.stateViewing].extraInfo["opponents"];
-        const guessHistory = props.history.states[props.stateViewing].extraInfo["guessHistory"];
-        const wordHistory = props.history.states[props.stateViewing].extraInfo["wordHistory"];
-        if (guessHistory && wordHistory) {
-            // If reviewing, or if in post game, show all jotto columns
-            if (props.review || props.stateViewing === -2) {
-                for (let pid in props.players) {
-                    let oid = opponents[pid].target;
-
-                    // Get player's guesses as JottoGuess elements (reverse to make most recent at top)
-                    let playerGuesses = guessHistory.filter(function (g) {
-                        return g.pid == pid;
-                    })
-                    .map((guess, i) => {
-                        return (
-                            <JottoGuess 
-                                key={i}
-                                guess={guess}
-                            />
-                        );
-                    })
-                    .reverse();
-
-                    // Get opponent's answer
-                    let opponentAnswer = "";
-                    if (wordHistory.length > 0) {
-                        opponentAnswer = wordHistory.filter(function(w) {
-                            return w.pid == oid;
-                        })[0].word;
-                    }
     
-                    let answerLabel  = props.players[oid].name + "'s Word";
-                    let guessesLabel = props.players[pid].name + "'s Guesses";
+    const omniscient = props.review || props.isSpectator;
 
-                    if (selfId) {
-                        if (selfId == oid)
-                            answerLabel = "Your Word";
-                        if (selfId == pid)
-                            guessesLabel = "Your Guesses";
-                    }
+    let source = omniscient
+        ? props.history.states[props.stateViewing].extraInfo 
+        : props.jottoHistory.states[props.stateViewing];
+    if (source) {
+        const opponents = source.opponents;
+        const guesses = source.guesses;
+        const chosenWords = source.chosenWords;
+        if (guesses && chosenWords) {
+            for (let pid in props.players) {
+                if (!opponents[pid]) { continue; }
 
-                    playerColumns.push((
-                        <React.Fragment key={pid}>
-                            <div className="jotto-column-wrapper">
-                                <span>{answerLabel}</span>
-                                <div className="jotto-answer-display">
-                                    <JottoAnswer word={opponentAnswer} />
-                                </div>
-                                <span>{guessesLabel}</span>
-                                <div className="jotto-guess-display">
-                                    {playerGuesses}
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    ));
+                // If not review or postgame, skip if not self or self's attacker
+                if (!(omniscient || props.stateViewing === -2)) {
+                    if (!opponents[selfId]) { continue; }
+                    if (pid !== selfId && pid !== opponents[selfId].attackerId) { continue; }
                 }
-            }
 
-            // If not reviewing, only show player and opponent's columns
-            else {
-                let otid = opponents[selfId].target;
-                let oaid = opponents[selfId].attacker;
+                let tid = opponents[pid].targetId;
 
-                // Get self guesses as JottoGuess elements (reverse to make most recent at top)
-                let yourGuesses = guessHistory.filter(function (g) {
-                    return g.pid == selfId;
-                })
-                .map((guess, i) => {
+                // Get player's guesses as JottoGuess elements (reverse to make most recent at top)
+                let playerGuesses = guesses[pid].map((guess, i) => {
                     return (
                         <JottoGuess 
                             key={i}
@@ -207,65 +322,32 @@ function JottoLayout(props) {
                 })
                 .reverse();
 
-                // Get attacker's guesses as JottoGuess elements (reverse to make most recent at top)
-                let attackerGuesses = guessHistory.filter(function (g) {
-                    return g.pid == oaid;
-                })
-                .map((guess, i) => {
-                    return (
-                        <JottoGuess 
-                            key={i}
-                            guess={guess}
-                        />
-                    );
-                })
-                .reverse();
-
-                // Get target answer (blank because user should not know yet)
-                let targetAnswer = "";
-
-                // Get self answer
-                let yourAnswer = "";
-                if (wordHistory.length > 0) {
-                    yourAnswer = wordHistory.filter(function(w) {
-                        return w.pid == selfId;
-                    })[0].word;
+                // Get opponent's answer
+                let opponentAnswer = "";
+                if (chosenWords[tid]) {
+                    opponentAnswer = chosenWords[tid];
                 }
 
+                let answerLabel  = props.players[tid].name + "'s Word";
+                let guessesLabel = props.players[pid].name + "'s Guesses";
 
-                // Columns: TargetAnswer ||  YourAnswer
-                //          YourGuesses  ||  AttackerGuesses
-                // First Column
-                let targetAnswerLabel = props.players[otid].name + "'s Word";
-                let yourGuessesLabel = "Your Guesses";
-                playerColumns.push((
-                    <React.Fragment key={selfId}>
-                        <div className="jotto-column-wrapper">
-                            <span>{targetAnswerLabel}</span>
-                            <div className="jotto-answer-display">
-                                <JottoAnswer word={targetAnswer} />
-                            </div>
-                            <span>{yourGuessesLabel}</span>
-                            <div className="jotto-guess-display">
-                                {yourGuesses}
-                            </div>
-                        </div>
-                    </React.Fragment>
-                ));
+                if (selfId) {
+                    if (selfId == tid)
+                        answerLabel = "Your Word";
+                    if (selfId == pid)
+                        guessesLabel = "Your Guesses";
+                }
 
-                // Second Column
-                let yourAnswerLabel = "Your Word";
-                let attackerGuessesLabel = props.players[oaid].name + "'s Guesses"
                 playerColumns.push((
-                    <React.Fragment key={oaid}>
+                    <React.Fragment key={pid}>
                         <div className="jotto-column-wrapper">
-                            <span>{yourAnswerLabel}</span>
+                            <span>{answerLabel}</span>
                             <div className="jotto-answer-display">
-                                <JottoAnswer word={yourAnswer} />
+                                <JottoAnswer word={opponentAnswer} />
                             </div>
-                            <span>{attackerGuessesLabel}</span>
+                            <span>{guessesLabel}</span>
                             <div className="jotto-guess-display">
-                                {attackerGuesses}
+                                {playerGuesses}
                             </div>
                         </div>
                     </React.Fragment>
@@ -295,7 +377,11 @@ function JottoLayout(props) {
                         players={props.players}
                         self={props.self}
                         history={props.history}
-                        stateViewing={props.stateViewing} />
+                        jottoHistory={props.jottoHistory}
+                        updateJottoHistory={props.updateJottoHistory} 
+                        stateViewing={props.stateViewing}
+                        review={props.review}
+                        isSpectator={props.isSpectator}/>
                 }
                 {playerColumns.slice(1)}
             </div>
@@ -412,6 +498,8 @@ function JottoWord(props) {
 }
 
 function JottoActionList(props) {
+    if (props.review || props.isSpectator) {return (<></>);}
+
     const actions = Object.values(props.meetings).reduce((actions, meeting) => {
         if (meeting.voting) {
             let action;
@@ -446,15 +534,65 @@ function JottoActionList(props) {
 
     return (
         <>
-            {actions.length > 0 &&
-                <div className="side-menu-content">
-                    <div className="action-list">
-                        {actions}
+            <div className="jotto-column-wrapper">
+                {actions.length > 0 &&
+                    <div className="side-menu-content">
+                        <JottoCheatSheet
+                            jottoHistory={props.jottoHistory}
+                            updateJottoHistory={props.updateJottoHistory} />
+                        <div className="action-list">
+                            {actions}
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </>
     );
+}
+
+function JottoCheatSheet(props) {
+    const alphabet = ["ABCDE","FGHIJ","KLMNO","PQRST","UVWXY","Z"];
+    const cheatsheet = props.jottoHistory.cheatsheet;
+
+    function handleChangeColor(e) {
+        let letter = e.target.getAttribute("data-letter");
+        let letterClass = e.target.className.split(" ")[1];
+
+        if (letterClass == "none")
+            letterClass = "maybe";
+        else if (letterClass == "maybe")
+            letterClass = "yes";
+        else if (letterClass == "yes")
+            letterClass = "no";
+        else if (letterClass == "no")
+            letterClass = "none";
+
+        props.updateJottoHistory({
+            type:"cheatsheet", 
+            info: {letter: letter, class: letterClass}
+        });
+    }
+
+    let letters = alphabet.map((lettergroup, i) => {
+        const letters = lettergroup.split("");
+        let letterComponents = letters.map((letter, i) => {
+            return (
+                <div key={i} 
+                     className={"jotto-cheatsheet-letter " + (cheatsheet[letter] ? cheatsheet[letter] : "none")}
+                     onClick={handleChangeColor}
+                     data-letter={letter}>{letter}</div>
+            )
+        });
+
+        return (
+            <div key={i} className="jotto-cheatsheet-row">{letterComponents}</div>
+        )
+    });
+    return (
+        <>
+            <div className="jotto-cheatsheet">{letters}</div>
+        </>
+    )
 }
 
 function JottoText(props) {
@@ -501,7 +639,7 @@ function JottoText(props) {
 
         setWordWarning("");
         meeting.votes[self] = textData;
-        props.socket.send("jottowordsubmit", {
+        props.socket.send("jottovote", {
             meetingId: meeting.id,
             selection: textData
         });
