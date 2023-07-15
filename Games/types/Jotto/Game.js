@@ -218,6 +218,9 @@ module.exports = class JottoGame extends Game {
             finished = true;
         }
         winners.determinePlayers();
+        if (winners.groupAmt() > 0) {
+            finished = true
+        }
 
         return [finished, winners];
     }
