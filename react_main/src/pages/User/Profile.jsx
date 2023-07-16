@@ -351,10 +351,12 @@ export default function Profile() {
                     id={friend.id}
                     name={friend.name}
                     avatar={friend.avatar} />
-                <div className="btns-wrapper">
-                    <i className="fas fa-trash"
-                        onClick={onDeleteFriend(friend.id)} />
-                </div>
+                {isSelf &&
+                    <div className="btns-wrapper">
+                        <i className="fas fa-trash"
+                            onClick={onDeleteFriend(friend.id)} />
+                    </div>
+                }
             </div>
             <div className="last-active">
                 <Time
