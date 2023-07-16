@@ -11,6 +11,7 @@ import MafiaGame from "./MafiaGame";
 import SplitDecisionGame from "./SplitDecisionGame";
 import ResistanceGame from "./ResistanceGame";
 import OneNightGame from "./OneNightGame";
+import JottoGame from "./JottoGame";
 import { GameContext, PopoverContext, SiteInfoContext, UserContext } from "../../Contexts";
 import Dropdown, { useDropdown } from "../../components/Dropdown";
 import Setup from "../../components/Setup";
@@ -68,6 +69,7 @@ function GameWrapper(props) {
     const [deafened, setDeafened] = useState(false);
     const [rehostId, setRehostId] = useState();
     const [dev, setDev] = useState(false);
+    const [createTime, setCreateTime] = useState();
 
     const playersRef = useRef();
     const selfRef = useRef();
@@ -509,6 +511,7 @@ function GameWrapper(props) {
     function getConnectionInfo() {
         axios.get(`/game/${gameId}/connect`)
             .then(res => {
+                setCreateTime(res.data.createTime);
                 setGameType(res.data.type);
                 setPort(res.data.port);
                 setToken(res.data.token || false);
@@ -646,6 +649,7 @@ function GameWrapper(props) {
             setDeafened: setDeafened,
             noLeaveRef,
             dev: dev,
+            createTime: createTime
         };
 
         return (
@@ -670,6 +674,9 @@ function GameWrapper(props) {
                     }
                     {gameType == "One Night" &&
                         <OneNightGame />
+                    }
+                    {gameType == "Jotto" &&
+                        <JottoGame />
                     }
                 </div>
             </GameContext.Provider>
@@ -840,9 +847,159 @@ export function TopBar(props) {
     );
 }
 
-export function ThreePanelLayout(props) {
+export function SidePanelLayout(props) {
     return (
         <div className="main">
+            <div className="side-left-panel panel">
+                {props.leftPanelContent}
+            </div>
+            <div className="side-main-panel panel">
+                {props.mainPanelContent}
+            </div>
+        </div>
+    );
+}
+
+export function CombinedTextMeetingLayout(props) {
+    const game = useContext(GameContext);
+    const { isolationEnabled, isolatedPlayers } = game;
+    const { history, players, stateViewing, updateHistory } = props
+
+    const stateInfo = history.states[stateViewing];
+    const meetings = stateInfo ? stateInfo.meetings : {};
+    const selTab = stateInfo && stateInfo.selTab;
+
+    const [autoScroll, setAutoScroll] = useState(true);
+    const [mouseMoved, setMouseMoved] = useState(false);
+    const speechDisplayRef = useRef();
+
+    const speechMeetings = Object.values(meetings).filter(meeting => meeting.speech);
+
+    useLayoutEffect(() => doAutoScroll());
+
+    useEffect(() => {
+        if (stateViewing != null && !selTab && speechMeetings.length) {
+            updateHistory({
+                type: "selTab",
+                state: stateViewing,
+                meetingId: speechMeetings[0].id
+            });
+        }
+    }, [stateViewing, speechMeetings]);
+
+    useEffect(() => {
+        if (stateViewing == history.currentState)
+            setAutoScroll(true);
+        else
+            setAutoScroll(false);
+    }, [stateViewing]);
+
+    useEffect(() => {
+        function onMouseMove() {
+            setMouseMoved(true);
+            document.removeEventListener("mousemove", onMouseMove);
+        }
+
+        document.addEventListener("mousemove", onMouseMove);
+
+        return () => document.removeEventListener("mousemove", onMouseMove);
+    }, []);
+
+    function doAutoScroll() {
+        if (autoScroll && speechDisplayRef.current)
+            speechDisplayRef.current.scrollTop = speechDisplayRef.current.scrollHeight;
+    }
+
+    function onMessageQuote(message) {
+        if (!props.review && message.senderId != "server" && !message.isQuote && message.quotable) {
+            props.socket.send("quote", {
+                messageId: message.id,
+                toMeetingId: history.states[history.currentState].selTab,
+                fromMeetingId: message.meetingId,
+                fromState: stateViewing
+            });
+        }
+    }
+
+    function onSpeechScroll() {
+        if (!mouseMoved) {
+            doAutoScroll();
+            return;
+        }
+
+        let speech = speechDisplayRef.current;
+
+        if (Math.round(speech.scrollTop + speech.clientHeight) >= Math.round(speech.scrollHeight))
+            setAutoScroll(true);
+        else
+            setAutoScroll(false);
+    }
+
+    // Get all messages and alerts only
+    let messages = [];
+    for (let state in history.states) {
+        if (history.states[state]) {
+            for (let t in history.states[state].meetings) {
+                messages.push(...history.states[state].meetings[t].messages);
+            }
+            messages.push(...history.states[state].alerts);
+        }
+    }
+
+    messages.sort((a, b) => a.time - b.time);
+    messages = messages.map((message, i) => {
+        const isNotServerMessage = message.senderId !== "server";
+        const unfocusedMessage = isolationEnabled && isNotServerMessage && isolatedPlayers.size && !isolatedPlayers.has(message.senderId);
+
+        return (
+            <Message
+                message={message}
+                history={history}
+                players={players}
+                key={message.id || message.messageId + message.time || i}
+                onMessageQuote={onMessageQuote}
+                settings={props.settings}
+                unfocusedMessage={unfocusedMessage}
+            />
+        );
+    });
+
+    let canSpeak = selTab;
+    canSpeak = canSpeak && (meetings[selTab].members.length > 1 || history.currentState == -1);
+    canSpeak = canSpeak && stateViewing == history.currentState && meetings[selTab].amMember && meetings[selTab].canTalk;
+
+    return (
+        <>
+            <div className="speech-wrapper">
+                <div
+                    className="speech-display"
+                    onScroll={onSpeechScroll}
+                    ref={speechDisplayRef}>
+                    {messages}
+                </div>
+                {canSpeak &&
+                    <SpeechInput
+                        meetings={meetings}
+                        selTab={selTab}
+                        players={players}
+                        options={props.options}
+                        socket={props.socket}
+                        setAutoScroll={setAutoScroll}
+                        agoraClient={props.agoraClient}
+                        localAudioTrack={props.localAudioTrack}
+                        muted={props.muted}
+                        setMuted={props.setMuted}
+                        deafened={props.deafened}
+                        setDeafened={props.setDeafened} />
+                }
+            </div>
+        </>
+    );
+}
+
+export function ThreePanelLayout(props) {
+    return (
+        <div className={"main " + (props.settings.fullscreen ? 'fullscreen' : '')}>
             <div className="left-panel panel">
                 {props.leftPanelContent}
             </div>
@@ -974,6 +1131,7 @@ export function TextMeetingLayout(props) {
                 onMessageQuote={onMessageQuote}
                 settings={props.settings}
                 unfocusedMessage={unfocusedMessage}
+                gameCreateTime={game.createTime}
             />
         );
     });
@@ -1118,6 +1276,7 @@ function Message(props) {
     const players = props.players;
     const user = useContext(UserContext);
 
+    let gameCreateTime = props.gameCreateTime;
     var message = props.message;
     var player, quotedMessage;
     var contentClass = "content ";
@@ -1214,7 +1373,7 @@ function Message(props) {
         >
             <div className="sender">
                 {props.settings.timestamps &&
-                    <Timestamp time={message.time} />
+                    <Timestamp gameCreateTime={gameCreateTime} time={message.time} />
                 }
                 {player &&
                     <NameWithAvatar
@@ -1252,7 +1411,7 @@ function Message(props) {
                 {message.isQuote &&
                     <>
                         <i className="fas fa-quote-left" />
-                        <Timestamp time={quotedMessage.time} />
+                        <Timestamp gameCreateTime={gameCreateTime} time={quotedMessage.time} />
                         <div className="quote-info">
                             {`${quotedMessage.senderName} in ${quotedMessage.meetingName}: `}
                         </div>
@@ -1275,10 +1434,13 @@ function Message(props) {
 }
 
 export function Timestamp(props) {
-    const time = new Date(props.time);
-    var hours = String(time.getHours()).padStart(2, "0");
-    var minutes = String(time.getMinutes()).padStart(2, "0");
-    var seconds = String(time.getSeconds()).padStart(2, "0");
+    let gameCreateTime = props.gameCreateTime || 0;  // Use real time if gameCreateTime was undefined
+    const timestamp = Math.abs(new Date(props.time) - new Date(gameCreateTime));
+
+    // Convert millisecond difference into hours/minutes/seconds
+    let hours = String(Math.floor((timestamp / (1000 * 60 * 60)) % 24)).padStart(2, "0"),
+        minutes = String(Math.floor((timestamp / (1000 * 60)) % 60)).padStart(2, "0"),
+        seconds = String(Math.floor((timestamp / 1000) % 60)).padStart(2, "0");
 
     return (
         <div className="time">
@@ -1479,7 +1641,7 @@ function SpeechInput(props) {
                     placeholder={placeholder}
                     maxLength={MaxGameMessageLength}
                     onChange={onSpeechType}
-                    enterKeyHint="done"
+                    enterkeyhint="done"
                     onKeyDown={onSpeechSubmit} />
             </div>
             {options.voiceChat &&
@@ -1860,7 +2022,7 @@ function ActionSelect(props) {
     );
 }
 
-function ActionButton(props) {
+export function ActionButton(props) {
     const [meeting, history, stateViewing, isCurrentState, notClickable, onVote] = useAction(props);
     if (notClickable) {
         return null;
@@ -2114,6 +2276,12 @@ function SettingsModal(props) {
             ref: "sounds",
             type: "boolean",
             value: settings.sounds
+        },
+        {
+            label: "Fullscreen",
+            ref: "fullscreen",
+            type: "boolean",
+            value: settings.fullscreen
         },
         {
             label: "Volume",
@@ -2797,6 +2965,7 @@ export function useSettingsReducer() {
         votingLog: true,
         timestamps: true,
         sounds: true,
+        fullscreen: true,
         volume: 1,
     };
 

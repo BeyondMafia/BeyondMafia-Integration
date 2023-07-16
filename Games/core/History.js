@@ -10,7 +10,8 @@ module.exports = class History {
                 alerts: [],
                 stateEvents: {},
                 roles: {},
-                dead: {}
+                dead: {},
+                extraInfo: {},
             }
         };
     }

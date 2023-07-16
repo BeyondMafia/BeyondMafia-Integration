@@ -19,6 +19,11 @@ module.exports = class VegKickMeeting extends Meeting {
         this.hasFrozenOtherMeetings = false;
     }
 
+    generateTargets() {
+        // overrides the check for dawn's noAct
+        this.targets = ["Kick"];
+    }
+
     getMeetingInfo(player) {
         let info = super.getMeetingInfo(player);
         info.canUnvote = false;
@@ -30,6 +35,9 @@ module.exports = class VegKickMeeting extends Meeting {
         this.finished = false;
 
         for (let player of this.game.players) {
+            if (!this.members[player.id]) {
+                continue
+            }
             // unvote
             this.members[player.id].canUnvote = true;
             this.unvote(this.members[player.id], this.votes[player.id]);

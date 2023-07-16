@@ -95,6 +95,7 @@ export default function OneNightGame(props) {
 						history={history} />
 				} />
 			<ThreePanelLayout
+        settings={game.settings}
 				leftPanelContent={
 					<>
 						<PlayerList

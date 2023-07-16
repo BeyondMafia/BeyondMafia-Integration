@@ -308,8 +308,9 @@ module.exports = class Meeting {
                 );
             }
 
-            if (!this.mustAct && !this.repeatable)
+            if ((!this.mustAct && !this.repeatable) || (this.mustAct && this.targets.length === 0)) {
                 this.targets.push("*");
+            }
         }
         else if (this.inputType == "boolean") {
             if (!this.mustAct || this.includeNo)
@@ -884,6 +885,9 @@ module.exports = class Meeting {
             count[target] += member.voteWeight;
         }
         let sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
+
+        if (sortedCount.length === 0)
+            return false;
         
         // Checking for plurality
         if (sortedCount.length === 1 || sortedCount[0][1] > sortedCount[1][1])
