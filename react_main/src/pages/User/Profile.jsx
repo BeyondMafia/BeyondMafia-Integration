@@ -344,10 +344,6 @@ export default function Profile() {
         </div>
     ));
 
-    // userId is the id of the current profile
-    // user.id is the id of the current user
-    const showDelete = userId == user.id
-
     const friendRows = friends.map(friend => (
         <div className="friend" key={friend.id}>
             <div className="friend-avatar">
@@ -355,7 +351,7 @@ export default function Profile() {
                     id={friend.id}
                     name={friend.name}
                     avatar={friend.avatar} />
-                {showDelete &&
+                {isSelf &&
                     <div className="btns-wrapper">
                         <i className="fas fa-trash"
                             onClick={onDeleteFriend(friend.id)} />
