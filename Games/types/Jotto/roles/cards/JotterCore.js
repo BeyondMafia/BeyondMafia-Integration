@@ -12,6 +12,7 @@ module.exports = class JotterCore extends Card {
                 states: ["Guess Word"],
                 flags: ["voting", "mustAct"],
                 inputType: "text",
+                targets: ["*"],
                 textOptions: {
                     minLength: 5,
                     maxLength: 5,
@@ -29,9 +30,8 @@ module.exports = class JotterCore extends Card {
                         if (score == 6)
                             this.actor.role.guessedCorrectly = true;
 
-                        // Record guess into history and add it to the player's guess list
-                        this.game.recordGuess(this.actor, word, score);
-                        this.actor.role.guessedWords.push({"word": word, "score": score});
+                        this.actor.role.guesses.push({ word: word, score: score });
+                        this.game.queueGuess(this.actor, word, score);
                     }
                 }
             },
@@ -40,6 +40,7 @@ module.exports = class JotterCore extends Card {
                 states: ["Choose Word"],
                 flags: ["voting", "mustAct"],
                 inputType: "text",
+                targets: ["*"],
                 textOptions: {
                     minLength: 5,
                     maxLength: 5,
@@ -52,9 +53,9 @@ module.exports = class JotterCore extends Card {
                     run: function () {
                         let word = this.target.toUpperCase();
 
-                        // Record word into history and set the player's chosen word
-                        this.game.recordWord(this.actor, word);
                         this.actor.role.chosenWord = word;
+
+                        this.game.queueChosenWord(this.actor, word);
                     }
                 }
             },

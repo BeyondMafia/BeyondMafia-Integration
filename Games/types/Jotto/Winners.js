@@ -8,6 +8,10 @@ module.exports = class JottoWinners extends Winners {
 
     // Override to display players instead of group
     queueAlerts() {
+        if ("No one" in this.groups) {
+            this.game.queueAlert(`No one wins!`);
+            return;
+        }
         for (let player of this.players) {
             this.game.queueAlert(`${player.name} wins!`);
         }
