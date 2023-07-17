@@ -11,7 +11,34 @@
 .jotto-layout {
     display: inline-flex;
     justify-content: space-between;
-    padding: 0 20px;
+    height: 90%;
+    padding: 0 1rem;
+
+    overflow-x: scroll;
+}
+
+.jotto-layout::-webkit-scrollbar {
+    width: 25px;
+}
+
+.jotto-layout::-webkit-scrollbar-track {
+    background-color: lightgray;
+    border-radius: 10px;
+    margin: 25px;
+}
+
+.jotto-layout::-webkit-scrollbar-thumb {
+    background: var(--theme-color-sec);
+    border-radius: 10px;
+}
+
+.jotto-layout::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-color-third);
+}
+
+/* Jotto column */
+.jotto-column-wrapper {
+    margin: 0 1rem;
 }
 
 /* Jotto word container */
@@ -101,3 +128,40 @@
 .jotto-guess-score.high {color: #ffcc00;} /* 4 */
 .jotto-guess-score.max {color: #8fbb00;} /* 5 */
 .jotto-guess-score.winner {color: #00ff00;} /* 6 */
+
+/* Cheat sheet */
+.jotto-cheatsheet {
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.btn.jotto-cheatsheet-reset {
+    padding: 6px 12px;
+}
+
+.jotto-cheatsheet-row {
+    justify-content: center;
+    flex-direction: row;
+    display: flex;
+}
+
+.jotto-cheatsheet-letter {
+    align-items: center;
+    justify-content: center;
+
+    display: inline-flex;
+    height: 1.8rem;
+    width: 1.8rem;
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin: 2px;
+
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.jotto-cheatsheet-letter.none {background-color: unset;}
+.jotto-cheatsheet-letter.maybe {background-color: yellow;}
+.jotto-cheatsheet-letter.yes {background-color: limegreen;}
+.jotto-cheatsheet-letter.no {background-color: #ff4a4a;}

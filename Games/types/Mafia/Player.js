@@ -92,4 +92,17 @@ module.exports = class MafiaPlayer extends Player {
         quote.cancel = true;
         return
     }
+
+    joinMeetings(meetings) {
+        for (let meetingName in meetings) {
+            let options = meetings[meetingName];
+
+            if (meetingName === "Party!" && !this.alive) {
+                options.flags.push("exclusive");
+                break;
+            }
+        }
+
+        super.joinMeetings(meetings);
+    }
 }

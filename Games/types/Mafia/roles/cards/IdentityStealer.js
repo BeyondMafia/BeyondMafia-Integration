@@ -66,7 +66,6 @@ module.exports = class IdentityStealer extends Card {
             }
         };
     }
-
 }
 
 function stealIdentity(target) {
@@ -88,7 +87,7 @@ function resetIdentities() {
 
     for (let swap of this.data.swaps) {
         swap[0].swapIdentity(swap[1]);
-        delete swap[1].swapped;
+        delete swap[1].user.swapped;
     }
 
     delete this.data.swaps;
