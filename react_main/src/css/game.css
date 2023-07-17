@@ -207,9 +207,9 @@
 	display: flex;
 	flex-flow: column;
 
-  min-width: 600px;
+    /* min-width: 600px; */
 	width: 40%;
-	margin: 0px 10px;
+	padding: 0px 10px;
 
 	background-color: transparent;
 	box-shadow: none;
@@ -226,7 +226,6 @@
 	display: flex;
 	flex-flow: column;
 
-	width: 0px;
 	margin: 0px 10px;
 
 	background-color: transparent;
@@ -903,74 +902,11 @@
 @media (max-width: 1150px) {
 	.game .left-panel,
 	.game .right-panel {
-		min-width: 200px !important;
+		/* min-width: 200px !important; */
 	}
 
 	.game .center-panel {
-		min-width: 500px !important;
-	}
-}
-
-@media (max-width: 900px) {
-	.game .main {
-		overflow-x: scroll;
-		scrollbar-width: none;
-		scroll-snap-type: x mandatory;
-	}
-
-	.game .main::-webkit-scrollbar {
-		display: none;
-	}
-
-	.game .main::-webkit-scrollbar-track {
-		display: none;
-	}
-
-	.game .main::-webkit-scrollbar-thumb {
-		display: none;
-	}
-
-	.game .left-panel {
-		width: 90vw !important;
-
-		scroll-snap-align: start;
-		scroll-snap-stop: always;
-	}
-
-	.game .center-panel {
-		flex-basis: initial !important;
-		flex-grow: 0 !important;
-
-		width: 90vw !important;
-
-		scroll-snap-align: center;
-		scroll-snap-stop: always;
-	}
-
-	.game .right-panel {
-		width: 90vw !important;
-
-		scroll-snap-align: end;
-		scroll-snap-stop: always;
-	}
-
-	.game .top {
-		flex-flow: column !important;
-	}
-
-	.game .state-wrapper {
-		order: 3;
-		margin-top: 15px
-	}
-
-	.game .message .sender {
-		flex-basis: 100px;
-
-		padding-left: 0px;
-	}
-
-	.game .message .time {
-		display: none;
+		/* min-width: 500px !important; */
 	}
 }
 

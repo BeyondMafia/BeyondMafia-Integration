@@ -25,6 +25,7 @@ import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../C
 import { textIncludesSlurs } from "../../lib/profanity";
 
 import "../../css/game.css";
+import "../../css/game-mobile.css";
 import { adjustColor, flipTextColor } from "../../utils";
 
 export default function Game() {
