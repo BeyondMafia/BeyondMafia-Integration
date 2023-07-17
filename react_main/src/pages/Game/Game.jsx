@@ -353,10 +353,10 @@ function GameWrapper(props) {
             });
         });
 
-        socket.on("death", playerId => {
+        socket.on("death", playerInfo => {
             updateHistory({
                 type: "death",
-                playerId,
+                playerInfo,
             });
         });
 
@@ -1127,6 +1127,7 @@ export function TextMeetingLayout(props) {
                 message={message}
                 history={history}
                 players={players}
+                stateViewing={stateViewing}
                 key={message.id || message.messageId + message.time || i}
                 onMessageQuote={onMessageQuote}
                 settings={props.settings}
@@ -1320,9 +1321,25 @@ function Message(props) {
     if (message.isQuote && !quotedMessage)
         return <></>;
 
-    if(meetings[message.meetingId] !== undefined){
-        if (meetings[message.meetingId].name === "Party!") {
-            contentClass += "party ";
+    var stateMeetings = history.states[props.stateViewing].meetings;
+
+    var stateMeetingDefined = (stateMeetings !== undefined &&
+                               stateMeetings[message.meetingId] !== undefined);
+
+    var playerDead = false;
+    var deadGray = "#808080";
+    var playerHasTextColor = false;
+
+    if (player !== undefined) {
+        if (history.states[props.stateViewing].deaths[message.senderId]) {
+            const playerDeathTime = history.states[props.stateViewing].deaths[message.senderId].time
+            playerDead = history.states[props.stateViewing].deaths[message.senderId].dead && message.time > playerDeathTime ;
+        }
+        playerHasTextColor = (player.textColor !== undefined) ? true : false;
+        if (stateMeetingDefined) {
+            if (stateMeetings[message.meetingId].name === "Party!" && !playerDead) {
+                contentClass += "party ";
+            }
         }
     }
 
@@ -1349,16 +1366,17 @@ function Message(props) {
         messageStyle.opacity = "0.2";
     }
 
-    if(player !== undefined) {
-        if(player.birthday !== undefined) {
-            if (areSameDay(Date.now(), player.birthday)) {
-                contentClass += " party ";
-            }
+    if (player !== undefined) {
+        if (playerDead && props.stateViewing > -1 && stateMeetingDefined) {
+            contentClass += "dead";
+        } else if (player.birthday !== undefined && areSameDay(Date.now(), player.birthday)) {
+            contentClass += " party ";
         }
     }
 
     if (message.content?.startsWith(">")) {
         contentClass += "greentext ";
+        playerHasTextColor = false;
     }
 
     if (player !== undefined && player.textColor !== undefined) {
@@ -1377,10 +1395,11 @@ function Message(props) {
                 }
                 {player &&
                     <NameWithAvatar
+                        dead={playerDead && props.stateViewing > 0}
                         id={player.userId}
                         name={player.name}
                         avatar={player.avatar}
-                        color={player.nameColor}
+                        color={(playerDead && props.stateViewing > 0) ? deadGray : player.nameColor}
                         noLink
                         small />
                 }
@@ -1390,7 +1409,7 @@ function Message(props) {
                     </div>
                 }
             </div>
-            <div className={contentClass} style={player && player.textColor ? { color: flipTextColor(player.textColor) } : {}}>
+            <div className={contentClass} style={ (playerHasTextColor) ? { color: flipTextColor(player.textColor) } : {} }>
                 {!message.isQuote &&
                     <>
                         {message.prefix &&
@@ -1768,6 +1787,8 @@ export function PlayerRows(props) {
         const rolePrediction = rolePredictions[player.id];
         const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
 
+        var showBubbles = (Object.keys(history.states[history.currentState].deaths).includes(props.self) ||
+         players.find(x => x.id === props.self) !== undefined);
         var colorAutoScheme = false;
         var bubbleColor = "black";
         if (document.documentElement.classList.length === 0) {
@@ -1817,7 +1838,7 @@ export function PlayerRows(props) {
                     color={player.nameColor}
                     active={activity.speaking[player.id]}
                     newTab />
-                {selTab && activity.typing[player.id] == selTab &&
+                {selTab && showBubbles && activity.typing[player.id] == selTab &&
                     <ReactLoading
                         className={`typing-icon ${props.stateViewing != -1 ? "has-role" : ""}`}
                         type="bubbles"
@@ -1835,8 +1856,13 @@ export function PlayerRows(props) {
 export function PlayerList(props) {
     const history = props.history;
     const stateViewingInfo = history.states[props.stateViewing];
-    const alivePlayers = Object.values(props.players).filter(p => !stateViewingInfo.dead[p.id] && !p.left);
-    const deadPlayers = Object.values(props.players).filter(p => stateViewingInfo.dead[p.id] && !p.left);
+    const alivePlayers = Object.values(props.players).filter(p => {
+        if (props.stateViewing > -1 && stateViewingInfo.deaths[p.id]) {
+            return !stateViewingInfo.deaths[p.id].dead && !p.left;
+        }
+        return true;
+    });
+    const deadPlayers = Object.values(props.players).filter(p => stateViewingInfo.deaths[p.id] && stateViewingInfo.deaths[p.id].dead && !p.left);
 
     return (
         <SideMenu
@@ -1847,6 +1873,7 @@ export function PlayerList(props) {
                     <PlayerRows
                         players={alivePlayers}
                         history={history}
+                        self={props.self}
                         gameType={props.gameType}
                         stateViewing={props.stateViewing}
                         activity={props.activity} />
@@ -1859,6 +1886,7 @@ export function PlayerList(props) {
                     <PlayerRows
                         players={deadPlayers}
                         history={history}
+                        self={props.self}
                         gameType={props.gameType}
                         stateViewing={props.stateViewing}
                         activity={props.activity}
@@ -2547,7 +2575,7 @@ function useHistoryReducer() {
                                     alerts: [],
                                     stateEvents: [],
                                     roles: { ...history.states[prevState].roles },
-                                    dead: { ...history.states[prevState].dead },
+                                    deaths: { ...history.states[prevState].deaths },
                                     extraInfo: { ...action.state.extraInfo }
                                 }
                             }
@@ -2806,13 +2834,17 @@ function useHistoryReducer() {
                 }
                 break;
             case "death":
+                console.log(history);
                 if (history.states[history.currentState]) {
                     newHistory = update(history, {
                         states: {
                             [history.currentState]: {
-                                dead: {
-                                    [action.playerId]: {
-                                        $set: true
+                                deaths: {
+                                    [action.playerInfo.playerId]: {
+                                        $set: {
+                                            dead: true,
+                                            time: action.playerInfo.timeDead
+                                        }
                                     }
                                 }
                             }
@@ -2825,9 +2857,12 @@ function useHistoryReducer() {
                     newHistory = update(history, {
                         states: {
                             [history.currentState]: {
-                                dead: {
+                                deaths: {
                                     [action.playerId]: {
-                                        $set: false
+                                        $set : {
+                                            dead: false,
+                                            time: null
+                                        }
                                     }
                                 }
                             }

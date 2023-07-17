@@ -12,7 +12,7 @@ module.exports = class JottoHistory extends History {
                 alerts: [],
                 stateEvents: {},
                 roles: {},
-                dead: {},
+                deaths: {},
                 extraInfo: {
                     guesses: {},
                     chosenWords: {},
@@ -37,7 +37,7 @@ module.exports = class JottoHistory extends History {
             alerts: [],
             stateEvents: {},
             roles: { ...this.states[prevState].roles },
-            dead: { ...this.states[prevState].dead },
+            deaths: { ...this.states[prevState].deaths },
             extraInfo: {
                 guesses: { ...this.states[prevState].extraInfo.guesses },
                 chosenWords: { ...this.states[prevState].extraInfo.chosenWords },

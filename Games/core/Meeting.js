@@ -66,7 +66,7 @@ module.exports = class Meeting {
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
             canUpdateVote: options.canUpdateVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
-            canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
+            canTalk: options.canTalk != false && (player.alive || options.speakDead),
             visible: options.visible != false && (player.alive || !options.passiveDead),
             whileAlive: options.whileAlive != false,
             whileDead: options.whileDead,
@@ -743,7 +743,7 @@ module.exports = class Meeting {
         actor.act(finalTarget, this, actors);
     }
 
-    speak(message) {
+    speak(message, defaultRecipients) {
         var member = this.members[message.sender.id];
 
         if (
@@ -779,11 +779,15 @@ module.exports = class Meeting {
         }
        
         if (!message.recipients)
-            message.recipients = this.getPlayers();
+            message.recipients = defaultRecipients || this.getPlayers();
 
         if (message.recipients.length == 0)
             return;
 
+        if (defaultRecipients) {
+            message.modified = true;
+        }
+        
         message = new Message({
             sender: message.sender,
             content: message.content,

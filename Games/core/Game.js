@@ -175,10 +175,14 @@ module.exports = class Game {
 
     processDeathQueue() {
         for (let item of this.deathQueue) {
-            this.recordDead(item.player, item.dead);
+            let death = {
+                dead: item.dead,
+                time: item.player.timeDead
+            }
+            this.recordDeath(item.player, death);
 
             if (item.dead && !item.player.alive)
-                this.broadcast("death", item.player.id);
+                this.broadcast("death", {playerId: item.player.id, timeDead: item.player.timeDead});
             else if (!item.dead && item.player.alive)
                 this.broadcast("revival", item.player.id);
         }
@@ -761,11 +765,11 @@ module.exports = class Game {
         this.spectatorHistory.recordRole(player, appearance);
     }
 
-    recordDead(player, dead) {
+    recordDeath(player, dead) {
         for (let _player of this.players)
-            _player.history.recordDead(player, dead);
+            _player.history.recordDeath(player, dead);
 
-        this.spectatorHistory.recordDead(player, dead);
+        this.spectatorHistory.recordDeath(player, dead);
     }
 
 
@@ -774,7 +778,7 @@ module.exports = class Game {
         this.history.recordAllRoles();
 
         // Take snapshot of dead players
-        this.history.recordAllDead();
+        this.history.recordAllDeaths();
     }
 
     processStateQueues() {
@@ -1316,7 +1320,7 @@ module.exports = class Game {
 
             for (let player of this.players)
                 if (!player.left)
-                    this.postgame.join(player);
+                    this.postgame.join(player, this.postgame);
 
             this.postgame.init();
 
