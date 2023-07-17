@@ -1364,7 +1364,7 @@ function Message(props) {
     }
 
     if (player !== undefined) {
-        if (playerDead && props.stateViewing > 0 && stateMeetingDefined) {
+        if (playerDead && props.stateViewing > -1 && stateMeetingDefined) {
             contentClass += "dead";
         } else if (player.birthday !== undefined && areSameDay(Date.now(), player.birthday)) {
             contentClass += " party ";
