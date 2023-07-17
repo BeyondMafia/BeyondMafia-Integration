@@ -353,10 +353,10 @@ function GameWrapper(props) {
             });
         });
 
-        socket.on("death", playerId => {
+        socket.on("death", playerInfo => {
             updateHistory({
                 type: "death",
-                playerId,
+                playerInfo,
             });
         });
 
@@ -1331,7 +1331,10 @@ function Message(props) {
     var playerHasTextColor = false;
 
     if (player !== undefined) {
-        playerDead = history.states[props.stateViewing].dead[message.senderId] ? true : false;
+        if (history.states[props.stateViewing].deaths[message.senderId]) {
+            const playerDeathTime = history.states[props.stateViewing].deaths[message.senderId].time
+            playerDead = history.states[props.stateViewing].deaths[message.senderId].dead && message.time > playerDeathTime ;
+        }
         playerHasTextColor = (player.textColor !== undefined) ? true : false;
         if (stateMeetingDefined) {
             if (stateMeetings[message.meetingId].name === "Party!" && !playerDead) {
@@ -1784,7 +1787,7 @@ export function PlayerRows(props) {
         const rolePrediction = rolePredictions[player.id];
         const roleToShow = rolePrediction ? rolePrediction : stateViewingInfo.roles[player.id];
 
-        var showBubbles = (Object.keys(history.states[history.currentState].dead).includes(props.self) ||
+        var showBubbles = (Object.keys(history.states[history.currentState].deaths).includes(props.self) ||
          players.find(x => x.id === props.self) !== undefined);
         var colorAutoScheme = false;
         var bubbleColor = "black";
@@ -1853,8 +1856,13 @@ export function PlayerRows(props) {
 export function PlayerList(props) {
     const history = props.history;
     const stateViewingInfo = history.states[props.stateViewing];
-    const alivePlayers = Object.values(props.players).filter(p => !stateViewingInfo.dead[p.id] && !p.left);
-    const deadPlayers = Object.values(props.players).filter(p => stateViewingInfo.dead[p.id] && !p.left);
+    const alivePlayers = Object.values(props.players).filter(p => {
+        if (props.stateViewing > -1 && stateViewingInfo.deaths[p.id]) {
+            return !stateViewingInfo.deaths[p.id].dead && !p.left;
+        }
+        return true;
+    });
+    const deadPlayers = Object.values(props.players).filter(p => stateViewingInfo.deaths[p.id] && stateViewingInfo.deaths[p.id].dead && !p.left);
 
     return (
         <SideMenu
@@ -2567,7 +2575,7 @@ function useHistoryReducer() {
                                     alerts: [],
                                     stateEvents: [],
                                     roles: { ...history.states[prevState].roles },
-                                    dead: { ...history.states[prevState].dead },
+                                    deaths: { ...history.states[prevState].deaths },
                                     extraInfo: { ...action.state.extraInfo }
                                 }
                             }
@@ -2826,13 +2834,17 @@ function useHistoryReducer() {
                 }
                 break;
             case "death":
+                console.log(history);
                 if (history.states[history.currentState]) {
                     newHistory = update(history, {
                         states: {
                             [history.currentState]: {
-                                dead: {
-                                    [action.playerId]: {
-                                        $set: true
+                                deaths: {
+                                    [action.playerInfo.playerId]: {
+                                        $set: {
+                                            dead: true,
+                                            time: action.playerInfo.timeDead
+                                        }
                                     }
                                 }
                             }
@@ -2845,9 +2857,12 @@ function useHistoryReducer() {
                     newHistory = update(history, {
                         states: {
                             [history.currentState]: {
-                                dead: {
+                                deaths: {
                                     [action.playerId]: {
-                                        $set: false
+                                        $set : {
+                                            dead: false,
+                                            time: null
+                                        }
                                     }
                                 }
                             }
