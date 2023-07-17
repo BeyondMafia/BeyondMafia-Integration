@@ -1,17 +1,21 @@
+# Env files.
 .env
 .env_old
+uploads/
+firebase*.json
 
-node_modules/
-logs/
+# Dev files.
+cmds.txt
+*.log
 testing/
 tmp/
+
+# Build files.
+# build/
 build_public/
-uploads/
+node_modules/
 
-cmds.txt
-package-lock.json
-*firebase-adminsdk*.json
-
+# Graphics
 *.ai
 *.aseprite
 *.svg

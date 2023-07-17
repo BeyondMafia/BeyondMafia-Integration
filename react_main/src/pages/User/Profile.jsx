@@ -161,6 +161,21 @@ export default function Profile() {
             .catch(errorAlert);
     }
 
+    function onDeleteFriend(friendId) {
+        return () => {
+            var shouldUnfriend = window.confirm("Are you sure you wish to delete this friend?");
+            if (!shouldUnfriend)
+                return;
+            
+            axios.post("/user/friend", { user: friendId })
+                .then((res) => {
+                    setIsFriend(false);
+                    siteInfo.showAlert(res.data, "success");
+                })
+                .catch(errorAlert);
+        }
+    }
+
     function onBlockUserClick() {
         if (!isBlocked) {
             var shouldBlock = window.confirm("Are you sure you wish to block this user?");
@@ -331,10 +346,18 @@ export default function Profile() {
 
     const friendRows = friends.map(friend => (
         <div className="friend" key={friend.id}>
-            <NameWithAvatar
-                id={friend.id}
-                name={friend.name}
-                avatar={friend.avatar} />
+            <div className="friend-avatar">
+                <NameWithAvatar
+                    id={friend.id}
+                    name={friend.name}
+                    avatar={friend.avatar} />
+                {isSelf &&
+                    <div className="btns-wrapper">
+                        <i className="fas fa-trash"
+                            onClick={onDeleteFriend(friend.id)} />
+                    </div>
+                }
+            </div>
             <div className="last-active">
                 <Time
                     minSec
