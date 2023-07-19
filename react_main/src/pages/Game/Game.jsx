@@ -1339,9 +1339,12 @@ function Message(props) {
     var playerHasTextColor = false;
 
     if (player !== undefined) {
-        if (history.states[props.stateViewing].deaths[message.senderId]) {
-            const playerDeathTime = history.states[props.stateViewing].deaths[message.senderId].time
-            playerDead = history.states[props.stateViewing].deaths[message.senderId].dead && message.time > playerDeathTime ;
+        const playerDeath = history.states[props.stateViewing].deaths[message.senderId];
+        if (playerDeath && playerDeath.time) {
+            const playerDeathTime = playerDeath.time
+            playerDead = playerDeath.dead && message.time > playerDeathTime;
+        } else if (playerDeath) {
+            playerDead = playerDeath.dead ? true : false;
         }
         playerHasTextColor = (player.textColor !== undefined) ? true : false;
         if (stateMeetingDefined) {
