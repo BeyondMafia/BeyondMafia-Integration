@@ -1335,8 +1335,8 @@ function Message(props) {
         if (playerDeath && playerDeath.time) {
             const playerDeathTime = playerDeath.time
             playerDead = playerDeath.dead && message.time > playerDeathTime;
-        } else if (playerDeath && playerDeath.dead) {
-            playerDead = playerDeath.dead;
+        } else if (playerDeath) {
+            playerDead = playerDeath.dead ? true : false;
         }
         playerHasTextColor = (player.textColor !== undefined) ? true : false;
         if (stateMeetingDefined) {
