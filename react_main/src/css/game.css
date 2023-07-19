@@ -164,6 +164,11 @@
 	margin-right: 5px;
 }
 
+/*
+ * Main Content
+ *  - Contains player list, actions, chat, etc.
+ */
+
 .game .main {
 	flex-grow: 1;
 
@@ -174,6 +179,10 @@
 
 	margin: 10px;
 }
+
+/*
+ *  Panels
+ */
 
 .game .panel {
 	flex-shrink: 0;
@@ -189,14 +198,14 @@
 }
 
 .game .side-left-panel {
-	width: 20%;
-    min-width: 300px;
+	width: 30%;
+    min-width: 350px;
+    margin-right: 10px;
 }
 
 .game .side-main-panel {
     width: 50%;
-	min-width: 750px;
-    margin-left: 10px;
+	min-width: 540px;
 }
 
 .game .left-panel,
@@ -233,6 +242,22 @@
 	background-color: transparent;
 	box-shadow: none;
 }
+
+.game .fullscreen .side-left-panel {
+	width: 35%;
+    min-width: 350px;
+    margin-right: 10px;
+}
+
+.game .fullscreen .side-main-panel {
+    width: 65%;
+	min-width: 540px;
+}
+
+
+/*
+ *  Chat/Meeting
+ */
 
 .game .meeting-tabs {
 	display: flex;
@@ -517,6 +542,10 @@
 	cursor: pointer;
 }
 
+/*
+ *  Side Menu
+ */
+
 .game .side-menu {
 	flex-grow: 0;
 	flex-shrink: 0;
@@ -568,6 +597,10 @@
 .game .side-menu-content {
 	overflow: hidden;
 }
+
+/*
+ *  Player List
+ */
 
 .game .player-list {
 	flex-grow: 1;
@@ -635,6 +668,10 @@
 	cursor: default;
 }
 
+/*
+ *  Player Actions/Meeting votes
+ */
+
 .game .action {
 	display: flex;
 	flex-flow: column;
@@ -699,7 +736,9 @@
 	color: var(--scheme-color-text);
 }
 
-/* resistance */
+/*
+ *  Game Type: Resistance
+ */
 
 .game .rst {
 	display: flex;
@@ -901,30 +940,4 @@
 .game ::-webkit-scrollbar-thumb:hover {
 	background: var(--theme-color-sec);
 	z-index: -1;
-}
-
-/*
- * Media Queries
- */
-@media (max-width: 1150px) {
-	.game .left-panel,
-	.game .right-panel {
-		/* min-width: 200px !important; */
-	}
-
-	.game .center-panel {
-		/* min-width: 500px !important; */
-	}
-}
-
-@media (max-width: 600px) {
-
-	.game .modal.settings,
-	.game .modal.first-game {
-		width: 300px;
-	}
-
-	.game .rehost-game {
-		display: none;
-	}
 }

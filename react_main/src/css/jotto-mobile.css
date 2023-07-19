@@ -1,0 +1,143 @@
+
+/*
+ * Override main @media selectors
+ */
+@media screen and (max-width: 900px) {
+
+    /* No overflow */
+    .game {
+        overflow-x: hidden;
+    }
+
+    /*
+     * Main Content
+     *  - Contains player list, actions, chat, etc.
+     */
+	.game .main.Jotto {
+        grid-template-columns: [col-start] 1fr [col-end] !important;
+        grid-template-rows: [row-start] 50% [row-middle] 50% [row-end] !important;
+	}
+
+    /* Jotto Layout */
+    .game .main.Jotto .fullscreen .side-left-panel,
+    .game .main.Jotto .side-left-panel {
+        grid-column: col-start / col-end;
+        grid-row: row-middle / row-end;
+
+        min-width: unset;
+    }
+    
+    .game .main.Jotto .fullscreen .side-main-panel,
+    .game .main.Jotto .side-main-panel {
+        grid-column: col-start / col-end;
+        grid-row: row-start / row-middle;
+
+        min-width: unset;
+    }
+
+    .game .main.Jotto .fullscreen .side-left-panel,
+    .game .main.Jotto .fullscreen .side-main-panel,
+    .game .main.Jotto .side-left-panel, .game .main.Jotto .side-main-panel {
+        margin: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Jotto */
+    .jotto-layout {
+        padding: 0;
+    }
+
+    .jotto-column-wrapper {
+        margin: 0 0.5rem;
+    }
+
+    .jotto-layout::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .jotto-layout::-webkit-scrollbar-track {
+        background-color: lightgray;
+        border-radius: 10px;
+        margin: 25px;
+    }
+    
+    .jotto-layout::-webkit-scrollbar-thumb {
+        background: var(--theme-color-sec);
+        border-radius: 10px;
+    }
+    
+    .jotto-layout::-webkit-scrollbar-thumb:hover {
+        background: var(--theme-color-third);
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .game .top.Jotto {
+        min-width: 320px !important;
+    }
+
+    .game .main.Jotto {
+        min-width: 320px !important;
+
+        font-size: 16px !important;
+    }
+
+    /* Jotto shrink non-self column */
+    .jotto-column-wrapper.other-column .name-with-avatar {
+        justify-content: left;
+    }
+
+    .jotto-column-wrapper.other-column .jotto-word {
+        width: 9rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .jotto-column-wrapper.other-column .jotto-guess-display {
+        width: 11rem;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-guess-display .jotto-word-tile {
+        height: 1.6rem;
+        width: 1.6rem;
+
+        font-size: 1.2rem;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-guess-display .jotto-guess-score {
+        font-size: 1.2rem;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-answer-display {
+        width: 11rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .jotto-column-wrapper.other-column .jotto-answer-display .jotto-word {
+        width: 11rem;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-answer-display .jotto-word-tile {
+        height: 2rem;
+        width: 2rem;
+    
+        color: lightcoral;
+        font-weight: bold;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-input-container {
+        height: 2rem;
+        width: 11rem;
+    }
+
+    .jotto-column-wrapper.other-column .jotto-input-container .jotto-word {
+        width: 11rem;
+    }
+    
+    .jotto-column-wrapper.other-column .jotto-input-container .jotto-word-tile {
+        height: 2rem;
+        width: 2rem;
+    
+        font-weight: bold;
+    }
+}

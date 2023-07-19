@@ -96,7 +96,7 @@ export default function MafiaGame() {
 						history={history} />
 				} />
 			<ThreePanelLayout
-        settings={game.settings}
+                settings={game.settings}
 				leftPanelContent={
 					<>
 						<PlayerList
@@ -148,10 +148,10 @@ export default function MafiaGame() {
 								lastWill={game.lastWill}
 								socket={game.socket} />
 						}
-						{!game.review && !isSpectator &&
+						{/* {!game.review && !isSpectator &&
 							<Notes
 								stateViewing={stateViewing} />
-						}
+						} */}
 					</>
 				} />
 		</>
