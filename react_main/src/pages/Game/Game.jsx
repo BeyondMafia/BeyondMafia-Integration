@@ -1868,12 +1868,19 @@ export function PlayerList(props) {
     const history = props.history;
     const stateViewingInfo = history.states[props.stateViewing];
     const alivePlayers = Object.values(props.players).filter(p => {
-        if (props.stateViewing > -1 && stateViewingInfo.deaths[p.id]) {
-            return !stateViewingInfo.deaths[p.id].dead && !p.left;
+        let isDead = false;
+        if (stateViewingInfo.deaths[p.id]) {
+            isDead = stateViewingInfo.deaths[p.id].dead;
         }
-        return true;
+        return !isDead && !p.left;
     });
-    const deadPlayers = Object.values(props.players).filter(p => stateViewingInfo.deaths[p.id] && stateViewingInfo.deaths[p.id].dead && !p.left);
+    const deadPlayers = Object.values(props.players).filter(p => {
+        let isDead = false;
+        if (stateViewingInfo.deaths[p.id]) {
+            isDead = stateViewingInfo.deaths[p.id].dead;
+        }
+        return isDead && !p.left;
+    });
 
     return (
         <SideMenu
