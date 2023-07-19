@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useContext, useState, useReducer } from "react";
 
 import { useSocketListeners, CombinedTextMeetingLayout, TopBar, PlayerList, Timer, SidePanelLayout, ActionButton } from "./Game";
+import { NameWithAvatar } from "../User/User";
 import { MaxTextInputLength, JottoLegalWords } from "../../Constants";
 import { GameContext } from "../../Contexts";
 import update from "immutability-helper";
 
 import "../../css/jotto.css";
+import "../../css/jotto-mobile.css";
 
 export default function JottoGame(props) {
   const game = useContext(GameContext);
@@ -253,14 +255,10 @@ export default function JottoGame(props) {
             history={history} />
         } />
       <SidePanelLayout
+        settings={game.settings}
+        gameType={gameType}
         leftPanelContent={
           <>
-            <PlayerList
-              players={players}
-              history={history}
-              gameType={gameType}
-              stateViewing={stateViewing}
-              activity={game.activity} />
             <CombinedTextMeetingLayout
               socket={game.socket}
               history={history}
@@ -281,19 +279,30 @@ export default function JottoGame(props) {
         }
         mainPanelContent={
           <>
-            <JottoLayout 
-              game={game}
-              socket={game.socket}
-              meetings={meetings}
-              players={players}
-              self={self}
-              history={history}
-              jottoHistory={jottoHistory}
-              updateJottoHistory={updateJottoHistory} 
-              stateViewing={stateViewing}
-              review={game.review}
-              isSpectator={game.isSpectator}
-              />
+            {stateViewing == -1 &&
+                <PlayerList
+                    players={players}
+                    history={history}
+                    gameType={gameType}
+                    stateViewing={stateViewing}
+                    activity={game.activity} />
+            }
+            {stateViewing != -1 &&
+                <JottoLayout 
+                    game={game}
+                    socket={game.socket}
+                    meetings={meetings}
+                    players={players}
+                    self={self}
+                    history={history}
+                    jottoHistory={jottoHistory}
+                    updateJottoHistory={updateJottoHistory} 
+                    stateViewing={stateViewing}
+                    review={game.review}
+                    isSpectator={game.isSpectator}
+                    activity={game.activity}
+                />
+            }
           </>
         } />
     </>
@@ -303,13 +312,40 @@ export default function JottoGame(props) {
 function JottoLayout(props) {
     let playerColumns = [];
     let selfId = props.self;
-    
-    const omniscient = props.review || props.isSpectator;
 
+    // Put player Guess input on top of their guess history
+    const actions = Object.values(props.meetings).reduce((actions, meeting) => {
+        if (meeting.voting) {
+            let action;
+            switch (meeting.inputType) {
+                case "text":
+                    if (meeting.name === "Guess") {
+                        action = 
+                            <JottoText
+                                key={meeting.id}
+                                socket={props.socket}
+                                meeting={meeting}
+                                players={props.players}
+                                self={props.self}
+                                history={props.history}
+                                stateViewing={props.stateViewing}
+                                noLabel />;
+                    }
+                    break;
+            }
+            if (action) {
+                actions.push(action);
+            }
+        }
+        return actions;
+    }, []);
+
+    const omniscient = props.review || props.isSpectator;
     let source = omniscient
         ? props.history.states[props.stateViewing].extraInfo 
         : props.jottoHistory.states[props.stateViewing];
-    if (source) {
+    // Don't show columns on Choose Word
+    if (source && props.stateViewing != 0) {
         const opponents = source.opponents;
         const guesses = source.guesses;
         const chosenWords = source.chosenWords;
@@ -352,12 +388,20 @@ function JottoLayout(props) {
                         guessesLabel = "Your Guesses";
                 }
 
+                const targetPlayer = props.players[tid];
                 playerColumns.push((
                     <React.Fragment key={pid}>
-                        <div className="jotto-column-wrapper">
-                            <span>{answerLabel}</span>
+                        <div className={"jotto-column-wrapper " + (opponents[tid].targetId == selfId ? "self-column" : "other-column")}>
+                            <NameWithAvatar
+                                id={targetPlayer.userId}
+                                name={targetPlayer.name}
+                                avatar={targetPlayer.avatar}
+                                color={targetPlayer.nameColor}
+                                active={props.activity.speaking[targetPlayer.id]}
+                                noLink
+                                newTab />
                             <div className="jotto-answer-display">
-                                <JottoAnswer word={opponentAnswer} />
+                                {actions.length > 0 && opponents[tid].targetId == selfId ? actions[0] : <JottoAnswer word={opponentAnswer} />}
                             </div>
                             <span>{guessesLabel}</span>
                             <div className="jotto-guess-display">
@@ -413,8 +457,7 @@ function JottoAnswer(props) {
     }
     return (
         <>
-            <JottoWord wordArray={wordArray} isAnswer={true} />
-            <br/>
+            <JottoWord wordArray={wordArray} />
         </>
     )
 }
@@ -498,15 +541,14 @@ function JottoGuess(props) {
 
 function JottoWord(props) {
     let word = props.wordArray;
-    let isAnswer = props.isAnswer;
     let tiles = word.map((letter, i) => {
         return (
-            <div key={i} className={"jotto-word-tile " + (isAnswer ? "jotto-answer" : "")}>{letter}</div>
+            <div key={i} className="jotto-word-tile">{letter}</div>
         )
     });
     return (
         <>
-            <div className={"jotto-word " + (isAnswer ? "jotto-answer" : "")}>{tiles}</div>
+            <div className="jotto-word">{tiles}</div>
         </>
     )
 }
@@ -530,18 +572,22 @@ function JottoActionList(props) {
                             stateViewing={props.stateViewing} />;
                     break;
                 case "text":
-                    action = 
-                        <JottoText
-                            key={meeting.id}
-                            socket={props.socket}
-                            meeting={meeting}
-                            players={props.players}
-                            self={props.self}
-                            history={props.history}
-                            stateViewing={props.stateViewing} />;
+                    if (meeting.name === "Choose") {
+                        action = 
+                            <JottoText
+                                key={meeting.id}
+                                socket={props.socket}
+                                meeting={meeting}
+                                players={props.players}
+                                self={props.self}
+                                history={props.history}
+                                stateViewing={props.stateViewing} />;
+                    }
                     break;
             }
-            actions.push(action);
+            if (action) {
+                actions.push(action);
+            }
         }
         return actions;
     }, []);
@@ -549,16 +595,19 @@ function JottoActionList(props) {
     return (
         <>
             <div className="jotto-column-wrapper">
-                {actions.length > 0 &&
-                    <div className="side-menu-content">
+                <div className="side-menu-content">
+                    {props.stateViewing > 0 &&
+                        // Don't show cheat sheet on non-guess state
                         <JottoCheatSheet
                             jottoHistory={props.jottoHistory}
                             updateJottoHistory={props.updateJottoHistory} />
+                    }
+                    {actions.length > 0 &&
                         <div className="action-list">
                             {actions}
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </>
     );
@@ -690,7 +739,6 @@ function JottoText(props) {
                 }
             </form>
             {wordWarning}
-            <br />
             {meeting.votes[self]}
         </div>
     );

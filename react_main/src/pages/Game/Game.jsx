@@ -25,6 +25,7 @@ import { MaxGameMessageLength, MaxTextInputLength, MaxWillLength } from "../../C
 import { textIncludesSlurs } from "../../lib/profanity";
 
 import "../../css/game.css";
+import "../../css/game-mobile.css";
 import { adjustColor, flipTextColor } from "../../utils";
 
 export default function Game() {
@@ -771,7 +772,7 @@ export function TopBar(props) {
     }
 
     return (
-        <div className="top">
+        <div className={"top " + (props.gameType ? props.gameType : "")}>
             <div className="game-name-wrapper" onClick={onLogoClick}>
                 {props.gameName}
             </div>
@@ -849,7 +850,10 @@ export function TopBar(props) {
 
 export function SidePanelLayout(props) {
     return (
-        <div className="main">
+        <div className={"main "
+                        + (props.settings.fullscreen ? "fullscreen " : "")
+                        + (props.gameType ? props.gameType : "")
+                        }>
             <div className="side-left-panel panel">
                 {props.leftPanelContent}
             </div>
@@ -956,6 +960,7 @@ export function CombinedTextMeetingLayout(props) {
                 message={message}
                 history={history}
                 players={players}
+                stateViewing={stateViewing}
                 key={message.id || message.messageId + message.time || i}
                 onMessageQuote={onMessageQuote}
                 settings={props.settings}
@@ -999,7 +1004,10 @@ export function CombinedTextMeetingLayout(props) {
 
 export function ThreePanelLayout(props) {
     return (
-        <div className={"main " + (props.settings.fullscreen ? 'fullscreen' : '')}>
+        <div className={"main "
+                        + (props.settings.fullscreen ? "fullscreen " : "")
+                        + (props.gameType ? props.gameType : "")
+                        }>
             <div className="left-panel panel">
                 {props.leftPanelContent}
             </div>
@@ -1952,7 +1960,7 @@ export function ActionList(props) {
 
     return (
         <>
-            {actions.length > 0 &&
+            {(actions.length > 0 || props.stateViewing > -1) &&
                 <SideMenu
                     scrollable
                     title="Actions"

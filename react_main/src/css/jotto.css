@@ -11,7 +11,7 @@
 .jotto-layout {
     display: inline-flex;
     justify-content: space-between;
-    height: 90%;
+    height: 100%;
     padding: 0 1rem;
 
     overflow-x: scroll;
@@ -41,6 +41,11 @@
     margin: 0 1rem;
 }
 
+.jotto-column-wrapper .name-with-avatar {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
 /* Jotto word container */
 .jotto-word {
     display: inline-flex;
@@ -64,13 +69,40 @@
     line-height: 1;
 }
 
-/* Jotto answer slightly bigger */
-.jotto-word.jotto-answer {
+/* Jotto guess */
+.jotto-guess-display {
+    width: 13rem;
+}
+
+.jotto-guess-score {
+    margin-left: 0.5rem;
+
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.jotto-guess-score.low {color: #ff0000;} /* 1 & 2 */
+.jotto-guess-score.medium {color: #ff9900;} /* 3 */
+.jotto-guess-score.high {color: #ffcc00;} /* 4 */
+.jotto-guess-score.max {color: #8fbb00;} /* 5 */
+.jotto-guess-score.winner {color: #00ff00;} /* 6 */
+
+/* Jotto answer */
+.jotto-answer-display {
     width: 13rem;
     margin-bottom: 1rem;
 }
 
-.jotto-word-tile.jotto-answer {
+.jotto-answer-display .action-name {
+    display: none;
+}
+
+/* Jotto answer word slightly bigger */
+.jotto-answer-display .jotto-word {
+    width: 13rem;
+}
+
+.jotto-answer-display .jotto-word-tile {
     height: 2.4rem;
     width: 2.4rem;
 
@@ -81,8 +113,19 @@
 /* Jotto input container */
 .jotto-input-container {
     position: relative;
-    width: 11rem;
-    height: 2rem;
+    height: 2.4rem;
+    width: 13rem;
+}
+
+.jotto-input-container .jotto-word {
+    width: 13rem;
+}
+
+.jotto-input-container .jotto-word-tile {
+    height: 2.4rem;
+    width: 2.4rem;
+
+    font-weight: bold;
 }
 
 /* Jotto text input */
@@ -115,19 +158,6 @@
     opacity: 0.5;
     transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s;
 }
-
-.jotto-guess-score {
-    margin-left: 0.5rem;
-
-    font-size: 1.5rem;
-    color: #555;
-}
-
-.jotto-guess-score.low {color: #ff0000;} /* 1 & 2 */
-.jotto-guess-score.medium {color: #ff9900;} /* 3 */
-.jotto-guess-score.high {color: #ffcc00;} /* 4 */
-.jotto-guess-score.max {color: #8fbb00;} /* 5 */
-.jotto-guess-score.winner {color: #00ff00;} /* 6 */
 
 /* Cheat sheet */
 .jotto-cheatsheet {
@@ -162,6 +192,6 @@
 }
 
 .jotto-cheatsheet-letter.none {background-color: unset;}
-.jotto-cheatsheet-letter.maybe {background-color: yellow;}
-.jotto-cheatsheet-letter.yes {background-color: limegreen;}
+.jotto-cheatsheet-letter.maybe {background-color: #ffcc00;}
+.jotto-cheatsheet-letter.yes {background-color: #00a000;}
 .jotto-cheatsheet-letter.no {background-color: #ff4a4a;}
