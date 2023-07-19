@@ -1,0 +1,200 @@
+
+
+@media screen and (max-width: 900px) {
+
+    .game .side-menu-title,
+    .game .tab {
+        padding: 5px 10px !important;
+    }
+
+    /*
+     * Top bar
+     *  - Contains game title, settings button, setup info, leave button, etc.
+     */
+
+    /* Unnecessary elements */
+    .game .top .game-name-wrapper,
+    .game .top .misc-wrapper .misc-left .options {display: none;}
+
+    .game .top {
+        margin-top: 10px;
+		flex-flow: column;
+    }
+
+	.game .top .state-wrapper {
+		order: 3;
+	}
+
+	.game .top .state-wrapper .state-nav > i {
+		transform: scale(2.5, 1.5);
+	}
+
+    /* Pad the sides of the wrapper */
+    .game .top .misc-wrapper {
+        padding: 0 10px;
+    }
+
+    /* Inflate buttons, move to left */
+    .game .top .misc-wrapper .misc-left {
+        margin-right: auto;
+    }
+
+    .game .top .misc-wrapper .misc-buttons {
+        margin: 0px;
+    }
+
+    .game .top .misc-wrapper .misc-buttons > i {
+        margin: 0px 15px;
+        transform: scale(2);
+    }
+
+    /*
+     * Main Content
+     *  - Contains player list, actions, chat, etc.
+     */
+	.game .main {
+        display: grid;
+        grid-template-columns: [col-start] 300px [col-left] 1fr [col-middle] 1fr [col-right] 250px [col-end];
+        grid-template-rows: [row-start] 50% [row-middle] 50% [row-end];
+    
+        width: 100%;
+        margin: 0;
+		scrollbar-width: none;
+		scroll-snap-type: x mandatory;
+        justify-content: left;
+	}
+
+	.game .main::-webkit-scrollbar {
+		display: none;
+	}
+
+	.game .main::-webkit-scrollbar-track {
+		display: none;
+	}
+
+	.game .main::-webkit-scrollbar-thumb {
+		display: none;
+	}
+
+	.game .message .sender {
+		flex-basis: 100px;
+		padding-left: 0px;
+	}
+
+	.game .message .time {
+		display: none;
+	}
+
+    /*
+     * Main/Center Panel
+     */
+    .game .fullscreen .center-panel,
+	.game .center-panel {
+        align-self: unset;
+        flex-grow: unset;
+        flex-basis: unset;
+
+        grid-column: col-start / col-right;
+        grid-row: row-start / row-end;
+
+        min-width: unset;
+        width: 100%;
+        padding: 0 5px 0 0;
+
+		scroll-snap-align: center;
+		scroll-snap-stop: always;
+	}
+
+    /*
+     * Left/Right/Side Panel
+     */
+    .game .fullscreen .left-panel,
+	.game .left-panel {
+        grid-column: col-right / col-end;
+        grid-row: row-middle / row-end;
+
+        min-width: unset;
+
+		scroll-snap-align: start;
+		scroll-snap-stop: always;
+	}
+
+    .game .fullscreen .right-panel,
+	.game .right-panel {
+        grid-column: col-right / col-end;
+        grid-row: row-start / row-middle;
+
+        min-width: unset;
+
+		scroll-snap-align: end;
+		scroll-snap-stop: always;
+	}
+
+    .game .fullscreen .left-panel,
+    .game .fullscreen .right-panel,
+    .game .left-panel, .game .right-panel {
+        width: 100%;
+    }
+
+    /* Player link disable */
+    .game .player a {
+        pointer-events: none;
+    }
+}
+
+
+
+@media screen and (max-width: 640px) {
+
+	.game .main {
+        grid-template-columns: [col-start] 1fr [col-middle] 1fr [col-end] !important;
+        grid-template-rows: [row-start] 40% [row-middle] 60% [row-end] !important;
+
+        font-size: 14px;
+        overflow-x: scroll;
+	}
+
+    /*
+     * Main/Center Panel
+     */
+    .game .fullscreen .center-panel,
+	.game .center-panel {
+        grid-column: col-start / col-end;
+        grid-row: row-middle / row-end;
+
+        padding: 0;
+	}
+
+    /*
+     * Left/Right/Side Panel
+     */
+    .game .fullscreen .left-panel,
+	.game .left-panel {
+        grid-column: col-start / col-middle;
+        grid-row: row-start / row-middle;
+
+        border-right: 5px solid var(--theme-color);
+	}
+
+    .game .fullscreen .right-panel,
+	.game .right-panel {
+        grid-column: col-middle / col-end;
+        grid-row: row-start / row-middle;
+	}
+
+    .game .fullscreen .right-panel,
+    .game .fullscreen .left-panel,
+	.game .right-panel, 
+	.game .left-panel {
+        min-width: 250px;
+	}
+
+	.game .modal.settings,
+	.game .modal.first-game {
+		width: 300px;
+	}
+
+	.game .rehost-game {
+		display: none;
+    }
+}
