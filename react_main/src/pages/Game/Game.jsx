@@ -1331,8 +1331,11 @@ function Message(props) {
 
     var stateMeetings = history.states[props.stateViewing].meetings;
 
-    var stateMeetingDefined = (stateMeetings !== undefined &&
-                               stateMeetings[message.meetingId] !== undefined);
+    var stateMeetingDefined = (stateMeetings !== undefined && (
+                                    // message has meetingId, quote has toMeetingId
+                                    stateMeetings[message.meetingId] !== undefined ||
+                                    stateMeetings[message.toMeetingId] !== undefined
+                                ));
 
     var playerDead = false;
     var deadGray = "#808080";
@@ -1348,7 +1351,8 @@ function Message(props) {
         }
         playerHasTextColor = (player.textColor !== undefined) ? true : false;
         if (stateMeetingDefined) {
-            if (stateMeetings[message.meetingId].name === "Party!" && !playerDead) {
+            const meetingId = message.meetingId || message.toMeetingId;
+            if (stateMeetings[meetingId].name === "Party!" && !playerDead) {
                 contentClass += "party ";
             }
         }
@@ -1378,7 +1382,7 @@ function Message(props) {
     }
 
     if (player !== undefined) {
-        if (playerDead && props.stateViewing > -1 && stateMeetingDefined) {
+        if (playerDead && props.stateViewing > -1) {
             contentClass += "dead";
         } else if (player.birthday !== undefined && areSameDay(Date.now(), player.birthday)) {
             contentClass += " party ";
