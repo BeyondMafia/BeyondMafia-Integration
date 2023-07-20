@@ -148,10 +148,10 @@ export default function MafiaGame() {
 								lastWill={game.lastWill}
 								socket={game.socket} />
 						}
-						{/* {!game.review && !isSpectator &&
+						{!game.review && !isSpectator &&
 							<Notes
 								stateViewing={stateViewing} />
-						} */}
+						}
 					</>
 				} />
 		</>

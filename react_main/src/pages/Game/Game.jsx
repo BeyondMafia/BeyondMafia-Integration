@@ -1728,9 +1728,13 @@ export function formatTimerTime(time) {
 }
 
 export function SideMenu(props) {
+    const collapsible = props.collapsible;
+    const [activeCollapse, setActiveCollapse] = useState(false);
+
     return (
-        <div className={`side-menu ${props.scrollable ? "scrollable" : ""}`}>
-            <div className="side-menu-title">
+        <div className={`side-menu ${props.scrollable ? "scrollable" : ""} ${activeCollapse ? "collapsed" : ""}`}>
+            <div className="side-menu-title" 
+                    onClick={() => setActiveCollapse(!activeCollapse && collapsible)}>
                 {props.title}
             </div>
             <div className="side-menu-content">
@@ -2494,6 +2498,7 @@ export function SpeechFilter(props) {
     return (
         <SideMenu
             title="Speech Filters"
+            collapsible
             content={
                 <div className="speech-filters">
                     <div style={{marginBottom: "10px"}}>
@@ -2550,6 +2555,7 @@ export function Notes(props) {
     return (
         <SideMenu
             title="Notes"
+            collapsible
             content={
                 <div className="notes-wrapper">
                     <textarea
