@@ -803,7 +803,7 @@ module.exports = class Meeting {
         message.send();
     }
 
-    quote(sender, quote) {
+    quote(sender, quote, defaultRecipients) {
         var member = this.members[sender.id];
 
         if (
@@ -818,11 +818,15 @@ module.exports = class Meeting {
             return;
         }
 
+        if (!quote.recipients)
+            quote.recipients = defaultRecipients || this.getPlayers();
+
         var quote = new Quote({
             game: this.game,
             sender: sender,
             messageId: quote.messageId,
             meeting: this,
+            recipients: quote.recipients,
             fromMeetingId: quote.fromMeetingId,
             fromState: quote.fromState,
             anonymous: this.anonymous

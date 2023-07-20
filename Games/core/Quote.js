@@ -9,13 +9,17 @@ module.exports = class Quote extends Message {
         this.messageId = info.messageId;
         this.fromMeetingId = info.fromMeetingId;
         this.fromState = info.fromState;
+        this.recipients = info.recipients;
         this.quotable = false;
         this.cancel = false;
     }
 
     send() {
         this.timeSent = Date.now();
-        this.recipients = this.meeting.getPlayers();
+
+        if (!this.recipients) {
+            this.recipients = this.meeting.getPlayers();
+        }
 
         if (this.anonymous) {
             this.versions["*"] = new Quote(this);
