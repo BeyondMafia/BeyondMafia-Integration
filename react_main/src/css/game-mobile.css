@@ -147,11 +147,10 @@
 @media screen and (max-width: 640px) {
 
 	.game .main {
-        grid-template-columns: [col-start] 1fr [col-middle] 1fr [col-end] !important;
+        grid-template-columns: [col-start] 50vw [col-middle] 50vw [col-end] !important;
         grid-template-rows: [row-start] 40% [row-middle] 60% [row-end] !important;
 
         font-size: 14px;
-        overflow-x: scroll;
 	}
 
     /*
@@ -182,13 +181,39 @@
         grid-row: row-start / row-middle;
 	}
 
-    .game .fullscreen .right-panel,
-    .game .fullscreen .left-panel,
-	.game .right-panel, 
-	.game .left-panel {
-        min-width: 250px;
-	}
+    /* Collapsible side menus */
+    .game .side-menu.collapsed .side-menu-content {
+        display: none;
+    }
+    
+    /* Shrink player list */
+    .game .player-list .avatar {
+        height: 30px;
+        width: 30px;
+    }
 
+    .game .player-list .role {
+        transform: scale(0.75);
+    }
+
+    .game .player-list .player {
+        height: 30px;
+    }
+
+    .game .player-list .role-marker i {
+        margin: 8px 0;
+    }
+
+    /* Shrink action */
+    .game .action .dropdown-control {
+        padding: 5px;
+    }
+
+    .game .action .action-name {
+        margin-top: 5px;
+    }
+
+    /* Other */
 	.game .modal.settings,
 	.game .modal.first-game {
 		width: 300px;
