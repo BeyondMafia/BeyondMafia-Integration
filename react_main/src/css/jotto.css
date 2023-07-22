@@ -17,28 +17,35 @@
     overflow-x: scroll;
 }
 
-.jotto-layout::-webkit-scrollbar {
-    width: 25px;
-}
-
-.jotto-layout::-webkit-scrollbar-track {
-    background-color: lightgray;
-    border-radius: 10px;
-    margin: 25px;
-}
-
-.jotto-layout::-webkit-scrollbar-thumb {
-    background: var(--theme-color-sec);
-    border-radius: 10px;
-}
-
-.jotto-layout::-webkit-scrollbar-thumb:hover {
-    background: var(--theme-color-third);
-}
-
 /* Jotto column */
 .jotto-column-wrapper {
+    display: flex;
+    flex-direction: column;
     margin: 0 1rem;
+}
+
+.jotto-column-wrapper.sticky {
+    position: sticky;
+    top: 0;
+    min-width: 14rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.jotto-column-wrapper.sticky::-webkit-scrollbar {
+    width: 5px;
+}
+
+.jotto-column-wrapper.sticky::-webkit-scrollbar-track {
+    background-color: lightgray;
+}
+
+.jotto-column-wrapper.sticky::-webkit-scrollbar-thumb {
+    background: var(--theme-color-sec);
+}
+
+.jotto-column-wrapper.sticky::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-color-third);
 }
 
 .jotto-column-wrapper .name-with-avatar {
@@ -71,6 +78,10 @@
 
 /* Jotto guess */
 .jotto-guess-display {
+    width: 13rem;
+}
+
+.jotto-guess {
     width: 13rem;
 }
 
@@ -167,6 +178,9 @@
 }
 
 .btn.jotto-cheatsheet-reset {
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
     padding: 6px 12px;
 }
 

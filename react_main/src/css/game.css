@@ -1,6 +1,7 @@
 .game {
-	display: flex;
-	flex-flow: column;
+    display: grid;
+    grid-template-columns: [col-start] 1fr [col-end] !important;
+    grid-template-rows: [row-start] 12.5% [row-middle] 87.5% [row-end] !important;
 
 	height: 100%;
 	width: 100%;
@@ -11,10 +12,14 @@
 }
 
 .game .loading-page {
+    grid-column: col-start / col-end;
+    grid-row: row-start / row-end;
 	height: 100%;
 }
 
 .game .top {
+    grid-column: col-start / col-end;
+    grid-row: row-start / row-middle;
 	display: flex;
 	flex-flow: row;
 }
@@ -70,7 +75,8 @@
 
 
 .game .state-name {
-	width: 100px;
+	max-width: 150px;
+    margin: 0 10px;
 
 	text-align: center;
 	font-weight: 600;
@@ -170,6 +176,8 @@
  */
 
 .game .main {
+    grid-column: col-start / col-end;
+    grid-row: row-middle / row-end;
 	flex-grow: 1;
 
 	display: flex;
