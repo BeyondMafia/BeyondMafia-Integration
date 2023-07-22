@@ -965,6 +965,7 @@ export function CombinedTextMeetingLayout(props) {
                 onMessageQuote={onMessageQuote}
                 settings={props.settings}
                 unfocusedMessage={unfocusedMessage}
+                gameCreateTime={game.createTime}
             />
         );
     });

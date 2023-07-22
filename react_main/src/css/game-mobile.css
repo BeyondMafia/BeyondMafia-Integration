@@ -146,11 +146,13 @@
 
 @media screen and (max-width: 640px) {
 
+	.game {
+        font-size: 14px;
+	}
+
 	.game .main {
         grid-template-columns: [col-start] 50vw [col-middle] 50vw [col-end] !important;
         grid-template-rows: [row-start] 40% [row-middle] 60% [row-end] !important;
-
-        font-size: 14px;
 	}
 
     /*
