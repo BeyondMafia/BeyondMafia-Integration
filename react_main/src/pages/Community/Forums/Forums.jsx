@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useState, useEffect } from "react";
 import { NavLink, Switch, Route, Redirect, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import update from "immutability-helper";
@@ -120,6 +120,21 @@ export function VoteWidget(props) {
 		});
 	}
 
+
+    // Initial voter list
+    const [voters, setVoters] = useState([]);
+    useEffect(() => {
+        axios.get(`/forums/vote?itemId=${item.id}&itemType=${itemType}`)
+            .then(res => {
+                setVoters(res.data);
+            })
+            .catch(errorAlert);
+    }, [item, itemType]);
+
+    const [hovered, setHovered] = useState(false);
+    const onHover = () => {setHovered(true)};
+    const onLeave = () => {setHovered(false)};
+
 	function onVote(itemId, direction) {
 		if (!user.perms.vote)
 			return;
@@ -163,18 +178,49 @@ export function VoteWidget(props) {
 				}
 			})
 			.catch(errorAlert);
+
+        axios.get(`/forums/vote?itemId=${itemId}&itemType=${itemType}`)
+            .then(res => {
+                setVoters(res.data);
+            })
+            .catch(errorAlert);
 	}
 
 	return (
 		<div className="vote-widget">
-			<i
-				className={`fas fa-arrow-up ${item.vote == 1 && "sel"}`}
+			<i className={`fas fa-arrow-up ${item.vote == 1 && "sel"}`}
 				onClick={() => onVote(item.id, 1)} />
-			{item.voteCount || 0}
+			<div className="vote-count"
+                onMouseEnter={onHover}
+                onMouseLeave={onLeave}>
+                    {voters ? voters.reduce((a, v) => (a + v.direction), 0) : 0}
+            </div>
+            {hovered ? <VoterList voters={voters} /> : ""}
 			<i className={`fas fa-arrow-down ${item.vote == -1 && "sel"}`}
 				onClick={() => onVote(item.id, -1)} />
 		</div>
 	);
+}
+
+export function VoterList(props) {
+    if (!props.voters)
+        return <></>;
+
+    const upvoters = props.voters.filter((voter) => {return voter.direction > 0;})
+            .reduce((a, v) => (a = [...a, v.voterName]), [])
+            .join(", ");
+    const downvoters = props.voters.filter((voter) => {return voter.direction < 0;})
+            .reduce((a, v) => (a = [...a, v.voterName]), [])
+            .join(", ");
+
+    return (
+        <div className="voter-list">
+            + {upvoters}
+            <br />
+            <br />
+            - {downvoters}
+        </div>
+    );
 }
 
 export function ViewsAndReplies(props) {
