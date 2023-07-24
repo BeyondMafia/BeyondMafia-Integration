@@ -1094,6 +1094,85 @@ router.post("/vote", async function (req, res) {
     }
 });
 
+router.get("/vote", async function (req, res) {
+    try {
+        let userId = await routeUtils.verifyLoggedIn(req);
+        let itemId = String(req.query.itemId);
+        let itemType = String(req.query.itemType);
+        let itemModel;
+
+        if (!userId)
+            return
+
+        switch (itemType) {
+            case "thread":
+                itemModel = models.ForumThread;
+                break;
+            case "reply":
+                itemModel = models.ForumReply;
+                break;
+            case "comment":
+                itemModel = models.Comment;
+                break;
+            default:
+                res.status(500);
+                res.send("Invalid item type.");
+                return;
+        }
+
+        let item = await itemModel.findOne({ id: itemId })
+            .select("board thread")
+            .populate("board", "rank")
+            .populate({
+                path: "thread",
+                select: "board",
+                populate: {
+                    path: "board",
+                    select: "rank"
+                }
+            });
+
+        if (!item) {
+            res.status(500);
+            res.send("Item does not exist.");
+            return;
+        }
+
+        let voterList = await models.ForumVote.aggregate(([
+            { $match: { item: itemId } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
+
+        let voters = voterList.map((v) => {
+            return {voterName: v.user.name, direction: v.direction};
+        });
+
+        res.send(voters);
+    }
+    catch (e) {
+        logger.error(e);
+        res.status(500);
+        res.send("Error getting votes.");
+    }
+});
+
 router.get("/search", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
