@@ -24,19 +24,49 @@ router.get("/", async function (req, res) {
             "date",
             last,
             first,
-            "id author content date voteCount deleted -_id",
+            "id author content date deleted -_id",
             constants.commentsPerPage,
             ["author", "id -_id"]
         );
 
+        let commentIds = comments.map(comment => comment.id);
+        let commentVoterList = await models.ForumVote.aggregate(([
+            { $match: { item: { $in: commentIds } } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    item: 1,
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
+
         for (let i in comments) {
             let comment = comments[i].toJSON();
             comment.author = await redis.getBasicUserInfo(comment.author.id, true);
+
+            comment.voters = commentVoterList.filter((v) => {
+                return v.item == comment.id;
+            }).map((v) => {
+                return {voterName: v.user.name, direction: v.direction};
+            });
+            
             comments[i] = comment;
         }
 
         var votes = {};
-        var commentIds = comments.map(comment => comment.id);
 
         if (userId) {
             var voteList = await models.ForumVote.find({

@@ -100,22 +100,10 @@ export function VoteWidget(props) {
 	const user = useContext(UserContext);
 	const errorAlert = useErrorAlert();
 
-	function updateItemVoteCount(direction, newDirection) {
-		var voteCount = item.voteCount;
-
-		if (item.vote == 0)
-			voteCount += direction;
-		else if (item.vote == direction)
-			voteCount += -1 * direction;
-		else
-			voteCount += 2 * direction;
-
+	function updateDirection(newDirection) {
 		return update(item, {
 			vote: {
 				$set: newDirection
-			},
-			voteCount: {
-				$set: voteCount
 			}
 		});
 	}
@@ -124,12 +112,8 @@ export function VoteWidget(props) {
     // Initial voter list
     const [voters, setVoters] = useState([]);
     useEffect(() => {
-        axios.get(`/forums/vote?itemId=${item.id}&itemType=${itemType}`)
-            .then(res => {
-                setVoters(res.data);
-            })
-            .catch(errorAlert);
-    }, [item, itemType]);
+        setVoters(item.voters);
+    }, []);
 
     const [hovered, setHovered] = useState(false);
     const onHover = () => {setHovered(true)};
@@ -145,8 +129,10 @@ export function VoteWidget(props) {
 			direction
 		})
 			.then(res => {
-				var newDirection = Number(res.data);
-				var newItem = updateItemVoteCount(direction, newDirection);
+                setVoters(res.data.voters);
+
+				var newDirection = Number(res.data.direction);
+				var newItem = updateDirection(newDirection);
 				var items;
 
 				if (itemHolder == null) {
@@ -178,12 +164,6 @@ export function VoteWidget(props) {
 				}
 			})
 			.catch(errorAlert);
-
-        axios.get(`/forums/vote?itemId=${itemId}&itemType=${itemType}`)
-            .then(res => {
-                setVoters(res.data);
-            })
-            .catch(errorAlert);
 	}
 
 	return (
