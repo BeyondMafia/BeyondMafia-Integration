@@ -64,7 +64,7 @@ router.get("/categories", async function (req, res) {
 router.get("/board/:id", async function (req, res) {
     res.setHeader("Content-Type", "application/json");
     try {
-        const sortTypes = ["bumpDate", "postDate", "replyCount", "voteCount"];
+        const sortTypes = ["bumpDate", "postDate", "replyCount"];
 
         var userId = await routeUtils.verifyLoggedIn(req, true);
         var rank = userId ? await redis.getUserRank(userId) : 0;
@@ -97,7 +97,7 @@ router.get("/board/:id", async function (req, res) {
             sortType,
             last,
             first,
-            "id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id",
+            "id title author postDate bumpDate replyCount viewCount recentReplies pinned locked deleted -_id",
             constants.threadsPerPage,
             ["author", "id -_id"],
             {
@@ -111,7 +111,7 @@ router.get("/board/:id", async function (req, res) {
         );
 
         var pinnedThreads = await models.ForumThread.find({ board: board._id, pinned: true })
-            .select("id title author postDate bumpDate replyCount voteCount viewCount recentReplies pinned locked deleted -_id")
+            .select("id title author postDate bumpDate replyCount viewCount recentReplies pinned locked deleted -_id")
             .populate("author", "id -_id")
             .populate({
                 path: "recentReplies",
@@ -123,20 +123,80 @@ router.get("/board/:id", async function (req, res) {
             })
             .sort("-bumpDate");
 
+        let threadIds = threads.map(thread => thread.id);
+        let threadVoterList = await models.ForumVote.aggregate(([
+            { $match: { item: { $in: threadIds } } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    item: 1,
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
+        let pinnedThreadIds = pinnedThreads.map(thread => thread.id);
+        let pinnedThreadVoterList = await models.ForumVote.aggregate(([
+            { $match: { item: { $in: pinnedThreadIds } } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    item: 1,
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
+
         for (let i in threads) {
             let thread = threads[i].toJSON();
             thread.author = await redis.getBasicUserInfo(thread.author.id, true);
+
+            thread.voters = threadVoterList.filter((v) => {
+                return v.item == thread.id;
+            }).map((v) => {
+                return {voterName: v.user.name, direction: v.direction};
+            });
+
             threads[i] = thread;
         }
 
         for (let i in pinnedThreads) {
             let thread = pinnedThreads[i].toJSON();
             thread.author = await redis.getBasicUserInfo(thread.author.id, true);
+
+            thread.voters = pinnedThreadVoterList.filter((v) => {
+                return v.item == thread.id;
+            }).map((v) => {
+                return {voterName: v.user.name, direction: v.direction};
+            });
+
             pinnedThreads[i] = thread;
         }
 
         var votes = {};
-        var threadIds = threads.map(thread => thread.id);
 
         if (userId) {
             var voteList = await models.ForumVote.find({
@@ -209,13 +269,44 @@ router.get("/thread/:id", async function (req, res) {
             replyFilter.deleted = false;
 
         var replies = await models.ForumReply.find(replyFilter)
-            .select("id author content page postDate voteCount deleted -_id")
+            .select("id author content page postDate deleted -_id")
             .populate("author", "id -_id")
             .sort("postDate");
+
+        let replyIds = replies.map(reply => reply.id);
+        let replyVoterList = await models.ForumVote.aggregate(([
+            { $match: { item: { $in: replyIds } } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    item: 1,
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
 
         for (let i in replies) {
             let reply = replies[i].toJSON();
             reply.author = await redis.getBasicUserInfo(reply.author.id, true);
+
+            reply.voters = replyVoterList.filter((v) => {
+                return v.item == reply.id;
+            }).map((v) => {
+                return {voterName: v.user.name, direction: v.direction};
+            });
+
             replies[i] = reply;
         }
 
@@ -225,6 +316,32 @@ router.get("/thread/:id", async function (req, res) {
         thread.replies = replies;
         thread.pageCount = Math.ceil(thread.replyCount / constants.repliesPerPage) || 1;
         thread.page = page;
+
+        let threadVoterList = await models.ForumVote.aggregate(([
+            { $match: { item: thread.id } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "voter",
+                    foreignField: "id",
+                    as: "user"
+                }
+            },
+            {
+                $unwind: "$user"
+            },
+            {
+                $project: {
+                    voter: 1,
+                    direction: 1,
+                    "user.name": 1
+                }
+            }
+        ]));
+
+        thread.voters = threadVoterList.map((v) => {
+            return {voterName: v.user.name, direction: v.direction};
+        });
 
         delete thread._id;
         delete thread.replyCount;
@@ -1028,6 +1145,7 @@ router.post("/vote", async function (req, res) {
         if (!item) {
             res.status(500);
             res.send("Item does not exist.");
+            return;
         }
 
         var requiredRank = (item.board && item.board.rank) || (item.thread && item.thread.board && item.thread.board.rank) || 0;
@@ -1047,6 +1165,7 @@ router.post("/vote", async function (req, res) {
         }
 
         var vote = await models.ForumVote.findOne({ voter: userId, item: itemId });
+        let newDirection = "0";
 
         if (!vote) {
             vote = new models.ForumVote({
@@ -1056,12 +1175,7 @@ router.post("/vote", async function (req, res) {
             });
             await vote.save();
 
-            await itemModel.updateOne(
-                { id: itemId },
-                { $inc: { voteCount: direction } }
-            ).exec();
-
-            res.send(String(direction));
+            newDirection = String(direction);
         }
         else if (vote.direction != direction) {
             await models.ForumVote.updateOne(
@@ -1069,73 +1183,10 @@ router.post("/vote", async function (req, res) {
                 { $set: { direction: direction } }
             ).exec();
 
-            await itemModel.updateOne(
-                { id: itemId },
-                { $inc: { voteCount: 2 * direction } }
-            ).exec();
-
-            res.send(String(direction));
+            newDirection = String(direction);
         }
         else {
             await models.ForumVote.deleteOne({ voter: userId, item: itemId }).exec();
-
-            await itemModel.updateOne(
-                { id: itemId },
-                { $inc: { voteCount: -1 * direction } }
-            ).exec();
-
-            res.send("0");
-        }
-    }
-    catch (e) {
-        logger.error(e);
-        res.status(500);
-        res.send("Error voting.");
-    }
-});
-
-router.get("/vote", async function (req, res) {
-    try {
-        let userId = await routeUtils.verifyLoggedIn(req);
-        let itemId = String(req.query.itemId);
-        let itemType = String(req.query.itemType);
-        let itemModel;
-
-        if (!userId)
-            return
-
-        switch (itemType) {
-            case "thread":
-                itemModel = models.ForumThread;
-                break;
-            case "reply":
-                itemModel = models.ForumReply;
-                break;
-            case "comment":
-                itemModel = models.Comment;
-                break;
-            default:
-                res.status(500);
-                res.send("Invalid item type.");
-                return;
-        }
-
-        let item = await itemModel.findOne({ id: itemId })
-            .select("board thread")
-            .populate("board", "rank")
-            .populate({
-                path: "thread",
-                select: "board",
-                populate: {
-                    path: "board",
-                    select: "rank"
-                }
-            });
-
-        if (!item) {
-            res.status(500);
-            res.send("Item does not exist.");
-            return;
         }
 
         let voterList = await models.ForumVote.aggregate(([
@@ -1164,12 +1215,12 @@ router.get("/vote", async function (req, res) {
             return {voterName: v.user.name, direction: v.direction};
         });
 
-        res.send(voters);
+        res.send({direction: String(newDirection), voters: voters});
     }
     catch (e) {
         logger.error(e);
         res.status(500);
-        res.send("Error getting votes.");
+        res.send("Error voting.");
     }
 });
 
