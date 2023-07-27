@@ -195,7 +195,7 @@ function Header(props) {
             </Link>
             <div className="nav-wrapper right">
                 <Nav>
-                    <a href="https://beyondmafia.fandom.com" target="_blank">Wiki</a>
+                    <NavLink to="/emotes">Emotes</NavLink>
                     {!user.loggedIn &&
                         <NavLink to="/auth" className="nav-link">Log In</NavLink>
                     }
