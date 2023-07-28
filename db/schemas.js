@@ -98,7 +98,7 @@ var schemas = {
         excessRoles: Number,
         favorites: Number,
         featured: { type: Boolean, index: true },
-        ranked: { type: Boolean, default: true },
+        ranked: { type: Boolean, default: false },
         played: { type: Number, index: true },
         rolePlays: {},
         roleWins: {}
