@@ -112,6 +112,14 @@ async function authSuccess(req, uid, email) {
             });
             await user.save();
 
+            let group = await models.Group.findOne({ name: "Ranked Player" })
+                .select("_id");
+            let inGroup = new models.InGroup({
+                user: user._id,
+                group: group._id
+            });
+            await inGroup.save();
+
             if (req.session.ref)
                 await models.User.updateOne({ id: req.session.ref }, { $addToSet: { userReferrals: user._id } });
 
