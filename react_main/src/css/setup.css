@@ -126,6 +126,10 @@
     background-position: -90px 0;
 }
 
+.game-icon.Jotto {
+    background-position: -120px 0;
+}
+
 /*
  * Media Queries
  */
