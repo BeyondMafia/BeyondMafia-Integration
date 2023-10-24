@@ -5,11 +5,13 @@
   "dependencies": {
     "agora-rtc-sdk-ng": "^4.15.0",
     "axios": "^0.19.2",
+    "chart.js": "^4.4.0",
     "color": "^3.1.2",
     "color-contrast": "^1.0.0",
     "firebase": "^9.14.0",
     "immutability-helper": "^3.0.2",
     "react": "^16.13.1",
+    "react-chartjs-2": "^5.2.0",
     "react-color": "^2.18.0",
     "react-date-picker": "^9.2.0",
     "react-dom": "^16.13.1",
@@ -49,5 +51,8 @@
   "resolutions": {
     "react-error-overlay": "6.0.9"
   },
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ],
   "proxy": "http://localhost:3000"
 }

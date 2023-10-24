@@ -1839,7 +1839,7 @@ export function PlayerRows(props) {
                 className={`player ${props.className ? props.className : ""}`}
                 key={player.id}>
                 {isolationCheckbox}
-                {props.stateViewing != -1 &&
+                {props.stateViewing != -1 && !props.history.states[props.stateViewing].roles[player.id] &&
                     <RoleMarkerToggle
                         playerId={player.id}
                         />
