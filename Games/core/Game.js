@@ -488,7 +488,7 @@ module.exports = class Game {
                 this.target.kill("veg", this.actor);
 
                 if (ranked)
-                    this.game.queueAlert("This game is now unranked");
+                    this.game.queueAlert("This game is now unranked.");
             }
         }));
     }
@@ -1303,6 +1303,10 @@ module.exports = class Game {
             this.historySnapshot();
 
             winners.queueAlerts();
+
+            if (!this.ranked)
+                this.queueAlert("This game was unranked.");
+
             this.processStateQueues();
 
             this.revealAllPlayers();

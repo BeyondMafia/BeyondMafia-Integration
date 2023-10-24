@@ -970,7 +970,7 @@ module.exports = class Player {
     }
 
     recordStat(stat, inc) {
-        if (!this.game.ranked)
+        if (!this.game.ranked && stat !== "abandons")
             return;
 
         if (!this.user.stats[this.game.type])
