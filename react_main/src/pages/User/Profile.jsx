@@ -325,9 +325,10 @@ export default function Profile() {
             label: "Pie Chart",
             data: [
                 mafiaStats?.wins?.count,
-                mafiaStats?.wins?.total - mafiaStats?.wins?.count - mafiaStats?.abandons?.count,
+                mafiaStats?.wins?.total - mafiaStats?.wins?.count,
                 mafiaStats?.abandons?.count,
-                mafiaStats?.totalGames - mafiaStats?.wins?.total
+                0  // Unsure if this is an accurate measure to track broken games. Using 0 for now.
+                // mafiaStats?.totalGames - mafiaStats?.wins?.total - mafiaStats?.abandons?.total
             ],
             backgroundColor: [
                 'rgb(120,240,140)',
