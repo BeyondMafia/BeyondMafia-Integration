@@ -1,20 +1,20 @@
-# BeyondMafia 
+# BeyondMafia
+
 This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a website built to fill the shoes of EpicMafia.com. Contributions are welcome from anyone.
 
 ## Contributing
+
 1. Fork the repository
 2. Make your changes to your forked repository
-3. Open a pull request on the dev branch of this repository
-4. If approved and merged, test your changes on https://test.beyondmafia.com
-5. Dev will be merged into master after changes are tested
-6. Perform a final test on the main site after merge into master
-
+3. Open a pull request to remote `origin/master`
+4. If approved and merged, test your changes on [the test server](https://test.beyondmafia.com)
+5. Perform a final test on the main site after merge into master
 
 ## Running the site locally
 
 > If you are a beginner, please follow [this beginner guide](/docs/setup-beginner-guide.md) and ask in Discord if you are stuck at any step.
 
-#### Prerequisites
+### Prerequisites
 
 1. Install node.js, and set the version to `v14.15.1`.
 
@@ -26,28 +26,29 @@ This is the source code powering [BeyondMafia.com](https://beyondmafia.com), a w
 git clone https://github.com/r3ndd/BeyondMafia-Integration.git
 ```
 
-#### Install node modules
+### Install node modules
 
 1. Install pm2 globally.
 
-```bash
-npm i -g pm2
-```
+    ```bash
+    npm i -g pm2
+    ```
 
 2. Install backend node modules.
 
-```bash
-cd BeyondMafia-Integration 
-npm install
-```
+    ```bash
+    cd BeyondMafia-Integration 
+    npm install
+    ```
 
 3. Install frontend node modules.
-```bash
-cd react_main
-npm install
-```
 
-#### Setup environment variables
+    ```bash
+    cd react_main
+    npm install
+    ```
+
+### Setup environment variables
 
 1. Create `.env` file for the server under `BeyondMafia-Integration/.env`, and copy this [example file](/docs/server_env)
 
@@ -55,19 +56,21 @@ npm install
 
 3. Refer to [this guide](/docs/setup-dependencies.md) for retrieving your own test API keys for Firebase and reCAPTCHA.
 
-#### Start the site
+### Start the site
 
 1. Start the backend server
-```
-cd BeyondMafia-Integration 
-npm start
-```
+
+    ```bash
+    cd BeyondMafia-Integration 
+    npm start
+    ```
 
 2. Start the frontend React app
-```
-cd react_main
-npm start
-```
+
+    ```bash
+    cd react_main
+    npm start
+    ```
 
 ## Role and game creation
 
