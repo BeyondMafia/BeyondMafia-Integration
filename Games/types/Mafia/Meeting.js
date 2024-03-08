@@ -6,6 +6,40 @@ module.exports = class MafiaMeeting extends Meeting {
         super(name, game);
     }
 
+    speak(message) {
+        var member = this.members[message.sender.id];
+
+        if (!member.player.alive) {
+            if (this.name.includes("Village") ||
+                this.name.includes("Graveyard") ||
+                this.name.includes("Party!")) {
+
+                let defaultRecipients = this.game.players.filter(x => !x.alive);
+                super.speak(message, defaultRecipients);
+                return
+            }
+        }
+
+        super.speak(message);
+    }
+
+    quote(sender, quote) {
+        let member = this.members[sender.id];
+
+        if (!member.player.alive) {
+            if (this.name.includes("Village") ||
+                this.name.includes("Graveyard") ||
+                this.name.includes("Party!")) {
+
+                let defaultRecipients = this.game.players.filter(x => !x.alive);
+                super.quote(sender, quote, defaultRecipients);
+                return
+            }
+        }
+
+        super.quote(sender, quote);
+    }
+
     finish(isVote) {
         super.finish(isVote);
 

@@ -1,5 +1,6 @@
 const Card = require("../../Card");
 const { PRIORITY_OVERTHROW_VOTE } = require("../../const/Priority");
+const logger = require("../../../../../modules/logging")("games");
 
 module.exports = class OverturnVote extends Card {
 
@@ -40,6 +41,14 @@ module.exports = class OverturnVote extends Card {
             },
         };
 
+        this.listeners = {
+            "death": function (player, killer, deathType) {
+                if (player == this.player) {
+                    this.data.overturnsLeft = 0;
+                }
+            }
+        };   
+
         this.stateMods = {
             "Day": {
                 type: "delayActions",
@@ -67,6 +76,7 @@ module.exports = class OverturnVote extends Card {
                     }
                             
                     for (let player of this.game.players) {
+                        logger.http("giving overturn to " + player.name);
                         player.holdItem("OverturnSpectator");
                     }
                     return false;

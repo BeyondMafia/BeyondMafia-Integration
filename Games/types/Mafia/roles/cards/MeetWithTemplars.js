@@ -8,7 +8,9 @@ module.exports = class MeetWithTemplar extends Card {
         this.meetings = {
             "Templar Meeting": {
                 states: ["Night"],
-                flags: ["group", "speech"]
+                flags: ["group", "speech", "voting", "mustAct", "noVeg"],
+                targets: ["end meeting"],
+                inputType: "select"
             }
         };
     }

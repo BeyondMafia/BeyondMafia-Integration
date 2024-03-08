@@ -15,6 +15,7 @@
 
 .forums .user-name {
 	color: white;
+	filter: brightness(1) !important;
 }
 
 .forums .forum-nav {
@@ -310,6 +311,7 @@
 	flex-flow: column;
 	align-items: center;
 	justify-content: center;
+    position: relative;
 }
 
 .vote-widget i {
@@ -325,6 +327,22 @@
 
 .vote-widget i.sel {
 	color: var(--theme-color-light);
+}
+
+.vote-widget .voter-list {
+    position: absolute;
+    z-index: 3;
+    left: 20px;
+    width: 100px;
+    border: 1px solid #333;
+
+    color: white;
+    background-color: var(--theme-color);
+    font-size: 14px;
+}
+
+.vote-widget .vote-count {
+    cursor: default;
 }
 
 .forums .board-wrapper .thread-link {

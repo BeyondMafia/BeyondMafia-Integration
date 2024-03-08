@@ -38,43 +38,50 @@ export default function Popover() {
         const boundingRect = popover.boundingEl.getBoundingClientRect();
         const popoverRect = popoverRef.current.getBoundingClientRect();
 
-        var triangleLeft = boundingRect.left + boundingRect.width;
-        var triangleTop = boundingRect.top - 10 + (boundingRect.height / 2) + window.scrollY;
+        // Align left of popover to the left of bounding box, then top of popover to the bottom of bounding box
+        let popoverLeft = boundingRect.left;
+        let popoverTop = boundingRect.top + boundingRect.height + 10;
 
-        var popoverLeft = boundingRect.left + boundingRect.width + 10;
-        var popoverTop = boundingRect.top - (popoverRect.height / 2) + (boundingRect.height / 2) + window.scrollY;
-        var popoverHorzShift = window.innerWidth - (popoverLeft + popoverRect.width);
-
+        // Keep popover in window if overflowing at top
         if (popoverTop < window.scrollY)
             popoverTop = window.scrollY;
 
+        // If popover overflows window, shift
+        let popoverHorzShift = window.innerWidth - (popoverLeft + popoverRect.width);
         if (popoverHorzShift < 0) {
-            if (popoverLeft + popoverHorzShift < 0)
+            // If shift would cause the popover to overflow left, set to left of window
+            if (popoverLeft + popoverHorzShift < 0) {
                 popoverHorzShift -= (popoverLeft + popoverHorzShift);
+            }
         }
-        else
+        else {
             popoverHorzShift = 0;
+        }
 
         popoverLeft += popoverHorzShift;
-        triangleLeft += popoverHorzShift;
-
-        triangleRef.current.style.left = triangleLeft + "px";
-        triangleRef.current.style.top = triangleTop + "px";
-        triangleRef.current.style.visibility = "visible";
 
         popoverRef.current.style.top = popoverTop + "px";
         popoverRef.current.style.left = popoverLeft + "px";
         popoverRef.current.style.visibility = "visible";
 
+        // Triangle
+        triangleRef.current.style.left = (popoverLeft + (boundingRect.width / 2) - 10) + "px";
+        triangleRef.current.style.top = (popoverTop - 10) + "px";
+        triangleRef.current.style.visibility = "visible";
+
+        // Make sideContent aligned with bottom of popover
         if (popover.sideContentVisible) {
+            const sideContentRect = sideContentRef.current.getBoundingClientRect();
             sideContentRef.current.style.width = popoverRect.width + "px"; // Gives consistent styling + just makes loading not funky
 
-            const useLeft = popoverRect.x > window.innerWidth - (popoverRect.x + popoverRect.width)
+            // Set sideContentLeft to the left or right of the popover based on whether it'd overflow over the right of the screen
+            const sideContentLeft = popoverRect.x > window.innerWidth - (popoverRect.x + popoverRect.width)
                 ? (popoverRect.x - popoverRect.width)
                 : popoverRect.x + popoverRect.width
 
-            sideContentRef.current.style.top = popover.sideContentMouseY + "px";
-            sideContentRef.current.style.left = useLeft + "px";
+            const sideContentTop = (popoverTop + popoverRect.height) - sideContentRect.height;
+            sideContentRef.current.style.top = sideContentTop + "px";
+            sideContentRef.current.style.left = sideContentLeft + "px";
             sideContentRef.current.style.visibility = "visible";
         }
     });
@@ -83,7 +90,7 @@ export default function Popover() {
         popover.visible &&
         <>
             <div
-                className="triangle triangle-left"
+                className="triangle triangle-up"
                 ref={triangleRef} />
             <div
                 className={`popover-window`}

@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useState, useEffect } from "react";
 import { NavLink, Switch, Route, Redirect, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import update from "immutability-helper";
@@ -100,25 +100,24 @@ export function VoteWidget(props) {
 	const user = useContext(UserContext);
 	const errorAlert = useErrorAlert();
 
-	function updateItemVoteCount(direction, newDirection) {
-		var voteCount = item.voteCount;
-
-		if (item.vote == 0)
-			voteCount += direction;
-		else if (item.vote == direction)
-			voteCount += -1 * direction;
-		else
-			voteCount += 2 * direction;
-
+	function updateDirection(newDirection) {
 		return update(item, {
 			vote: {
 				$set: newDirection
-			},
-			voteCount: {
-				$set: voteCount
 			}
 		});
 	}
+
+
+    // Initial voter list
+    const [voters, setVoters] = useState([]);
+    useEffect(() => {
+        setVoters(item.voters);
+    }, []);
+
+    const [hovered, setHovered] = useState(false);
+    const onHover = () => {setHovered(true)};
+    const onLeave = () => {setHovered(false)};
 
 	function onVote(itemId, direction) {
 		if (!user.perms.vote)
@@ -130,8 +129,10 @@ export function VoteWidget(props) {
 			direction
 		})
 			.then(res => {
-				var newDirection = Number(res.data);
-				var newItem = updateItemVoteCount(direction, newDirection);
+                setVoters(res.data.voters);
+
+				var newDirection = Number(res.data.direction);
+				var newItem = updateDirection(newDirection);
 				var items;
 
 				if (itemHolder == null) {
@@ -167,14 +168,39 @@ export function VoteWidget(props) {
 
 	return (
 		<div className="vote-widget">
-			<i
-				className={`fas fa-arrow-up ${item.vote == 1 && "sel"}`}
+			<i className={`fas fa-arrow-up ${item.vote == 1 && "sel"}`}
 				onClick={() => onVote(item.id, 1)} />
-			{item.voteCount || 0}
+			<div className="vote-count"
+                onMouseEnter={onHover}
+                onMouseLeave={onLeave}>
+                    {voters ? voters.reduce((a, v) => (a + v.direction), 0) : 0}
+            </div>
+            {hovered ? <VoterList voters={voters} /> : ""}
 			<i className={`fas fa-arrow-down ${item.vote == -1 && "sel"}`}
 				onClick={() => onVote(item.id, -1)} />
 		</div>
 	);
+}
+
+export function VoterList(props) {
+    if (!props.voters)
+        return <></>;
+
+    const upvoters = props.voters.filter((voter) => {return voter.direction > 0;})
+            .reduce((a, v) => (a = [...a, v.voterName]), [])
+            .join(", ");
+    const downvoters = props.voters.filter((voter) => {return voter.direction < 0;})
+            .reduce((a, v) => (a = [...a, v.voterName]), [])
+            .join(", ");
+
+    return (
+        <div className="voter-list">
+            + {upvoters}
+            <br />
+            <br />
+            - {downvoters}
+        </div>
+    );
 }
 
 export function ViewsAndReplies(props) {

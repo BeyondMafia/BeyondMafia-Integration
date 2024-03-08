@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from "react-chartjs-2";
 
 import { UserContext, SiteInfoContext } from "../../Contexts";
 import { Avatar, Badges, NameWithAvatar, YouTubeEmbed} from "./User";
@@ -18,6 +20,8 @@ import Comments from "../Community/Comments";
 
 import "../../css/user.css";
 import { Modal } from "../../components/Modal";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Profile() {
     const [profileLoaded, setProfileLoaded] = useState(false);
@@ -315,6 +319,28 @@ export default function Profile() {
         });
     }
 
+    const pieChartData = {
+        labels: ["Wins", "Losses", "Abandons", "Broken"],
+        datasets: [{
+            label: "Pie Chart",
+            data: [
+                mafiaStats?.wins?.count,
+                mafiaStats?.wins?.total - mafiaStats?.wins?.count,
+                mafiaStats?.abandons?.count,
+                0  // Unsure if this is an accurate measure to track broken games. Using 0 for now.
+                // mafiaStats?.totalGames - mafiaStats?.wins?.total - mafiaStats?.abandons?.total
+            ],
+            backgroundColor: [
+                'rgb(120,240,140)',
+                'rgb(255,100,100)',
+                'rgb(180,180,180)',
+                'rgb(255,245,120)'
+            ],
+            hoverOffset: 10
+        }]
+
+    }
+
     const recentGamesRows = recentGames.map(game => (
         <GameRow
             game={game}
@@ -351,10 +377,12 @@ export default function Profile() {
                     id={friend.id}
                     name={friend.name}
                     avatar={friend.avatar} />
-                <div className="btns-wrapper">
-                    <i className="fas fa-trash"
-                        onClick={onDeleteFriend(friend.id)} />
-                </div>
+                {isSelf &&
+                    <div className="btns-wrapper">
+                        <i className="fas fa-trash"
+                            onClick={onDeleteFriend(friend.id)} />
+                    </div>
+                }
             </div>
             <div className="last-active">
                 <Time
@@ -493,6 +521,16 @@ export default function Profile() {
                                 <div className="expand-icon-wrapper" onClick={() => setShowStatsModal(true)}>
                                     <i className="fas fa-expand-arrows-alt" />
                                 </div>
+                            </div>
+                        </div>
+                    }
+                    {totalGames > 0 &&
+                        <div className="box-panel pie-chart" style={panelStyle}>
+                            <div className="heading">
+                                Pie Chart
+                            </div>
+                            <div className="content">
+                                <Doughnut data={pieChartData} />
                             </div>
                         </div>
                     }

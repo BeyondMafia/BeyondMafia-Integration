@@ -151,12 +151,13 @@ router.get("/:id/connect", async function (req, res) {
             return;
         }
 
+        let createTime = game.createTime;
         var type = game.type;
         var port = game.port;
         var token = userId && await redis.createAuthToken(userId);
 
         if (type && !isNaN(port))
-            res.send({ port, type, token });
+            res.send({ createTime, port, type, token });
         else {
             res.status(500);
             res.send("Error loading game.");
@@ -627,6 +628,9 @@ const settingsChecks = {
         return {};
     },
     "One Night": (settings, setup) => {
+        return {};
+    },
+    "Jotto": (settings, setup) => {
         return {};
     },
 };

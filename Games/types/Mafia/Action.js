@@ -46,6 +46,30 @@ module.exports = class MafiaAction extends Action {
         }
     }
 
+    getVisits(player) {
+        player = player || this.target;
+
+        var visits = [];
+        for (let action of this.game.actions[0]) {
+            if (
+                action.actors.indexOf(this.target) != -1 &&
+                !action.hasLabel("hidden") &&
+                action.target &&
+                action.target != "No"
+            ) {
+                let targets = action.target;
+                if (!Array.isArray(action.target)) {
+                    targets = [action.target];
+                }
+
+                let targetNames = targets.map(p => p.name);
+                visits.push(...targetNames);
+            }
+        }
+
+        return visits;
+    }
+
     getVisitors(player, label) {
         player = player || this.actor;
 
@@ -119,6 +143,9 @@ module.exports = class MafiaAction extends Action {
                 break;
             case "TickingBomb":
                 alert = "You have received a Bomb (Ticking). It will explode randomly in the next 10 to 30 seconds.";
+                break;
+            case "Cat":
+                alert = ":sy9b: You have received a cat!";
                 break;
             default:
                 alert = `You have received a ${itemName}!`;

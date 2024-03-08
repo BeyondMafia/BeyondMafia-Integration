@@ -10,7 +10,8 @@ module.exports = class History {
                 alerts: [],
                 stateEvents: {},
                 roles: {},
-                dead: {}
+                deaths: {},
+                extraInfo: {},
             }
         };
     }
@@ -30,7 +31,7 @@ module.exports = class History {
             alerts: [],
             stateEvents: {},
             roles: { ...this.states[prevState].roles },
-            dead: { ...this.states[prevState].dead },
+            deaths: { ...this.states[prevState].deaths },
             extraInfo: {},
         };
     }
@@ -106,7 +107,7 @@ module.exports = class History {
                 alerts: [],
                 stateEvents: Object.keys(info.stateEvents),
                 roles: info.roles,
-                dead: info.dead,
+                deaths: info.deaths,
                 extraInfo: info.extraInfo
             };
 
@@ -139,9 +140,9 @@ module.exports = class History {
         this.states[state].roles[player.id] = appearance;
     }
 
-    recordDead(player, dead) {
+    recordDeath(player, death) {
         var state = this.game.currentState;
-        this.states[state].dead[player.id] = dead;
+        this.states[state].deaths[player.id] = death;
     }
 
     recordAllRoles() {
@@ -152,11 +153,14 @@ module.exports = class History {
                 this.states[state].roles[player.id] = `${player.role.name}:${player.role.modifier}`;
     }
 
-    recordAllDead() {
+    recordAllDeaths() {
         var state = this.game.currentState;
 
         for (let player of this.game.players)
-            this.states[state].dead[player.id] = !player.alive;
+            this.states[state].deaths[player.id] = {
+                dead: !player.alive,
+                time: player.timeDead
+            };
     }
 
 }

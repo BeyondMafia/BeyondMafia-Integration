@@ -341,6 +341,14 @@ function Post(props) {
 
 	var content = postInfo.content;
 
+    // Remove unnecessarily deep block quotes
+    let blockquote = ">";
+    if (content.includes(blockquote)) {
+        let lines = content.split("\n");
+        lines = lines.filter((line) => (line.match(/> /g) || []).length < 5);
+        content = lines.join("\n");
+    }
+
 	if (postInfo.deleted && user.settings.hideDeleted)
 		content = "*deleted*";
 

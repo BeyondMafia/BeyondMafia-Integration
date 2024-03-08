@@ -1188,7 +1188,7 @@ function useModCommands(argValues, commandRan) {
                     .catch(errorAlert);
             }
         },
-        "Ranked Approve": {
+        "Ranked Approve (deprecated)": {
             perm: "approveRanked",
             args: [
                 {

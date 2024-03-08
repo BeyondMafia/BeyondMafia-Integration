@@ -66,7 +66,7 @@ module.exports = class Meeting {
             canVote: options.canVote != false && (player.alive || !options.passiveDead),
             canUpdateVote: options.canUpdateVote != false && (player.alive || !options.passiveDead),
             canUnvote: options.canUnvote != false && (player.alive || !options.passiveDead),
-            canTalk: options.canTalk != false && (player.alive || !options.passiveDead),
+            canTalk: options.canTalk != false && (player.alive || options.speakDead),
             visible: options.visible != false && (player.alive || !options.passiveDead),
             whileAlive: options.whileAlive != false,
             whileDead: options.whileDead,
@@ -308,8 +308,9 @@ module.exports = class Meeting {
                 );
             }
 
-            if (!this.mustAct && !this.repeatable)
+            if ((!this.mustAct && !this.repeatable) || (this.mustAct && this.targets.length === 0)) {
                 this.targets.push("*");
+            }
         }
         else if (this.inputType == "boolean") {
             if (!this.mustAct || this.includeNo)
@@ -742,7 +743,7 @@ module.exports = class Meeting {
         actor.act(finalTarget, this, actors);
     }
 
-    speak(message) {
+    speak(message, defaultRecipients) {
         var member = this.members[message.sender.id];
 
         if (
@@ -778,11 +779,15 @@ module.exports = class Meeting {
         }
        
         if (!message.recipients)
-            message.recipients = this.getPlayers();
+            message.recipients = defaultRecipients || this.getPlayers();
 
         if (message.recipients.length == 0)
             return;
 
+        if (defaultRecipients) {
+            message.modified = true;
+        }
+        
         message = new Message({
             sender: message.sender,
             content: message.content,
@@ -798,7 +803,7 @@ module.exports = class Meeting {
         message.send();
     }
 
-    quote(sender, quote) {
+    quote(sender, quote, defaultRecipients) {
         var member = this.members[sender.id];
 
         if (
@@ -813,11 +818,15 @@ module.exports = class Meeting {
             return;
         }
 
+        if (!quote.recipients)
+            quote.recipients = defaultRecipients || this.getPlayers();
+
         var quote = new Quote({
             game: this.game,
             sender: sender,
             messageId: quote.messageId,
             meeting: this,
+            recipients: quote.recipients,
             fromMeetingId: quote.fromMeetingId,
             fromState: quote.fromState,
             anonymous: this.anonymous
@@ -884,6 +893,9 @@ module.exports = class Meeting {
             count[target] += member.voteWeight;
         }
         let sortedCount = Object.entries(count).sort((a,b) => {return b[1] - a[1]});
+
+        if (sortedCount.length === 0)
+            return false;
         
         // Checking for plurality
         if (sortedCount.length === 1 || sortedCount[0][1] > sortedCount[1][1])
