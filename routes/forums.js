@@ -1,3 +1,5 @@
+// Modified 2026-10-05: default unselected threads to their latest page.
+// BeyondMafia contributors; CC BY-NC-SA 4.0, see LICENSE.
 const axios = require("axios")
 const express = require("express");
 const shortid = require("shortid");
@@ -255,6 +257,10 @@ router.get("/thread/:id", async function (req, res) {
             res.send("Thread not found.")
             return;
         }
+
+        // Missing selectors open the latest page; explicit page/reply links keep their meaning.
+        if (req.query.page == null && !req.query.reply)
+            page = Math.ceil(thread.replyCount / constants.repliesPerPage) || 1;
 
         var vote;
 
