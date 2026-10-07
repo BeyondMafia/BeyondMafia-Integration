@@ -1,3 +1,5 @@
+// Modified 2026-10-05: recover current popup requests after fetch failure.
+// BeyondMafia contributors; CC BY-NC-SA 4.0, see LICENSE.
 import React, { useState, useContext, useRef, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 
@@ -133,6 +135,7 @@ export function usePopover(siteInfo) {
     const [sideContentMouseY, setSideContentMouseY] = useState(0);
 
     const loadingRef = useRef();
+    const requestIds = useRef({ main: 0, side: 0 });
     const errorAlert = useErrorAlert(siteInfo);
 
     function onClick(path, type, _boundingEl, title, dataMod) {
@@ -196,17 +199,39 @@ export function usePopover(siteInfo) {
     }
 
     function load(path, type, boundingEl, title, dataMod, sideload) {
+        const requestKey = sideload ? "side" : "main";
+        const requestId = ++requestIds.current[requestKey];
         open(boundingEl, title, sideload);
 
         axios.get(path)
             .then(res => {
+                if (requestId !== requestIds.current[requestKey])
+                    return;
+
                 if (dataMod)
                     dataMod(res.data);
 
-                loadingRef.current = false;
+                if (!sideload)
+                    loadingRef.current = false;
                 ready(res.data, type, title, sideload)
             })
-            .catch(errorAlert);
+            .catch(e => {
+                if (requestId !== requestIds.current[requestKey])
+                    return;
+
+                if (sideload) {
+                    setSideContentLoading(false);
+                    setSideContentVisible(false);
+                    setSideContentTitle("");
+                } else {
+                    loadingRef.current = false;
+                    setLoading(false);
+                    setVisible(false);
+                    setSideContentVisible(false);
+                    setBoundingEl(null);
+                }
+                errorAlert(e);
+            });
     }
 
     return {
