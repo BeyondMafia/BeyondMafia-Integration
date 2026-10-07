@@ -1,3 +1,5 @@
+// Modified 2026-10-05: add a permission-aware reply control after thread pages.
+// BeyondMafia contributors; CC BY-NC-SA 4.0, see LICENSE.
 import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { Redirect, Link, useParams, useLocation } from "react-router-dom";
@@ -251,6 +253,16 @@ export default function Thread(props) {
 					page={page}
 					maxPage={threadInfo.pageCount}
 					onNav={onThreadPageNav} />
+				{!threadInfo.deleted && user.perms.postReply && (!threadInfo.locked || user.perms.postInLocked) &&
+					<div className="post-btn-wrapper">
+						<button
+							type="button"
+							className="reply-btn btn btn-theme"
+							onClick={() => onReplyClick()}>
+							Reply
+						</button>
+					</div>
+				}
 			</div>
 		</div>
 	);
