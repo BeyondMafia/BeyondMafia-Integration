@@ -96,3 +96,53 @@ ol {
 .md-content h6 {
 	margin: 0px 0px 15px 0px;
 }
+
+/* Spoiler Tag Styles */
+.spoiler-tag {
+	display: inline-block;
+	padding: 2px 8px;
+	margin: 2px 0;
+	background-color: var(--scheme-color-sec);
+	color: var(--scheme-color-text);
+	border: 1px solid var(--scheme-color-border);
+	border-radius: 4px;
+	cursor: pointer;
+	user-select: none;
+	transition: all 0.2s ease;
+	font-style: italic;
+	opacity: 0.8;
+}
+
+.spoiler-tag:hover {
+	opacity: 1;
+	background-color: var(--theme-color);
+	color: white;
+}
+
+.spoiler-tag.revealed {
+	background-color: transparent;
+	border-color: var(--scheme-color-border);
+	color: var(--scheme-color-text);
+	font-style: normal;
+	cursor: default;
+	user-select: text;
+}
+
+/* Embed Container Styles */
+.embed-container {
+	margin: 15px 0;
+	max-width: 100%;
+}
+
+.embed-container iframe {
+	max-width: 100%;
+	display: block;
+}
+
+.youtube-embed iframe {
+	border-radius: 8px;
+}
+
+.soundcloud-embed iframe {
+	border-radius: 4px;
+}
